@@ -63,3 +63,21 @@ Ex : Café gratuit, coupons, sac cadeaux, 5 à 7, etc...
 
 - Pas de tableaux!
 
+# Fonctionnalités
+- Gestion de l'inventaire
+  - Tables distinctes
+- Gestion de profil
+  - Visualiser
+  - Modifier
+- Permissions (Roles)
+  - Admin
+  - Employé
+  - Étudiant
+- Promotions
+- Affichage de l'inventaire
+- Système de recherche dans l'inventaire
+- Gestion du panier
+- Système d'achat
+- Diagramme de model de données
+- Wireframe
+- Test unitaire (?)
