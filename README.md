@@ -89,9 +89,7 @@ Lorsque vous effectuez un **pull request**, assurez-vous d'effectuer les étapes
 - Assurez-vous d'avoir documenté votre nouvelle fonctionnalité. (Si applicable). (Voir **Documenter**)
 - Assurez-vous d'avoir suivi le standard de commit. (Voir **Standard de commit**)
 
-Si un des points ci-haut est manquant
-
-## Code review
+## Code review (Valider un pull request)
 Lorsqu'un code review vous est assigné (Suite à un pull request), 
 assurez-vous de faire les vérification suivantes:
 
@@ -101,6 +99,8 @@ assurez-vous de faire les vérification suivantes:
 - Confirmer que la fonctionnalité est documentée (Si applicable). (Voir **Documenter**)
 - Confirmer que les commits suivent le standard de commit. (Voir **Standard de commit**)
 - Tester le code
+
+Si un des points ci-haut est manquant, rejeter le pull request et expliquer pourquoi.
 
 ## Tests de fonctionnalité/bug fix
 (À définir)
@@ -113,6 +113,17 @@ Utiliser le bon préfix.
 (À définir)
 
 ## Standard de code
+
+### Brackets
+(À définit)
+
+```
+public void GetFeature()
+{
+
+}
+```
+
 (À définir)
 
 ## Documenter
