@@ -115,7 +115,7 @@ Utiliser le bon préfix.
 ## Standard de code
 
 ### Brackets
-(À définit)
+(À définir)
 
 ```
 public void GetFeature()
