@@ -46,6 +46,16 @@ Fin:
 - frais de livraison est variable ou constant
 - juste courielle ou user name aussi
 - système d'achat
+- Limite d'acha sur les livres numérique
+- Proposition dans les livres usagées
+- Permettre la recherche pas auteur
+- Rating sur item aux particulier
+- nous faire parvenir un logo de l'école
+- Langue du site
+- Commanditaires
+- livraison domicile tout le temps ou possibilité d'aller le chercher à la bibli à l'achat
+- prix de livraison et/ou taxes
+- Commanditaires
 
 # Rencontre 2
 Jour:
