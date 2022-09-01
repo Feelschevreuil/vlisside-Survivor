@@ -13,7 +13,7 @@ x Résumé
 x Auteur (obj)
 x Programme étude (obj)
 x État du livre (obj)
-x Evaluation [liste objs]
+x Evaluation (liste objs) (seuelemnt pr complémentaires)
 x Date de parutaion
 x Photo (blob)
 
@@ -51,6 +51,7 @@ x AdresseLivraison (obj) [pcq, peut ê livré au travail or so on]
 ### Adresse
 x Ville
 x Numéro civique
+x app
 x Rue
 x Code postal
 
