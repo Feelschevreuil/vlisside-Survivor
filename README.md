@@ -129,3 +129,6 @@ public void GetFeature()
 ## Documenter
 (À définir)
 
+# Frameworks
+- Front end: bootstrap
+- Back end: asp dotnet 6
