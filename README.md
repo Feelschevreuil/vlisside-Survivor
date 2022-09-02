@@ -46,40 +46,6 @@ manque des fonctionnalités.
 On pousse les changements à chaque deux semaines (une fois le sprint
 terminé.
 
-### /feature/\<fonctionnalite>
-Branche où on travaille sur les nouvelles fonctionnalités.
-
-#### Pour commencer
-Si personne ne travaille sur des fonctionnalités, cette branche peut peut 
-être crée de la façon suvante:
-
-```
-$ git checkout -b feature/nom-fonctionnalite
-```
-
-#### Pour terminer
-Lors que vous avez terminé d'implémenter la fonctionnalité, effectuez un
-**pull request** sur la branche `develop` pour qu'un membre de l'équipe
-effectue un **code review** (Voir la section de code review si vous devez
-en effectuer un) afin de valider ou de rejecter le pull request.
-
-### /bug-fix/\<bug-corriger>
-Branche où on travaille sur les corrections d'erreurs.
-
-#### Pour commencer
-Si personne ne travaille sur une correction d'erreur, cette branche peut
-être crée de la façon suivante:
- 
-```
-$ git checkout -b bug-fix/nom-fonctionnalite
-```
-
-#### Pour terminer
-Lors que vous avez terminé d'implémenter la correction d'erreur, effectuez
-un **pull request** sur la branche `develop` pour qu'un membre de l'équipe
-effectue un **code review** (Voir la section de code review si vous devez
-en effectuer un) afin de valider ou de rejecter le pull request.
-
 ## Pull request
 Lorsque vous effectuez un **pull request**, assurez-vous d'effectuer les étapes suivantes.
 
