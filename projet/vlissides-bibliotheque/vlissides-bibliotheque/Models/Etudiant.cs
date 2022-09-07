@@ -18,14 +18,6 @@ namespace vlissides_bibliotheque.Models
         public Adresse AdresseFacturation { get; set; }
 
         [Required]
-        public int ComptePayPalId { get; set; }
-        public ComptePayPal ComptePayPal { get; set; }
-
-        [Required]
-        public int CarteCreditId { get; set; }
-        public CarteCredit CarteCredit { get; set; }
-
-        [Required]
         public string Nom { get; set; }
 
         [Required]
