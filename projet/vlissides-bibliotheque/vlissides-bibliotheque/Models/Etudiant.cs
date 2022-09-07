@@ -18,9 +18,11 @@ namespace vlissides_bibliotheque.Models
         public Adresse AdresseFacturation { get; set; }
 
         [Required]
+        [StringLength(40)]
         public string Nom { get; set; }
 
         [Required]
+        [StringLength(40)]
         public string Prenom { get; set; }
     }
 }

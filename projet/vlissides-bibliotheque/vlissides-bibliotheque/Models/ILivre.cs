@@ -7,6 +7,8 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int Id { get; set; }
 
+        [Required]
+        [StringLength(64)]
         public string Titre { get; set; }
 
         public string PhotoCouverture { get; set; }

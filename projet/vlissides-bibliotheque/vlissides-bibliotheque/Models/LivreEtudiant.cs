@@ -7,8 +7,16 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int Id { get; set; }
 
+        [Required]
+        public int EtudiantId { get; set; }
+        public Etudiant Etudiant { get; set; }
+
+        [Required]
+        [StringLength(64)]
         public string Titre { get; set; }
 
+        [Required]
+        [StringLength(512)]
         public string Description { get; set; }
 
         public string PhotoCouverture { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -16,12 +17,15 @@ namespace vlissides_bibliotheque.Models
         public ProgrammeEtude ProgrammeEtude { get; set; }
 
         [Required]
+        [Isbn]
         public string Isbn { get; set; }
 
         [Required]
+        [StringLength(64)]
         public string Titre { get; set; }
 
         [Required]
+        [StringLength(512)]
         public string Resume { get; set; }
 
         [Required]

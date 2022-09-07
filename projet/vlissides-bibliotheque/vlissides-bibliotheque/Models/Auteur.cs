@@ -8,9 +8,11 @@ namespace vlissides_bibliotheque.Models
         public int Id { get; set; }
 
         [Required]
+        [StringLength(40)]
         public string Nom { get; set; }
 
         [Required]
+        [StringLength(40)]
         public string Prenom { get; set; }
 
     }
