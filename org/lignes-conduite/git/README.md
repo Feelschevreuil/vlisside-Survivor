@@ -15,7 +15,7 @@ Basé sur [Best practices for using Git] ("https://deepsource.io/blog/git-best-p
 1. Commits propres ayant une seule utilité.
 2. Description de commit signifiants.
 3. Utiliser le bon préfix.
-4. Commitez tôt et fréquament.
+4. Commitez tôt et fréquemment.
 5. Ne pas altérer l'historique.
 6. Ne pas commiter des fichiers générés automatiquement.
 
