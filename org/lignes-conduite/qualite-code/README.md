@@ -54,6 +54,14 @@ Lorsque vous créez une classe, il est important d'indiquer brèvement l'utilit�
 
 ```cs
 /// <summary>
+/// Classe <c>[Nom de la classe]</c> [Ce que fait la classe].
+/// <summary>
+public class Point
+```
+
+**Exemple**
+```cs
+/// <summary>
 /// Classe <c>Point</c> modèle un point deux dimentionnel d'un avion.
 /// <summary>
 public class Point
