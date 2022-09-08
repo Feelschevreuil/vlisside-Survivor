@@ -184,3 +184,16 @@ PASS	COMMIT		AUTEUR
 PASS	COMMIT		AUTEUR
 x	0xf3hsef	sm
 ```
+
+### Template correction de commit
+Nous nous souvenos, un commit pour une seule chose. Alors, si on remarque une ou plusiuers modifications non reliées au commit, on ajoute un commentaire et on donne un exemple de ce que le commit aurait du être.
+
+```
+Devrait être dans un autre commit. (Pas une génération de base de donnée ni de migration)
+
+Devrait être: 
+\```
+feat: configuration du ApplicationContext
+\```
+
+```
