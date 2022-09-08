@@ -28,7 +28,7 @@ Voici le format que vous devez utiliser lorsque vous commentez des méthodes et 
 
 ```cs
 /// <summary>
-/// [verbe impératif] [action] [comment].
+/// [verbe à indicatif présent (3ième pers. sing.)] [action] [comment].
 /// </summary>
 /// <param name="param0">[quoi] de [qui].</param>
 /// <param name="param1">[quoi] de [qui].</param>
