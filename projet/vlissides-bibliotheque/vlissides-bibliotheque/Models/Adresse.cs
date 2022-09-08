@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>Adresse</c> définit la table adresse dans la base de données.
+    /// </summary>
     public class Adresse
     {
         [Required]

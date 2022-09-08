@@ -3,6 +3,9 @@ using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>LivreBibliotheque</c> définit la table livreBibliotheque dans la base de données.
+    /// </summary>
     public class LivreBibliotheque : ILivre
     {
         [Required]

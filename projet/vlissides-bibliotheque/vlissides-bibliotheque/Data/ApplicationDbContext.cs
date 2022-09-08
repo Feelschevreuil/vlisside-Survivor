@@ -5,6 +5,9 @@ using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.Data
 {
+    /// <summary>
+    /// Classe <c>ApplicationDbContext</c> définit la compostion de la base de données.
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Adresse> Adresses { get; set; }

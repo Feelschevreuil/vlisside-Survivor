@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>FactureEtudiant</c> définit la table factureEtudiant dans la base de données.
+    /// </summary>
     public class FactureEtudiant
     {
         [Required]

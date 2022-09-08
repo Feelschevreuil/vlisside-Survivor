@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Interface <c>ILivre</c> définit la composition des classes relatives aux livres.
+    /// </summary>
     public interface ILivre
     {
         [Required]

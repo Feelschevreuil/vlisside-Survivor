@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>Etudiant</c> définit la table etudiant dans la base de données.
+    /// </summary>
     public class Etudiant : Utilisateur
     {
         [Required]

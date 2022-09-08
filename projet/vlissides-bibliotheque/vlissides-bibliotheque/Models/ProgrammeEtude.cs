@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>ProgrammeEtude</c> définit la table programmeEtude dans la base de données.
+    /// </summary>
     public class ProgrammeEtude
     {
         [Required]

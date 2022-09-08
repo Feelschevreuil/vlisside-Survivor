@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>Commanditaire</c> définit la table commanditaire dans la base de données.
+    /// </summary>
     public class Commanditaire
     {
         [Required]

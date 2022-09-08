@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>LivreEtudiant</c> définit la table livreEtudiant dans la base de données.
+    /// </summary>
     public class LivreEtudiant : ILivre
     {
         [Required]

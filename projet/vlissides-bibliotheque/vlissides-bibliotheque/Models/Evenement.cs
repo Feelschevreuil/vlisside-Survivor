@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>Evenement</c> définit la table evenement dans la base de données.
+    /// </summary>
     public class Evenement
     {
         [Required]

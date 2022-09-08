@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>Evaluation</c> définit la table evaluation dans la base de données.
+    /// </summary>
     public class Evaluation
     {
         

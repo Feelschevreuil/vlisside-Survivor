@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>AuteurLivre</c> définit la table de liaison auteurLivre dans la base de données.
+    /// </summary>
     public class AuteurLivre
     {
         [Required]

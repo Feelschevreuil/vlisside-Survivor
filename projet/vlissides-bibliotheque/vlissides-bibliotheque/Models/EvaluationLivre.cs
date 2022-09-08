@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>EvaluationLivre</c> définit la table de liaison evaluationLivre dans la base de données.
+    /// </summary>
     public class EvaluationLivre
     {
         [Required]
