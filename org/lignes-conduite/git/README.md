@@ -166,7 +166,7 @@ r	Roberto
 
 ## Template pour effectuer un code review
 Pour chaque code review, vous pouvez utiliser ce petit template pour approuver ou désapprouver un pull request. 
-> Pas absolument nécessaire, mais c'est uniquement pour s'assurer que chaque commit a bin été regardé et approuvé.
+> Pas absolument nécessaire, mais c'est uniquement pour s'assurer que chaque commit a bien été regardé et approuvé.
 
 ### Code review
 (Si un commit n'est pas approuvé, veuillez regarder les commentaires présents sur le pull request)
