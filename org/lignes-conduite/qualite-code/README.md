@@ -18,8 +18,6 @@ Si vous devez ajouter un commentaire dans du code, créez une fonction ou une m�
 
 Voici le format que vous devez utiliser lorsque vous commentez des méthodes et des fonctions.
 
-![Template d'un comentaire de méthode]("https://dev.azure.com/vlissides/46b56d3d-eef3-41af-b252-096b92aafb11/_apis/git/repositories/40e7d0c3-6faa-4775-9ca2-615f417d5407/items?path=/org/lignes-conduite/qualite-code/media/commentaires/template.png&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=documentation&resolveLfs=true&%24format=octetStream&api-version=5.0")
-
 ```cs
 /// <summary>
 /// [verbe impératif] [action] [comment].
@@ -31,7 +29,6 @@ Voici le format que vous devez utiliser lorsque vous commentez des méthodes et 
 ```
 
 **Exemple**
-![Exemple d'un comentaire de méthode]("https://dev.azure.com/vlissides/46b56d3d-eef3-41af-b252-096b92aafb11/_apis/git/repositories/40e7d0c3-6faa-4775-9ca2-615f417d5407/items?path=/org/lignes-conduite/qualite-code/media/commentaires/exemple.png&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=documentation&resolveLfs=true&%24format=octetStream&api-version=5.0")
 
 ```cs
 /// <summary>
