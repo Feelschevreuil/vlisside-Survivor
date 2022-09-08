@@ -54,7 +54,7 @@ Lorsque vous créez une classe, il est important d'indiquer brèvement l'utilit�
 
 ```cs
 /// <summary>
-/// Classe <c>[Nom de la classe]</c> [Ce que fait la classe].
+/// Classe <c>[Nom de la classe]</c> [verbe à indicatif présent (3ième pers. sing.)] [Ce que fait la classe].
 /// <summary>
 public class Point
 ```
