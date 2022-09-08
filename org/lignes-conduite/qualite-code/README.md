@@ -50,6 +50,15 @@ private string GetNomPrenom(String nom, String prenom)
 ```
 
 ## Classes
-Lorsque vous créez une classe, il est important d'indiquer brèvement l'utilité de la classe.
+Lorsque vous créez une classe, il est important d'indiquer brèvement l'utilité de la classe. Pourquoi elle existe?
 
-[todo]
+```cs
+/// <summary>
+/// Classe <c>Point</c> modèle un point deux dimentionnel d'un avion.
+/// <summary>
+public class Point
+```
+
+La notation de documentation supporte d'autres balises au besoin. Par exemple, si une classe complémente une autre classe, la balise `<seealso>` peut être utilisé pour l'indiquer. 
+
+Vous pouvez voir la liste complète des balises supportées pour documenter [ici]("https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments#d3-recommended-tags")
