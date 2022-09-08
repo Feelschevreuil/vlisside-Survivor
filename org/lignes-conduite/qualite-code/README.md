@@ -14,8 +14,10 @@ Cette section porte sur
 
 Si vous devez ajouter un commentaire dans du code, créez une fonction ou une méthode! (Voir la section sur les méthodes et les fonctions)
 
-## Template de commentaire de méthode
+## Méthode/Fonctions
+Lorsque vous créez des méthodes ou des fonctions. La différence entre une méthode et une fonction est qu'une méthode retourne une variable primitive ou un objet et une fonction ne retourne rien (void).
 
+### Template
 Voici le format que vous devez utiliser lorsque vous commentez des méthodes et des fonctions.
 
 ```cs
@@ -28,7 +30,7 @@ Voici le format que vous devez utiliser lorsque vous commentez des méthodes et 
 /// <exception cref="Exception">Dans le cas que [explication de l'erreur].</exception>
 ```
 
-**Exemple**
+### Exemple
 
 ```cs
 /// <summary>
@@ -41,3 +43,7 @@ Voici le format que vous devez utiliser lorsque vous commentez des méthodes et 
 private string GetNomPrenom(String nom, String prenom)
 ```
 
+## Classes
+Lorsque vous créez une classe, il est important d'indiquer brèvement l'utilité de la classe.
+
+[todo]
