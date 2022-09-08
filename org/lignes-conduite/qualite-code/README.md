@@ -52,6 +52,8 @@ private string GetNomPrenom(String nom, String prenom)
 ## Classes
 Lorsque vous créez une classe, il est important d'indiquer brèvement l'utilité de la classe. Pourquoi elle existe?
 
+**Template**
+Voici le format que vous devez utiliser lorsque vous commentez des classes.
 ```cs
 /// <summary>
 /// Classe <c>[Nom de la classe]</c> [verbe à indicatif présent (3ième pers. sing.)] [Ce que fait la classe].
