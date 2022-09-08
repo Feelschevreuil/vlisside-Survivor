@@ -9,6 +9,7 @@ Basé sur [Best practices for using Git] ("https://deepsource.io/blog/git-best-p
 # Index
 - Commit
 - Branches
+- Code review de pull/merge requests
 
 # Commit
 
@@ -135,5 +136,47 @@ $ git checkout -b bug-fix/nom-fonctionnalite develop
 ## Pour terminer
 Lorsque vous avez terminé d'implémenter une fonctionnalité, effectuez un **pull request** sur la branche `develop` pour qu'un membre de l'équipe effectue un **code review**. (Voir, effectuer un code review)
 
-# Pull request
-(à définir)
+# Code review de Pull/Merge requests
+Lorsque vous devez effectuer un `code review`, suivez les présentes étapes pour le valider.
+
+## Pré-requis
+Assurez-vous de ne pas avoir travaillé sur le code que vous allez approuver.
+
+## Standards à appliquer.
+Chacun des standards sont présents sous la section `org/lignes-conduite`. Vous devez être familiers avec ceux-ci pour faire des `code review`.
+
+- Commit
+- Commentaires
+  - Classe
+  - Méthodes/Fonctions
+- Nomenclature
+- La qualité de code
+
+## Auteurs
+```
+CODE	AUTEUR
+sm	Samuel Mongeon
+sr	Sammory Roy
+v	Vincent Chouinard
+r	Roberto
+```
+
+## Template pour effectuer un code review
+Pour chaque code review, vous pouvez utiliser ce petit template pour approuver ou désapprouver un pull request.
+
+### Code review
+(Si un commit n'est pas approuvé, veuillez regarder les commentaires présents sur le pull request)
+
+Ne pas ajouter de commentaires ici, mais uniquement sur Azure où le problème est présent.
+
+### Template
+```
+PASS	COMMIT		AUTEUR
+[x/-]	[sum]		[auteur]
+```
+
+### Exemple
+```
+PASS	COMMIT		AUTEUR
+x	0xf3hsef	sm
+```
