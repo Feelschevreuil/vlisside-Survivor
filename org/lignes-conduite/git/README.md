@@ -141,7 +141,7 @@ Lorsque vous devez effectuer un `code review`, suivez les présentes étapes pou
 
 ## Pré-requis
 - Assurez-vous de ne pas avoir travaillé sur le code que vous allez approuver.
-- Avoir navigué dans le `repo` git sous l'onglet "Pull requests".
+- Avoir navigué dans le `repo` git avec Azure sous l'onglet "Pull requests".
   - Avoir choisi le pull request approprié.
   - Être dans l'onglet `commits`.
 
