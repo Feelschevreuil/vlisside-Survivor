@@ -6,8 +6,8 @@ Standards pour s'assurer d'avoir une bonne qualité de code uniforme à travers 
 
 Cette section porte sur
 - Commentaires
-- Methodes et les fonctions
-- Variables
+  - Methodes et les fonctions
+  - Variables
 
 # Commentaires
 **Uniquement** lorsque l'on crée une classe, une méthode ou une fonction.
