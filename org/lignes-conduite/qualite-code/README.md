@@ -8,12 +8,12 @@ Cette section porte sur
 - Commentaires
   - Methodes et fonctions
   - Classes
-- Nomenclature
-  - Nom de variables
-  - Nom de méthodes et fonctions
-  - Nom des classes
-- F.A.Q
-  - Quand créer une méthode/fonction?
+- Nomenclature *(todo)*
+  - Nom de variables *(todo)*
+  - Nom de méthodes et fonctions *(todo)*
+  - Nom des classes *(todo)*
+- F.A.Q *(todo)*
+  - Quand créer une méthode/fonction? *(todo)*
 
 # Commentaires
 **Uniquement** lorsque l'on crée une classe, une méthode ou une fonction.
