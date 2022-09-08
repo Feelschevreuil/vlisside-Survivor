@@ -6,8 +6,14 @@ Standards pour s'assurer d'avoir une bonne qualité de code uniforme à travers 
 
 Cette section porte sur
 - Commentaires
-  - Methodes et les fonctions
-  - Variables
+  - Methodes et fonctions
+  - Classes
+- Nomenclature
+  - Nom de variables
+  - Nom de méthodes et fonctions
+  - Nom des classes
+- F.A.Q
+  - Quand créer une méthode/fonction?
 
 # Commentaires
 **Uniquement** lorsque l'on crée une classe, une méthode ou une fonction.
