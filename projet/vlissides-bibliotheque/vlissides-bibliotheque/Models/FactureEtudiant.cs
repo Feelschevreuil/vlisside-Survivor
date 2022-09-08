@@ -11,8 +11,6 @@ namespace vlissides_bibliotheque.Models
         public int TypePaiementId { get; set; }
         public TypePaiement TypePaiement { get; set; }
 
-        [Required]
-        public int EtudiantId { get; set; }
         public Etudiant Etudiant { get; set; }
 
         [Required]

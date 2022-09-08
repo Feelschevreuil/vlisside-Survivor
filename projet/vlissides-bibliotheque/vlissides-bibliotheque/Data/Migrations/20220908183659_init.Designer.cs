@@ -12,8 +12,8 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220908145835_Initi")]
-    partial class Initi
+    [Migration("20220908183659_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,10 +111,6 @@ namespace vlissides_bibliotheque.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -166,8 +162,6 @@ namespace vlissides_bibliotheque.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -432,10 +426,7 @@ namespace vlissides_bibliotheque.Data.Migrations
                     b.Property<int>("Etoile")
                         .HasColumnType("int");
 
-                    b.Property<int>("EtudiantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EtudiantId1")
+                    b.Property<string>("EtudiantId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -445,7 +436,7 @@ namespace vlissides_bibliotheque.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EtudiantId1");
+                    b.HasIndex("EtudiantId");
 
                     b.ToTable("Evaluations");
                 });
@@ -513,10 +504,7 @@ namespace vlissides_bibliotheque.Data.Migrations
                     b.Property<DateTime>("DateFacturation")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EtudiantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EtudiantId1")
+                    b.Property<string>("EtudiantId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -533,7 +521,7 @@ namespace vlissides_bibliotheque.Data.Migrations
 
                     b.HasIndex("AdresseLivraisonId");
 
-                    b.HasIndex("EtudiantId1");
+                    b.HasIndex("EtudiantId");
 
                     b.HasIndex("TypePaiementId");
 
@@ -597,10 +585,7 @@ namespace vlissides_bibliotheque.Data.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<int>("EtudiantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EtudiantId1")
+                    b.Property<string>("EtudiantId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -618,7 +603,7 @@ namespace vlissides_bibliotheque.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EtudiantId1");
+                    b.HasIndex("EtudiantId");
 
                     b.HasIndex("ProgrammeEtudeId");
 
@@ -673,7 +658,7 @@ namespace vlissides_bibliotheque.Data.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.HasDiscriminator().HasValue("Utilisateur");
+                    b.ToTable("Utilisateurs", (string)null);
 
                     b.HasData(
                         new
@@ -686,9 +671,9 @@ namespace vlissides_bibliotheque.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
                             NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAELSomS0hfJEsUloZycenE1Q5thWUmaONIfn18gcWTHwnpwNs8vQ9GZzs3Y4aPflIAA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDlsrjHIFaYGLsXNpSHxOTzDmRivJ+YLcJVagVMAH045MkLXtqC+HSUliz8F82J8SA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e940dec0-5761-48d0-bd69-c9a297b4aa6b",
+                            SecurityStamp = "3b784936-aa4d-49fb-a6bc-7041d9b13f1c",
                             TwoFactorEnabled = false,
                             UserName = "gordon.john@gunclub-alabama.us",
                             Nom = "John",
@@ -715,7 +700,7 @@ namespace vlissides_bibliotheque.Data.Migrations
 
                     b.HasIndex("ProgrammeEtudeId");
 
-                    b.HasDiscriminator().HasValue("Etudiant");
+                    b.ToTable("Etudiants", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -811,7 +796,7 @@ namespace vlissides_bibliotheque.Data.Migrations
                 {
                     b.HasOne("vlissides_bibliotheque.Models.Etudiant", "Etudiant")
                         .WithMany()
-                        .HasForeignKey("EtudiantId1")
+                        .HasForeignKey("EtudiantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -858,7 +843,7 @@ namespace vlissides_bibliotheque.Data.Migrations
 
                     b.HasOne("vlissides_bibliotheque.Models.Etudiant", "Etudiant")
                         .WithMany()
-                        .HasForeignKey("EtudiantId1")
+                        .HasForeignKey("EtudiantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -898,7 +883,7 @@ namespace vlissides_bibliotheque.Data.Migrations
                 {
                     b.HasOne("vlissides_bibliotheque.Models.Etudiant", "Etudiant")
                         .WithMany()
-                        .HasForeignKey("EtudiantId1")
+                        .HasForeignKey("EtudiantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -913,6 +898,15 @@ namespace vlissides_bibliotheque.Data.Migrations
                     b.Navigation("ProgrammeEtude");
                 });
 
+            modelBuilder.Entity("vlissides_bibliotheque.Models.Utilisateur", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("vlissides_bibliotheque.Models.Utilisateur", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("vlissides_bibliotheque.Models.Etudiant", b =>
                 {
                     b.HasOne("vlissides_bibliotheque.Models.Adresse", "AdresseFacturation")
@@ -925,6 +919,12 @@ namespace vlissides_bibliotheque.Data.Migrations
                         .WithMany()
                         .HasForeignKey("AdresseLivraisonId")
                         .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("vlissides_bibliotheque.Models.Utilisateur", null)
+                        .WithOne()
+                        .HasForeignKey("vlissides_bibliotheque.Models.Etudiant", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("vlissides_bibliotheque.Models.ProgrammeEtude", "ProgrammeEtude")
