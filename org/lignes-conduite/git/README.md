@@ -140,7 +140,10 @@ Lorsque vous avez terminé d'implémenter une fonctionnalité, effectuez un **pu
 Lorsque vous devez effectuer un `code review`, suivez les présentes étapes pour le valider.
 
 ## Pré-requis
-Assurez-vous de ne pas avoir travaillé sur le code que vous allez approuver.
+- Assurez-vous de ne pas avoir travaillé sur le code que vous allez approuver.
+- Avoir navigué dans le `repo` git sous l'onglet "Pull requests".
+  - Avoir choisi le pull request approprié.
+  - Être dans l'onglet `commits`.
 
 ## Standards à appliquer.
 Chacun des standards sont présents sous la section `org/lignes-conduite`. Vous devez être familiers avec ceux-ci pour faire des `code review`.
@@ -162,7 +165,8 @@ r	Roberto
 ```
 
 ## Template pour effectuer un code review
-Pour chaque code review, vous pouvez utiliser ce petit template pour approuver ou désapprouver un pull request.
+Pour chaque code review, vous pouvez utiliser ce petit template pour approuver ou désapprouver un pull request. 
+> Pas absolument nécessaire, mais c'est uniquement pour s'assurer que chaque commit a bin été regardé et approuvé.
 
 ### Code review
 (Si un commit n'est pas approuvé, veuillez regarder les commentaires présents sur le pull request)
