@@ -7,7 +7,6 @@ namespace vlissides_bibliotheque.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        #region DbSets
         public DbSet<Adresse> Adresses { get; set; }
         public DbSet<Auteur> Auteurs { get; set; }
         public DbSet<AuteurLivre> AuteursLivres { get; set; }
@@ -23,14 +22,11 @@ namespace vlissides_bibliotheque.Data
         public DbSet<ProgrammeEtude> ProgrammesEtudes { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<TypePaiement> TypesPaiements { get; set; }
-        #endregion
 
-        #region Admin
         private const string ROLE_ADMIN_ID = "834684ee-d07f-470a-91ea-01feb16d2f90";
         private const string ROLE_ADMIN_CONCURRENCYSTAMP = "6494238c-5ee0-4d6a-925d-20f0e932e406";
         private const string USER_ADMIN_ID = "83c10a40-c3f6-49bd-b230-f6975cc7befd";
         private const string USER_ADMIN_CONCURRENCYSTAMP = "d67bb86f-d158-4f17-8142-49f7c65c082c";
-        #endregion
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -54,6 +50,10 @@ namespace vlissides_bibliotheque.Data
             CreerDoubleFK(builder);
         }
 
+        /// <summary>
+        /// Génère les tables d'utilisateurs.
+        /// </summary>
+        /// <param name="builder"></param>
         private void CreerTableUtilisateurs(ModelBuilder builder)
         {
             builder.Entity<Utilisateur>().ToTable(nameof(Utilisateurs));
@@ -61,7 +61,7 @@ namespace vlissides_bibliotheque.Data
         }
 
         /// <summary>
-        /// 
+        /// Crée les états de livre.
         /// </summary>
         /// <param name="builder"></param>
         private void CreerEtatLivre(ModelBuilder builder)
@@ -85,7 +85,7 @@ namespace vlissides_bibliotheque.Data
         }
 
         /// <summary>
-        /// 
+        /// Crée les rôles d'utilisateur.
         /// </summary>
         /// <param name="builder"></param>
         private void CreerRoles(ModelBuilder builder)
@@ -123,7 +123,7 @@ namespace vlissides_bibliotheque.Data
         }
 
         /// <summary>
-        /// 
+        /// Crée un administrateur initial.
         /// </summary>
         /// <param name="builder"></param>
         private void CreerAdmin(ModelBuilder builder)
@@ -165,7 +165,7 @@ namespace vlissides_bibliotheque.Data
         }
 
         /// <summary>
-        /// 
+        /// Gère les doubles liaisons.
         /// </summary>
         /// <param name="builder"></param>
         private void CreerDoubleFK(ModelBuilder builder)
