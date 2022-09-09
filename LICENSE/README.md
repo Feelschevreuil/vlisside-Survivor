@@ -10,4 +10,4 @@ Licence utilisé pour le projet [WTFPL](wtfpl.net).
 
 (À lire au complet avant de travailler sur le projet)
 
-![ok](wtfpl-strip.png)
+![ok](wtfpl-strip.jpg)
