@@ -1,5 +1,3 @@
-[Planification](README.md)
-
 Controllers
 ===========
 
