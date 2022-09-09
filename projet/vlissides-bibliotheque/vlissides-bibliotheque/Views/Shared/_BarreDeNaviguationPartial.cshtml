@@ -1,4 +1,7 @@
-﻿<header>
+﻿@*@model List<vlissides_bibliotheque.Models.>  TODO: Rajouter le model "programme d'étude" come model de cette vue*@
+
+
+<header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Collège de la Connaissance Aléatoire</a>
@@ -15,10 +18,47 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">À propos</a>
                     </li>
                 </ul>
+
+          
+                <fieldset>
+                    <select id="MovieType" name="MovieType" class="btn btn-outline-success d-inline-flex">
+
+                        <option selected="selected" value="1">Bibliothèque</option>
+
+                        <option value="2">Blun</option>
+
+                    </select>
+
+
+                </fieldset>
+        
+
                 <form class="form-inline-flex navbar-collapse" asp-controller="Movies" asp-action="Filter">
                     <input name="searchString" type="text" class="form-control" placeholder="Chercher un livre">
+                    
+                    
+                    
+                    @* TODO: logique pour afficher tous les programmes d'études basée sur le model
+
+                    <select asp-for="Person" asp-items="Model.People">
+                    <option value="">Pick one</option>
+                    </select>
+
+
+                    <select asp-for="EmployeeId"
+                    asp-items="@(new SelectList(Model.EmployeesList, nameof(Employee.Id), nameof(Employee.FullName)))">
+                    <option>Please select one</option>
+                    </select>
+                    
+                    
+                    *@
+
+
+
                     <button class="btn btn-outline-success" type="submit"> <img src="images/loupe-de-recherche.svg"> </button>
                 </form>
+
+               
 
                 <partial name="_LoginPartial" />
             </div>
