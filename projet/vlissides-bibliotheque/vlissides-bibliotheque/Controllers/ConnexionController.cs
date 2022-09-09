@@ -9,6 +9,11 @@ namespace vlissides_bibliotheque.Controllers
             return View();
         }
 
+        public IActionResult Inscription()
+        {
+            return View();
+        }
+
         public IActionResult Logout()
         {
             return View();
