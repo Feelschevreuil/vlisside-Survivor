@@ -14,3 +14,12 @@ Ici, nous écrivons les lignes de conduite pour participer au projet.
   - [Branches](git/branches.md) Comment on se prépare pour implémenter une fonctionnalité, réparer une erreur et etc?
   - [Code review de pull/merge requests](git/code-reviews.md) Comment on syncronise nos changements?
 - [Qualité de code](qualite-code/README.md)
+  - [Commentaires](commentaires.md)
+    - Methodes et fonctions
+    - Classes
+  - Nomenclature *(todo)*
+    - Nom de variables *(todo)*
+    - Nom de méthodes et fonctions *(todo)*
+    - Nom des classes *(todo)*
+  - F.A.Q *(todo)*
+    - Quand créer une méthode/fonction? *(todo)*
