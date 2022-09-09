@@ -69,9 +69,9 @@ feat: ajout de la suppression d'un livre
 - build/tâche: (mise à jour des tâches récurentes. Pas de changement au code de production)
 
 **Examples**
-- tâche: Ajouter le script pour "build" avec travis
-- docs: Expliquer ajouter au panier
-- feat: Ajout bet dua panier
+- tâche(CI/CD): ajouter le script pour "build"
+- docs: expliquer ajouter au panier
+- feat: ajout bet dua panier
 - refactor: renommer le fichier suite à 4d3d3d3
 - style: conversion des tabs à des espaces
 - test: s'assurer que les livres sont affichés
