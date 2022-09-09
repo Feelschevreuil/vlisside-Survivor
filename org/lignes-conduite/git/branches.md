@@ -2,7 +2,6 @@
 Branches
 ========
 
-# Branches
 Comment fonctionnent les branches dans le projet?
 
 ## Fonctionnalités
