@@ -27,6 +27,6 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         [StringLength(6)]
-        public string CodePostale { get; set; }
+        public string CodePostal { get; set; }
     }
 }
