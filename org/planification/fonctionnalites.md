@@ -1,3 +1,4 @@
+[Planification](README.md)
 
 Fonctionnalités
 ===============
