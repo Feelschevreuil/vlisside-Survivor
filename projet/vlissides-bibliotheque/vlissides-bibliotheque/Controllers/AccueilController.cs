@@ -12,8 +12,8 @@ namespace vlissides_bibliotheque.Controllers
         {
             _logger = logger;
         }
-
-        public IActionResult Index()
+        [Route("")]
+        public IActionResult Accueil()
         {
             return View();
         }
