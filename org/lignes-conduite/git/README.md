@@ -4,7 +4,7 @@ Organisation git
 
 Ici, vous pouvez trouver de la documentation sur comment on utilise git.
 
-Basé sur [Best practices for using Git] ("https://deepsource.io/blog/git-best-practices/")
+Basé sur [Best practices for using Git]("https://deepsource.io/blog/git-best-practices/")
 
 # Index
 - [Commit](commits.md) Comment on envoie nos changements?
