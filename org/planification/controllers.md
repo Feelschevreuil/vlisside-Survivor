@@ -2,7 +2,7 @@
 Controllers
 ===========
 
-Liste des contrôleurs à implémenter dans le projet. Les contrôleurs sont basés sur les fonctionnalités. [Voir]("fonctionnalites.md")
+Liste des contrôleurs à implémenter dans le projet. Les contrôleurs sont basés sur les fonctionnalités. [Voir](fonctionnalites.md)
 
 - Connexion
 - Profil
