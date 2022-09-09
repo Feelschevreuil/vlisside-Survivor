@@ -9,6 +9,8 @@ Projet d'intégration
 
 Licence utilisé pour le projet [WTFPL](www.wtfpl.net).
 
+> [SVP BIEN LIRE LA LICENCE AVANT DE VOIR QUOI QUE CE SOIT DU PROJET](LICENSE/README.md)
+
 # Guidelines
 Voici les règles de base à suivre pour le projet vlisside. **À lire avant de travailler sur le projet**.
 
