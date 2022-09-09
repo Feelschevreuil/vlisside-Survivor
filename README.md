@@ -5,6 +5,7 @@ Projet d'intégration
 Équipe: vlisside
 
 # License
+![logo de la licence](wtfpl-badge.png)
 Licence utilisé pour le projet [WTFPL](www.wtfpl.net).
 
 # Guidelines
