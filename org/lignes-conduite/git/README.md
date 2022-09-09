@@ -53,6 +53,8 @@ feat: ajout de la suppression d'un livre
 +-------> Type du commit: tâche, doc, feat, fix, refactor, style ou test.
 ```
 
+> N.B: Le type, la portée ainsi que le sujet d'un commit sont toujours en minuscules.
+
 **Définitions**
 - type: un préfix court qui représente le type de changement.
 - portée: une information optionnelle qui représente le contexte du changement.
