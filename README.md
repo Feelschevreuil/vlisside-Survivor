@@ -4,6 +4,9 @@ Projet d'intégration
 
 Équipe: vlisside
 
+# License
+Licence utilisé pour le projet [WTFPL](www.wtfpl.net).
+
 # Guidelines
 Voici les règles de base à suivre pour le projet vlisside. **À lire avant de travailler sur le projet**.
 
