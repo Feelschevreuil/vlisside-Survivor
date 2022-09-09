@@ -15,6 +15,11 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">À propos</a>
                     </li>
                 </ul>
+                <form class="form-inline-flex navbar-collapse" asp-controller="Movies" asp-action="Filter">
+                    <input name="searchString" type="text" class="form-control" placeholder="Chercher un livre">
+                    <button class="btn btn-outline-success" type="submit"> <img src="images/loupe-de-recherche.svg"> </button>
+                </form>
+
                 <partial name="_LoginPartial" />
             </div>
         </div>
