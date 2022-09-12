@@ -1,7 +1,7 @@
 
 # rebase
 
-Basé sur la réponse de heinsenberg [ici](https://stackoverflow.com/questions/37709298/how-to-get-changes-from-another-branch).
+Basé sur la réponse de heinsenberg [ici](https://stackoverflow.com/questions/37709298/how-to-get-changes-from-another-branch) et le push final [ici](https://stackoverflow.com/questions/20467179/git-push-rejected-non-fast-forward).
 
 Afin d'importer les commits d'une autre branche dans celle que vous êtes, 
 veuillez utiliser git `rebase`.
@@ -27,7 +27,12 @@ $ git pull origin <branche-importer-commits>
 $ git config pull.rebase false
 ```
 
-5. (Au besoin) reconfigurez la branche sur laquelle vous voulez faire des pulls.
+5. Reconfigurez la branche sur laquelle vous voulez faire des pulls.
 ```
 $ git branch --set-upstream-to=origin/<branche-originale>
+```
+
+6. Poussez l'importation des commit au serveur git. (Puisque l'importation des commits a uniquement été fait localement.)
+```
+$ git push -f -u origin <branche-originale>
 ```
