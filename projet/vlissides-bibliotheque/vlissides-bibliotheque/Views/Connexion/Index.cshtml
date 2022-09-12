@@ -1,15 +1,12 @@
-﻿@page
-@model ConnexionVM
+﻿@model ConnexionVM
 
 <div class="row">
-    <div class="col-md-4 d-block m-auto">
+    <div class="col-md-3 d-block m-auto">
         <section>
-            <form id="account" class="text-center" method="post">
-                <img width="200px" src="https://cdn.iconscout.com/icon/free/png-256/profile-2107395-1778326.png" />
+            <form class="text-center" method="post" asp-action="Index" asp-controller="Connexion">
+                <img class="col-6" src="~/img/account.svg" />
+                <h2>Connexion</h2>
 
-                <h1>Connexion</h1>
-
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="mb-3 text-start">
                     <label asp-for="Email" class="form-label"></label>
                     <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -20,8 +17,7 @@
                     <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <br />
-                <div class="text-start">
+                <div class="mb-3 text-start">
                     <div class="checkbox">
                         <label asp-for="RememberMe" class="form-label">
                             <input class="form-check-input" asp-for="RememberMe" />
@@ -29,17 +25,17 @@
                         </label>
                     </div>
                 </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Se connecter</button>
+                <div class="mb-3 text-start">
+                    <button type="submit" class="btn btn-primary col-12">Se connecter</button>
                 </div>
-                <div class="text-start">
+                <div class="mb-3 text-start">
                     <p>
                         Vous n'avez pas encore de compte ?
                         <br />
-                        <a asp-action="Inscription" asp-controller="Connexion">Inscrivez-vous!</a>
+                        <a asp-action="Inscription" asp-controller="Connexion">Inscrivez-vous !</a>
                     </p>
                     <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Mot de passe oublié ?</a>
+                        <a id="forgot-password">Mot de passe oublié ?</a>
                     </p>
                 </div>
             </form>
