@@ -4,7 +4,7 @@
 Basé sur la réponse de heinsenberg [ici](https://stackoverflow.com/questions/37709298/how-to-get-changes-from-another-branch).
 
 Afin d'importer les commits d'une autre branche dans celle que vous êtes, 
-veuillez utiliser git rebase.
+veuillez utiliser git `rebase`.
 
 Rebase va prendre tous les commits de la branche à importer et les appliquera à votre branche.
 
