@@ -27,8 +27,8 @@ Un des points les plus important d'un commit, c'est de bien décrire le commit. 
 ### Prefix de commit
 
 Inspiré de:
-- [Semantic Commit Messages] ("https://sparkbox.com/foundry/semantic_commit_messages")
-- [Git: Understanding Semantic Commit Messages] ("https://medium.com/@mas-al/git-understanding-semantic-commit-messages-af62d7144c51")
+- [Semantic Commit Messages](https://sparkbox.com/foundry/semantic_commit_messages)
+- [Git: Understanding Semantic Commit Messages](https://medium.com/@mas-al/git-understanding-semantic-commit-messages-af62d7144c51)
 
 Afin de clarifier les commits et de bien les organiser, nous devons ajouter le bon prefix pour les commit.
 
