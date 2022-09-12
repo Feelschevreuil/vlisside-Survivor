@@ -1,5 +1,5 @@
 
-# rebase
+# Rebase
 
 Basé sur la réponse de heinsenberg [ici](https://stackoverflow.com/questions/37709298/how-to-get-changes-from-another-branch) et le push final [ici](https://stackoverflow.com/questions/20467179/git-push-rejected-non-fast-forward).
 
