@@ -1,5 +1,16 @@
 ﻿@*@model List<vlissides_bibliotheque.Models.>  TODO: Rajouter le model "programme d'étude" come model de cette vue*@
 
+@*Données test*@
+@{
+
+    var ListProgramme = new List<string>();
+    ListProgramme.Add("A");
+    ListProgramme.Add("B");
+    ListProgramme.Add("C");
+
+    SelectList sl = new SelectList(ListProgramme);
+}
+
 
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -38,12 +49,12 @@
                     
                     
                     
-                    @* TODO: logique pour afficher tous les programmes d'études basée sur le model
+                    @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
 
-                    <select asp-for="Person" asp-items="Model.People">
-                    <option value="">Pick one</option>
+                    <select asp-items="@sl">
+                    <option value="">Programme d'étude</option>
                     </select>
-
+@*
 
                     <select asp-for="EmployeeId"
                     asp-items="@(new SelectList(Model.EmployeesList, nameof(Employee.Id), nameof(Employee.FullName)))">
