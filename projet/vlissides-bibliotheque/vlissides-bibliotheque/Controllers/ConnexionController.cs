@@ -28,13 +28,21 @@ namespace vlissides_bibliotheque.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Valide la connexion de l'utilisateur.
+        /// </summary>
+        /// <returns>
+        /// Succès : Page d'accueil avec utilisateur connecté.
+        /// <br></br>
+        /// Erreurs : Page de connexion avec messages d'erreur.
+        /// </returns>
         [HttpPost]
         public async Task<IActionResult> IndexAsync(ConnexionVM vm)
         {
             if (ModelState.IsValid) {
                 var result = await _signInManager.PasswordSignInAsync(vm.Email, vm.Password, vm.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded) {
-                    return View();
+                    return RedirectToAction("Index", "Home");
                 }
                 if (!result.IsLockedOut) {
                     ModelState.AddModelError(string.Empty, "Tentative de connexion invalide.");
