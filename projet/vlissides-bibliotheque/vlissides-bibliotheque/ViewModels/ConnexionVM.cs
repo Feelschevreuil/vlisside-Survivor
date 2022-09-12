@@ -4,12 +4,12 @@ namespace vlissides_bibliotheque.ViewModels
 {
     public class ConnexionVM
     {
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Courriel")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Mot de passe")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
