@@ -21,7 +21,7 @@ namespace vlissides_bibliotheque.Controllers
             { 
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoile=7,Date=DateTime.Now,Titre="",Id=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DateEdition=DateTime.Now,Resume="bio",Titre="DSA",Id=0,EtatLivreId=0, ProgrammeEtudeId=0}},
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoile=9,Date=DateTime.Now,Titre="",Id=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn="osidfids",DateEdition=DateTime.Today,Resume="fd",Titre="fsdfsd",Id=1,EtatLivreId=0,ProgrammeEtudeId=2 } },
-                new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoile=1,Date=DateTime.Now,Titre="",Id=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn="jshfiffdddddd",DateEdition=DateTime.MaxValue,Resume="fjd",Id=2,EtatLivreId=2,ProgrammeEtudeId=3} }
+                new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoile=1,Date=DateTime.Now,Titre="",Id=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn="jshfiffdddddd",DateEdition=DateTime.MaxValue,Titre="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",Resume="fjd",Id=2,EtatLivreId=2,ProgrammeEtudeId=3} }
             };
 
             List<Commanditaire> commanditaires = new()

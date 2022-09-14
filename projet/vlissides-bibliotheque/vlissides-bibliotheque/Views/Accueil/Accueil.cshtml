@@ -9,8 +9,10 @@
     <div class="row">
         @foreach(var card in Model.livreBibliothequesEvaluation)
         {
-            <p>@card.LivreBibliotheque.Titre</p>
-            @await Html.PartialAsync("_TuileLivrePartial", card)
+            <div class="col-2">
+                <p>@card.LivreBibliotheque.Titre</p>
+                @await Html.PartialAsync("_TuileLivrePartial", card)
+            </div>
         }
     </div>
 </div>
@@ -19,8 +21,10 @@
     <div class="row">
         @foreach (var promotion in Model.commanditaires)
         {
-            <p>@promotion.Nom</p>
-            @await Html.PartialAsync("_PromotionPartial", promotion)
+            <div>
+                <p>@promotion.Nom</p>
+                @*@await Html.PartialAsync("_PromotionPartial", promotion)*@
+            </div>
         }
     </div>
 </div>
