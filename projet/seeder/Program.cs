@@ -63,6 +63,8 @@ namespace seeder {
 			context.Auteurs.AddRange(getAuteurs());
 
 			context.EtatsLivres.AddRange(getEtatsLivres());
+
+			context.ProgrammesEtudes.AddRange(getProgrammesEtudes());
 		}
 
 		/// <summary>
@@ -232,6 +234,56 @@ namespace seeder {
 				new EtatLivre() {
 					Id = 2,
 					Nom = "Digital"
+				}
+			};
+		}
+
+		/// <summary>
+		/// Crée une liste des programmes d'études.
+		/// </summary>
+		/// <returns>Les programmes d'études en liste.</returns>
+		private static List<ProgrammeEtude> getProgrammesEtudes() {
+			
+			return new List<ProgrammeEtude> {
+				new ProgrammeEtude() {
+					Id = 0,
+					Nom = "Techniques de l'informatique"
+				},
+				new ProgrammeEtude() {
+					Id = 1,
+					Nom = "Techniques de tourisme"
+				},
+				new ProgrammeEtude() {
+					Id = 2,
+					Nom = "Technologie du génie életrique"
+				},
+				new ProgrammeEtude() {
+					Id = 3,
+					Nom = "Technologie du génie industriel"
+				},
+				new ProgrammeEtude() {
+					Id = 4,
+					Nom = "Techniques de génie mécanique"
+				},
+				new ProgrammeEtude() {
+					Id = 5,
+					Nom = "Techniques de comptabilité et de gestion"
+				},
+				new ProgrammeEtude() {
+					Id = 6,
+					Nom = "Techniques d'éducation spécialisée"
+				},
+				new ProgrammeEtude() {
+					Id = 7,
+					Nom = "Techniques d'éducation à l'enfance"
+				},
+				new ProgrammeEtude() {
+					Id = 8,
+					Nom = "Soins infirmiers"
+				},
+				new ProgrammeEtude() {
+					Id = 9,
+					Nom = "Gestion de commerces"
 				}
 			};
 		}
