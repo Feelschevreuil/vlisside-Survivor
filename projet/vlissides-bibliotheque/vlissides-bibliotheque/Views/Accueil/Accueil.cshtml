@@ -3,7 +3,7 @@
     ViewData["Title"] = "Accueil";
     
 }
-
+<h4>Recommandations</h4>
 <div class="container-fluid">
     
     <div class="row">
@@ -11,17 +11,18 @@
         {
             <div class="col-2">
                 <p>@card.LivreBibliotheque.Titre</p>
-                @await Html.PartialAsync("_TuileLivrePartial", card)
+                @*@await Html.PartialAsync("_TuileLivrePartial", card)*@
             </div>
         }
     </div>
 </div>
+<h4>Commanditaires</h4>
 <div class="container-fluid">
 
     <div class="row">
         @foreach (var promotion in Model.commanditaires)
         {
-            <div>
+            <div class="col-2">
                 <p>@promotion.Nom</p>
                 @*@await Html.PartialAsync("_PromotionPartial", promotion)*@
             </div>
