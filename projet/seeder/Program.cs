@@ -59,6 +59,8 @@ namespace seeder {
 			// FIN Enlever les données
 
 			context.Adresses.AddRange(getAdresses());
+
+			context.Auteurs.AddRange(getAuteurs());
 		}
 
 		/// <summary>
@@ -146,6 +148,66 @@ namespace seeder {
 					App = 73,
 					Rue = "OS",
 					CodePostal = "X9X9X9"
+				}
+			};
+		}
+
+		/// <summary>
+		/// Crée une liste d'Auteurs.
+		/// </summary>
+		/// <returns>Les auteurs liste.</returns>
+		private static List<Auteur> getAuteurs() {
+
+			return new List<Auteur> {
+				new Auteur() {
+					Id = 0,
+					Nom = "DeRaad",
+					Prenom = "Theo"
+				},
+				new Auteur() {
+					Id = 1,
+					Nom = "Stallman",
+					Prenom = "Richard"
+				},
+				new Auteur() {
+					Id = 2,
+					Nom = "Thompson",
+					Prenom = "Ken"
+				},
+				new Auteur() {
+					Id = 3,
+					Nom = "Ritchie",
+					Prenom = "Dennis"
+				},
+				new Auteur() {
+					Id = 4,
+					Nom = "Torvalds",
+					Prenom = "Linus"
+				},
+				new Auteur() {
+					Id = 5,
+					Nom = "Tanenbaum",
+					Prenom = "Andrew"
+				},
+				new Auteur() {
+					Id = 6,
+					Nom = "Kernhigan",
+					Prenom = "Brian"
+				},
+				new Auteur() {
+					Id = 7,
+					Nom = "Lovelace",
+					Prenom = "Ada"
+				},
+				new Auteur() {
+					Id = 8,
+					Nom = "Unix",
+					Prenom = "Research"
+				},
+				new Auteur() {
+					Id = 9,
+					Nom = "Al",
+					Prenom = "Et"
 				}
 			};
 		}
