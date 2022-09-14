@@ -1,6 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using System.IO;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using vlissides_bibliotheque.Data;
 
 namespace seeder {
@@ -10,14 +13,14 @@ namespace seeder {
 
 			IConfigurationRoot configuration = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile(@Directory.GetCurrentDirectory() + "/appsettings.json")
+				.AddJsonFile(Directory.GetCurrentDirectory() + "/appsettings.json")
 				.Build();
 
 			var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-
-			// mssql
-			var connectionString = configuration.getConnectionString("mssql");
+			var connectionString = configuration.GetConnectionString("mssql");
 			builder.UseSqlServer(connectionString);
+
+			return new ApplicationDbContext(builder.Options);
 		}
 	}
 }

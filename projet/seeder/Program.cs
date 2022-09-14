@@ -1,6 +1,14 @@
 ﻿using System;
-using FizzWare.NBuilder;
-using vlissides_bibliotheque.Models;
 
-// Va chercher le dbcontext
-using var context = DbContextBibliotheque.CreateDbContext();
+namespace seeder {
+
+	class Program {
+
+		public static void Main(String[] args) {
+
+			// Créer le dbcontext
+			var context = DbContextBibliotheque.CreateDbContext();
+		}
+	}
+
+}
