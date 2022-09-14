@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using vlissides-bibliothque.Data;
+using vlissides_bibliotheque.Data;
 
 namespace seeder {
 	class DbContextBibliotheque {

@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../vlissides-bibliotheque/vlissides-bibliotheque/vlissides-bibliotheque.csproj" />
+  </ItemGroup>
+
 </Project>
