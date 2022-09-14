@@ -11,4 +11,9 @@
     <ProjectReference Include="../vlissides-bibliotheque/vlissides-bibliotheque/vlissides-bibliotheque.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Faker.Net" Version="2.0.154" />
+    <PackageReference Include="NBuilder" Version="6.1.0" />
+  </ItemGroup>
+
 </Project>
