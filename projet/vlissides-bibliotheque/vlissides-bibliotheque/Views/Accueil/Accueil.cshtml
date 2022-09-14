@@ -1,4 +1,4 @@
-﻿@model RecommendationPromotions 
+﻿@model RecommendationPromotionsVM
 @{
     ViewData["Title"] = "Accueil";
     
@@ -7,17 +7,19 @@
 <div class="container-fluid">
     
     <div class="row">
-    @foreach(var card in Model)
-    {
-        //partial card
-    }
+        @foreach(var card in Model.livreBibliotheques)
+        {
+            <p>@card.Titre</p>
+            //partial card
+        }
     </div>
 </div>
 <div class="container-fluid">
 
     <div class="row">
-        @foreach (var card in Model)
+        @foreach (var promotion in Model.commanditaires)
         {
+            <p>@promotion.Nom</p>
             //partial promotion
         }
     </div>

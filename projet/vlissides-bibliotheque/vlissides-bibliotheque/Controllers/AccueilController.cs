@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -22,7 +23,15 @@ namespace vlissides_bibliotheque.Controllers
                 new LivreBibliotheque(){ Isbn="jshfiffdddddd",DateEdition=DateTime.MaxValue,Resume="fjd",Id=2,EtatLivreId=2,ProgrammeEtudeId=3}
             };
 
-            return View(listeLivres);
+            List<Commanditaire> commanditaires = new()
+            {
+                new Commanditaire(){Courriel="aaaaaaa@gmail.cum",Id=0,Message="VENEZ ACHETER NOS DÉLICIEUX BISCUITS",Nom="BakeryChezMarki's",Url="http//BiscuitsChezMary's.cum" }
+
+            };
+
+            RecommendationPromotionsVM recommendationPromotions = new() { livreBibliotheques=listeLivres, commanditaires=commanditaires };
+
+            return View(recommendationPromotions);
         }
 
         public IActionResult Privacy()
