@@ -7,10 +7,10 @@
 <div class="container-fluid">
     
     <div class="row">
-        @foreach(var card in Model.livreBibliotheques)
+        @foreach(var card in Model.livreBibliothequesEvaluation)
         {
-            <p>@card.Titre</p>
-            //partial card
+            <p>@card.LivreBibliotheque.Titre</p>
+            @await Html.PartialAsync("_TuileLivrePartial", card)
         }
     </div>
 </div>
@@ -20,7 +20,7 @@
         @foreach (var promotion in Model.commanditaires)
         {
             <p>@promotion.Nom</p>
-            //partial promotion
+            @await Html.PartialAsync("_PromotionPartial", promotion)
         }
     </div>
 </div>

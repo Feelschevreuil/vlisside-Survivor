@@ -4,7 +4,8 @@ namespace vlissides_bibliotheque.ViewModels
 {
     public class RecommendationPromotionsVM
     {
-        public List<LivreBibliotheque> livreBibliotheques;
+        public List<EvaluationLivre> livreBibliothequesEvaluation;
+
         public List<Commanditaire> commanditaires;
     }
 }
