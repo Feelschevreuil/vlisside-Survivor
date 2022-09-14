@@ -13,17 +13,7 @@ namespace seeder {
 
 			context = DbContextBibliotheque.CreateDbContext();
 
-			enleverDonnees();
-
-			context.Adresses.AddRange(getAdresses());
-		}
-
-		/// <summary>
-		/// Enlève les données présentes de
-		/// la base de données.
-		/// </summary>
-		private static void enleverDonnees() {
-
+			// Enlever les données
 			context.Adresses
 				.RemoveRange(context.Adresses);
 
@@ -68,7 +58,9 @@ namespace seeder {
 
 			context.TypesPaiements
 				.RemoveRange(context.TypesPaiements);
+			// FIN Enlever les données
 
+			context.Adresses.AddRange(getAdresses());
 		}
 
 		/// <summary>
