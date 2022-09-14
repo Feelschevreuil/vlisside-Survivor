@@ -7,11 +7,9 @@ namespace seeder {
 
 	class Program {
 
-		private static ApplicationDbContext? context;
-
 		public static void Main(String[] args) {
 
-			context = DbContextBibliotheque.CreateDbContext();
+			var context = DbContextBibliotheque.CreateDbContext();
 
 			// Enlever les données
 			context.Adresses
