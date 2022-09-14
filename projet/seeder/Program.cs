@@ -64,6 +64,7 @@ namespace seeder {
 		/// <summary>
 		/// Crée une liste d'Adresses.
 		/// </summary>
+		/// <returns>Les adresses en liste.</returns>
 		private static List<Adresse> getAdresses() {
 
 			return new List<Adresse> {
