@@ -1,26 +1,24 @@
-﻿@{
+﻿@model List<LivreBibliotheque> //devrait être vue-model de promotions et recommandations
+@{
     ViewData["Title"] = "Accueil";
+    
 }
 
 <div class="container-fluid">
-    <!--si 5 ou 6 article -> nouvelle ligne-->
+    
     <div class="row">
-        <!-- 6items max -->
-        <div class="col-2">
-            <!-- Partial cards livre -->
-        </div>
-
+    @foreach(var card in Model)
+    {
+        //partial card
+    }
     </div>
-
 </div>
 <div class="container-fluid">
-    <!--si 5 ou 6 article -> nouvelle ligne-->
+
     <div class="row">
-        <!-- 6 items max -->
-        <div class="col-2">
-            <!-- Partial promotions -->
-        </div>
-
+        @foreach (var card in Model)
+        {
+            //partial promotion
+        }
     </div>
-
 </div>

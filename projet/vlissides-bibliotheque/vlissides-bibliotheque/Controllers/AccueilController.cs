@@ -15,7 +15,14 @@ namespace vlissides_bibliotheque.Controllers
         [Route("")]
         public IActionResult Accueil()
         {
-            return View();
+            List<LivreBibliotheque> listeLivres  = new() 
+            { 
+                new LivreBibliotheque(){ Isbn ="1676362s",DateEdition=DateTime.Now,Resume="bio",Titre="DSA",Id=0,EtatLivreId=0, ProgrammeEtudeId=0},
+                new LivreBibliotheque(){ Isbn="osidfids",DateEdition=DateTime.Today,Resume="fd",Titre="fsdfsd",Id=1,EtatLivreId=0,ProgrammeEtudeId=2},
+                new LivreBibliotheque(){ Isbn="jshfiffdddddd",DateEdition=DateTime.MaxValue,Resume="fjd",Id=2,EtatLivreId=2,ProgrammeEtudeId=3}
+            };
+
+            return View(listeLivres);
         }
 
         public IActionResult Privacy()
