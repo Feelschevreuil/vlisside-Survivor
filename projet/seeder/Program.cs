@@ -14,10 +14,12 @@ namespace seeder {
 			context = DbContextBibliotheque.CreateDbContext();
 
 			enleverDonnees();
+
+			ajouterAdresses();
 		}
 
 		/// <summary>
-		/// Fonction qui enlève les données présentes de
+		/// Enlève les données présentes de
 		/// la base de données.
 		/// </summary>
 		private static void enleverDonnees() {
@@ -68,5 +70,93 @@ namespace seeder {
 				.RemoveRange(context.TypesPaiements);
 
 		}
+
+		/// <summary>
+		/// Ajoute les adresses.
+		/// </summary>
+		private static List<Adresse>ajouterAdresses() {
+			return new List<Adresse> {
+				new Adresse() {
+					Id = 0,
+					Ville = "Berkeley",
+					NumeroCivique = 386,
+					App = 1,
+					Rue = "Distribution",
+					CodePostal = "X6X6X6"
+				},
+				new Adresse() {
+					Id = 1,
+					Ville = "Hell",
+					NumeroCivique = 666,
+					App = 69,
+					Rue = "Roadin Bud",
+					CodePostal = "X0X1X1"
+				},
+				new Adresse() {
+					Id = 2,
+					Ville = "e-railed",
+					NumeroCivique = 30,
+					App = 3,
+					Rue = "Open",
+					CodePostal = "X1X1X1"
+				},
+				new Adresse() {
+					Id = 3,
+					Ville = "systemagic",
+					NumeroCivique = 31,
+					Rue = "BSD",
+					CodePostal = "X2X2X2"
+				},
+				new Adresse() {
+					Id = 4,
+					Ville = "Goldflipper",
+					NumeroCivique = 32,
+					App = 23,
+					Rue = "Software",
+					CodePostal = "X3X3X3"
+				},
+				new Adresse() {
+					Id = 5,
+					Ville = "Puff the Barbian",
+					NumeroCivique = 33,
+					App = 33,
+					Rue = "Barbian2",
+					CodePostal = "X4X4X4"
+				},
+				new Adresse() {
+					Id = 6,
+					Ville = "Legend of Puffy Hood",
+					NumeroCivique = 34,
+					App = 43,
+					Rue = "Legend",
+					CodePostal = "X5X5X5"
+				},
+				new Adresse() {
+					Id = 7,
+					Ville = "Redundency",
+					NumeroCivique = 35,
+					App = 53,
+					Rue = "CARP",
+					CodePostal = "X7X7X7"
+				},
+				new Adresse() {
+					Id = 8,
+					Ville = "Pond-erosa",
+					NumeroCivique = 36,
+					App = 63,
+					Rue = "Puff",
+					CodePostal = "X8X8X8"
+				},
+				new Adresse() {
+					Id = 9,
+					Ville = "Wizard",
+					NumeroCivique = 37,
+					App = 73,
+					Rue = "OS",
+					CodePostal = "X9X9X9"
+				}
+			};
+		}
 	}
 }
+
