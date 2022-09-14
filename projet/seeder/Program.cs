@@ -15,7 +15,7 @@ namespace seeder {
 
 			enleverDonnees();
 
-			ajouterAdresses();
+			context.Adresses.AddRange(getAdresses());
 		}
 
 		/// <summary>
@@ -72,9 +72,10 @@ namespace seeder {
 		}
 
 		/// <summary>
-		/// Ajoute les adresses.
+		/// Crée une liste d'Adresses.
 		/// </summary>
-		private static List<Adresse>ajouterAdresses() {
+		private static List<Adresse> getAdresses() {
+
 			return new List<Adresse> {
 				new Adresse() {
 					Id = 0,
