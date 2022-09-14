@@ -61,6 +61,8 @@ namespace seeder {
 			context.Adresses.AddRange(getAdresses());
 
 			context.Auteurs.AddRange(getAuteurs());
+
+			context.EtatsLivres.AddRange(getEtatsLivres());
 		}
 
 		/// <summary>
@@ -208,6 +210,28 @@ namespace seeder {
 					Id = 9,
 					Nom = "Al",
 					Prenom = "Et"
+				}
+			};
+		}
+
+		/// <summary>
+		/// Crée une liste des États des livres.
+		/// </summary>
+		/// <returns>Les États des livres en liste.</returns>
+		private static List<EtatLivre> getEtatsLivres() {
+			
+			return new List<EtatLivre> {
+				new EtatLivre() {
+					Id = 0,
+					Nom = "Neuf"
+				},
+				new EtatLivre() {
+					Id = 1,
+					Nom = "Usagé"
+				},
+				new EtatLivre() {
+					Id = 2,
+					Nom = "Digital"
 				}
 			};
 		}
