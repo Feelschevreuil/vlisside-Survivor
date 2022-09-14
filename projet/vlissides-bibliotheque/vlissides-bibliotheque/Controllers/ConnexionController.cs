@@ -57,9 +57,22 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de création d'un nouvel utilisateur.
         /// </summary>
         /// <returns>Page d'inscription.</returns>
+        [HttpGet]
         public IActionResult Inscription()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Inscription(InscriptionVM vm)
+        {
+
+            if (ModelState.IsValid) {
+                ModelState.AddModelError(string.Empty, "Votre mot de passe doit être identique à celui de validation.");
+                return View(vm);
+            }
+
+            return View(vm);
         }
 
         /// <summary>
