@@ -11,9 +11,6 @@ Dans la section de lignes de conduite, vous allez trouver de l'information conce
 
 Svp, bien lire avant de commencer à participer au projet. L'index des lignes de conduite ce trouve [ici](org/lignes-conduite/README.md).
 
-## Organisaiton
-Lignes de conduite de bases sur l'organisation de l'équipe.
-
 ### Gestion du temps
 Assurez-vous de toujours confirmer le temps que vous passez sur une fonctionnalité/bug fix dans le projet sur azure.
 
