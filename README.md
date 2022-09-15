@@ -37,9 +37,21 @@ Section dédiée aux informations concernant les licences et les déclarations l
 ## Licence du projet
 Le projet est licencié sous la licence [WTFPL](www.wtfpl.net).
 
-![logo de la licence](LICENSE/wtfpl-badge.png)
+![logo de la licence](LICENCES/wtfpl-badge.png)
 
-Il est important de bien lire la licence avant de regarder, d'exécuter et de modifier le code du projet. [lire la licence et plus d'informations](LICENSE/README.md)
+Il est important de bien lire la licence avant de regarder, d'exécuter et de modifier le code du projet. [lire la licence et plus d'informations](LICENCES/README.md)
 
 ## Tiers
-Voici une liste des ressources tierses utilisée par le projet.
+Voici une liste des ressources tierces utilisée par le projet.
+
+### Dépendances communes
+Dépendances générales s'appliquant à tout le projet. Autant au seeder qu'à la bibliothèque.
+
+| Licence | Dépendance |
+|-----------|-----------:|
+| dotnet | [MIT](LICENSES/MIT) |
+
+
+### Dépendances du système de bibliothèque
+
+### Dépendances du seeder
