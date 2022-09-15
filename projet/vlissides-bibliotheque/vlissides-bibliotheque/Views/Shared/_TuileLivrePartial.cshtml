@@ -24,19 +24,22 @@ int nbrEtoile = 7;  /*model.etoile*/
                     {
                         nbrEtoile = nbrEtoile - 2;
                         etoile_vide++;
-                        <span class="star" data-value="">&#9733;<span class="star-notification"></span></span>
+                        <span class="star" data-value="">
+                            <img style="width: 0.7rem; margin-top: -3px;" src="/images/etoile-pleine.svg"><span class="star-notification"></span></span>
                     }
 
                     if(nbrEtoile==1){
                         nbrEtoile = nbrEtoile - 1;
                         etoile_vide++;
-                        <span class="star" data-value="">  <img style="width: 0.7rem; margin-top: -3px;" src="/images/demi-etoile.png"> <span class="star-notification"></span></span>
+                        <span class="star" data-value="">  <img style="width: 0.7rem; margin-top: -3px;" src="/images/demi-etoile.svg"> <span class="star-notification"></span></span>
 
                     }
             }
 
-            
-            <span class="star" data-value="">&#9734;<span class="star-notification"></span></span>
+
+                <span class="star" data-value="">
+                    <img style="width: 0.7rem; margin-top: -3px;" src="/images/etoile-vide.svg"><span class="star-notification"></span>
+                </span>
             }
             <p class="d-inline-block">Prix:@*model.prix*@</p>
         </div>
