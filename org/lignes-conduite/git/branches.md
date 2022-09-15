@@ -11,7 +11,7 @@ Branche de production. Elle doit toujours être fonctionelle, même s'il manque 
 Branche de développement. Lorsque l'on a terminé d'implémenter une fonctionnalité ou de régler un erreur, on crée un pull request sur Azure et on assigne un membre de l'équipe qui n'a pas travaillé sur le code dans le pull request. Voir [comment approuver un pull request](code-reviews.md).
 
 # freebsd
-Les branches mentionnant FreeBSD ne concernent que des modifications apportées au projet afin de permettre son exécution sur FreeBSD. Alors, voir la branche develop-freebsd pour plus de détails.
+Les branches mentionnant FreeBSD ne concernent que des modifications apportées au projet afin de permettre son exécution sur FreeBSD. Alors, voir la branche `develop-freebsd` pour plus de détails.
 
 ## Étapes à suivre
 1. Valider que les standards ont bien été appliqués
