@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 
@@ -15,14 +16,17 @@ namespace vlissides_bibliotheque.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
         public ConnexionController(
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager
+            UserManager<IdentityUser> userManager,
+            ApplicationDbContext context
             )
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _context = context;
         }
 
         /// <summary>
@@ -71,29 +75,49 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult Inscription(InscriptionVM vm)
+        public async Task<IActionResult> InscriptionAsync(InscriptionVM vm)
         {
             if (ModelState.IsValid) {
 
+                Adresse adresse = new() {
+                    App = vm.App,
+                    CodePostal = vm.CodePostal,
+                    NumeroCivique = vm.NoCivique,
+                    Rue = vm.Rue,
+                    Ville = vm.Ville
+                };
+
+                _context.Adresses.Add(adresse);
+                _context.SaveChanges();
+
                 // model binding
-                //Etudiant etudiant = ;
+                Etudiant etudiant = new() {
+                    Email = vm.Courriel,
+                    Nom = vm.Nom,
+                    Prenom = vm.Prenom,
+                    PhoneNumber = vm.NoTelephone,
+                    AdresseFacturationId = adresse.Id,
+                    AdresseFacturation = adresse,
+                    AdresseLivraisonId = adresse.Id,
+                    AdresseLivraison = adresse
+                };
 
                 // création
-                //var result = await _userManager.CreateAsync(etudiant, vm.Password);
+                var result = await _userManager.CreateAsync(etudiant, vm.Password);
 
-                //if (result.Succeeded) {
+                if (result.Succeeded) {
 
-                // ajouter rôle
-                //await _userManager.AddToRoleAsync(etudiant, "Etudiant");
+                    // ajouter rôle
+                    await _userManager.AddToRoleAsync(etudiant, "Etudiant");
 
-                // connecter le nouvel étudiant
-                //await _signInManager.SignInAsync(etudiant, isPersistent: false);
-                return RedirectToAction("Index", "Home");
-                //}
+                    // connecter le nouvel étudiant
+                    await _signInManager.SignInAsync(etudiant, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
 
-                //foreach (var error in result.Errors) {
-                //    ModelState.AddModelError(string.Empty, error.Description);
-                //}
+                foreach (var error in result.Errors) {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
             return View(vm);
         }
