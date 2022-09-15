@@ -100,6 +100,8 @@ Technologies utilisées pour se conecter à une base de données.
 #### Base de données
 Technologies utilisées pour servir la base de données.
 
+**NB**: du à des limitations de `dotnet`, vous ne pouvez pas utiliser le seeder sur un autre système d'exploitation BSD que FreeBSD, mais vous pouvez servir la base de donnée sur n'importe quel système BSD.
+
 | Licence | Technologie | Système d'exploitation du serveur | Branche |
 |-----------|:----------:|:----------:|-----------:|
 | [Domaine public](LICENSES/MIT) | sqlite3 | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
