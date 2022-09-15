@@ -14,13 +14,13 @@ namespace vlissides_bibliotheque.Controllers
     /// </summary>
     public class ConnexionController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<Utilisateur> _signInManager;
+        private readonly UserManager<Utilisateur> _userManager;
         private readonly ApplicationDbContext _context;
 
         public ConnexionController(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
+            SignInManager<Utilisateur> signInManager,
+            UserManager<Utilisateur> userManager,
             ApplicationDbContext context
             )
         {
