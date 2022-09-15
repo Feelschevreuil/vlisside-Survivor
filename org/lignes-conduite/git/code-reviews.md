@@ -2,7 +2,7 @@
 Code reviews
 ============
 
-Lorsque vous devez effectuer un `code review`, suivez les présentes étapes pour le valider. Si non, rejeter les modifications.
+Lorsque vous devez effectuer un `code review`, suivez les présentes étapes pour le valider. Si le pull request ne respecte pas nos standards, indiquer où les standards ne sont pas respectés et rejeter les modifications.
 
 ## Pré-requis
 - Assurez-vous de ne pas avoir travaillé sur le code que vous allez approuver.
