@@ -82,7 +82,7 @@ namespace vlissides_bibliotheque.Controllers
                 Adresse adresse = new() {
                     App = vm.App,
                     CodePostal = vm.CodePostal,
-                    NumeroCivique = vm.NoCivique,
+                    NumeroCivique = Convert.ToInt32(vm.NoCivique),
                     Rue = vm.Rue,
                     Ville = vm.Ville
                 };
