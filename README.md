@@ -7,7 +7,9 @@ Projet d'intégration
 Bienvenue au repértoire git du projet de bibliothèque Vlissides!
 
 # Lignes de conduite
-Pour toute information concernant les lignes de conduites pour participer au projet, veuillez les lire [ici](org/lignes-conduite/README.md). **C'est très important de les lire avant de commencer à contribuer au projet. Si non, vos contributions seront rejetées.**
+Dans la section de lignes de conduite, vous allez trouver de l'information concernant comment configurer les outils pour le projet, les standards de git du projet ainsi que le standard de code du projet.
+
+Svp, bien lire avant de commencer à participer au projet. L'index des lignes de conduite ce trouve [ici](org/lignes-conduite/README.md).
 
 ## Organisaiton
 Lignes de conduite de bases sur l'organisation de l'équipe.
