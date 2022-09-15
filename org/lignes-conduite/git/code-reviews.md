@@ -2,7 +2,7 @@
 Code reviews
 ============
 
-Lorsque vous devez effectuer un `code review`, suivez les présentes étapes pour le valider.
+Lorsque vous devez effectuer un `code review`, suivez les présentes étapes pour le valider. Si non, rejeter les modifications.
 
 ## Pré-requis
 - Assurez-vous de ne pas avoir travaillé sur le code que vous allez approuver.
