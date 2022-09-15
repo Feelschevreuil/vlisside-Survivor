@@ -22,9 +22,9 @@ namespace vlissides_bibliotheque.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Confirmer le mot de passe")]
         [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Le mot de passe et la confirmation du mot de passe ne concorde pas.")]
         public string ConfirmPassword { get; set; }
 
         //[Required(ErrorMessage = "Le champ {0} est requis.")]
