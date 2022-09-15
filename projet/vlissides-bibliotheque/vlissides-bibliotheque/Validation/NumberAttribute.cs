@@ -8,9 +8,16 @@ namespace vlissides_bibliotheque.Validation
         {
             string nbCurrent = (string)value;
 
-            if(nbCurrent == null) 
-            {
-                return new ValidationResult(ErrorMessage = "Le champ {0} est requis.");
+            int nb;
+
+            try {
+                nb = Convert.ToInt32(nbCurrent);
+            } catch { 
+                return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre.");
+            }
+
+            if(nb < 0) {
+                return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre positif.");
             }
 
             return ValidationResult.Success;
