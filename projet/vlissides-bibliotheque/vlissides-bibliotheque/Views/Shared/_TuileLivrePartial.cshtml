@@ -8,10 +8,10 @@ int nbrEtoile = Model.Evaluation.Etoile;
 <div class="card" style="width:auto">
 
     <div class="card" style="width:auto">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <h5 class="card-title">@Model.LivreBibliotheque.Titre</h5>
+        <p class="card-text">@Model.LivreBibliotheque.Resume</p>
     </div>
-    <img style="width:auto;" src="/images/livreDemo.jpg" alt="PhotoLivre">
+    <img style="width:auto;" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
 
     <div class="card-body">
 
@@ -43,7 +43,7 @@ int nbrEtoile = Model.Evaluation.Etoile;
                     <img style="width: 0.7rem; margin-top: -3px;" src="/images/etoile-vide.svg"><span class="star-notification"></span>
                 </span>
             }
-            <p class="d-inline-block">Prix:@*model.prix*@ $</p>
+            <p class="d-inline-block">Prix: 1234$</p>
         </div>
 
 
