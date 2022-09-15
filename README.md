@@ -85,7 +85,7 @@ Dépendances nécessaires pour le projet seeder.
 | [Apache 2.0](LICENSES/APACHE2_0) | Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore |
 *(Paquets nuget)*
 
-### Dépendances de la base de donnée
+### Dépendances de la base de données
 Selon la base de données vous voulez utiliser, les dépendances changent d'une technologie de base de donnée à une autre.
 
 #### Paquets nuget
