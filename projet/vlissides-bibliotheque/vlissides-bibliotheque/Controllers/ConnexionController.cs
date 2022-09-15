@@ -135,9 +135,10 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de déconnexion pour un utilisateur.
         /// </summary>
         /// <returns>Page d'accueil.</returns>
-        public IActionResult Logout()
+        public async Task<IActionResult> LogoutAsync()
         {
-            return View();
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
