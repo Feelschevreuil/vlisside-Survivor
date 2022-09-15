@@ -2,10 +2,18 @@
 
 namespace vlissides_bibliotheque.Validation
 {
-	public class IsbnAttribute : ValidationAttribute
+    /// <summary>
+    /// Classe <c>IsbnAttribute</c> hérite de <c>ValidationAttribute</c> et génère un data annotation.
+    /// </summary>
+    public class IsbnAttribute : ValidationAttribute
 	{
-	// TODO: commenter
-		protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        /// <summary>
+        /// Retourne un résultat de validation (une erreur ou un succès) par rapport à la taille du isbn.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="validationContext"></param>
+        /// <returns>Un <c>ValidationResult</c></returns>
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
 		{
 			string ISBN = (string)value;
 
