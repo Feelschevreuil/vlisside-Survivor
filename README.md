@@ -37,9 +37,9 @@ Section dédiée aux informations concernant les licences et les déclarations l
 ## Licence du projet
 Le projet est licencié sous la licence [WTFPL](www.wtfpl.net).
 
-![logo de la licence](LICENCES/wtfpl-badge.png)
+![logo de la licence](LICENSES/wtfpl-badge.png)
 
-Il est important de bien lire la licence avant de regarder, d'exécuter et de modifier le code du projet. [lire la licence et plus d'informations](LICENCES/README.md)
+Il est important de bien lire la licence avant de regarder, d'exécuter et de modifier le code du projet. [lire la licence et plus d'informations](LICENSES/README.md)
 
 ## Tiers
 Voici une liste des ressources tierces utilisée par le projet.
