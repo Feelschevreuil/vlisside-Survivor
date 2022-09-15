@@ -15,7 +15,7 @@ Ici, nous écrivons les lignes de conduite pour participer au projet.
   - [Code review de pull/merge requests](git/code-reviews.md) Comment on syncronise nos changements?
   - [Rebase](git/rebase.md) Comment importer les changements ([commits](git/commits.md)) d'une branche à une autre branche?
 - [Qualité de code](qualite-code/README.md)
-  - [Commentaires](commentaires.md)
+  - [Commentaires](git/commentaires.md)
     - Methodes et fonctions
     - Classes
   - Nomenclature *(todo)*
