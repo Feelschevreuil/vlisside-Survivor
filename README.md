@@ -104,7 +104,7 @@ Technologies utilisées pour servir la base de données.
 
 | Licence | Technologie | Système d'exploitation du serveur | Branche |
 |-----------|:----------:|:----------:|-----------:|
-| [Domaine public](LICENSES/MIT) | sqlite3 | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| Domaine public | sqlite3 | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
 | [GPLv3](LICENSES/GPLv3) [LGPLv2.1](LICENSES/LGPLv2_1) | mariadb | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
 | [Propriétaire](https://www.microsoft.com/en-us/Licensing/product-licensing/sql-server) | mssql | Linux, Windows | `main`, `develop` |
 
