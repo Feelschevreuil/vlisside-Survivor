@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -71,7 +72,10 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult Inscription()
         {
-            return View();
+            InscriptionVM vm = new() {
+                ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), "Id", "Nom")
+            };
+            return View(vm);
         }
 
         [HttpPost]
@@ -93,9 +97,11 @@ namespace vlissides_bibliotheque.Controllers
                 // model binding
                 Etudiant etudiant = new() {
                     Email = vm.Courriel,
+                    UserName = vm.Courriel,
                     Nom = vm.Nom,
                     Prenom = vm.Prenom,
                     PhoneNumber = vm.NoTelephone,
+                    ProgrammeEtudeId = vm.ProgrammeEtudeId,
                     AdresseFacturationId = adresse.Id,
                     AdresseFacturation = adresse,
                     AdresseLivraisonId = adresse.Id,
@@ -119,6 +125,9 @@ namespace vlissides_bibliotheque.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
+            vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), "Id", "Nom");
+
             return View(vm);
         }
 
