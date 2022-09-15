@@ -1,1 +1,50 @@
-﻿
+﻿@{
+int nbrEtoile = 7;  /*model.etoile*/
+}
+
+
+<div class="card" style="width:auto">
+
+}    <div class="card" style="width:auto">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+    <img style="width: 18rem;" src="/images/livreDemo.jpg" alt="PhotoLivre">
+
+    <div class="card-body">
+
+        <div id="rating" class="star-rating" role="img" data-rating="3">
+
+          
+
+            @for (int etoile_vide = 0; etoile_vide< 5; etoile_vide++ ){
+                @while (nbrEtoile > 0)
+            {
+                    if (nbrEtoile >= 2)
+                    {
+                        nbrEtoile = nbrEtoile - 2;
+                        etoile_vide++;
+                        <span class="star" data-value="">&#9733;<span class="star-notification"></span></span>
+                    }
+
+                    if(nbrEtoile==1){
+                        nbrEtoile = nbrEtoile - 1;
+                        etoile_vide++;
+                        <span class="star" data-value="">  <img style="width: 0.7rem; margin-top: -3px;" src="/images/demi-etoile.png"> <span class="star-notification"></span></span>
+
+                    }
+            }
+
+            
+            <span class="star" data-value="">&#9734;<span class="star-notification"></span></span>
+            }
+            <p class="d-inline-block">Prix:@*model.prix*@</p>
+        </div>
+
+
+          
+        
+        
+      
+    </div>
+</div>
