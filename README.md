@@ -2,29 +2,24 @@
 Projet d'intégration
 ====================
 
-Équipe: vlisside
+Équipe: Vlissides
 
-# License
-![logo de la licence](LICENSE/wtfpl-badge.png)
+Bienvenue au repértoire git du projet de bibliothèque Vlissides!
 
-Licence utilisé pour le projet [WTFPL](www.wtfpl.net).
-
-> [SVP BIEN LIRE LA LICENCE AVANT DE VOIR QUOI QUE CE SOIT DU PROJET](LICENSE/README.md)
-
-# Guidelines
-Voici les règles de base à suivre pour le projet vlisside. **À lire avant de travailler sur le projet**.
+# Lignes de conduite
+Pour toute information concernant les lignes de conduites pour participer au projet, veuillez les lire [ici](org/lignes-conduite/README.md). **C'est très important de les lire avant de commencer à contribuer au projet. Si non, vos contributions seront rejetées.**
 
 ## Organisaiton
-Guidelines de bases sur l'organisation de l'équipe.
+Lignes de conduite de bases sur l'organisation de l'équipe.
 
 ### Gestion du temps
 Assurez-vous de toujours confirmer le temps que vous passez sur une fonctionnalité/bug fix dans le projet sur azure.
 
 ### Communications
-Utiliser le groupe matrix fait pour le projet.
+Utiliser le groupe [matrix](https://matrix.org) fait pour le projet. Demander plus de clarifications à l'équipe au besoin.
 
 ### Notes
-Ajouter vos notes dans le répertoire de notes sur ce répertoire git.
+Au beosin, ajouter vos notes dans le répertoire de notes sur ce répertoire git.
 
 #### Fichiers de notes
 Afin de partager nos notes facilement à travers git et accessibles avec
@@ -35,73 +30,17 @@ notre éditeur de texte préféré, on les téléverse dans le repo. git.
   - Sans accents
   - Séparé par des tirets
 - Format
-  - markdown
+  - markdown [documentation pour Azure](https://docs.microsoft.com/en-us/azure/devops/project/wiki/markdown-guidance?view=azure-devops)
 
-# Code
-Lorsque vous travaillez sur le code du projet, suivre les règles suivantes. **À lire avant de programmer**.
+# Légal
+Section dédiée aux informations concernant les licences et les déclarations légales.
 
-## Branches
-Guide sur les branches que l'on utilise dans le projet.
+## Licence du projet
+Le projet est licencié sous la licence [WTFPL](www.wtfpl.net).
 
-### master (production)
-Branche de production. Elle doit toujours être fonctionnelle, même s'il
-manque des fonctionnalités.
+![logo de la licence](LICENSE/wtfpl-badge.png)
 
-**On livre toujours un produit fonctionnel**.
+Il est important de bien lire la licence avant de regarder, d'exécuter et de modifier le code du projet. [lire la licence et plus d'informations](LICENSE/README.md)
 
-### develop
-On pousse les changements à chaque deux semaines (une fois le sprint
-terminé.
-
-## Pull request
-Lorsque vous effectuez un **pull request**, assurez-vous d'effectuer les étapes suivantes.
-
-- Assurez-vous que vous avez appliqué le standard de code demandé. (Voir **Standard de code**)
-- Assurez-vous que vous avez écrit vos commentaires avec un français de qualité.
-- Assurez-vous d'inclure une documentation sur comment votre modification peut être testée et fournissez des données *bidon* au besoin. (Voir **Tests de fonctionnalité/bug fix**
-- Assurez-vous d'avoir documenté votre nouvelle fonctionnalité. (Si applicable). (Voir **Documenter**)
-- Assurez-vous d'avoir suivi le standard de commit. (Voir **Standard de commit**)
-
-## Code review (Valider un pull request)
-Lorsqu'un code review vous est assigné (Suite à un pull request), 
-assurez-vous de faire les vérification suivantes:
-
-- Confirmer que le code respecte le standard de code. (Voir **Standard de code**)
-- Confirmer que les commentaires sont écris en un français de qualité.
-- Confirmer qu'une documentation sur comment tester la modification est présente.
-- Confirmer que la fonctionnalité est documentée (Si applicable). (Voir **Documenter**)
-- Confirmer que les commits suivent le standard de commit. (Voir **Standard de commit**)
-- Tester le code
-
-Si un des points ci-haut est manquant, rejeter le pull request et expliquer pourquoi.
-
-## Tests de fonctionnalité/bug fix
-(À définir)
-
-## Standard de commit
-Utiliser le bon préfix.
-Écrire un titre court.
-Écrire une bonne description.
-
-(À définir)
-
-## Standard de code
-
-### Brackets
-(À définir)
-
-```
-public void GetFeature()
-{
-
-}
-```
-
-(À définir)
-
-## Documenter
-(À définir)
-
-# Frameworks
-- Front end: bootstrap
-- Back end: asp dotnet 6
+## Tiers
+Voici une liste des ressources tierses utilisée par le projet.
