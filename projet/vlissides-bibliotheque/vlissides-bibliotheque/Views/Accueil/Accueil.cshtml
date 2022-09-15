@@ -1,40 +1,31 @@
 ﻿@model RecommendationPromotionsVM
 @{
-	ViewData["Title"] = "Accueil";
-	
+    ViewData["Title"] = "Accueil";
+    
 }
-
-
-<h2>Recommandations</h2>
+<h4>Recommandations</h4>
 <div class="container-fluid">
-	
-	<div class="row">
-		@foreach(var card in Model.livreBibliothequesEvaluation)
-		{
-			<div class="col-12 col-md-3 col-sm-3">
-				<partial name="_TuileLivrePartial" model="card"></partial>
-			</div>
-		}
-	</div>
+    
+    <div class="row">
+        @foreach(var card in Model.livreBibliothequesEvaluation)
+        {
+            <div class="col-md-3">
+                <partial name="_TuileLivrePartial" model="card"></partial>
+                @*@await Html.PartialAsync("_TuileLivrePartial", card)*@
+            </div>
+        }
+    </div>
 </div>
-
-<div class="d-flex accordion-header">
-	
-	<h1 class="p-2 flex-grow-1">Actualiters</h1>
-	<a asp-area="" asp-controller="Accueil" asp-action="Actualiter">
-		Voir tous 
-		<img src="/img/tableau.svg" style="height:2rem; width:2rem" />
-	</a>
-
-</div>
+<h4>Commanditaires</h4>
 <div class="container-fluid">
 
-	<div class="row">
-		@foreach (var card in Model.evenements)
-		{
-			<div class="col-auto col-md-3 col-sm-3">
-				<partial name="_TuileActualiterPartial" model="card"></partial>
-			</div>
-		}
-	</div>
+    <div class="row">
+        @foreach (var promotion in Model.commanditaires)
+        {
+            <div class="col-md-3">
+                <!--<partial name="_PromotionPartial" model="promotion"></partial>-->
+                @*@await Html.PartialAsync("_PromotionPartial", promotion)*@
+            </div>
+        }
+    </div>
 </div>
