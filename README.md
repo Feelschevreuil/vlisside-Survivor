@@ -53,13 +53,56 @@ Dépendances générales s'appliquant à tout le projet. Autant au seeder qu'à 
 
 
 ### Dépendances du système de bibliothèque
+Dépendances nécessaires pour le projet du système de la bibliothèque.
 
-| Licence | Dépendance |
+#### Paquets nuget
+| Licence | Dépendance | 
 |-----------|-----------:|
 | [MIT](LICENSES/MIT) | Faker.Net |
+| [MIT](LICENSES/MIT) | Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore |
+| [MIT](LICENSES/MIT) | Microsoft.AspNetCore.Identity.EntityFrameworkCore |
+| [MIT](LICENSES/MIT) | Microsoft.AspNetCore.Identity.UI |
+| [MIT](LICENSES/MIT) | Microsoft.EntityFrameworkCore.Tools |
+
+#### Esthétique
+Dépendances concernant l'esthétique du projet.
+
+| Licence | Dépendance | 
+|-----------|-----------:|
+| [MIT](LICENSES/MIT) | bootstrap |
+| [PFL](LICENSES/PFL) [WTFPL](LICENSES/WTFPL) [MIT](LICENSES/MIT) [Apache 2.0](LICENSES/Apache2_0) [](LICENSES/) | materialdesignicons |
 
 ### Dépendances du seeder
+Dépendances nécessaires pour le projet seeder.
 
 | Licence | Dépendance |
 |-----------|-----------:|
 | [MIT](LICENSES/MIT) | dotnet |
+| [MIT](LICENSES/MIT) | NBuilder |
+| [MIT](LICENSES/MIT) | Microsoft.EntityFrameworkCore |
+| [MIT](LICENSES/MIT) | Microsoft.EntityFrameworkCore.Design |
+| [MIT](LICENSES/MIT) | Microsoft.Extensions.Configuration |
+| [Apache 2.0](LICENSES/APACHE2_0) | Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore |
+*(Paquets nuget)*
+
+### Dépendances de la base de donnée
+Selon la base de données vous voulez utiliser, les dépendances changent d'une technologie de base de donnée à une autre.
+
+#### Paquets nuget
+Technologies utilisées pour se conecter à une base de données.
+
+| Licence | Dépendance | Système d'exploitation du serveur | Branche |
+|-----------|:----------:|:----------:|-----------:|
+| [MIT](LICENSES/MIT) | Microsoft.Data.Sqlite.Core | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| [MIT](LICENSES/MIT) | Pomelo.EntityFrameworkCore.MySql | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| [MIT](LICENSES/MIT) | Microsoft.EntityFrameworkCore.SqlServer | Linux, Windows | `main`, `develop` |
+
+#### Base de données
+Technologies utilisées pour servir la base de données.
+
+| Licence | Technologie | Système d'exploitation du serveur | Branche |
+|-----------|:----------:|:----------:|-----------:|
+| [Domaine public](LICENSES/MIT) | sqlite3 | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| [GPLv3](LICENSES/GPLv3) [LGPLv2.1](LICENSES/LGPLv2_1) | mariadb | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| [Propriétaire](https://www.microsoft.com/en-us/Licensing/product-licensing/sql-server) | mssql | Linux, Windows | `main`, `develop` |
+
