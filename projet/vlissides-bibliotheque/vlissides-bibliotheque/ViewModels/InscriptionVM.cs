@@ -41,6 +41,9 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Ville { get; set; }
 
+        [Display(Name = "Numéro d'appartement")]
+        public int App { get; set; }
+
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Code postal")]
         public string CodePostal { get; set; }
