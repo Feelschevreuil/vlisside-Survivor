@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
+using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
@@ -33,9 +35,10 @@ namespace vlissides_bibliotheque.ViewModels
         [Compare("Password", ErrorMessage = "Le mot de passe et la confirmation du mot de passe ne concorde pas.")]
         public string ConfirmPassword { get; set; }
 
-        //[Required(ErrorMessage = "Le champ {0} est requis.")]
-        //[Display(Name = "Programme d'étude")]
-        //public ProgrammeEtude ProgrammeEtude { get; set; }
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Programme d'étude")]
+        public int ProgrammeEtudeId { get; set; }
+        public SelectList ProgrammeEtudes { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Numéro civique")]
