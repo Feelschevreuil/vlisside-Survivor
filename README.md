@@ -49,9 +49,17 @@ Dépendances générales s'appliquant à tout le projet. Autant au seeder qu'à 
 
 | Licence | Dépendance |
 |-----------|-----------:|
-| dotnet | [MIT](LICENSES/MIT) |
+| [MIT](LICENSES/MIT) | dotnet |
 
 
 ### Dépendances du système de bibliothèque
 
+| Licence | Dépendance |
+|-----------|-----------:|
+| [MIT](LICENSES/MIT) | Faker.Net |
+
 ### Dépendances du seeder
+
+| Licence | Dépendance |
+|-----------|-----------:|
+| [MIT](LICENSES/MIT) | dotnet |
