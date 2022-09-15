@@ -39,9 +39,8 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Numéro civique")]
-        [Range(0, int.MaxValue, ErrorMessage = "Entrer un nombre valide.")]
         [Number]
-        public int NoCivique { get; set; }
+        public string NoCivique { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Rue { get; set; }
