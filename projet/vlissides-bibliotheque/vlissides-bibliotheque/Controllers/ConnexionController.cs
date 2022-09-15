@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
@@ -82,12 +83,12 @@ namespace vlissides_bibliotheque.Controllers
 
                 //if (result.Succeeded) {
 
-                    // ajouter rôle
-                    //await _userManager.AddToRoleAsync(etudiant, "Etudiant");
+                // ajouter rôle
+                //await _userManager.AddToRoleAsync(etudiant, "Etudiant");
 
-                    // connecter le nouvel étudiant
-                    //await _signInManager.SignInAsync(etudiant, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                // connecter le nouvel étudiant
+                //await _signInManager.SignInAsync(etudiant, isPersistent: false);
+                return RedirectToAction("Index", "Home");
                 //}
 
                 //foreach (var error in result.Errors) {
