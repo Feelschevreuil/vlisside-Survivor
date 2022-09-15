@@ -33,12 +33,18 @@
                         </div>
                      </fieldset>
 
-                    @*<img width="30px" src="~/img/account.svg" />*@
-                    @*<div class="form-group">
-                    <label asp-for="Email" class="form-label"></label>
-                    <input asp-for="Email" class="form-control" aria-required="true" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>*@
+                    <fieldset class="rounded shadow p-3 m-3">
+                        <legend>
+                            <img width="30px" src="~/img/ac.svg" />
+                        </legend>
+                        <div class="form-group">
+                            <label asp-for="ProgrammeEtudeId" class="form-label"></label>
+                            <select asp-for="ProgrammeEtudeId" asp-items="Model.ProgrammeEtudes" class="form-control" aria-required="true">
+                                <option>Sélectionner un programme</option>
+                            </select>
+                            <span asp-validation-for="ProgrammeEtudeId" class="text-danger"></span>
+                        </div>
+                    </fieldset>
 
                     <fieldset class="rounded shadow p-3 m-3">
                         <legend>
