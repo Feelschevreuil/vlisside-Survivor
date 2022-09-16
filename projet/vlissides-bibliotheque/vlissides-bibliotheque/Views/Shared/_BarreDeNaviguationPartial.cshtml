@@ -12,13 +12,14 @@
 }
 
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 d-flex flex-row-reverse bd-highlight"
-     style="background-color: #17008B;">
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-n3 d-flex flex-row-reverse bd-highlight"
+     style="background: linear-gradient(to right, #00008B, white);">
     <div>
     <partial name="_LoginPartial" />
     </div>
 </nav>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-2"
+     style="background: linear-gradient(to right, #00008B, white);">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -28,16 +29,16 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
+                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">À propos</a>
+                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">À propos</a>
                     </li>
                 </ul>
 
           
                 <fieldset>
-                    <select id="MovieType" name="MovieType" class="btn btn-outline-success d-inline-flex">
+                    <select id="MovieType" name="MovieType" class="btn btn-outline-light d-inline-flex">
 
                         <option selected="selected" value="1">Bibliothèque</option>
 
@@ -56,7 +57,7 @@
                     
                     @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
 
-                    <select class="btn-outline-success" asp-items="@sl">
+                    <select class="btn btn-outline-success" asp-items="@sl">
                     <option  value="">Programme d'étude</option>
                     </select>
 @*
