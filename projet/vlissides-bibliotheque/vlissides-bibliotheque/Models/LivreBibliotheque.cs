@@ -12,12 +12,12 @@ namespace vlissides_bibliotheque.Models
         public int Id { get; set; }
 
         [Required]
-        public int EtatLivreId { get; set; }
-        public EtatLivre EtatLivre { get; set; }
-
-        [Required]
         public int ProgrammeEtudeId { get; set; }
         public ProgrammeEtude ProgrammeEtude { get; set; }
+
+        [Required]
+        public int MaisonEditionId { get; set; }
+        public MaisonEdition MaisonEdition { get; set; }
 
         [Required]
         [Isbn]
@@ -35,6 +35,6 @@ namespace vlissides_bibliotheque.Models
         public string PhotoCouverture { get; set; }
 
         [Required]
-        public DateTime DateEdition { get; set; }
+        public DateTime DatePublication { get; set; }
     }
 }

@@ -21,5 +21,7 @@ namespace vlissides_bibliotheque.Models
         public int AdresseFacturationId { get; set; }
         public Adresse AdresseFacturation { get; set; }
 
+        [Required]
+        public int AnneeParcours { get; set; }
     }
 }
