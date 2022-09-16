@@ -65,6 +65,9 @@ namespace seeder {
 			context.EtatsLivres.AddRange(getEtatsLivres());
 
 			context.ProgrammesEtudes.AddRange(getProgrammesEtudes());
+
+			// TODO: rename LivresBibliotheques à LivresBibliotheque
+			context.LivresBibliotheques.AddRange(getLivresBibliotheques());
 		}
 
 		/// <summary>
@@ -284,6 +287,26 @@ namespace seeder {
 				new ProgrammeEtude() {
 					Id = 9,
 					Nom = "Gestion de commerces"
+				}
+			};
+		}
+
+		/// <summary>
+		/// Crée une liste des livres de la bibliothèque.
+		/// </summary>
+		/// <returns>Les livres de la bibliothèque en liste.</returns>
+		private static List<LivreBibliotheque> getLivresBibliotheques() {
+
+			return new List<LivreBibliotheque> {
+				new LivreBibliotheque() {
+					Id = 0,
+					EtatLivreId = 0,
+					ProgrammeEtudeId = 0,
+					Isbn = "9999999990",
+					Titre = "",
+					Resume = "",
+					PhotoCouverture = "N/A",
+					DateEdition = DateTime.Now
 				}
 			};
 		}
