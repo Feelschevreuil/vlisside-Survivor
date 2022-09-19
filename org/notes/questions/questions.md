@@ -176,35 +176,43 @@ lundi: via courriel + teams
   - urgence if something en courriel
 
 # Rencontre 2
-Jour:
-Début:
-Fin: 
+Jour: 15 septembre 2022
+Début: 15h30
+Fin: 16h
 
 ## Question
+Domaine email
+- \[numeroÉtudiant]@collègeconnaissancealéatoire.com
+
+une 2em
+
 
 # Rencontre 3
-Jour:
+Jour: 29 septembre 2022
 Début:
 Fin: 
 
 ## Question
 
+
+
+
 # Rencontre 4
-Jour:
+Jour: 20 octobre 2022
 Début:
 Fin: 
 
 ## Question
 
 # Rencontre 5
-Jour:
+Jour: 3 novembre 2022
 Début:
 Fin: 
 
 ## Question
 
 # Rencontre 6
-Jour:
+Jour: 17 novembre 2022
 Début:
 Fin: 
 
