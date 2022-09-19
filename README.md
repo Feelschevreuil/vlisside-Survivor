@@ -1,7 +1,4 @@
 
-BiblioX
-=======
-
 ![BiblioX logo](logo/bibliox.png)
 
 Équipe: Vlissides
