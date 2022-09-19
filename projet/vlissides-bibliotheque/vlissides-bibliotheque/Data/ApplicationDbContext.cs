@@ -176,6 +176,8 @@ namespace vlissides_bibliotheque.Data
             builder.Entity<EvaluationLivre>().HasKey(evaluationLivre => new { evaluationLivre.EvaluationId, evaluationLivre.LivreBibliothequeId });
 
             builder.Entity<CoursProfesseur>().HasKey(coursProfesseur => new { coursProfesseur.CoursId, coursProfesseur.ProfesseurId });
+
+            builder.Entity<CoursEtudiant>().HasKey(coursEtudiant => new { coursEtudiant.CoursId, coursEtudiant.EtudiantId });
         }
 
         /// <summary>
