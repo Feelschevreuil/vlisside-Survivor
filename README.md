@@ -1,6 +1,8 @@
 
-Projet d'intégration
-====================
+BiblioX
+=======
+
+![BiblioX logo](logo/bibliox.png)
 
 Équipe: Vlissides
 
