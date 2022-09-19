@@ -2,6 +2,10 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>CoursProfesseur</c> tisse un lien entre 
+    /// les professeurs et les cours
+    /// </summary>
     public class CoursProfesseur
     {
         [Required]

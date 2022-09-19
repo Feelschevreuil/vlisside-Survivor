@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>Cours</c> définit les cours d'un programme d'étude.
+    /// </summary>
     public class Cours
     {
         [Required]

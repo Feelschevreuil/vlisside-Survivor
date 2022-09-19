@@ -2,6 +2,10 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>PrixEtatLivre</c> tisse un lien entre 
+    /// l'état des livres et leur prix.
+    /// </summary>
     public class PrixEtatLivre
     {
         [Required]

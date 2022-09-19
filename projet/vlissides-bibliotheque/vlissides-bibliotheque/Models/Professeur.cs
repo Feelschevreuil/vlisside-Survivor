@@ -2,6 +2,9 @@
 
 namespace vlissides_bibliotheque.Models
 {
+    /// <summary>
+    /// Classe <c>Professeur</c> instancie un professeur.
+    /// </summary>
     public class Professeur
     {
         [Required]
