@@ -1,4 +1,4 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -18,6 +18,7 @@ namespace vlissides_bibliotheque.Models
         public string Description { get; set; }
 
         [Required]
+        [MaxLength(8)]
         public string Code { get; set; }
 
         [Required]

@@ -12,5 +12,9 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         public string Nom { get; set; }
+
+        [Required]
+        [MaxLength(4)]
+        public string Code { get; set; }
     }
 }
