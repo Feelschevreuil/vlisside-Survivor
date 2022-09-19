@@ -389,7 +389,8 @@ namespace vlissides_bibliotheque.Data.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -407,6 +408,25 @@ namespace vlissides_bibliotheque.Data.Migrations
                     b.HasIndex("ProgrammeEtudeId");
 
                     b.ToTable("Cours");
+                });
+
+            modelBuilder.Entity("vlissides_bibliotheque.Models.CoursEtudiant", b =>
+                {
+                    b.Property<int>("CoursId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EtudiantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EtudiantId1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CoursId", "EtudiantId");
+
+                    b.HasIndex("EtudiantId1");
+
+                    b.ToTable("CoursEtudiant");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.CoursLivre", b =>
@@ -759,6 +779,11 @@ namespace vlissides_bibliotheque.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
+
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -829,9 +854,9 @@ namespace vlissides_bibliotheque.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
                             NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAzaMZHUxUGrg3AwsOjXfYKo+5kBR/pcRcTdUMuRiCPppoVYExQ/bGtidp308zsRSg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECgSe5TdrJazRgCH9emMgE4Zdkiq7sv38VfG04JYtN3+8UI8qe3KGz45AQj37Nd++A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dbdfe3aa-c20b-4917-8768-4b7c021e2b79",
+                            SecurityStamp = "8d56a078-3e41-46de-9129-80254f1d3c44",
                             TwoFactorEnabled = false,
                             UserName = "gordon.john@gunclub-alabama.us",
                             Nom = "John",
@@ -973,6 +998,25 @@ namespace vlissides_bibliotheque.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("ProgrammeEtude");
+                });
+
+            modelBuilder.Entity("vlissides_bibliotheque.Models.CoursEtudiant", b =>
+                {
+                    b.HasOne("vlissides_bibliotheque.Models.Cours", "Cours")
+                        .WithMany()
+                        .HasForeignKey("CoursId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("vlissides_bibliotheque.Models.Etudiant", "Etudiant")
+                        .WithMany()
+                        .HasForeignKey("EtudiantId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cours");
+
+                    b.Navigation("Etudiant");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.CoursLivre", b =>

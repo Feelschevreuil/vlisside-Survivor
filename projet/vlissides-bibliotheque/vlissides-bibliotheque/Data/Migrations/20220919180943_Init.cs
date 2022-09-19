@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vlissides_bibliotheque.Data.Migrations
 {
-    public partial class ini : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -85,7 +85,8 @@ namespace vlissides_bibliotheque.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,7 +169,7 @@ namespace vlissides_bibliotheque.Data.Migrations
                     ProgrammeEtudeId = table.Column<int>(type: "int", nullable: false),
                     Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     AnneeParcours = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -374,6 +375,31 @@ namespace vlissides_bibliotheque.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CoursEtudiant",
+                columns: table => new
+                {
+                    CoursId = table.Column<int>(type: "int", nullable: false),
+                    EtudiantId = table.Column<int>(type: "int", nullable: false),
+                    EtudiantId1 = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoursEtudiant", x => new { x.CoursId, x.EtudiantId });
+                    table.ForeignKey(
+                        name: "FK_CoursEtudiant_Cours_CoursId",
+                        column: x => x.CoursId,
+                        principalTable: "Cours",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CoursEtudiant_Etudiants_EtudiantId1",
+                        column: x => x.EtudiantId1,
+                        principalTable: "Etudiants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Evaluations",
                 columns: table => new
                 {
@@ -522,7 +548,7 @@ namespace vlissides_bibliotheque.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", false, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEAzaMZHUxUGrg3AwsOjXfYKo+5kBR/pcRcTdUMuRiCPppoVYExQ/bGtidp308zsRSg==", null, false, "dbdfe3aa-c20b-4917-8768-4b7c021e2b79", false, "gordon.john@gunclub-alabama.us" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", false, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAECgSe5TdrJazRgCH9emMgE4Zdkiq7sv38VfG04JYtN3+8UI8qe3KGz45AQj37Nd++A==", null, false, "8d56a078-3e41-46de-9129-80254f1d3c44", false, "gordon.john@gunclub-alabama.us" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
@@ -563,6 +589,11 @@ namespace vlissides_bibliotheque.Data.Migrations
                 name: "IX_Cours_ProgrammeEtudeId",
                 table: "Cours",
                 column: "ProgrammeEtudeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoursEtudiant_EtudiantId1",
+                table: "CoursEtudiant",
+                column: "EtudiantId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CoursLivres_CoursId",
@@ -662,6 +693,9 @@ namespace vlissides_bibliotheque.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "CommandesEtudiants");
+
+            migrationBuilder.DropTable(
+                name: "CoursEtudiant");
 
             migrationBuilder.DropTable(
                 name: "CoursLivres");
