@@ -1,25 +1,29 @@
 ﻿@model ConnexionVM
 
 <div class="row">
-    <div class="col-md-3 d-block m-auto">
-        <section>
-            <form class="text-center" method="post" asp-action="Index" asp-controller="Connexion">
-                <img width="200px" src="~/img/account-lock.svg" />
-                <h2>Connexion</h2>
+    <div class="col-md-8 d-block m-auto">
+        <form method="post" class="col-md-6 d-block m-auto" asp-action="Index" asp-controller="Connexion">
+            <img class="d-block m-auto" width="200px" src="~/img/account-lock.svg" />
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="mb-3 text-start">
+            <fieldset class="shadow rounded p-3 m-3">
+
+                <legend>
+                    <img width="30px" src="~/img/account-circle.svg" />
+                </legend>
+
+                <div class="mb-3">
                     <label asp-for="Email" class="form-label"></label>
                     <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <div class="mb-3 text-start">
+                <div class="mb-3">
                     <label asp-for="Password" class="form-label"></label>
                     <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="mb-3 text-start">
+                <div>
                     <div class="checkbox">
                         <label asp-for="RememberMe" class="form-label">
                             <input class="form-check-input" asp-for="RememberMe" />
@@ -27,21 +31,22 @@
                         </label>
                     </div>
                 </div>
-                <div class="mb-3 text-start">
-                    <button type="submit" class="btn btn-primary col-12">Se connecter</button>
-                </div>
-                <div class="mb-3 text-start">
-                    <p>
-                        Vous n'avez pas encore de compte ?
-                        <br />
-                        <a asp-action="Inscription" asp-controller="Connexion">Inscrivez-vous !</a>
-                    </p>
-                    <p>
-                        <a id="forgot-password">Mot de passe oublié ?</a>
-                    </p>
-                </div>
-            </form>
-        </section>
+            </fieldset>
+
+            <div class="m-3 mt-4">
+                <button type="submit" class="btn btn-primary col-md-12 shadow">Se connecter</button>
+            </div>
+            <div class="m-3">
+                <p>
+                    Vous n'avez pas encore de compte ?
+                    <br />
+                    <a asp-action="Inscription" asp-controller="Connexion">Inscrivez-vous !</a>
+                </p>
+                <p>
+                    <a id="forgot-password">Mot de passe oublié ?</a>
+                </p>
+            </div>
+        </form>
     </div>
 </div>
 
