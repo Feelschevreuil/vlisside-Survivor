@@ -4,11 +4,11 @@
 	
 }
 
-
+<h1>Actualiter</h1>
 <div class="container-fluid">
 	
 	<div class="row">
-		@foreach(var card in Model.livreBibliothequesEvaluation)
+		@foreach(var card in Model.evenements)
 		{
 			<div class="col-3">
 				<partial name="_TuileActualiterPartial" model="card"></partial>
@@ -21,7 +21,7 @@
 
 
 
-<h4>Recommandations</h4>
+<h2>Recommandations</h2>
 <div class="container-fluid">
 	
 	<div class="row">
@@ -34,16 +34,5 @@
 		}
 	</div>
 </div>
-<h4>Commanditaires</h4>
-<div class="container-fluid">
 
-	<div class="row">
-		@foreach (var promotion in Model.commanditaires)
-		{
-			<div class="col-3">
-				<!--<partial name="_PromotionPartial" model="promotion"></partial>-->
-				@*@await Html.PartialAsync("_PromotionPartial", promotion)*@
-			</div>
-		}
-	</div>
 </div>

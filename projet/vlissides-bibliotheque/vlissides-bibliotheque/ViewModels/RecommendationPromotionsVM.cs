@@ -6,6 +6,6 @@ namespace vlissides_bibliotheque.ViewModels
     {
         public List<EvaluationLivre> livreBibliothequesEvaluation;
 
-        public List<Commanditaire> commanditaires;
+        public List<Evenement> evenements;
     }
 }
