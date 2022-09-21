@@ -9,7 +9,7 @@ namespace vlissides_bibliotheque.Models
     public class CoursLivre
     {
         [Required]
-        public int Id { get; set; }
+        public int CoursLivreId { get; set; }
 
         [Required]
         public int CoursId { get; set; }

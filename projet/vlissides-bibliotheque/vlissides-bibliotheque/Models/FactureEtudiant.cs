@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public class FactureEtudiant
     {
         [Required]
-        public int Id { get; set; }
+        public int FactureEtudiantId { get; set; }
 
         [Required]
         public int TypePaiementId { get; set; }

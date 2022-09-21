@@ -9,7 +9,7 @@ namespace vlissides_bibliotheque.Models
     public class PrixEtatLivre
     {
         [Required]
-        public int Id { get; set; }
+        public int PrixEtatLivreId { get; set; }
 
         [Required]
         public int EtatLivreId { get; set; }

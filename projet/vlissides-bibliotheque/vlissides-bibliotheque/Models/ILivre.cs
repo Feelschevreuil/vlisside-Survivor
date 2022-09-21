@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public interface ILivre
     {
         [Required]
-        public int Id { get; set; }
+        public int LivreId { get; set; }
 
         [Required]
         [StringLength(64)]

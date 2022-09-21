@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public class Auteur
     {
         [Required]
-        public int Id { get; set; }
+        public int AuteurId { get; set; }
 
         [Required]
         [StringLength(40)]

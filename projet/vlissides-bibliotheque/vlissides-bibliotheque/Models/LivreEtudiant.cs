@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public class LivreEtudiant : ILivre
     {
         [Required]
-        public int Id { get; set; }
+        public int LivreId { get; set; }
 
         public Etudiant Etudiant { get; set; }
 

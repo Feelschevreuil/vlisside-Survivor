@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public class Evenement
     {
         [Required]
-        public int Id { get; set; }
+        public int EvenementId { get; set; }
 
         [Required]
         public int CommanditaireId { get; set; }
