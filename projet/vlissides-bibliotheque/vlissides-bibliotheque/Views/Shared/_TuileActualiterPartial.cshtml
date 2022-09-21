@@ -1,62 +1,18 @@
-﻿@model EvaluationLivre
+﻿@model Evenement
 
 @{
-int nbrEtoile = Model.Evaluation.Etoile;
+
 }
 
-
-<div class="card border-0 text-center" style="width:auto">
-
-    <img class="mx-auto" style="width:6rem; height:10rem" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
-    <div class="card border-0" style="width:auto">
-        <h5 class="card-title">@Model.LivreBibliotheque.Titre</h5>
-        <p class="card-text">ISMB</p>
-        <p class="card-text">Nom du cours</p>
-        <p class="card-text">Nom du professeur</p>
-        <p class="card-text">Année relier au programme</p>
-    </div>
-   
+ 
+<div class="card" style="width: 18rem;">
+    <img src="TODO:Une-photo-devrais-être-ici" class="card-img-top" alt=" PhotoEvenement">
+  <div class="card-body">
+    <h5 class="card-title">@Model.Nom</h5>
+    <p class="card-text">@Model.Description</p>
+  
+  </div>
     <footer>
-        <div class="card-body">
-
-        <div id="rating" class="star-rating" role="img" data-rating="3">
-
-          
-
-            @for (int etoile_vide = 0; etoile_vide< 5; etoile_vide++ ){
-                @while (nbrEtoile > 0)
-            {
-                    if (nbrEtoile >= 2)
-                    {
-                        nbrEtoile = nbrEtoile - 2;
-                        etoile_vide++;
-                        <span class="star" data-value="">
-                            <img style="width: 0.7rem; margin-top: -3px;" src="/img/etoile-pleine.svg"><span class="star-notification"></span></span>
-                    }
-
-                    if(nbrEtoile==1){
-                        nbrEtoile = nbrEtoile - 1;
-                        etoile_vide++;
-                        <span class="star" data-value="">  <img style="width: 0.7rem; margin-top: -3px;" src="/img/demi-etoile.svg"> <span class="star-notification"></span></span>
-
-                    }
-            }
-
-            if(etoile_vide != 5){
-                <span class="star" data-value="">
-                    <img style="width: 0.7rem; margin-top: -3px;" src="/img/etoile-vide.svg"><span class="star-notification"></span>
-                </span>
-            }
-            }
-            <p class="d-inline-block">Prix: 1234$</p>
-        </div>
-
-
-          
-        
-        
-      
-    </div>
+        <p>@Model.Debut.Day @Model.Debut.ToString("MMMM") @Model.Debut.Year</p>
     </footer>
-
 </div>
