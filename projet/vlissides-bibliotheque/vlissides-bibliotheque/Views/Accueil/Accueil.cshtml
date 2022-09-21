@@ -4,22 +4,6 @@
 	
 }
 
-<h1>Actualiter</h1>
-<div class="container-fluid">
-	
-	<div class="row">
-		@foreach(var card in Model.evenements)
-		{
-			<div class="col-3">
-				<partial name="_TuileActualiterPartial" model="card"></partial>
-				@*@await Html.PartialAsync("_TuileLivrePartial", card)*@
-			</div>
-		}
-	</div>
-</div>
-
-
-
 
 <h2>Recommandations</h2>
 <div class="container-fluid">
@@ -29,6 +13,25 @@
 		{
 			<div class="col-3">
 				<partial name="_TuileLivrePartial" model="card"></partial>
+				@*@await Html.PartialAsync("_TuileLivrePartial", card)*@
+			</div>
+		}
+	</div>
+</div>
+
+<div class="d-flex accordion-header">
+	
+	<h1 class="p-2 flex-grow-1">Actualiter</h1>
+	<a class="p-4" href="https://getbootstrap.com/docs/5.0/components/card/">Voir tous</a>
+
+</div>
+<div class="container-fluid">
+
+	<div class="row">
+		@foreach (var card in Model.evenements)
+		{
+			<div class="col-3">
+				<partial name="_TuileActualiterPartial" model="card"></partial>
 				@*@await Html.PartialAsync("_TuileLivrePartial", card)*@
 			</div>
 		}
