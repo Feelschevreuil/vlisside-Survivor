@@ -5,15 +5,19 @@ int nbrEtoile = Model.Evaluation.Etoile;
 }
 
 
-<div class="card" style="width:auto">
+<div class="card border-0 text-center" style="width:auto">
 
-    <div class="card" style="width:auto">
+    <img class="mx-auto" style="width:6rem; height:10rem" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
+    <div class="card border-0" style="width:auto">
         <h5 class="card-title">@Model.LivreBibliotheque.Titre</h5>
-        <p class="card-text">@Model.LivreBibliotheque.Resume</p>
+        <p class="card-text">ISMB</p>
+        <p class="card-text">Nom du cours</p>
+        <p class="card-text">Nom du professeur</p>
+        <p class="card-text">Année relier au programme</p>
     </div>
-    <img style="width:auto;" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
-
-    <div class="card-body">
+   
+    <footer>
+        <div class="card-body">
 
         <div id="rating" class="star-rating" role="img" data-rating="3">
 
@@ -53,4 +57,6 @@ int nbrEtoile = Model.Evaluation.Etoile;
         
       
     </div>
+    </footer>
+
 </div>
