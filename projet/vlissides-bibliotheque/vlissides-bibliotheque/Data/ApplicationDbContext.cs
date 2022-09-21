@@ -78,15 +78,15 @@ namespace vlissides_bibliotheque.Data
         {
             List<EtatLivre> EtatLivres = new() {
                 new EtatLivre() {
-                    Id = 1,
+                    EtatLivreId = 1,
                     Nom = "Neuf"
                 },
                 new EtatLivre() {
-                    Id = 2,
+                    EtatLivreId = 2,
                     Nom = "Usagé"
                 },
                 new EtatLivre() {
-                    Id = 3,
+                    EtatLivreId = 3,
                     Nom = "Numérique"
                 }
             };
