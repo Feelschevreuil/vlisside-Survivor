@@ -3,21 +3,26 @@
 namespace vlissides_bibliotheque.Models
 {
     /// <summary>
-    /// Classe <c>Etudiant</c> définit la table etudiant dans la base de données.
+    /// Classe <c>Cours</c> définit les cours d'un programme d'étude.
     /// </summary>
-    public class Etudiant : Utilisateur
+    public class Cours
     {
+        [Required]
+        public int CoursId { get; set; }
+
         [Required]
         public int ProgrammeEtudeId { get; set; }
         public ProgrammeEtude ProgrammeEtude { get; set; }
 
         [Required]
-        public int AdresseLivraisonId { get; set; }
-        public Adresse AdresseLivraison { get; set; }
+        public string Nom { get; set; }
 
         [Required]
-        public int AdresseFacturationId { get; set; }
-        public Adresse AdresseFacturation { get; set; }
+        public string Description { get; set; }
+
+        [Required]
+        [MaxLength(8)]
+        public string Code { get; set; }
 
         [Required]
         public int AnneeParcours { get; set; }

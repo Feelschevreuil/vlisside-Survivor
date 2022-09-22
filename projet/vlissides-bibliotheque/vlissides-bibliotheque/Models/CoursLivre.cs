@@ -3,19 +3,23 @@
 namespace vlissides_bibliotheque.Models
 {
     /// <summary>
-    /// Classe <c>CommandeEtudiant</c> définit la table de liaison commandeEtudiant dans la base de données.
+    /// Classe <c>CoursLivre</c> tisse un lien entre les 
+    /// cours et les livres.
     /// </summary>
-    public class CommandeEtudiant
+    public class CoursLivre
     {
         [Required]
-        public int FactureEtudiantId { get; set; }
-        public FactureEtudiant FactureEtudiant { get; set; }
+        public int CoursLivreId { get; set; }
+
+        [Required]
+        public int CoursId { get; set; }
+        public Cours Cours { get; set; }
 
         [Required]
         public int LivreBibliothequeId { get; set; }
         public LivreBibliotheque LivreBibliotheque { get; set; }
 
         [Required]
-        public int Quantite { get; set; }
+        public bool Complementaire { get; set; }
     }
 }

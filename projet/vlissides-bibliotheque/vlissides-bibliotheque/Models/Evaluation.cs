@@ -9,13 +9,13 @@ namespace vlissides_bibliotheque.Models
     {
         
         [Required]
-        public int Id { get; set; }
+        public int EvaluationId { get; set; }
 
         public Etudiant Etudiant { get; set; }
 
         [Required]
         [Range(0, 10)]
-        public int Etoile { get; set; }
+        public int Etoiles { get; set; }
 
         [Required]
         public DateTime Date { get; set; }

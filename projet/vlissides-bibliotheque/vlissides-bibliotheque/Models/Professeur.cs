@@ -3,20 +3,17 @@
 namespace vlissides_bibliotheque.Models
 {
     /// <summary>
-    /// Classe <c>Auteur</c> définit la table auteur dans la base de données.
+    /// Classe <c>Professeur</c> instancie un professeur.
     /// </summary>
-    public class Auteur
+    public class Professeur
     {
         [Required]
-        public int AuteurId { get; set; }
+        public int ProfesseurId { get; set; }
 
         [Required]
-        [StringLength(40)]
         public string Nom { get; set; }
 
         [Required]
-        [StringLength(40)]
         public string Prenom { get; set; }
-
     }
 }

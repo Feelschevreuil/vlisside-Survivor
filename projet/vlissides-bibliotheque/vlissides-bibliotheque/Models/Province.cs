@@ -3,12 +3,12 @@
 namespace vlissides_bibliotheque.Models
 {
     /// <summary>
-    /// Classe <c>TypePaiement</c> définit la table typePaiement dans la base de données.
+    /// Classe <c>Province</c> instancie une nouvelle province.
     /// </summary>
-    public class TypePaiement
+    public class Province
     {
         [Required]
-        public int TypePaiementId { get; set; }
+        public int ProvinceId { get; set; }
 
         [Required]
         public string Nom { get; set; }

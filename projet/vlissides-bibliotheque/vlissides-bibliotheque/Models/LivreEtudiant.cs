@@ -7,8 +7,9 @@ namespace vlissides_bibliotheque.Models
     /// </summary>
     public class LivreEtudiant : ILivre
     {
+        [Key]
         [Required]
-        public int Id { get; set; }
+        public int LivreId { get; set; }
 
         public Etudiant Etudiant { get; set; }
 
@@ -21,9 +22,5 @@ namespace vlissides_bibliotheque.Models
         public string Description { get; set; }
 
         public string PhotoCouverture { get; set; }
-
-        [Required]
-        public int ProgrammeEtudeId { get; set; }
-        public ProgrammeEtude ProgrammeEtude { get; set; }
     }
 }
