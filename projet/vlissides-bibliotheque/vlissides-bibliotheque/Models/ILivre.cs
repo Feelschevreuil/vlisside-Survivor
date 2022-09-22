@@ -15,9 +15,5 @@ namespace vlissides_bibliotheque.Models
         public string Titre { get; set; }
 
         public string PhotoCouverture { get; set; }
-
-        [Required]
-        public int ProgrammeEtudeId { get; set; }
-        public ProgrammeEtude ProgrammeEtude { get; set; }
     }
 }

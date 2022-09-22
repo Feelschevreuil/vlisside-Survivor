@@ -25,7 +25,7 @@ namespace vlissides_bibliotheque.Data
         public DbSet<ProgrammeEtude> ProgrammesEtudes { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<TypePaiement> TypesPaiements { get; set; }
-        public DbSet<MaisonEdition> MaisonEditions { get; set; }
+        public DbSet<MaisonEdition> MaisonsEditions { get; set; }
         public DbSet<PrixEtatLivre> PrixEtatLivres { get; set; }
         public DbSet<CoursLivre> CoursLivres { get; set; }
         public DbSet<Cours> Cours { get; set; }

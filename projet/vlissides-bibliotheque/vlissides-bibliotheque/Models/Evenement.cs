@@ -27,5 +27,8 @@ namespace vlissides_bibliotheque.Models
         [Required]
         [StringLength(512)]
         public string Description { get; set; }
+
+        [Required]
+        public string Image { get; set; }
     }
 }

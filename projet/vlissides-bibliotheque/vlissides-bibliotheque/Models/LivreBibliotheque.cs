@@ -13,10 +13,6 @@ namespace vlissides_bibliotheque.Models
         public int LivreId { get; set; }
 
         [Required]
-        public int ProgrammeEtudeId { get; set; }
-        public ProgrammeEtude ProgrammeEtude { get; set; }
-
-        [Required]
         public int MaisonEditionId { get; set; }
         public MaisonEdition MaisonEdition { get; set; }
 

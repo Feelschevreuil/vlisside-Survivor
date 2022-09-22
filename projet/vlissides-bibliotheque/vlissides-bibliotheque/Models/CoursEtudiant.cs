@@ -14,7 +14,7 @@ namespace vlissides_bibliotheque.Models
         public Cours Cours { get; set; }
 
         [Required]
-        public int EtudiantId { get; set; }
+        public string EtudiantId { get; set; }
         [Required]
         public Etudiant Etudiant { get; set; }
     }
