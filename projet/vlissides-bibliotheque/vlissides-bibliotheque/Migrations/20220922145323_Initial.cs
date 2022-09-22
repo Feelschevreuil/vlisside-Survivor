@@ -92,7 +92,7 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MaisonEditions",
+                name: "MaisonsEditions",
                 columns: table => new
                 {
                     MaisonEditionId = table.Column<int>(type: "int", nullable: false)
@@ -101,7 +101,7 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MaisonEditions", x => x.MaisonEditionId);
+                    table.PrimaryKey("PK_MaisonsEditions", x => x.MaisonEditionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -292,7 +292,8 @@ namespace vlissides_bibliotheque.Migrations
                     Nom = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Debut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Fin = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -302,6 +303,30 @@ namespace vlissides_bibliotheque.Migrations
                         column: x => x.CommanditaireId,
                         principalTable: "Commanditaires",
                         principalColumn: "CommanditaireId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LivresBibliotheques",
+                columns: table => new
+                {
+                    LivreId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MaisonEditionId = table.Column<int>(type: "int", nullable: false),
+                    Isbn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Titre = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Resume = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LivresBibliotheques", x => x.LivreId);
+                    table.ForeignKey(
+                        name: "FK_LivresBibliotheques_MaisonsEditions_MaisonEditionId",
+                        column: x => x.MaisonEditionId,
+                        principalTable: "MaisonsEditions",
+                        principalColumn: "MaisonEditionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -322,37 +347,6 @@ namespace vlissides_bibliotheque.Migrations
                     table.PrimaryKey("PK_Cours", x => x.CoursId);
                     table.ForeignKey(
                         name: "FK_Cours_ProgrammesEtudes_ProgrammeEtudeId",
-                        column: x => x.ProgrammeEtudeId,
-                        principalTable: "ProgrammesEtudes",
-                        principalColumn: "ProgrammeEtudeId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LivresBibliotheques",
-                columns: table => new
-                {
-                    LivreId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProgrammeEtudeId = table.Column<int>(type: "int", nullable: false),
-                    MaisonEditionId = table.Column<int>(type: "int", nullable: false),
-                    Isbn = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Titre = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Resume = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LivresBibliotheques", x => x.LivreId);
-                    table.ForeignKey(
-                        name: "FK_LivresBibliotheques_MaisonEditions_MaisonEditionId",
-                        column: x => x.MaisonEditionId,
-                        principalTable: "MaisonEditions",
-                        principalColumn: "MaisonEditionId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LivresBibliotheques_ProgrammesEtudes_ProgrammeEtudeId",
                         column: x => x.ProgrammeEtudeId,
                         principalTable: "ProgrammesEtudes",
                         principalColumn: "ProgrammeEtudeId",
@@ -384,30 +378,6 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CoursProfesseurs",
-                columns: table => new
-                {
-                    ProfesseurId = table.Column<int>(type: "int", nullable: false),
-                    CoursId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CoursProfesseurs", x => new { x.CoursId, x.ProfesseurId });
-                    table.ForeignKey(
-                        name: "FK_CoursProfesseurs_Cours_CoursId",
-                        column: x => x.CoursId,
-                        principalTable: "Cours",
-                        principalColumn: "CoursId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CoursProfesseurs_Professeur_ProfesseurId",
-                        column: x => x.ProfesseurId,
-                        principalTable: "Professeur",
-                        principalColumn: "ProfesseurId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AuteursLivres",
                 columns: table => new
                 {
@@ -425,6 +395,33 @@ namespace vlissides_bibliotheque.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AuteursLivres_LivresBibliotheques_LivreBibliothequeId",
+                        column: x => x.LivreBibliothequeId,
+                        principalTable: "LivresBibliotheques",
+                        principalColumn: "LivreId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrixEtatLivres",
+                columns: table => new
+                {
+                    PrixEtatLivreId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EtatLivreId = table.Column<int>(type: "int", nullable: false),
+                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
+                    Prix = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrixEtatLivres", x => x.PrixEtatLivreId);
+                    table.ForeignKey(
+                        name: "FK_PrixEtatLivres_EtatsLivres_EtatLivreId",
+                        column: x => x.EtatLivreId,
+                        principalTable: "EtatsLivres",
+                        principalColumn: "EtatLivreId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PrixEtatLivres_LivresBibliotheques_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
                         principalTable: "LivresBibliotheques",
                         principalColumn: "LivreId",
@@ -458,29 +455,26 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrixEtatLivres",
+                name: "CoursProfesseurs",
                 columns: table => new
                 {
-                    PrixEtatLivreId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EtatLivreId = table.Column<int>(type: "int", nullable: false),
-                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
-                    Prix = table.Column<double>(type: "float", nullable: false)
+                    ProfesseurId = table.Column<int>(type: "int", nullable: false),
+                    CoursId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrixEtatLivres", x => x.PrixEtatLivreId);
+                    table.PrimaryKey("PK_CoursProfesseurs", x => new { x.CoursId, x.ProfesseurId });
                     table.ForeignKey(
-                        name: "FK_PrixEtatLivres_EtatsLivres_EtatLivreId",
-                        column: x => x.EtatLivreId,
-                        principalTable: "EtatsLivres",
-                        principalColumn: "EtatLivreId",
+                        name: "FK_CoursProfesseurs_Cours_CoursId",
+                        column: x => x.CoursId,
+                        principalTable: "Cours",
+                        principalColumn: "CoursId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PrixEtatLivres_LivresBibliotheques_LivreBibliothequeId",
-                        column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
-                        principalColumn: "LivreId",
+                        name: "FK_CoursProfesseurs_Professeur_ProfesseurId",
+                        column: x => x.ProfesseurId,
+                        principalTable: "Professeur",
+                        principalColumn: "ProfesseurId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -524,8 +518,7 @@ namespace vlissides_bibliotheque.Migrations
                 columns: table => new
                 {
                     CoursId = table.Column<int>(type: "int", nullable: false),
-                    EtudiantId = table.Column<int>(type: "int", nullable: false),
-                    EtudiantId1 = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -537,8 +530,8 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "CoursId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoursEtudiant_Etudiants_EtudiantId1",
-                        column: x => x.EtudiantId1,
+                        name: "FK_CoursEtudiant_Etudiants_EtudiantId",
+                        column: x => x.EtudiantId,
                         principalTable: "Etudiants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -551,7 +544,7 @@ namespace vlissides_bibliotheque.Migrations
                     EvaluationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Etoile = table.Column<int>(type: "int", nullable: false),
+                    Etoiles = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Titre = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     Commentaire = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false)
@@ -612,8 +605,7 @@ namespace vlissides_bibliotheque.Migrations
                     EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Titre = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProgrammeEtudeId = table.Column<int>(type: "int", nullable: false)
+                    PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -623,12 +615,6 @@ namespace vlissides_bibliotheque.Migrations
                         column: x => x.EtudiantId,
                         principalTable: "Etudiants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LivresEtudiants_ProgrammesEtudes_ProgrammeEtudeId",
-                        column: x => x.ProgrammeEtudeId,
-                        principalTable: "ProgrammesEtudes",
-                        principalColumn: "ProgrammeEtudeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -661,7 +647,8 @@ namespace vlissides_bibliotheque.Migrations
                 columns: table => new
                 {
                     FactureEtudiantId = table.Column<int>(type: "int", nullable: false),
-                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false)
+                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
+                    Quantite = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -693,7 +680,7 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", false, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEEuC5pUe/AkDA0oqhmme7gQ0y5I6YgXvcHI8kFXlsfmtzoAaB+bf04Nft3HGm0+aBA==", null, false, "56eabc65-38f1-4600-922a-4be554fca1bc", false, "gordon.john@gunclub-alabama.us" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", false, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEHHmaMv8NaXDuehYldZ0/LcjvYMjTmMblXsg1BxOH466RFgE2XfKKYuy+piyhqYLAQ==", null, false, "fa9a75c2-f734-4fda-8c9d-dfc2628e1790", false, "gordon.john@gunclub-alabama.us" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
@@ -775,9 +762,9 @@ namespace vlissides_bibliotheque.Migrations
                 column: "ProgrammeEtudeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoursEtudiant_EtudiantId1",
+                name: "IX_CoursEtudiant_EtudiantId",
                 table: "CoursEtudiant",
-                column: "EtudiantId1");
+                column: "EtudiantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CoursLivres_CoursId",
@@ -845,19 +832,9 @@ namespace vlissides_bibliotheque.Migrations
                 column: "MaisonEditionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivresBibliotheques_ProgrammeEtudeId",
-                table: "LivresBibliotheques",
-                column: "ProgrammeEtudeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_LivresEtudiants_EtudiantId",
                 table: "LivresEtudiants",
                 column: "EtudiantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LivresEtudiants_ProgrammeEtudeId",
-                table: "LivresEtudiants",
-                column: "ProgrammeEtudeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrixEtatLivres_EtatLivreId",
@@ -948,7 +925,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Etudiants");
 
             migrationBuilder.DropTable(
-                name: "MaisonEditions");
+                name: "MaisonsEditions");
 
             migrationBuilder.DropTable(
                 name: "Adresses");
