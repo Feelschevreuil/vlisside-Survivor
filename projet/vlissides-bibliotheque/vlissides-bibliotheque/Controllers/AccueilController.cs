@@ -45,6 +45,27 @@ namespace vlissides_bibliotheque.Controllers
             return View();
         }
 
+        public IActionResult Actualiter()
+        {
+            Commanditaire commanditaire = new Commanditaire() { Courriel = "aaaaaaa@gmail.cum", Id = 0, Message = "VENEZ ACHETER NOS DÉLICIEUX BISCUITS", Nom = "BakeryChezMarki's", Url = "http//BiscuitsChezMary's.cum" }; 
+            
+           
+
+            List<Evenement> listEvenements = new()
+            {
+
+               new Evenement(){Id=0,Commanditaire= commanditaire,CommanditaireId=0,Debut=DateTime.Now, Fin=DateTime.MaxValue,Description=commanditaire.Message,Nom="Pomme"},
+               
+               new Evenement(){Id=0,Commanditaire= commanditaire,CommanditaireId=0,Debut=DateTime.MinValue, Fin=DateTime.MaxValue,Description=commanditaire.Message,Nom="Banane"}
+
+
+            };
+
+
+            return View(listEvenements);
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
