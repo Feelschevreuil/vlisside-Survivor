@@ -7,6 +7,7 @@ namespace vlissides_bibliotheque.Models
     /// </summary>
     public class LivreEtudiant : ILivre
     {
+        [Key]
         [Required]
         public int LivreId { get; set; }
 
