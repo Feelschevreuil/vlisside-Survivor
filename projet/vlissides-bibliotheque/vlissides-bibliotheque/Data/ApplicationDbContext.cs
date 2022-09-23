@@ -144,6 +144,7 @@ namespace vlissides_bibliotheque.Data
             builder.Entity<Utilisateur>().HasData(new Utilisateur() {
                 Id = USER_ADMIN_ID,
                 Email = "gordon.john@gunclub-alabama.us",
+		EmailConfirmed = true,
                 NormalizedEmail = "gordon.john@gunclub-alabama.us".ToUpper(),
                 UserName = "gordon.john@gunclub-alabama.us",
                 NormalizedUserName = "gordon.john@gunclub-alabama.us".ToUpper(),
