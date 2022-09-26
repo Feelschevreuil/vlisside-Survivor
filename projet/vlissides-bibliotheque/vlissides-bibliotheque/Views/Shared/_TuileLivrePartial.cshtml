@@ -1,7 +1,7 @@
 ﻿@model EvaluationLivre
 
 @{
-int nbrEtoile = Model.Evaluation.Etoile;
+    int nbrEtoile = Model.Evaluation.Etoile;
 }
 
 
@@ -15,49 +15,50 @@ int nbrEtoile = Model.Evaluation.Etoile;
         <p class="card-text">Nom du professeur</p>
         <p class="card-text">Année relier au programme</p>
     </div>
-   
+
     <footer>
         <div class="card-body">
 
-        <div id="rating" class="star-rating" role="img" data-rating="3">
+            <div id="rating" class="star-rating" role="img" data-rating="3">
 
-          
 
-            @for (int etoile_vide = 0; etoile_vide< 5; etoile_vide++ ){
-                @while (nbrEtoile > 0)
-            {
-                    if (nbrEtoile >= 2)
+
+                @for (int etoile_vide = 0; etoile_vide < 5; etoile_vide++)
+                {
+                    @while (nbrEtoile > 0)
                     {
-                        nbrEtoile = nbrEtoile - 2;
-                        etoile_vide++;
+                        if (nbrEtoile >= 2)
+                        {
+                            nbrEtoile = nbrEtoile - 2;
+                            etoile_vide++;
+                            <span class="star" data-value="">
+                                <img style="width: 0.7rem; margin-top: -3px;" src="/img/etoile-pleine.svg">
+                                <span class="star-notification"></span>
+                            </span>
+                        }
+
+                        if (nbrEtoile == 1)
+                        {
+                            nbrEtoile = nbrEtoile - 1;
+                            etoile_vide++;
+                            <span class="star" data-value="">
+                                <img style="width: 0.7rem; margin-top: -3px;" src="/img/demi-etoile.svg">
+                                <span class="star-notification"></span>
+                            </span>
+
+                        }
+                    }
+
+                    if (etoile_vide != 5)
+                    {
                         <span class="star" data-value="">
-                            <img style="width: 0.7rem; margin-top: -3px;" src="/img/etoile-pleine.svg"><span class="star-notification"></span></span>
+                            <img style="width: 0.7rem; margin-top: -3px;" src="/img/etoile-vide.svg">
+                            <span class="star-notification"></span>
+                        </span>
                     }
-
-                    if(nbrEtoile==1){
-                        nbrEtoile = nbrEtoile - 1;
-                        etoile_vide++;
-                        <span class="star" data-value="">  <img style="width: 0.7rem; margin-top: -3px;" src="/img/demi-etoile.svg"> <span class="star-notification"></span></span>
-
-                    }
-            }
-
-            if(etoile_vide != 5){
-                <span class="star" data-value="">
-                    <img style="width: 0.7rem; margin-top: -3px;" src="/img/etoile-vide.svg"><span class="star-notification">
-                    </span>
-                </span>
-            }
-            }
-            <p class="d-inline-block">Prix: 1234$</p>
+                }
+                <p class="d-inline-block">Prix: 1234$</p>
+            </div>
         </div>
-
-
-          
-        
-        
-      
-    </div>
     </footer>
-
 </div>
