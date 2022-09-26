@@ -3,7 +3,7 @@ using System.Net.NetworkInformation;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 
-namespace vlissides_bibliotheque.Extensions
+namespace vlissides_bibliotheque
 {
     public static class UtilisateurExtension
     {
