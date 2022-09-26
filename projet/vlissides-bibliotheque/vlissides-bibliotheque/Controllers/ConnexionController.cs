@@ -126,7 +126,7 @@ namespace vlissides_bibliotheque.Controllers
                 }
             }
 
-            vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), "Id", "Nom");
+            vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
 
             return View(vm);
         }
