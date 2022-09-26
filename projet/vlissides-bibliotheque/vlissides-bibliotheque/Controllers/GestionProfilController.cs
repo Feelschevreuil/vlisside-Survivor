@@ -34,8 +34,21 @@ namespace vlissides_bibliotheque.Controllers
         {
             Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
-            InscriptionVM vm = new() {
-                ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom))
+            Adresse adresseLivraison = utilisateurCourant.GetAdresseLivraison(_context);
+
+            Adresse adresseFacturation = utilisateurCourant.GetAdresseFacturation(_context);
+
+            GestionProfilVM vm = new() {
+                Courriel = utilisateurCourant.Email,
+                Nom = utilisateurCourant.Nom,
+                Prenom = utilisateurCourant.Prenom,
+                NoTelephone = utilisateurCourant.PhoneNumber,
+                ProgrammeEtudeId = utilisateurCourant.ProgrammeEtudeId,
+                ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
+                AdresseFacturationId = adresseFacturation.AdresseId,
+                AdresseFacturation = adresseFacturation,
+                AdresseLivraisonId = adresseLivraison.AdresseId,
+                AdresseLivraison = adresseLivraison,
             };
             return View(vm);
         }
