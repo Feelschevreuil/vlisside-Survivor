@@ -30,8 +30,10 @@ namespace vlissides_bibliotheque.Controllers
         /// </summary>
         /// <returns>¨Page de modification d'utilisateur.</returns>
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+            Utilisateur utilisateurCourant = await GetUtilisateurCourantAsync();
+
             InscriptionVM vm = new() {
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom))
             };
@@ -89,6 +91,11 @@ namespace vlissides_bibliotheque.Controllers
             vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
 
             return View(vm);
+        }
+
+        public async Task<Utilisateur> GetUtilisateurCourantAsync()
+        {
+            return await _userManager.GetUserAsync(HttpContext.User);
         }
     }
 }
