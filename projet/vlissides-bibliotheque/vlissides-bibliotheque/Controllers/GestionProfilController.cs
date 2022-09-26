@@ -25,17 +25,12 @@ namespace vlissides_bibliotheque.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         /// <summary>
-        /// Retourne la page de création d'un nouvel utilisateur.
+        /// Retourne la page de modification de utilisateur courant.
         /// </summary>
-        /// <returns>Page d'inscription.</returns>
+        /// <returns>¨Page de modification d'utilisateur.</returns>
         [HttpGet]
-        public IActionResult Inscription()
+        public IActionResult Index()
         {
             InscriptionVM vm = new() {
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom))
@@ -44,7 +39,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InscriptionAsync(InscriptionVM vm)
+        public async Task<IActionResult> IndexAsync(InscriptionVM vm)
         {
             if (ModelState.IsValid) {
 
