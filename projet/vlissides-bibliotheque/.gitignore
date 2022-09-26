@@ -415,3 +415,6 @@ FodyWeavers.xsd
 
 # connection strings pour les bases de données
 appsettings.json
+
+# base de données sqlite (Pour les systèmes UNIX)
+pi.db
