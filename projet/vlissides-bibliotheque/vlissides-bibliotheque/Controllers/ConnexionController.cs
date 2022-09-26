@@ -73,7 +73,7 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult Inscription()
         {
             InscriptionVM vm = new() {
-                ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), "Id", "Nom")
+                ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.Id), nameof(ProgrammeEtude.Nom))
             };
             return View(vm);
         }
