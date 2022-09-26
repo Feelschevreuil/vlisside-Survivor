@@ -10,13 +10,13 @@ namespace vlissides_bibliotheque.Controllers
 {
     public class GestionProfilController : Controller
     {
-        private readonly SignInManager<Utilisateur> _signInManager;
-        private readonly UserManager<Utilisateur> _userManager;
+        private readonly SignInManager<Etudiant> _signInManager;
+        private readonly UserManager<Etudiant> _userManager;
         private readonly ApplicationDbContext _context;
 
         public GestionProfilController(
-            SignInManager<Utilisateur> signInManager,
-            UserManager<Utilisateur> userManager,
+            SignInManager<Etudiant> signInManager,
+            UserManager<Etudiant> userManager,
             ApplicationDbContext context
             )
         {
@@ -26,13 +26,13 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         /// <summary>
-        /// Retourne la page de modification de utilisateur courant.
+        /// Retourne la page de modification de l'étudiant courant.
         /// </summary>
-        /// <returns>¨Page de modification d'utilisateur.</returns>
+        /// <returns>¨Page de modification d'étudiant.</returns>
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
-            Utilisateur utilisateurCourant = await GetUtilisateurCourantAsync();
+            Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
             InscriptionVM vm = new() {
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom))
@@ -93,7 +93,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(vm);
         }
 
-        public async Task<Utilisateur> GetUtilisateurCourantAsync()
+        public async Task<Etudiant> GetUtilisateurCourantAsync()
         {
             return await _userManager.GetUserAsync(HttpContext.User);
         }
