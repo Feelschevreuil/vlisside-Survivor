@@ -73,7 +73,7 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult Inscription()
         {
             InscriptionVM vm = new() {
-                ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.Id), nameof(ProgrammeEtude.Nom))
+                ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom))
             };
             return View(vm);
         }
@@ -102,9 +102,9 @@ namespace vlissides_bibliotheque.Controllers
                     Prenom = vm.Prenom,
                     PhoneNumber = vm.NoTelephone,
                     ProgrammeEtudeId = vm.ProgrammeEtudeId,
-                    AdresseFacturationId = adresse.Id,
+                    AdresseFacturationId = adresse.AdresseId,
                     AdresseFacturation = adresse,
-                    AdresseLivraisonId = adresse.Id,
+                    AdresseLivraisonId = adresse.AdresseId,
                     AdresseLivraison = adresse
                 };
 
