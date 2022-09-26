@@ -7,27 +7,22 @@ namespace vlissides_bibliotheque.Extensions
 {
     public static class UtilisateurExtension
     {
-        private readonly ApplicationDbContext _context;
-
-        public UtilisateurExtension(ApplicationDbContext context)
+        public static Adresse GetAdresseLivraison(this Etudiant etudiant, ApplicationDbContext context)
         {
-            _context = context;
+            int adresseLivraisonId = etudiant.AdresseLivraisonId;
+
+            Adresse adresseLivraison = context.Adresses.Find(adresseLivraisonId);
+
+            return adresseLivraison;
         }
 
-        public static Etudiant GetAdresseLivraison(this Etudiant etudiant)
+        public static Adresse GetAdresseFacturation(this Etudiant etudiant, ApplicationDbContext context)
         {
-            int adresseId = etudiant.AdresseLivraisonId;
+            int adresseFacturationId = etudiant.AdresseFacturationId;
 
+            Adresse adresseFacturation = context.Adresses.Find(adresseFacturationId);
 
-
-            return 
-        }
-
-        public static Etudiant GetAdresseFacturation(this Etudiant etudiant)
-        {
-            int adresseId = etudiant.AdresseFacturationId;
-
-            return
+            return adresseFacturation;
         }
     }
 }
