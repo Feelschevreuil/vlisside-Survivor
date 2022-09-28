@@ -290,43 +290,23 @@ namespace seeder {
 			return new List<ProgrammeEtude> {
 				new ProgrammeEtude() {
 					ProgrammeEtudeId = 1,
-					Nom = "Techniques de l'informatique"
+					Nom = "Techniques de tourisme",
+					Code = "414"
 				},
 				new ProgrammeEtude() {
 					ProgrammeEtudeId = 2,
-					Nom = "Techniques de tourisme"
+					Nom = "Sciences de la Nature",
+					Code = "201"
 				},
 				new ProgrammeEtude() {
 					ProgrammeEtudeId = 3,
-					Nom = "Technologie du génie életrique"
+					Nom = "Techniques d'éducatoin spécialisée",
+					Code = "351"
 				},
 				new ProgrammeEtude() {
 					ProgrammeEtudeId = 4,
-					Nom = "Technologie du génie industriel"
-				},
-				new ProgrammeEtude() {
-					ProgrammeEtudeId = 5,
-					Nom = "Techniques de génie mécanique"
-				},
-				new ProgrammeEtude() {
-					ProgrammeEtudeId = 6,
-					Nom = "Techniques de comptabilité et de gestion"
-				},
-				new ProgrammeEtude() {
-					ProgrammeEtudeId = 7,
-					Nom = "Techniques d'éducation spécialisée"
-				},
-				new ProgrammeEtude() {
-					ProgrammeEtudeId = 8,
-					Nom = "Techniques d'éducation à l'enfance"
-				},
-				new ProgrammeEtude() {
-					ProgrammeEtudeId = 9,
-					Nom = "Soins infirmiers"
-				},
-				new ProgrammeEtude() {
-					ProgrammeEtudeId = 10,
-					Nom = "Gestion de commerces"
+					Nom = "Techniques de génie mécanique",
+					Code = "241"
 				}
 			};
 		}
