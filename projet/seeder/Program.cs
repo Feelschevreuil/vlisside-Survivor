@@ -4,11 +4,14 @@ using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Data;
 using System.Linq;
 
-namespace seeder {
+namespace seeder
+{
 
-    class Program {
+    class Program
+    {
 
-        public static void Main(String[] args) {
+        public static void Main(String[] args)
+        {
 
             var context = DbContextBibliotheque.CreateDbContext();
 
@@ -67,7 +70,7 @@ namespace seeder {
             context.TypesPaiements
                 .RemoveRange(context.TypesPaiements);
             // FIN Enlever les données
-            
+
             // TODO: ranme Province à Provices
             context.Province.AddRange(getProvinces());
 
@@ -99,7 +102,8 @@ namespace seeder {
         /// Crée une liste de provinces.
         /// </summary>
         /// <returns>Les provinces en liste.</returns>
-        private static List<Province> getProvinces() {
+        private static List<Province> getProvinces()
+        {
 
             return new List<Province> {
                 new Province() {
@@ -117,7 +121,8 @@ namespace seeder {
         /// Crée une liste d'Adresses.
         /// </summary>
         /// <returns>Les adresses en liste.</returns>
-        private static List<Adresse> getAdresses() {
+        private static List<Adresse> getAdresses()
+        {
 
             return new List<Adresse> {
                 new Adresse() {
@@ -216,7 +221,8 @@ namespace seeder {
         /// Crée une liste d'Auteurs.
         /// </summary>
         /// <returns>Les auteurs liste.</returns>
-        private static List<Auteur> getAuteurs() {
+        private static List<Auteur> getAuteurs()
+        {
 
             return new List<Auteur> {
                 new Auteur() {
@@ -276,8 +282,9 @@ namespace seeder {
         /// Crée une liste des États des livres.
         /// </summary>
         /// <returns>Les États des livres en liste.</returns>
-        private static List<EtatLivre> getEtatsLivres() {
-            
+        private static List<EtatLivre> getEtatsLivres()
+        {
+
             return new List<EtatLivre> {
                 new EtatLivre() {
                     EtatLivreId = 1,
@@ -298,8 +305,9 @@ namespace seeder {
         /// Crée une liste des programmes d'études.
         /// </summary>
         /// <returns>Les programmes d'études en liste.</returns>
-        private static List<ProgrammeEtude> getProgrammesEtudes() {
-            
+        private static List<ProgrammeEtude> getProgrammesEtudes()
+        {
+
             return new List<ProgrammeEtude> {
                 new ProgrammeEtude() {
                     ProgrammeEtudeId = 1,
@@ -333,7 +341,8 @@ namespace seeder {
         /// Crée une liste des livres des cours.
         /// </summary>
         /// <returns>Les cours liste.</returns>
-        private static List<Cours> getListeCours() {
+        private static List<Cours> getListeCours()
+        {
 
             return new List<Cours> {
                 new Cours() {
@@ -495,7 +504,8 @@ namespace seeder {
         /// Crée une liste des livres des maisons d'éditoin.
         /// </summary>
         /// <returns>Les maisons d'éditoin en liste.</returns>
-        private static List<MaisonEdition> getMaisonsEdition() {
+        private static List<MaisonEdition> getMaisonsEdition()
+        {
             return new List<MaisonEdition> {
                 new MaisonEdition() {
                     MaisonEditionId = 1,
@@ -528,7 +538,8 @@ namespace seeder {
         /// Crée une liste des livres de la bibliothèque.
         /// </summary>
         /// <returns>Les livres de la bibliothèque en liste.</returns>
-        private static List<LivreBibliotheque> getLivresBibliotheques() {
+        private static List<LivreBibliotheque> getLivresBibliotheques()
+        {
 
             return new List<LivreBibliotheque> {
                 new LivreBibliotheque() {

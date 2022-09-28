@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Builder; 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +9,11 @@ using System.Runtime.InteropServices;
 
 namespace seeder
 {
-    class DbContextBibliotheque {
+    class DbContextBibliotheque
+    {
 
-        public static ApplicationDbContext CreateDbContext() {
+        public static ApplicationDbContext CreateDbContext()
+        {
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -20,12 +22,12 @@ namespace seeder
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-                string connectionString;
+            string connectionString;
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) 
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 connectionString = configuration.GetConnectionString("mssql") ?? throw new InvalidOperationException("Connection string 'mssql' not found.");
-            
+
                 builder.UseSqlServer(connectionString);
             }
             else
