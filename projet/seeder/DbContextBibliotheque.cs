@@ -1,13 +1,8 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc;
 using vlissides_bibliotheque.Data;
 
-namespace seeder {
-	class DbContextBibliotheque {
+namespace seeder
+{
+           class DbContextBibliotheque {
 
 		public static ApplicationDbContext CreateDbContext() {
 
@@ -17,11 +12,10 @@ namespace seeder {
 				.Build();
 
 			var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-			var connectionString = configuration.GetConnectionString("mssql");
-			builder.UseSqlServer(connectionString);
+
+			BuilderServices.ApplyConnectionString(builder);
 
 			return new ApplicationDbContext(builder.Options);
 		}
 	}
 }
-
