@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Data;
 
-namespace seeder {
+namespace vlissides_bibliotheque.Services {
 
 	/// <summary>
 	/// Classe <c>BuilderServices</c> possède les services pour <c>WebApplicationBuilder</c>.
@@ -35,6 +35,8 @@ namespace seeder {
 			    )
 			);
 		    }
+
+		    Console.WriteLine("Connection string: " + connectionString);
 		}
 	}
 }

@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore; 
+using Microsoft.Extensions.Configuration;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.Services;
 
 namespace seeder
 {
