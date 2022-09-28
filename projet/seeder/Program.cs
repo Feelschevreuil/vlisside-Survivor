@@ -83,6 +83,8 @@ namespace seeder {
 
 			context.Cours.AddRange(getListeCours());
 
+			// Save changes ici, puisqu'un problème de mémoire
+			// arrivait si on enregistrait tout à la fin.
 			context.SaveChanges();
 
 			context.MaisonsEditions.AddRange(getMaisonsEdition());
