@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -11,7 +12,7 @@ namespace vlissides_bibliotheque
         {
             int adresseLivraisonId = etudiant.AdresseLivraisonId;
 
-            Adresse adresseLivraison = context.Adresses.Find(adresseLivraisonId);
+            Adresse adresseLivraison = context.Adresses.Include().Find(adresseLivraisonId);
 
             return adresseLivraison;
         }
