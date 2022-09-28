@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
-using seeder;
 
 namespace vlissides_bibliotheque
 {
