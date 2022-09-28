@@ -54,6 +54,9 @@ namespace seeder {
 			context.ProgrammesEtudes
 				.RemoveRange(context.ProgrammesEtudes);
 
+			context.MaisonsEditions
+				.RemoveRange(context.MaisonsEditions);
+
 			context.Utilisateurs
 				.RemoveRange(context.Utilisateurs);
 
@@ -70,6 +73,8 @@ namespace seeder {
 			context.EtatsLivres.AddRange(getEtatsLivres());
 
 			context.ProgrammesEtudes.AddRange(getProgrammesEtudes());
+
+			context.MaisonsEditions.AddRange(getMaisonsEdition());
 
 			// TODO: rename LivresBibliotheques à LivresBibliotheque
 			context.LivresBibliotheques.AddRange(getLivresBibliotheques());
@@ -322,6 +327,39 @@ namespace seeder {
 				new ProgrammeEtude() {
 					ProgrammeEtudeId = 10,
 					Nom = "Gestion de commerces"
+				}
+			};
+		}
+
+		/// <summary>
+		/// Crée une liste des livres des maisons d'éditoin.
+		/// </summary>
+		/// <returns>Les maisons d'éditoin en liste.</returns>
+		private static List<MaisonEdition> getMaisonsEdition() {
+			return new List<MaisonEdition> {
+				new MaisonEdition() {
+					MaisonEditionId = 1,
+					Nom = "OpenBSD"
+				},
+				new MaisonEdition() {
+					MaisonEditionId = 2,
+					Nom = "NetBSD"
+				},
+				new MaisonEdition() {
+					MaisonEditionId = 3,
+					Nom = "FreeBSD"
+				},
+				new MaisonEdition() {
+					MaisonEditionId = 4,
+					Nom = "*nix"
+				},
+				new MaisonEdition() {
+					MaisonEditionId = 5,
+					Nom = "GNU/Linux"
+				},
+				new MaisonEdition() {
+					MaisonEditionId = 6,
+					Nom = "Minix"
 				}
 			};
 		}
