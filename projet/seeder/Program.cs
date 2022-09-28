@@ -2,6 +2,7 @@
 using FizzWare.NBuilder;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Data;
+using System.Linq;
 
 namespace seeder {
 
@@ -54,6 +55,9 @@ namespace seeder {
 			context.ProgrammesEtudes
 				.RemoveRange(context.ProgrammesEtudes);
 
+			context.Cours
+				.RemoveRange(context.Cours);
+
 			context.MaisonsEditions
 				.RemoveRange(context.MaisonsEditions);
 
@@ -73,6 +77,12 @@ namespace seeder {
 			context.EtatsLivres.AddRange(getEtatsLivres());
 
 			context.ProgrammesEtudes.AddRange(getProgrammesEtudes());
+
+			context.SaveChanges();
+
+			context.Cours.AddRange(getListeCours());
+
+			context.SaveChanges();
 
 			context.MaisonsEditions.AddRange(getMaisonsEdition());
 
@@ -307,6 +317,173 @@ namespace seeder {
 					ProgrammeEtudeId = 4,
 					Nom = "Techniques de génie mécanique",
 					Code = "241"
+				},
+				new ProgrammeEtude() {
+					ProgrammeEtudeId = 5,
+					Nom = "Formation générale",
+					Code = "x"
+				}
+			};
+		}
+
+		/// <summary>
+		/// Crée une liste des livres des cours.
+		/// </summary>
+		/// <returns>Les cours liste.</returns>
+		private static List<Cours> getListeCours() {
+
+			return new List<Cours> {
+				new Cours() {
+					CoursId = 1,
+					ProgrammeEtudeId = 1,
+					Nom = "Exploration des carrières en tourisme",
+					Description = "N/A",
+					Code = "414313CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 2,
+					ProgrammeEtudeId = 1,
+					Nom = "Introduction au programme de Tourisme",
+					Description = "N/A",
+					Code = "414133CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 3,
+					ProgrammeEtudeId = 1,
+					Nom = "Accueil et service à la clientèle",
+					Description = "N/A",
+					Code = "414154CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 4,
+					ProgrammeEtudeId = 1,
+					Nom = "Destinations touristiques : les Amériques",
+					Description = "N/A",
+					Code = "414234CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 5,
+					ProgrammeEtudeId = 1,
+					Nom = "Communication et supervision",
+					Description = "N/A",
+					Code = "414323CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 6,
+					ProgrammeEtudeId = 5,
+					Nom = "Écriture et littérature",
+					Description = "N/A",
+					Code = "601101MQ",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 7,
+					ProgrammeEtudeId = 5,
+					Nom = "Littérature et imaginaire",
+					Description = "N/A",
+					Code = "601102MQ",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 8,
+					ProgrammeEtudeId = 2,
+					Nom = "Calcul intégral",
+					Description = "N/A",
+					Code = "201NYB05",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 9,
+					ProgrammeEtudeId = 2,
+					Nom = "Chimie des solutions",
+					Description = "N/A",
+					Code = "202NYB05",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 10,
+					ProgrammeEtudeId = 2,
+					Nom = "Électricité et magnétisme",
+					Description = "N/A",
+					Code = "203NYB05",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 11,
+					ProgrammeEtudeId = 5,
+					Nom = "Astrophysique",
+					Description = "N/A",
+					Code = "203314CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 12,
+					ProgrammeEtudeId = 3,
+					Nom = "Psychologie de l’enfance",
+					Description = "N/A",
+					Code = "350114CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 13,
+					ProgrammeEtudeId = 3,
+					Nom = "Introduction aux problématiques d’adaptation",
+					Description = "N/A",
+					Code = "351124CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 14,
+					ProgrammeEtudeId = 4,
+					Nom = "Mathématiques du génie mécanique",
+					Description = "N/A",
+					Code = "201224CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 15,
+					ProgrammeEtudeId = 4,
+					Nom = "Mathématiques appliquées",
+					Description = "N/A",
+					Code = "201115CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 16,
+					ProgrammeEtudeId = 4,
+					Nom = "Statique et cinématique",
+					Description = "N/A",
+					Code = "203214CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 17,
+					ProgrammeEtudeId = 4,
+					Nom = "Techniques d’usinage 1",
+					Description = "N/A",
+					Code = "241216CA",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 18,
+					ProgrammeEtudeId = 4,
+					Nom = "Techniques d’usinage 1",
+					Description = "N/A",
+					Code = "241316",
+					AnneeParcours = 1
+				},
+				new Cours() {
+					CoursId = 19,
+					ProgrammeEtudeId = 4,
+					Nom = "Dessin industriel assisté par ordinateur",
+					Description = "N/A",
+					Code = "241225CA",
+					AnneeParcours = 1
 				}
 			};
 		}
