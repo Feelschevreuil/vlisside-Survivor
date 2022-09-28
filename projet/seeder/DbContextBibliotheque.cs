@@ -9,36 +9,36 @@ using System.Runtime.InteropServices;
 
 namespace seeder
 {
-           class DbContextBibliotheque {
+    class DbContextBibliotheque {
 
-		public static ApplicationDbContext CreateDbContext() {
+        public static ApplicationDbContext CreateDbContext() {
 
-			IConfigurationRoot configuration = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile(Directory.GetCurrentDirectory() + "/appsettings.json")
-				.Build();
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(Directory.GetCurrentDirectory() + "/appsettings.json")
+                .Build();
 
-			var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-		    	string connectionString;
+                string connectionString;
 
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) 
-			{
-			    connectionString = configuration.GetConnectionString("mssql") ?? throw new InvalidOperationException("Connection string 'mssql' not found.");
-		    
-			    builder.UseSqlServer(connectionString);
-			}
-			else
-			{
-			    connectionString = configuration.GetConnectionString("sqlite") ?? throw new InvalidOperationException("Connection string 'sqlite' not found.");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) 
+            {
+                connectionString = configuration.GetConnectionString("mssql") ?? throw new InvalidOperationException("Connection string 'mssql' not found.");
+            
+                builder.UseSqlServer(connectionString);
+            }
+            else
+            {
+                connectionString = configuration.GetConnectionString("sqlite") ?? throw new InvalidOperationException("Connection string 'sqlite' not found.");
 
-			    builder.UseSqlite(connectionString);
-			}
+                builder.UseSqlite(connectionString);
+            }
 
-			builder.EnableSensitiveDataLogging(true);
-			builder.EnableDetailedErrors(true);
+            builder.EnableSensitiveDataLogging(true);
+            builder.EnableDetailedErrors(true);
 
-			return new ApplicationDbContext(builder.Options);
-		}
-	}
+            return new ApplicationDbContext(builder.Options);
+        }
+    }
 }
