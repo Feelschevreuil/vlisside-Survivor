@@ -12,6 +12,9 @@ namespace seeder {
 			var context = DbContextBibliotheque.CreateDbContext();
 
 			// Enlever les données
+			context.Province
+				.RemoveRange(context.Province);
+
 			context.Adresses
 				.RemoveRange(context.Adresses);
 
@@ -57,6 +60,8 @@ namespace seeder {
 			context.TypesPaiements
 				.RemoveRange(context.TypesPaiements);
 			// FIN Enlever les données
+			
+			context.Province.AddRange(getProvinces());
 
 			context.Adresses.AddRange(getAdresses());
 
@@ -73,6 +78,24 @@ namespace seeder {
 		}
 
 		/// <summary>
+		/// Crée une liste de provinces.
+		/// </summary>
+		/// <returns>Les provinces en liste.</returns>
+		private static List<Province> getProvinces() {
+
+			return new List<Province> {
+				new Province() {
+					ProvinceId = 1,
+					Nom = "Québec"
+				},
+				new Province() {
+					ProvinceId = 2,
+					Nom = "Ontario"
+				}
+			};
+		}
+
+		/// <summary>
 		/// Crée une liste d'Adresses.
 		/// </summary>
 		/// <returns>Les adresses en liste.</returns>
@@ -85,7 +108,8 @@ namespace seeder {
 					NumeroCivique = 386,
 					App = 1,
 					Rue = "Distribution",
-					CodePostal = "X6X6X6"
+					CodePostal = "X6X6X6",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 1,
@@ -93,7 +117,8 @@ namespace seeder {
 					NumeroCivique = 666,
 					App = 69,
 					Rue = "Roadin Bud",
-					CodePostal = "X0X1X1"
+					CodePostal = "X0X1X1",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 2,
@@ -101,14 +126,16 @@ namespace seeder {
 					NumeroCivique = 30,
 					App = 3,
 					Rue = "Open",
-					CodePostal = "X1X1X1"
+					CodePostal = "X1X1X1",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 3,
 					Ville = "systemagic",
 					NumeroCivique = 31,
 					Rue = "BSD",
-					CodePostal = "X2X2X2"
+					CodePostal = "X2X2X2",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 4,
@@ -116,7 +143,8 @@ namespace seeder {
 					NumeroCivique = 32,
 					App = 23,
 					Rue = "Software",
-					CodePostal = "X3X3X3"
+					CodePostal = "X3X3X3",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 5,
@@ -124,7 +152,8 @@ namespace seeder {
 					NumeroCivique = 33,
 					App = 33,
 					Rue = "Barbian2",
-					CodePostal = "X4X4X4"
+					CodePostal = "X4X4X4",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 6,
@@ -132,7 +161,8 @@ namespace seeder {
 					NumeroCivique = 34,
 					App = 43,
 					Rue = "Legend",
-					CodePostal = "X5X5X5"
+					CodePostal = "X5X5X5",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 7,
@@ -140,7 +170,8 @@ namespace seeder {
 					NumeroCivique = 35,
 					App = 53,
 					Rue = "CARP",
-					CodePostal = "X7X7X7"
+					CodePostal = "X7X7X7",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 8,
@@ -148,7 +179,8 @@ namespace seeder {
 					NumeroCivique = 36,
 					App = 63,
 					Rue = "Puff",
-					CodePostal = "X8X8X8"
+					CodePostal = "X8X8X8",
+					ProvinceId = 1
 				},
 				new Adresse() {
 					AdresseId = 9,
@@ -156,7 +188,8 @@ namespace seeder {
 					NumeroCivique = 37,
 					App = 73,
 					Rue = "OS",
-					CodePostal = "X9X9X9"
+					CodePostal = "X9X9X9",
+					ProvinceId = 1
 				}
 			};
 		}
