@@ -63,5 +63,9 @@ namespace vlissides_bibliotheque.ViewModels
         [Display(Name = "No de téléphone")]
         [DataType(DataType.PhoneNumber)]
         public string NoTelephone { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        public int ProvinceId { get; set; }
+        public SelectList Provinces { get; set; }
     }
 }
