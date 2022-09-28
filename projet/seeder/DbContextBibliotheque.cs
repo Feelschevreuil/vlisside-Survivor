@@ -1,7 +1,12 @@
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.AspNetCore.Builder; 
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore; 
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using vlissides_bibliotheque.Data;
-using vlissides_bibliotheque.Services;
+using System.Runtime.InteropServices;
 
 namespace seeder
 {
@@ -16,7 +21,20 @@ namespace seeder
 
 			var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-			BuilderServices.ApplyConnectionString(builder);
+		    	string connectionString;
+
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) 
+			{
+			    connectionString = configuration.GetConnectionString("mssql") ?? throw new InvalidOperationException("Connection string 'mssql' not found.");
+		    
+			    builder.UseSqlServer(connectionString);
+			}
+			else
+			{
+			    connectionString = configuration.GetConnectionString("sqlite") ?? throw new InvalidOperationException("Connection string 'sqlite' not found.");
+
+			    builder.UseSqlite(connectionString);
+			}
 
 			return new ApplicationDbContext(builder.Options);
 		}
