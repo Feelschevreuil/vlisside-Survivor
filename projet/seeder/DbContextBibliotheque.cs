@@ -35,6 +35,9 @@ namespace seeder
 			    builder.UseSqlite(connectionString);
 			}
 
+			builder.EnableSensitiveDataLogging(true);
+			builder.EnableDetailedErrors(true);
+
 			return new ApplicationDbContext(builder.Options);
 		}
 	}
