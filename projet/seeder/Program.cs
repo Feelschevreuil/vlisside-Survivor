@@ -68,6 +68,8 @@ namespace seeder {
 
 			// TODO: rename LivresBibliotheques à LivresBibliotheque
 			context.LivresBibliotheques.AddRange(getLivresBibliotheques());
+
+			context.SaveChanges();
 		}
 
 		/// <summary>
