@@ -37,16 +37,59 @@ namespace vlissides_bibliotheque.ViewModels
         public int ProgrammeEtudeId { get; set; }
         public SelectList ProgrammeEtudes { get; set; }
 
-        public int AdresseFacturationId { get; set; }
-        public Adresse AdresseFacturation { get; set; }
-
-        public int AdresseLivraisonId { get; set; }
-        public Adresse AdresseLivraison { get; set; }
-
-
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "No de téléphone")]
         [DataType(DataType.PhoneNumber)]
         public string NoTelephone { get; set; }
+
+        // adresse de facturation
+        public int AdresseFacturationId { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Numéro civique")]
+        [Number]
+        public string NoCiviqueFacturation { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        public string RueFacturation { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        public string VilleFacturation { get; set; }
+
+        [Display(Name = "Numéro d'appartement")]
+        public int AppFacturation { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Code postal")]
+        [DataType(DataType.PostalCode)]
+        public string CodePostalFacturation { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        public string ProvinceFacturation { get; set; }
+
+        // adresse de livraison
+        public int AdresseLivraisonId { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Numéro civique")]
+        [Number]
+        public string NoCiviqueLivraison { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        public string RueLivraison { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        public string VilleLivraison { get; set; }
+
+        [Display(Name = "Numéro d'appartement")]
+        public int AppLivraison { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Code postal")]
+        [DataType(DataType.PostalCode)]
+        public string CodePostalLivraison { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        public string ProvinceLivraison { get; set; }
     }
 }
