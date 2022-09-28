@@ -43,8 +43,6 @@ namespace vlissides_bibliotheque.ViewModels
         public string NoTelephone { get; set; }
 
         // adresse de facturation
-        public int AdresseFacturationId { get; set; }
-
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Numéro civique")]
         [Number]
@@ -65,11 +63,9 @@ namespace vlissides_bibliotheque.ViewModels
         public string CodePostalFacturation { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public string ProvinceFacturation { get; set; }
+        public int ProvinceFacturationId { get; set; }
 
         // adresse de livraison
-        public int AdresseLivraisonId { get; set; }
-
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Numéro civique")]
         [Number]
@@ -90,6 +86,9 @@ namespace vlissides_bibliotheque.ViewModels
         public string CodePostalLivraison { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public string ProvinceLivraison { get; set; }
+        public int ProvinceLivraisonId { get; set; }
+
+        // liste des provinces
+        public SelectList Provinces { get; set; }
     }
 }

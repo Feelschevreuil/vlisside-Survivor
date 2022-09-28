@@ -45,21 +45,21 @@ namespace vlissides_bibliotheque.Controllers
                 NoTelephone = utilisateurCourant.PhoneNumber,
                 ProgrammeEtudeId = utilisateurCourant.ProgrammeEtudeId,
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
-                AdresseFacturationId = adresseFacturation.AdresseId,
                 NoCiviqueFacturation = adresseFacturation.NumeroCivique.ToString(),
                 RueFacturation = adresseFacturation.Rue,
                 VilleFacturation = adresseFacturation.Ville,
                 AppFacturation = adresseFacturation.App,
                 CodePostalFacturation = adresseFacturation.CodePostal,
-                ProvinceFacturation = adresseFacturation.Province.Nom,
-                AdresseLivraisonId = adresseLivraison.AdresseId,
+                ProvinceFacturationId = adresseFacturation.Province.ProvinceId,
                 NoCiviqueLivraison = adresseLivraison.NumeroCivique.ToString(),
                 RueLivraison = adresseLivraison.Rue,
                 VilleLivraison = adresseLivraison.Ville,
                 AppLivraison = adresseLivraison.App,
                 CodePostalLivraison = adresseLivraison.CodePostal,
-                ProvinceLivraison = adresseLivraison.Province.Nom,
+                ProvinceLivraisonId = adresseLivraison.Province.ProvinceId,
+                Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
             };
+
             return View(vm);
         }
 
