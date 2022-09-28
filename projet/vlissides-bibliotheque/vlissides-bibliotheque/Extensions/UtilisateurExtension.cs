@@ -12,7 +12,9 @@ namespace vlissides_bibliotheque
         {
             int adresseLivraisonId = etudiant.AdresseLivraisonId;
 
-            Adresse adresseLivraison = context.Adresses.Include().Find(adresseLivraisonId);
+            Adresse adresseLivraison = context.Adresses
+                .Include(a => a.Province)
+                .FirstOrDefault(a => a.AdresseId == adresseLivraisonId);
 
             return adresseLivraison;
         }
@@ -21,7 +23,9 @@ namespace vlissides_bibliotheque
         {
             int adresseFacturationId = etudiant.AdresseFacturationId;
 
-            Adresse adresseFacturation = context.Adresses.Find(adresseFacturationId);
+            Adresse adresseFacturation = context.Adresses
+                .Include(a => a.Province)
+                .FirstOrDefault(a => a.AdresseId == adresseFacturationId);
 
             return adresseFacturation;
         }
