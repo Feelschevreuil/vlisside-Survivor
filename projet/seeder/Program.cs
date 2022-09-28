@@ -78,7 +78,7 @@ namespace seeder {
 
 			return new List<Adresse> {
 				new Adresse() {
-					Id = 0,
+					AdresseId = 0,
 					Ville = "Berkeley",
 					NumeroCivique = 386,
 					App = 1,
@@ -86,7 +86,7 @@ namespace seeder {
 					CodePostal = "X6X6X6"
 				},
 				new Adresse() {
-					Id = 1,
+					AdresseId = 1,
 					Ville = "Hell",
 					NumeroCivique = 666,
 					App = 69,
@@ -94,7 +94,7 @@ namespace seeder {
 					CodePostal = "X0X1X1"
 				},
 				new Adresse() {
-					Id = 2,
+					AdresseId = 2,
 					Ville = "e-railed",
 					NumeroCivique = 30,
 					App = 3,
@@ -102,14 +102,14 @@ namespace seeder {
 					CodePostal = "X1X1X1"
 				},
 				new Adresse() {
-					Id = 3,
+					AdresseId = 3,
 					Ville = "systemagic",
 					NumeroCivique = 31,
 					Rue = "BSD",
 					CodePostal = "X2X2X2"
 				},
 				new Adresse() {
-					Id = 4,
+					AdresseId = 4,
 					Ville = "Goldflipper",
 					NumeroCivique = 32,
 					App = 23,
@@ -117,7 +117,7 @@ namespace seeder {
 					CodePostal = "X3X3X3"
 				},
 				new Adresse() {
-					Id = 5,
+					AdresseId = 5,
 					Ville = "Puff the Barbian",
 					NumeroCivique = 33,
 					App = 33,
@@ -125,7 +125,7 @@ namespace seeder {
 					CodePostal = "X4X4X4"
 				},
 				new Adresse() {
-					Id = 6,
+					AdresseId = 6,
 					Ville = "Legend of Puffy Hood",
 					NumeroCivique = 34,
 					App = 43,
@@ -133,7 +133,7 @@ namespace seeder {
 					CodePostal = "X5X5X5"
 				},
 				new Adresse() {
-					Id = 7,
+					AdresseId = 7,
 					Ville = "Redundency",
 					NumeroCivique = 35,
 					App = 53,
@@ -141,7 +141,7 @@ namespace seeder {
 					CodePostal = "X7X7X7"
 				},
 				new Adresse() {
-					Id = 8,
+					AdresseId = 8,
 					Ville = "Pond-erosa",
 					NumeroCivique = 36,
 					App = 63,
@@ -149,7 +149,7 @@ namespace seeder {
 					CodePostal = "X8X8X8"
 				},
 				new Adresse() {
-					Id = 9,
+					AdresseId = 9,
 					Ville = "Wizard",
 					NumeroCivique = 37,
 					App = 73,
@@ -167,52 +167,52 @@ namespace seeder {
 
 			return new List<Auteur> {
 				new Auteur() {
-					Id = 0,
+					AuteurId = 0,
 					Nom = "DeRaad",
 					Prenom = "Theo"
 				},
 				new Auteur() {
-					Id = 1,
+					AuteurId = 1,
 					Nom = "Stallman",
 					Prenom = "Richard"
 				},
 				new Auteur() {
-					Id = 2,
+					AuteurId = 2,
 					Nom = "Thompson",
 					Prenom = "Ken"
 				},
 				new Auteur() {
-					Id = 3,
+					AuteurId = 3,
 					Nom = "Ritchie",
 					Prenom = "Dennis"
 				},
 				new Auteur() {
-					Id = 4,
+					AuteurId = 4,
 					Nom = "Torvalds",
 					Prenom = "Linus"
 				},
 				new Auteur() {
-					Id = 5,
+					AuteurId = 5,
 					Nom = "Tanenbaum",
 					Prenom = "Andrew"
 				},
 				new Auteur() {
-					Id = 6,
+					AuteurId = 6,
 					Nom = "Kernhigan",
 					Prenom = "Brian"
 				},
 				new Auteur() {
-					Id = 7,
+					AuteurId = 7,
 					Nom = "Lovelace",
 					Prenom = "Ada"
 				},
 				new Auteur() {
-					Id = 8,
+					AuteurId = 8,
 					Nom = "Unix",
 					Prenom = "Research"
 				},
 				new Auteur() {
-					Id = 9,
+					AuteurId = 9,
 					Nom = "Al",
 					Prenom = "Et"
 				}
@@ -227,15 +227,15 @@ namespace seeder {
 			
 			return new List<EtatLivre> {
 				new EtatLivre() {
-					Id = 0,
+					EtatLivreId = 0,
 					Nom = "Neuf"
 				},
 				new EtatLivre() {
-					Id = 1,
+					EtatLivreId = 1,
 					Nom = "Usagé"
 				},
 				new EtatLivre() {
-					Id = 2,
+					EtatLivreId = 2,
 					Nom = "Digital"
 				}
 			};
@@ -249,43 +249,43 @@ namespace seeder {
 			
 			return new List<ProgrammeEtude> {
 				new ProgrammeEtude() {
-					Id = 0,
+					ProgrammeEtudeId = 0,
 					Nom = "Techniques de l'informatique"
 				},
 				new ProgrammeEtude() {
-					Id = 1,
+					ProgrammeEtudeId = 1,
 					Nom = "Techniques de tourisme"
 				},
 				new ProgrammeEtude() {
-					Id = 2,
+					ProgrammeEtudeId = 2,
 					Nom = "Technologie du génie életrique"
 				},
 				new ProgrammeEtude() {
-					Id = 3,
+					ProgrammeEtudeId = 3,
 					Nom = "Technologie du génie industriel"
 				},
 				new ProgrammeEtude() {
-					Id = 4,
+					ProgrammeEtudeId = 4,
 					Nom = "Techniques de génie mécanique"
 				},
 				new ProgrammeEtude() {
-					Id = 5,
+					ProgrammeEtudeId = 5,
 					Nom = "Techniques de comptabilité et de gestion"
 				},
 				new ProgrammeEtude() {
-					Id = 6,
+					ProgrammeEtudeId = 6,
 					Nom = "Techniques d'éducation spécialisée"
 				},
 				new ProgrammeEtude() {
-					Id = 7,
+					ProgrammeEtudeId = 7,
 					Nom = "Techniques d'éducation à l'enfance"
 				},
 				new ProgrammeEtude() {
-					Id = 8,
+					ProgrammeEtudeId = 8,
 					Nom = "Soins infirmiers"
 				},
 				new ProgrammeEtude() {
-					Id = 9,
+					ProgrammeEtudeId = 9,
 					Nom = "Gestion de commerces"
 				}
 			};
@@ -299,14 +299,11 @@ namespace seeder {
 
 			return new List<LivreBibliotheque> {
 				new LivreBibliotheque() {
-					Id = 0,
-					EtatLivreId = 0,
-					ProgrammeEtudeId = 0,
+					LivreId = 0,
 					Isbn = "9999999990",
 					Titre = "",
 					Resume = "",
-					PhotoCouverture = "N/A",
-					DateEdition = DateTime.Now
+					PhotoCouverture = "N/A"
 				}
 			};
 		}
