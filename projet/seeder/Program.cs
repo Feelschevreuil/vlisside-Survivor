@@ -68,6 +68,7 @@ namespace seeder {
 				.RemoveRange(context.TypesPaiements);
 			// FIN Enlever les données
 			
+			// TODO: ranme Province à Provices
 			context.Province.AddRange(getProvinces());
 
 			context.Adresses.AddRange(getAdresses());
