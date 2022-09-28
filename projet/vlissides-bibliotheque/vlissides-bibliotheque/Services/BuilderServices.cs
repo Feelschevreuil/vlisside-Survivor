@@ -35,8 +35,6 @@ namespace seeder {
 			    )
 			);
 		    }
-
-		    Console.WriteLine("Connection string: " + connectionString);
 		}
 	}
 }
