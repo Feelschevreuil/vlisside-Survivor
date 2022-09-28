@@ -64,51 +64,36 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> IndexAsync(InscriptionVM vm)
+        public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
         {
             if (ModelState.IsValid) {
 
-                Adresse adresse = new() {
-                    App = vm.App,
-                    CodePostal = vm.CodePostal,
-                    NumeroCivique = Convert.ToInt32(vm.NoCivique),
-                    Rue = vm.Rue,
-                    Ville = vm.Ville
-                };
+                Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
-                _context.Adresses.Add(adresse);
+                Adresse adresseLivraison = utilisateurCourant.GetAdresseLivraison(_context);
+
+                Adresse adresseFacturation = utilisateurCourant.GetAdresseFacturation(_context);
+
+                adresseLivraison.App = vm.AppLivraison;
+                adresseLivraison.CodePostal = vm.CodePostalLivraison;
+                adresseLivraison.NumeroCivique = Convert.ToInt32(vm.NoCiviqueLivraison);
+                adresseLivraison.Rue = vm.RueLivraison;
+                adresseLivraison.Ville = vm.VilleLivraison;
+
+                adresseFacturation.App = vm.AppFacturation;
+                adresseFacturation.CodePostal = vm.CodePostalFacturation;
+                adresseFacturation.NumeroCivique = Convert.ToInt32(vm.NoCiviqueFacturation);
+                adresseFacturation.Rue = vm.RueFacturation;
+                adresseFacturation.Ville = vm.VilleFacturation;
+
+                utilisateurCourant.Email = vm.Courriel;
+                utilisateurCourant.UserName = vm.Courriel;
+                utilisateurCourant.Nom = vm.Nom;
+                utilisateurCourant.Prenom = vm.Prenom;
+                utilisateurCourant.PhoneNumber = vm.NoTelephone;
+                utilisateurCourant.ProgrammeEtudeId = vm.ProgrammeEtudeId;
+
                 _context.SaveChanges();
-
-                // model binding
-                Etudiant etudiant = new() {
-                    Email = vm.Courriel,
-                    UserName = vm.Courriel,
-                    Nom = vm.Nom,
-                    Prenom = vm.Prenom,
-                    PhoneNumber = vm.NoTelephone,
-                    ProgrammeEtudeId = vm.ProgrammeEtudeId,
-                    AdresseFacturationId = adresse.AdresseId,
-                    AdresseFacturation = adresse,
-                    AdresseLivraisonId = adresse.AdresseId,
-                    AdresseLivraison = adresse
-                };
-
-                // création
-                var result = await _userManager.CreateAsync(etudiant, vm.Password);
-
-                if (result.Succeeded) {
-
-                    // ajouter rôle
-                    await _userManager.AddToRoleAsync(etudiant, "Etudiant");
-
-                    // connecter le nouvel étudiant
-                    await _signInManager.SignInAsync(etudiant, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-
-                foreach (var error in result.Errors) {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
             }
 
             vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
@@ -116,7 +101,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(vm);
         }
 
-        public async Task<Etudiant> GetUtilisateurCourantAsync()
+        private async Task<Etudiant> GetUtilisateurCourantAsync()
         {
             return await _userManager.GetUserAsync(HttpContext.User);
         }
