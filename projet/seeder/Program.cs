@@ -336,9 +336,11 @@ namespace seeder {
 				new LivreBibliotheque() {
 					LivreId = 1,
 					Isbn = "9999999990",
-					Titre = "",
-					Resume = "",
-					PhotoCouverture = "N/A"
+					Titre = "foobar's book",
+					Resume = "foobar's goes to the polls.",
+					PhotoCouverture = "N/A",
+					DatePublication = DateTime.Now,
+					MaisonEditionId = 1
 				}
 			};
 		}
