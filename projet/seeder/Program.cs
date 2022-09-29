@@ -64,9 +64,6 @@ namespace seeder
             context.MaisonsEditions
                 .RemoveRange(context.MaisonsEditions);
 
-            context.Utilisateurs
-                .RemoveRange(context.Utilisateurs);
-
             context.TypesPaiements
                 .RemoveRange(context.TypesPaiements);
             // FIN Enlever les données
