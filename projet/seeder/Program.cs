@@ -107,11 +107,9 @@ namespace seeder
 
             return new List<Province> {
                 new Province() {
-                    ProvinceId = 1,
                     Nom = "Québec"
                 },
                 new Province() {
-                    ProvinceId = 2,
                     Nom = "Ontario"
                 }
             };
