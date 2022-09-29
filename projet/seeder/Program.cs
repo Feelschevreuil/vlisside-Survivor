@@ -74,6 +74,8 @@ namespace seeder
             // TODO: ranme Province à Provices
             context.Province.AddRange(getProvinces());
 
+            context.SaveChanges();
+
             context.Adresses.AddRange(getAdresses());
 
             context.Auteurs.AddRange(getAuteurs());
@@ -91,6 +93,8 @@ namespace seeder
             context.SaveChanges();
 
             context.MaisonsEditions.AddRange(getMaisonsEdition());
+
+            context.SaveChanges();
 
             // TODO: rename LivresBibliotheques à LivresBibliotheque
             context.LivresBibliotheques.AddRange(getLivresBibliotheques());
