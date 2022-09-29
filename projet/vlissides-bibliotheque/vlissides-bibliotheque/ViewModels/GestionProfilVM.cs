@@ -49,9 +49,11 @@ namespace vlissides_bibliotheque.ViewModels
         public string NoCiviqueFacturation { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Rue")]
         public string RueFacturation { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Ville")]
         public string VilleFacturation { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
@@ -72,9 +74,11 @@ namespace vlissides_bibliotheque.ViewModels
         public string NoCiviqueLivraison { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Rue")]
         public string RueLivraison { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Ville")]
         public string VilleLivraison { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
@@ -86,6 +90,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string CodePostalLivraison { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Province")]
         public int ProvinceLivraisonId { get; set; }
 
         // liste des provinces
