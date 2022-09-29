@@ -90,16 +90,11 @@
                             <span asp-validation-for="CodePostal" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="CodePostal" class="form-label"></label>
-                            <input asp-for="CodePostal" class="form-control" aria-required="true" />
-                            <span asp-validation-for="CodePostal" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
                             <label asp-for="ProvinceId" class="form-label"></label>
                             <select asp-for="ProvinceId" asp-items="Model.Provinces" class="form-control" aria-required="true">
                                 <option>Sélectionner une province</option>
                             </select>
-                            <span asp-validation-for="ProgrammeEtudeId" class="text-danger"></span>
+                            <span asp-validation-for="ProvinceId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="NoTelephone" class="form-label"></label>

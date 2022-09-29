@@ -82,6 +82,9 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<IActionResult> InscriptionAsync(InscriptionVM vm)
         {
+            ModelState.Remove(nameof(vm.ProgrammeEtudes));
+            ModelState.Remove(nameof(vm.Provinces));
+
             if (ModelState.IsValid) {
 
                 Adresse adresse = new() {
@@ -107,7 +110,8 @@ namespace vlissides_bibliotheque.Controllers
                     AdresseFacturationId = adresse.AdresseId,
                     AdresseFacturation = adresse,
                     AdresseLivraisonId = adresse.AdresseId,
-                    AdresseLivraison = adresse
+                    AdresseLivraison = adresse,
+                    EmailConfirmed = true
                 };
 
                 // création
@@ -120,7 +124,7 @@ namespace vlissides_bibliotheque.Controllers
 
                     // connecter le nouvel étudiant
                     await _signInManager.SignInAsync(etudiant, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Accueil", "Accueil");
                 }
 
                 foreach (var error in result.Errors) {
