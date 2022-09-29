@@ -34,52 +34,26 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Numéro civique")]
         [Number]
-        public string NoCiviqueFacturation { get; set; }
+        public string NoCivique { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Rue")]
-        public string RueFacturation { get; set; }
+        public string Rue { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Ville")]
-        public string VilleFacturation { get; set; }
+        public string Ville { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
-        public int AppFacturation { get; set; }
+        public int App { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Code postal")]
         [DataType(DataType.PostalCode)]
-        public string CodePostalFacturation { get; set; }
+        public string CodePostal { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int ProvinceFacturationId { get; set; }
-
-        // adresse de livraison
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Numéro civique")]
-        [Number]
-        public string NoCiviqueLivraison { get; set; }
-
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Rue")]
-        public string RueLivraison { get; set; }
-
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Ville")]
-        public string VilleLivraison { get; set; }
-
-        [Display(Name = "Numéro d'appartement")]
-        public int AppLivraison { get; set; }
-
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Code postal")]
-        [DataType(DataType.PostalCode)]
-        public string CodePostalLivraison { get; set; }
-
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Province")]
-        public int ProvinceLivraisonId { get; set; }
+        public int ProvinceId { get; set; }
 
         // liste des provinces
         public SelectList Provinces { get; set; }

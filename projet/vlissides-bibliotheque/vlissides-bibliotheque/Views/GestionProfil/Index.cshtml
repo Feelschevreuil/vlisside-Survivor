@@ -52,74 +52,37 @@
                             <span asp-validation-for="ProgrammeEtudeId" class="text-danger"></span>
                         </div>
                     </fieldset>
-                </div>
 
-                <div class="col-md-6">
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <legend>
                             <img width="30px" src="~/img/google-maps.svg" />
                         </legend>
                         <div class="form-group">
-                            <label asp-for="NoCiviqueLivraison" class="form-label"></label>
-                            <input asp-for="NoCiviqueLivraison" class="form-control" aria-required="true" />
-                            <span asp-validation-for="NoCiviqueLivraison" class="text-danger"></span>
+                            <label asp-for="NoCivique" class="form-label"></label>
+                            <input asp-for="NoCivique" class="form-control" aria-required="true" />
+                            <span asp-validation-for="NoCivique" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="RueLivraison" class="form-label"></label>
-                            <input asp-for="RueLivraison" class="form-control" aria-required="true" />
-                            <span asp-validation-for="RueLivraison" class="text-danger"></span>
+                            <label asp-for="Rue" class="form-label"></label>
+                            <input asp-for="Rue" class="form-control" aria-required="true" />
+                            <span asp-validation-for="Rue" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="VilleLivraison" class="form-label"></label>
-                            <input asp-for="VilleLivraison" class="form-control" aria-required="true" />
-                            <span asp-validation-for="VilleLivraison" class="text-danger"></span>
+                            <label asp-for="Ville" class="form-label"></label>
+                            <input asp-for="Ville" class="form-control" aria-required="true" />
+                            <span asp-validation-for="Ville" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="CodePostalLivraison" class="form-label"></label>
-                            <input asp-for="CodePostalLivraison" class="form-control" aria-required="true" />
-                            <span asp-validation-for="CodePostalLivraison" class="text-danger"></span>
+                            <label asp-for="CodePostal" class="form-label"></label>
+                            <input asp-for="CodePostal" class="form-control" aria-required="true" />
+                            <span asp-validation-for="CodePostal" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="ProvinceLivraisonId" class="form-label"></label>
-                            <select asp-for="ProvinceLivraisonId" asp-items="Model.Provinces" class="form-control" aria-required="true">
+                            <label asp-for="ProvinceId" class="form-label"></label>
+                            <select asp-for="ProvinceId" asp-items="Model.Provinces" class="form-control" aria-required="true">
                                 <option>Sélectionner une province</option>
                             </select>
-                            <span asp-validation-for="ProvinceLivraisonId" class="text-danger"></span>
-                        </div>
-                    </fieldset>
-                </div>
-                
-                <div class="col-md-6">
-                    <fieldset class="rounded shadow p-3 m-2 mb-4">
-                        <legend>
-                            <img width="30px" src="~/img/google-maps.svg" />
-                        </legend>
-                        <div class="form-group">
-                            <label asp-for="NoCiviqueFacturation" class="form-label"></label>
-                            <input asp-for="NoCiviqueFacturation" class="form-control" aria-required="true" />
-                            <span asp-validation-for="NoCiviqueFacturation" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="RueFacturation" class="form-label"></label>
-                            <input asp-for="RueFacturation" class="form-control" aria-required="true" />
-                            <span asp-validation-for="RueFacturation" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="VilleFacturation" class="form-label"></label>
-                            <input asp-for="VilleFacturation" class="form-control" aria-required="true" />
-                            <span asp-validation-for="VilleFacturation" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CodePostalFacturation" class="form-label"></label>
-                            <input asp-for="CodePostalFacturation" class="form-control" aria-required="true" />
-                            <span asp-validation-for="CodePostalFacturation" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="ProvinceFacturationId" class="form-label"></label>
-                            <select asp-for="ProvinceFacturationId" asp-items="Model.Provinces" class="form-control" aria-required="true">
-                                <option>Sélectionner une province</option>
-                            </select>
-                            <span asp-validation-for="ProvinceFacturationId" class="text-danger"></span>
+                            <span asp-validation-for="ProvinceId" class="text-danger"></span>
                         </div>
                     </fieldset>
                 </div>

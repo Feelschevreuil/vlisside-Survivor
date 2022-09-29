@@ -34,8 +34,6 @@ namespace vlissides_bibliotheque.Controllers
         {
             Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
-            Adresse adresseLivraison = utilisateurCourant.GetAdresseLivraison(_context);
-
             Adresse adresseFacturation = utilisateurCourant.GetAdresseFacturation(_context);
 
             GestionProfilVM vm = new() {
@@ -46,19 +44,12 @@ namespace vlissides_bibliotheque.Controllers
                 ProgrammeEtudeId = utilisateurCourant.ProgrammeEtudeId,
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
 
-                NoCiviqueFacturation = adresseFacturation.NumeroCivique.ToString(),
-                RueFacturation = adresseFacturation.Rue,
-                VilleFacturation = adresseFacturation.Ville,
-                AppFacturation = adresseFacturation.App,
-                CodePostalFacturation = adresseFacturation.CodePostal,
-                ProvinceFacturationId = adresseFacturation.Province.ProvinceId,
-
-                NoCiviqueLivraison = adresseLivraison.NumeroCivique.ToString(),
-                RueLivraison = adresseLivraison.Rue,
-                VilleLivraison = adresseLivraison.Ville,
-                AppLivraison = adresseLivraison.App,
-                CodePostalLivraison = adresseLivraison.CodePostal,
-                ProvinceLivraisonId = adresseLivraison.Province.ProvinceId,
+                NoCivique = adresseFacturation.NumeroCivique.ToString(),
+                Rue = adresseFacturation.Rue,
+                Ville = adresseFacturation.Ville,
+                App = adresseFacturation.App,
+                CodePostal = adresseFacturation.CodePostal,
+                ProvinceId = adresseFacturation.Province.ProvinceId,
 
                 Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
             };
@@ -76,23 +67,14 @@ namespace vlissides_bibliotheque.Controllers
 
                 Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
-                Adresse adresseLivraison = utilisateurCourant.GetAdresseLivraison(_context);
-
                 Adresse adresseFacturation = utilisateurCourant.GetAdresseFacturation(_context);
 
-                adresseLivraison.App = vm.AppLivraison;
-                adresseLivraison.CodePostal = vm.CodePostalLivraison;
-                adresseLivraison.NumeroCivique = Convert.ToInt32(vm.NoCiviqueLivraison);
-                adresseLivraison.Rue = vm.RueLivraison;
-                adresseLivraison.Ville = vm.VilleLivraison;
-                adresseLivraison.ProvinceId = vm.ProvinceLivraisonId;
-
-                adresseFacturation.App = vm.AppFacturation;
-                adresseFacturation.CodePostal = vm.CodePostalFacturation;
-                adresseFacturation.NumeroCivique = Convert.ToInt32(vm.NoCiviqueFacturation);
-                adresseFacturation.Rue = vm.RueFacturation;
-                adresseFacturation.Ville = vm.VilleFacturation;
-                adresseFacturation.ProvinceId = vm.ProvinceFacturationId;
+                adresseFacturation.App = vm.App;
+                adresseFacturation.CodePostal = vm.CodePostal;
+                adresseFacturation.NumeroCivique = Convert.ToInt32(vm.NoCivique);
+                adresseFacturation.Rue = vm.Rue;
+                adresseFacturation.Ville = vm.Ville;
+                adresseFacturation.ProvinceId = vm.ProvinceId;
 
                 utilisateurCourant.Email = vm.Courriel;
                 utilisateurCourant.UserName = vm.Courriel;
