@@ -45,18 +45,21 @@ namespace vlissides_bibliotheque.Controllers
                 NoTelephone = utilisateurCourant.PhoneNumber,
                 ProgrammeEtudeId = utilisateurCourant.ProgrammeEtudeId,
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
+
                 NoCiviqueFacturation = adresseFacturation.NumeroCivique.ToString(),
                 RueFacturation = adresseFacturation.Rue,
                 VilleFacturation = adresseFacturation.Ville,
                 AppFacturation = adresseFacturation.App,
                 CodePostalFacturation = adresseFacturation.CodePostal,
                 ProvinceFacturationId = adresseFacturation.Province.ProvinceId,
+
                 NoCiviqueLivraison = adresseLivraison.NumeroCivique.ToString(),
                 RueLivraison = adresseLivraison.Rue,
                 VilleLivraison = adresseLivraison.Ville,
                 AppLivraison = adresseLivraison.App,
                 CodePostalLivraison = adresseLivraison.CodePostal,
                 ProvinceLivraisonId = adresseLivraison.Province.ProvinceId,
+
                 Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
             };
 
@@ -66,6 +69,9 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
         {
+            ModelState.Remove(nameof(vm.ProgrammeEtudes));
+            ModelState.Remove(nameof(vm.Provinces));
+
             if (ModelState.IsValid) {
 
                 Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
@@ -79,12 +85,14 @@ namespace vlissides_bibliotheque.Controllers
                 adresseLivraison.NumeroCivique = Convert.ToInt32(vm.NoCiviqueLivraison);
                 adresseLivraison.Rue = vm.RueLivraison;
                 adresseLivraison.Ville = vm.VilleLivraison;
+                adresseLivraison.ProvinceId = vm.ProvinceLivraisonId;
 
                 adresseFacturation.App = vm.AppFacturation;
                 adresseFacturation.CodePostal = vm.CodePostalFacturation;
                 adresseFacturation.NumeroCivique = Convert.ToInt32(vm.NoCiviqueFacturation);
                 adresseFacturation.Rue = vm.RueFacturation;
                 adresseFacturation.Ville = vm.VilleFacturation;
+                adresseFacturation.ProvinceId = vm.ProvinceFacturationId;
 
                 utilisateurCourant.Email = vm.Courriel;
                 utilisateurCourant.UserName = vm.Courriel;
