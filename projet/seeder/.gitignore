@@ -412,9 +412,3 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,visualstudio
-
-# connection strings pour les bases de données
-appsettings.json
-
-# base de données sqlite (Pour les systèmes UNIX)
-pi.db
