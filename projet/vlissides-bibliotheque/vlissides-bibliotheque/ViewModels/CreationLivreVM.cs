@@ -33,6 +33,7 @@ namespace vlissides_bibliotheque.ViewModels
 		public string Etat { get; set; }
 		public List<SelectListItem> Etats { get; set; }
 
+		[DisplayName("Maison d'édition")]
 		public string MaisonDedition { get; set; }
 		public List<SelectListItem> MaisonsDeditions { get; set; }
 	}
