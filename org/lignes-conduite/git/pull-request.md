@@ -42,7 +42,7 @@ En une ligne, décrivez l'état du `pull request`. Soit
 
 | Projet | Modification |
 |-----------|-----------:|
-| Fonctionnel | Complet |
+| Fonctionnel | Complète |
 
 ### Possibilités du status du projet
 - Fonctionnel
@@ -50,7 +50,7 @@ En une ligne, décrivez l'état du `pull request`. Soit
 - Non fonctionnel
 
 ### Possibilités du status de votre fonctionnalité
-- Complet
+- Complète
 - Partiellement complet
 
 ### Erreurs connues
@@ -81,7 +81,7 @@ la migration.
 
 | Projet | Modification |
 |-----------|-----------:|
-| Partiellement fonctionnel | Complet |
+| Partiellement fonctionnel | Complète |
 
 ## Erreurs connues
 - le seeder ne possède pas les bons id's, puisque la branche `feature/seeder` n'est 
