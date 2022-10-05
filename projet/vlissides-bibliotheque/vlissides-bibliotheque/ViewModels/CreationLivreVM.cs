@@ -21,7 +21,27 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Date de publication")]
 		public DateTime DatePublication { get; set; }
 
-		[Isbn]
+		[DisplayName("Usagé")]
+		public double PrixUsage { get; set; }
+
+		[DisplayName("Numérique")]
+		public double PrixNumerqiue { get; set; }
+
+		[DisplayName("Neuf")]
+		public double PrixNeuf { get; set; }
+
+		[DisplayName("Quantité")]
+		public int? QuantiteUsagee { get; set; }
+
+		[DisplayName("Vendable")]
+		public bool PossedeNumerique { get; set; } = false;
+
+		[DisplayName("Vendable")]
+		public bool PossedeNeuf { get; set; } = false;
+
+		public bool Obligatoire { get; set; } = false;
+
+        [Isbn]
 		public string ISBN { get; set; }
 
 		public string Auteur { get; set; }
