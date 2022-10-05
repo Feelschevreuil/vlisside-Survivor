@@ -57,6 +57,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(vm);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
         {

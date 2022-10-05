@@ -48,6 +48,7 @@ namespace vlissides_bibliotheque.Controllers
         /// <br></br>
         /// Erreurs : Page de connexion avec messages d'erreur.
         /// </returns>
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> IndexAsync(ConnexionVM vm)
         {
@@ -79,6 +80,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(vm);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> InscriptionAsync(InscriptionVM vm)
         {
