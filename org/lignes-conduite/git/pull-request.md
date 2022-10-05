@@ -52,7 +52,7 @@ En une ligne, décrivez l'état du `pull request`. Soit
 
 ### Possibilités du status de votre fonctionnalité
 - Complète
-- Partiellement complet
+- Partiellement complète
 
 ### Erreurs connues
 Dans le cas que le `pull request` est `Non fonctionnel` ou `Partiellement fonctionnel`, 
