@@ -5,11 +5,17 @@
 }
 
 
-<div class="card border-0 text-center" style="width:auto">
+<div class="card border-2 text-center" style="width:auto">
+    
+    <div class="position-relative">
+        <img class="mx-auto image-livre" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
+        <div class="prix rounded-circle">
+            <p class="pt-3">100.99$</p>
+        </div>
+    </div>
 
-    <img class="mx-auto" style="width:6rem; height:10rem" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
     <div class="card border-0" style="width:auto">
-        <h5 class="card-title">@Model.LivreBibliotheque.Titre</h5>
+        <h5 class="card-title ">@Model.LivreBibliotheque.Titre</h5>
         <p class="card-text">ISBN</p>
         <p class="card-text">Nom du cours</p>
         <p class="card-text">Nom du professeur</p>
@@ -57,8 +63,9 @@
                         </span>
                     }
                 }
-                <p class="d-inline-block">Prix: 1234$</p>
             </div>
         </div>
     </footer>
 </div>
+
+<link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
