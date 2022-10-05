@@ -3,7 +3,8 @@
 
 Afin de mettre en commun notre code dans la branche `develop`, il faut effectuer un
 pull request pour qu'un [code review](code-review.md) soit effectué sur le code que nous
-voullons mettre en commun.
+voullons mettre en commun. En ce qui concerne un `pull request` à `master`, veuillez 
+allez à la prochaine section du document.
 
 Un `pull request` est effectué pour qu'un collègue valide que nous avons bien suivi les
 lignes de conduite en ce qui concerne l'utilisation de `git` et du standard de code pour
@@ -88,3 +89,10 @@ la migration.
   pas encore `mergé` dans la branche `develop`.
 
 ---
+
+# À master
+Pour faire un `pull request` à la branche `master`, veuillez vous assurer que le projet 
+est fonctionnel. Une fois fait, vous devrez créer un `tag` de version sur azure.
+
+Ensute, créez un [tag](tag.md).
+
