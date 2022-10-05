@@ -92,7 +92,6 @@ la migration.
 
 # À master
 Pour faire un `pull request` à la branche `master`, veuillez vous assurer que le projet 
-est fonctionnel. Une fois fait, vous devrez créer un `tag` de version sur azure.
+est fonctionnel. Une fois fait, vous devrez créer un [tag](tag.md) de version sur azure.
 
-Ensute, créez un [tag](tag.md).
-
+(Voir [créer un tag de version](tag.md) pour savoir comment en créer un)
