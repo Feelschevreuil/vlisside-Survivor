@@ -13,7 +13,7 @@ Ici, nous écrivons les lignes de conduite pour participer au projet.
   - [Commit](git/commits.md) Comment on envoie nos changements?
   - [Branches](git/branches.md) Comment on se prépare pour implémenter une fonctionnalité, réparer une erreur et etc?
   - [Code review de pull/merge requests](git/code-reviews.md) Comment on syncronise nos changements?
-  - [Rebase](git/rebase.md) Comment importer les changements ([commits](git/commits.md)) d'une branche à une autre branche?
+  - [Merge](git/merge.md) Comment importer les changements ([commits](git/commits.md)) d'une branche à une autre branche?
 - [Qualité de code](qualite-code/README.md)
   - [Commentaires](git/commentaires.md)
     - Methodes et fonctions
