@@ -1,7 +1,7 @@
 
 # Merge
 
-Afin d'importer les commits d'une autre branche dans une autre, veuillez faire un `merge`.
+Afin d'importer les commits d'une autre branche à une autre, veuillez faire un `merge`.
 
 Un merge applique les commits d'une branche à la branche que vous êtes ou à une branche que
 vous spécifiez.
