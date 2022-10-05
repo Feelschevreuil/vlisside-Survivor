@@ -40,14 +40,22 @@ puisque des `pull request` peuvent être effectués même si la `fonctionnalité
 
 En une ligne, décrivez l'état du `pull request`. Soit 
 
-**Exemple**
-- Fonctionnel et complet
-- Fonctionnel et partiellement complet
-- Non fonctionnel 
+| Stauts du projet | Status de votre modification |
+|-----------|-----------:|
+| Fonctionnel | Complet |
+
+### Possibilités du status du projet
+- Fonctionnel
+- Partiellement fonctionnel
+- Non fonctionnel
+
+### Possibilités du status de votre fonctionnalité
+- Complet
+- Partiellement complet
 
 ### Erreurs connues
-Dans le cas que le `pull request` est `Non fonctionnel`, listez les erreurs et expliquez
-pourquoi elles arrivent.
+Dans le cas que le `pull request` est `Non fonctionnel` ou `Partiellement fonctionnel`, 
+listez les erreurs et expliquez pourquoi elles arrivent.
 
 - le seeder ne possède pas les bons id's, puisque la branche `feature/seeder` n'est 
   pas encore `mergé` dans la branche `develop`.
@@ -70,7 +78,10 @@ la migration.
 6. valider si le projet fonctionne bien
 
 # Status
-- Fonctionnel et complet
+
+| Stauts du projet | Status de votre modification |
+|-----------|-----------:|
+| Partiellement fonctionnel | Complet |
 
 ## Erreurs connues
 - le seeder ne possède pas les bons id's, puisque la branche `feature/seeder` n'est 
