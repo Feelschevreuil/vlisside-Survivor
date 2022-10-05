@@ -40,7 +40,7 @@ puisque des `pull request` peuvent être effectués même si la `fonctionnalité
 
 En une ligne, décrivez l'état du `pull request`. Soit 
 
-| Stauts du projet | Status de votre modification |
+| Projet | Modification |
 |-----------|-----------:|
 | Fonctionnel | Complet |
 
@@ -79,7 +79,7 @@ la migration.
 
 # Status
 
-| Stauts du projet | Status de votre modification |
+| Projet | Modification |
 |-----------|-----------:|
 | Partiellement fonctionnel | Complet |
 
