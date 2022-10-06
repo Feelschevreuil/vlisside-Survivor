@@ -5,13 +5,21 @@
 }
 
 
-<div class="card border-2 text-center" style="width:auto">
+<div class="card border-2" style="width:auto">
     
-    <div class="position-relative">
+    <div class="position-relative text-center">
         <img class="mx-auto image-livre" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle">
             <p class="pt-3">100.99$</p>
         </div>
+    </div>
+
+    <div class="pt-2">
+        <select class="form-select form-select-sm" aria-label="État d'un livre">
+        <option selected value="Neuf">Neuf</option>
+        <option value="Usagé">Usagé</option>
+        <option value="Numérique">Numérique</option>
+    </select>
     </div>
 
     <div class="card border-0" style="width:auto">
