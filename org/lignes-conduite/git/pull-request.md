@@ -1,6 +1,5 @@
 
 # Pull request
-
 Afin de mettre en commun notre code dans la branche `develop`, il faut effectuer un
 pull request pour qu'un [code review](code-review.md) soit effectué sur le code que nous
 voullons mettre en commun. En ce qui concerne un `pull request` à `master`, veuillez 
@@ -11,10 +10,33 @@ lignes de conduite en ce qui concerne l'utilisation de `git` et du standard de c
 que notre code soit organisé et uniforme.
 
 # Faire un pull request
-Pour qu'un `pull request` soit clair, on divise le pull request en trois parties.
+Pour qu'un `pull request` soit clair, on divise le pull request en quatre parties.
+
+## Titre
+En ce qui concerne la première partie, vous pouvez choisir le tite du backlog si vous en
+travaillez sur un. Si non, veuillez choisir un titre représentatif.
+
+Comme pour les [commits](commits.md), vous devez utiliser un préfix pour clarifier le
+contenu d'une branche.
+
+```
+format: <type>: <sujet>
+
+feat: support de sqlite
+^--^  ^---------------^
+|     |
+|     +-> Sommaire au présent
+|
++-------> Type du pull request: tâche, doc, feat, fix, refactor, style ou test.
+```
+
+> N.B: Le type, la portée ainsi que le sujet d'un commit sont toujours en minuscules.
+
+*Voir la section des préfix dans la documentation des [commits](commits.md) pour la 
+signification des préfix.*
 
 ## Description
-En ce qui concerne la première partie, décrivez clairement les changements que votre
+En ce qui concerne la deuxième partie, décrivez clairement les changements que votre
 `pull request` va apporter au projet.
 
 **Exemple**
