@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -21,5 +19,7 @@ namespace vlissides_bibliotheque.Models
         public int AdresseFacturationId { get; set; }
         public Adresse AdresseFacturation { get; set; }
 
+        [Required]
+        public int AnneeParcours { get; set; }
     }
 }

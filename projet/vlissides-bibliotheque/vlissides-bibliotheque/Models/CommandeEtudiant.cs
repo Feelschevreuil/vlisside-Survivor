@@ -14,5 +14,8 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int LivreBibliothequeId { get; set; }
         public LivreBibliotheque LivreBibliotheque { get; set; }
+
+        [Required]
+        public int Quantite { get; set; }
     }
 }

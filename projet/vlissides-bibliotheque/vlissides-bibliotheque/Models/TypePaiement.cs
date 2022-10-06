@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public class TypePaiement
     {
         [Required]
-        public int Id { get; set; }
+        public int TypePaiementId { get; set; }
 
         [Required]
         public string Nom { get; set; }

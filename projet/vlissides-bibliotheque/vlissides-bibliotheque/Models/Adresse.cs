@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public class Adresse
     {
         [Required]
-        public int Id { get; set; }
+        public int AdresseId { get; set; }
 
         [Required]
         [StringLength(64)]
@@ -28,5 +28,9 @@ namespace vlissides_bibliotheque.Models
         [Required]
         [StringLength(6)]
         public string CodePostal { get; set; }
+
+        [Required]
+        public int ProvinceId { get; set; }
+        public Province Province { get; set; }
     }
 }

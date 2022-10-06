@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace vlissides_bibliotheque
 {
@@ -11,10 +12,13 @@ namespace vlissides_bibliotheque
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+	    string connectionString;
+	    connectionString = builder.Configuration.GetConnectionString("mssql") ?? throw new InvalidOperationException("Connection string 'mssql' not found.");
+    
+	    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+		options.UseSqlServer(connectionString)
+	    );
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<Utilisateur>(options => options.SignIn.RequireConfirmedAccount = true)

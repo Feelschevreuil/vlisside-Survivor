@@ -25,6 +25,13 @@ namespace vlissides_bibliotheque.Data
         public DbSet<ProgrammeEtude> ProgrammesEtudes { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<TypePaiement> TypesPaiements { get; set; }
+        public DbSet<MaisonEdition> MaisonsEditions { get; set; }
+        public DbSet<PrixEtatLivre> PrixEtatLivres { get; set; }
+        public DbSet<CoursLivre> CoursLivres { get; set; }
+        public DbSet<Cours> Cours { get; set; }
+        public DbSet<CoursProfesseur> CoursProfesseurs { get; set; }
+        public DbSet<Professeur> Professeur { get; set; }
+        public DbSet<Province> Province { get; set; }
 
         private const string ROLE_ADMIN_ID = "834684ee-d07f-470a-91ea-01feb16d2f90";
         private const string ROLE_ADMIN_CONCURRENCYSTAMP = "6494238c-5ee0-4d6a-925d-20f0e932e406";
@@ -71,15 +78,15 @@ namespace vlissides_bibliotheque.Data
         {
             List<EtatLivre> EtatLivres = new() {
                 new EtatLivre() {
-                    Id = 1,
+                    EtatLivreId = 1,
                     Nom = "Neuf"
                 },
                 new EtatLivre() {
-                    Id = 2,
+                    EtatLivreId = 2,
                     Nom = "Usagé"
                 },
                 new EtatLivre() {
-                    Id = 3,
+                    EtatLivreId = 3,
                     Nom = "Numérique"
                 }
             };
@@ -137,6 +144,7 @@ namespace vlissides_bibliotheque.Data
             builder.Entity<Utilisateur>().HasData(new Utilisateur() {
                 Id = USER_ADMIN_ID,
                 Email = "gordon.john@gunclub-alabama.us",
+		EmailConfirmed = true,
                 NormalizedEmail = "gordon.john@gunclub-alabama.us".ToUpper(),
                 UserName = "gordon.john@gunclub-alabama.us",
                 NormalizedUserName = "gordon.john@gunclub-alabama.us".ToUpper(),
@@ -163,8 +171,14 @@ namespace vlissides_bibliotheque.Data
         private void CreerTablesLiaison(ModelBuilder builder)
         {
             builder.Entity<AuteurLivre>().HasKey(auteurLivre => new { auteurLivre.AuteurId, auteurLivre.LivreBibliothequeId });
+
             builder.Entity<CommandeEtudiant>().HasKey(CommandeEtudiant => new { CommandeEtudiant.FactureEtudiantId, CommandeEtudiant.LivreBibliothequeId });
+
             builder.Entity<EvaluationLivre>().HasKey(evaluationLivre => new { evaluationLivre.EvaluationId, evaluationLivre.LivreBibliothequeId });
+
+            builder.Entity<CoursProfesseur>().HasKey(coursProfesseur => new { coursProfesseur.CoursId, coursProfesseur.ProfesseurId });
+
+            builder.Entity<CoursEtudiant>().HasKey(coursEtudiant => new { coursEtudiant.CoursId, coursEtudiant.EtudiantId });
         }
 
         /// <summary>
@@ -185,6 +199,11 @@ namespace vlissides_bibliotheque.Data
 
             builder.Entity<Etudiant>()
                 .HasOne(m => m.AdresseLivraison)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<CoursLivre>()
+                .HasOne(m => m.LivreBibliotheque)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
         }

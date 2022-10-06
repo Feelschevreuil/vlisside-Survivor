@@ -1,0 +1,27 @@
+﻿@model List<Evenement>
+@{
+	ViewData["Title"] = "Actualiter";
+	
+}
+
+<div class="d-flex accordion-header">
+	
+
+	<a asp-area="" asp-controller="Accueil" asp-action="Accueil">
+		<img src="/img/fleche-de-retour.svg" style="height:4rem; width:4rem" />
+	</a>
+	<h1 class="p-2 flex-grow-1">Toutes les actualités courantes</h1>
+	
+
+</div>
+<div class="container-fluid">
+
+	<div class="row">
+		@foreach (var card in Model)
+		{
+			<div class="col-auto col-md-3 col-sm-3">
+				<partial name="_TuileActualiterPartial" model="card"></partial>
+			</div>
+		}
+	</div>
+</div>

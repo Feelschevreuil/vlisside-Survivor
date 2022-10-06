@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public class Commanditaire
     {
         [Required]
-        public int Id { get; set; }
+        public int CommanditaireId { get; set; }
 
         [Required]
         [StringLength(40)]
