@@ -51,7 +51,7 @@ namespace vlissides_bibliotheque.Controllers
                 CodePostal = adresse.CodePostal,
                 ProvinceId = adresse.Province.ProvinceId,
 
-                Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
+                Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
             };
 
             return View(vm);
@@ -88,7 +88,7 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
-            vm.Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
+            vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
 
             return View(vm);
         }
