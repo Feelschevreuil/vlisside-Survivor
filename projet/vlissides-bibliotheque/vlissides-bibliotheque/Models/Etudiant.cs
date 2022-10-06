@@ -12,12 +12,8 @@ namespace vlissides_bibliotheque.Models
         public ProgrammeEtude ProgrammeEtude { get; set; }
 
         [Required]
-        public int AdresseLivraisonId { get; set; }
-        public Adresse AdresseLivraison { get; set; }
-
-        [Required]
-        public int AdresseFacturationId { get; set; }
-        public Adresse AdresseFacturation { get; set; }
+        public int AdresseId { get; set; }
+        public Adresse Adresse { get; set; }
 
         [Required]
         public int AnneeParcours { get; set; }
