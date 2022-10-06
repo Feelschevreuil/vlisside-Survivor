@@ -48,6 +48,7 @@ namespace vlissides_bibliotheque.Controllers
         /// <br></br>
         /// Erreurs : Page de connexion avec messages d'erreur.
         /// </returns>
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> IndexAsync(ConnexionVM vm)
         {
@@ -74,14 +75,18 @@ namespace vlissides_bibliotheque.Controllers
         {
             InscriptionVM vm = new() {
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
-                Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
+                Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
             };
             return View(vm);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> InscriptionAsync(InscriptionVM vm)
         {
+            ModelState.Remove(nameof(vm.ProgrammeEtudes));
+            ModelState.Remove(nameof(vm.Provinces));
+
             if (ModelState.IsValid) {
 
                 Adresse adresse = new() {
@@ -104,10 +109,9 @@ namespace vlissides_bibliotheque.Controllers
                     Prenom = vm.Prenom,
                     PhoneNumber = vm.NoTelephone,
                     ProgrammeEtudeId = vm.ProgrammeEtudeId,
-                    AdresseFacturationId = adresse.AdresseId,
-                    AdresseFacturation = adresse,
-                    AdresseLivraisonId = adresse.AdresseId,
-                    AdresseLivraison = adresse
+                    AdresseId = adresse.AdresseId,
+                    Adresse = adresse,
+                    EmailConfirmed = true
                 };
 
                 // création
@@ -120,7 +124,7 @@ namespace vlissides_bibliotheque.Controllers
 
                     // connecter le nouvel étudiant
                     await _signInManager.SignInAsync(etudiant, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Accueil", "Accueil");
                 }
 
                 foreach (var error in result.Errors) {
@@ -129,7 +133,7 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
-            vm.Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
+            vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
 
             return View(vm);
         }
@@ -141,7 +145,7 @@ namespace vlissides_bibliotheque.Controllers
         public async Task<IActionResult> LogoutAsync()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Accueil", "Accueil");
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vlissides_bibliotheque.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,10 +13,10 @@ namespace vlissides_bibliotheque.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,21 +27,21 @@ namespace vlissides_bibliotheque.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,10 +52,10 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Auteurs",
                 columns: table => new
                 {
-                    AuteurId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", maxLength: 40, nullable: false),
-                    Prenom = table.Column<string>(type: "TEXT", maxLength: 40, nullable: false)
+                    AuteurId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Prenom = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,12 +66,12 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Commanditaires",
                 columns: table => new
                 {
-                    CommanditaireId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", maxLength: 40, nullable: false),
-                    Courriel = table.Column<string>(type: "TEXT", nullable: false),
-                    Url = table.Column<string>(type: "TEXT", nullable: true),
-                    Message = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false)
+                    CommanditaireId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Courriel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,9 +82,9 @@ namespace vlissides_bibliotheque.Migrations
                 name: "EtatsLivres",
                 columns: table => new
                 {
-                    EtatLivreId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", nullable: false)
+                    EtatLivreId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,9 +95,9 @@ namespace vlissides_bibliotheque.Migrations
                 name: "MaisonsEditions",
                 columns: table => new
                 {
-                    MaisonEditionId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", nullable: false)
+                    MaisonEditionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,27 +105,27 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Professeur",
+                name: "Professeurs",
                 columns: table => new
                 {
-                    ProfesseurId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", nullable: false),
-                    Prenom = table.Column<string>(type: "TEXT", nullable: false)
+                    ProfesseurId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prenom = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Professeur", x => x.ProfesseurId);
+                    table.PrimaryKey("PK_Professeurs", x => x.ProfesseurId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ProgrammesEtudes",
                 columns: table => new
                 {
-                    ProgrammeEtudeId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", nullable: false),
-                    Code = table.Column<string>(type: "TEXT", maxLength: 4, nullable: false)
+                    ProgrammeEtudeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,40 +133,40 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Province",
+                name: "Provinces",
                 columns: table => new
                 {
-                    ProvinceId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", nullable: false)
+                    ProvinceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Province", x => x.ProvinceId);
+                    table.PrimaryKey("PK_Provinces", x => x.ProvinceId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TypesPaiements",
+                name: "TypesPaiement",
                 columns: table => new
                 {
-                    TypePaiementId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", nullable: false)
+                    TypePaiementId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TypesPaiements", x => x.TypePaiementId);
+                    table.PrimaryKey("PK_TypesPaiement", x => x.TypePaiementId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
-                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
-                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,11 +183,11 @@ namespace vlissides_bibliotheque.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
-                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -204,10 +204,10 @@ namespace vlissides_bibliotheque.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,8 +224,8 @@ namespace vlissides_bibliotheque.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,10 +248,10 @@ namespace vlissides_bibliotheque.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    LoginProvider = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -268,9 +268,9 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Utilisateurs",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Nom = table.Column<string>(type: "TEXT", maxLength: 40, nullable: false),
-                    Prenom = table.Column<string>(type: "TEXT", maxLength: 40, nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nom = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Prenom = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,22 +279,21 @@ namespace vlissides_bibliotheque.Migrations
                         name: "FK_Utilisateurs_AspNetUsers_Id",
                         column: x => x.Id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Evenements",
                 columns: table => new
                 {
-                    EvenementId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CommanditaireId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Nom = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
-                    Debut = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Fin = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false),
-                    Image = table.Column<string>(type: "TEXT", nullable: false)
+                    EvenementId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CommanditaireId = table.Column<int>(type: "int", nullable: false),
+                    Nom = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Debut = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Fin = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -308,23 +307,23 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LivresBibliotheques",
+                name: "LivresBibliotheque",
                 columns: table => new
                 {
-                    LivreId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    MaisonEditionId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Isbn = table.Column<string>(type: "TEXT", nullable: false),
-                    Titre = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
-                    Resume = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false),
-                    PhotoCouverture = table.Column<string>(type: "TEXT", nullable: false),
-                    DatePublication = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LivreId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MaisonEditionId = table.Column<int>(type: "int", nullable: false),
+                    Isbn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Titre = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Resume = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LivresBibliotheques", x => x.LivreId);
+                    table.PrimaryKey("PK_LivresBibliotheque", x => x.LivreId);
                     table.ForeignKey(
-                        name: "FK_LivresBibliotheques_MaisonsEditions_MaisonEditionId",
+                        name: "FK_LivresBibliotheque_MaisonsEditions_MaisonEditionId",
                         column: x => x.MaisonEditionId,
                         principalTable: "MaisonsEditions",
                         principalColumn: "MaisonEditionId",
@@ -335,13 +334,13 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Cours",
                 columns: table => new
                 {
-                    CoursId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ProgrammeEtudeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Nom = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Code = table.Column<string>(type: "TEXT", maxLength: 8, nullable: false),
-                    AnneeParcours = table.Column<int>(type: "INTEGER", nullable: false)
+                    CoursId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProgrammeEtudeId = table.Column<int>(type: "int", nullable: false),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    AnneeParcours = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -358,22 +357,22 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Adresses",
                 columns: table => new
                 {
-                    AdresseId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Ville = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
-                    NumeroCivique = table.Column<int>(type: "INTEGER", nullable: false),
-                    App = table.Column<int>(type: "INTEGER", nullable: false),
-                    Rue = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
-                    CodePostal = table.Column<string>(type: "TEXT", maxLength: 6, nullable: false),
-                    ProvinceId = table.Column<int>(type: "INTEGER", nullable: false)
+                    AdresseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ville = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    NumeroCivique = table.Column<int>(type: "int", nullable: false),
+                    App = table.Column<int>(type: "int", nullable: false),
+                    Rue = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CodePostal = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    ProvinceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Adresses", x => x.AdresseId);
                     table.ForeignKey(
-                        name: "FK_Adresses_Province_ProvinceId",
+                        name: "FK_Adresses_Provinces_ProvinceId",
                         column: x => x.ProvinceId,
-                        principalTable: "Province",
+                        principalTable: "Provinces",
                         principalColumn: "ProvinceId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -382,8 +381,8 @@ namespace vlissides_bibliotheque.Migrations
                 name: "AuteursLivres",
                 columns: table => new
                 {
-                    LivreBibliothequeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AuteurId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
+                    AuteurId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -395,36 +394,36 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "AuteurId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuteursLivres_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_AuteursLivres_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrixEtatLivres",
+                name: "PrixEtatsLivres",
                 columns: table => new
                 {
-                    PrixEtatLivreId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    EtatLivreId = table.Column<int>(type: "INTEGER", nullable: false),
-                    LivreBibliothequeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Prix = table.Column<double>(type: "REAL", nullable: false)
+                    PrixEtatLivreId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EtatLivreId = table.Column<int>(type: "int", nullable: false),
+                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
+                    Prix = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrixEtatLivres", x => x.PrixEtatLivreId);
+                    table.PrimaryKey("PK_PrixEtatsLivres", x => x.PrixEtatLivreId);
                     table.ForeignKey(
-                        name: "FK_PrixEtatLivres_EtatsLivres_EtatLivreId",
+                        name: "FK_PrixEtatsLivres_EtatsLivres_EtatLivreId",
                         column: x => x.EtatLivreId,
                         principalTable: "EtatsLivres",
                         principalColumn: "EtatLivreId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PrixEtatLivres_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_PrixEtatsLivres_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -433,11 +432,11 @@ namespace vlissides_bibliotheque.Migrations
                 name: "CoursLivres",
                 columns: table => new
                 {
-                    CoursLivreId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CoursId = table.Column<int>(type: "INTEGER", nullable: false),
-                    LivreBibliothequeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Complementaire = table.Column<bool>(type: "INTEGER", nullable: false)
+                    CoursLivreId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CoursId = table.Column<int>(type: "int", nullable: false),
+                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
+                    Complementaire = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -449,9 +448,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "CoursId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoursLivres_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_CoursLivres_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId");
                 });
 
@@ -459,8 +458,8 @@ namespace vlissides_bibliotheque.Migrations
                 name: "CoursProfesseurs",
                 columns: table => new
                 {
-                    ProfesseurId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CoursId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ProfesseurId = table.Column<int>(type: "int", nullable: false),
+                    CoursId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -472,9 +471,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "CoursId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoursProfesseurs_Professeur_ProfesseurId",
+                        name: "FK_CoursProfesseurs_Professeurs_ProfesseurId",
                         column: x => x.ProfesseurId,
-                        principalTable: "Professeur",
+                        principalTable: "Professeurs",
                         principalColumn: "ProfesseurId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -483,23 +482,17 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Etudiants",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    ProgrammeEtudeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AdresseLivraisonId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AdresseFacturationId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AnneeParcours = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProgrammeEtudeId = table.Column<int>(type: "int", nullable: false),
+                    AdresseId = table.Column<int>(type: "int", nullable: false),
+                    AnneeParcours = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Etudiants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Etudiants_Adresses_AdresseFacturationId",
-                        column: x => x.AdresseFacturationId,
-                        principalTable: "Adresses",
-                        principalColumn: "AdresseId");
-                    table.ForeignKey(
-                        name: "FK_Etudiants_Adresses_AdresseLivraisonId",
-                        column: x => x.AdresseLivraisonId,
+                        name: "FK_Etudiants_Adresses_AdresseId",
+                        column: x => x.AdresseId,
                         principalTable: "Adresses",
                         principalColumn: "AdresseId");
                     table.ForeignKey(
@@ -511,16 +504,15 @@ namespace vlissides_bibliotheque.Migrations
                         name: "FK_Etudiants_Utilisateurs_Id",
                         column: x => x.Id,
                         principalTable: "Utilisateurs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "CoursEtudiant",
                 columns: table => new
                 {
-                    CoursId = table.Column<int>(type: "INTEGER", nullable: false),
-                    EtudiantId = table.Column<string>(type: "TEXT", nullable: false)
+                    CoursId = table.Column<int>(type: "int", nullable: false),
+                    EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -543,13 +535,13 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Evaluations",
                 columns: table => new
                 {
-                    EvaluationId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    EtudiantId = table.Column<string>(type: "TEXT", nullable: false),
-                    Etoiles = table.Column<int>(type: "INTEGER", nullable: false),
-                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Titre = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true),
-                    Commentaire = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false)
+                    EvaluationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Etoiles = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Titre = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Commentaire = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -566,14 +558,14 @@ namespace vlissides_bibliotheque.Migrations
                 name: "FactureEtudiant",
                 columns: table => new
                 {
-                    FactureEtudiantId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    TypePaiementId = table.Column<int>(type: "INTEGER", nullable: false),
-                    EtudiantId = table.Column<string>(type: "TEXT", nullable: false),
-                    AdresseLivraisonId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DateFacturation = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Tps = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Tvq = table.Column<decimal>(type: "TEXT", nullable: false)
+                    FactureEtudiantId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TypePaiementId = table.Column<int>(type: "int", nullable: false),
+                    EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AdresseLivraisonId = table.Column<int>(type: "int", nullable: false),
+                    DateFacturation = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Tps = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Tvq = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -591,9 +583,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FactureEtudiant_TypesPaiements_TypePaiementId",
+                        name: "FK_FactureEtudiant_TypesPaiement_TypePaiementId",
                         column: x => x.TypePaiementId,
-                        principalTable: "TypesPaiements",
+                        principalTable: "TypesPaiement",
                         principalColumn: "TypePaiementId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -602,12 +594,12 @@ namespace vlissides_bibliotheque.Migrations
                 name: "LivresEtudiants",
                 columns: table => new
                 {
-                    LivreId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    EtudiantId = table.Column<string>(type: "TEXT", nullable: false),
-                    Titre = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false),
-                    PhotoCouverture = table.Column<string>(type: "TEXT", nullable: false)
+                    LivreId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Titre = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -624,8 +616,8 @@ namespace vlissides_bibliotheque.Migrations
                 name: "EvaluationsLivres",
                 columns: table => new
                 {
-                    LivreBibliothequeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    EvaluationId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
+                    EvaluationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -637,9 +629,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "EvaluationId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EvaluationsLivres_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_EvaluationsLivres_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -648,9 +640,9 @@ namespace vlissides_bibliotheque.Migrations
                 name: "CommandesEtudiants",
                 columns: table => new
                 {
-                    FactureEtudiantId = table.Column<int>(type: "INTEGER", nullable: false),
-                    LivreBibliothequeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Quantite = table.Column<int>(type: "INTEGER", nullable: false)
+                    FactureEtudiantId = table.Column<int>(type: "int", nullable: false),
+                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
+                    Quantite = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -662,9 +654,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "FactureEtudiantId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CommandesEtudiants_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_CommandesEtudiants_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -672,37 +664,27 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "834684ee-d07f-470a-91ea-01feb16d2f90", "6494238c-5ee0-4d6a-925d-20f0e932e406", "Admin", "ADMIN" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c2c54011-c8a3-44b7-a560-b76da1383d79", "69162fbd-767b-4ecd-8cc9-fd1fe2e0322f", "Utilisateur", "UTILISATEUR" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c7a578b8-1d4b-43c3-a85e-179d132e2aed", "9985b076-ab9a-4538-b692-34b21ed3d2e6", "Etudiant", "ETUDIANT" });
+                values: new object[,]
+                {
+                    { "834684ee-d07f-470a-91ea-01feb16d2f90", "6494238c-5ee0-4d6a-925d-20f0e932e406", "Admin", "ADMIN" },
+                    { "c2c54011-c8a3-44b7-a560-b76da1383d79", "69162fbd-767b-4ecd-8cc9-fd1fe2e0322f", "Utilisateur", "UTILISATEUR" },
+                    { "c7a578b8-1d4b-43c3-a85e-179d132e2aed", "9985b076-ab9a-4538-b692-34b21ed3d2e6", "Etudiant", "ETUDIANT" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", false, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEJePOjsOcLbpG88ZTPqcTzd17JhRFcO79fROFmApelrd1NBhDBpOUKWNVaQJHJj7DQ==", null, false, "de2b9e84-275b-4da3-beae-294a051c01cc", false, "gordon.john@gunclub-alabama.us" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEHSXlukD9Aon0oV0jPtIsmedeJu4I4M7Uk0pEwgbjczexcQAYRM82kfilSqvyXl92A==", null, false, "d58a8076-77b7-4aa0-acf0-44a5a4b3c8b0", false, "gordon.john@gunclub-alabama.us" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
                 columns: new[] { "EtatLivreId", "Nom" },
-                values: new object[] { 1, "Neuf" });
-
-            migrationBuilder.InsertData(
-                table: "EtatsLivres",
-                columns: new[] { "EtatLivreId", "Nom" },
-                values: new object[] { 2, "Usagé" });
-
-            migrationBuilder.InsertData(
-                table: "EtatsLivres",
-                columns: new[] { "EtatLivreId", "Nom" },
-                values: new object[] { 3, "Numérique" });
+                values: new object[,]
+                {
+                    { 1, "Neuf" },
+                    { 2, "Usagé" },
+                    { 3, "Numérique" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -728,7 +710,8 @@ namespace vlissides_bibliotheque.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -754,7 +737,8 @@ namespace vlissides_bibliotheque.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AuteursLivres_LivreBibliothequeId",
@@ -792,14 +776,9 @@ namespace vlissides_bibliotheque.Migrations
                 column: "ProfesseurId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Etudiants_AdresseFacturationId",
+                name: "IX_Etudiants_AdresseId",
                 table: "Etudiants",
-                column: "AdresseFacturationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Etudiants_AdresseLivraisonId",
-                table: "Etudiants",
-                column: "AdresseLivraisonId");
+                column: "AdresseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Etudiants_ProgrammeEtudeId",
@@ -837,8 +816,8 @@ namespace vlissides_bibliotheque.Migrations
                 column: "TypePaiementId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivresBibliotheques_MaisonEditionId",
-                table: "LivresBibliotheques",
+                name: "IX_LivresBibliotheque_MaisonEditionId",
+                table: "LivresBibliotheque",
                 column: "MaisonEditionId");
 
             migrationBuilder.CreateIndex(
@@ -847,13 +826,13 @@ namespace vlissides_bibliotheque.Migrations
                 column: "EtudiantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrixEtatLivres_EtatLivreId",
-                table: "PrixEtatLivres",
+                name: "IX_PrixEtatsLivres_EtatLivreId",
+                table: "PrixEtatsLivres",
                 column: "EtatLivreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrixEtatLivres_LivreBibliothequeId",
-                table: "PrixEtatLivres",
+                name: "IX_PrixEtatsLivres_LivreBibliothequeId",
+                table: "PrixEtatsLivres",
                 column: "LivreBibliothequeId");
         }
 
@@ -899,7 +878,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "LivresEtudiants");
 
             migrationBuilder.DropTable(
-                name: "PrixEtatLivres");
+                name: "PrixEtatsLivres");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -914,7 +893,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Cours");
 
             migrationBuilder.DropTable(
-                name: "Professeur");
+                name: "Professeurs");
 
             migrationBuilder.DropTable(
                 name: "Evaluations");
@@ -926,10 +905,10 @@ namespace vlissides_bibliotheque.Migrations
                 name: "EtatsLivres");
 
             migrationBuilder.DropTable(
-                name: "LivresBibliotheques");
+                name: "LivresBibliotheque");
 
             migrationBuilder.DropTable(
-                name: "TypesPaiements");
+                name: "TypesPaiement");
 
             migrationBuilder.DropTable(
                 name: "Etudiants");
@@ -947,7 +926,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Utilisateurs");
 
             migrationBuilder.DropTable(
-                name: "Province");
+                name: "Provinces");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
