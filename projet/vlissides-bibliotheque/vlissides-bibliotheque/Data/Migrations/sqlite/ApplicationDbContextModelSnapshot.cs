@@ -2,8 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using vlissides_bibliotheque.Data;
 
@@ -12,41 +10,35 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221017202928_evaluation-EtudiantId")]
-    partial class evaluationEtudiantId
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.9");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
 
@@ -78,19 +70,17 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -102,54 +92,54 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -158,8 +148,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -168,19 +157,17 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -193,18 +180,18 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderKey")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -216,10 +203,10 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -238,18 +225,18 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -260,33 +247,31 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("AdresseId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdresseId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("App")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("CodePostal")
                         .IsRequired()
                         .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("NumeroCivique")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ProvinceId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Rue")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Ville")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("AdresseId");
 
@@ -299,19 +284,17 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("AuteurId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuteurId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Prenom")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("AuteurId");
 
@@ -321,10 +304,10 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("vlissides_bibliotheque.Models.AuteurLivre", b =>
                 {
                     b.Property<int>("AuteurId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("LivreBibliothequeId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("AuteurId", "LivreBibliothequeId");
 
@@ -336,13 +319,13 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("vlissides_bibliotheque.Models.CommandeEtudiant", b =>
                 {
                     b.Property<int>("FactureEtudiantId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("LivreBibliothequeId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantite")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("FactureEtudiantId", "LivreBibliothequeId");
 
@@ -355,26 +338,24 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("CommanditaireId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommanditaireId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Courriel")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("CommanditaireId");
 
@@ -385,28 +366,26 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("CoursId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoursId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AnneeParcours")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ProgrammeEtudeId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("CoursId");
 
@@ -418,10 +397,10 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("vlissides_bibliotheque.Models.CoursEtudiant", b =>
                 {
                     b.Property<int>("CoursId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("EtudiantId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("CoursId", "EtudiantId");
 
@@ -434,18 +413,16 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("CoursLivreId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoursLivreId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Complementaire")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CoursId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("LivreBibliothequeId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("CoursLivreId");
 
@@ -459,10 +436,10 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("vlissides_bibliotheque.Models.CoursProfesseur", b =>
                 {
                     b.Property<int>("CoursId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ProfesseurId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("CoursId", "ProfesseurId");
 
@@ -475,13 +452,11 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("EtatLivreId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EtatLivreId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("EtatLivreId");
 
@@ -509,28 +484,26 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("EvaluationId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EvaluationId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Commentaire")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Etoiles")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("EtudiantId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Titre")
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("EvaluationId");
 
@@ -542,10 +515,10 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("vlissides_bibliotheque.Models.EvaluationLivre", b =>
                 {
                     b.Property<int>("EvaluationId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("LivreBibliothequeId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("EvaluationId", "LivreBibliothequeId");
 
@@ -558,32 +531,30 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("EvenementId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EvenementId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CommanditaireId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Debut")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Fin")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("EvenementId");
 
@@ -596,28 +567,26 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("FactureEtudiantId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FactureEtudiantId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AdresseLivraisonId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateFacturation")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("EtudiantId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Tps")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Tvq")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TypePaiementId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("FactureEtudiantId");
 
@@ -634,66 +603,62 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("LivreId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LivreId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DatePublication")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Isbn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("MaisonEditionId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PhotoCouverture")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Resume")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Titre")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("LivreId");
 
                     b.HasIndex("MaisonEditionId");
 
-                    b.ToTable("LivresBibliotheque");
+                    b.ToTable("LivresBibliotheques");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.LivreEtudiant", b =>
                 {
                     b.Property<int>("LivreId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LivreId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("EtudiantId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PhotoCouverture")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Titre")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("LivreId");
 
@@ -706,13 +671,11 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("MaisonEditionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaisonEditionId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("MaisonEditionId");
 
@@ -723,18 +686,16 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("PrixEtatLivreId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrixEtatLivreId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EtatLivreId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("LivreBibliothequeId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double>("Prix")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.HasKey("PrixEtatLivreId");
 
@@ -742,46 +703,42 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasIndex("LivreBibliothequeId");
 
-                    b.ToTable("PrixEtatsLivres");
+                    b.ToTable("PrixEtatLivres");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Professeur", b =>
                 {
                     b.Property<int>("ProfesseurId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfesseurId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Prenom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ProfesseurId");
 
-                    b.ToTable("Professeurs");
+                    b.ToTable("Professeur");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.ProgrammeEtude", b =>
                 {
                     b.Property<int>("ProgrammeEtudeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgrammeEtudeId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ProgrammeEtudeId");
 
@@ -792,34 +749,30 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.Property<int>("ProvinceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProvinceId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ProvinceId");
 
-                    b.ToTable("Provinces");
+                    b.ToTable("Province");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.TypePaiement", b =>
                 {
                     b.Property<int>("TypePaiementId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypePaiementId"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("TypePaiementId");
 
-                    b.ToTable("TypesPaiement");
+                    b.ToTable("TypesPaiements");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Utilisateur", b =>
@@ -829,12 +782,12 @@ namespace vlissides_bibliotheque.Migrations
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Prenom")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("TEXT");
 
                     b.ToTable("Utilisateurs", (string)null);
 
@@ -845,13 +798,13 @@ namespace vlissides_bibliotheque.Migrations
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d67bb86f-d158-4f17-8142-49f7c65c082c",
                             Email = "gordon.john@gunclub-alabama.us",
-                            EmailConfirmed = true,
+                            EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
                             NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAENYs1UxkVpUhmnVwrnWjQd7Ku5UueG5wnHPaWJzeben8ZcKUgwqRKyGdsblUCscsDw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJePOjsOcLbpG88ZTPqcTzd17JhRFcO79fROFmApelrd1NBhDBpOUKWNVaQJHJj7DQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d636487a-03a4-4334-b9fb-6c6034a47f98",
+                            SecurityStamp = "de2b9e84-275b-4da3-beae-294a051c01cc",
                             TwoFactorEnabled = false,
                             UserName = "gordon.john@gunclub-alabama.us",
                             Nom = "John",
@@ -863,16 +816,21 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.HasBaseType("vlissides_bibliotheque.Models.Utilisateur");
 
-                    b.Property<int>("AdresseId")
-                        .HasColumnType("int");
+                    b.Property<int>("AdresseFacturationId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AdresseLivraisonId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AnneeParcours")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ProgrammeEtudeId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("AdresseId");
+                    b.HasIndex("AdresseFacturationId");
+
+                    b.HasIndex("AdresseLivraisonId");
 
                     b.HasIndex("ProgrammeEtudeId");
 
@@ -1161,22 +1119,28 @@ namespace vlissides_bibliotheque.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithOne()
                         .HasForeignKey("vlissides_bibliotheque.Models.Utilisateur", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Etudiant", b =>
                 {
-                    b.HasOne("vlissides_bibliotheque.Models.Adresse", "Adresse")
+                    b.HasOne("vlissides_bibliotheque.Models.Adresse", "AdresseFacturation")
                         .WithMany()
-                        .HasForeignKey("AdresseId")
+                        .HasForeignKey("AdresseFacturationId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("vlissides_bibliotheque.Models.Adresse", "AdresseLivraison")
+                        .WithMany()
+                        .HasForeignKey("AdresseLivraisonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("vlissides_bibliotheque.Models.Utilisateur", null)
                         .WithOne()
                         .HasForeignKey("vlissides_bibliotheque.Models.Etudiant", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("vlissides_bibliotheque.Models.ProgrammeEtude", "ProgrammeEtude")
@@ -1185,7 +1149,9 @@ namespace vlissides_bibliotheque.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Adresse");
+                    b.Navigation("AdresseFacturation");
+
+                    b.Navigation("AdresseLivraison");
 
                     b.Navigation("ProgrammeEtude");
                 });
