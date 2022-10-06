@@ -17,12 +17,12 @@ namespace vlissides_bibliotheque.Validation
 		{
 			string ISBN = (string)value;
 
-			if(ISBN.Length == 10 || ISBN.Length == 13) 
+			if(ISBN != null && (ISBN.Length == 10 || ISBN.Length == 13)) 
 			{
-				return new ValidationResult(ErrorMessage = $"Le nombre de charactères de l'ISBN doit être entre 10 et 13.");
-			}
+                return ValidationResult.Success;
+            }
 
-			return ValidationResult.Success;
+            return new ValidationResult(ErrorMessage = $"Le nombre de charactères de l'ISBN doit être entre 10 et 13.");
 		}
 	}
 }
