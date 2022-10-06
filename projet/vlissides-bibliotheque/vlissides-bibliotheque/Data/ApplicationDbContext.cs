@@ -20,18 +20,18 @@ namespace vlissides_bibliotheque.Data
         public DbSet<Evaluation> Evaluations { get; set; }
         public DbSet<EvaluationLivre> EvaluationsLivres { get; set; }
         public DbSet<Evenement> Evenements { get; set; }
-        public DbSet<LivreBibliotheque> LivresBibliotheques { get; set; }
+        public DbSet<LivreBibliotheque> LivresBibliotheque { get; set; }
         public DbSet<LivreEtudiant> LivresEtudiants { get; set; }
         public DbSet<ProgrammeEtude> ProgrammesEtudes { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
-        public DbSet<TypePaiement> TypesPaiements { get; set; }
+        public DbSet<TypePaiement> TypesPaiement { get; set; }
         public DbSet<MaisonEdition> MaisonsEditions { get; set; }
-        public DbSet<PrixEtatLivre> PrixEtatLivres { get; set; }
+        public DbSet<PrixEtatLivre> PrixEtatsLivres { get; set; }
         public DbSet<CoursLivre> CoursLivres { get; set; }
         public DbSet<Cours> Cours { get; set; }
         public DbSet<CoursProfesseur> CoursProfesseurs { get; set; }
-        public DbSet<Professeur> Professeur { get; set; }
-        public DbSet<Province> Province { get; set; }
+        public DbSet<Professeur> Professeurs { get; set; }
+        public DbSet<Province> Provinces { get; set; }
 
         private const string ROLE_ADMIN_ID = "834684ee-d07f-470a-91ea-01feb16d2f90";
         private const string ROLE_ADMIN_CONCURRENCYSTAMP = "6494238c-5ee0-4d6a-925d-20f0e932e406";
