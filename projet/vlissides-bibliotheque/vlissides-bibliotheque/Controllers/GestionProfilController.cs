@@ -34,7 +34,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
-            Adresse adresse = utilisateurCourant.GetAdresseFacturation(_context);
+            Adresse adresse = utilisateurCourant.GetAdresse(_context);
 
             GestionProfilVM vm = new() {
                 Courriel = utilisateurCourant.Email,
@@ -68,7 +68,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
-                Adresse adresse = utilisateurCourant.GetAdresseFacturation(_context);
+                Adresse adresse = utilisateurCourant.GetAdresse(_context);
 
                 adresse.App = vm.App;
                 adresse.CodePostal = vm.CodePostal;
