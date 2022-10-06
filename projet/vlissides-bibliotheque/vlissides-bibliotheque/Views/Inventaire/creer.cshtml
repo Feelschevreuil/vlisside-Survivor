@@ -1,0 +1,108 @@
+﻿@model CreationLivreVM
+
+<div class="col-md-6">
+    <form method="post" class="col-md-6 d-block m-auto" asp-action="Creer" asp-controller="Inventaire">
+        <fieldset class="rounded shadow p-3 m-2 mb-4">
+            <div class="form-group">
+                <label asp-for="Cours" class="form-label"></label>
+                <select asp-for="Cours" asp-items="Model.ListeCours" class="form-control" aria-required="true">
+                    <option>Sélectionner un cours</option>
+                </select>
+                <span asp-validation-for="Cours" class="text-danger"></span>
+            </div>
+        </fieldset>
+
+        <fieldset class="rounded shadow p-3 m-2 mb-4">
+            <div class="form-group">
+                <label asp-for="Auteur" class="form-label"></label>
+                <select asp-for="Auteur" asp-items="Model.Auteurs" class="form-control" aria-required="true">
+                    <option>Sélectionner un auteur</option>
+                </select>
+                <span asp-validation-for="Auteur" class="text-danger"></span>
+            </div>
+        </fieldset>
+
+        <fieldset class="rounded shadow p-3 m-2 mb-4">
+            <div class="form-group">
+                <div class="col-auto">
+                    <label class="sr-only" for="inlineFormInputGroup">Inventaire +</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Numérique</div>
+                        </div>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">$</div>
+                        </div>
+                        <input asp-for="PrixNumerqiue" class="form-control" aria-required="true" type="text" placeholder="prix"/>
+                        <input asp-for="PossedeNumerique" aria-required="true" type="checkbox" />
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Neuf</div>
+                        </div>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">$</div>
+                        </div>
+                        <input asp-for="PrixNeuf" class="form-control" aria-required="true" type="text" placeholder="prix" />
+                        <input asp-for="PossedeNeuf" aria-required="true" type="checkbox" />
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Usagé</div>
+                        </div>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">$</div>
+                        </div>
+                        <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix"/>
+                        <input asp-for="QuantiteUsagee" aria-required="true" type="number" placeholder="Quantité"/>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="rounded shadow p-3 m-2 mb-4">
+            <div class="form-group">
+                <label asp-for="MaisonDedition" class="form-label"></label>
+                <select asp-for="MaisonDedition" asp-items="Model.MaisonsDeditions" class="form-control" aria-required="true">
+                    <option>Sélectionner une maison d'étition'</option>
+                </select>
+                <span asp-validation-for="MaisonDedition" class="text-danger"></span>
+            </div>
+        </fieldset>
+
+        <fieldset class="rounded shadow p-3 m-2 mb-4">
+            <div class="form-group">
+                <label asp-for="Titre" class="form-label"></label>
+                <input asp-for="Titre" class="form-control" aria-required="true" />
+                <span asp-validation-for="Titre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ISBN" class="form-label"></label>
+                <input asp-for="ISBN" class="form-control" aria-required="true" />
+                <span asp-validation-for="ISBN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Resume" class="form-label"></label>
+                <input asp-for="Resume" class="form-control" aria-required="true" />
+                <span asp-validation-for="Resume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="form-label"></label>
+                <input asp-for="Photo" class="form-control" aria-required="true" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DatePublication" class="form-label"></label>
+                <input asp-for="DatePublication" class="form-control" aria-required="true" />
+                <span asp-validation-for="DatePublication" class="text-danger"></span>
+            </div>
+        </fieldset>
+
+        <div class="m-3 mt-4">
+            <button type="submit" class="btn btn-primary col-md-12 shadow">Creer</button>
+        </div>
+
+        @Html.AntiForgeryToken()
+
+    </form>
+</div>
