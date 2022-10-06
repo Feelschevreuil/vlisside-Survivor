@@ -9,6 +9,9 @@ Un `pull request` est effectué pour qu'un collègue valide que nous avons bien 
 lignes de conduite en ce qui concerne l'utilisation de `git` et du standard de code pour
 que notre code soit organisé et uniforme.
 
+Une fois le document présent lu, basez-vous sur le [template de pull request](pull-request-template.md) pour conséerver
+la même structure.
+
 # Faire un pull request
 Pour qu'un `pull request` soit clair, on divise le pull request en quatre parties.
 
