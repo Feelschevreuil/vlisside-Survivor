@@ -69,11 +69,29 @@ namespace vlissides_bibliotheque.Controllers
 
         }
 
+
+        [HttpGet]
         public ActionResult creer()
         {
 
             CreationLivreVM nouveauLivre = new CreationLivreVM { Auteurs = ListDropDownAuteurs(), Etats = ListDropDownEtats(), MaisonsDeditions = ListDropDownMaisonDedition(), ListeCours = ListDropDownCours() };
             return View(nouveauLivre);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult creer(CreationLivreVM form)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            form.Auteurs = ListDropDownAuteurs();
+            form.ListeCours = ListDropDownCours();
+            form.Etats= ListDropDownEtats();
+            form.MaisonsDeditions = ListDropDownMaisonDedition();
+            return View(form);
+            
         }
 
         public List<SelectListItem> ListDropDownAuteurs()
