@@ -23,20 +23,9 @@ namespace seeder
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
             string connectionString;
+	    connectionString = configuration.GetConnectionString("mssql") ?? throw new InvalidOperationException("Connection string 'mssql' not found.");
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                connectionString = configuration.GetConnectionString("mssql") ?? throw new InvalidOperationException("Connection string 'mssql' not found.");
-
-                builder.UseSqlServer(connectionString);
-            }
-            else
-            {
-                connectionString = configuration.GetConnectionString("sqlite") ?? throw new InvalidOperationException("Connection string 'sqlite' not found.");
-
-                builder.UseSqlite(connectionString);
-            }
-
+	    builder.UseSqlServer(connectionString);
             builder.EnableSensitiveDataLogging(true);
             builder.EnableDetailedErrors(true);
 
