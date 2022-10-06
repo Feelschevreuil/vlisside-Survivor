@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vlissides_bibliotheque.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -105,7 +105,7 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Professeur",
+                name: "Professeurs",
                 columns: table => new
                 {
                     ProfesseurId = table.Column<int>(type: "int", nullable: false)
@@ -115,7 +115,7 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Professeur", x => x.ProfesseurId);
+                    table.PrimaryKey("PK_Professeurs", x => x.ProfesseurId);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,7 +133,7 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Province",
+                name: "Provinces",
                 columns: table => new
                 {
                     ProvinceId = table.Column<int>(type: "int", nullable: false)
@@ -142,11 +142,11 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Province", x => x.ProvinceId);
+                    table.PrimaryKey("PK_Provinces", x => x.ProvinceId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TypesPaiements",
+                name: "TypesPaiement",
                 columns: table => new
                 {
                     TypePaiementId = table.Column<int>(type: "int", nullable: false)
@@ -155,7 +155,7 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TypesPaiements", x => x.TypePaiementId);
+                    table.PrimaryKey("PK_TypesPaiement", x => x.TypePaiementId);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,7 +307,7 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LivresBibliotheques",
+                name: "LivresBibliotheque",
                 columns: table => new
                 {
                     LivreId = table.Column<int>(type: "int", nullable: false)
@@ -321,9 +321,9 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LivresBibliotheques", x => x.LivreId);
+                    table.PrimaryKey("PK_LivresBibliotheque", x => x.LivreId);
                     table.ForeignKey(
-                        name: "FK_LivresBibliotheques_MaisonsEditions_MaisonEditionId",
+                        name: "FK_LivresBibliotheque_MaisonsEditions_MaisonEditionId",
                         column: x => x.MaisonEditionId,
                         principalTable: "MaisonsEditions",
                         principalColumn: "MaisonEditionId",
@@ -370,9 +370,9 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     table.PrimaryKey("PK_Adresses", x => x.AdresseId);
                     table.ForeignKey(
-                        name: "FK_Adresses_Province_ProvinceId",
+                        name: "FK_Adresses_Provinces_ProvinceId",
                         column: x => x.ProvinceId,
-                        principalTable: "Province",
+                        principalTable: "Provinces",
                         principalColumn: "ProvinceId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -394,15 +394,15 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "AuteurId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuteursLivres_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_AuteursLivres_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrixEtatLivres",
+                name: "PrixEtatsLivres",
                 columns: table => new
                 {
                     PrixEtatLivreId = table.Column<int>(type: "int", nullable: false)
@@ -413,17 +413,17 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrixEtatLivres", x => x.PrixEtatLivreId);
+                    table.PrimaryKey("PK_PrixEtatsLivres", x => x.PrixEtatLivreId);
                     table.ForeignKey(
-                        name: "FK_PrixEtatLivres_EtatsLivres_EtatLivreId",
+                        name: "FK_PrixEtatsLivres_EtatsLivres_EtatLivreId",
                         column: x => x.EtatLivreId,
                         principalTable: "EtatsLivres",
                         principalColumn: "EtatLivreId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PrixEtatLivres_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_PrixEtatsLivres_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -448,9 +448,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "CoursId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoursLivres_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_CoursLivres_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId");
                 });
 
@@ -471,9 +471,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "CoursId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoursProfesseurs_Professeur_ProfesseurId",
+                        name: "FK_CoursProfesseurs_Professeurs_ProfesseurId",
                         column: x => x.ProfesseurId,
-                        principalTable: "Professeur",
+                        principalTable: "Professeurs",
                         principalColumn: "ProfesseurId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -484,21 +484,15 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProgrammeEtudeId = table.Column<int>(type: "int", nullable: false),
-                    AdresseLivraisonId = table.Column<int>(type: "int", nullable: false),
-                    AdresseFacturationId = table.Column<int>(type: "int", nullable: false),
+                    AdresseId = table.Column<int>(type: "int", nullable: false),
                     AnneeParcours = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Etudiants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Etudiants_Adresses_AdresseFacturationId",
-                        column: x => x.AdresseFacturationId,
-                        principalTable: "Adresses",
-                        principalColumn: "AdresseId");
-                    table.ForeignKey(
-                        name: "FK_Etudiants_Adresses_AdresseLivraisonId",
-                        column: x => x.AdresseLivraisonId,
+                        name: "FK_Etudiants_Adresses_AdresseId",
+                        column: x => x.AdresseId,
                         principalTable: "Adresses",
                         principalColumn: "AdresseId");
                     table.ForeignKey(
@@ -589,9 +583,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FactureEtudiant_TypesPaiements_TypePaiementId",
+                        name: "FK_FactureEtudiant_TypesPaiement_TypePaiementId",
                         column: x => x.TypePaiementId,
-                        principalTable: "TypesPaiements",
+                        principalTable: "TypesPaiement",
                         principalColumn: "TypePaiementId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -635,9 +629,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "EvaluationId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EvaluationsLivres_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_EvaluationsLivres_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -660,9 +654,9 @@ namespace vlissides_bibliotheque.Migrations
                         principalColumn: "FactureEtudiantId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CommandesEtudiants_LivresBibliotheques_LivreBibliothequeId",
+                        name: "FK_CommandesEtudiants_LivresBibliotheque_LivreBibliothequeId",
                         column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheques",
+                        principalTable: "LivresBibliotheque",
                         principalColumn: "LivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -680,7 +674,7 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEF+cmTq4F/8HCEI7IEeA/zof7YvLEyssyt7i3xjDAcH22rKgnubkfU6RK//tKUxumQ==", null, false, "f0ff10e3-6833-4418-8439-e9e1735ba94a", false, "gordon.john@gunclub-alabama.us" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEHSXlukD9Aon0oV0jPtIsmedeJu4I4M7Uk0pEwgbjczexcQAYRM82kfilSqvyXl92A==", null, false, "d58a8076-77b7-4aa0-acf0-44a5a4b3c8b0", false, "gordon.john@gunclub-alabama.us" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
@@ -782,14 +776,9 @@ namespace vlissides_bibliotheque.Migrations
                 column: "ProfesseurId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Etudiants_AdresseFacturationId",
+                name: "IX_Etudiants_AdresseId",
                 table: "Etudiants",
-                column: "AdresseFacturationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Etudiants_AdresseLivraisonId",
-                table: "Etudiants",
-                column: "AdresseLivraisonId");
+                column: "AdresseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Etudiants_ProgrammeEtudeId",
@@ -827,8 +816,8 @@ namespace vlissides_bibliotheque.Migrations
                 column: "TypePaiementId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivresBibliotheques_MaisonEditionId",
-                table: "LivresBibliotheques",
+                name: "IX_LivresBibliotheque_MaisonEditionId",
+                table: "LivresBibliotheque",
                 column: "MaisonEditionId");
 
             migrationBuilder.CreateIndex(
@@ -837,13 +826,13 @@ namespace vlissides_bibliotheque.Migrations
                 column: "EtudiantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrixEtatLivres_EtatLivreId",
-                table: "PrixEtatLivres",
+                name: "IX_PrixEtatsLivres_EtatLivreId",
+                table: "PrixEtatsLivres",
                 column: "EtatLivreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrixEtatLivres_LivreBibliothequeId",
-                table: "PrixEtatLivres",
+                name: "IX_PrixEtatsLivres_LivreBibliothequeId",
+                table: "PrixEtatsLivres",
                 column: "LivreBibliothequeId");
         }
 
@@ -889,7 +878,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "LivresEtudiants");
 
             migrationBuilder.DropTable(
-                name: "PrixEtatLivres");
+                name: "PrixEtatsLivres");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -904,7 +893,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Cours");
 
             migrationBuilder.DropTable(
-                name: "Professeur");
+                name: "Professeurs");
 
             migrationBuilder.DropTable(
                 name: "Evaluations");
@@ -916,10 +905,10 @@ namespace vlissides_bibliotheque.Migrations
                 name: "EtatsLivres");
 
             migrationBuilder.DropTable(
-                name: "LivresBibliotheques");
+                name: "LivresBibliotheque");
 
             migrationBuilder.DropTable(
-                name: "TypesPaiements");
+                name: "TypesPaiement");
 
             migrationBuilder.DropTable(
                 name: "Etudiants");
@@ -937,7 +926,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Utilisateurs");
 
             migrationBuilder.DropTable(
-                name: "Province");
+                name: "Provinces");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
