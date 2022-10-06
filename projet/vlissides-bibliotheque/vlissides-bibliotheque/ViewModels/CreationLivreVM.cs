@@ -41,7 +41,7 @@ namespace vlissides_bibliotheque.ViewModels
 
 		public bool Obligatoire { get; set; } = false;
 
-        [Isbn]
+		[Isbn]
 		public string ISBN { get; set; }
 
 		public string Auteur { get; set; }
