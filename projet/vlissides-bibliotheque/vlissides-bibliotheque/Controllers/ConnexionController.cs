@@ -109,10 +109,8 @@ namespace vlissides_bibliotheque.Controllers
                     Prenom = vm.Prenom,
                     PhoneNumber = vm.NoTelephone,
                     ProgrammeEtudeId = vm.ProgrammeEtudeId,
-                    AdresseFacturationId = adresse.AdresseId,
-                    AdresseFacturation = adresse,
-                    AdresseLivraisonId = adresse.AdresseId,
-                    AdresseLivraison = adresse,
+                    AdresseId = adresse.AdresseId,
+                    Adresse = adresse,
                     EmailConfirmed = true
                 };
 
