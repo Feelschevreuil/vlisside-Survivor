@@ -193,12 +193,7 @@ namespace vlissides_bibliotheque.Data
                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Etudiant>()
-                .HasOne(m => m.AdresseFacturation)
-                .WithMany()
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<Etudiant>()
-                .HasOne(m => m.AdresseLivraison)
+                .HasOne(m => m.Adresse)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
 
