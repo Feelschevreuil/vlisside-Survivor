@@ -45,16 +45,17 @@ namespace vlissides_bibliotheque.ViewModels
 		public string ISBN { get; set; }
 
 		public string Auteur { get; set; }
+
+		[Required(ErrorMessage = "Le champ Auteur doit être rempli")]
 		public List<SelectListItem> Auteurs { get; set; }
 
 		public string Cours { get; set; }
+		[Required(ErrorMessage = "Le champ Cours doit être rempli")]
 		public List<SelectListItem> ListeCours { get; set; }
-
-		public string Etat { get; set; }
-		public List<SelectListItem> Etats { get; set; }
 
 		[DisplayName("Maison d'édition")]
 		public string MaisonDedition { get; set; }
+		[Required(ErrorMessage = "Le champ Maison d'édition doit être rempli")]
 		public List<SelectListItem> MaisonsDeditions { get; set; }
 	}
 
