@@ -11,6 +11,6 @@ namespace vlissides_bibliotheque.ViewModels
 
         public List<Evenement> evenements;
 
-        public List<Cours> cours;
+        public List<CoursProfesseur> coursProfesseurs;
     }
 }
