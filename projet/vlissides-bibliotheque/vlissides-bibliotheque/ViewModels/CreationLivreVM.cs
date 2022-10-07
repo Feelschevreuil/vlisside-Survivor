@@ -19,7 +19,8 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[Required(ErrorMessage = "La date de publication est nécéssaire")]
 		[DisplayName("Date de publication")]
-		public DateTime DatePublication { get; set; }
+		[DataType(DataType.Date)]
+		public DateTime DatePublication { get; set; } = DateTime.Now;
 
 		[DisplayName("Usagé")]
 		public double PrixUsage { get; set; }
