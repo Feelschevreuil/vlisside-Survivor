@@ -10,5 +10,7 @@ namespace vlissides_bibliotheque.ViewModels
         public List<EvaluationLivre> livreBibliothequesEvaluation;
 
         public List<Evenement> evenements;
+
+        public List<Cours> cours;
     }
 }
