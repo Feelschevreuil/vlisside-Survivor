@@ -7,10 +7,9 @@ namespace vlissides_bibliotheque.ViewModels
     /// </summary>
     public class RecommendationPromotionsVM
     {
-        public List<EvaluationLivre> livreBibliothequesEvaluation;
+        public List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs;
 
         public List<Evenement> evenements;
 
-        public List<CoursProfesseur> coursProfesseurs;
     }
 }
