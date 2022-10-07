@@ -80,27 +80,21 @@
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <div class="form-group">
                             <label asp-for="Cours" class="form-label"></label>
-                            <select asp-for="Cours" asp-items="Model.ListeCours" class="form-control" aria-required="true">
-                                <option>Sélectionner un cours</option>
-                            </select>
+                            <select asp-for="Cours" asp-items="Model.ListeCours" class="form-control" aria-required="true"></select>
                             <span asp-validation-for="Cours" class="text-danger"></span>
                         </div>
                     </fieldset>
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <div class="form-group">
                             <label asp-for="Auteur" class="form-label"></label>
-                            <select asp-for="Auteur" asp-items="Model.Auteurs" class="form-control" aria-required="true">
-                                <option>Sélectionner un auteur</option>
-                            </select>
+                            <select asp-for="Auteur" asp-items="Model.Auteurs" class="form-control" aria-required="true"></select>
                             <span asp-validation-for="Auteur" class="text-danger"></span>
                         </div>
                     </fieldset>
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <div class="form-group">
                             <label asp-for="MaisonDedition" class="form-label"></label>
-                            <select asp-for="MaisonDedition" asp-items="Model.MaisonsDeditions" class="form-control" aria-required="true">
-                                <option>Sélectionner une maison d'étition'</option>
-                            </select>
+                            <select asp-for="MaisonDedition" asp-items="Model.MaisonsDeditions" class="form-control" aria-required="true"></select>
                             <span asp-validation-for="MaisonDedition" class="text-danger"></span>
                         </div>
                     </fieldset>
