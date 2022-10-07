@@ -1,14 +1,14 @@
-﻿@model EvaluationLivre
+﻿@model TuileLivreBibliotequeVM
 
 @{
-    int nbrEtoile = Model.Evaluation.Etoiles;
+    int nbrEtoile = Model.livreBibliothequesEvaluation.Evaluation.Etoiles;
 }
 
 
 <div class="card border-2" style="width:auto">
     
     <div class="position-relative text-center">
-        <img class="mx-auto image-livre" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
+        <img class="mx-auto image-livre" src=@Model.livreBibliothequesEvaluation.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle">
             <p class="pt-3">100.99$</p>
         </div>
@@ -24,11 +24,12 @@
 
 
     <div class="card border-0" style="width:auto">
-        <h5 class="card-title ">@Model.LivreBibliotheque.Titre</h5>
-        <p class="card-text">ISBN</p>
-        <p class="card-text">Nom du cours</p>
-        <p class="card-text">Nom du professeur</p>
-        <p class="card-text">Année relier au programme</p>
+        <h5 class="card-title ">@Model.livreBibliothequesEvaluation.LivreBibliotheque.Titre</h5>
+        <p class="card-text">@Model.livreBibliothequesEvaluation.LivreBibliotheque.Isbn</p>
+        <p class="card-text">@Model.coursProfesseurs[0].Cours.Nom</p>
+        <p class="card-text">@Model.coursProfesseurs[0].Professeur.Prenom @Model.coursProfesseurs[1].Professeur.Nom</p>
+        <p class="card-text">@Model.livreBibliothequesEvaluation.LivreBibliotheque.DatePublication.Year</p>
+        <p class="card-text">Année de parcours: @Model.coursProfesseurs[0].Cours.AnneeParcours</p>
     </div>
 
     <footer>
