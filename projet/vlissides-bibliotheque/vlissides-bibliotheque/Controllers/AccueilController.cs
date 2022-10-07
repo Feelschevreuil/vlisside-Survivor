@@ -95,7 +95,7 @@ namespace vlissides_bibliotheque.Controllers
             EvaluationLivre UneEvaluationLivre = new() { LivreBibliotheque = livreBibliotheque, Evaluation = evaluation };
 
 
-            listTuileLivreBibliotequeVMs.Add(new TuileLivreBibliotequeVM { livreBibliothequesEvaluation = UneEvaluationLivre, coursProfesseurs = GetCoursProfesseurs() });
+            listTuileLivreBibliotequeVMs.Add(new TuileLivreBibliotequeVM { livreBibliothequesEvaluation = new EvaluationLivre() { Evaluation = new Evaluation { Commentaire = "", Etoiles = 7, Date = DateTime.Now, Titre = "", EvaluationId = 0 }, LivreBibliotheque = new LivreBibliotheque() { Isbn = "1676362s", DatePublication = DateTime.Now, Resume = "bio", Titre = "Le corps humain", LivreId = 0, PhotoCouverture = "https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg" } }, coursProfesseurs = GetCoursProfesseurs() });
 
 
 
