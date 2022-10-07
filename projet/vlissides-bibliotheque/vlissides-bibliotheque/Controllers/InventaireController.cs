@@ -30,6 +30,14 @@ namespace vlissides_bibliotheque.Controllers
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=3,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn="jshfiffdddddd",DatePublication=DateTime.MaxValue,Titre="Paramire",Resume="Un jeune mage dont le père est posséidon part à l'aventure dans un monde magique rempli de monstre et d'aventure aventureuses",LivreId=2,PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"} }
             };
 
+            List<CoursProfesseur> listCoursProfesseurs = new()
+            {
+                new CoursProfesseur(){Cours=_context.Cours.First(),Professeur=new Professeur{ Nom="Bob",Prenom="Marley"} },
+                new CoursProfesseur() { Cours = _context.Cours.First(), Professeur = new Professeur { Nom = "Mike", Prenom = "Bernard" } },
+                new CoursProfesseur(){Cours=_context.Cours.First(),Professeur=new Professeur{ Nom="HAHAHAHAHHA",Prenom="aaaAAAAAAA̵͗̊͂̔͑̉̿̂̇͊̓̈́̂̍̍̀͐̐̀͌̈̀͂̉͘͘̕͠͝͝ͅ"} }
+
+            };
+
             Commanditaire commandit = new Commanditaire() { Courriel = "aaaaaaa@gmail.cum", CommanditaireId = 0, Message = "VENEZ ACHETER NOS DÉLICIEUX BISCUITS", Nom = "BakeryChezMarki's", Url = "http//BiscuitsChezMary's.cum" };
             List<Evenement> evenements = new()
             {
@@ -37,7 +45,12 @@ namespace vlissides_bibliotheque.Controllers
 
             };
 
-            RecommendationPromotionsVM recommendationPromotions = new() { livreBibliothequesEvaluation = listeLivres, evenements = evenements };
+            List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
+            {
+                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs,livreBibliothequesEvaluation= new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}}}
+            };
+
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
 
             return View(recommendationPromotions);
 
@@ -56,6 +69,14 @@ namespace vlissides_bibliotheque.Controllers
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=1,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn="jshfiffdddddd",DatePublication=DateTime.MaxValue,Titre="Hanrry potdbeur et la mer des monstres",Resume="Un jeune mage dont le père est posséidon part à l'aventure dans un monde magique rempli de monstre et d'aventure aventureuses",LivreId=2,PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"} }
             };
 
+            List<CoursProfesseur> listCoursProfesseurs = new()
+            {
+                new CoursProfesseur(){Cours=_context.Cours.First(),Professeur=new Professeur{ Nom="Bob",Prenom="Marley"} },
+                new CoursProfesseur() { Cours = _context.Cours.First(), Professeur = new Professeur { Nom = "Mike", Prenom = "Bernard" } },
+                new CoursProfesseur(){Cours=_context.Cours.First(),Professeur=new Professeur{ Nom="HAHAHAHAHHA",Prenom="aaaAAAAAAA̵͗̊͂̔͑̉̿̂̇͊̓̈́̂̍̍̀͐̐̀͌̈̀͂̉͘͘̕͠͝͝ͅ"} }
+
+            };
+
             Commanditaire commandit = new Commanditaire() { Courriel = "aaaaaaa@gmail.cum", CommanditaireId = 0, Message = "VENEZ ACHETER NOS DÉLICIEUX BISCUITS", Nom = "BakeryChezMarki's", Url = "http//BiscuitsChezMary's.cum" };
             List<Evenement> evenements = new()
             {
@@ -63,7 +84,12 @@ namespace vlissides_bibliotheque.Controllers
 
             };
 
-            RecommendationPromotionsVM recommendationPromotions = new() { livreBibliothequesEvaluation = listeLivres, evenements = evenements };
+            List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
+            {
+                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs,livreBibliothequesEvaluation=new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}} }
+            };
+
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
 
             return View(recommendationPromotions);
 
