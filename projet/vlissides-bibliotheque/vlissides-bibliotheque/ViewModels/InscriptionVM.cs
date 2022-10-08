@@ -37,7 +37,7 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Programme d'étude")]
-        public int ProgrammeEtudeId { get; set; }
+        public int? ProgrammeEtudeId { get; set; }
         public SelectList ProgrammeEtudes { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -65,7 +65,8 @@ namespace vlissides_bibliotheque.ViewModels
         public string NoTelephone { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int ProvinceId { get; set; }
+        [Display(Name = "Province")]
+        public int? ProvinceId { get; set; }
         public SelectList Provinces { get; set; }
     }
 }

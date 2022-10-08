@@ -86,7 +86,6 @@ namespace vlissides_bibliotheque.Controllers
         {
             ModelState.Remove(nameof(vm.ProgrammeEtudes));
             ModelState.Remove(nameof(vm.Provinces));
-
             if (ModelState.IsValid) {
 
                 Adresse adresse = new() {
@@ -95,7 +94,7 @@ namespace vlissides_bibliotheque.Controllers
                     NumeroCivique = Convert.ToInt32(vm.NoCivique),
                     Rue = vm.Rue,
                     Ville = vm.Ville,
-                    ProvinceId = vm.ProvinceId,
+                    ProvinceId = (int) vm.ProvinceId,
                 };
 
                 _context.Adresses.Add(adresse);
@@ -108,7 +107,7 @@ namespace vlissides_bibliotheque.Controllers
                     Nom = vm.Nom,
                     Prenom = vm.Prenom,
                     PhoneNumber = vm.NoTelephone,
-                    ProgrammeEtudeId = vm.ProgrammeEtudeId,
+                    ProgrammeEtudeId = (int) vm.ProgrammeEtudeId,
                     AdresseId = adresse.AdresseId,
                     Adresse = adresse,
                     EmailConfirmed = true
