@@ -1,0 +1,11 @@
+.evenement-horloge-debut {
+    width: 1rem;
+    margin-top: -3px;
+}
+
+.evenement-horloge-fin {
+    width: 1rem;
+    margin-top: -3px;
+    -webkit-transform: rotateY('180');
+    transform: scaleX(-1);
+}
