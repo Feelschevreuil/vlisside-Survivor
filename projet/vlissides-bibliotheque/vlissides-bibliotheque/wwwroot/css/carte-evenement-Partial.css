@@ -9,3 +9,11 @@
     -webkit-transform: rotateY('180');
     transform: scaleX(-1);
 }
+
+.image-evenement {
+    height: 10rem;
+}
+
+.tuile-evenement {
+    width: auto;
+}
