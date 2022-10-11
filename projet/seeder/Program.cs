@@ -95,6 +95,8 @@ namespace seeder
             context.LivresBibliotheque.AddRange(getLivresBibliotheques(context));
 
             context.SaveChanges();
+
+	    setPrixEtatsLivres(context);
         }
 
         /// <summary>
@@ -394,6 +396,80 @@ namespace seeder
 		.With(livre => livre.MaisonEditionId = context.MaisonsEditions.First().MaisonEditionId)
 		.Build();
 
+	}
+
+        /// <summary>
+	/// Assigne un état et un prix à chaque livre de la bibliothèque.
+        /// </summary>
+	private static void setPrixEtatsLivres(ApplicationDbContext context) 
+	{
+	    EtatLivre etatUsage;
+	    EtatLivre etatNeuf;
+	    EtatLivre etatDigital;
+
+	    etatUsage = context.EtatsLivres
+		    .Where(etatLivre => etatLivre.Nom == "Usagé").First();
+
+	    etatNeuf = context.EtatsLivres
+		    .Where(etatLivre => etatLivre.Nom == "Neuf").First();
+
+	    etatDigital = context.EtatsLivres
+		    .Where(etatLivre => etatLivre.Nom == "Digital").First();
+
+	    foreach(LivreBibliotheque livreBibliotheque in context.LivresBibliotheque)
+	    {
+
+		PrixEtatLivre prixEtatLivreNeuf;
+		PrixEtatLivre prixEtatLivreDigital;
+
+		if(Faker.Boolean.Random())
+		{
+
+		    PrixEtatLivre prixEtatLivreUsage = new() 
+		    {
+			EtatLivre = etatUsage,
+			LivreBibliotheque = livreBibliotheque,
+			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
+		    };
+
+		    prixEtatLivreNeuf = new() 
+		    {
+			EtatLivre = etatNeuf,
+			LivreBibliotheque = livreBibliotheque,
+			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
+		    };
+
+		    prixEtatLivreDigital = new() 
+		    {
+			EtatLivre = etatDigital,
+			LivreBibliotheque = livreBibliotheque,
+			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
+		    };
+
+		    context.PrixEtatsLivres.Add(prixEtatLivreUsage);
+		} 
+		else 
+		{
+
+		    prixEtatLivreNeuf = new() 
+		    {
+			EtatLivre = etatNeuf,
+			LivreBibliotheque = livreBibliotheque,
+			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
+		    };
+
+		    prixEtatLivreDigital = new() 
+		    {
+			EtatLivre = etatDigital,
+			LivreBibliotheque = livreBibliotheque,
+			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
+		    };
+		}
+
+		context.PrixEtatsLivres.Add(prixEtatLivreNeuf);
+		context.PrixEtatsLivres.Add(prixEtatLivreDigital);
+		context.SaveChanges();
+	    }
 	}
     }
 }
