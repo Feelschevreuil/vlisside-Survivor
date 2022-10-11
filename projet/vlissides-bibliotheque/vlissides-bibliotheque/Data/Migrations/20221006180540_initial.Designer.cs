@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using vlissides_bibliotheque.Data;
 
@@ -10,9 +11,15 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+<<<<<<<< HEAD:projet/vlissides-bibliotheque/vlissides-bibliotheque/Data/Migrations/sqlite/20220928031902_Initial.Designer.cs
+    [Migration("20220928031902_Initial")]
+    partial class Initial
+========
+    [Migration("20221006180540_initial")]
+    partial class initial
+>>>>>>>> develop:projet/vlissides-bibliotheque/vlissides-bibliotheque/Data/Migrations/20221006180540_initial.Designer.cs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.9");
@@ -633,7 +640,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasIndex("MaisonEditionId");
 
-                    b.ToTable("LivresBibliotheques");
+                    b.ToTable("LivresBibliotheque");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.LivreEtudiant", b =>
@@ -703,7 +710,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasIndex("LivreBibliothequeId");
 
-                    b.ToTable("PrixEtatLivres");
+                    b.ToTable("PrixEtatsLivres");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Professeur", b =>
@@ -722,7 +729,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasKey("ProfesseurId");
 
-                    b.ToTable("Professeur");
+                    b.ToTable("Professeurs");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.ProgrammeEtude", b =>
@@ -757,7 +764,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasKey("ProvinceId");
 
-                    b.ToTable("Province");
+                    b.ToTable("Provinces");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.TypePaiement", b =>
@@ -772,7 +779,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasKey("TypePaiementId");
 
-                    b.ToTable("TypesPaiements");
+                    b.ToTable("TypesPaiement");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Utilisateur", b =>
@@ -802,9 +809,15 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
                             NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
+<<<<<<<< HEAD:projet/vlissides-bibliotheque/vlissides-bibliotheque/Data/Migrations/sqlite/20220928031902_Initial.Designer.cs
                             PasswordHash = "AQAAAAEAACcQAAAAEJePOjsOcLbpG88ZTPqcTzd17JhRFcO79fROFmApelrd1NBhDBpOUKWNVaQJHJj7DQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "de2b9e84-275b-4da3-beae-294a051c01cc",
+========
+                            PasswordHash = "AQAAAAEAACcQAAAAEHSXlukD9Aon0oV0jPtIsmedeJu4I4M7Uk0pEwgbjczexcQAYRM82kfilSqvyXl92A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d58a8076-77b7-4aa0-acf0-44a5a4b3c8b0",
+>>>>>>>> develop:projet/vlissides-bibliotheque/vlissides-bibliotheque/Data/Migrations/20221006180540_initial.Designer.cs
                             TwoFactorEnabled = false,
                             UserName = "gordon.john@gunclub-alabama.us",
                             Nom = "John",
@@ -816,11 +829,16 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     b.HasBaseType("vlissides_bibliotheque.Models.Utilisateur");
 
+<<<<<<<< HEAD:projet/vlissides-bibliotheque/vlissides-bibliotheque/Data/Migrations/sqlite/20220928031902_Initial.Designer.cs
                     b.Property<int>("AdresseFacturationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("AdresseLivraisonId")
                         .HasColumnType("INTEGER");
+========
+                    b.Property<int>("AdresseId")
+                        .HasColumnType("int");
+>>>>>>>> develop:projet/vlissides-bibliotheque/vlissides-bibliotheque/Data/Migrations/20221006180540_initial.Designer.cs
 
                     b.Property<int>("AnneeParcours")
                         .HasColumnType("INTEGER");
@@ -828,9 +846,7 @@ namespace vlissides_bibliotheque.Migrations
                     b.Property<int>("ProgrammeEtudeId")
                         .HasColumnType("INTEGER");
 
-                    b.HasIndex("AdresseFacturationId");
-
-                    b.HasIndex("AdresseLivraisonId");
+                    b.HasIndex("AdresseId");
 
                     b.HasIndex("ProgrammeEtudeId");
 
@@ -1125,15 +1141,9 @@ namespace vlissides_bibliotheque.Migrations
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Etudiant", b =>
                 {
-                    b.HasOne("vlissides_bibliotheque.Models.Adresse", "AdresseFacturation")
+                    b.HasOne("vlissides_bibliotheque.Models.Adresse", "Adresse")
                         .WithMany()
-                        .HasForeignKey("AdresseFacturationId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("vlissides_bibliotheque.Models.Adresse", "AdresseLivraison")
-                        .WithMany()
-                        .HasForeignKey("AdresseLivraisonId")
+                        .HasForeignKey("AdresseId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -1149,9 +1159,7 @@ namespace vlissides_bibliotheque.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("AdresseFacturation");
-
-                    b.Navigation("AdresseLivraison");
+                    b.Navigation("Adresse");
 
                     b.Navigation("ProgrammeEtude");
                 });
