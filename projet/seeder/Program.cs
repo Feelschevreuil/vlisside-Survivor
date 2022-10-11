@@ -97,6 +97,8 @@ namespace seeder
             context.SaveChanges();
 
 	    setPrixEtatsLivres(context);
+
+	    setCoursLivres(context);
         }
 
         /// <summary>
@@ -448,6 +450,44 @@ namespace seeder
 
 		context.PrixEtatsLivres.Add(prixEtatLivreNeuf);
 		context.PrixEtatsLivres.Add(prixEtatLivreDigital);
+		context.SaveChanges();
+	    }
+	}
+
+        /// <summary>
+	/// Assigne des livres nécessaires à un cours.
+        /// </summary>
+	private static void setCoursLivres(ApplicationDbContext context)
+	{
+
+	    foreach(Cours cours in context.Cours)
+	    {
+
+		List<CoursLivre> listeCoursLivre = new();
+
+		for(int i = 0; i < Faker.RandomNumber.Next(5,12); i++)
+		{
+
+		    CoursLivre coursLivre;
+		    LivreBibliotheque livreBibliotheque;
+
+		    livreBibliotheque = context
+			.LivresBibliotheque
+			.Skip(Faker.RandomNumber.Next(0, context.LivresBibliotheque.Count()) - 1)
+			.Take(1)
+			.First();
+
+		    coursLivre = new()
+		    {
+			Cours = cours,
+			LivreBibliotheque = livreBibliotheque,
+			Complementaire = Faker.Boolean.Random()
+		    };
+
+		    listeCoursLivre.Add(coursLivre);
+		}
+
+		context.CoursLivres.AddRange(listeCoursLivre);
 		context.SaveChanges();
 	    }
 	}
