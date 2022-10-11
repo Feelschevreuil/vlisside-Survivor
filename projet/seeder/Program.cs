@@ -64,8 +64,8 @@ namespace seeder
             context.MaisonsEditions
                 .RemoveRange(context.MaisonsEditions);
 
-            context.TypesPaiements
-                .RemoveRange(context.TypesPaiements);
+            context.TypesPaiement
+                .RemoveRange(context.TypesPaiement);
             // FIN Enlever les données
 
             // TODO: ranme Province à Provices
