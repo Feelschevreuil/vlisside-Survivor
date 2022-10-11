@@ -16,8 +16,8 @@ namespace seeder
             var context = DbContextBibliotheque.CreateDbContext();
 
             // Enlever les données
-            context.Province
-                .RemoveRange(context.Province);
+            context.Provinces
+                .RemoveRange(context.Provinces);
 
             context.Adresses
                 .RemoveRange(context.Adresses);
@@ -49,8 +49,8 @@ namespace seeder
             context.Evenements
                 .RemoveRange(context.Evenements);
 
-            context.LivresBibliotheques
-                .RemoveRange(context.LivresBibliotheques);
+            context.LivresBibliotheque
+                .RemoveRange(context.LivresBibliotheque);
 
             context.LivresEtudiants
                 .RemoveRange(context.LivresEtudiants);
@@ -64,16 +64,16 @@ namespace seeder
             context.MaisonsEditions
                 .RemoveRange(context.MaisonsEditions);
 
-            context.TypesPaiements
-                .RemoveRange(context.TypesPaiements);
+            context.TypesPaiement
+                .RemoveRange(context.TypesPaiement);
             // FIN Enlever les données
 
             // TODO: ranme Province à Provices
-            context.Province.AddRange(getProvinces());
+            context.Provinces.AddRange(getProvinces());
 
             context.SaveChanges();
 
-            context.Adresses.AddRange(getAdresses());
+            context.Adresses.AddRange(getAdresses(context));
 
             context.Auteurs.AddRange(getAuteurs());
 
@@ -83,7 +83,7 @@ namespace seeder
 
             context.SaveChanges();
 
-            context.Cours.AddRange(getListeCours());
+            context.Cours.AddRange(getListeCours(context));
 
             // Save changes ici, puisqu'un problème de mémoire
             // arrivait si on enregistrait tout à la fin.
@@ -94,7 +94,7 @@ namespace seeder
             context.SaveChanges();
 
             // TODO: rename LivresBibliotheques à LivresBibliotheque
-            context.LivresBibliotheques.AddRange(getLivresBibliotheques());
+            context.LivresBibliotheque.AddRange(getLivresBibliotheques(context));
 
             context.SaveChanges();
         }
@@ -103,160 +103,51 @@ namespace seeder
         /// Crée une liste de provinces.
         /// </summary>
         /// <returns>Les provinces en liste.</returns>
-        private static List<Province> getProvinces()
+        private static ICollection<Province> getProvinces()
         {
 
-            return new List<Province> {
-                new Province() {
-                    Nom = "Québec"
-                },
-                new Province() {
-                    Nom = "Ontario"
-                }
-            };
-        }
+            return Builder<Province>
+		.CreateListOfSize(10)
+		.All()
+		.With(province => province.Nom = Faker.Address.UsState())
+		.Build();
+	}
 
         /// <summary>
         /// Crée une liste d'Adresses.
         /// </summary>
         /// <returns>Les adresses en liste.</returns>
-        private static List<Adresse> getAdresses()
+        private static ICollection<Adresse> getAdresses(ApplicationDbContext context)
         {
 
-            return new List<Adresse> {
-                new Adresse() {
-                    Ville = "Berkeley",
-                    NumeroCivique = 386,
-                    App = 1,
-                    Rue = "Distribution",
-                    CodePostal = "X6X6X6",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "Hell",
-                    NumeroCivique = 666,
-                    App = 69,
-                    Rue = "Roadin Bud",
-                    CodePostal = "X0X1X1",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "e-railed",
-                    NumeroCivique = 30,
-                    App = 3,
-                    Rue = "Open",
-                    CodePostal = "X1X1X1",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "systemagic",
-                    NumeroCivique = 31,
-                    Rue = "BSD",
-                    CodePostal = "X2X2X2",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "Goldflipper",
-                    NumeroCivique = 32,
-                    App = 23,
-                    Rue = "Software",
-                    CodePostal = "X3X3X3",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "Puff the Barbian",
-                    NumeroCivique = 33,
-                    App = 33,
-                    Rue = "Barbian2",
-                    CodePostal = "X4X4X4",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "Legend of Puffy Hood",
-                    NumeroCivique = 34,
-                    App = 43,
-                    Rue = "Legend",
-                    CodePostal = "X5X5X5",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "Redundency",
-                    NumeroCivique = 35,
-                    App = 53,
-                    Rue = "CARP",
-                    CodePostal = "X7X7X7",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "Pond-erosa",
-                    NumeroCivique = 36,
-                    App = 63,
-                    Rue = "Puff",
-                    CodePostal = "X8X8X8",
-                    ProvinceId = 1
-                },
-                new Adresse() {
-                    Ville = "Wizard",
-                    NumeroCivique = 37,
-                    App = 73,
-                    Rue = "OS",
-                    CodePostal = "X9X9X9",
-                    ProvinceId = 1
-                }
-            };
+	    return Builder<Adresse>
+		.CreateListOfSize(10)
+		.All()
+		.With(adresse => adresse.Ville = Faker.Address.City())
+		.With(adresse => adresse.NumeroCivique = Faker.RandomNumber.Next(1000))
+		.With(adresse => adresse.App = Faker.RandomNumber.Next(100))
+		.With(adresse => adresse.Rue = Faker.Address.StreetName())
+		.With(adresse => adresse.CodePostal = Faker.Address.ZipCode())
+		.With(adresse => adresse.Province = context.Provinces.First())
+		.Build();
         }
 
         /// <summary>
         /// Crée une liste d'Auteurs.
         /// </summary>
         /// <returns>Les auteurs liste.</returns>
-        private static List<Auteur> getAuteurs()
+        private static ICollection<Auteur> getAuteurs()
         {
 
-            return new List<Auteur> {
-                new Auteur() {
-                    Nom = "DeRaad",
-                    Prenom = "Theo"
-                },
-                new Auteur() {
-                    Nom = "Stallman",
-                    Prenom = "Richard"
-                },
-                new Auteur() {
-                    Nom = "Thompson",
-                    Prenom = "Ken"
-                },
-                new Auteur() {
-                    Nom = "Ritchie",
-                    Prenom = "Dennis"
-                },
-                new Auteur() {
-                    Nom = "Torvalds",
-                    Prenom = "Linus"
-                },
-                new Auteur() {
-                    Nom = "Tanenbaum",
-                    Prenom = "Andrew"
-                },
-                new Auteur() {
-                    Nom = "Kernhigan",
-                    Prenom = "Brian"
-                },
-                new Auteur() {
-                    Nom = "Lovelace",
-                    Prenom = "Ada"
-                },
-                new Auteur() {
-                    Nom = "Unix",
-                    Prenom = "Research"
-                },
-                new Auteur() {
-                    Nom = "Al",
-                    Prenom = "Et"
-                }
-            };
+	    return Builder<Auteur>
+		.CreateListOfSize(10)
+		.All()
+		.With(auteur => auteur.Nom = Faker.Name.Last())
+		.With(auteur => auteur.Prenom = Faker.Name.Last())
+		.Build();
         }
 
+	// TODO: mettre dans le dbcontext.
         /// <summary>
         /// Crée une liste des États des livres.
         /// </summary>
@@ -277,6 +168,7 @@ namespace seeder
             };
         }
 
+	// TODO: mettre dans le dbcontext.
         /// <summary>
         /// Crée une liste des programmes d'études.
         /// </summary>
@@ -308,142 +200,163 @@ namespace seeder
             };
         }
 
+	// TODO: mettre dans le dbcontext.
         /// <summary>
         /// Crée une liste des livres des cours.
         /// </summary>
         /// <returns>Les cours liste.</returns>
-        private static List<Cours> getListeCours()
+        private static List<Cours> getListeCours(ApplicationDbContext context)
         {
+
+	    ProgrammeEtude techniquesTourisme = context.ProgrammesEtudes.SingleOrDefault(
+		    programmeEtude => programmeEtude.Code == "414"
+	    );
+
+	    ProgrammeEtude sciencesNature = context.ProgrammesEtudes.SingleOrDefault(
+		    programmeEtude => programmeEtude.Code == "201"
+	    );
+
+	    ProgrammeEtude techniquesEducationSpecialisee = context.ProgrammesEtudes.SingleOrDefault(
+		    programmeEtude => programmeEtude.Code == "351"
+	    );
+
+	    ProgrammeEtude techniquesGenieMecanique = context.ProgrammesEtudes.SingleOrDefault(
+		    programmeEtude => programmeEtude.Code == "241"
+	    );
+
+	    ProgrammeEtude formationGenerale = context.ProgrammesEtudes.SingleOrDefault(
+		    programmeEtude => programmeEtude.Code == "x"
+	    );
 
             return new List<Cours> {
                 new Cours() {
-                    ProgrammeEtudeId = 1,
+		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Exploration des carrières en tourisme",
                     Description = "N/A",
                     Code = "414313CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 1,
+		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Introduction au programme de Tourisme",
                     Description = "N/A",
                     Code = "414133CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 1,
+		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Accueil et service à la clientèle",
                     Description = "N/A",
                     Code = "414154CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 1,
+		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Destinations touristiques : les Amériques",
                     Description = "N/A",
                     Code = "414234CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 1,
+		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Communication et supervision",
                     Description = "N/A",
                     Code = "414323CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 5,
+                    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
                     Nom = "Écriture et littérature",
                     Description = "N/A",
                     Code = "601101MQ",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 5,
+                    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
                     Nom = "Littérature et imaginaire",
                     Description = "N/A",
                     Code = "601102MQ",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 2,
+                    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
                     Nom = "Calcul intégral",
                     Description = "N/A",
                     Code = "201NYB05",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 2,
+                    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
                     Nom = "Chimie des solutions",
                     Description = "N/A",
                     Code = "202NYB05",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 2,
+                    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
                     Nom = "Électricité et magnétisme",
                     Description = "N/A",
                     Code = "203NYB05",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 5,
+                    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
                     Nom = "Astrophysique",
                     Description = "N/A",
                     Code = "203314CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 3,
+                    ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
                     Nom = "Psychologie de l’enfance",
                     Description = "N/A",
                     Code = "350114CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 3,
+                    ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
                     Nom = "Introduction aux problématiques d’adaptation",
                     Description = "N/A",
                     Code = "351124CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 4,
+		    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Mathématiques du génie mécanique",
                     Description = "N/A",
                     Code = "201224CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 4,
+                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Mathématiques appliquées",
                     Description = "N/A",
                     Code = "201115CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 4,
+                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Statique et cinématique",
                     Description = "N/A",
                     Code = "203214CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 4,
+                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Techniques d’usinage 1",
                     Description = "N/A",
                     Code = "241216CA",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 4,
+                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Techniques d’usinage 1",
                     Description = "N/A",
                     Code = "241316",
                     AnneeParcours = 1
                 },
                 new Cours() {
-                    ProgrammeEtudeId = 4,
+                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Dessin industriel assisté par ordinateur",
                     Description = "N/A",
                     Code = "241225CA",
@@ -456,48 +369,34 @@ namespace seeder
         /// Crée une liste des livres des maisons d'éditoin.
         /// </summary>
         /// <returns>Les maisons d'éditoin en liste.</returns>
-        private static List<MaisonEdition> getMaisonsEdition()
+        private static ICollection<MaisonEdition> getMaisonsEdition()
         {
-            return new List<MaisonEdition> {
-                new MaisonEdition() {
-                    Nom = "OpenBSD"
-                },
-                new MaisonEdition() {
-                    Nom = "NetBSD"
-                },
-                new MaisonEdition() {
-                    Nom = "FreeBSD"
-                },
-                new MaisonEdition() {
-                    Nom = "*nix"
-                },
-                new MaisonEdition() {
-                    Nom = "GNU/Linux"
-                },
-                new MaisonEdition() {
-                    Nom = "Minix"
-                }
-            };
-        }
+            return Builder<MaisonEdition>
+		.CreateListOfSize(10)
+		.All()
+		.With(maisonEdition => maisonEdition.Nom = Faker.Company.Name())
+		.Build();
+	}
 
         /// <summary>
         /// Crée une liste des livres de la bibliothèque.
         /// </summary>
         /// <returns>Les livres de la bibliothèque en liste.</returns>
-        private static List<LivreBibliotheque> getLivresBibliotheques()
+        private static ICollection<LivreBibliotheque> getLivresBibliotheques(ApplicationDbContext context)
         {
 
-            return new List<LivreBibliotheque> {
-                new LivreBibliotheque() {
-                    Isbn = "9999999990",
-                    Titre = "foobar's book",
-                    Resume = "foobar's goes to the polls.",
-                    PhotoCouverture = "N/A",
-                    DatePublication = DateTime.Now,
-                    MaisonEditionId = 1
-                }
-            };
-        }
+            return Builder<LivreBibliotheque>
+		.CreateListOfSize(50)
+		.All()
+		.With(livre => livre.Isbn = "666" + Faker.Identification.UkNhsNumber())
+		.With(livre => livre.Titre = Faker.Lorem.Sentence(Faker.RandomNumber.Next(1,8)))
+		.With(livre => livre.Resume = Faker.Lorem.Paragraph())
+		.With(livre => livre.PhotoCouverture = "N/A")
+		.With(livre => livre.DatePublication = Faker.Identification.DateOfBirth())
+		.With(livre => livre.MaisonEditionId = context.MaisonsEditions.First().MaisonEditionId)
+		.Build();
+
+	}
     }
 }
 
