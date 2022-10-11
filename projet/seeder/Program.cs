@@ -49,8 +49,8 @@ namespace seeder
             context.Evenements
                 .RemoveRange(context.Evenements);
 
-            context.LivresBibliotheques
-                .RemoveRange(context.LivresBibliotheques);
+            context.LivresBibliotheque
+                .RemoveRange(context.LivresBibliotheque);
 
             context.LivresEtudiants
                 .RemoveRange(context.LivresEtudiants);
@@ -94,7 +94,7 @@ namespace seeder
             context.SaveChanges();
 
             // TODO: rename LivresBibliotheques à LivresBibliotheque
-            context.LivresBibliotheques.AddRange(getLivresBibliotheques(context));
+            context.LivresBibliotheque.AddRange(getLivresBibliotheques(context));
 
             context.SaveChanges();
         }
