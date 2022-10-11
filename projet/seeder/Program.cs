@@ -419,9 +419,6 @@ namespace seeder
 	    foreach(LivreBibliotheque livreBibliotheque in context.LivresBibliotheque)
 	    {
 
-		PrixEtatLivre prixEtatLivreNeuf;
-		PrixEtatLivre prixEtatLivreDigital;
-
 		if(Faker.Boolean.Random())
 		{
 
@@ -432,39 +429,22 @@ namespace seeder
 			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
 		    };
 
-		    prixEtatLivreNeuf = new() 
-		    {
-			EtatLivre = etatNeuf,
-			LivreBibliotheque = livreBibliotheque,
-			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
-		    };
-
-		    prixEtatLivreDigital = new() 
-		    {
-			EtatLivre = etatDigital,
-			LivreBibliotheque = livreBibliotheque,
-			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
-		    };
-
 		    context.PrixEtatsLivres.Add(prixEtatLivreUsage);
 		} 
-		else 
+
+		PrixEtatLivre prixEtatLivreNeuf = new() 
 		{
+		    EtatLivre = etatNeuf,
+		    LivreBibliotheque = livreBibliotheque,
+		    Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
+		};
 
-		    prixEtatLivreNeuf = new() 
-		    {
-			EtatLivre = etatNeuf,
-			LivreBibliotheque = livreBibliotheque,
-			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
-		    };
-
-		    prixEtatLivreDigital = new() 
-		    {
-			EtatLivre = etatDigital,
-			LivreBibliotheque = livreBibliotheque,
-			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
-		    };
-		}
+		PrixEtatLivre prixEtatLivreDigital = new() 
+		{
+		    EtatLivre = etatDigital,
+		    LivreBibliotheque = livreBibliotheque,
+		    Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
+		};
 
 		context.PrixEtatsLivres.Add(prixEtatLivreNeuf);
 		context.PrixEtatsLivres.Add(prixEtatLivreDigital);
