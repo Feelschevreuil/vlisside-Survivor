@@ -48,6 +48,7 @@ namespace vlissides_bibliotheque.Controllers
         /// <br></br>
         /// Erreurs : Page de connexion avec messages d'erreur.
         /// </returns>
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> IndexAsync(ConnexionVM vm)
         {
@@ -74,11 +75,12 @@ namespace vlissides_bibliotheque.Controllers
         {
             InscriptionVM vm = new() {
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
-                Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
+                Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
             };
             return View(vm);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> InscriptionAsync(InscriptionVM vm)
         {
@@ -107,10 +109,8 @@ namespace vlissides_bibliotheque.Controllers
                     Prenom = vm.Prenom,
                     PhoneNumber = vm.NoTelephone,
                     ProgrammeEtudeId = vm.ProgrammeEtudeId,
-                    AdresseFacturationId = adresse.AdresseId,
-                    AdresseFacturation = adresse,
-                    AdresseLivraisonId = adresse.AdresseId,
-                    AdresseLivraison = adresse,
+                    AdresseId = adresse.AdresseId,
+                    Adresse = adresse,
                     EmailConfirmed = true
                 };
 
@@ -133,7 +133,7 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
-            vm.Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
+            vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
 
             return View(vm);
         }

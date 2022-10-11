@@ -34,7 +34,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
-            Adresse adresseFacturation = utilisateurCourant.GetAdresseFacturation(_context);
+            Adresse adresse = utilisateurCourant.GetAdresse(_context);
 
             GestionProfilVM vm = new() {
                 Courriel = utilisateurCourant.Email,
@@ -44,19 +44,20 @@ namespace vlissides_bibliotheque.Controllers
                 ProgrammeEtudeId = utilisateurCourant.ProgrammeEtudeId,
                 ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
 
-                NoCivique = adresseFacturation.NumeroCivique.ToString(),
-                Rue = adresseFacturation.Rue,
-                Ville = adresseFacturation.Ville,
-                App = adresseFacturation.App,
-                CodePostal = adresseFacturation.CodePostal,
-                ProvinceId = adresseFacturation.Province.ProvinceId,
+                NoCivique = adresse.NumeroCivique.ToString(),
+                Rue = adresse.Rue,
+                Ville = adresse.Ville,
+                App = adresse.App,
+                CodePostal = adresse.CodePostal,
+                ProvinceId = adresse.Province.ProvinceId,
 
-                Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
+                Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
             };
 
             return View(vm);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
         {
@@ -67,14 +68,14 @@ namespace vlissides_bibliotheque.Controllers
 
                 Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
 
-                Adresse adresseFacturation = utilisateurCourant.GetAdresseFacturation(_context);
+                Adresse adresse = utilisateurCourant.GetAdresse(_context);
 
-                adresseFacturation.App = vm.App;
-                adresseFacturation.CodePostal = vm.CodePostal;
-                adresseFacturation.NumeroCivique = Convert.ToInt32(vm.NoCivique);
-                adresseFacturation.Rue = vm.Rue;
-                adresseFacturation.Ville = vm.Ville;
-                adresseFacturation.ProvinceId = vm.ProvinceId;
+                adresse.App = vm.App;
+                adresse.CodePostal = vm.CodePostal;
+                adresse.NumeroCivique = Convert.ToInt32(vm.NoCivique);
+                adresse.Rue = vm.Rue;
+                adresse.Ville = vm.Ville;
+                adresse.ProvinceId = vm.ProvinceId;
 
                 utilisateurCourant.Email = vm.Courriel;
                 utilisateurCourant.UserName = vm.Courriel;
@@ -87,7 +88,7 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
-            vm.Provinces = new SelectList(_context.Province.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
+            vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
 
             return View(vm);
         }
