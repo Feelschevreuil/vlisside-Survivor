@@ -68,7 +68,6 @@ namespace seeder
                 .RemoveRange(context.TypesPaiement);
             // FIN Enlever les données
 
-            // TODO: ranme Province à Provices
             context.Provinces.AddRange(getProvinces());
 
             context.SaveChanges();
@@ -93,7 +92,6 @@ namespace seeder
 
             context.SaveChanges();
 
-            // TODO: rename LivresBibliotheques à LivresBibliotheque
             context.LivresBibliotheque.AddRange(getLivresBibliotheques(context));
 
             context.SaveChanges();
