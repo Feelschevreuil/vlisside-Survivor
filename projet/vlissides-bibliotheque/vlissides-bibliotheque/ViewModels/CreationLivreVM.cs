@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
@@ -16,6 +17,10 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[Required(ErrorMessage = "Une photo doit être fournie")]
 		public string Photo { get; set; }
+
+		[NotMapped]
+		[DisplayName("Photo")]
+		public IFormFile fichierImage { get; set; }
 
 		[Required(ErrorMessage = "La date de publication est nécéssaire")]
 		[DisplayName("Date de publication")]

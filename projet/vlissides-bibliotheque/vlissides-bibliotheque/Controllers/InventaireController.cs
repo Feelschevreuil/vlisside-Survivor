@@ -12,11 +12,13 @@ namespace vlissides_bibliotheque.Controllers
     {
         private readonly ILogger<InventaireController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context)
+        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult La_blun()
@@ -106,11 +108,20 @@ namespace vlissides_bibliotheque.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult creer(CreationLivreVM form)
+        public async Task<ActionResult> creer(CreationLivreVM form)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
+   
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string nomFicherImage = Path.GetFileNameWithoutExtension(form.fichierImage.FileName);
+                string extentionFicherImage = Path.GetExtension(form.fichierImage.FileName);
+                form.Photo = nomFicherImage = nomFicherImage + DateTime.Now.ToString("yymmssff") + extentionFicherImage;
+                string chemin = Path.Combine(wwwRootPath + "/img", nomFicherImage);
+                using (var fileStream = new FileStream(chemin, FileMode.Create))
+                {
+                    await form.fichierImage.CopyToAsync(fileStream);
+                }
             }
             form.Auteurs = ListDropDownAuteurs();
             form.ListeCours = ListDropDownCours();
