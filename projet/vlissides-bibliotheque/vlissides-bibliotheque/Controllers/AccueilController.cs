@@ -74,7 +74,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             List<CoursProfesseur> listCoursProfesseurs = new();
             List<Cours> listCours = _context.Cours.ToList();
-            List<Professeur> listProfesseur = _context.Professeur.ToList();
+            List<Professeur> listProfesseur = _context.Professeurs.ToList();
             for (int i = 0; i < _context.Cours.Count(); i++)
             {
                 listCoursProfesseurs.Add(new CoursProfesseur { Cours = listCours[i], Professeur = new Professeur { Nom= "Berry", Prenom="Jerry"} });
@@ -90,7 +90,7 @@ namespace vlissides_bibliotheque.Controllers
             List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
 
 
-            LivreBibliotheque livreBibliotheque = _context.LivresBibliotheques.First();
+            LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.First();
             Evaluation evaluation = new() { Etoiles = 4 };
             EvaluationLivre UneEvaluationLivre = new() { LivreBibliotheque = livreBibliotheque, Evaluation = evaluation };
 
