@@ -62,7 +62,7 @@ namespace vlissides_bibliotheque.ViewModels
 		
 		public List<SelectListItem> Auteurs { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public string Cours { get; set; }
+        public int? Cours { get; set; }
 		
 		public List<SelectListItem> ListeCours { get; set; }
 
