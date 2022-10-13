@@ -156,6 +156,9 @@ namespace vlissides_bibliotheque.Controllers
 
                 _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, form));
                 _context.SaveChanges();
+
+
+                return View("succesAjoutLivre",nouveauLivreBibliothèque);
             }
             form.Auteurs = ListDropDownAuteurs();
             form.ListeCours = ListDropDownCours();
