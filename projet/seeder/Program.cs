@@ -101,6 +101,10 @@ namespace seeder
 	    setCoursLivres(context);
 
 	    setAuteursParLivres(context);
+
+	    context.Professeurs.AddRange(getProfesseurs());
+
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -520,6 +524,20 @@ namespace seeder
 
 		context.SaveChanges();
 	    }
+	}
+
+        /// <summary>
+        /// Crée une liste de professeurs.
+        /// </summary>
+        /// <returns>Les professeurs liste.</returns>
+	private static ICollection<Professeur> getProfesseurs()
+	{
+	    return Builder<Professeur>
+		.CreateListOfSize(15)
+		.All()
+		.With(professeur => professeur.Nom = Faker.Name.Last())
+		.With(professeur => professeur.Prenom = Faker.Name.First())
+		.Build();
 	}
     }
 }
