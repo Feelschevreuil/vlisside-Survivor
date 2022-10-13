@@ -110,6 +110,10 @@ namespace seeder
             context.SaveChanges();
 
 	    setCoursParProfesseur(context);
+
+	    context.TypesPaiement.AddRange(getTypesPaiement());
+
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -622,6 +626,29 @@ namespace seeder
 		    context.SaveChanges();
 		}
 	    }
+	}
+
+	// TODO: Sera possiblement enlevé dépendament
+	// du système de paiement que l'on va utiliser.
+        /// <summary>
+        /// Crée une liste des types de paiement.
+        /// </summary>
+        /// <returns>Les types de paiement liste.</returns>
+	private static ICollection<TypePaiement> getTypesPaiement() 
+	{
+
+	    return new List<TypePaiement> 
+	    {
+
+		new TypePaiement() 
+		{
+		    Nom = "Débit"
+		},
+		new TypePaiement() 
+		{
+		    Nom = "Crédit"
+		}
+	    };
 	}
     }
 }
