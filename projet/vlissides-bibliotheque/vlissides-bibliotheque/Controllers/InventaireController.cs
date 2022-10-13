@@ -68,8 +68,7 @@ namespace vlissides_bibliotheque.Controllers
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
-                new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=9,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn="osidfids",DatePublication=DateTime.Today,Resume="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In et dignissim nulla. Suspendisse aliquam augue et tellus accumsan tempor. Pellentesque scelerisque purus purus, nec facilisis libero aliquam et. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",Titre="Lorem Ipsum",LivreId=1,PhotoCouverture="https://live.staticflickr.com/5567/14776555342_f8550d0eda_b.jpg" } },
-                new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=1,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn="jshfiffdddddd",DatePublication=DateTime.MaxValue,Titre="Hanrry potdbeur et la mer des monstres",Resume="Un jeune mage dont le père est posséidon part à l'aventure dans un monde magique rempli de monstre et d'aventure aventureuses",LivreId=2,PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"} }
+             
             };
 
             List<CoursProfesseur> listCoursProfesseurs = new()
@@ -89,7 +88,7 @@ namespace vlissides_bibliotheque.Controllers
 
             List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
             {
-                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs,livreBibliothequesEvaluation=new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}} }
+                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs,livreBibliothequesEvaluation=new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque= _context.LivresBibliotheque.ToList().Find(x=>x.LivreId == 21)} }
             };
 
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
