@@ -116,6 +116,10 @@ namespace seeder
 	    context.Commanditaires.AddRange(getCommanditaires());
 
             context.SaveChanges();
+
+	    context.Evenements.AddRange(getEvenementsCommanditaires(context));
+
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -670,6 +674,36 @@ namespace seeder
 		.Build();
 	}
 
+        /// <summary>
+        /// Crée une liste d'événements pour chaque 
+	/// commanditaire.
+        /// </summary>
+        /// <returns>Les événements en liste.</returns>
+	private static ICollection<Evenement> getEvenementsCommanditaires(ApplicationDbContext context)
+	{
+
+	    List<Evenement> evenements = new();
+
+	    foreach(Commanditaire commanditaire in context.Commanditaires)
+	    {
+
+		Evenement evenement;
+
+		evenement = new()
+		{
+		    Commanditaire = commanditaire,
+		    Nom = Faker.Company.CatchPhrase(),
+		    Description = Faker.Lorem.Paragraph(Faker.RandomNumber.Next(2,5)),
+		    Debut = DateTime.Now.AddDays(Faker.RandomNumber.Next(-10,5)),
+		    Fin = DateTime.Now.AddDays(Faker.RandomNumber.Next(6,15)),
+		    Image = "N/A",
+		};
+
+		evenements.Add(evenement);
+	    }
+
+	    return evenements;
+	}
     }
 }
 
