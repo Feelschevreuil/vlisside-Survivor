@@ -115,7 +115,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
             ModelState.Remove("Photo");
-            
+
 
             if (ModelState.IsValid)
             {
@@ -140,8 +140,19 @@ namespace vlissides_bibliotheque.Controllers
                     DatePublication = form.DatePublication,
                 };
 
-                 _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
-                 _context.SaveChanges();
+                _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
+                _context.SaveChanges();
+
+                CoursLivre nouvelleAssociation = new()
+                {
+                    CoursLivreId =0,
+                    CoursId = (int)form.CoursId,
+                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                    Complementaire = form.Obligatoire
+                };
+
+                _context.CoursLivres.Add(nouvelleAssociation);
+                _context.SaveChanges();
             }
             form.Auteurs = ListDropDownAuteurs();
             form.ListeCours = ListDropDownCours();
