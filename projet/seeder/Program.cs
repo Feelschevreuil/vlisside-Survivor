@@ -99,6 +99,8 @@ namespace seeder
 	    setPrixEtatsLivres(context);
 
 	    setCoursLivres(context);
+
+	    setAuteursParLivres(context);
         }
 
         /// <summary>
@@ -488,6 +490,34 @@ namespace seeder
 		}
 
 		context.CoursLivres.AddRange(listeCoursLivre);
+		context.SaveChanges();
+	    }
+	}
+
+	/// <summary>
+	/// Assigne les auteurs à des livres.
+        /// </summary>
+	private static void setAuteursParLivres(ApplicationDbContext context)
+	{
+	    foreach(LivreBibliotheque livreBibliotheque in context.LivresBibliotheque)
+	    {
+
+		var auteurs = context
+		    .Auteurs
+		    .Skip(Faker.RandomNumber.Next(0, context.Auteurs.Count()) - 4)
+		    .Take(Faker.RandomNumber.Next(1, 3));
+
+		foreach(Auteur auteur in auteurs)
+		{
+		    AuteurLivre auteurLivre = new()
+		    {
+			Auteur = auteur,
+			LivreBibliotheque = livreBibliotheque 
+		    };
+
+		    context.AuteursLivres.Add(auteurLivre);
+		}
+
 		context.SaveChanges();
 	    }
 	}
