@@ -57,18 +57,18 @@ namespace vlissides_bibliotheque.ViewModels
         public string ISBN { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int? Auteur { get; set; }
+        public int? AuteurId { get; set; }
 
 		
 		public List<SelectListItem> Auteurs { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int? Cours { get; set; }
+        public int? CoursId { get; set; }
 		
 		public List<SelectListItem> ListeCours { get; set; }
 
 		[DisplayName("Maison d'édition")]
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int? MaisonDedition { get; set; }
+        public int? MaisonDeditionId { get; set; }
 		
 		public List<SelectListItem> MaisonsDeditions { get; set; }
 	}
