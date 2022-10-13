@@ -142,7 +142,7 @@ namespace seeder
         {
 
 	    return Builder<Auteur>
-		.CreateListOfSize(10)
+		.CreateListOfSize(25)
 		.All()
 		.With(auteur => auteur.Nom = Faker.Name.Last())
 		.With(auteur => auteur.Prenom = Faker.Name.Last())
