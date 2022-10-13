@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -63,7 +64,7 @@ namespace vlissides_bibliotheque.Controllers
         {
 
             List<EvaluationLivre> listeLivres = new()
-            { 
+            {
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
@@ -110,9 +111,14 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<ActionResult> creer(CreationLivreVM form)
         {
-            if (!ModelState.IsValid)
+            ModelState.Remove("Auteurs");
+            ModelState.Remove("MaisonsDeditions");
+            ModelState.Remove("ListeCours");
+            ModelState.Remove("Photo");
+            
+
+            if (ModelState.IsValid)
             {
-   
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 string nomFicherImage = Path.GetFileNameWithoutExtension(form.fichierImage.FileName);
                 string extentionFicherImage = Path.GetExtension(form.fichierImage.FileName);
@@ -122,6 +128,20 @@ namespace vlissides_bibliotheque.Controllers
                 {
                     await form.fichierImage.CopyToAsync(fileStream);
                 }
+
+                LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
+                {
+                    LivreId = 0,
+                    MaisonEditionId = (int)form.MaisonDeditionId,
+                    Isbn = form.ISBN,
+                    Titre = form.Titre,
+                    Resume = form.Resume,
+                    PhotoCouverture = form.Photo,
+                    DatePublication = form.DatePublication,
+                };
+
+                 _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
+                 _context.SaveChanges();
             }
             form.Auteurs = ListDropDownAuteurs();
             form.ListeCours = ListDropDownCours();
