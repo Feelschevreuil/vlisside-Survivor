@@ -120,6 +120,10 @@ namespace seeder
 	    context.Evenements.AddRange(getEvenementsCommanditaires(context));
 
             context.SaveChanges();
+
+	    context.Etudiants.AddRange(getEtudiants(context));
+
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -703,6 +707,49 @@ namespace seeder
 	    }
 
 	    return evenements;
+	}
+
+        /// <summary>
+        /// Crée une liste d'étudiants.
+        /// </summary>
+        /// <returns>Les étudiants en liste.</returns>
+	private static ICollection<Etudiant> getEtudiants(ApplicationDbContext context)
+	{
+
+	    return Builder<Etudiant>
+		.CreateListOfSize(50)
+		.All()
+		.With(etudiant => etudiant.Email = Faker.Internet.Email())
+		.With(etudiant => etudiant.Nom = Faker.Name.Last())
+		.With(etudiant => etudiant.Prenom = Faker.Name.First())
+		.With(etudiant => etudiant
+			.ProgrammeEtude = context
+			    .ProgrammesEtudes
+			    .Skip(Faker.RandomNumber.Next(0, context.ProgrammesEtudes.Count() -1))
+			    .Take(1)
+			    .First())
+		.With(etudiant => etudiant.Adresse = getAdresseAleatoire(context))
+		.Build();
+	}
+
+	/// <summary>
+	/// Crée une adresse aléatoirement.
+	/// </summary>
+	private static Adresse getAdresseAleatoire(ApplicationDbContext context) {
+
+	    return new Adresse() 
+	    {
+		App = Faker.RandomNumber.Next(1,55), 
+		CodePostal = Faker.Address.UkPostCode(),
+		NumeroCivique = Faker.RandomNumber.Next(1,666),
+		Province = context
+		    .Provinces
+		    .Skip(Faker.RandomNumber.Next(0, context.Provinces.Count() - 1))
+		    .Take(1)
+		    .First(),
+		Rue = Faker.Address.StreetName(),
+		Ville = Faker.Address.City()
+	    };
 	}
     }
 }
