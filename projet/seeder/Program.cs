@@ -66,6 +66,9 @@ namespace seeder
 
             context.TypesPaiement
                 .RemoveRange(context.TypesPaiement);
+
+	    context.Professeurs
+		.RemoveRange(context.Professeurs);
             // FIN Enlever les données
 
             context.Provinces.AddRange(getProvinces());
