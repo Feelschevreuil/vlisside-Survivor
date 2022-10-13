@@ -154,7 +154,7 @@ namespace seeder
 		.CreateListOfSize(25)
 		.All()
 		.With(auteur => auteur.Nom = Faker.Name.Last())
-		.With(auteur => auteur.Prenom = Faker.Name.Last())
+		.With(auteur => auteur.Prenom = Faker.Name.First())
 		.Build();
         }
 
