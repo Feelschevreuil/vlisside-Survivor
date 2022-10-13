@@ -153,6 +153,9 @@ namespace vlissides_bibliotheque.Controllers
 
                 _context.CoursLivres.Add(nouvelleAssociation);
                 _context.SaveChanges();
+
+                _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, form));
+                _context.SaveChanges();
             }
             form.Auteurs = ListDropDownAuteurs();
             form.ListeCours = ListDropDownCours();
@@ -211,6 +214,40 @@ namespace vlissides_bibliotheque.Controllers
                 Liste.Add(new SelectListItem { Value = e.CoursId.ToString(), Text = e.Code + " " + e.Nom + " " + e.AnneeParcours });
 
             return Liste;
+        }
+
+        public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, CreationLivreVM form)
+        {
+            List<PrixEtatLivre> ListPrixEtat = new();
+
+            PrixEtatLivre AssociationPrixNeuf = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Neuf").EtatLivreId,
+                Prix = form.PrixNeuf,
+            }; 
+            PrixEtatLivre AssociationPrixNumérique = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Digital").EtatLivreId,
+                Prix = form.PrixNumerqiue,
+            };
+            PrixEtatLivre AssociationPrixUsager = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Usagé").EtatLivreId,
+                Prix = form.PrixUsage,
+            };
+
+            ListPrixEtat.Add(AssociationPrixNeuf);
+            ListPrixEtat.Add(AssociationPrixNumérique);
+            ListPrixEtat.Add(AssociationPrixUsager);
+
+
+            return ListPrixEtat;
         }
     }
 }
