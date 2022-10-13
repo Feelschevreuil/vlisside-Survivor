@@ -50,9 +50,9 @@ namespace vlissides_bibliotheque.ViewModels
 
 		public bool Obligatoire { get; set; } = false;
 
-		[Isbn]
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-		[Number]
+        [Isbn]
+        [Range (1000000000,9999999999999,ErrorMessage = "Veuillez entrer un nombre.")]
         public string ISBN { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
