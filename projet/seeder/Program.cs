@@ -113,6 +113,8 @@ namespace seeder
 
 	    context.TypesPaiement.AddRange(getTypesPaiement());
 
+	    context.Commanditaires.AddRange(getCommanditaires());
+
             context.SaveChanges();
         }
 
@@ -650,6 +652,24 @@ namespace seeder
 		}
 	    };
 	}
+
+        /// <summary>
+        /// Crée une liste des commanditaires.
+        /// </summary>
+        /// <returns>Les commanditaires en liste.</returns>
+	private static ICollection<Commanditaire> getCommanditaires()
+	{
+
+	    return Builder<Commanditaire>
+		.CreateListOfSize(10)	
+		.All()
+		.With(commanditaire => commanditaire.Nom = Faker.Company.Name())
+		.With(commanditaire => commanditaire.Courriel = Faker.Internet.Email())
+		.With(commanditaire => commanditaire.Url = Faker.Internet.Url())
+		.With(commanditaire => commanditaire.Message = Faker.Lorem.Sentence(Faker.RandomNumber.Next(1,5)))
+		.Build();
+	}
+
     }
 }
 
