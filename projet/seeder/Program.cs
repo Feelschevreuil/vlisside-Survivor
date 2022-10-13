@@ -382,6 +382,7 @@ namespace seeder
         /// <returns>Les maisons d'éditoin en liste.</returns>
         private static ICollection<MaisonEdition> getMaisonsEdition()
         {
+
             return Builder<MaisonEdition>
 		.CreateListOfSize(10)
 		.All()
@@ -414,6 +415,7 @@ namespace seeder
         /// </summary>
 	private static void setPrixEtatsLivres(ApplicationDbContext context) 
 	{
+
 	    EtatLivre etatUsage;
 	    EtatLivre etatNeuf;
 	    EtatLivre etatDigital;
@@ -506,6 +508,7 @@ namespace seeder
         /// </summary>
 	private static void setAuteursParLivres(ApplicationDbContext context)
 	{
+
 	    foreach(LivreBibliotheque livreBibliotheque in context.LivresBibliotheque)
 	    {
 
@@ -535,6 +538,7 @@ namespace seeder
         /// <returns>Les professeurs liste.</returns>
 	private static ICollection<Professeur> getProfesseurs()
 	{
+
 	    return Builder<Professeur>
 		.CreateListOfSize(15)
 		.All()
