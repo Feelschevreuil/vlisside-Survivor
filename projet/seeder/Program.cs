@@ -108,6 +108,8 @@ namespace seeder
 	    context.Professeurs.AddRange(getProfesseurs());
 
             context.SaveChanges();
+
+	    setCoursParProfesseur(context);
         }
 
         /// <summary>
@@ -545,6 +547,81 @@ namespace seeder
 		.With(professeur => professeur.Nom = Faker.Name.Last())
 		.With(professeur => professeur.Prenom = Faker.Name.First())
 		.Build();
+	}
+
+	/// <summary>
+	/// Assigne les professeurs par cours.
+        /// </summary>
+	private static void setCoursParProfesseur(ApplicationDbContext context)
+	{
+
+	    foreach(Professeur professeur in context.Professeurs)
+	    {
+
+		var choixCours = context
+		    .Cours
+		    .Skip(Faker.RandomNumber.Next(0, context.Cours.Count() - 4))
+		    .Take(Faker.RandomNumber.Next(1,3));
+
+		foreach(Cours cours in choixCours)
+		{
+		
+		    CoursProfesseur coursProfesseur = new()
+		    {
+			Professeur = professeur,
+			Cours = cours
+		    };
+		    
+		    context.CoursProfesseurs.Add(coursProfesseur);
+		}
+
+		context.SaveChanges();
+	    }
+
+	    assignerCoursSansProfesseurs(context);
+	}
+
+	/// <summary>
+	/// Assigne un professeur à un cours s'il n'en a pas un assigné. Dans le cas
+	/// qu'un cours reste sans professeurs après l'assignation des professeurs à
+	/// un cours.
+	/// </summary>
+	private static void assignerCoursSansProfesseurs(ApplicationDbContext context)
+	{
+
+	    foreach(Cours cours in context.Cours)
+	    {
+
+		int nombreProfesseurs;
+
+		nombreProfesseurs = context
+		    .CoursProfesseurs
+		    .Where(coursProfesseurs => coursProfesseurs.CoursId == cours.CoursId)
+		    .Count();
+
+		if(nombreProfesseurs == 0)
+		{
+
+		    CoursProfesseur coursProfesseur;
+		    Professeur professeur;
+
+		    professeur = context
+			.Professeurs
+			.Skip(Faker.RandomNumber.Next(0, context.Professeurs.Count() -1))
+			.Take(1)
+			.First();
+
+		    coursProfesseur = new()
+		    {
+			Cours = cours,
+			Professeur = professeur
+		    };
+
+		    context.CoursProfesseurs.Add(coursProfesseur);
+		    
+		    context.SaveChanges();
+		}
+	    }
 	}
     }
 }
