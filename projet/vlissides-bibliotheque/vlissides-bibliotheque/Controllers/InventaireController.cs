@@ -37,7 +37,7 @@ namespace vlissides_bibliotheque.Controllers
             CoursProfesseur HardCodeCoursProfesseur = new CoursProfesseur() { Cours = _context.Cours.First(), Professeur = new Professeur { Nom = "HAHAHAHAHHA", Prenom = "aaaAAAAAAA̵͗̊͂̔͑̉̿̂̇͊̓̈́̂̍̍̀͐̐̀͌̈̀͂̉͘͘̕͠͝͝ͅ" } };
 
             Commanditaire commandit = new Commanditaire() { Courriel = "aaaaaaa@gmail.cum", CommanditaireId = 0, Message = "VENEZ ACHETER NOS DÉLICIEUX BISCUITS", Nom = "BakeryChezMarki's", Url = "http//BiscuitsChezMary's.cum" };
-           
+
             List<Evenement> evenements = new()
             {
               new Evenement() {EvenementId=0,Commanditaire=commandit,Nom="Soccer",Debut=DateTime.Now,Fin=DateTime.MaxValue,Description="vener jouer",Image="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}
@@ -63,7 +63,7 @@ namespace vlissides_bibliotheque.Controllers
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}},
-             
+
             };
 
             List<CoursProfesseur> listCoursProfesseurs = new()
@@ -139,7 +139,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 CoursLivre nouvelleAssociation = new()
                 {
-                    CoursLivreId =0,
+                    CoursLivreId = 0,
                     CoursId = (int)form.CoursId,
                     LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
                     Complementaire = form.Obligatoire
@@ -152,13 +152,13 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
 
 
-                return View("succesAjoutLivre",nouveauLivreBibliothèque);
+                return View("succesAjoutLivre", nouveauLivreBibliothèque);
             }
             form.Auteurs = ListDropDownAuteurs();
             form.ListeCours = ListDropDownCours();
             form.MaisonsDeditions = ListDropDownMaisonDedition();
             return View(form);
-            
+
         }
 
         [HttpGet]
@@ -170,16 +170,183 @@ namespace vlissides_bibliotheque.Controllers
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
 
-            return View();
+            LivreBibliotheque livreBibliothequeRechercher = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == id);
+            AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x => x.LivreBibliothequeId == id);
+            CoursLivre coursLivre = _context.CoursLivres.ToList().Find(x => x.LivreBibliothequeId == id);
+            List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == id);
+            List<EtatLivre> etatLivres = _context.EtatsLivres.ToList();
+
+
+            int idLivreNeuf = etatLivres.Find(y => y.Nom == "Neuf").EtatLivreId;
+            int idLivreNumerique = etatLivres.Find(y => y.Nom == "Digital").EtatLivreId;
+            int idLivreUsager = etatLivres.Find(y => y.Nom == "Usagé").EtatLivreId;
+
+            //TODO enlever se code quand le seeder sera fini
+            //Va planter une fois pour les livre qui ont besoin des if, Juste reloader la page 1 fois sa va être suffisant.
+            var pasEtatAuLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
+            var PasNumerique = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNumerique);
+            var pasUsager = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreUsager);
+
+            if (auteurLivre == null)
+            {
+                auteurLivre = new()
+                {
+                    AuteurId = _context.Auteurs.FirstOrDefault().AuteurId,
+                    LivreBibliothequeId = livreBibliothequeRechercher.LivreId
+                };
+                _context.AuteursLivres.Add(auteurLivre);
+                _context.SaveChanges();
+            };
+
+            if (coursLivre == null)
+            {
+                coursLivre = new()
+                {
+                    CoursLivreId = 0,
+                    CoursId = _context.Cours.FirstOrDefault().CoursId,
+                    LivreBibliothequeId = livreBibliothequeRechercher.LivreId,
+                    Complementaire = false,
+                };
+                _context.CoursLivres.Add(coursLivre);
+                _context.SaveChanges();
+            };
+
+            if (prixEtatLivre.Count() != 3)
+            {
+                if (pasEtatAuLivre == null || (pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf).EtatLivreId) == null)
+                {
+                    PrixEtatLivre neufPrixLivre = new()
+                    {
+                        PrixEtatLivreId = 0,
+                        EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Neuf").EtatLivreId,
+                        LivreBibliothequeId = livreBibliothequeRechercher.LivreId,
+                        Prix = 20
+                    };
+                    _context.PrixEtatsLivres.Add(neufPrixLivre);
+                    _context.SaveChanges();
+                }
+                if (pasEtatAuLivre == null || PasNumerique == null)
+                {
+                    PrixEtatLivre DigitalPrixLivre = new()
+                    {
+                        PrixEtatLivreId = 0,
+                        EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Digital").EtatLivreId,
+                        LivreBibliothequeId = livreBibliothequeRechercher.LivreId,
+                        Prix = 10
+                    };
+                    _context.PrixEtatsLivres.Add(DigitalPrixLivre);
+                    _context.SaveChanges();
+                };
+
+                if (pasEtatAuLivre == null || pasUsager == null)
+                {
+                    PrixEtatLivre UsagerPrixLivre = new()
+                    {
+                        PrixEtatLivreId = 0,
+                        EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Usagé").EtatLivreId,
+                        LivreBibliothequeId = livreBibliothequeRechercher.LivreId,
+                        Prix = 5
+                    };
+                    _context.PrixEtatsLivres.Add(UsagerPrixLivre);
+                    _context.SaveChanges();
+                };
+
+            };
+            //TODO arrête ici
+
+            ModificationLivreVM ModifierLivre = new()
+            {
+                IdDuLivre = livreBibliothequeRechercher.LivreId,
+                AuteurId = auteurLivre.AuteurId,
+                CoursId = coursLivre.CoursId,
+                MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
+                Auteurs = ListDropDownAuteurs(),
+                ListeCours = ListDropDownCours(),
+                MaisonsDeditions = ListDropDownMaisonDedition(),
+                DatePublication = livreBibliothequeRechercher.DatePublication,
+                ISBN = livreBibliothequeRechercher.Isbn,
+                Titre = livreBibliothequeRechercher.Titre,
+                Resume = livreBibliothequeRechercher.Resume,
+                Obligatoire = coursLivre.Complementaire,
+                Photo = livreBibliothequeRechercher.PhotoCouverture,
+                PossedeNeuf = true,
+                PossedeNumerique = true,
+                PrixNeuf = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNeuf).Prix,
+                PrixNumerique = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNumerique).Prix,
+                PrixUsage = prixEtatLivre.Find(x => x.EtatLivreId == idLivreUsager).Prix
+                //TODO: décommenter la ligne en dessous quand le pull request "Ajustement de la BD" sera fait. (faire un rebase pour aller chercher la variable "NombreUsager)
+                //QuantiteUsagee = prixEtatLivre.Find(x => x.LivreBibliothequeId == id).NombreUsager 
+            };
+
+            return View(ModifierLivre);
 
         }
 
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> modifier(CreationLivreVM livreBibliothequeModifier)
+        public async Task<ActionResult> modifier(ModificationLivreVM form)
         {
-            return View();
+            bool ImageIsNull = form.fichierImage == null;
+            ModelState.Remove("Auteurs");
+            ModelState.Remove("MaisonsDeditions");
+            ModelState.Remove("ListeCours");
+            ModelState.Remove("Photo");
+
+            if (ImageIsNull)
+            {
+                ModelState.Remove("fichierImage");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (!ImageIsNull)
+                {
+                    string wwwRootPath = _webHostEnvironment.WebRootPath;
+                    string nomFicherImage = Path.GetFileNameWithoutExtension(form.fichierImage.FileName);
+                    string extentionFicherImage = Path.GetExtension(form.fichierImage.FileName);
+                    form.Photo = nomFicherImage = nomFicherImage + DateTime.Now.ToString("yymmssff") + extentionFicherImage;
+                    string chemin = Path.Combine(wwwRootPath + "/img", nomFicherImage);
+                    using (var fileStream = new FileStream(chemin, FileMode.Create))
+                    {
+                        await form.fichierImage.CopyToAsync(fileStream);
+                    }
+                }
+
+
+                LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
+                LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
+                LivreBibliothèqueModifier.Isbn = form.ISBN;
+                LivreBibliothèqueModifier.Titre = form.Titre;
+                LivreBibliothèqueModifier.Resume = form.Resume;
+                LivreBibliothèqueModifier.PhotoCouverture = form.Photo;
+                LivreBibliothèqueModifier.DatePublication = form.DatePublication;
+
+                _context.LivresBibliotheque.Update(LivreBibliothèqueModifier);
+                _context.SaveChanges();
+
+                CoursLivre nouvelleAssociation = new()
+                {
+                    CoursLivreId = 0,
+                    CoursId = (int)form.CoursId,
+                    LivreBibliothequeId = LivreBibliothèqueModifier.LivreId,
+                    Complementaire = form.Obligatoire
+                };
+
+                _context.CoursLivres.Add(nouvelleAssociation);
+                _context.SaveChanges();
+
+                _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(LivreBibliothèqueModifier, form));
+                _context.SaveChanges();
+
+
+                return View("succesModifierLivre", LivreBibliothèqueModifier);
+            }
+
+            form.Auteurs = ListDropDownAuteurs();
+            form.ListeCours = ListDropDownCours();
+            form.MaisonsDeditions = ListDropDownMaisonDedition();
+            return View(form);
         }
 
 
@@ -198,17 +365,17 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         /*public List<SelectListItem> ListDropDownEtats()
-        {
+		{
 
-            List<SelectListItem> Liste = new List<SelectListItem>();
+			List<SelectListItem> Liste = new List<SelectListItem>();
 
-            Liste.Add(new SelectListItem { Value = "", Text = "Choisissez un type de livre" });
+			Liste.Add(new SelectListItem { Value = "", Text = "Choisissez un type de livre" });
 
-            foreach (var e in _context.EtatsLivres)
-                Liste.Add(new SelectListItem { Value = e.EtatLivreId.ToString(), Text = e.Nom });
+			foreach (var e in _context.EtatsLivres)
+				Liste.Add(new SelectListItem { Value = e.EtatLivreId.ToString(), Text = e.Nom });
 
-            return Liste;
-        }*/
+			return Liste;
+		}*/
 
         public List<SelectListItem> ListDropDownMaisonDedition()
         {
@@ -246,13 +413,46 @@ namespace vlissides_bibliotheque.Controllers
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
                 EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Neuf").EtatLivreId,
                 Prix = form.PrixNeuf,
-            }; 
+            };
             PrixEtatLivre AssociationPrixNumérique = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
                 EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Digital").EtatLivreId,
-                Prix = form.PrixNumerqiue,
+                Prix = form.PrixNumerique,
+            };
+            PrixEtatLivre AssociationPrixUsager = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Usagé").EtatLivreId,
+                Prix = form.PrixUsage,
+            };
+
+            ListPrixEtat.Add(AssociationPrixNeuf);
+            ListPrixEtat.Add(AssociationPrixNumérique);
+            ListPrixEtat.Add(AssociationPrixUsager);
+
+
+            return ListPrixEtat;
+        }  
+        public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
+        {
+            List<PrixEtatLivre> ListPrixEtat = new();
+
+            PrixEtatLivre AssociationPrixNeuf = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Neuf").EtatLivreId,
+                Prix = form.PrixNeuf,
+            };
+            PrixEtatLivre AssociationPrixNumérique = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Digital").EtatLivreId,
+                Prix = form.PrixNumerique,
             };
             PrixEtatLivre AssociationPrixUsager = new()
             {
