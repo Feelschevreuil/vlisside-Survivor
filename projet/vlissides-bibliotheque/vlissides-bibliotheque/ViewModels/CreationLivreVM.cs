@@ -34,7 +34,7 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Numérique")]
-		public double PrixNumerqiue { get; set; }
+		public double PrixNumerique { get; set; }
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Neuf")]
