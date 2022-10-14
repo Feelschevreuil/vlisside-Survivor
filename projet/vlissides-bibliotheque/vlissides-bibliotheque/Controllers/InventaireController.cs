@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Net;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
@@ -161,8 +162,14 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> modifier(LivreBibliotheque livreBibliotheque)
+        public async Task<ActionResult> modifier(int? id)
         {
+            if (id == null)
+            {
+                Response.StatusCode = 400;
+                return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
+            }
+
             return View();
 
         }

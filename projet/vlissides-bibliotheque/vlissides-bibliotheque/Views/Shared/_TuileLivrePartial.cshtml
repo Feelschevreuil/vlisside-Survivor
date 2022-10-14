@@ -7,6 +7,12 @@
 
 <div class="card border-2" style="width:auto">
 
+    <div>
+        <a asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliothequesEvaluation.LivreBibliotheque.LivreId">Modifier</a>
+
+
+    </div>
+
     <div class="position-relative text-center">
         <img class="mx-auto image-livre" src=~/img/@Model.livreBibliothequesEvaluation.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle shadow">
