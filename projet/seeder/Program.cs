@@ -124,6 +124,9 @@ namespace seeder
 	    context.Etudiants.AddRange(getEtudiants(context));
 
             context.SaveChanges();
+
+	    // TODO: Samuel doit ajouter cette table dans la bd.
+	    // setCoursParEtudiants(context);
         }
 
         /// <summary>
@@ -750,6 +753,39 @@ namespace seeder
 		Rue = Faker.Address.StreetName(),
 		Ville = Faker.Address.City()
 	    };
+	}
+
+	/// <summary>
+	/// Assigne les cours aux étudiants.
+        /// </summary>
+	private static void setCoursParEtudiants(ApplicationDbContext context)
+	{
+
+	    foreach(Etudiant etudiant in context.Etudiants)
+	    {
+
+		var listeCoursEtudiant = context
+			.Cours
+			.Skip(Faker.RandomNumber.Next(0, context.Cours.Count() - 9))
+			.Take(Faker.RandomNumber.Next(3, 8));
+
+
+		foreach(Cours cours in listeCoursEtudiant)
+		{
+
+		    
+		    CoursEtudiant coursEtudiant = new()
+		    {
+			Etudiant = etudiant,
+			Cours = cours
+		    };
+
+		    // TODO: Samuel doit ajouter cette table dans la bd.
+		    // context.CoursEtudiants.Add(coursEtudiant);
+		}
+
+		context.SaveChanges();
+	    }
 	}
     }
 }
