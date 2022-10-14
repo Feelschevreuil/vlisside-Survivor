@@ -9,6 +9,8 @@ namespace vlissides_bibliotheque.ViewModels
     {
         public EvaluationLivre livreBibliothequesEvaluation;
 
-        public List<CoursProfesseur> coursProfesseurs;
+        public CoursProfesseur coursProfesseurs;
+
+        public Boolean complementaire;
     }
 }

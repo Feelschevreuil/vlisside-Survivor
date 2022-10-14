@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -20,18 +22,14 @@ namespace vlissides_bibliotheque.Controllers
         [Route("")]
         public IActionResult Accueil()
         {
-
             Commanditaire commanditaire = new Commanditaire() { Courriel = "aaaaaaa@gmail.cum", CommanditaireId = 0, Message = "VENEZ ACHETER NOS DÉLICIEUX BISCUITS", Nom = "BakeryChezMarki's", Url = "http//BiscuitsChezMary's.cum" };
 
 
             List<Evenement> listEvenements = new()
             {
-
                new Evenement(){EvenementId=0,Commanditaire= commanditaire,CommanditaireId=0,Debut=DateTime.Now, Fin=DateTime.MaxValue,Description=commanditaire.Message,Nom="Pomme"}
 
-
             };
-
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = listEvenements };
 
             return View(recommendationPromotions);
@@ -47,17 +45,11 @@ namespace vlissides_bibliotheque.Controllers
             Commanditaire commanditaire = new Commanditaire() { Courriel = "aaaaaaa@gmail.cum", CommanditaireId = 0, Message = "VENEZ ACHETER NOS DÉLICIEUX BISCUITS", Nom = "BakeryChezMarki's", Url = "http//BiscuitsChezMary's.cum" };
 
 
-
             List<Evenement> listEvenements = new()
             {
-
                new Evenement(){EvenementId=0,Commanditaire= commanditaire,CommanditaireId=0,Debut=DateTime.Now, Fin=DateTime.MaxValue,Description=commanditaire.Message,Nom="Pomme"},
-
                new Evenement(){EvenementId=0,Commanditaire= commanditaire,CommanditaireId=0,Debut=DateTime.MinValue, Fin=DateTime.MaxValue,Description=commanditaire.Message,Nom="Banane"}
-
-
             };
-
 
             return View(listEvenements);
         }
@@ -70,34 +62,71 @@ namespace vlissides_bibliotheque.Controllers
         }
 
 
-        public List<CoursProfesseur> GetCoursProfesseurs()
-        {
-            List<CoursProfesseur> listCoursProfesseurs = new();
-            List<Cours> listCours = _context.Cours.ToList();
-            List<Professeur> listProfesseur = _context.Professeurs.ToList();
-            for (int i = 0; i < _context.Cours.Count(); i++)
-            {
-                listCoursProfesseurs.Add(new CoursProfesseur { Cours = listCours[i], Professeur = new Professeur { Nom= "Berry", Prenom="Jerry"} });
-
-            }
-
-            return listCoursProfesseurs;
-        }
-
 
         public List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs()
         {
             List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
+            List<LivreBibliotheque> listLivreBibliotheque = _context.LivresBibliotheque.ToList();
+            Random random = new Random();
+
+            for (int i = 0; i < 4; i++)
+            {
+                int index = random.Next(listLivreBibliotheque.Count());
+                LivreBibliotheque livreBibliotheque = listLivreBibliotheque[index];
+                CoursLivre CoursLivre = _context.CoursLivres.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                EvaluationLivre evaluationLivre =_context.EvaluationsLivres.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                CoursProfesseur coursProfesseur = _context.CoursProfesseurs.ToList().Find(x => x.CoursId == CoursLivre.CoursId);
+                
+                Evaluation evaluation = new Evaluation { Commentaire = "", Etoiles = 3, Date = DateTime.Now, Titre = "", EvaluationId = 0, Etudiant= _context.Etudiants.FirstOrDefault() };
+                Professeur professeur = new Professeur { ProfesseurId = 0, Nom = "Jeremy", Prenom = "Barnet" };
+
+                //TODO
+                //Modifer le code ci-dessus quand le seeder remplira toutes la BD
+                //Un associer doit être fait ici avec le Id.
+                //Ex: Cherche coursId pour avoir la variable cours remplie avec un object "cours" avant de l'envoyer à la vue 
+                if (CoursLivre == null)
+                {
+                    CoursLivre = new();
+                    CoursLivre.CoursLivreId = 0;
+                    CoursLivre.CoursId = 8;
+                    CoursLivre.LivreBibliothequeId = livreBibliotheque.LivreId;
+                    CoursLivre.Complementaire = false;
+                    _context.CoursLivres.Add(CoursLivre);
+                    _context.SaveChanges();
+                };
+
+                if(evaluationLivre == null)
+                {
+                    _context.Evaluations.Add(evaluation);
+                    _context.SaveChanges();
+                    evaluationLivre = new();
+                    evaluationLivre.EvaluationId = _context.Evaluations.ToList().Find(x=>x.EvaluationId == evaluation.EvaluationId).EvaluationId;
+                    evaluationLivre.LivreBibliothequeId = livreBibliotheque.LivreId;
+                    evaluationLivre.LivreBibliotheque = livreBibliotheque;
+                    evaluationLivre.Evaluation = _context.Evaluations.ToList().Find(x => x.EvaluationId == evaluation.EvaluationId);
+
+                };  
+                if(coursProfesseur == null)
+                {
+                    _context.Professeurs.Add(professeur);
+                    _context.SaveChanges();
+                    coursProfesseur = new();
+                    coursProfesseur.ProfesseurId = _context.Professeurs.ToList().Find(x => x.ProfesseurId == 1).ProfesseurId;
+                    coursProfesseur.CoursId = _context.Cours.ToList().First().CoursId;
+                    coursProfesseur.Professeur = _context.Professeurs.ToList().Find(x => x.ProfesseurId == 1);
+                    coursProfesseur.Cours = _context.Cours.ToList().First();
+
+                };
 
 
-            LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.First();
-            Evaluation evaluation = new() { Etoiles = 4 };
-            EvaluationLivre UneEvaluationLivre = new() { LivreBibliotheque = livreBibliotheque, Evaluation = evaluation };
 
+                TuileLivreBibliotequeVM tuileLivreBibliotequeVM = new();
+                tuileLivreBibliotequeVM.livreBibliothequesEvaluation = evaluationLivre;
+                tuileLivreBibliotequeVM.coursProfesseurs = coursProfesseur;
+                tuileLivreBibliotequeVM.complementaire = CoursLivre.Complementaire;
 
-            listTuileLivreBibliotequeVMs.Add(new TuileLivreBibliotequeVM { livreBibliothequesEvaluation = new EvaluationLivre() { Evaluation = new Evaluation { Commentaire = "", Etoiles = 7, Date = DateTime.Now, Titre = "", EvaluationId = 0 }, LivreBibliotheque = new LivreBibliotheque() { Isbn = "1676362s", DatePublication = DateTime.Now, Resume = "bio", Titre = "Le corps humain", LivreId = 0, PhotoCouverture = "https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg" } }, coursProfesseurs = GetCoursProfesseurs() });
-
-
+                listTuileLivreBibliotequeVMs.Add(tuileLivreBibliotequeVM);
+            }
 
             return listTuileLivreBibliotequeVMs;
 

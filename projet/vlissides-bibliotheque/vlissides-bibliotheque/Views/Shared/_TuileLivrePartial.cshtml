@@ -26,10 +26,10 @@
     <div class="card border-0" style="width:auto">
         <h5 class="card-title ">@Model.livreBibliothequesEvaluation.LivreBibliotheque.Titre</h5>
         <p class="card-text">@Model.livreBibliothequesEvaluation.LivreBibliotheque.Isbn</p>
-        <p class="card-text">@Model.coursProfesseurs[0].Cours.Nom</p>
-        <p class="card-text">@Model.coursProfesseurs[0].Professeur.Prenom @Model.coursProfesseurs[1].Professeur.Nom</p>
+        <p class="card-text">@Model.coursProfesseurs.Cours.Nom</p>
+        <p class="card-text">@Model.coursProfesseurs.Professeur.Prenom @Model.coursProfesseurs.Professeur.Nom</p>
         <p class="card-text">@Model.livreBibliothequesEvaluation.LivreBibliotheque.DatePublication.Year</p>
-        <p class="card-text">Année de parcours: @Model.coursProfesseurs[0].Cours.AnneeParcours</p>
+        <p class="card-text">Année de parcours: @Model.coursProfesseurs.Cours.AnneeParcours</p>
     </div>
 
     <footer>
