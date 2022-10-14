@@ -160,6 +160,23 @@ namespace vlissides_bibliotheque.Controllers
             
         }
 
+        [HttpGet]
+        public async Task<ActionResult> modifier(LivreBibliotheque livreBibliotheque)
+        {
+            return View();
+
+        }
+
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> modifier(CreationLivreVM livreBibliothequeModifier)
+        {
+            return View();
+        }
+
+
+
         public List<SelectListItem> ListDropDownAuteurs()
         {
 
