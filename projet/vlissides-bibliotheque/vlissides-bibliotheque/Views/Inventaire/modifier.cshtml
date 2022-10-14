@@ -4,7 +4,7 @@
     <div class="col-md-8 d-block m-auto">
         <form method="post" class="text-center m-3" asp-action="modifier" asp-controller="Inventaire" enctype="multipart/form-data">
 
-            <img class="d-block m-auto mb-3" width="200px" src="~/img/book-plus.svg" />
+            <img class="d-block m-auto mb-3 icon-modifier" src="~/img/book-edit.svg" />
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="row text-start">
@@ -29,6 +29,11 @@
                             <label asp-for="fichierImage" class="form-label"></label>
                             <input asp-for="fichierImage" accept="image/*" class="form-control" aria-required="true" />
                             <span asp-validation-for="fichierImage" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Photo" class="form-label">Photo actuelle</label>
+                            <input asp-for="Photo" class="form-control" value="@Model.Photo" type="hidden" />
+                            <img class="image-formulaire" src=~/img/@Model.Photo alt="PhotoLivre">
                         </div>
                         <div class="form-group">
                             <label asp-for="DatePublication" class="form-label"></label>
@@ -108,7 +113,7 @@
                 </div>
 
                 <div class="m-3 mt-4">
-                    <button type="submit" class="btn btn-primary col-md-12 shadow">Creer</button>
+                    <button type="submit" class="btn btn-primary col-md-12 shadow">Modifier</button>
                 </div>
 
                 @Html.AntiForgeryToken()
@@ -116,3 +121,6 @@
         </form>
     </div>
 </div>
+
+
+<link rel="stylesheet" href="~/css/FormulaireAjoutModifier.css" asp-append-version="true" />
