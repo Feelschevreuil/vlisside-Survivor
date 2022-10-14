@@ -6,7 +6,7 @@
 
 
 <div class="card border-2" style="width:auto">
-    
+
     <div class="position-relative text-center">
         <img class="mx-auto image-livre" src=~/img/@Model.livreBibliothequesEvaluation.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle shadow">
@@ -32,50 +32,53 @@
         <p class="card-text">Année de parcours: @Model.coursProfesseurs.Cours.AnneeParcours</p>
     </div>
 
-    <footer>
-        <div class="card-body">
+    @if (Model.complementaire)
+    {
+        <footer>
+            <div class="card-body">
 
-            <div id="rating" class="star-rating" role="img" data-rating="3">
+                <div id="rating" class="star-rating" role="img" data-rating="3">
 
 
 
-                @for (int etoile_vide = 0; etoile_vide < 5; etoile_vide++)
-                {
-                    @while (nbrEtoile > 0)
+                    @for (int etoile_vide = 0; etoile_vide < 5; etoile_vide++)
                     {
-                        if (nbrEtoile >= 2)
+                        @while (nbrEtoile > 0)
                         {
-                            nbrEtoile = nbrEtoile - 2;
-                            etoile_vide++;
+                            if (nbrEtoile >= 2)
+                            {
+                                nbrEtoile = nbrEtoile - 2;
+                                etoile_vide++;
+                                <span class="star" data-value="">
+                                    <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-pleine.svg">
+                                    <span class="star-notification"></span>
+                                </span>
+                            }
+
+                            if (nbrEtoile == 1)
+                            {
+                                nbrEtoile = nbrEtoile - 1;
+                                etoile_vide++;
+                                <span class="star" data-value="">
+                                    <img style="width: 0.7rem; margin-top: -3px;" src="~/img/demi-etoile.svg">
+                                    <span class="star-notification"></span>
+                                </span>
+
+                            }
+                        }
+
+                        if (etoile_vide != 5)
+                        {
                             <span class="star" data-value="">
-                                <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-pleine.svg">
+                                <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-vide.svg">
                                 <span class="star-notification"></span>
                             </span>
                         }
-
-                        if (nbrEtoile == 1)
-                        {
-                            nbrEtoile = nbrEtoile - 1;
-                            etoile_vide++;
-                            <span class="star" data-value="">
-                                <img style="width: 0.7rem; margin-top: -3px;" src="~/img/demi-etoile.svg">
-                                <span class="star-notification"></span>
-                            </span>
-
-                        }
                     }
-
-                    if (etoile_vide != 5)
-                    {
-                        <span class="star" data-value="">
-                            <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-vide.svg">
-                            <span class="star-notification"></span>
-                        </span>
-                    }
-                }
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    }
 </div>
 
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
