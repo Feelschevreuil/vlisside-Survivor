@@ -33,24 +33,18 @@ namespace vlissides_bibliotheque.Controllers
                 new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=3,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn="jshfiffdddddd",DatePublication=DateTime.MaxValue,Titre="Paramire",Resume="Un jeune mage dont le père est posséidon part à l'aventure dans un monde magique rempli de monstre et d'aventure aventureuses",LivreId=2,PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"} }
             };
 
-            List<CoursProfesseur> listCoursProfesseurs = new()
-            {
-                new CoursProfesseur(){Cours=_context.Cours.First(),Professeur=new Professeur{ Nom="Bob",Prenom="Marley"} },
-                new CoursProfesseur() { Cours = _context.Cours.First(), Professeur = new Professeur { Nom = "Mike", Prenom = "Bernard" } },
-                new CoursProfesseur(){Cours=_context.Cours.First(),Professeur=new Professeur{ Nom="HAHAHAHAHHA",Prenom="aaaAAAAAAA̵͗̊͂̔͑̉̿̂̇͊̓̈́̂̍̍̀͐̐̀͌̈̀͂̉͘͘̕͠͝͝ͅ"} }
-
-            };
+            CoursProfesseur HardCodeCoursProfesseur = new CoursProfesseur() { Cours = _context.Cours.First(), Professeur = new Professeur { Nom = "HAHAHAHAHHA", Prenom = "aaaAAAAAAA̵͗̊͂̔͑̉̿̂̇͊̓̈́̂̍̍̀͐̐̀͌̈̀͂̉͘͘̕͠͝͝ͅ" } };
 
             Commanditaire commandit = new Commanditaire() { Courriel = "aaaaaaa@gmail.cum", CommanditaireId = 0, Message = "VENEZ ACHETER NOS DÉLICIEUX BISCUITS", Nom = "BakeryChezMarki's", Url = "http//BiscuitsChezMary's.cum" };
+           
             List<Evenement> evenements = new()
             {
               new Evenement() {EvenementId=0,Commanditaire=commandit,Nom="Soccer",Debut=DateTime.Now,Fin=DateTime.MaxValue,Description="vener jouer",Image="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}
-
             };
 
             List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
             {
-                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs,livreBibliothequesEvaluation= new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}}}
+                new TuileLivreBibliotequeVM(){coursProfesseurs=HardCodeCoursProfesseur,livreBibliothequesEvaluation= new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque=new LivreBibliotheque(){  Isbn ="1676362s",DatePublication=DateTime.Now,Resume="bio",Titre="Le corps humain",LivreId=0, PhotoCouverture="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}}}
             };
 
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
@@ -88,7 +82,7 @@ namespace vlissides_bibliotheque.Controllers
 
             List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
             {
-                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs,livreBibliothequesEvaluation=new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque= _context.LivresBibliotheque.ToList().Find(x=>x.LivreId == 21)} }
+                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs[0],livreBibliothequesEvaluation=new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque= _context.LivresBibliotheque.ToList().Find(x=>x.LivreId == 21)} }
             };
 
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
