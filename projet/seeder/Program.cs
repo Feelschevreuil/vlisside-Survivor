@@ -893,7 +893,7 @@ namespace seeder
 
 
         /// <summary>
-        /// Crée une liste des livres des étudiants.
+        /// Génère la liste des livres des étudiants.
         /// </summary>
 	private static void setLivresEtudiants(ApplicationDbContext context)
 	{
