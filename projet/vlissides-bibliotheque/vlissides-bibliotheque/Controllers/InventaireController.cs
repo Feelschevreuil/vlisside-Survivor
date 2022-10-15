@@ -83,7 +83,7 @@ namespace vlissides_bibliotheque.Controllers
 
             List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
             {
-                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs[0],livreBibliothequesEvaluation=new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque= _context.LivresBibliotheque.ToList().Find(x=>x.LivreId == 21)} }
+                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs[0],livreBibliothequesEvaluation=new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque= _context.LivresBibliotheque.ToList().First()} }
             };
 
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
@@ -368,11 +368,34 @@ namespace vlissides_bibliotheque.Controllers
             };
 
 
+            List<CoursLivre> ListCoursRelier = _context.CoursLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreSupprimer.LivreId);
+            _context.CoursLivres.RemoveRange(ListCoursRelier);
             _context.LivresBibliotheque.Remove(livreSupprimer);
             _context.SaveChanges();
 
-            return View("bibliotheque");
+            //TODO enlever le code ci-dessous
+            Commanditaire commandit = new Commanditaire() { Courriel = "aaaaaaa@gmail.cum", CommanditaireId = 0, Message = "VENEZ ACHETER NOS DÉLICIEUX BISCUITS", Nom = "BakeryChezMarki's", Url = "http//BiscuitsChezMary's.cum" };
+            List<Evenement> evenements = new()
+            {
+              new Evenement() {EvenementId=0,Commanditaire=commandit,Nom="Soccer",Debut=DateTime.Now,Fin=DateTime.MaxValue,Description="vener jouer",Image="https://www.publicdomainpictures.net/pictures/400000/velka/18th-century-persian-book-cover.jpg"}
 
+            };
+            List<CoursProfesseur> listCoursProfesseurs = new()
+            {
+                new CoursProfesseur(){Cours=_context.Cours.First(),Professeur=new Professeur{ Nom="Bob",Prenom="Marley"} },
+                new CoursProfesseur() { Cours = _context.Cours.First(), Professeur = new Professeur { Nom = "Mike", Prenom = "Bernard" } },
+                new CoursProfesseur(){Cours=_context.Cours.First(),Professeur=new Professeur{ Nom="HAHAHAHAHHA",Prenom="aaaAAAAAAA̵͗̊͂̔͑̉̿̂̇͊̓̈́̂̍̍̀͐̐̀͌̈̀͂̉͘͘̕͠͝͝ͅ"} }
+
+            };
+            List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
+            {
+                new TuileLivreBibliotequeVM(){coursProfesseurs=listCoursProfesseurs[0],livreBibliothequesEvaluation=new EvaluationLivre(){Evaluation=new Evaluation{Commentaire="",Etoiles=7,Date=DateTime.Now,Titre="",EvaluationId=0 },LivreBibliotheque= _context.LivresBibliotheque.ToList().First()} }
+            };
+
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
+            //Fin du TODO
+
+            return View("Bibliotheque", recommendationPromotions);
         }
 
         public List<SelectListItem> ListDropDownAuteurs()
