@@ -952,6 +952,101 @@ namespace seeder
 
 	    return livreEtudiant;
 	}
+
+	// TODO: à tester lorsque l'objet LivreBibliotheque aura les modificaitons
+	// nécessaires apportées.
+	/// <summary>
+	/// Génère les évaluations des livres complémentaires.
+        /// </summary>
+	private static void setEvaluations(ApplicationDbContext context)
+	{
+
+	    // TODO: lorsque la propriété complementaire sera ajoutée.
+	    var livresComplementaires = context.LivresBibliotheque;//.Where(livre => livre.Complementaire);
+
+	    foreach(LivreBibliotheque livre in livresComplementaires)
+	    {
+
+		bool ajouterEvaluations;
+
+		ajouterEvaluations = Faker.Boolean.Random();
+
+		if(ajouterEvaluations)
+		{
+
+		    int nombreMaximumEtudiants;
+
+		    nombreMaximumEtudiants = Convert.ToInt32((context.Etudiants.Count() - 1)/2);
+
+		    foreach(Etudiant etudiant in context.Etudiants.Take(Faker.RandomNumber.Next(1, nombreMaximumEtudiants)))
+		    {
+
+			Evaluation evaluation;
+			EvaluationLivre evaluationLivre;
+
+			evaluation = creerEvaluation(context, livre);
+
+			context.Evaluations.Add(evaluation);
+
+			context.SaveChanges();
+
+			// TODO: voir si l'ID de l'évaluation est ajouté à l'objet
+
+			evaluationLivre = new()
+			{
+
+			    // TODO: Lorsque la propiété sera ajoutée.
+			    // Etudiant = etudiant,
+	  		    Evaluation = evaluation
+			};
+
+			context.EvaluationsLivres.Add(evaluationLivre);
+
+			context.SaveChanges();
+		    }
+		}
+	    }
+	}
+
+        /// <summary>
+        /// Crée une évaluation d'un livre complémentaire.
+        /// </summary>
+        /// <returns>le livre de l'étudiant.</returns>
+	private static Evaluation creerEvaluation(ApplicationDbContext context, LivreBibliotheque livre)
+	{
+
+	    Evaluation evaluation;
+
+	    evaluation = new()
+	    {
+		Etoiles = Faker.RandomNumber.Next(0,10),
+		Date = Faker
+			.Identification
+			.DateOfBirth()
+			    .AddDays(Faker
+				    .RandomNumber
+				    .Next(joursDepuisPublicationLivre(livre), 0))
+	    };
+
+	    return evaluation;
+	}
+
+	/// <summary>
+	/// Calcure les jours depius la publication d'un livre.
+	/// <param name="livre">Le livre ayant la date de publication.</param>
+	/// <returns>Le nombre de jours depuis la publication d'un livre en int.</returns>
+	/// </summary
+	// TODO: remplacer LibreBibliothque par ILivre lorsque ILivre aura la date de 
+	// parution
+	private static int joursDepuisPublicationLivre(LivreBibliotheque livre)
+	{
+
+	    int diffrenceJours;
+
+	    diffrenceJours = Convert.ToInt32((livre.DatePublication - DateTime.Now).TotalDays);
+
+	    return diffrenceJours;
+	}
     }
 }
 
