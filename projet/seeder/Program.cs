@@ -125,8 +125,7 @@ namespace seeder
 
             context.SaveChanges();
 
-	    // TODO: Samuel doit ajouter cette table dans la bd.
-	    // setCoursParEtudiants(context);
+	    setCoursParEtudiants(context);
         }
 
         /// <summary>
@@ -780,8 +779,7 @@ namespace seeder
 			Cours = cours
 		    };
 
-		    // TODO: Samuel doit ajouter cette table dans la bd.
-		    // context.CoursEtudiants.Add(coursEtudiant);
+		    context.CoursEtudiants.Add(coursEtudiant);
 		}
 
 		context.SaveChanges();
