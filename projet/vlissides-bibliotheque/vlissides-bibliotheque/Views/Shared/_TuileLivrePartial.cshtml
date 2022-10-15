@@ -7,10 +7,17 @@
 
 <div class="card border-2" style="width:auto">
 
+
     <div>
-        <a asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliothequesEvaluation.LivreBibliotheque.LivreId">Modifier</a>
+        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliothequesEvaluation.LivreBibliotheque.LivreId">
+            <input class="btn btn-primary shadow" type="button" value="Modifier" />
+        </a>
 
-
+        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliothequesEvaluation.LivreBibliotheque.LivreId">
+            <a>
+                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliothequesEvaluation.LivreBibliotheque.Titre')" type="submit" value="Supprimer" />
+            </a>
+        </form>
     </div>
 
     <div class="position-relative text-center">

@@ -350,7 +350,30 @@ namespace vlissides_bibliotheque.Controllers
             return View(form);
         }
 
-    
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> supprimer(int? id)
+        {
+            if (id == null)
+            {
+                Response.StatusCode = 400;
+                return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
+            }
+
+            var livreSupprimer = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == id);
+            if (livreSupprimer == null)
+            {
+                Response.StatusCode = 404;
+                return Content("Ce livre n'existe pas dans la base de données");
+            };
+
+
+            _context.LivresBibliotheque.Remove(livreSupprimer);
+            _context.SaveChanges();
+
+            return View("bibliotheque");
+
+        }
 
         public List<SelectListItem> ListDropDownAuteurs()
         {
