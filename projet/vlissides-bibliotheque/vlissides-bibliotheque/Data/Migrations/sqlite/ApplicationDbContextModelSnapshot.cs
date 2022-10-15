@@ -406,7 +406,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasIndex("EtudiantId");
 
-                    b.ToTable("CoursEtudiant");
+                    b.ToTable("CoursEtudiants");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.CoursLivre", b =>
@@ -694,6 +694,9 @@ namespace vlissides_bibliotheque.Migrations
                     b.Property<int>("LivreBibliothequeId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("NombreUsager")
+                        .HasColumnType("INTEGER");
+
                     b.Property<double>("Prix")
                         .HasColumnType("REAL");
 
@@ -802,9 +805,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
                             NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPPTQfD4Wsa8pXZkOXxI7aQ1zh+9qSooJO3E9lHkI4K3HiK/bdIWQgtaWTc/ia3lBA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKumz2dijrRE9BD/NbNPS4+EPXqx9Jp3jfLfpUyKiI88Kd873gtdw7L6UIExvukVwQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5469c667-1dbb-4a2c-9cd6-c3ba810f1c9a",
+                            SecurityStamp = "ba76ca5e-84b2-4e8f-9041-ed5c4796f8ac",
                             TwoFactorEnabled = false,
                             UserName = "gordon.john@gunclub-alabama.us",
                             Nom = "John",

@@ -410,7 +410,8 @@ namespace vlissides_bibliotheque.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     EtatLivreId = table.Column<int>(type: "INTEGER", nullable: false),
                     LivreBibliothequeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Prix = table.Column<double>(type: "REAL", nullable: false)
+                    Prix = table.Column<double>(type: "REAL", nullable: false),
+                    NombreUsager = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -510,7 +511,7 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CoursEtudiant",
+                name: "CoursEtudiants",
                 columns: table => new
                 {
                     CoursId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -518,15 +519,15 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoursEtudiant", x => new { x.CoursId, x.EtudiantId });
+                    table.PrimaryKey("PK_CoursEtudiants", x => new { x.CoursId, x.EtudiantId });
                     table.ForeignKey(
-                        name: "FK_CoursEtudiant_Cours_CoursId",
+                        name: "FK_CoursEtudiants_Cours_CoursId",
                         column: x => x.CoursId,
                         principalTable: "Cours",
                         principalColumn: "CoursId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoursEtudiant_Etudiants_EtudiantId",
+                        name: "FK_CoursEtudiants_Etudiants_EtudiantId",
                         column: x => x.EtudiantId,
                         principalTable: "Etudiants",
                         principalColumn: "Id",
@@ -681,7 +682,7 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEPPTQfD4Wsa8pXZkOXxI7aQ1zh+9qSooJO3E9lHkI4K3HiK/bdIWQgtaWTc/ia3lBA==", null, false, "5469c667-1dbb-4a2c-9cd6-c3ba810f1c9a", false, "gordon.john@gunclub-alabama.us" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEKumz2dijrRE9BD/NbNPS4+EPXqx9Jp3jfLfpUyKiI88Kd873gtdw7L6UIExvukVwQ==", null, false, "ba76ca5e-84b2-4e8f-9041-ed5c4796f8ac", false, "gordon.john@gunclub-alabama.us" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
@@ -766,8 +767,8 @@ namespace vlissides_bibliotheque.Migrations
                 column: "ProgrammeEtudeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoursEtudiant_EtudiantId",
-                table: "CoursEtudiant",
+                name: "IX_CoursEtudiants_EtudiantId",
+                table: "CoursEtudiants",
                 column: "EtudiantId");
 
             migrationBuilder.CreateIndex(
@@ -870,7 +871,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "CommandesEtudiants");
 
             migrationBuilder.DropTable(
-                name: "CoursEtudiant");
+                name: "CoursEtudiants");
 
             migrationBuilder.DropTable(
                 name: "CoursLivres");
