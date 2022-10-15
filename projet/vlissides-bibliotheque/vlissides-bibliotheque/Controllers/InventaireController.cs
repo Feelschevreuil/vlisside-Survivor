@@ -411,19 +411,6 @@ namespace vlissides_bibliotheque.Controllers
             return Liste;
         }
 
-        /*public List<SelectListItem> ListDropDownEtats()
-		{
-
-			List<SelectListItem> Liste = new List<SelectListItem>();
-
-			Liste.Add(new SelectListItem { Value = "", Text = "Choisissez un type de livre" });
-
-			foreach (var e in _context.EtatsLivres)
-				Liste.Add(new SelectListItem { Value = e.EtatLivreId.ToString(), Text = e.Nom });
-
-			return Liste;
-		}*/
-
         public List<SelectListItem> ListDropDownMaisonDedition()
         {
 
