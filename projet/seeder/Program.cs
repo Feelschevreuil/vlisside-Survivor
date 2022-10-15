@@ -126,6 +126,9 @@ namespace seeder
             context.SaveChanges();
 
 	    setCoursParEtudiants(context);
+
+	    // TODO: à tester lorsque le dbset FacturesEtudiants sera présent.
+	    // setFacturesEtudiants(context);
         }
 
         /// <summary>
@@ -712,9 +715,9 @@ namespace seeder
 	}
 
         /// <summary>
-        /// Crée une liste d'étudiants.
+        /// crée une liste d'étudiants.
         /// </summary>
-        /// <returns>Les étudiants en liste.</returns>
+        /// <returns>les étudiants en liste.</returns>
 	private static ICollection<Etudiant> getEtudiants(ApplicationDbContext context)
 	{
 
@@ -785,6 +788,104 @@ namespace seeder
 		context.SaveChanges();
 	    }
 	}
+
+	// TODO: à tester lorsque le dbset FacturesEtudiants sera présent.
+	/// <summary>
+	/// Génère des factures aux étudiants.
+        /// </summary>
+	private static void setFacturesEtudiants(ApplicationDbContext context)
+	{
+	    
+	    foreach(Etudiant etudiant in context.Etudiants)
+	    {
+
+		bool asDejaCommande;
+
+		asDejaCommande = Faker.Boolean.Random();
+
+		if(asDejaCommande)
+		{
+
+		    for(int factures = 0; factures < Faker.RandomNumber.Next(1,5); factures++)
+		    {
+
+			FactureEtudiant factureEtudiant;
+
+			factureEtudiant = creerFactureEtudiant(context, etudiant);
+
+			// TODO:  ajouter le dbset dans ApplicaitonDbContext
+			// context.FacturesEtudiants.Add(factureEtudiant);
+
+			context.SaveChanges();
+
+			for(int commandes = 0; commandes < Faker.RandomNumber.Next(1,8); commandes++)
+			{
+
+			    CommandeEtudiant commandeEtudiant;
+
+			    commandeEtudiant = creerCommandeEtudiant(context, factureEtudiant);
+
+			    context.CommandesEtudiants.Add(commandeEtudiant);
+			}
+
+			context.SaveChanges();
+		    }
+		}
+	    }
+	}
+
+        /// <summary>
+        /// Crée une facture pour un étudiant.
+        /// </summary>
+        /// <returns>la facture de l'étudiant en Facture.</returns>
+	private static FactureEtudiant creerFactureEtudiant(ApplicationDbContext context, Etudiant etudiant) 
+	{
+
+	    FactureEtudiant factureEtudiant;
+
+	    factureEtudiant = new()
+	    {
+		TypePaiement = context
+				.TypesPaiement
+				.Skip(Faker.RandomNumber.Next(9, context.TypesPaiement.Count() - 1))
+				.Take(1)
+				.First(),
+		Etudiant = etudiant,
+		// TODO: ne pas enregistrer l'id de l'objet, mais l'adresse au complete en texte.
+		AdresseLivraison = etudiant.Adresse,
+		DateFacturation = DateTime
+				    .Now
+				    .AddDays(Faker.RandomNumber.Next(-355,0)),
+		Tps = 5.0M,
+		Tvq = 9.975M
+	    };
+
+	    return factureEtudiant;
+	}
+
+        /// <summary>
+        /// Crée une commande pour une facture.
+        /// </summary>
+        /// <returns>la commande de la facture en Commande.</returns>
+	private static CommandeEtudiant creerCommandeEtudiant(ApplicationDbContext context, FactureEtudiant factureEtudiant)
+	{
+
+	    CommandeEtudiant commandeEtudiant;
+
+	    commandeEtudiant = new()
+	    {
+		FactureEtudiant = factureEtudiant,
+		LivreBibliotheque = context
+					.LivresBibliotheque
+					.Skip(Faker.RandomNumber.Next(0, context.LivresBibliotheque.Count() - 1))
+					.Take(1)
+					.First(),
+		Quantite = Faker.RandomNumber.Next(1,2)
+
+	    };
+
+	    return commandeEtudiant;
+	} 
     }
 }
 
