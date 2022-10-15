@@ -129,6 +129,10 @@ namespace seeder
 
 	    // TODO: à tester lorsque le dbset FacturesEtudiants sera présent.
 	    // setFacturesEtudiants(context);
+
+	    // TODO: à tester lorsque l'objet LivreEtudiant aure les modificaitons
+	    // nécessaires apportées.
+	    // setLivresEtudiants(context);
         }
 
         /// <summary>
@@ -886,6 +890,68 @@ namespace seeder
 
 	    return commandeEtudiant;
 	} 
+
+
+        /// <summary>
+        /// Crée une liste des livres des étudiants.
+        /// </summary>
+	private static void setLivresEtudiants(ApplicationDbContext context)
+	{
+
+	    foreach(Etudiant etudiant in context.Etudiants)
+	    {
+
+		bool aLivresVendre;
+
+		aLivresVendre = Faker.Boolean.Random();
+
+		if(aLivresVendre)
+		{
+
+		    int nombreLivresVendre;
+
+		    nombreLivresVendre = Faker.RandomNumber.Next(1,8);
+
+		    for(int i = 0; i < nombreLivresVendre; i++)
+		    {
+
+			LivreEtudiant livreEtudiant;
+
+			livreEtudiant = creerLivreEtudiant(etudiant);
+
+			context.LivresEtudiants.Add(livreEtudiant);
+		    }
+
+		    context.SaveChanges();
+		}
+	    }
+	}
+
+	// TODO: à tester lorsque l'objet LivreEtudiant aure les modificaitons
+	// nécessaires apportées.
+        /// <summary>
+        /// Crée un livre d'étudiant.
+        /// </summary>
+        /// <returns>le livre de l'étudiant.</returns>
+	private static LivreEtudiant creerLivreEtudiant(Etudiant etudiant)
+	{
+
+	    LivreEtudiant livreEtudiant;
+
+	    livreEtudiant = new()
+	    {
+		// Isbn = "666" + Faker.Identification.UkNhsNumber(),
+		Titre = Faker.Lorem.Sentence(Faker.RandomNumber.Next(1,8)),
+		// Auteur = Auteur = Faker.Name.First() + " " + Faker.Name.Last(),
+		// Resume = Faker.Lorem.Paragraph(),
+		PhotoCouverture = "N/A",
+		// DatePublication = Faker.Identification.DateOfBirth().AddDays(-3000, 0),
+		// MaisonEdition = Faker.Company.Name()
+		Description = "ENLEVER CE CHAMP"
+	    };
+
+	    return livreEtudiant;
+	}
     }
 }
 
