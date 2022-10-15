@@ -186,6 +186,7 @@ namespace vlissides_bibliotheque.Controllers
             var pasEtatAuLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
             var PasNumerique = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNumerique);
             var pasUsager = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreUsager);
+            var pasDeNeuf = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf).EtatLivreId;
 
             if (auteurLivre == null)
             {
@@ -213,7 +214,7 @@ namespace vlissides_bibliotheque.Controllers
 
             if (prixEtatLivre.Count() != 3)
             {
-                if (pasEtatAuLivre == null || (pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf).EtatLivreId) == null)
+                if (pasEtatAuLivre == null || pasDeNeuf == null)
                 {
                     PrixEtatLivre neufPrixLivre = new()
                     {
@@ -349,7 +350,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(form);
         }
 
-
+    
 
         public List<SelectListItem> ListDropDownAuteurs()
         {
@@ -435,7 +436,7 @@ namespace vlissides_bibliotheque.Controllers
 
 
             return ListPrixEtat;
-        }  
+        }
         public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
         {
             List<PrixEtatLivre> ListPrixEtat = new();
