@@ -119,7 +119,7 @@ namespace vlissides_bibliotheque.Controllers
                 {
                    Nom ="Fleur",
                    ProgrammeEtudeId = 0,
-                   Code = "hfdsj",
+                   Code = "hfde",
                 };
                 _context.ProgrammesEtudes.Add(programme);
                 _context.SaveChanges();
