@@ -69,8 +69,17 @@ namespace vlissides_bibliotheque.Controllers
             List<LivreBibliotheque> listLivreBibliotheque = _context.LivresBibliotheque.ToList();
             Random random = new Random();
 
+            MaisonEdition maison = new()
+            {
+                MaisonEditionId = 0,
+                Nom = "Des Noix"
+            };
+            _context.MaisonsEditions.Add(maison);
+            _context.SaveChanges();
+
             for(int i=0; i<5; i++)
             {
+
                 LivreBibliotheque livre = new()
                 {
                     LivreId = 0,
@@ -81,6 +90,11 @@ namespace vlissides_bibliotheque.Controllers
                     Resume = "Pomme",
                     Titre = "La mort"
                 };
+                _context.LivresBibliotheque.Add(livre);
+                _context.SaveChanges();
+
+
+
             }
 
 
