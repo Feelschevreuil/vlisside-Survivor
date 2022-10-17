@@ -69,6 +69,22 @@ namespace vlissides_bibliotheque.Controllers
             List<LivreBibliotheque> listLivreBibliotheque = _context.LivresBibliotheque.ToList();
             Random random = new Random();
 
+            for(int i=0; i<5; i++)
+            {
+                LivreBibliotheque livre = new()
+                {
+                    LivreId = 0,
+                    Isbn = "1478523698",
+                    DatePublication = DateTime.Now,
+                    MaisonEditionId = _context.MaisonsEditions.First().MaisonEditionId,
+                    PhotoCouverture = "horloge.svg",
+                    Resume = "Pomme",
+                    Titre = "La mort"
+                };
+            }
+
+
+
             for (int i = 0; i < 4; i++)
             {
                 int index = random.Next(listLivreBibliotheque.Count());
