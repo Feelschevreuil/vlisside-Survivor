@@ -186,7 +186,16 @@ namespace vlissides_bibliotheque.Controllers
             var pasEtatAuLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
             var PasNumerique = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNumerique);
             var pasUsager = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreUsager);
-            var pasDeNeuf = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf).EtatLivreId;
+            var pasDeNeuf = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf);
+
+            Auteur auteur = new()
+            {
+                AuteurId = 0,
+                Nom = "Pariser",
+                Prenom = "Denis"
+            };
+            _context.Auteurs.Add(auteur);
+            _context.SaveChanges();
 
             if (auteurLivre == null)
             {
