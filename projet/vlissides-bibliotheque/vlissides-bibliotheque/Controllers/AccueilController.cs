@@ -141,17 +141,6 @@ namespace vlissides_bibliotheque.Controllers
             _context.Adresses.Add(adresse);
             _context.SaveChanges();
 
-            Etudiant etudiant = new()
-            {
-                Id = "hjidsfjdfskjdjdfsoihdsfuiew",
-                Nom =" Matis",
-                Prenom = "Leduc",
-                AdresseId = _context.Adresses.First().AdresseId,
-                AnneeParcours = 1,
-                ProgrammeEtudeId = _context.ProgrammesEtudes.First().ProgrammeEtudeId 
-            };
-            _context.Etudiants.Add(etudiant);
-            _context.SaveChanges();
 
             for (int i = 0; i < 4; i++)
             {
