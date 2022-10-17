@@ -97,7 +97,37 @@ namespace vlissides_bibliotheque.Controllers
 
             }
 
+            Province province = new()
+            {
+                ProvinceId = 0,
+                Nom = "Quebec"
+            };
+            _context.Provinces.Add(province);
+            _context.SaveChanges();
 
+            Adresse adresse = new()
+            {
+                AdresseId = 0,
+                Ville = "Granby",
+                NumeroCivique = 45,
+                CodePostal = "kqofue",
+                ProvinceId = _context.Provinces.First().ProvinceId,
+                Rue= "baker"
+            };
+            _context.Adresses.Add(adresse);
+            _context.SaveChanges();
+
+            Etudiant etudiant = new()
+            {
+                Id = "hjidsfjdfskjdjdfsoihdsfuiew",
+                Nom =" Matis",
+                Prenom = "Leduc",
+                AdresseId = _context.Adresses.First().AdresseId,
+                AnneeParcours = 1,
+                ProgrammeEtudeId = _context.ProgrammesEtudes.First().ProgrammeEtudeId 
+            };
+            _context.Etudiants.Add(etudiant);
+            _context.SaveChanges();
 
             for (int i = 0; i < 4; i++)
             {
@@ -106,8 +136,8 @@ namespace vlissides_bibliotheque.Controllers
                 CoursLivre CoursLivre = _context.CoursLivres.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                 EvaluationLivre evaluationLivre =_context.EvaluationsLivres.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                 CoursProfesseur coursProfesseur = _context.CoursProfesseurs.ToList().Find(x => x.CoursId == CoursLivre.CoursId);
-                
-                Evaluation evaluation = new Evaluation { Commentaire = "", Etoiles = 3, Date = DateTime.Now, Titre = "", EvaluationId = 0, Etudiant= _context.Etudiants.FirstOrDefault() };
+
+                Evaluation evaluation = new Evaluation { Commentaire = "", Etoiles = 3, Date = DateTime.Now, Titre = "", EvaluationId = 0, Etudiant= _context.Etudiants.FirstOrDefault(), EtudiantId = _context.Etudiants.FirstOrDefault().Id };
                 Professeur professeur = new Professeur { ProfesseurId = 0, Nom = "Jeremy", Prenom = "Barnet" };
 
                 //TODO
