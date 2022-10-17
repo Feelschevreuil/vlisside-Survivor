@@ -114,6 +114,27 @@ namespace vlissides_bibliotheque.Controllers
                 //Modifer le code ci-dessus quand le seeder remplira toutes la BD
                 //Un associer doit être fait ici avec le Id.
                 //Ex: Cherche coursId pour avoir la variable cours remplie avec un object "cours" avant de l'envoyer à la vue 
+
+                ProgrammeEtude programme = new()
+                {
+                   Nom ="Fleur",
+                   ProgrammeEtudeId = 0
+                };
+                _context.ProgrammesEtudes.Add(programme);
+                _context.SaveChanges();
+
+                Cours cours = new() {
+                    AnneeParcours = 1,
+                    Nom = "Sicen",
+                    Code = "45ksup",
+                    CoursId = 0,
+                    Description ="cours sur la modialisation",
+                    ProgrammeEtudeId = _context.ProgrammesEtudes.First().ProgrammeEtudeId,
+                };
+                _context.Cours.Add(cours);
+                _context.SaveChanges();
+
+
                 if (CoursLivre == null)
                 {
                     CoursLivre = new();
