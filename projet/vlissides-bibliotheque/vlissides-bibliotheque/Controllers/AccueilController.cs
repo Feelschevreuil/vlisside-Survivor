@@ -139,7 +139,7 @@ namespace vlissides_bibliotheque.Controllers
                 {
                     CoursLivre = new();
                     CoursLivre.CoursLivreId = 0;
-                    CoursLivre.CoursId = 8;
+                    CoursLivre.CoursId = _context.Cours.First().CoursId;
                     CoursLivre.LivreBibliothequeId = livreBibliotheque.LivreId;
                     CoursLivre.Complementaire = false;
                     _context.CoursLivres.Add(CoursLivre);
