@@ -178,7 +178,7 @@ namespace vlissides_bibliotheque.Controllers
 
 
             int idLivreNeuf = etatLivres.Find(y => y.Nom == "Neuf").EtatLivreId;
-            int idLivreNumerique = etatLivres.Find(y => y.Nom == "Digital").EtatLivreId;
+            int idLivreNumerique = etatLivres.Find(y => y.Nom == "Numérique").EtatLivreId;
             int idLivreUsager = etatLivres.Find(y => y.Nom == "Usagé").EtatLivreId;
 
             //TODO enlever se code quand le seeder sera fini
@@ -231,7 +231,7 @@ namespace vlissides_bibliotheque.Controllers
                     PrixEtatLivre DigitalPrixLivre = new()
                     {
                         PrixEtatLivreId = 0,
-                        EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Digital").EtatLivreId,
+                        EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Numérique").EtatLivreId,
                         LivreBibliothequeId = livreBibliothequeRechercher.LivreId,
                         Prix = 10
                     };
@@ -452,7 +452,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Digital").EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Numérique").EtatLivreId,
                 Prix = form.PrixNumerique,
             };
             PrixEtatLivre AssociationPrixUsager = new()
@@ -485,7 +485,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Digital").EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Numérique").EtatLivreId,
                 Prix = form.PrixNumerique,
             };
             PrixEtatLivre AssociationPrixUsager = new()
