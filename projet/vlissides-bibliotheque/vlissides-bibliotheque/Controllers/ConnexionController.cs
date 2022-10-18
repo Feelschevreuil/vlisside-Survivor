@@ -127,7 +127,18 @@ namespace vlissides_bibliotheque.Controllers
                 }
 
                 foreach (var error in result.Errors) {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if(error.Code == "PasswordTooShort") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit être d'au moins 6 charactères.");
+                    }
+                    if (error.Code == "PasswordRequiresNonAlphanumeric") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins un charactère non alpha-numérique.");
+                    }
+                    if (error.Code == "PasswordRequiresLower") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre minuscule.");
+                    }
+                    if (error.Code == "PasswordRequiresUpper") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre majuscule.");
+                    }
                 }
             }
 
