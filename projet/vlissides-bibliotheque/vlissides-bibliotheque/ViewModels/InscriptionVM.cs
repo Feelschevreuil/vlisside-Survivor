@@ -57,7 +57,9 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Code postal")]
-        [DataType(DataType.PostalCode)]
+        [RegularExpression(@"[A-Z][0-9][A-Z][0-9][A-Z][0-9]",
+            ErrorMessage = "Le code postal doit correspondre au format : " +
+            "A0A0A0")]
         public string CodePostal { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
