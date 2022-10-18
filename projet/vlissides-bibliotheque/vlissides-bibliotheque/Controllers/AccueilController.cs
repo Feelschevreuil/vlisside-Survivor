@@ -101,7 +101,7 @@ namespace vlissides_bibliotheque.Controllers
             _context.MaisonsEditions.Add(maison);
             _context.SaveChanges();
 
-            for(int i=0; i<5; i++)
+            for (int i = 0; i < 5; i++)
             {
 
                 LivreBibliotheque livre = new()
@@ -136,11 +136,27 @@ namespace vlissides_bibliotheque.Controllers
                 NumeroCivique = 45,
                 CodePostal = "kqofue",
                 ProvinceId = _context.Provinces.First().ProvinceId,
-                Rue= "baker"
+                Rue = "baker"
             };
             _context.Adresses.Add(adresse);
             _context.SaveChanges();
 
+            if (_context.Etudiants.Count() == 0)
+            {
+                Etudiant etudiant = new()
+                {
+                    Id = "fdsafsde",
+                    AdresseId = _context.Adresses.First().AdresseId,
+                    AnneeParcours = 1,
+                    Nom = "Jaque",
+                    Prenom = "Mock",
+                    ProgrammeEtudeId =_context.ProgrammesEtudes.First().ProgrammeEtudeId,
+
+
+                };
+                _context.Etudiants.Add(etudiant);
+                _context.SaveChanges();
+            }
 
             for (int i = 0; i < 4; i++)
             {
