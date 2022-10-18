@@ -58,6 +58,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string CodePostal { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Display(Name = "Province")]
         public int ProvinceId { get; set; }
 
         // liste des provinces
