@@ -28,7 +28,9 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "No de téléphone")]
-        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"[0-9]{3}\-[0-9]{3}\-[0-9]{4}",
+            ErrorMessage = "Le numéro de téléphone doit correspondre au format : " +
+            "123-456-7890")]
         public string NoTelephone { get; set; }
 
         // adresse de facturation
