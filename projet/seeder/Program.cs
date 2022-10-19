@@ -1064,8 +1064,8 @@ namespace seeder
 	/// <summary>
 	/// Calcure les jours depius la publication d'un livre.
 	/// <param name="livre">Le livre ayant la date de publication.</param>
-	/// <returns>Le nombre de jours depuis la publication d'un livre en int.</returns>
 	/// </summary
+	/// <returns>Le nombre de jours depuis la publication d'un livre en int.</returns>
 	private static int joursDepuisPublicationLivre(ILivre livre)
 	{
 
