@@ -12,8 +12,8 @@ namespace vlissides_bibliotheque.Models
         public FactureEtudiant FactureEtudiant { get; set; }
 
         [Required]
-        public int LivreBibliothequeId { get; set; }
-        public LivreBibliotheque LivreBibliotheque { get; set; }
+        public int PrixEtatLivreId { get; set; }
+        public PrixEtatLivre PrixEtatLivre { get; set; }
 
         [Required]
         public int Quantite { get; set; }

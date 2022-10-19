@@ -18,7 +18,7 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         public int AdresseLivraisonId { get; set; }
-        public Adresse AdresseLivraison { get; set; }
+        public string AdresseLivraison { get; set; }
 
         [Required]
         public DateTime DateFacturation { get; set; }
