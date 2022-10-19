@@ -12,7 +12,7 @@
 }
 
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow d-flex flex-row-reverse bd-highlight bg-back">
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow d-flex flex-row-reverse bd-highlight bg-middle">
     <div>
     <partial name="_LoginPartial" />
     </div>
@@ -39,7 +39,7 @@
 
           
                 <fieldset>
-                    <select id="MovieType" name="MovieType" class="btn btn-outline-light d-inline-flex">
+                <select id="MovieType" name="MovieType" class="btn btn-outline-light border-0 d-inline-flex">
 
                         <option selected="selected" value="1">Bibliothèque</option>
 
@@ -58,7 +58,7 @@
                     
                     @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
 
-                    <select class="btn btn-outline-light" asp-items="@sl">
+                    <select class="btn btn-outline-light border-0" asp-items="@sl">
                     <option  value="">Programme d'étude</option>
                     </select>
 @*
@@ -71,13 +71,13 @@
                     
                     *@
 
-                <button class="btn btn-outline-light" type="submit">
+                <button class="btn btn-outline-light border-0" type="submit">
                     <img src="~/img/loupe-de-recherche.svg">
                 </button>
 
                 </form>
 
-            <button class="btn btn-outline-light" type="submit"> Recherche avancer </button>
+            <button class="btn btn-outline-light border-0" type="submit"> Recherche avancer </button>
 
         </div>
         </div>
