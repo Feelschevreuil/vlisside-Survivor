@@ -89,21 +89,6 @@ namespace vlissides_bibliotheque.Controllers
 
             vm.CodePostal = vm.CodePostal.ToUpper();
 
-            foreach (var error in result.Errors) {
-                if (error.Code == "PasswordTooShort") {
-                    ModelState.AddModelError(string.Empty, "Le mot de passe doit être d'au moins 6 charactères.");
-                }
-                if (error.Code == "PasswordRequiresNonAlphanumeric") {
-                    ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins un charactère non alpha-numérique.");
-                }
-                if (error.Code == "PasswordRequiresLower") {
-                    ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre minuscule.");
-                }
-                if (error.Code == "PasswordRequiresUpper") {
-                    ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre majuscule.");
-                }
-            }
-
             if (ModelState.IsValid) {
 
                 Adresse adresse = new() {
@@ -142,6 +127,21 @@ namespace vlissides_bibliotheque.Controllers
                     // connecter le nouvel étudiant
                     await _signInManager.SignInAsync(etudiant, isPersistent: false);
                     return RedirectToAction("Accueil", "Accueil");
+                }
+
+                foreach (var error in result.Errors) {
+                    if(error.Code == "PasswordTooShort") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit être d'au moins 6 charactères.");
+                    }
+                    if (error.Code == "PasswordRequiresNonAlphanumeric") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins un charactère non alpha-numérique.");
+                    }
+                    if (error.Code == "PasswordRequiresLower") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre minuscule.");
+                    }
+                    if (error.Code == "PasswordRequiresUpper") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre majuscule.");
+                    }
                 }
             }
 
