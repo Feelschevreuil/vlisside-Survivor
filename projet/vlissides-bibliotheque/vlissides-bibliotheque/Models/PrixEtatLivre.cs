@@ -21,5 +21,7 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         public double Prix { get; set; }
+
+        public int NombreUsager { get; set; } = 0;
     }
 }

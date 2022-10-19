@@ -13,7 +13,8 @@ namespace vlissides_bibliotheque.ViewModels
     public class InscriptionVM
     {
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [EmailAddress(ErrorMessage = "Le format du courriel est invalide.")]
+        [RegularExpression(@"^[\w-\.]+@(cegep-connaissance-aleatoire\.qc\.ca)",
+            ErrorMessage = "Le courriel doit correspondre au format : 123456@cegep-connaissance-aleatoire.qc.ca")]
         public string Courriel { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -37,7 +38,7 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Programme d'étude")]
-        public int ProgrammeEtudeId { get; set; }
+        public int? ProgrammeEtudeId { get; set; }
         public SelectList ProgrammeEtudes { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -56,16 +57,21 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Code postal")]
-        [DataType(DataType.PostalCode)]
+        [RegularExpression(@"[A-Z][0-9][A-Z][0-9][A-Z][0-9]",
+            ErrorMessage = "Le code postal doit correspondre au format : " +
+            "A0A0A0")]
         public string CodePostal { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "No de téléphone")]
-        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"[0-9]{3}\-[0-9]{3}\-[0-9]{4}",
+            ErrorMessage = "Le numéro de téléphone doit correspondre au format : " +
+            "123-456-7890")]
         public string NoTelephone { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int ProvinceId { get; set; }
+        [Display(Name = "Province")]
+        public int? ProvinceId { get; set; }
         public SelectList Provinces { get; set; }
     }
 }

@@ -32,6 +32,8 @@ namespace vlissides_bibliotheque.Data
         public DbSet<CoursProfesseur> CoursProfesseurs { get; set; }
         public DbSet<Professeur> Professeurs { get; set; }
         public DbSet<Province> Provinces { get; set; }
+        public DbSet<CoursEtudiant> CoursEtudiants { get; set; }
+        public DbSet<FactureEtudiant> FacturesEtudiants { get; set; }
 
         private const string ROLE_ADMIN_ID = "834684ee-d07f-470a-91ea-01feb16d2f90";
         private const string ROLE_ADMIN_CONCURRENCYSTAMP = "6494238c-5ee0-4d6a-925d-20f0e932e406";
@@ -172,7 +174,7 @@ namespace vlissides_bibliotheque.Data
         {
             builder.Entity<AuteurLivre>().HasKey(auteurLivre => new { auteurLivre.AuteurId, auteurLivre.LivreBibliothequeId });
 
-            builder.Entity<CommandeEtudiant>().HasKey(CommandeEtudiant => new { CommandeEtudiant.FactureEtudiantId, CommandeEtudiant.LivreBibliothequeId });
+            builder.Entity<CommandeEtudiant>().HasKey(CommandeEtudiant => new { CommandeEtudiant.FactureEtudiantId, CommandeEtudiant.PrixEtatLivreId });
 
             builder.Entity<EvaluationLivre>().HasKey(evaluationLivre => new { evaluationLivre.EvaluationId, evaluationLivre.LivreBibliothequeId });
 
