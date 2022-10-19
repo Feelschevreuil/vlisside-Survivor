@@ -133,6 +133,8 @@ namespace seeder
 	    setFacturesEtudiants(context);
 
 	    setLivresEtudiants(context);
+
+	    setEvaluations(context);
         }
 
         /// <summary>
@@ -991,10 +993,9 @@ namespace seeder
 	private static void setEvaluations(ApplicationDbContext context)
 	{
 
-	    // TODO: lorsque la propriété complementaire sera ajoutée.
-	    var livresComplementaires = context.LivresBibliotheque;//.Where(livre => livre.Complementaire);
+	    var livresComplementaires = context.CoursLivres.Where(coursLivre => coursLivre.Complementaire);
 
-	    foreach(LivreBibliotheque livre in livresComplementaires)
+	    foreach(CoursLivre coursLivre in livresComplementaires)
 	    {
 
 		bool ajouterEvaluations;
@@ -1014,20 +1015,17 @@ namespace seeder
 			Evaluation evaluation;
 			EvaluationLivre evaluationLivre;
 
-			evaluation = creerEvaluation(context, livre);
+			evaluation = creerEvaluation(context, coursLivre, etudiant);
 
 			context.Evaluations.Add(evaluation);
 
 			context.SaveChanges();
 
-			// TODO: voir si l'ID de l'évaluation est ajouté à l'objet
-
+			// TODO: valider l'utilité d'une table de liaison. Pourquoi ne pas uniquement ajouter l'étudiant à l'évaluation?
 			evaluationLivre = new()
 			{
-
-			    // TODO: Lorsque la propiété sera ajoutée.
-			    // Etudiant = etudiant,
-	  		    Evaluation = evaluation
+	  		    Evaluation = evaluation,
+			    LivreBibliothequeId = coursLivre.LivreBibliothequeId
 			};
 
 			context.EvaluationsLivres.Add(evaluationLivre);
@@ -1038,11 +1036,14 @@ namespace seeder
 	    }
 	}
 
+	// TODO: valider l'utilité d'une table de liaison. Pourquoi ne pas uniquement ajouter l'étudiant à l'évaluation?
         /// <summary>
         /// Crée une évaluation d'un livre complémentaire.
+	/// <paramref name="coursLivre">Objet CoursLivre contenant le livre de la bibliothèque.</param>
+	/// <paramref name="etudiant">L'étudiant qui évalue le livre.</param>
         /// </summary>
         /// <returns>le livre de l'étudiant.</returns>
-	private static Evaluation creerEvaluation(ApplicationDbContext context, LivreBibliotheque livre)
+	private static Evaluation creerEvaluation(ApplicationDbContext context, CoursLivre coursLivre, Etudiant etudiant)
 	{
 
 	    Evaluation evaluation;
@@ -1055,7 +1056,9 @@ namespace seeder
 			.DateOfBirth()
 			    .AddDays(Faker
 				    .RandomNumber
-				    .Next(joursDepuisPublicationLivre(livre), 0))
+				    .Next(joursDepuisPublicationLivre(coursLivre.LivreBibliotheque), 0)),
+		Commentaire = Faker.Lorem.Paragraph(),
+		Etudiant = etudiant
 	    };
 
 	    return evaluation;
