@@ -32,6 +32,7 @@ namespace vlissides_bibliotheque.Data
         public DbSet<CoursProfesseur> CoursProfesseurs { get; set; }
         public DbSet<Professeur> Professeurs { get; set; }
         public DbSet<Province> Provinces { get; set; }
+        public DbSet<CoursEtudiant> CoursEtudiants { get; set; }
 
         private const string ROLE_ADMIN_ID = "834684ee-d07f-470a-91ea-01feb16d2f90";
         private const string ROLE_ADMIN_CONCURRENCYSTAMP = "6494238c-5ee0-4d6a-925d-20f0e932e406";
