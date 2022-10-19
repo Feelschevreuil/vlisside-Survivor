@@ -1,26 +1,23 @@
-﻿function inputView() {
+﻿let formGroups = document.querySelectorAll(".form-group");
 
-    let formGroups = document.querySelectorAll(".form-group");
+for (let formGroup of formGroups) {
 
-    for (let formGroup of formGroups) {
+    let errorZone = formGroup.querySelector(".text-danger");
+    let input = formGroup.querySelector(".form-control");
 
-        let errorZone = formGroup.querySelector(".text-danger");
-        let input = formGroup.querySelector(".form-control");
+    if (errorZone != undefined && errorZone.innerHTML != "") {
 
-        if (errorZone != undefined && errorZone.innerHTML != "") {
+        if (input != undefined) {
 
-            if (input != undefined) {
+            input.classList.remove("input-ok");
+            input.classList.add("input-error");
+        }
+    } else {
 
-                input.classList.remove("input-ok");
-                input.classList.add("input-error");
-            }
-        } else {
+        if (input != undefined) {
 
-            if (input != undefined) {
-
-                input.classList.remove("input-error");
-                input.classList.add("input-ok");
-            }
+            input.classList.remove("input-error");
+            input.classList.add("input-ok");
         }
     }
-};
+}
