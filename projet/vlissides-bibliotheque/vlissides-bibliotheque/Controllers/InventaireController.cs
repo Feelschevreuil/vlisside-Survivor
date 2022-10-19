@@ -97,7 +97,7 @@ namespace vlissides_bibliotheque.Controllers
         public ActionResult creer()
         {
 
-            CreationLivreVM nouveauLivre = new CreationLivreVM { Auteurs = ListDropDownAuteurs(), MaisonsDeditions = ListDropDownMaisonDedition(), ListeCours = ListDropDownCours() };
+            CreationLivreVM nouveauLivre = new CreationLivreVM { Auteurs = ListDropDownAuteurs(), MaisonsDeditions = ListDropDownMaisonDedition(), ListeCoursComplete = ListDropDownCours() };
             return View(nouveauLivre);
         }
 
@@ -155,7 +155,7 @@ namespace vlissides_bibliotheque.Controllers
                 return View("succesAjoutLivre", nouveauLivreBibliothèque);
             }
             form.Auteurs = ListDropDownAuteurs();
-            form.ListeCours = ListDropDownCours();
+            form.ListeCoursComplete = ListDropDownCours();
             form.MaisonsDeditions = ListDropDownMaisonDedition();
             return View(form);
 
