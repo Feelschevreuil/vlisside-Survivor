@@ -1,4 +1,26 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function inputView() {
 
-// Write your JavaScript code.
+    let formGroups = document.querySelectorAll(".form-group");
+
+    for (let formGroup of formGroups) {
+
+        let errorZone = formGroup.querySelector(".text-danger");
+        let input = formGroup.querySelector(".form-control");
+
+        if (errorZone != undefined && errorZone.innerHTML != "") {
+
+            if (input != undefined) {
+
+                input.classList.remove("input-ok");
+                input.classList.add("input-error");
+            }
+        } else {
+
+            if (input != undefined) {
+
+                input.classList.remove("input-error");
+                input.classList.add("input-ok");
+            }
+        }
+    }
+};
