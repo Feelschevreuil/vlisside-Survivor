@@ -27,8 +27,6 @@ namespace vlissides_bibliotheque.Models
         [StringLength(512)]
         public string Resume { get; set; }
 
-        public string Description { get; set; }
-
         public string PhotoCouverture { get; set; }
 
         [Required]
