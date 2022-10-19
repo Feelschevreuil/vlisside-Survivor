@@ -29,10 +29,6 @@ body {
     background: #448AFF;
 }
 
-.input-ok {
-    border-color: #3178D2;
-}
-
 .input-error {
     background-color: #D32F2F;
     border-color: #F44336;
