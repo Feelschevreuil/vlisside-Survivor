@@ -59,7 +59,7 @@
                         <div class="form-group">
                             <label asp-for="ProgrammeEtudeId" class="form-label"></label>
                             <select asp-for="ProgrammeEtudeId" asp-items="Model.ProgrammeEtudes" class="form-control" aria-required="true">
-                                <option>Sélectionner un programme</option>
+                                <option value="">Sélectionner un programme</option>
                             </select>
                             <span asp-validation-for="ProgrammeEtudeId" class="text-danger"></span>
                         </div>
@@ -92,7 +92,7 @@
                         <div class="form-group">
                             <label asp-for="ProvinceId" class="form-label"></label>
                             <select asp-for="ProvinceId" asp-items="Model.Provinces" class="form-control" aria-required="true">
-                                <option>Sélectionner une province</option>
+                                <option value="">Sélectionner une province</option>
                             </select>
                             <span asp-validation-for="ProvinceId" class="text-danger"></span>
                         </div>

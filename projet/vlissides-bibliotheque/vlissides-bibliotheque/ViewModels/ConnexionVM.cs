@@ -6,7 +6,8 @@ namespace vlissides_bibliotheque.ViewModels
     {
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Courriel")]
-        [EmailAddress]
+        [RegularExpression(@"^[\w-\.]+@(cegep-connaissance-aleatoire\.qc\.ca)", 
+            ErrorMessage = "Le courriel doit correspondre au format : 123456@cegep-connaissance-aleatoire.qc.ca")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
