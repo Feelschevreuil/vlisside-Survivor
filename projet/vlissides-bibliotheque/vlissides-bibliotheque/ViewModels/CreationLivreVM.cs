@@ -66,8 +66,10 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Cours")]
 		public int? CoursId { get; set; }
 		
+
 		public List<SelectListItem> ListeCoursComplete { get; set; }
 
+		[DisplayName("Cours associé au livre")]
 		public List<CoursLivre> ListeCoursAssocie { get; set; }
 
 		[DisplayName("Maison d'édition")]
