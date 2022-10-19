@@ -31,6 +31,9 @@ namespace seeder
             context.CommandesEtudiants
                 .RemoveRange(context.CommandesEtudiants);
 
+	    context.FacturesEtudiants
+		.RemoveRange(context.FacturesEtudiants);
+
             context.Commanditaires
                 .RemoveRange(context.Commanditaires);
 
@@ -127,12 +130,9 @@ namespace seeder
 
 	    setCoursParEtudiants(context);
 
-	    // TODO: à tester lorsque le dbset FacturesEtudiants sera présent.
-	    // setFacturesEtudiants(context);
+	    setFacturesEtudiants(context);
 
-	    // TODO: à tester lorsque l'objet LivreEtudiant aure les modificaitons
-	    // nécessaires apportées.
-	    // setLivresEtudiants(context);
+	    setLivresEtudiants(context);
         }
 
         /// <summary>
@@ -793,7 +793,6 @@ namespace seeder
 	    }
 	}
 
-	// TODO: à tester lorsque le dbset FacturesEtudiants sera présent.
 	/// <summary>
 	/// Génère des factures aux étudiants.
         /// </summary>
@@ -817,10 +816,13 @@ namespace seeder
 
 			factureEtudiant = creerFactureEtudiant(context, etudiant);
 
-			// TODO:  ajouter le dbset dans ApplicaitonDbContext
-			// context.FacturesEtudiants.Add(factureEtudiant);
+			context.FacturesEtudiants.Add(factureEtudiant);
 
 			context.SaveChanges();
+
+			List<CommandeEtudiant> commandesEtudiants;
+
+			commandesEtudiants = new();
 
 			for(int commandes = 0; commandes < Faker.RandomNumber.Next(1,8); commandes++)
 			{
@@ -829,13 +831,41 @@ namespace seeder
 
 			    commandeEtudiant = creerCommandeEtudiant(context, factureEtudiant);
 
-			    context.CommandesEtudiants.Add(commandeEtudiant);
+			    if (!livreDejaDansCommande(commandesEtudiants, commandeEtudiant))
+			    {
+				commandesEtudiants.Add(commandeEtudiant);
+			    }
+			    else
+			    {
+				commandes--;
+			    }
+
 			}
+
+			context.CommandesEtudiants.AddRange(commandesEtudiants);
 
 			context.SaveChanges();
 		    }
 		}
 	    }
+	}
+
+        /// <summary>
+	/// Regarde si une commande de livre existe déjà.
+        /// </summary>
+        /// <returns>true si le livre est déjà présent.</returns>
+	private static bool livreDejaDansCommande(ICollection<CommandeEtudiant> commandesEtudiants, CommandeEtudiant commandeEtudiant)
+	{
+	    bool livrePresent;
+
+	    livrePresent = false;
+
+	    if(commandesEtudiants.Any())
+	    {
+		livrePresent = commandesEtudiants.Where(commande => commande.PrixEtatLivreId == commandeEtudiant.PrixEtatLivreId).Any();
+	    }
+
+	    return livrePresent;
 	}
 
         /// <summary>
@@ -851,17 +881,17 @@ namespace seeder
 	    {
 		TypePaiement = context
 				.TypesPaiement
-				.Skip(Faker.RandomNumber.Next(9, context.TypesPaiement.Count() - 1))
+				.Skip(Faker.RandomNumber.Next(0, context.TypesPaiement.Count() - 1))
 				.Take(1)
 				.First(),
 		Etudiant = etudiant,
 		// TODO: ne pas enregistrer l'id de l'objet, mais l'adresse au complete en texte.
-		AdresseLivraison = etudiant.Adresse,
+		AdresseLivraison = "adresse place holder",
 		DateFacturation = DateTime
 				    .Now
 				    .AddDays(Faker.RandomNumber.Next(-355,0)),
-		Tps = 5.0M,
-		Tvq = 9.975M
+		Tps = 0.05M,
+		Tvq = 0.09975M
 	    };
 
 	    return factureEtudiant;
@@ -879,9 +909,9 @@ namespace seeder
 	    commandeEtudiant = new()
 	    {
 		FactureEtudiant = factureEtudiant,
-		LivreBibliotheque = context
-					.LivresBibliotheque
-					.Skip(Faker.RandomNumber.Next(0, context.LivresBibliotheque.Count() - 1))
+		PrixEtatLivre = context
+					.PrixEtatsLivres
+					.Skip(Faker.RandomNumber.Next(0, context.PrixEtatsLivres.Count() - 1))
 					.Take(1)
 					.First(),
 		Quantite = Faker.RandomNumber.Next(1,2)
@@ -940,14 +970,14 @@ namespace seeder
 
 	    livreEtudiant = new()
 	    {
-		// Isbn = "666" + Faker.Identification.UkNhsNumber(),
+		Etudiant = etudiant,
+		Isbn = "666" + Faker.Identification.UkNhsNumber(),
 		Titre = Faker.Lorem.Sentence(Faker.RandomNumber.Next(1,8)),
-		// Auteur = Auteur = Faker.Name.First() + " " + Faker.Name.Last(),
-		// Resume = Faker.Lorem.Paragraph(),
+		Auteur = Faker.Name.First() + " " + Faker.Name.Last(),
+		Resume = Faker.Lorem.Paragraph(),
 		PhotoCouverture = "N/A",
-		// DatePublication = Faker.Identification.DateOfBirth().AddDays(-3000, 0),
-		// MaisonEdition = Faker.Company.Name()
-		Description = "ENLEVER CE CHAMP"
+		DatePublication = Faker.Identification.DateOfBirth().AddDays(Faker.RandomNumber.Next(-3000, 0)),
+		MaisonEdition = Faker.Company.Name()
 	    };
 
 	    return livreEtudiant;
@@ -1036,9 +1066,7 @@ namespace seeder
 	/// <param name="livre">Le livre ayant la date de publication.</param>
 	/// <returns>Le nombre de jours depuis la publication d'un livre en int.</returns>
 	/// </summary
-	// TODO: remplacer LibreBibliothque par ILivre lorsque ILivre aura la date de 
-	// parution
-	private static int joursDepuisPublicationLivre(LivreBibliotheque livre)
+	private static int joursDepuisPublicationLivre(ILivre livre)
 	{
 
 	    int diffrenceJours;
