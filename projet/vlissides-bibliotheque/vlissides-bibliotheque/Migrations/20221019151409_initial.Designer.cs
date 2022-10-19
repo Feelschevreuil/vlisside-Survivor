@@ -12,8 +12,8 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221019151034_LesMigrationfacturesEtudiant")]
-    partial class LesMigrationfacturesEtudiant
+    [Migration("20221019151409_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -869,9 +869,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
                             NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJwRm0DJ2NJAk3MGdHFiJlMqseRCMUdEwvmodS/XheH2gRCHrVJ43zbT+cKHl9dWTg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFDdb6IzMQH2YofMyTKbY/yC0rmle+pbUWRvONClJ4o6FAH/g0IYRJRcpxu6+VYRGw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9ae603d9-880b-4087-a975-a139e92d51dc",
+                            SecurityStamp = "333a2acb-b57d-4bb8-bac6-4bf4c3bf54ff",
                             TwoFactorEnabled = false,
                             UserName = "gordon.john@gunclub-alabama.us",
                             Nom = "John",
