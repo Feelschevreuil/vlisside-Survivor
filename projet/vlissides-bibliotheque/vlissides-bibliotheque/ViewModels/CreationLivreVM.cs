@@ -9,22 +9,22 @@ namespace vlissides_bibliotheque.ViewModels
 {
 	public class CreationLivreVM
 	{
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public string Titre { get; set; }
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		public string Titre { get; set; }
 
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public string Resume { get; set; }
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		public string Resume { get; set; }
 
-        
-        public string Photo { get; set; }
+		
+		public string Photo { get; set; }
 
 		[NotMapped]
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [DisplayName("Photo")]
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		[DisplayName("Photo")]
 		public IFormFile fichierImage { get; set; }
 
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [DisplayName("Date de publication")]
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		[DisplayName("Date de publication")]
 		[DataType(DataType.Date)]
 		public DateTime DatePublication { get; set; } = DateTime.Now;
 
@@ -36,7 +36,7 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Numérique")]
 		public double PrixNumerique { get; set; } = 0;
 
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Neuf")]
 		public double PrixNeuf { get; set; } 
 
@@ -51,26 +51,28 @@ namespace vlissides_bibliotheque.ViewModels
 
 		public bool Obligatoire { get; set; } = false;
 
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Isbn]
-        [Range (1000000000,9999999999999,ErrorMessage = "Veuillez entrer un nombre.")]
-        public string ISBN { get; set; }
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		[Isbn]
+		[Range (1000000000,9999999999999,ErrorMessage = "Veuillez entrer un nombre.")]
+		public string ISBN { get; set; }
 
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [DisplayName("Auteur")]
-        public int? AuteurId { get; set; }
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		[DisplayName("Auteur")]
+		public int? AuteurId { get; set; }
 
 		
 		public List<SelectListItem> Auteurs { get; set; }
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [DisplayName("Cours")]
-        public int? CoursId { get; set; }
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		[DisplayName("Cours")]
+		public int? CoursId { get; set; }
 		
-		public List<SelectListItem> ListeCours { get; set; }
+		public List<SelectListItem> ListeCoursComplete { get; set; }
+
+		public List<CoursLivre> ListeCoursAssocie { get; set; }
 
 		[DisplayName("Maison d'édition")]
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int? MaisonDeditionId { get; set; }
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		public int? MaisonDeditionId { get; set; }
 		
 		public List<SelectListItem> MaisonsDeditions { get; set; }
 	}
