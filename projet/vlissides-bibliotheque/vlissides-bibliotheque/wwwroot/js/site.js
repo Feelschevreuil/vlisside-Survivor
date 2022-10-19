@@ -9,7 +9,6 @@ for (let formGroup of formGroups) {
 
         if (input != undefined) {
 
-            input.classList.remove("input-ok");
             input.classList.add("input-error");
         }
     } else {
@@ -17,7 +16,6 @@ for (let formGroup of formGroups) {
         if (input != undefined) {
 
             input.classList.remove("input-error");
-            input.classList.add("input-ok");
         }
     }
 }
