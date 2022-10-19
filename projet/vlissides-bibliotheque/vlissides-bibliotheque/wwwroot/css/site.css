@@ -16,3 +16,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.bg-back {
+    background: #1976D2;
+}
+
+.bg-middle {
+    background: #3178D2;
+}
+
+.bg-top {
+    background: #448AFF;
+}
