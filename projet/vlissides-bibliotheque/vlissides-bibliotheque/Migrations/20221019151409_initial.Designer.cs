@@ -12,8 +12,8 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221019125344_fix-snapshot")]
-    partial class fixsnapshot
+    [Migration("20221019151409_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -629,7 +629,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasIndex("TypePaiementId");
 
-                    b.ToTable("FactureEtudiant");
+                    b.ToTable("FacturesEtudiants");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.LivreBibliotheque", b =>
@@ -869,9 +869,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
                             NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAENMbVPDF6+YJIe94pyR5xJhoJ+V7AOy94jRSAD8LkKqwdzjAoUlSLnQfQ54H1PVvxw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFDdb6IzMQH2YofMyTKbY/yC0rmle+pbUWRvONClJ4o6FAH/g0IYRJRcpxu6+VYRGw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "22b2c344-f882-4001-aa7d-dd7e12fef201",
+                            SecurityStamp = "333a2acb-b57d-4bb8-bac6-4bf4c3bf54ff",
                             TwoFactorEnabled = false,
                             UserName = "gordon.john@gunclub-alabama.us",
                             Nom = "John",
