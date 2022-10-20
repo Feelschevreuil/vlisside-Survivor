@@ -461,7 +461,7 @@ namespace seeder
         .CreateListOfSize(50)
         .All()
         .With(livre => livre.LivreId = 0)
-        .With(livre => livre.Isbn = Faker.Identification.UkNhsNumber())
+        .With(livre => livre.Isbn = 666 + Faker.Identification.UkNhsNumber())
         .With(livre => livre.Titre = string.Join(",", Faker.Lorem.Words(3)))
         .With(livre => livre.Resume = Faker.Lorem.Sentence())
         .With(livre => livre.PhotoCouverture = "N/A")
