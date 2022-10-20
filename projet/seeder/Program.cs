@@ -703,19 +703,19 @@ namespace seeder
         {
 
             return new List<TypePaiement>
-        {
+	    {
 
-        new TypePaiement()
-        {
-            TypePaiementId = 0,
-            Nom = "Débit"
-        },
-        new TypePaiement()
-        {
-            TypePaiementId = 0,
-            Nom = "Crédit"
-        }
-        };
+		new TypePaiement()
+		{
+		    TypePaiementId = 0,
+		    Nom = "Débit"
+		},
+		new TypePaiement()
+		{
+		    TypePaiementId = 0,
+		    Nom = "Crédit"
+		}
+	    };
         }
 
         /// <summary>
