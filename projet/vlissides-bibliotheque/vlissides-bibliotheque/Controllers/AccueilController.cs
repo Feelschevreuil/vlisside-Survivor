@@ -68,7 +68,7 @@ namespace vlissides_bibliotheque.Controllers
                 };
                 if (tuileVM.complementaire)
                 {
-                    tuileVM.livreBibliothequesEvaluation = bdEvaluationLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId);
+                    tuileVM.livreBibliothequesEvaluation = bdEvaluationLivre.ToList().FindAll(x => x.LivreBibliothequeId == livre.LivreId);
                 }
                 listTuileLivreBibliotequeVMs.Add(tuileVM);
             }

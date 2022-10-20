@@ -1,7 +1,15 @@
 ﻿@model TuileLivreBibliotequeVM
 
 @{
-    int nbrEtoile = Model.livreBibliothequesEvaluation.Evaluation.Etoiles;
+    int nbrEtoile = 0;
+    if (Model.livreBibliothequesEvaluation != null)
+    {
+        foreach (EvaluationLivre evaluation in Model.livreBibliothequesEvaluation)
+        {
+           nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
+        }
+        
+    }
 }
 
 
@@ -9,19 +17,19 @@
 
 
     <div>
-        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliothequesEvaluation.LivreBibliotheque.LivreId">
+        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliothequesEvaluation[1].LivreBibliotheque.LivreId">
             <input class="btn btn-primary shadow" type="button" value="Modifier" />
         </a>
 
-        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliothequesEvaluation.LivreBibliotheque.LivreId">
+        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliothequesEvaluation[1].LivreBibliotheque.LivreId">
             <a>
-                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliothequesEvaluation.LivreBibliotheque.Titre')" type="submit" value="Supprimer" />
+                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliothequesEvaluation[1].LivreBibliotheque.Titre')" type="submit" value="Supprimer" />
             </a>
         </form>
     </div>
 
     <div class="position-relative text-center">
-        <img class="mx-auto image-livre" src=~/img/@Model.livreBibliothequesEvaluation.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
+        <img class="mx-auto image-livre" src=~/img/@Model.livreBibliothequesEvaluation[1].LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle shadow">
             <p class="pt-3">100.99$</p>
         </div>
@@ -37,11 +45,11 @@
 
 
     <div class="card border-0" style="width:auto">
-        <h5 class="card-title ">@Model.livreBibliothequesEvaluation.LivreBibliotheque.Titre</h5>
-        <p class="card-text">@Model.livreBibliothequesEvaluation.LivreBibliotheque.Isbn</p>
+        <h5 class="card-title ">@Model.livreBibliothequesEvaluation[0].LivreBibliotheque.Titre</h5>
+        <p class="card-text">@Model.livreBibliothequesEvaluation[0].LivreBibliotheque.Isbn</p>
         <p class="card-text">@Model.coursProfesseurs.Cours.Nom</p>
         <p class="card-text">@Model.coursProfesseurs.Professeur.Prenom @Model.coursProfesseurs.Professeur.Nom</p>
-        <p class="card-text">@Model.livreBibliothequesEvaluation.LivreBibliotheque.DatePublication.Year</p>
+        <p class="card-text">@Model.livreBibliothequesEvaluation[0].LivreBibliotheque.DatePublication.Year</p>
         <p class="card-text">Année de parcours: @Model.coursProfesseurs.Cours.AnneeParcours</p>
     </div>
 

@@ -7,7 +7,7 @@ namespace vlissides_bibliotheque.ViewModels
     /// </summary>
     public class TuileLivreBibliotequeVM
     {
-        public EvaluationLivre livreBibliothequesEvaluation;
+        public List<EvaluationLivre> livreBibliothequesEvaluation;
 
         public CoursProfesseur coursProfesseurs;
 
