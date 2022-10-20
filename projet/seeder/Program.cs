@@ -549,6 +549,7 @@ namespace seeder
 
                     livreBibliotheque = context
                     .LivresBibliotheque
+		    .Skip(Faker.RandomNumber.Next(0, context.LivresBibliotheque.Count()) - 1)
                     .Take(1)
                     .First();
 
