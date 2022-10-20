@@ -556,9 +556,7 @@ namespace seeder
                     {
                         CoursLivreId = 0,
                         Cours = cours,
-                        CoursId = cours.CoursId,
                         LivreBibliotheque = livreBibliotheque,
-                        LivreBibliothequeId = livreBibliotheque.LivreId,
                         Complementaire = Faker.Boolean.Random()
                     };
 
