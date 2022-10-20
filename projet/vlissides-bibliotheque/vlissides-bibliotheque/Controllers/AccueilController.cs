@@ -28,7 +28,7 @@ namespace vlissides_bibliotheque.Controllers
             IEnumerable<Evenement> bdEvenements = _context.Evenements;
             List<Evenement> listEvenements = bdEvenements.OrderBy(i => i.Debut).Take(4).ToList();
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = (List<Evenement>)listEvenements };
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = listEvenements };
 
             return View(recommendationPromotions);
         }
@@ -36,11 +36,8 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult Actualiter()
         {
 
-            List<Evenement> listEvenements = new()
-            {
-
-            };
-
+            List<Evenement> listEvenements = new();
+            listEvenements = _context.Evenements.ToList();
             return View(listEvenements);
         }
 
