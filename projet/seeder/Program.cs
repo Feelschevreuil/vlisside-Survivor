@@ -11,131 +11,133 @@ namespace seeder
     class Program
     {
 
+	private static ApplicationDbContext _context;
+
         public static void Main(String[] args)
         {
 
-            var context = DbContextBibliotheque.CreateDbContext();
+            _context = DbContextBibliotheque.CreateDbContext();
 
             // Enlever les données
-            context.Provinces
-                .RemoveRange(context.Provinces);
+            _context.Provinces
+                .RemoveRange(_context.Provinces);
 
-            context.Adresses
-                .RemoveRange(context.Adresses);
+            _context.Adresses
+                .RemoveRange(_context.Adresses);
 
-            context.Auteurs
-                .RemoveRange(context.Auteurs);
+            _context.Auteurs
+                .RemoveRange(_context.Auteurs);
 
-            context.AuteursLivres
-                .RemoveRange(context.AuteursLivres);
+            _context.AuteursLivres
+                .RemoveRange(_context.AuteursLivres);
 
-            context.CommandesEtudiants
-                .RemoveRange(context.CommandesEtudiants);
+            _context.CommandesEtudiants
+                .RemoveRange(_context.CommandesEtudiants);
 
-            context.FacturesEtudiants
-            .RemoveRange(context.FacturesEtudiants);
+            _context.FacturesEtudiants
+            .RemoveRange(_context.FacturesEtudiants);
 
-            context.Commanditaires
-                .RemoveRange(context.Commanditaires);
+            _context.Commanditaires
+                .RemoveRange(_context.Commanditaires);
 
-            context.EtatsLivres
-                .RemoveRange(context.EtatsLivres);
+            _context.EtatsLivres
+                .RemoveRange(_context.EtatsLivres);
 
-            context.Etudiants
-                .RemoveRange(context.Etudiants);
+            _context.Etudiants
+                .RemoveRange(_context.Etudiants);
 
-            context.Evaluations
-                .RemoveRange(context.Evaluations);
+            _context.Evaluations
+                .RemoveRange(_context.Evaluations);
 
-            context.EvaluationsLivres
-                .RemoveRange(context.EvaluationsLivres);
+            _context.EvaluationsLivres
+                .RemoveRange(_context.EvaluationsLivres);
 
-            context.Evenements
-                .RemoveRange(context.Evenements);
+            _context.Evenements
+                .RemoveRange(_context.Evenements);
 
-            context.LivresBibliotheque
-                .RemoveRange(context.LivresBibliotheque);
+            _context.LivresBibliotheque
+                .RemoveRange(_context.LivresBibliotheque);
 
-            context.LivresEtudiants
-                .RemoveRange(context.LivresEtudiants);
+            _context.LivresEtudiants
+                .RemoveRange(_context.LivresEtudiants);
 
-            context.ProgrammesEtudes
-                .RemoveRange(context.ProgrammesEtudes);
+            _context.ProgrammesEtudes
+                .RemoveRange(_context.ProgrammesEtudes);
 
-            context.Cours
-                .RemoveRange(context.Cours);
+            _context.Cours
+                .RemoveRange(_context.Cours);
 
-            context.MaisonsEditions
-                .RemoveRange(context.MaisonsEditions);
+            _context.MaisonsEditions
+                .RemoveRange(_context.MaisonsEditions);
 
-            context.TypesPaiement
-                .RemoveRange(context.TypesPaiement);
+            _context.TypesPaiement
+                .RemoveRange(_context.TypesPaiement);
 
-            context.Professeurs
-            .RemoveRange(context.Professeurs);
+            _context.Professeurs
+            .RemoveRange(_context.Professeurs);
             // FIN Enlever les données
 
-            context.Provinces.AddRange(getProvinces());
+            _context.Provinces.AddRange(getProvinces());
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            context.Adresses.AddRange(getAdresses(context));
+            _context.Adresses.AddRange(getAdresses());
 
-            context.Auteurs.AddRange(getAuteurs());
+            _context.Auteurs.AddRange(getAuteurs());
 
-            context.EtatsLivres.AddRange(getEtatsLivres());
+            _context.EtatsLivres.AddRange(getEtatsLivres());
 
-            context.ProgrammesEtudes.AddRange(getProgrammesEtudes());
+            _context.ProgrammesEtudes.AddRange(getProgrammesEtudes());
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            context.Cours.AddRange(getListeCours(context));
+            _context.Cours.AddRange(getListeCours());
 
             // Save changes ici, puisqu'un problème de mémoire
             // arrivait si on enregistrait tout à la fin.
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            context.MaisonsEditions.AddRange(getMaisonsEdition());
+            _context.MaisonsEditions.AddRange(getMaisonsEdition());
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            context.LivresBibliotheque.AddRange(getLivresBibliotheques(context));
+            _context.LivresBibliotheque.AddRange(getLivresBibliotheques());
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            setPrixEtatsLivres(context);
+            setPrixEtatsLivres();
 
-            setCoursLivres(context);
+            setCoursLivres();
 
-            setAuteursParLivres(context);
+            setAuteursParLivres();
 
-            context.Professeurs.AddRange(getProfesseurs());
+            _context.Professeurs.AddRange(getProfesseurs());
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            setCoursParProfesseur(context);
+            setCoursParProfesseur();
 
-            context.TypesPaiement.AddRange(getTypesPaiement());
+            _context.TypesPaiement.AddRange(getTypesPaiement());
 
-            context.Commanditaires.AddRange(getCommanditaires());
+            _context.Commanditaires.AddRange(getCommanditaires());
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            context.Evenements.AddRange(getEvenementsCommanditaires(context));
+            _context.Evenements.AddRange(getEvenementsCommanditaires());
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            context.Etudiants.AddRange(getEtudiants(context));
+            _context.Etudiants.AddRange(getEtudiants());
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            setCoursParEtudiants(context);
+            setCoursParEtudiants();
 
-            setFacturesEtudiants(context);
+            setFacturesEtudiants();
 
-            setLivresEtudiants(context);
+            setLivresEtudiants();
 
-            setEvaluations(context);
+            setEvaluations();
         }
 
         /// <summary>
@@ -157,7 +159,7 @@ namespace seeder
         /// Crée une liste d'Adresses.
         /// </summary>
         /// <returns>Les adresses en liste.</returns>
-        private static ICollection<Adresse> getAdresses(ApplicationDbContext context)
+        private static ICollection<Adresse> getAdresses()
         {
 
             return Builder<Adresse>
@@ -169,7 +171,7 @@ namespace seeder
 		.With(adresse => adresse.App = Faker.RandomNumber.Next(100))
 		.With(adresse => adresse.Rue = Faker.Address.StreetName())
 		.With(adresse => adresse.CodePostal = "X6X6X6")
-		.With(adresse => adresse.Province = context.Provinces.First())
+		.With(adresse => adresse.Province = _context.Provinces.First())
 		.Build();
         }
 
@@ -189,7 +191,7 @@ namespace seeder
             .Build();
         }
 
-        // TODO: mettre dans le dbcontext.
+        // TODO: mettre dans le db_context.
         /// <summary>
         /// Crée une liste des États des livres.
         /// </summary>
@@ -213,7 +215,7 @@ namespace seeder
             };
         }
 
-        // TODO: mettre dans le dbcontext.
+        // TODO: mettre dans le db_context.
         /// <summary>
         /// Crée une liste des programmes d'études.
         /// </summary>
@@ -250,12 +252,12 @@ namespace seeder
             };
         }
 
-        // TODO: mettre dans le dbcontext.
+        // TODO: mettre dans le db_context.
         /// <summary>
         /// Crée une liste des livres des cours.
         /// </summary>
         /// <returns>Les cours liste.</returns>
-        private static List<Cours> getListeCours(ApplicationDbContext context)
+        private static List<Cours> getListeCours()
         {
 
 	    ProgrammeEtude techniquesTourisme;
@@ -264,23 +266,23 @@ namespace seeder
 	    ProgrammeEtude techniquesGenieMecanique;
 	    ProgrammeEtude formationGenerale;
 
-            techniquesTourisme = context.ProgrammesEtudes.SingleOrDefault(
+            techniquesTourisme = _context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "414"
             );
 
-            sciencesNature = context.ProgrammesEtudes.SingleOrDefault(
+            sciencesNature = _context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "201"
             );
 
-            techniquesEducationSpecialisee = context.ProgrammesEtudes.SingleOrDefault(
+            techniquesEducationSpecialisee = _context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "351"
             );
 
-            techniquesGenieMecanique = context.ProgrammesEtudes.SingleOrDefault(
+            techniquesGenieMecanique = _context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "241"
             );
 
-            formationGenerale = context.ProgrammesEtudes.SingleOrDefault(
+            formationGenerale = _context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "x"
             );
 
@@ -459,7 +461,7 @@ namespace seeder
         /// Crée une liste des livres de la bibliothèque.
         /// </summary>
         /// <returns>Les livres de la bibliothèque en liste.</returns>
-        private static ICollection<LivreBibliotheque> getLivresBibliotheques(ApplicationDbContext context)
+        private static ICollection<LivreBibliotheque> getLivresBibliotheques()
         {
 
             return Builder<LivreBibliotheque>
@@ -471,7 +473,7 @@ namespace seeder
 		.With(livre => livre.Resume = Faker.Lorem.Sentence())
 		.With(livre => livre.PhotoCouverture = "N/A")
 		.With(livre => livre.DatePublication = Faker.Identification.DateOfBirth())
-		.With(livre => livre.MaisonEditionId = context.MaisonsEditions.First().MaisonEditionId)
+		.With(livre => livre.MaisonEditionId = _context.MaisonsEditions.First().MaisonEditionId)
 		.Build();
 
         }
@@ -479,23 +481,23 @@ namespace seeder
         /// <summary>
         /// Assigne un état et un prix à chaque livre de la bibliothèque.
         /// </summary>
-        private static void setPrixEtatsLivres(ApplicationDbContext context)
+        private static void setPrixEtatsLivres()
         {
 
             EtatLivre etatUsage;
             EtatLivre etatNeuf;
             EtatLivre etatDigital;
 
-            etatUsage = context.EtatsLivres
+            etatUsage = _context.EtatsLivres
                 .Where(etatLivre => etatLivre.Nom == "Usagé").First();
 
-            etatNeuf = context.EtatsLivres
+            etatNeuf = _context.EtatsLivres
                 .Where(etatLivre => etatLivre.Nom == "Neuf").First();
 
-            etatDigital = context.EtatsLivres
+            etatDigital = _context.EtatsLivres
                 .Where(etatLivre => etatLivre.Nom == "Digital").First();
 
-            foreach (LivreBibliotheque livreBibliotheque in context.LivresBibliotheque)
+            foreach (LivreBibliotheque livreBibliotheque in _context.LivresBibliotheque)
             {
 
                 if (Faker.Boolean.Random())
@@ -511,7 +513,7 @@ namespace seeder
                         Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                     };
 
-                    context.PrixEtatsLivres.Add(prixEtatLivreUsage);
+                    _context.PrixEtatsLivres.Add(prixEtatLivreUsage);
                 }
 
 		PrixEtatLivre prixEtatLivreNeuf;
@@ -533,21 +535,21 @@ namespace seeder
                     Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                 };
 
-                context.PrixEtatsLivres.Add(prixEtatLivreNeuf);
-                context.PrixEtatsLivres.Add(prixEtatLivreDigital);
+                _context.PrixEtatsLivres.Add(prixEtatLivreNeuf);
+                _context.PrixEtatsLivres.Add(prixEtatLivreDigital);
 
             }
 
-            context.SaveChanges();
+	    _context.SaveChanges();
         }
 
         /// <summary>
         /// Assigne des livres nécessaires à un cours.
         /// </summary>
-        private static void setCoursLivres(ApplicationDbContext context)
+        private static void setCoursLivres()
         {
 
-            foreach (Cours cours in context.Cours)
+            foreach (Cours cours in _context.Cours)
             {
 
                 List<CoursLivre> listeCoursLivre = new();
@@ -558,9 +560,9 @@ namespace seeder
                     CoursLivre coursLivre;
                     LivreBibliotheque livreBibliotheque;
 
-                    livreBibliotheque = context
+                    livreBibliotheque = _context
 			.LivresBibliotheque
-			.Skip(Faker.RandomNumber.Next(0, context.LivresBibliotheque.Count()) - 1)
+			.Skip(Faker.RandomNumber.Next(0, _context.LivresBibliotheque.Count()) - 1)
 			.Take(1)
 			.First();
 
@@ -575,25 +577,25 @@ namespace seeder
                     listeCoursLivre.Add(coursLivre);
                 }
 
-                context.CoursLivres.AddRange(listeCoursLivre);
+                _context.CoursLivres.AddRange(listeCoursLivre);
 
             }
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         /// <summary>
         /// Assigne les auteurs à des livres.
         /// </summary>
-        private static void setAuteursParLivres(ApplicationDbContext context)
+        private static void setAuteursParLivres()
         {
 
-            foreach (LivreBibliotheque livreBibliotheque in context.LivresBibliotheque)
+            foreach (LivreBibliotheque livreBibliotheque in _context.LivresBibliotheque)
             {
 
-                var auteurs = context
+                var auteurs = _context
                     .Auteurs
-                    .Skip(Faker.RandomNumber.Next(0, context.Auteurs.Count()) - 4)
+                    .Skip(Faker.RandomNumber.Next(0, _context.Auteurs.Count()) - 4)
                     .Take(Faker.RandomNumber.Next(1, 3));
 
                 foreach (Auteur auteur in auteurs)
@@ -606,11 +608,11 @@ namespace seeder
                         LivreBibliotheque = livreBibliotheque
                     };
 
-                    context.AuteursLivres.Add(auteurLivre);
+                    _context.AuteursLivres.Add(auteurLivre);
                 }
             }
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         /// <summary>
@@ -632,15 +634,15 @@ namespace seeder
         /// <summary>
         /// Assigne les professeurs par cours.
         /// </summary>
-        private static void setCoursParProfesseur(ApplicationDbContext context)
+        private static void setCoursParProfesseur()
         {
 
-            foreach (Professeur professeur in context.Professeurs)
+            foreach (Professeur professeur in _context.Professeurs)
             {
 
-                var choixCours = context
+                var choixCours = _context
                     .Cours
-                    .Skip(Faker.RandomNumber.Next(0, context.Cours.Count() - 4))
+                    .Skip(Faker.RandomNumber.Next(0, _context.Cours.Count() - 4))
                     .Take(Faker.RandomNumber.Next(1, 3));
 
                 foreach (Cours cours in choixCours)
@@ -654,13 +656,13 @@ namespace seeder
                         Cours = cours
                     };
 
-                    context.CoursProfesseurs.Add(coursProfesseur);
+                    _context.CoursProfesseurs.Add(coursProfesseur);
                 }
 
             }
 
-            context.SaveChanges();
-            assignerCoursSansProfesseurs(context);
+            _context.SaveChanges();
+            assignerCoursSansProfesseurs();
         }
 
         /// <summary>
@@ -668,15 +670,15 @@ namespace seeder
         /// qu'un cours reste sans professeurs après l'assignation des professeurs à
         /// un cours.
         /// </summary>
-        private static void assignerCoursSansProfesseurs(ApplicationDbContext context)
+        private static void assignerCoursSansProfesseurs()
         {
 
-            foreach (Cours cours in context.Cours)
+            foreach (Cours cours in _context.Cours)
             {
 
                 int nombreProfesseurs;
 
-                nombreProfesseurs = context
+                nombreProfesseurs = _context
                     .CoursProfesseurs
                     .Where(coursProfesseurs => coursProfesseurs.CoursId == cours.CoursId)
                     .Count();
@@ -687,7 +689,7 @@ namespace seeder
                     CoursProfesseur coursProfesseur;
                     Professeur professeur;
 
-                    professeur = context
+                    professeur = _context
                     .Professeurs
                     // TODO: optimiser
                     .Take(1)
@@ -699,11 +701,11 @@ namespace seeder
                         Professeur = professeur
                     };
 
-                    context.CoursProfesseurs.Add(coursProfesseur);
+                    _context.CoursProfesseurs.Add(coursProfesseur);
                 }
             }
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         // TODO: Sera possiblement enlevé dépendament
@@ -754,14 +756,14 @@ namespace seeder
         /// commanditaire.
         /// </summary>
         /// <returns>Les événements en liste.</returns>
-        private static ICollection<Evenement> getEvenementsCommanditaires(ApplicationDbContext context)
+        private static ICollection<Evenement> getEvenementsCommanditaires()
         {
 
 	    List<Evenement> evenements;
 
             evenements = new();
 
-            foreach (Commanditaire commanditaire in context.Commanditaires)
+            foreach (Commanditaire commanditaire in _context.Commanditaires)
             {
 
                 Evenement evenement;
@@ -787,15 +789,15 @@ namespace seeder
         /// crée une liste d'étudiants.
         /// </summary>
         /// <returns>les étudiants en liste.</returns>
-        private static ICollection<Etudiant> getEtudiants(ApplicationDbContext context)
+        private static ICollection<Etudiant> getEtudiants()
         {
 
 	    Adresse adresse;
 
-	    adresse = getAdresseAleatoire(context);
+	    adresse = getAdresseAleatoire();
 
-	    context.Adresses.Add(adresse);
-	    context.SaveChanges();
+	    _context.Adresses.Add(adresse);
+	    _context.SaveChanges();
 
             return Builder<Etudiant>
                .CreateListOfSize(50)
@@ -804,9 +806,9 @@ namespace seeder
                .With(etudiant => etudiant.Nom = Faker.Name.Last())
                .With(etudiant => etudiant.Prenom = Faker.Name.First())
                .With(etudiant => etudiant
-				    .ProgrammeEtude = context
+				    .ProgrammeEtude = _context
 					.ProgrammesEtudes
-					.Skip(Faker.RandomNumber.Next(0, context.ProgrammesEtudes.Count() - 1))
+					.Skip(Faker.RandomNumber.Next(0, _context.ProgrammesEtudes.Count() - 1))
 					.Take(1)
 					.First())
                .With(etudiant => etudiant.Adresse = adresse)
@@ -816,7 +818,7 @@ namespace seeder
         /// <summary>
         /// Crée une adresse aléatoirement.
         /// </summary>
-        private static Adresse getAdresseAleatoire(ApplicationDbContext context)
+        private static Adresse getAdresseAleatoire()
         {
 	    return new Adresse()
             {
@@ -824,9 +826,9 @@ namespace seeder
 		App = Faker.RandomNumber.Next(1, 55),
 		CodePostal = Faker.Address.UkPostCode(),
 		NumeroCivique = Faker.RandomNumber.Next(1, 666),
-		Province = context
+		Province = _context
 			    .Provinces
-				.Skip(Faker.RandomNumber.Next(0, context.Provinces.Count() - 1))
+				.Skip(Faker.RandomNumber.Next(0, _context.Provinces.Count() - 1))
 				.Take(1)
 				.First(),
 		Rue = Faker.Address.StreetName(),
@@ -837,15 +839,15 @@ namespace seeder
         /// <summary>
         /// Assigne les cours aux étudiants.
         /// </summary>
-        private static void setCoursParEtudiants(ApplicationDbContext context)
+        private static void setCoursParEtudiants()
         {
 
-            foreach (Etudiant etudiant in context.Etudiants)
+            foreach (Etudiant etudiant in _context.Etudiants)
             {
 
-                var listeCoursEtudiant = context
+                var listeCoursEtudiant = _context
                     .Cours
-                    .Skip(Faker.RandomNumber.Next(0, context.Cours.Count() - 9))
+                    .Skip(Faker.RandomNumber.Next(0, _context.Cours.Count() - 9))
                     .Take(Faker.RandomNumber.Next(3, 8));
 
                 foreach (Cours cours in listeCoursEtudiant)
@@ -859,20 +861,20 @@ namespace seeder
                         Cours = cours
                     };
 
-                    context.CoursEtudiants.Add(coursEtudiant);
+                    _context.CoursEtudiants.Add(coursEtudiant);
                 }
             }
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         /// <summary>
         /// Génère des factures aux étudiants.
         /// </summary>
-        private static void setFacturesEtudiants(ApplicationDbContext context)
+        private static void setFacturesEtudiants()
         {
 
-            foreach (Etudiant etudiant in context.Etudiants)
+            foreach (Etudiant etudiant in _context.Etudiants)
             {
 
                 bool asDejaCommande;
@@ -888,9 +890,9 @@ namespace seeder
                         FactureEtudiant factureEtudiant;
                         List<CommandeEtudiant> commandesEtudiants;
 
-                        factureEtudiant = creerFactureEtudiant(context, etudiant);
+                        factureEtudiant = creerFactureEtudiant(etudiant);
 
-                        context.FacturesEtudiants.Add(factureEtudiant);
+                        _context.FacturesEtudiants.Add(factureEtudiant);
 
                         commandesEtudiants = new();
 
@@ -899,7 +901,7 @@ namespace seeder
 
                             CommandeEtudiant commandeEtudiant;
 
-                            commandeEtudiant = creerCommandeEtudiant(context, factureEtudiant);
+                            commandeEtudiant = creerCommandeEtudiant(factureEtudiant);
 
                             if (!livreDejaDansCommande(commandesEtudiants, commandeEtudiant))
                             {
@@ -912,13 +914,13 @@ namespace seeder
 
                         }
 
-                        context.CommandesEtudiants.AddRange(commandesEtudiants);
+                        _context.CommandesEtudiants.AddRange(commandesEtudiants);
                     }
                 }
 
             }
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         /// <summary>
@@ -943,7 +945,7 @@ namespace seeder
         /// Crée une facture pour un étudiant.
         /// </summary>
         /// <returns>la facture de l'étudiant en Facture.</returns>
-        private static FactureEtudiant creerFactureEtudiant(ApplicationDbContext context, Etudiant etudiant)
+        private static FactureEtudiant creerFactureEtudiant(Etudiant etudiant)
         {
 
             FactureEtudiant factureEtudiant;
@@ -951,9 +953,9 @@ namespace seeder
             factureEtudiant = new()
             {
                 FactureEtudiantId = 0,
-                TypePaiement = context
+                TypePaiement = _context
 				.TypesPaiement
-				    .Skip(Faker.RandomNumber.Next(0, context.TypesPaiement.Count() - 1))
+				    .Skip(Faker.RandomNumber.Next(0, _context.TypesPaiement.Count() - 1))
 				    .Take(1)
 				    .First(),
                 Etudiant = etudiant,
@@ -973,7 +975,7 @@ namespace seeder
         /// Crée une commande pour une facture.
         /// </summary>
         /// <returns>la commande de la facture en Commande.</returns>
-        private static CommandeEtudiant creerCommandeEtudiant(ApplicationDbContext context, FactureEtudiant factureEtudiant)
+        private static CommandeEtudiant creerCommandeEtudiant(FactureEtudiant factureEtudiant)
         {
 
             CommandeEtudiant commandeEtudiant;
@@ -981,9 +983,9 @@ namespace seeder
             commandeEtudiant = new()
             {
                 FactureEtudiant = factureEtudiant,
-                PrixEtatLivre = context
+                PrixEtatLivre = _context
 				    .PrixEtatsLivres
-					.Skip(Faker.RandomNumber.Next(0, context.PrixEtatsLivres.Count() - 1))
+					.Skip(Faker.RandomNumber.Next(0, _context.PrixEtatsLivres.Count() - 1))
 					.Take(1)
 					.First(),
                 Quantite = Faker.RandomNumber.Next(1, 2)
@@ -996,10 +998,10 @@ namespace seeder
         /// <summary>
         /// Génère la liste des livres des étudiants.
         /// </summary>
-        private static void setLivresEtudiants(ApplicationDbContext context)
+        private static void setLivresEtudiants()
         {
 
-            foreach (Etudiant etudiant in context.Etudiants)
+            foreach (Etudiant etudiant in _context.Etudiants)
             {
 
                 bool aLivresVendre;
@@ -1020,12 +1022,12 @@ namespace seeder
 
                         livreEtudiant = creerLivreEtudiant(etudiant);
 
-                        context.LivresEtudiants.Add(livreEtudiant);
+                        _context.LivresEtudiants.Add(livreEtudiant);
                     }
                 }
             }
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         // TODO: à tester lorsque l'objet LivreEtudiant aure les modificaitons
@@ -1060,10 +1062,10 @@ namespace seeder
         /// <summary>
         /// Génère les évaluations des livres complémentaires.
         /// </summary>
-        private static void setEvaluations(ApplicationDbContext context)
+        private static void setEvaluations()
         {
 
-            var livresComplementaires = context.CoursLivres.Where(coursLivre => coursLivre.Complementaire);
+            var livresComplementaires = _context.CoursLivres.Where(coursLivre => coursLivre.Complementaire);
 
             foreach (CoursLivre coursLivre in livresComplementaires)
             {
@@ -1077,18 +1079,18 @@ namespace seeder
 
                     int nombreMaximumEtudiants;
 
-                    nombreMaximumEtudiants = Convert.ToInt32((context.Etudiants.Count() - 1) / 2);
+                    nombreMaximumEtudiants = Convert.ToInt32((_context.Etudiants.Count() - 1) / 2);
 
-                    foreach (Etudiant etudiant in context.Etudiants.Take(Faker.RandomNumber.Next(1, nombreMaximumEtudiants)))
+                    foreach (Etudiant etudiant in _context.Etudiants.Take(Faker.RandomNumber.Next(1, nombreMaximumEtudiants)))
                     {
 
                         Evaluation evaluation;
                         EvaluationLivre evaluationLivre;
 
-                        evaluation = creerEvaluation(context, coursLivre, etudiant);
+                        evaluation = creerEvaluation(coursLivre, etudiant);
 
 			// TODO: valider si c'est sauvegardé
-                        context.Evaluations.Add(evaluation);
+                        _context.Evaluations.Add(evaluation);
 
                         // TODO: valider l'utilité d'une table de liaison. Pourquoi ne pas uniquement ajouter l'étudiant à l'évaluation?on?
                         evaluationLivre = new()
@@ -1097,13 +1099,13 @@ namespace seeder
                             LivreBibliothequeId = coursLivre.LivreBibliothequeId
                         };
 
-                        context.EvaluationsLivres.Add(evaluationLivre);
+                        _context.EvaluationsLivres.Add(evaluationLivre);
 
                     }
                 }
             }
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         // TODO: valider l'utilité d'une table de liaison. Pourquoi ne pas uniquement ajouter l'étudiant à l'évaluation?
@@ -1113,7 +1115,7 @@ namespace seeder
         /// <paramref name="etudiant">L'étudiant qui évalue le livre.</param>
         /// </summary>
         /// <returns>le livre de l'étudiant.</returns>
-        private static Evaluation creerEvaluation(ApplicationDbContext context, CoursLivre coursLivre, Etudiant etudiant)
+        private static Evaluation creerEvaluation(CoursLivre coursLivre, Etudiant etudiant)
         {
 
             Evaluation evaluation;
