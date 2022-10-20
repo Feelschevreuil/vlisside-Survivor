@@ -54,11 +54,26 @@ namespace vlissides_bibliotheque.Controllers
         public List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs()
         {
             List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
-            List<LivreBibliotheque> listLivreBibliotheque = _context.LivresBibliotheque.ToList();
-            Random random = new Random();
+            IEnumerable<LivreBibliotheque> listLivreBibliotheque = _context.LivresBibliotheque;
+            IEnumerable<LivreBibliotheque> listQuatreLivre = listLivreBibliotheque.Take(4);
+            IEnumerable<CoursLivre> bdCoursLivre = _context.CoursLivres;
+            IEnumerable<EvaluationLivre> bdEvaluationLivre = _context.EvaluationsLivres;
+
+            foreach (LivreBibliotheque livre in listQuatreLivre)
+            {
+                TuileLivreBibliotequeVM tuileVM = new()
+                {
+                    coursProfesseurs = _context.CoursProfesseurs.ToList().Find(x => x.CoursId == bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId).CoursId),
+                    complementaire = bdCoursLivre.ToList().Find(x=>x.LivreBibliothequeId == livre.LivreId).Complementaire
+                };
+                if (tuileVM.complementaire)
+                {
+                    tuileVM.livreBibliothequesEvaluation = bdEvaluationLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId);
+                }
+                listTuileLivreBibliotequeVMs.Add(tuileVM);
+            }
 
             return listTuileLivreBibliotequeVMs;
-
         }
     }
 }
