@@ -167,7 +167,7 @@ namespace seeder
 		.With(adresse => adresse.NumeroCivique = Faker.RandomNumber.Next(1000))
 		.With(adresse => adresse.App = Faker.RandomNumber.Next(100))
 		.With(adresse => adresse.Rue = Faker.Address.StreetName())
-		.With(adresse => adresse.CodePostal = Faker.Address.ZipCode())
+		.With(adresse => adresse.CodePostal = "X6X6X6")
 		.With(adresse => adresse.Province = context.Provinces.First())
 		.Build();
         }
