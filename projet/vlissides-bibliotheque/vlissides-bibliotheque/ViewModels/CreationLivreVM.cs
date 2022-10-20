@@ -60,13 +60,13 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Auteur")]
 		public int? AuteurId { get; set; }
 
-		
 		public List<SelectListItem> Auteurs { get; set; }
+		
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Cours")]
 		public int? CoursId { get; set; }
-		
 
+		[DisplayName("Ajouter un cours pour le livre")]
 		public List<SelectListItem> ListeCoursComplete { get; set; }
 
 		[DisplayName("Cours associé au livre")]
