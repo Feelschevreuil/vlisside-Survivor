@@ -785,6 +785,7 @@ namespace seeder
 		.With(etudiant => etudiant.Prenom = Faker.Name.First())
 		.With(etudiant => etudiant
 		    .ProgrammeEtude = context
+			.Skip(Faker.RandomNumber.Next(0, context.ProgrammesEtudes.Count() -1))
 			.ProgrammesEtudes
 			.Take(1)
 			.First())
