@@ -259,23 +259,29 @@ namespace seeder
         private static List<Cours> getListeCours(ApplicationDbContext context)
         {
 
-            ProgrammeEtude techniquesTourisme = context.ProgrammesEtudes.SingleOrDefault(
+	    ProgrammeEtude techniquesTourisme;
+	    ProgrammeEtude sciencesNature;
+	    ProgrammeEtude techniquesEducationSpecialisee;
+	    ProgrammeEtude techniquesGenieMecanique;
+	    ProgrammeEtude formationGenerale;
+
+            techniquesTourisme = context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "414"
             );
 
-            ProgrammeEtude sciencesNature = context.ProgrammesEtudes.SingleOrDefault(
+            sciencesNature = context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "201"
             );
 
-            ProgrammeEtude techniquesEducationSpecialisee = context.ProgrammesEtudes.SingleOrDefault(
+            techniquesEducationSpecialisee = context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "351"
             );
 
-            ProgrammeEtude techniquesGenieMecanique = context.ProgrammesEtudes.SingleOrDefault(
+            techniquesGenieMecanique = context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "241"
             );
 
-            ProgrammeEtude formationGenerale = context.ProgrammesEtudes.SingleOrDefault(
+            formationGenerale = context.ProgrammesEtudes.SingleOrDefault(
                 programmeEtude => programmeEtude.Code == "x"
             );
 
@@ -496,7 +502,9 @@ namespace seeder
                 if (Faker.Boolean.Random())
                 {
 
-                    PrixEtatLivre prixEtatLivreUsage = new()
+		    PrixEtatLivre prixEtatLivreUsage;
+
+                    prixEtatLivreUsage = new()
                     {
                         PrixEtatLivreId = 0,
                         EtatLivre = etatUsage,
@@ -507,7 +515,10 @@ namespace seeder
                     context.PrixEtatsLivres.Add(prixEtatLivreUsage);
                 }
 
-                PrixEtatLivre prixEtatLivreNeuf = new()
+		PrixEtatLivre prixEtatLivreNeuf;
+		PrixEtatLivre prixEtatLivreDigital;
+
+                prixEtatLivreNeuf = new()
                 {
                     PrixEtatLivreId = 0,
                     EtatLivre = etatNeuf,
@@ -515,7 +526,7 @@ namespace seeder
                     Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                 };
 
-                PrixEtatLivre prixEtatLivreDigital = new()
+                prixEtatLivreDigital = new()
                 {
                     PrixEtatLivreId = 0,
                     EtatLivre = etatDigital,
@@ -588,7 +599,9 @@ namespace seeder
 
                 foreach (Auteur auteur in auteurs)
                 {
-                    AuteurLivre auteurLivre = new()
+		    AuteurLivre auteurLivre;
+
+                    auteurLivre = new()
                     {
                         Auteur = auteur,
                         LivreBibliotheque = livreBibliotheque
@@ -634,7 +647,9 @@ namespace seeder
                 foreach (Cours cours in choixCours)
                 {
 
-                    CoursProfesseur coursProfesseur = new()
+		    CoursProfesseur coursProfesseur;
+
+                    coursProfesseur = new()
                     {
                         Professeur = professeur,
                         Cours = cours
@@ -743,7 +758,9 @@ namespace seeder
         private static ICollection<Evenement> getEvenementsCommanditaires(ApplicationDbContext context)
         {
 
-            List<Evenement> evenements = new();
+	    List<Evenement> evenements;
+
+            evenements = new();
 
             foreach (Commanditaire commanditaire in context.Commanditaires)
             {
@@ -835,7 +852,9 @@ namespace seeder
                 foreach (Cours cours in listeCoursEtudiant)
                 {
 
-                    CoursEtudiant coursEtudiant = new()
+		    CoursEtudiant coursEtudiant;
+
+                    coursEtudiant = new()
                     {
                         Etudiant = etudiant,
                         Cours = cours
@@ -868,12 +887,11 @@ namespace seeder
                     {
 
                         FactureEtudiant factureEtudiant;
+                        List<CommandeEtudiant> commandesEtudiants;
 
                         factureEtudiant = creerFactureEtudiant(context, etudiant);
 
                         context.FacturesEtudiants.Add(factureEtudiant);
-
-                        List<CommandeEtudiant> commandesEtudiants;
 
                         commandesEtudiants = new();
 
