@@ -6,6 +6,7 @@ using System.Diagnostics;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
+using System.Collections;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -22,9 +23,10 @@ namespace vlissides_bibliotheque.Controllers
         [Route("")]
         public IActionResult Accueil()
         {
-            List<Evenement> listEvenements = new();
+            IEnumerable<Evenement> bdEvenements = _context.Evenements;
+            IEnumerable<Evenement> listEvenements = bdEvenements.OrderBy(i => i.Debut).Take(4);
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = listEvenements };
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = (List<Evenement>)listEvenements };
 
             return View(recommendationPromotions);
         }
