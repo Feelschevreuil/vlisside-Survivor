@@ -679,9 +679,7 @@ namespace seeder
                     coursProfesseur = new()
                     {
                         Cours = cours,
-                        CoursId = cours.CoursId,
-                        Professeur = professeur,
-                        ProfesseurId = professeur.ProfesseurId,
+                        Professeur = professeur
                     };
 
                     context.CoursProfesseurs.Add(coursProfesseur);
