@@ -462,7 +462,7 @@ namespace seeder
         .All()
         .With(livre => livre.LivreId = 0)
         .With(livre => livre.Isbn = 666 + Faker.Identification.UkNhsNumber())
-        .With(livre => livre.Titre = string.Join(",", Faker.Lorem.Words(3)))
+        .With(livre => livre.Titre = string.Join(" ", Faker.Lorem.Words(3)))
         .With(livre => livre.Resume = Faker.Lorem.Sentence())
         .With(livre => livre.PhotoCouverture = "N/A")
         .With(livre => livre.DatePublication = Faker.Identification.DateOfBirth())
@@ -1027,7 +1027,7 @@ namespace seeder
                 LivreId = 0,
                 Etudiant = etudiant,
                 Isbn = "666" + Faker.Identification.UkNhsNumber(),
-                Titre = string.Join(",", Faker.Lorem.Words(3)),
+                Titre = string.Join(" ", Faker.Lorem.Words(3)),
                 Auteur = Faker.Name.First() + " " + Faker.Name.Last(),
                 Resume = Faker.Lorem.Paragraph(),
                 PhotoCouverture = "N/A",
