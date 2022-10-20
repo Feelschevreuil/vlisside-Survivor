@@ -936,6 +936,7 @@ namespace seeder
                 FactureEtudiantId = 0,
                 TypePaiement = context
                     .TypesPaiement
+		    .Skip(Faker.RandomNumber.Next(0, context.TypesPaiement.Count() - 1))
                     .Take(1)
                     .First(),
                 Etudiant = etudiant,
