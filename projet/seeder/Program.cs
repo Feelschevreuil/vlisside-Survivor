@@ -99,7 +99,6 @@ namespace seeder
 
             context.SaveChanges();
 
-
             context.LivresBibliotheque.AddRange(getLivresBibliotheques(context));
 
             context.SaveChanges();
