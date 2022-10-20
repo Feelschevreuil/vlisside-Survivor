@@ -589,7 +589,7 @@ namespace seeder
                     AuteurLivre auteurLivre = new()
                     {
                         Auteur = auteur,
-                        LivreBibliotheque = livreBibliotheque,
+                        LivreBibliotheque = livreBibliotheque
                     };
 
                     context.AuteursLivres.Add(auteurLivre);
