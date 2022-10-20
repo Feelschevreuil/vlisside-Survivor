@@ -33,10 +33,10 @@ namespace vlissides_bibliotheque.Controllers
 
         public IActionResult Actualiter()
         {
-            
+
             List<Evenement> listEvenements = new()
             {
-               
+
             };
 
             return View(listEvenements);
@@ -64,11 +64,12 @@ namespace vlissides_bibliotheque.Controllers
                 TuileLivreBibliotequeVM tuileVM = new()
                 {
                     coursProfesseurs = _context.CoursProfesseurs.ToList().Find(x => x.CoursId == bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId).CoursId),
-                    complementaire = bdCoursLivre.ToList().Find(x=>x.LivreBibliothequeId == livre.LivreId).Complementaire
+                    livreBibliotheque = livre,
+                    complementaire = bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId).Complementaire
                 };
                 if (tuileVM.complementaire)
                 {
-                    tuileVM.livreBibliothequesEvaluation = bdEvaluationLivre.ToList().FindAll(x => x.LivreBibliothequeId == livre.LivreId);
+                    tuileVM.livreEvaluation = bdEvaluationLivre.ToList().FindAll(x => x.LivreBibliothequeId == livre.LivreId);
                 }
                 listTuileLivreBibliotequeVMs.Add(tuileVM);
             }
