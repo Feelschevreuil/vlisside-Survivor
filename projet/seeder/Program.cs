@@ -1031,7 +1031,7 @@ namespace seeder
                 Auteur = Faker.Name.First() + " " + Faker.Name.Last(),
                 Resume = Faker.Lorem.Paragraph(),
                 PhotoCouverture = "N/A",
-                DatePublication = Faker.Identification.DateOfBirth(),
+                DatePublication = Faker.Identification.DateOfBirth().AddDays(Faker.RandomNumber.Next(-3000, 0)),
                 MaisonEdition = Faker.Company.Name()
             };
 
