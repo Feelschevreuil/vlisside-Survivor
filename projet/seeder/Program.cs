@@ -581,7 +581,7 @@ namespace seeder
 
                 var auteurs = context
                     .Auteurs
-                    .Skip(Faker.RandomNumber.Next(0, context.Auteurs.Count()))
+                    .Skip(Faker.RandomNumber.Next(0, context.Auteurs.Count()) - 4)
                     .Take(Faker.RandomNumber.Next(1, 3));
 
                 foreach (Auteur auteur in auteurs)
