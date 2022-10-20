@@ -7,6 +7,8 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using System.Collections;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -24,7 +26,7 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult Accueil()
         {
             IEnumerable<Evenement> bdEvenements = _context.Evenements;
-            IEnumerable<Evenement> listEvenements = bdEvenements.OrderBy(i => i.Debut).Take(4);
+            List<Evenement> listEvenements = bdEvenements.OrderBy(i => i.Debut).Take(4).ToList();
 
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = (List<Evenement>)listEvenements };
 
@@ -57,21 +59,37 @@ namespace vlissides_bibliotheque.Controllers
             IEnumerable<LivreBibliotheque> listLivreBibliotheque = _context.LivresBibliotheque;
             IEnumerable<LivreBibliotheque> listQuatreLivre = listLivreBibliotheque.Take(4);
             IEnumerable<CoursLivre> bdCoursLivre = _context.CoursLivres;
-            IEnumerable<EvaluationLivre> bdEvaluationLivre = _context.EvaluationsLivres;
+            IEnumerable<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres;
 
-            foreach (LivreBibliotheque livre in listQuatreLivre)
+            try
             {
-                TuileLivreBibliotequeVM tuileVM = new()
+                foreach (LivreBibliotheque livre in listQuatreLivre)
                 {
-                    coursProfesseurs = _context.CoursProfesseurs.ToList().Find(x => x.CoursId == bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId).CoursId),
-                    livreBibliotheque = livre,
-                    complementaire = bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId).Complementaire
-                };
-                if (tuileVM.complementaire)
-                {
-                    tuileVM.livreEvaluation = bdEvaluationLivre.ToList().FindAll(x => x.LivreBibliothequeId == livre.LivreId);
+                    TuileLivreBibliotequeVM tuileVM = new()
+                    {
+                        livreBibliotheque = livre,
+                    };
+
+                    if (bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId) != null ) 
+                    {
+                        tuileVM.coursLivre = _context.CoursLivres
+                            .Include(x=>x.Cours)
+                            .Include(x=>x.Cours.ProgrammeEtude)
+                            .ToList()
+                            .Find(x => x.LivreBibliothequeId == livre.LivreId);
+                        tuileVM.complementaire = bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livre.LivreId).Complementaire;
+                    }
+
+                    if (tuileVM.complementaire)
+                    {
+                        tuileVM.livreEvaluation = bdEvaluationsLivre.ToList().FindAll(x => x.LivreBibliothequeId == livre.LivreId);
+                    }
+                    listTuileLivreBibliotequeVMs.Add(tuileVM);
                 }
-                listTuileLivreBibliotequeVMs.Add(tuileVM);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
             }
 
             return listTuileLivreBibliotequeVMs;

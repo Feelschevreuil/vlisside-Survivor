@@ -11,7 +11,7 @@ namespace vlissides_bibliotheque.ViewModels
 
         public LivreBibliotheque livreBibliotheque;
 
-        public CoursProfesseur coursProfesseurs;
+        public CoursLivre coursLivre;
 
         public Boolean complementaire;
     }

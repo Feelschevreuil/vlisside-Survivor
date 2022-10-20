@@ -47,10 +47,16 @@
     <div class="card border-0" style="width:auto">
         <h5 class="card-title ">@Model.livreBibliotheque.Titre</h5>
         <p class="card-text">@Model.livreBibliotheque.Isbn</p>
-        <p class="card-text">@Model.coursProfesseurs.Cours.Nom</p>
-        <p class="card-text">@Model.coursProfesseurs.Professeur.Prenom @Model.coursProfesseurs.Professeur.Nom</p>
+        @if(Model.coursLivre != null){
+
+        <p class="card-text">Programme d'étude:@Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+        <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
+        }else{
+            <p class="card-text">Programme d'étude: N/A</p>
+            <p class="card-text">Année de parcours: N/A</p>
+        }
         <p class="card-text">@Model.livreBibliotheque.DatePublication.Year</p>
-        <p class="card-text">Année de parcours: @Model.coursProfesseurs.Cours.AnneeParcours</p>
+      
     </div>
 
     @if (Model.complementaire)
