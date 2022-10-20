@@ -25,8 +25,7 @@ namespace vlissides_bibliotheque.Controllers
         [Route("")]
         public IActionResult Accueil()
         {
-            IEnumerable<Evenement> bdEvenements = _context.Evenements;
-            List<Evenement> listEvenements = bdEvenements.OrderBy(i => i.Debut).Take(4).ToList();
+            List<Evenement> listEvenements = _context.Evenements.OrderBy(i => i.Debut).Take(4).ToList();
 
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = listEvenements };
 
