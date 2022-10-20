@@ -22,6 +22,8 @@ namespace vlissides_bibliotheque.Controllers
         [Route("")]
         public IActionResult Accueil()
         {
+            List<Evenement> listEvenements = new();
+
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = listEvenements };
 
             return View(recommendationPromotions);
