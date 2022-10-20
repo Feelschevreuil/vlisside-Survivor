@@ -775,19 +775,26 @@ namespace seeder
         private static ICollection<Etudiant> getEtudiants(ApplicationDbContext context)
         {
 
+	    Adresse adresse;
+
+	    adresse = getAdresseAleatoire(context);
+
+	    context.Adresses.Add(adresse);
+	    context.SaveChanges();
+
             return Builder<Etudiant>
-            .CreateListOfSize(50)
-            .All()
-            .With(etudiant => etudiant.Email = Faker.Internet.Email())
-            .With(etudiant => etudiant.Nom = Faker.Name.Last())
-            .With(etudiant => etudiant.Prenom = Faker.Name.First())
-            .With(etudiant => etudiant
-                .ProgrammeEtude = context
-                    .ProgrammesEtudes
-                    .Take(1)
-                    .First())
-            .With(etudiant => etudiant.Adresse = getAdresseAleatoire(context))
-            .Build();
+		.CreateListOfSize(50)
+		.All()
+		.With(etudiant => etudiant.Email = Faker.Internet.Email())
+		.With(etudiant => etudiant.Nom = Faker.Name.Last())
+		.With(etudiant => etudiant.Prenom = Faker.Name.First())
+		.With(etudiant => etudiant
+		    .ProgrammeEtude = context
+			.ProgrammesEtudes
+			.Take(1)
+			.First())
+		.With(etudiant => etudiant.Adresse = adresse)
+		.Build();
         }
 
         /// <summary>
@@ -795,11 +802,20 @@ namespace seeder
         /// </summary>
         private static Adresse getAdresseAleatoire(ApplicationDbContext context)
         {
-
-            var random = new Random();
-            int index = random.Next(context.Adresses.Count());
-            var listAdresse = context.Adresses.ToList();
-            return listAdresse[index];
+	    return new Adresse() 
+	    {
+		AdresseId = 0,
+		App = Faker.RandomNumber.Next(1,55), 
+		CodePostal = Faker.Address.UkPostCode(),
+		NumeroCivique = Faker.RandomNumber.Next(1,666),
+		Province = context
+				.Provinces
+				.Skip(Faker.RandomNumber.Next(0, context.Provinces.Count() - 1))
+				.Take(1)
+				.First(),
+		Rue = Faker.Address.StreetName(),
+		Ville = Faker.Address.City()
+	    };
         }
 
         /// <summary>
