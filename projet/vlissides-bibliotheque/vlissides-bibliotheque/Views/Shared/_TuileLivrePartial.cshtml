@@ -45,17 +45,17 @@
 
 
     <div class="card border-0" style="width:auto">
-        <h5 class="card-title ">@Model.livreBibliotheque.Titre</h5>
-        <p class="card-text">@Model.livreBibliotheque.Isbn</p>
+        <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
+        <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
         @if(Model.coursLivre != null){
 
-        <p class="card-text">Programme d'étude:@Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+        <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
         <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
         }else{
             <p class="card-text">Programme d'étude: N/A</p>
             <p class="card-text">Année de parcours: N/A</p>
         }
-        <p class="card-text">@Model.livreBibliotheque.DatePublication.Year</p>
+        <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
       
     </div>
 
