@@ -622,12 +622,12 @@ namespace seeder
         {
 
             return Builder<Professeur>
-            .CreateListOfSize(15)
-            .All()
-            .With(professeur => professeur.ProfesseurId = 0)
-            .With(professeur => professeur.Nom = Faker.Name.Last())
-            .With(professeur => professeur.Prenom = Faker.Name.First())
-            .Build();
+		.CreateListOfSize(15)
+		.All()
+		.With(professeur => professeur.ProfesseurId = 0)
+		.With(professeur => professeur.Nom = Faker.Name.Last())
+		.With(professeur => professeur.Prenom = Faker.Name.First())
+		.Build();
         }
 
         /// <summary>
@@ -791,12 +791,12 @@ namespace seeder
         private static ICollection<Etudiant> getEtudiants(ApplicationDbContext context)
         {
 
-                   Adresse adresse;
+	    Adresse adresse;
 
-                   adresse = getAdresseAleatoire(context);
+	    adresse = getAdresseAleatoire(context);
 
-                   context.Adresses.Add(adresse);
-                   context.SaveChanges();
+	    context.Adresses.Add(adresse);
+	    context.SaveChanges();
 
             return Builder<Etudiant>
                .CreateListOfSize(50)
