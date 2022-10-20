@@ -147,6 +147,7 @@ namespace seeder
             return Builder<Province>
 		.CreateListOfSize(10)
 		.All()
+		.With(province => province.ProvinceId = 0)
 		.With(province => province.Nom = Faker.Address.UsState())
 		.Build();
 	}
@@ -161,6 +162,7 @@ namespace seeder
 	    return Builder<Adresse>
 		.CreateListOfSize(10)
 		.All()
+		.With(adresse => adresse.AdresseId = 0)
 		.With(adresse => adresse.Ville = Faker.Address.City())
 		.With(adresse => adresse.NumeroCivique = Faker.RandomNumber.Next(1000))
 		.With(adresse => adresse.App = Faker.RandomNumber.Next(100))
@@ -180,6 +182,7 @@ namespace seeder
 	    return Builder<Auteur>
 		.CreateListOfSize(25)
 		.All()
+		.With(auteur => auteur.AuteurId = 0)
 		.With(auteur => auteur.Nom = Faker.Name.Last())
 		.With(auteur => auteur.Prenom = Faker.Name.First())
 		.Build();
@@ -195,12 +198,15 @@ namespace seeder
 
             return new List<EtatLivre> {
                 new EtatLivre() {
+		    EtatLivreId = 0,
                     Nom = "Neuf"
                 },
                 new EtatLivre() {
+		    EtatLivreId = 0,
                     Nom = "Usagé"
                 },
                 new EtatLivre() {
+		    EtatLivreId = 0,
                     Nom = "Digital"
                 }
             };
@@ -216,22 +222,27 @@ namespace seeder
 
             return new List<ProgrammeEtude> {
                 new ProgrammeEtude() {
+		    ProgrammeEtudeId = 0,
                     Nom = "Techniques de tourisme",
                     Code = "414"
                 },
                 new ProgrammeEtude() {
+		    ProgrammeEtudeId = 0,
                     Nom = "Sciences de la Nature",
                     Code = "201"
                 },
                 new ProgrammeEtude() {
+		    ProgrammeEtudeId = 0,
                     Nom = "Techniques d'éducatoin spécialisée",
                     Code = "351"
                 },
                 new ProgrammeEtude() {
+		    ProgrammeEtudeId = 0,
                     Nom = "Techniques de génie mécanique",
                     Code = "241"
                 },
                 new ProgrammeEtude() {
+		    ProgrammeEtudeId = 0,
                     Nom = "Formation générale",
                     Code = "x"
                 }
@@ -268,6 +279,7 @@ namespace seeder
 
             return new List<Cours> {
                 new Cours() {
+		    CoursId = 0,
 		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Exploration des carrières en tourisme",
                     Description = "N/A",
@@ -275,6 +287,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
 		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Introduction au programme de Tourisme",
                     Description = "N/A",
@@ -282,6 +295,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
 		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Accueil et service à la clientèle",
                     Description = "N/A",
@@ -289,6 +303,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
 		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Destinations touristiques : les Amériques",
                     Description = "N/A",
@@ -296,6 +311,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
 		    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
                     Nom = "Communication et supervision",
                     Description = "N/A",
@@ -303,6 +319,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
                     Nom = "Écriture et littérature",
                     Description = "N/A",
@@ -310,6 +327,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
                     Nom = "Littérature et imaginaire",
                     Description = "N/A",
@@ -317,6 +335,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
                     Nom = "Calcul intégral",
                     Description = "N/A",
@@ -324,6 +343,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
                     Nom = "Chimie des solutions",
                     Description = "N/A",
@@ -331,6 +351,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
                     Nom = "Électricité et magnétisme",
                     Description = "N/A",
@@ -338,6 +359,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
                     Nom = "Astrophysique",
                     Description = "N/A",
@@ -345,6 +367,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
                     Nom = "Psychologie de l’enfance",
                     Description = "N/A",
@@ -352,6 +375,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
                     Nom = "Introduction aux problématiques d’adaptation",
                     Description = "N/A",
@@ -359,6 +383,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
 		    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Mathématiques du génie mécanique",
                     Description = "N/A",
@@ -366,6 +391,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Mathématiques appliquées",
                     Description = "N/A",
@@ -373,6 +399,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Statique et cinématique",
                     Description = "N/A",
@@ -380,6 +407,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Techniques d’usinage 1",
                     Description = "N/A",
@@ -387,6 +415,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Techniques d’usinage 1",
                     Description = "N/A",
@@ -394,6 +423,7 @@ namespace seeder
                     AnneeParcours = 1
                 },
                 new Cours() {
+		    CoursId = 0,
                     ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
                     Nom = "Dessin industriel assisté par ordinateur",
                     Description = "N/A",
@@ -413,6 +443,7 @@ namespace seeder
             return Builder<MaisonEdition>
 		.CreateListOfSize(10)
 		.All()
+		.With(maisonEdition => maisonEdition.MaisonEditionId = 0)
 		.With(maisonEdition => maisonEdition.Nom = Faker.Company.Name())
 		.Build();
 	}
@@ -427,6 +458,7 @@ namespace seeder
             return Builder<LivreBibliotheque>
 		.CreateListOfSize(50)
 		.All()
+		.With(livre => livre.LivreId = 0)
 		.With(livre => livre.Isbn = "666" + Faker.Identification.UkNhsNumber())
 		.With(livre => livre.Titre = Faker.Lorem.Sentence(Faker.RandomNumber.Next(1,8)))
 		.With(livre => livre.Resume = Faker.Lorem.Paragraph())
@@ -464,6 +496,7 @@ namespace seeder
 
 		    PrixEtatLivre prixEtatLivreUsage = new() 
 		    {
+			PrixEtatLivreId = 0,
 			EtatLivre = etatUsage,
 			LivreBibliotheque = livreBibliotheque,
 			Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
@@ -474,6 +507,7 @@ namespace seeder
 
 		PrixEtatLivre prixEtatLivreNeuf = new() 
 		{
+		    PrixEtatLivreId = 0,
 		    EtatLivre = etatNeuf,
 		    LivreBibliotheque = livreBibliotheque,
 		    Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
@@ -481,6 +515,7 @@ namespace seeder
 
 		PrixEtatLivre prixEtatLivreDigital = new() 
 		{
+		    PrixEtatLivreId = 0,
 		    EtatLivre = etatDigital,
 		    LivreBibliotheque = livreBibliotheque,
 		    Prix = Convert.ToDouble(Faker.RandomNumber.Next(3,500))
@@ -517,6 +552,7 @@ namespace seeder
 
 		    coursLivre = new()
 		    {
+			CoursLivreId = 0,
 			Cours = cours,
 			LivreBibliotheque = livreBibliotheque,
 			Complementaire = Faker.Boolean.Random()
@@ -569,6 +605,7 @@ namespace seeder
 	    return Builder<Professeur>
 		.CreateListOfSize(15)
 		.All()
+		.With(professeur => professeur.ProfesseurId = 0)
 		.With(professeur => professeur.Nom = Faker.Name.Last())
 		.With(professeur => professeur.Prenom = Faker.Name.First())
 		.Build();
@@ -632,6 +669,7 @@ namespace seeder
 
 		    professeur = context
 			.Professeurs
+			// TODO: optimiser
 			.Skip(Faker.RandomNumber.Next(0, context.Professeurs.Count() -1))
 			.Take(1)
 			.First();
@@ -663,10 +701,12 @@ namespace seeder
 
 		new TypePaiement() 
 		{
+		    TypePaiementId = 0,
 		    Nom = "Débit"
 		},
 		new TypePaiement() 
 		{
+		    TypePaiementId = 0,
 		    Nom = "Crédit"
 		}
 	    };
@@ -682,6 +722,7 @@ namespace seeder
 	    return Builder<Commanditaire>
 		.CreateListOfSize(10)	
 		.All()
+		.With(commanditaire => commanditaire.CommanditaireId = 0)
 		.With(commanditaire => commanditaire.Nom = Faker.Company.Name())
 		.With(commanditaire => commanditaire.Courriel = Faker.Internet.Email())
 		.With(commanditaire => commanditaire.Url = Faker.Internet.Url())
@@ -706,6 +747,7 @@ namespace seeder
 
 		evenement = new()
 		{
+		    EvenementId = 0,
 		    Commanditaire = commanditaire,
 		    Nom = Faker.Company.CatchPhrase(),
 		    Description = Faker.Lorem.Paragraph(Faker.RandomNumber.Next(2,5)),
@@ -750,6 +792,7 @@ namespace seeder
 
 	    return new Adresse() 
 	    {
+		AdresseId = 0,
 		App = Faker.RandomNumber.Next(1,55), 
 		CodePostal = Faker.Address.UkPostCode(),
 		NumeroCivique = Faker.RandomNumber.Next(1,666),
@@ -881,6 +924,7 @@ namespace seeder
 
 	    factureEtudiant = new()
 	    {
+		FactureEtudiantId = 0,
 		TypePaiement = context
 				.TypesPaiement
 				.Skip(Faker.RandomNumber.Next(0, context.TypesPaiement.Count() - 1))
@@ -972,6 +1016,7 @@ namespace seeder
 
 	    livreEtudiant = new()
 	    {
+		LivreId = 0,
 		Etudiant = etudiant,
 		Isbn = "666" + Faker.Identification.UkNhsNumber(),
 		Titre = Faker.Lorem.Sentence(Faker.RandomNumber.Next(1,8)),
@@ -1050,6 +1095,7 @@ namespace seeder
 
 	    evaluation = new()
 	    {
+		EvaluationId = 0,
 		Etoiles = Faker.RandomNumber.Next(0,10),
 		Date = Faker
 			.Identification
