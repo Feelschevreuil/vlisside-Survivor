@@ -147,11 +147,11 @@ namespace seeder
         {
 
             return Builder<Province>
-        .CreateListOfSize(10)
-        .All()
-        .With(province => province.ProvinceId = 0)
-        .With(province => province.Nom = Faker.Address.UsState())
-        .Build();
+		.CreateListOfSize(10)
+		.All()
+		.With(province => province.ProvinceId = 0)
+		.With(province => province.Nom = Faker.Address.UsState())
+		.Build();
         }
 
         /// <summary>
@@ -162,16 +162,16 @@ namespace seeder
         {
 
             return Builder<Adresse>
-            .CreateListOfSize(10)
-            .All()
-            .With(adresse => adresse.AdresseId = 0)
-            .With(adresse => adresse.Ville = Faker.Address.City())
-            .With(adresse => adresse.NumeroCivique = Faker.RandomNumber.Next(1000))
-            .With(adresse => adresse.App = Faker.RandomNumber.Next(100))
-            .With(adresse => adresse.Rue = Faker.Address.StreetName())
-            .With(adresse => adresse.CodePostal = "X6X6X6")
-            .With(adresse => adresse.Province = context.Provinces.First())
-            .Build();
+		.CreateListOfSize(10)
+		.All()
+		.With(adresse => adresse.AdresseId = 0)
+		.With(adresse => adresse.Ville = Faker.Address.City())
+		.With(adresse => adresse.NumeroCivique = Faker.RandomNumber.Next(1000))
+		.With(adresse => adresse.App = Faker.RandomNumber.Next(100))
+		.With(adresse => adresse.Rue = Faker.Address.StreetName())
+		.With(adresse => adresse.CodePostal = "X6X6X6")
+		.With(adresse => adresse.Province = context.Provinces.First())
+		.Build();
         }
 
         /// <summary>
@@ -281,158 +281,158 @@ namespace seeder
 
             return new List<Cours> {
                 new Cours() {
-            CoursId = 0,
-            ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-                    Nom = "Exploration des carrières en tourisme",
-                    Description = "N/A",
-                    Code = "414313CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-            ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-                    Nom = "Introduction au programme de Tourisme",
-                    Description = "N/A",
-                    Code = "414133CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-            ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-                    Nom = "Accueil et service à la clientèle",
-                    Description = "N/A",
-                    Code = "414154CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-            ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-                    Nom = "Destinations touristiques : les Amériques",
-                    Description = "N/A",
-                    Code = "414234CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-            ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-                    Nom = "Communication et supervision",
-                    Description = "N/A",
-                    Code = "414323CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
-                    Nom = "Écriture et littérature",
-                    Description = "N/A",
-                    Code = "601101MQ",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
-                    Nom = "Littérature et imaginaire",
-                    Description = "N/A",
-                    Code = "601102MQ",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
-                    Nom = "Calcul intégral",
-                    Description = "N/A",
-                    Code = "201NYB05",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
-                    Nom = "Chimie des solutions",
-                    Description = "N/A",
-                    Code = "202NYB05",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
-                    Nom = "Électricité et magnétisme",
-                    Description = "N/A",
-                    Code = "203NYB05",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
-                    Nom = "Astrophysique",
-                    Description = "N/A",
-                    Code = "203314CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
-                    Nom = "Psychologie de l’enfance",
-                    Description = "N/A",
-                    Code = "350114CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
-                    Nom = "Introduction aux problématiques d’adaptation",
-                    Description = "N/A",
-                    Code = "351124CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-            ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-                    Nom = "Mathématiques du génie mécanique",
-                    Description = "N/A",
-                    Code = "201224CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-                    Nom = "Mathématiques appliquées",
-                    Description = "N/A",
-                    Code = "201115CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-                    Nom = "Statique et cinématique",
-                    Description = "N/A",
-                    Code = "203214CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-                    Nom = "Techniques d’usinage 1",
-                    Description = "N/A",
-                    Code = "241216CA",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-                    Nom = "Techniques d’usinage 1",
-                    Description = "N/A",
-                    Code = "241316",
-                    AnneeParcours = 1
-                },
-                new Cours() {
-            CoursId = 0,
-                    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-                    Nom = "Dessin industriel assisté par ordinateur",
-                    Description = "N/A",
-                    Code = "241225CA",
-                    AnneeParcours = 1
-                }
-            };
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			    Nom = "Exploration des carrières en tourisme",
+			    Description = "N/A",
+			    Code = "414313CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			    Nom = "Introduction au programme de Tourisme",
+			    Description = "N/A",
+			    Code = "414133CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			    Nom = "Accueil et service à la clientèle",
+			    Description = "N/A",
+			    Code = "414154CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			    Nom = "Destinations touristiques : les Amériques",
+			    Description = "N/A",
+			    Code = "414234CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			    Nom = "Communication et supervision",
+			    Description = "N/A",
+			    Code = "414323CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
+			    Nom = "Écriture et littérature",
+			    Description = "N/A",
+			    Code = "601101MQ",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
+			    Nom = "Littérature et imaginaire",
+			    Description = "N/A",
+			    Code = "601102MQ",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
+			    Nom = "Calcul intégral",
+			    Description = "N/A",
+			    Code = "201NYB05",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
+			    Nom = "Chimie des solutions",
+			    Description = "N/A",
+			    Code = "202NYB05",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
+			    Nom = "Électricité et magnétisme",
+			    Description = "N/A",
+			    Code = "203NYB05",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
+			    Nom = "Astrophysique",
+			    Description = "N/A",
+			    Code = "203314CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
+			    Nom = "Psychologie de l’enfance",
+			    Description = "N/A",
+			    Code = "350114CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
+			    Nom = "Introduction aux problématiques d’adaptation",
+			    Description = "N/A",
+			    Code = "351124CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			    Nom = "Mathématiques du génie mécanique",
+			    Description = "N/A",
+			    Code = "201224CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			    Nom = "Mathématiques appliquées",
+			    Description = "N/A",
+			    Code = "201115CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			    Nom = "Statique et cinématique",
+			    Description = "N/A",
+			    Code = "203214CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			    Nom = "Techniques d’usinage 1",
+			    Description = "N/A",
+			    Code = "241216CA",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			    Nom = "Techniques d’usinage 1",
+			    Description = "N/A",
+			    Code = "241316",
+			    AnneeParcours = 1
+			},
+			new Cours() {
+			    CoursId = 0,
+			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			    Nom = "Dessin industriel assisté par ordinateur",
+			    Description = "N/A",
+			    Code = "241225CA",
+			    AnneeParcours = 1
+		    }
+		};
         }
 
         /// <summary>
@@ -443,11 +443,11 @@ namespace seeder
         {
 
             return Builder<MaisonEdition>
-        .CreateListOfSize(10)
-        .All()
-        .With(maisonEdition => maisonEdition.MaisonEditionId = 0)
-        .With(maisonEdition => maisonEdition.Nom = Faker.Company.Name())
-        .Build();
+		.CreateListOfSize(10)
+		.All()
+		.With(maisonEdition => maisonEdition.MaisonEditionId = 0)
+		.With(maisonEdition => maisonEdition.Nom = Faker.Company.Name())
+		.Build();
         }
 
         /// <summary>
@@ -458,16 +458,16 @@ namespace seeder
         {
 
             return Builder<LivreBibliotheque>
-        .CreateListOfSize(50)
-        .All()
-        .With(livre => livre.LivreId = 0)
-        .With(livre => livre.Isbn = 666 + Faker.Identification.UkNhsNumber())
-        .With(livre => livre.Titre = string.Join(" ", Faker.Lorem.Words(3)))
-        .With(livre => livre.Resume = Faker.Lorem.Sentence())
-        .With(livre => livre.PhotoCouverture = "N/A")
-        .With(livre => livre.DatePublication = Faker.Identification.DateOfBirth())
-        .With(livre => livre.MaisonEditionId = context.MaisonsEditions.First().MaisonEditionId)
-        .Build();
+		.CreateListOfSize(50)
+		.All()
+		.With(livre => livre.LivreId = 0)
+		.With(livre => livre.Isbn = 666 + Faker.Identification.UkNhsNumber())
+		.With(livre => livre.Titre = string.Join(" ", Faker.Lorem.Words(3)))
+		.With(livre => livre.Resume = Faker.Lorem.Sentence())
+		.With(livre => livre.PhotoCouverture = "N/A")
+		.With(livre => livre.DatePublication = Faker.Identification.DateOfBirth())
+		.With(livre => livre.MaisonEditionId = context.MaisonsEditions.First().MaisonEditionId)
+		.Build();
 
         }
 
@@ -527,6 +527,7 @@ namespace seeder
                 context.PrixEtatsLivres.Add(prixEtatLivreDigital);
 
             }
+
             context.SaveChanges();
         }
 
@@ -548,10 +549,10 @@ namespace seeder
                     LivreBibliotheque livreBibliotheque;
 
                     livreBibliotheque = context
-                    .LivresBibliotheque
-		    .Skip(Faker.RandomNumber.Next(0, context.LivresBibliotheque.Count()) - 1)
-                    .Take(1)
-                    .First();
+			.LivresBibliotheque
+			.Skip(Faker.RandomNumber.Next(0, context.LivresBibliotheque.Count()) - 1)
+			.Take(1)
+			.First();
 
                     coursLivre = new()
                     {
@@ -567,6 +568,7 @@ namespace seeder
                 context.CoursLivres.AddRange(listeCoursLivre);
 
             }
+
             context.SaveChanges();
         }
 
@@ -595,6 +597,7 @@ namespace seeder
                     context.AuteursLivres.Add(auteurLivre);
                 }
             }
+
             context.SaveChanges();
         }
 
@@ -640,8 +643,8 @@ namespace seeder
                     context.CoursProfesseurs.Add(coursProfesseur);
                 }
 
-
             }
+
             context.SaveChanges();
             assignerCoursSansProfesseurs(context);
         }
@@ -685,6 +688,7 @@ namespace seeder
                     context.CoursProfesseurs.Add(coursProfesseur);
                 }
             }
+
             context.SaveChanges();
         }
 
@@ -721,14 +725,14 @@ namespace seeder
         {
 
             return Builder<Commanditaire>
-            .CreateListOfSize(10)
-            .All()
-            .With(commanditaire => commanditaire.CommanditaireId = 0)
-            .With(commanditaire => commanditaire.Nom = Faker.Company.Name())
-            .With(commanditaire => commanditaire.Courriel = Faker.Internet.Email())
-            .With(commanditaire => commanditaire.Url = Faker.Internet.Url())
-            .With(commanditaire => commanditaire.Message = Faker.Lorem.Sentence(Faker.RandomNumber.Next(1, 5)))
-            .Build();
+		.CreateListOfSize(10)
+		.All()
+		.With(commanditaire => commanditaire.CommanditaireId = 0)
+		.With(commanditaire => commanditaire.Nom = Faker.Company.Name())
+		.With(commanditaire => commanditaire.Courriel = Faker.Internet.Email())
+		.With(commanditaire => commanditaire.Url = Faker.Internet.Url())
+		.With(commanditaire => commanditaire.Message = Faker.Lorem.Sentence(Faker.RandomNumber.Next(1, 5)))
+		.Build();
         }
 
         /// <summary>
@@ -770,27 +774,27 @@ namespace seeder
         private static ICollection<Etudiant> getEtudiants(ApplicationDbContext context)
         {
 
-	    Adresse adresse;
+                   Adresse adresse;
 
-	    adresse = getAdresseAleatoire(context);
+                   adresse = getAdresseAleatoire(context);
 
-	    context.Adresses.Add(adresse);
-	    context.SaveChanges();
+                   context.Adresses.Add(adresse);
+                   context.SaveChanges();
 
             return Builder<Etudiant>
-		.CreateListOfSize(50)
-		.All()
-		.With(etudiant => etudiant.Email = Faker.Internet.Email())
-		.With(etudiant => etudiant.Nom = Faker.Name.Last())
-		.With(etudiant => etudiant.Prenom = Faker.Name.First())
-		.With(etudiant => etudiant
-		    .ProgrammeEtude = context
-			.Skip(Faker.RandomNumber.Next(0, context.ProgrammesEtudes.Count() -1))
-			.ProgrammesEtudes
-			.Take(1)
-			.First())
-		.With(etudiant => etudiant.Adresse = adresse)
-		.Build();
+               .CreateListOfSize(50)
+               .All()
+               .With(etudiant => etudiant.Email = Faker.Internet.Email())
+               .With(etudiant => etudiant.Nom = Faker.Name.Last())
+               .With(etudiant => etudiant.Prenom = Faker.Name.First())
+               .With(etudiant => etudiant
+				    .ProgrammeEtude = context
+					.ProgrammesEtudes
+					.Skip(Faker.RandomNumber.Next(0, context.ProgrammesEtudes.Count() - 1))
+					.Take(1)
+					.First())
+               .With(etudiant => etudiant.Adresse = adresse)
+               .Build();
         }
 
         /// <summary>
@@ -798,14 +802,14 @@ namespace seeder
         /// </summary>
         private static Adresse getAdresseAleatoire(ApplicationDbContext context)
         {
-	    return new Adresse() 
-	    {
+	    return new Adresse()
+            {
 		AdresseId = 0,
-		App = Faker.RandomNumber.Next(1,55), 
+		App = Faker.RandomNumber.Next(1, 55),
 		CodePostal = Faker.Address.UkPostCode(),
-		NumeroCivique = Faker.RandomNumber.Next(1,666),
+		NumeroCivique = Faker.RandomNumber.Next(1, 666),
 		Province = context
-				.Provinces
+			    .Provinces
 				.Skip(Faker.RandomNumber.Next(0, context.Provinces.Count() - 1))
 				.Take(1)
 				.First(),
@@ -828,10 +832,8 @@ namespace seeder
                     .Skip(Faker.RandomNumber.Next(0, context.Cours.Count() - 9))
                     .Take(Faker.RandomNumber.Next(3, 8));
 
-
                 foreach (Cours cours in listeCoursEtudiant)
                 {
-
 
                     CoursEtudiant coursEtudiant = new()
                     {
@@ -841,9 +843,8 @@ namespace seeder
 
                     context.CoursEtudiants.Add(coursEtudiant);
                 }
-
-
             }
+
             context.SaveChanges();
         }
 
@@ -872,8 +873,6 @@ namespace seeder
 
                         context.FacturesEtudiants.Add(factureEtudiant);
 
-
-
                         List<CommandeEtudiant> commandesEtudiants;
 
                         commandesEtudiants = new();
@@ -901,6 +900,7 @@ namespace seeder
                 }
 
             }
+
             context.SaveChanges();
         }
 
@@ -935,16 +935,16 @@ namespace seeder
             {
                 FactureEtudiantId = 0,
                 TypePaiement = context
-                    .TypesPaiement
-		    .Skip(Faker.RandomNumber.Next(0, context.TypesPaiement.Count() - 1))
-                    .Take(1)
-                    .First(),
+				.TypesPaiement
+				    .Skip(Faker.RandomNumber.Next(0, context.TypesPaiement.Count() - 1))
+				    .Take(1)
+				    .First(),
                 Etudiant = etudiant,
                 // TODO: ne pas enregistrer l'id de l'objet, mais l'adresse au complete en texte.
                 AdresseLivraison = "adresse place holder",
                 DateFacturation = DateTime
-                        .Now
-                        .AddDays(Faker.RandomNumber.Next(-355, 0)),
+				    .Now
+				    .AddDays(Faker.RandomNumber.Next(-355, 0)),
                 Tps = 0.05M,
                 Tvq = 0.09975M
             };
@@ -965,12 +965,11 @@ namespace seeder
             {
                 FactureEtudiant = factureEtudiant,
                 PrixEtatLivre = context
-                        .PrixEtatsLivres
-                        .Skip(Faker.RandomNumber.Next(0, context.PrixEtatsLivres.Count() - 1))
-                        .Take(1)
-                        .First(),
+				    .PrixEtatsLivres
+					.Skip(Faker.RandomNumber.Next(0, context.PrixEtatsLivres.Count() - 1))
+					.Take(1)
+					.First(),
                 Quantite = Faker.RandomNumber.Next(1, 2)
-
             };
 
             return commandeEtudiant;
@@ -1008,6 +1007,7 @@ namespace seeder
                     }
                 }
             }
+
             context.SaveChanges();
         }
 
@@ -1070,11 +1070,10 @@ namespace seeder
 
                         evaluation = creerEvaluation(context, coursLivre, etudiant);
 
+			// TODO: valider si c'est sauvegardé
                         context.Evaluations.Add(evaluation);
 
-                        
-
-                        // TODO: valider l'utilité d'une table de liaison. Pourquoi ne pas uniquement ajouter l'étudiant à l'évaluation?
+                        // TODO: valider l'utilité d'une table de liaison. Pourquoi ne pas uniquement ajouter l'étudiant à l'évaluation?on?
                         evaluationLivre = new()
                         {
                             Evaluation = evaluation,
@@ -1084,7 +1083,6 @@ namespace seeder
                         context.EvaluationsLivres.Add(evaluationLivre);
 
                     }
-                    
                 }
             }
 
@@ -1108,11 +1106,11 @@ namespace seeder
                 EvaluationId = 0,
                 Etoiles = Faker.RandomNumber.Next(0, 10),
                 Date = Faker
-                .Identification
-                .DateOfBirth()
-                    .AddDays(Faker
-                        .RandomNumber
-                        .Next(joursDepuisPublicationLivre(coursLivre.LivreBibliotheque), 0)),
+			.Identification
+			.DateOfBirth()
+			    .AddDays(Faker
+				.RandomNumber
+				.Next(joursDepuisPublicationLivre(coursLivre.LivreBibliotheque), 0)),
                 Commentaire = Faker.Lorem.Paragraph(),
                 Etudiant = etudiant
             };
