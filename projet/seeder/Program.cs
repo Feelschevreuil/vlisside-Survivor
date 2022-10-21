@@ -35,7 +35,7 @@ namespace seeder
                 .RemoveRange(_context.CommandesEtudiants);
 
             _context.FacturesEtudiants
-            .RemoveRange(_context.FacturesEtudiants);
+		.RemoveRange(_context.FacturesEtudiants);
 
             _context.Commanditaires
                 .RemoveRange(_context.Commanditaires);
@@ -79,74 +79,74 @@ namespace seeder
 
             _context.SaveChanges();
 
-            _context.Provinces.AddRange(getProvinces());
+            _context.Provinces.AddRange(GetProvinces());
 
             _context.SaveChanges();
 
-            _context.Adresses.AddRange(getAdresses());
+            _context.Adresses.AddRange(GetAdresses());
 
-            _context.Auteurs.AddRange(getAuteurs());
+            _context.Auteurs.AddRange(GetAuteurs());
 
-            _context.EtatsLivres.AddRange(getEtatsLivres());
+            _context.EtatsLivres.AddRange(GetEtatsLivres());
 
-            _context.ProgrammesEtudes.AddRange(getProgrammesEtudes());
+            _context.ProgrammesEtudes.AddRange(GetProgrammesEtudes());
 
             _context.SaveChanges();
 
-            _context.Cours.AddRange(getListeCours());
+            _context.Cours.AddRange(GetListeCours());
 
             // Save changes ici, puisqu'un problème de mémoire
             // arrivait si on enregistrait tout à la fin.
             _context.SaveChanges();
 
-            _context.MaisonsEditions.AddRange(getMaisonsEdition());
+            _context.MaisonsEditions.AddRange(GetMaisonsEdition());
 
             _context.SaveChanges();
 
-            _context.LivresBibliotheque.AddRange(getLivresBibliotheques());
+            _context.LivresBibliotheque.AddRange(GetLivresBibliotheque());
 
             _context.SaveChanges();
 
-            setPrixEtatsLivres();
+            SetPrixEtatsLivres();
 
-            setCoursLivres();
+            SetCoursLivres();
 
-            setAuteursParLivres();
+            SetAuteursParLivre();
 
-            _context.Professeurs.AddRange(getProfesseurs());
-
-            _context.SaveChanges();
-
-            setCoursParProfesseur();
-
-            _context.TypesPaiement.AddRange(getTypesPaiement());
-
-            _context.Commanditaires.AddRange(getCommanditaires());
+            _context.Professeurs.AddRange(GetProfesseurs());
 
             _context.SaveChanges();
 
-            _context.Evenements.AddRange(getEvenementsCommanditaires());
+            SetCoursParProfesseur();
+
+            _context.TypesPaiement.AddRange(GetTypesPaiement());
+
+            _context.Commanditaires.AddRange(GetCommanditaires());
 
             _context.SaveChanges();
 
-            _context.Etudiants.AddRange(getEtudiants());
+            _context.Evenements.AddRange(GetEvenementsCommanditaires());
 
             _context.SaveChanges();
 
-            setCoursParEtudiants();
+            _context.Etudiants.AddRange(GetEtudiants());
 
-            setFacturesEtudiants();
+            _context.SaveChanges();
 
-            setLivresEtudiants();
+            SetCoursParEtudiants();
 
-            setEvaluations();
+            SetFacturesEtudiants();
+
+            SetLivresEtudiants();
+
+            SetEvaluations();
         }
 
         /// <summary>
         /// Crée une liste de provinces.
         /// </summary>
         /// <returns>Les provinces en liste.</returns>
-        private static ICollection<Province> getProvinces()
+        private static ICollection<Province> GetProvinces()
         {
 
             return Builder<Province>
@@ -161,7 +161,7 @@ namespace seeder
         /// Crée une liste d'Adresses.
         /// </summary>
         /// <returns>Les adresses en liste.</returns>
-        private static ICollection<Adresse> getAdresses()
+        private static ICollection<Adresse> GetAdresses()
         {
 
             return Builder<Adresse>
@@ -181,16 +181,16 @@ namespace seeder
         /// Crée une liste d'Auteurs.
         /// </summary>
         /// <returns>Les auteurs liste.</returns>
-        private static ICollection<Auteur> getAuteurs()
+        private static ICollection<Auteur> GetAuteurs()
         {
 
             return Builder<Auteur>
-            .CreateListOfSize(25)
-            .All()
-            .With(auteur => auteur.AuteurId = 0)
-            .With(auteur => auteur.Nom = Faker.Name.Last())
-            .With(auteur => auteur.Prenom = Faker.Name.First())
-            .Build();
+		.CreateListOfSize(25)
+		.All()
+		.With(auteur => auteur.AuteurId = 0)
+		.With(auteur => auteur.Nom = Faker.Name.Last())
+		.With(auteur => auteur.Prenom = Faker.Name.First())
+		.Build();
         }
 
         // TODO: mettre dans le db_context.
@@ -198,20 +198,21 @@ namespace seeder
         /// Crée une liste des États des livres.
         /// </summary>
         /// <returns>Les États des livres en liste.</returns>
-        private static List<EtatLivre> getEtatsLivres()
+        private static List<EtatLivre> GetEtatsLivres()
         {
 
             return new List<EtatLivre> {
+
                 new EtatLivre() {
-            EtatLivreId = 0,
+		    EtatLivreId = 0,
                     Nom = "Neuf"
                 },
                 new EtatLivre() {
-            EtatLivreId = 0,
+		    EtatLivreId = 0,
                     Nom = "Usagé"
                 },
                 new EtatLivre() {
-            EtatLivreId = 0,
+		    EtatLivreId = 0,
                     Nom = "Digital"
                 }
             };
@@ -222,32 +223,33 @@ namespace seeder
         /// Crée une liste des programmes d'études.
         /// </summary>
         /// <returns>Les programmes d'études en liste.</returns>
-        private static List<ProgrammeEtude> getProgrammesEtudes()
+        private static List<ProgrammeEtude> GetProgrammesEtudes()
         {
 
             return new List<ProgrammeEtude> {
+
                 new ProgrammeEtude() {
-            ProgrammeEtudeId = 0,
+		    ProgrammeEtudeId = 0,
                     Nom = "Techniques de tourisme",
                     Code = "414"
                 },
                 new ProgrammeEtude() {
-            ProgrammeEtudeId = 0,
+		    ProgrammeEtudeId = 0,
                     Nom = "Sciences de la Nature",
                     Code = "201"
                 },
                 new ProgrammeEtude() {
-            ProgrammeEtudeId = 0,
+		    ProgrammeEtudeId = 0,
                     Nom = "Techniques d'éducatoin spécialisée",
                     Code = "351"
                 },
                 new ProgrammeEtude() {
-            ProgrammeEtudeId = 0,
+		    ProgrammeEtudeId = 0,
                     Nom = "Techniques de génie mécanique",
                     Code = "241"
                 },
                 new ProgrammeEtude() {
-            ProgrammeEtudeId = 0,
+		    ProgrammeEtudeId = 0,
                     Nom = "Formation générale",
                     Code = "x"
                 }
@@ -259,7 +261,7 @@ namespace seeder
         /// Crée une liste des livres des cours.
         /// </summary>
         /// <returns>Les cours liste.</returns>
-        private static List<Cours> getListeCours()
+        private static List<Cours> GetListeCours()
         {
 
 	    ProgrammeEtude techniquesTourisme;
@@ -289,157 +291,158 @@ namespace seeder
             );
 
             return new List<Cours> {
+
                 new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-			    Nom = "Exploration des carrières en tourisme",
-			    Description = "N/A",
-			    Code = "414313CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-			    Nom = "Introduction au programme de Tourisme",
-			    Description = "N/A",
-			    Code = "414133CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-			    Nom = "Accueil et service à la clientèle",
-			    Description = "N/A",
-			    Code = "414154CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-			    Nom = "Destinations touristiques : les Amériques",
-			    Description = "N/A",
-			    Code = "414234CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
-			    Nom = "Communication et supervision",
-			    Description = "N/A",
-			    Code = "414323CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
-			    Nom = "Écriture et littérature",
-			    Description = "N/A",
-			    Code = "601101MQ",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
-			    Nom = "Littérature et imaginaire",
-			    Description = "N/A",
-			    Code = "601102MQ",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
-			    Nom = "Calcul intégral",
-			    Description = "N/A",
-			    Code = "201NYB05",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
-			    Nom = "Chimie des solutions",
-			    Description = "N/A",
-			    Code = "202NYB05",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
-			    Nom = "Électricité et magnétisme",
-			    Description = "N/A",
-			    Code = "203NYB05",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
-			    Nom = "Astrophysique",
-			    Description = "N/A",
-			    Code = "203314CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
-			    Nom = "Psychologie de l’enfance",
-			    Description = "N/A",
-			    Code = "350114CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
-			    Nom = "Introduction aux problématiques d’adaptation",
-			    Description = "N/A",
-			    Code = "351124CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-			    Nom = "Mathématiques du génie mécanique",
-			    Description = "N/A",
-			    Code = "201224CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-			    Nom = "Mathématiques appliquées",
-			    Description = "N/A",
-			    Code = "201115CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-			    Nom = "Statique et cinématique",
-			    Description = "N/A",
-			    Code = "203214CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-			    Nom = "Techniques d’usinage 1",
-			    Description = "N/A",
-			    Code = "241216CA",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-			    Nom = "Techniques d’usinage 1",
-			    Description = "N/A",
-			    Code = "241316",
-			    AnneeParcours = 1
-			},
-			new Cours() {
-			    CoursId = 0,
-			    ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
-			    Nom = "Dessin industriel assisté par ordinateur",
-			    Description = "N/A",
-			    Code = "241225CA",
-			    AnneeParcours = 1
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			Nom = "Exploration des carrières en tourisme",
+			Description = "N/A",
+			Code = "414313CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			Nom = "Introduction au programme de Tourisme",
+			Description = "N/A",
+			Code = "414133CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			Nom = "Accueil et service à la clientèle",
+			Description = "N/A",
+			Code = "414154CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			Nom = "Destinations touristiques : les Amériques",
+			Description = "N/A",
+			Code = "414234CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesTourisme.ProgrammeEtudeId,
+			Nom = "Communication et supervision",
+			Description = "N/A",
+			Code = "414323CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
+			Nom = "Écriture et littérature",
+			Description = "N/A",
+			Code = "601101MQ",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
+			Nom = "Littérature et imaginaire",
+			Description = "N/A",
+			Code = "601102MQ",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
+			Nom = "Calcul intégral",
+			Description = "N/A",
+			Code = "201NYB05",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
+			Nom = "Chimie des solutions",
+			Description = "N/A",
+			Code = "202NYB05",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = sciencesNature.ProgrammeEtudeId,
+			Nom = "Électricité et magnétisme",
+			Description = "N/A",
+			Code = "203NYB05",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = formationGenerale.ProgrammeEtudeId,
+			Nom = "Astrophysique",
+			Description = "N/A",
+			Code = "203314CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
+			Nom = "Psychologie de l’enfance",
+			Description = "N/A",
+			Code = "350114CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesEducationSpecialisee.ProgrammeEtudeId,
+			Nom = "Introduction aux problématiques d’adaptation",
+			Description = "N/A",
+			Code = "351124CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			Nom = "Mathématiques du génie mécanique",
+			Description = "N/A",
+			Code = "201224CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			Nom = "Mathématiques appliquées",
+			Description = "N/A",
+			Code = "201115CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			Nom = "Statique et cinématique",
+			Description = "N/A",
+			Code = "203214CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			Nom = "Techniques d’usinage 1",
+			Description = "N/A",
+			Code = "241216CA",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			Nom = "Techniques d’usinage 1",
+			Description = "N/A",
+			Code = "241316",
+			AnneeParcours = 1
+		    },
+		    new Cours() {
+			CoursId = 0,
+			ProgrammeEtudeId = techniquesGenieMecanique.ProgrammeEtudeId,
+			Nom = "Dessin industriel assisté par ordinateur",
+			Description = "N/A",
+			Code = "241225CA",
+			AnneeParcours = 1
 		    }
 		};
         }
@@ -448,7 +451,7 @@ namespace seeder
         /// Crée une liste des livres des maisons d'éditoin.
         /// </summary>
         /// <returns>Les maisons d'éditoin en liste.</returns>
-        private static ICollection<MaisonEdition> getMaisonsEdition()
+        private static ICollection<MaisonEdition> GetMaisonsEdition()
         {
 
             return Builder<MaisonEdition>
@@ -463,7 +466,7 @@ namespace seeder
         /// Crée une liste des livres de la bibliothèque.
         /// </summary>
         /// <returns>Les livres de la bibliothèque en liste.</returns>
-        private static ICollection<LivreBibliotheque> getLivresBibliotheques()
+        private static ICollection<LivreBibliotheque> GetLivresBibliotheque()
         {
 
             return Builder<LivreBibliotheque>
@@ -477,13 +480,12 @@ namespace seeder
 		.With(livre => livre.DatePublication = Faker.Identification.DateOfBirth())
 		.With(livre => livre.MaisonEditionId = _context.MaisonsEditions.First().MaisonEditionId)
 		.Build();
-
         }
 
         /// <summary>
         /// Assigne un état et un prix à chaque livre de la bibliothèque.
         /// </summary>
-        private static void setPrixEtatsLivres()
+        private static void SetPrixEtatsLivres()
         {
 
             EtatLivre etatUsage;
@@ -548,7 +550,7 @@ namespace seeder
         /// <summary>
         /// Assigne des livres nécessaires à un cours.
         /// </summary>
-        private static void setCoursLivres()
+        private static void SetCoursLivres()
         {
 
 	    int nbLivresBibliotheque;
@@ -586,7 +588,6 @@ namespace seeder
                 }
 
                 _context.CoursLivres.AddRange(listeCoursLivre);
-
             }
 
             _context.SaveChanges();
@@ -595,7 +596,7 @@ namespace seeder
         /// <summary>
         /// Assigne les auteurs à des livres.
         /// </summary>
-        private static void setAuteursParLivres()
+        private static void SetAuteursParLivre()
         {
 
 	    int nbAuteurs;
@@ -605,13 +606,16 @@ namespace seeder
             foreach (LivreBibliotheque livreBibliotheque in _context.LivresBibliotheque.ToList())
             {
 
-                var auteurs = _context
+		IEnumerable<Auteur> auteurs;
+
+                auteurs = _context
                     .Auteurs
                     .Skip(Faker.RandomNumber.Next(0, nbAuteurs - 4))
                     .Take(Faker.RandomNumber.Next(1, 3));
 
                 foreach (Auteur auteur in auteurs)
                 {
+
 		    AuteurLivre auteurLivre;
 
                     auteurLivre = new()
@@ -631,7 +635,7 @@ namespace seeder
         /// Crée une liste de professeurs.
         /// </summary>
         /// <returns>Les professeurs liste.</returns>
-        private static ICollection<Professeur> getProfesseurs()
+        private static ICollection<Professeur> GetProfesseurs()
         {
 
             return Builder<Professeur>
@@ -646,7 +650,7 @@ namespace seeder
         /// <summary>
         /// Assigne les professeurs par cours.
         /// </summary>
-        private static void setCoursParProfesseur()
+        private static void SetCoursParProfesseur()
         {
 
 	    int nbCours;
@@ -677,12 +681,11 @@ namespace seeder
 
                     _context.CoursProfesseurs.Add(coursProfesseur);
                 }
-
             }
 
             _context.SaveChanges();
 
-            assignerCoursSansProfesseurs();
+            AssignerCoursSansProfesseurs();
         }
 
         /// <summary>
@@ -690,7 +693,7 @@ namespace seeder
         /// qu'un cours reste sans professeurs après l'assignation des professeurs à
         /// un cours.
         /// </summary>
-        private static void assignerCoursSansProfesseurs()
+        private static void AssignerCoursSansProfesseurs()
         {
 
             foreach (Cours cours in _context.Cours.ToList())
@@ -734,7 +737,7 @@ namespace seeder
         /// Crée une liste des types de paiement.
         /// </summary>
         /// <returns>Les types de paiement liste.</returns>
-        private static ICollection<TypePaiement> getTypesPaiement()
+        private static ICollection<TypePaiement> GetTypesPaiement()
         {
 
             return new List<TypePaiement>
@@ -757,7 +760,7 @@ namespace seeder
         /// Crée une liste des commanditaires.
         /// </summary>
         /// <returns>Les commanditaires en liste.</returns>
-        private static ICollection<Commanditaire> getCommanditaires()
+        private static ICollection<Commanditaire> GetCommanditaires()
         {
 
             return Builder<Commanditaire>
@@ -776,7 +779,7 @@ namespace seeder
         /// commanditaire.
         /// </summary>
         /// <returns>Les événements en liste.</returns>
-        private static ICollection<Evenement> getEvenementsCommanditaires()
+        private static ICollection<Evenement> GetEvenementsCommanditaires()
         {
 
 	    List<Evenement> evenements;
@@ -809,12 +812,12 @@ namespace seeder
         /// crée une liste d'étudiants.
         /// </summary>
         /// <returns>les étudiants en liste.</returns>
-        private static ICollection<Etudiant> getEtudiants()
+        private static ICollection<Etudiant> GetEtudiants()
         {
 
 	    Adresse adresse;
 
-	    adresse = getAdresseAleatoire();
+	    adresse = GetAdresseAleatoire();
 
 	    _context.Adresses.Add(adresse);
 	    _context.SaveChanges();
@@ -838,8 +841,9 @@ namespace seeder
         /// <summary>
         /// Crée une adresse aléatoirement.
         /// </summary>
-        private static Adresse getAdresseAleatoire()
+        private static Adresse GetAdresseAleatoire()
         {
+
 	    return new Adresse()
             {
 		AdresseId = 0,
@@ -859,7 +863,7 @@ namespace seeder
         /// <summary>
         /// Assigne les cours aux étudiants.
         /// </summary>
-        private static void setCoursParEtudiants()
+        private static void SetCoursParEtudiants()
         {
 
 	    int nbCours;
@@ -869,12 +873,14 @@ namespace seeder
             foreach (Etudiant etudiant in _context.Etudiants.ToList())
             {
 
-                var listeCoursEtudiant = _context
+		IEnumerable<Cours> listeCours;
+                
+		listeCours= _context
                     .Cours
                     .Skip(Faker.RandomNumber.Next(0, nbCours - 9))
                     .Take(Faker.RandomNumber.Next(3, 8));
 
-                foreach (Cours cours in listeCoursEtudiant)
+                foreach (Cours cours in listeCours)
                 {
 
 		    CoursEtudiant coursEtudiant;
@@ -895,7 +901,7 @@ namespace seeder
         /// <summary>
         /// Génère des factures aux étudiants.
         /// </summary>
-        private static void setFacturesEtudiants()
+        private static void SetFacturesEtudiants()
         {
 
             foreach (Etudiant etudiant in _context.Etudiants.ToList())
@@ -914,7 +920,7 @@ namespace seeder
                         FactureEtudiant factureEtudiant;
                         List<CommandeEtudiant> commandesEtudiants;
 
-                        factureEtudiant = creerFactureEtudiant(etudiant);
+                        factureEtudiant = CreerFactureEtudiant(etudiant);
 
                         _context.FacturesEtudiants.Add(factureEtudiant);
 
@@ -925,9 +931,9 @@ namespace seeder
 
                             CommandeEtudiant commandeEtudiant;
 
-                            commandeEtudiant = creerCommandeEtudiant(factureEtudiant);
+                            commandeEtudiant = CreerCommandeEtudiant(factureEtudiant);
 
-                            if (!livreDejaDansCommande(commandesEtudiants, commandeEtudiant))
+                            if (!LivreEstDejaDansCommande(commandesEtudiants, commandeEtudiant))
                             {
                                 commandesEtudiants.Add(commandeEtudiant);
                             }
@@ -935,13 +941,11 @@ namespace seeder
                             {
                                 commandes--;
                             }
-
                         }
 
                         _context.CommandesEtudiants.AddRange(commandesEtudiants);
                     }
                 }
-
             }
 
             _context.SaveChanges();
@@ -951,7 +955,7 @@ namespace seeder
         /// Regarde si une commande de livre existe déjà.
         /// </summary>
         /// <returns>true si le livre est déjà présent.</returns>
-        private static bool livreDejaDansCommande(ICollection<CommandeEtudiant> commandesEtudiants, CommandeEtudiant commandeEtudiant)
+        private static bool LivreEstDejaDansCommande(ICollection<CommandeEtudiant> commandesEtudiants, CommandeEtudiant commandeEtudiant)
         {
             bool livrePresent;
 
@@ -969,7 +973,7 @@ namespace seeder
         /// Crée une facture pour un étudiant.
         /// </summary>
         /// <returns>la facture de l'étudiant en Facture.</returns>
-        private static FactureEtudiant creerFactureEtudiant(Etudiant etudiant)
+        private static FactureEtudiant CreerFactureEtudiant(Etudiant etudiant)
         {
 
             FactureEtudiant factureEtudiant;
@@ -999,7 +1003,7 @@ namespace seeder
         /// Crée une commande pour une facture.
         /// </summary>
         /// <returns>la commande de la facture en Commande.</returns>
-        private static CommandeEtudiant creerCommandeEtudiant(FactureEtudiant factureEtudiant)
+        private static CommandeEtudiant CreerCommandeEtudiant(FactureEtudiant factureEtudiant)
         {
 
             CommandeEtudiant commandeEtudiant;
@@ -1022,7 +1026,7 @@ namespace seeder
         /// <summary>
         /// Génère la liste des livres des étudiants.
         /// </summary>
-        private static void setLivresEtudiants()
+        private static void SetLivresEtudiants()
         {
 
             foreach (Etudiant etudiant in _context.Etudiants)
@@ -1086,10 +1090,12 @@ namespace seeder
         /// <summary>
         /// Génère les évaluations des livres complémentaires.
         /// </summary>
-        private static void setEvaluations()
+        private static void SetEvaluations()
         {
 
-            var livresComplementaires = _context.CoursLivres.Where(coursLivre => coursLivre.Complementaire);
+	    IEnumerable<CoursLivre> livresComplementaires;
+
+            livresComplementaires = _context.CoursLivres.Where(coursLivre => coursLivre.Complementaire);
 
             foreach (CoursLivre coursLivre in livresComplementaires.ToList())
             {
@@ -1111,7 +1117,7 @@ namespace seeder
                         Evaluation evaluation;
                         EvaluationLivre evaluationLivre;
 
-                        evaluation = creerEvaluation(coursLivre, etudiant);
+                        evaluation = CreerEvaluation(coursLivre, etudiant);
 
 			// TODO: valider si c'est sauvegardé
                         _context.Evaluations.Add(evaluation);
@@ -1139,7 +1145,7 @@ namespace seeder
         /// <paramref name="etudiant">L'étudiant qui évalue le livre.</param>
         /// </summary>
         /// <returns>le livre de l'étudiant.</returns>
-        private static Evaluation creerEvaluation(CoursLivre coursLivre, Etudiant etudiant)
+        private static Evaluation CreerEvaluation(CoursLivre coursLivre, Etudiant etudiant)
         {
 
             Evaluation evaluation;
@@ -1153,7 +1159,7 @@ namespace seeder
 			.DateOfBirth()
 			    .AddDays(Faker
 				.RandomNumber
-				.Next(joursDepuisPublicationLivre(coursLivre.LivreBibliotheque), 0)),
+				.Next(JoursDepuisPublicationLivre(coursLivre.LivreBibliotheque), 0)),
                 Commentaire = Faker.Lorem.Paragraph(),
                 Etudiant = etudiant
             };
@@ -1161,12 +1167,13 @@ namespace seeder
             return evaluation;
         }
 
+	// TODO: sortir et créer une extention d'Ilivre!
         /// <summary>
         /// Calcure les jours depius la publication d'un livre.
         /// <param name="livre">Le livre ayant la date de publication.</param>
         /// </summary
         /// <returns>Le nombre de jours depuis la publication d'un livre en int.</returns>
-        private static int joursDepuisPublicationLivre(ILivre livre)
+        private static int JoursDepuisPublicationLivre(ILivre livre)
         {
 
             int diffrenceJours;
