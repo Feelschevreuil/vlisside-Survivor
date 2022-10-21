@@ -31,12 +31,12 @@
     <div class="position-relative text-center">
         <img class="mx-auto image-livre" src=~/img/@Model.livreBibliotheque.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle shadow">
-            <p class="pt-3">100.99$</p>
+           @* <p id="PrixLivreId-@Model.livreBibliotheque.LivreId" class="pt-3">@Model.prixEtatLivreList.Prix$</p>*@
         </div>
     </div>
 
     <div class="pt-2 w-50">
-        <select class="form-select form-select-sm" aria-label="État d'un livre">
+        <select class="form-select form-select-sm" onchange="ChangerPrix(this.value, @Model.livreBibliotheque.LivreId)" aria-label=" État d'un livre">
             <option selected value="Neuf">Neuf</option>
             <option value="Usagé">Usagé</option>
             <option value="Numérique">Numérique</option>

@@ -10,6 +10,8 @@ using System.Collections;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using System.Xml.Linq;
+using Exercice_Ajax.DTO;
+using Newtonsoft.Json;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -62,6 +64,21 @@ namespace vlissides_bibliotheque.Controllers
             };
 
             return listTuileLivreBibliotequeVMs;
+        }
+
+        public string ChangerPrix([FromBody] PrixAfficher prixAfficher)
+        {
+            LivreBibliotheque livre = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == prixAfficher.Id);
+            List<PrixEtatLivre> etat = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livre.LivreId);
+
+
+            PrixEtatLivre etatLivreRechercher = etat.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == prixAfficher.Etat).EtatLivreId);
+
+            double prix = etatLivreRechercher.Prix;
+            PrixJson prixJson = new PrixJson() { Id = prixAfficher.Id, prix = prix };
+            string json = JsonConvert.SerializeObject(prixJson);
+
+            return json;
         }
     }
 }
