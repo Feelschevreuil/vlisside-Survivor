@@ -36,5 +36,7 @@ namespace vlissides_bibliotheque.Models
 
         public string Auteur { get; set; }
 
+        public double Prix { get; set; }
+
     }
 }
