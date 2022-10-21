@@ -2,7 +2,7 @@
 {
     public class PrixJson
     {
-        public double prix { get; set; }
+        public string prix { get; set; }
         public int Id { get; set; }
 
     }
