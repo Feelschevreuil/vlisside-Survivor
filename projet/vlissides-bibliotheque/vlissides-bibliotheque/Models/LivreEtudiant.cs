@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -18,9 +19,22 @@ namespace vlissides_bibliotheque.Models
         public string Titre { get; set; }
 
         [Required]
+        [Isbn]
+        public string Isbn { get; set; }
+
+
+        [Required]
         [StringLength(512)]
-        public string Description { get; set; }
+        public string Resume { get; set; }
 
         public string PhotoCouverture { get; set; }
+
+        [Required]
+        public DateTime DatePublication { get; set; }
+
+        public string MaisonEdition { get; set; }
+
+        public string Auteur { get; set; }
+
     }
 }

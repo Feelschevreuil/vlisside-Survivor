@@ -409,7 +409,8 @@ namespace vlissides_bibliotheque.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EtatLivreId = table.Column<int>(type: "int", nullable: false),
                     LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
-                    Prix = table.Column<double>(type: "float", nullable: false)
+                    Prix = table.Column<double>(type: "float", nullable: false),
+                    NombreUsager = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -508,7 +509,7 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CoursEtudiant",
+                name: "CoursEtudiants",
                 columns: table => new
                 {
                     CoursId = table.Column<int>(type: "int", nullable: false),
@@ -516,15 +517,15 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoursEtudiant", x => new { x.CoursId, x.EtudiantId });
+                    table.PrimaryKey("PK_CoursEtudiants", x => new { x.CoursId, x.EtudiantId });
                     table.ForeignKey(
-                        name: "FK_CoursEtudiant_Cours_CoursId",
+                        name: "FK_CoursEtudiants_Cours_CoursId",
                         column: x => x.CoursId,
                         principalTable: "Cours",
                         principalColumn: "CoursId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoursEtudiant_Etudiants_EtudiantId",
+                        name: "FK_CoursEtudiants_Etudiants_EtudiantId",
                         column: x => x.EtudiantId,
                         principalTable: "Etudiants",
                         principalColumn: "Id",
@@ -555,7 +556,7 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FactureEtudiant",
+                name: "FacturesEtudiants",
                 columns: table => new
                 {
                     FactureEtudiantId = table.Column<int>(type: "int", nullable: false)
@@ -563,27 +564,22 @@ namespace vlissides_bibliotheque.Migrations
                     TypePaiementId = table.Column<int>(type: "int", nullable: false),
                     EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AdresseLivraisonId = table.Column<int>(type: "int", nullable: false),
+                    AdresseLivraison = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateFacturation = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Tps = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Tvq = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FactureEtudiant", x => x.FactureEtudiantId);
+                    table.PrimaryKey("PK_FacturesEtudiants", x => x.FactureEtudiantId);
                     table.ForeignKey(
-                        name: "FK_FactureEtudiant_Adresses_AdresseLivraisonId",
-                        column: x => x.AdresseLivraisonId,
-                        principalTable: "Adresses",
-                        principalColumn: "AdresseId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FactureEtudiant_Etudiants_EtudiantId",
+                        name: "FK_FacturesEtudiants_Etudiants_EtudiantId",
                         column: x => x.EtudiantId,
                         principalTable: "Etudiants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FactureEtudiant_TypesPaiement_TypePaiementId",
+                        name: "FK_FacturesEtudiants_TypesPaiement_TypePaiementId",
                         column: x => x.TypePaiementId,
                         principalTable: "TypesPaiement",
                         principalColumn: "TypePaiementId",
@@ -598,8 +594,12 @@ namespace vlissides_bibliotheque.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EtudiantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Titre = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Isbn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Resume = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MaisonEdition = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Auteur = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -641,23 +641,23 @@ namespace vlissides_bibliotheque.Migrations
                 columns: table => new
                 {
                     FactureEtudiantId = table.Column<int>(type: "int", nullable: false),
-                    LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
+                    PrixEtatLivreId = table.Column<int>(type: "int", nullable: false),
                     Quantite = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CommandesEtudiants", x => new { x.FactureEtudiantId, x.LivreBibliothequeId });
+                    table.PrimaryKey("PK_CommandesEtudiants", x => new { x.FactureEtudiantId, x.PrixEtatLivreId });
                     table.ForeignKey(
-                        name: "FK_CommandesEtudiants_FactureEtudiant_FactureEtudiantId",
+                        name: "FK_CommandesEtudiants_FacturesEtudiants_FactureEtudiantId",
                         column: x => x.FactureEtudiantId,
-                        principalTable: "FactureEtudiant",
+                        principalTable: "FacturesEtudiants",
                         principalColumn: "FactureEtudiantId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CommandesEtudiants_LivresBibliotheque_LivreBibliothequeId",
-                        column: x => x.LivreBibliothequeId,
-                        principalTable: "LivresBibliotheque",
-                        principalColumn: "LivreId",
+                        name: "FK_CommandesEtudiants_PrixEtatsLivres_PrixEtatLivreId",
+                        column: x => x.PrixEtatLivreId,
+                        principalTable: "PrixEtatsLivres",
+                        principalColumn: "PrixEtatLivreId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -674,7 +674,7 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEHSXlukD9Aon0oV0jPtIsmedeJu4I4M7Uk0pEwgbjczexcQAYRM82kfilSqvyXl92A==", null, false, "d58a8076-77b7-4aa0-acf0-44a5a4b3c8b0", false, "gordon.john@gunclub-alabama.us" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEFDdb6IzMQH2YofMyTKbY/yC0rmle+pbUWRvONClJ4o6FAH/g0IYRJRcpxu6+VYRGw==", null, false, "333a2acb-b57d-4bb8-bac6-4bf4c3bf54ff", false, "gordon.john@gunclub-alabama.us" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
@@ -746,9 +746,9 @@ namespace vlissides_bibliotheque.Migrations
                 column: "LivreBibliothequeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommandesEtudiants_LivreBibliothequeId",
+                name: "IX_CommandesEtudiants_PrixEtatLivreId",
                 table: "CommandesEtudiants",
-                column: "LivreBibliothequeId");
+                column: "PrixEtatLivreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cours_ProgrammeEtudeId",
@@ -756,8 +756,8 @@ namespace vlissides_bibliotheque.Migrations
                 column: "ProgrammeEtudeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoursEtudiant_EtudiantId",
-                table: "CoursEtudiant",
+                name: "IX_CoursEtudiants_EtudiantId",
+                table: "CoursEtudiants",
                 column: "EtudiantId");
 
             migrationBuilder.CreateIndex(
@@ -801,18 +801,13 @@ namespace vlissides_bibliotheque.Migrations
                 column: "CommanditaireId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FactureEtudiant_AdresseLivraisonId",
-                table: "FactureEtudiant",
-                column: "AdresseLivraisonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FactureEtudiant_EtudiantId",
-                table: "FactureEtudiant",
+                name: "IX_FacturesEtudiants_EtudiantId",
+                table: "FacturesEtudiants",
                 column: "EtudiantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FactureEtudiant_TypePaiementId",
-                table: "FactureEtudiant",
+                name: "IX_FacturesEtudiants_TypePaiementId",
+                table: "FacturesEtudiants",
                 column: "TypePaiementId");
 
             migrationBuilder.CreateIndex(
@@ -860,7 +855,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "CommandesEtudiants");
 
             migrationBuilder.DropTable(
-                name: "CoursEtudiant");
+                name: "CoursEtudiants");
 
             migrationBuilder.DropTable(
                 name: "CoursLivres");
@@ -878,16 +873,16 @@ namespace vlissides_bibliotheque.Migrations
                 name: "LivresEtudiants");
 
             migrationBuilder.DropTable(
-                name: "PrixEtatsLivres");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Auteurs");
 
             migrationBuilder.DropTable(
-                name: "FactureEtudiant");
+                name: "FacturesEtudiants");
+
+            migrationBuilder.DropTable(
+                name: "PrixEtatsLivres");
 
             migrationBuilder.DropTable(
                 name: "Cours");
@@ -902,13 +897,13 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Commanditaires");
 
             migrationBuilder.DropTable(
+                name: "TypesPaiement");
+
+            migrationBuilder.DropTable(
                 name: "EtatsLivres");
 
             migrationBuilder.DropTable(
                 name: "LivresBibliotheque");
-
-            migrationBuilder.DropTable(
-                name: "TypesPaiement");
 
             migrationBuilder.DropTable(
                 name: "Etudiants");
