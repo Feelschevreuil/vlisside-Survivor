@@ -12,8 +12,8 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221021122254_mergeDevelopInventaire")]
-    partial class mergeDevelopInventaire
+    [Migration("20221021151538_emailAdminChange")]
+    partial class emailAdminChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -864,16 +864,16 @@ namespace vlissides_bibliotheque.Migrations
                             Id = "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d67bb86f-d158-4f17-8142-49f7c65c082c",
-                            Email = "gordon.john@gunclub-alabama.us",
+                            Email = "admin@cegep-connaissance-aleatoire.qc.ca",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG+aFH2aV1c/q5186fdlKy4fTVSF0dl9JQltHmk+qZKRnut3gq76gTAxSQVFtjhXHw==",
+                            NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
+                            NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM/4djC/E2dfrWN2gw1yfWn8hUWmBFIeiuBm7z8QxUw7MrbRGJ6ZVKyegtv7M7deow==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "329c20bd-2daf-4932-8b1b-e17f6fe05da0",
+                            SecurityStamp = "15ad005f-1df6-40f3-b29e-0cdf15e5022f",
                             TwoFactorEnabled = false,
-                            UserName = "gordon.john@gunclub-alabama.us",
+                            UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",
                             Prenom = "Gordon"
                         });

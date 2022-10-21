@@ -1,64 +1,111 @@
-﻿@model EvaluationLivre
+﻿@model TuileLivreBibliotequeVM
 
 @{
-    int nbrEtoile = Model.Evaluation.Etoiles;
+    int nbrEtoile = 0;
+    //if (Model.livreEvaluation != null)
+    //{
+    //    foreach (EvaluationLivre evaluation in Model.livreEvaluation)
+    //    {
+    //       nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
+    //    }
+        
+    //}
 }
 
 
-<div class="card border-0 text-center" style="width:auto">
+<div class="card border-2" style="width:auto">
 
-    <img class="mx-auto" style="width:6rem; height:10rem" src=@Model.LivreBibliotheque.PhotoCouverture alt="PhotoLivre">
-    <div class="card border-0" style="width:auto">
-        <h5 class="card-title">@Model.LivreBibliotheque.Titre</h5>
-        <p class="card-text">ISBN</p>
-        <p class="card-text">Nom du cours</p>
-        <p class="card-text">Nom du professeur</p>
-        <p class="card-text">Année relier au programme</p>
+
+    <div>
+        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
+            <input class="btn btn-primary shadow" type="button" value="Modifier" />
+        </a>
+
+        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
+            <a>
+                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="submit" value="Supprimer" />
+            </a>
+        </form>
     </div>
 
-    <footer>
-        <div class="card-body">
-
-            <div id="rating" class="star-rating" role="img" data-rating="3">
-
-
-
-                @for (int etoile_vide = 0; etoile_vide < 5; etoile_vide++)
-                {
-                    @while (nbrEtoile > 0)
-                    {
-                        if (nbrEtoile >= 2)
-                        {
-                            nbrEtoile = nbrEtoile - 2;
-                            etoile_vide++;
-                            <span class="star" data-value="">
-                                <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-pleine.svg">
-                                <span class="star-notification"></span>
-                            </span>
-                        }
-
-                        if (nbrEtoile == 1)
-                        {
-                            nbrEtoile = nbrEtoile - 1;
-                            etoile_vide++;
-                            <span class="star" data-value="">
-                                <img style="width: 0.7rem; margin-top: -3px;" src="~/img/demi-etoile.svg">
-                                <span class="star-notification"></span>
-                            </span>
-
-                        }
-                    }
-
-                    if (etoile_vide != 5)
-                    {
-                        <span class="star" data-value="">
-                            <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-vide.svg">
-                            <span class="star-notification"></span>
-                        </span>
-                    }
-                }
-                <p class="d-inline-block">Prix: 1234$</p>
-            </div>
+    <div class="position-relative text-center">
+        <img class="mx-auto image-livre" src=~/img/@Model.livreBibliotheque.PhotoCouverture alt="PhotoLivre">
+        <div class="prix rounded-circle shadow">
+            <p class="pt-3">100.99$</p>
         </div>
-    </footer>
+    </div>
+
+    <div class="pt-2 w-50">
+        <select class="form-select form-select-sm" aria-label="État d'un livre">
+            <option selected value="Neuf">Neuf</option>
+            <option value="Usagé">Usagé</option>
+            <option value="Numérique">Numérique</option>
+        </select>
+    </div>
+
+
+    <div class="card border-0" style="width:auto">
+        <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
+        <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
+        @if(Model.coursLivre != null){
+
+        <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+        <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
+        }else{
+            <p class="card-text">Programme d'étude: N/A</p>
+            <p class="card-text">Année de parcours: N/A</p>
+        }
+        <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
+      
+    </div>
+
+    @if (Model.complementaire)
+    {
+        <footer>
+            <div class="card-body">
+
+                <div id="rating" class="star-rating" role="img" data-rating="3">
+
+
+
+                    @for (int etoile_vide = 0; etoile_vide < 5; etoile_vide++)
+                    {
+                        @while (nbrEtoile > 0)
+                        {
+                            if (nbrEtoile >= 2)
+                            {
+                                nbrEtoile = nbrEtoile - 2;
+                                etoile_vide++;
+                                <span class="star" data-value="">
+                                    <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-pleine.svg">
+                                    <span class="star-notification"></span>
+                                </span>
+                            }
+
+                            if (nbrEtoile == 1)
+                            {
+                                nbrEtoile = nbrEtoile - 1;
+                                etoile_vide++;
+                                <span class="star" data-value="">
+                                    <img style="width: 0.7rem; margin-top: -3px;" src="~/img/demi-etoile.svg">
+                                    <span class="star-notification"></span>
+                                </span>
+
+                            }
+                        }
+
+                        if (etoile_vide != 5)
+                        {
+                            <span class="star" data-value="">
+                                <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-vide.svg">
+                                <span class="star-notification"></span>
+                            </span>
+                        }
+                    }
+                </div>
+            </div>
+        </footer>
+    }
 </div>
+
+<link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />

@@ -1,0 +1,13 @@
+.prix {
+    background-color: yellow;
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    right: 25%;
+    bottom: 0;
+}
+
+.image-livre {
+    width: 6rem;
+    height: 10rem;
+}
