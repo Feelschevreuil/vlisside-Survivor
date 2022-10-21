@@ -57,7 +57,7 @@ namespace vlissides_bibliotheque.Controllers
             List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
             IEnumerable<LivreBibliotheque> listQuatreLivre = _context.LivresBibliotheque.Take(4);
 
-            foreach(LivreBibliotheque livre in listQuatreLivre)
+            foreach (LivreBibliotheque livre in listQuatreLivre)
             {
                 var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
                 listTuileLivreBibliotequeVMs.Add(livreConvertie);
@@ -74,7 +74,14 @@ namespace vlissides_bibliotheque.Controllers
 
             PrixEtatLivre etatLivreRechercher = etat.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == prixAfficher.Etat).EtatLivreId);
 
-            double prix = etatLivreRechercher.Prix;
+            string prix;
+            if (etatLivreRechercher != null)
+            { 
+                prix = etatLivreRechercher.Prix.ToString(); 
+            }else{ 
+                prix = "À venir"; 
+            };
+
             PrixJson prixJson = new PrixJson() { Id = prixAfficher.Id, prix = prix };
             string json = JsonConvert.SerializeObject(prixJson);
 

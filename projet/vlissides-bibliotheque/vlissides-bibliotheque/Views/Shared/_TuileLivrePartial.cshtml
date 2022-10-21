@@ -10,7 +10,10 @@
             nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
             nbrEvaluation++;
         }
-        nbrEtoile = nbrEtoile / nbrEvaluation;
+        if (nbrEvaluation != 0)
+        {
+            nbrEtoile = nbrEtoile / nbrEvaluation;
+        }
     }
 }
 
@@ -33,15 +36,15 @@
     <div class="position-relative text-center">
         <img class="mx-auto image-livre" src=~/img/@Model.livreBibliotheque.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle shadow">
-           @* <p id="PrixLivreId-@Model.livreBibliotheque.LivreId" class="pt-3">@Model.prixEtatLivreList.Prix$</p>*@
+            <p id="PrixLivreId-@Model.livreBibliotheque.LivreId" class="pt-3">@Model.prixEtatLivre.Prix$</p>
         </div>
     </div>
 
     <div class="pt-2 w-50">
         <select class="form-select form-select-sm" onchange="ChangerPrix(this.value, @Model.livreBibliotheque.LivreId)" aria-label=" État d'un livre">
-            <option selected value="Neuf">Neuf</option>
-            <option value="Usagé">Usagé</option>
-            <option value="Numérique">Numérique</option>
+            <option selected value="@NomEtatLivre.Neuf">@NomEtatLivre.Neuf</option>
+            <option value="@NomEtatLivre.Usagee">@NomEtatLivre.Usagee</option>
+            <option value="@NomEtatLivre.Numerique">@NomEtatLivre.Numerique</option>
         </select>
     </div>
 
@@ -111,3 +114,4 @@
 </div>
 
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
+ <script src="~/js/PrixAjax.js"></script>
