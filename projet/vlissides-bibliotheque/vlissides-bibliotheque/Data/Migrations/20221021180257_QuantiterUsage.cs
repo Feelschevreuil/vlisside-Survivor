@@ -4,26 +4,36 @@
 
 namespace vlissides_bibliotheque.Migrations
 {
-    public partial class mergeDevelopInventaire : Migration
+    public partial class QuantiterUsage : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "NombreUsage",
+                table: "PrixEtatsLivres",
+                newName: "QuantiterUsage");
+
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                 columns: new[] { "PasswordHash", "SecurityStamp" },
-                values: new object[] { "AQAAAAEAACcQAAAAEG+aFH2aV1c/q5186fdlKy4fTVSF0dl9JQltHmk+qZKRnut3gq76gTAxSQVFtjhXHw==", "329c20bd-2daf-4932-8b1b-e17f6fe05da0" });
+                values: new object[] { "AQAAAAEAACcQAAAAEKfPWIoI0aTMnitWufi4KvQYlkjMBniU/SX8yZVY3AvPP39yd8sfhwZanFpXjjRBUA==", "fb2fa0c8-fc15-4622-8aa6-e4b04be45882" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "QuantiterUsage",
+                table: "PrixEtatsLivres",
+                newName: "NombreUsage");
+
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                 columns: new[] { "PasswordHash", "SecurityStamp" },
-                values: new object[] { "AQAAAAEAACcQAAAAEFDdb6IzMQH2YofMyTKbY/yC0rmle+pbUWRvONClJ4o6FAH/g0IYRJRcpxu6+VYRGw==", "333a2acb-b57d-4bb8-bac6-4bf4c3bf54ff" });
+                values: new object[] { "AQAAAAEAACcQAAAAEF7Z74Z43gW2rX7iIxY1mu4Jf1POsPZkUx/dz7d91xVCl4eIHRK1sfGnOBBrGdv5jg==", "8f47fd20-3442-4865-987a-19b09810984e" });
         }
     }
 }
