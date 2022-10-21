@@ -18,7 +18,17 @@ namespace seeder
 
             _context = DbContextBibliotheque.CreateDbContext();
 
-            // Enlever les données
+	    EffacerDonnees();
+
+	    AjouterDonnees();
+        }
+
+        /// <summary>
+	/// Efface les données présentes dans la base de données
+        /// </summary>
+	private static void EffacerDonnees() 
+	{
+
             _context.Provinces
                 .RemoveRange(_context.Provinces);
 
@@ -74,8 +84,14 @@ namespace seeder
                 .RemoveRange(_context.TypesPaiement);
 
             _context.Professeurs
-            .RemoveRange(_context.Professeurs);
-            // FIN Enlever les données
+		.RemoveRange(_context.Professeurs);
+	}
+
+        /// <summary>
+	/// Ajouter les données aléatoires dans la base de données
+        /// </summary>
+	private static void AjouterDonnees()
+	{
 
             _context.SaveChanges();
 
@@ -95,8 +111,6 @@ namespace seeder
 
             _context.Cours.AddRange(GetListeCours());
 
-            // Save changes ici, puisqu'un problème de mémoire
-            // arrivait si on enregistrait tout à la fin.
             _context.SaveChanges();
 
             _context.MaisonsEditions.AddRange(GetMaisonsEdition());
@@ -140,7 +154,7 @@ namespace seeder
             SetLivresEtudiants();
 
             SetEvaluations();
-        }
+	}
 
         /// <summary>
         /// Crée une liste de provinces.
