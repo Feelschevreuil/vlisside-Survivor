@@ -44,17 +44,18 @@ namespace vlissides_bibliotheque.Controllers
 
         public IActionResult Bibliotheque()
         {
-            List<Evenement> evenements = new()
+            List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
+            foreach(LivreBibliotheque livre in _context.LivresBibliotheque)
             {
+                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
+                inventaireBibliotheque.Add(livreConvertie);
             };
 
-            List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
-            {
-            };
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
 
-            return View(recommendationPromotions);
+            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque};
+
+            return View(inventaireLivreBibliotheque);
 
         }
 

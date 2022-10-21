@@ -1,4 +1,4 @@
-﻿@model RecommendationPromotionsVM
+﻿@model InventaireLivreBibliotheque
 
 
 <h1>Inventaire de la bibliothèque</h1>
@@ -12,7 +12,7 @@
 <div class="container-fluid">
 
     <div class="row">
-        @foreach (var card in Model.tuileLivreBibliotequeVMs)
+        @foreach (var card in Model.tuileLivreBiblioteques)
         {
             <div class="col-12 col-sm-3 col-md-3">
                 <partial name="_TuileLivrePartial" model="card"></partial>
