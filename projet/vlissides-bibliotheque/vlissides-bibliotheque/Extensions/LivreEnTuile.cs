@@ -12,7 +12,7 @@ namespace vlissides_bibliotheque
         public static TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(this LivreBibliotheque livreBibliotheque, ApplicationDbContext _context)
         {
             IEnumerable<CoursLivre> bdCoursLivre = _context.CoursLivres;
-            IEnumerable<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres;
+            IEnumerable<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x=>x.Evaluation);
             TuileLivreBibliotequeVM tuileVM = new()
             {
                 livreBibliotheque = livreBibliotheque,
