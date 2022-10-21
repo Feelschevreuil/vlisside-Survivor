@@ -77,6 +77,8 @@ namespace seeder
             .RemoveRange(_context.Professeurs);
             // FIN Enlever les données
 
+            _context.SaveChanges();
+
             _context.Provinces.AddRange(getProvinces());
 
             _context.SaveChanges();
@@ -549,10 +551,16 @@ namespace seeder
         private static void setCoursLivres()
         {
 
-            foreach (Cours cours in _context.Cours)
+	    int nbLivresBibliotheque;
+
+	    nbLivresBibliotheque = _context.LivresBibliotheque.Count();
+
+	    foreach (Cours cours in _context.Cours.ToList())
             {
 
-                List<CoursLivre> listeCoursLivre = new();
+                List<CoursLivre> listeCoursLivre;
+
+		listeCoursLivre = new();
 
                 for (int i = 0; i < Faker.RandomNumber.Next(5, 12); i++)
                 {
@@ -562,7 +570,7 @@ namespace seeder
 
                     livreBibliotheque = _context
 			.LivresBibliotheque
-			.Skip(Faker.RandomNumber.Next(0, _context.LivresBibliotheque.Count()) - 1)
+			.Skip(Faker.RandomNumber.Next(0, nbLivresBibliotheque - 1))
 			.Take(1)
 			.First();
 
@@ -590,12 +598,16 @@ namespace seeder
         private static void setAuteursParLivres()
         {
 
-            foreach (LivreBibliotheque livreBibliotheque in _context.LivresBibliotheque)
+	    int nbAuteurs;
+
+	    nbAuteurs = _context.Auteurs.Count();
+
+            foreach (LivreBibliotheque livreBibliotheque in _context.LivresBibliotheque.ToList())
             {
 
                 var auteurs = _context
                     .Auteurs
-                    .Skip(Faker.RandomNumber.Next(0, _context.Auteurs.Count()) - 4)
+                    .Skip(Faker.RandomNumber.Next(0, nbAuteurs - 4))
                     .Take(Faker.RandomNumber.Next(1, 3));
 
                 foreach (Auteur auteur in auteurs)
@@ -637,13 +649,20 @@ namespace seeder
         private static void setCoursParProfesseur()
         {
 
-            foreach (Professeur professeur in _context.Professeurs)
+	    int nbCours;
+
+	    nbCours = _context.Cours.Count();
+
+            foreach (Professeur professeur in _context.Professeurs.ToList())
             {
 
-                var choixCours = _context
+                IEnumerable<Cours> choixCours; 
+
+		choixCours = _context
                     .Cours
-                    .Skip(Faker.RandomNumber.Next(0, _context.Cours.Count() - 4))
-                    .Take(Faker.RandomNumber.Next(1, 3));
+                    .Skip(Faker.RandomNumber.Next(0, nbCours - 4))
+                    .Take(Faker.RandomNumber.Next(1, 3))
+		    .ToList();
 
                 foreach (Cours cours in choixCours)
                 {
@@ -662,6 +681,7 @@ namespace seeder
             }
 
             _context.SaveChanges();
+
             assignerCoursSansProfesseurs();
         }
 
@@ -673,7 +693,7 @@ namespace seeder
         private static void assignerCoursSansProfesseurs()
         {
 
-            foreach (Cours cours in _context.Cours)
+            foreach (Cours cours in _context.Cours.ToList())
             {
 
                 int nombreProfesseurs;
@@ -824,7 +844,7 @@ namespace seeder
             {
 		AdresseId = 0,
 		App = Faker.RandomNumber.Next(1, 55),
-		CodePostal = Faker.Address.UkPostCode(),
+		CodePostal = "6X6X6X",
 		NumeroCivique = Faker.RandomNumber.Next(1, 666),
 		Province = _context
 			    .Provinces
@@ -842,12 +862,16 @@ namespace seeder
         private static void setCoursParEtudiants()
         {
 
-            foreach (Etudiant etudiant in _context.Etudiants)
+	    int nbCours;
+
+	    nbCours = _context.Cours.Count();
+
+            foreach (Etudiant etudiant in _context.Etudiants.ToList())
             {
 
                 var listeCoursEtudiant = _context
                     .Cours
-                    .Skip(Faker.RandomNumber.Next(0, _context.Cours.Count() - 9))
+                    .Skip(Faker.RandomNumber.Next(0, nbCours - 9))
                     .Take(Faker.RandomNumber.Next(3, 8));
 
                 foreach (Cours cours in listeCoursEtudiant)
@@ -874,7 +898,7 @@ namespace seeder
         private static void setFacturesEtudiants()
         {
 
-            foreach (Etudiant etudiant in _context.Etudiants)
+            foreach (Etudiant etudiant in _context.Etudiants.ToList())
             {
 
                 bool asDejaCommande;
@@ -1067,7 +1091,7 @@ namespace seeder
 
             var livresComplementaires = _context.CoursLivres.Where(coursLivre => coursLivre.Complementaire);
 
-            foreach (CoursLivre coursLivre in livresComplementaires)
+            foreach (CoursLivre coursLivre in livresComplementaires.ToList())
             {
 
                 bool ajouterEvaluations;
