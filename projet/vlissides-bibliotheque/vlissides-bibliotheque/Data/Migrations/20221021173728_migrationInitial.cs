@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vlissides_bibliotheque.Migrations
 {
-    public partial class initial : Migration
+    public partial class migrationInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -674,7 +674,7 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEFDdb6IzMQH2YofMyTKbY/yC0rmle+pbUWRvONClJ4o6FAH/g0IYRJRcpxu6+VYRGw==", null, false, "333a2acb-b57d-4bb8-bac6-4bf4c3bf54ff", false, "gordon.john@gunclub-alabama.us" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAELSvMKbtUlZLWgl0q/xoy6dq+XwYreD5V9uYx8vrRWqLtVPdsKAfY0yRbAWieiCBoQ==", null, false, "ce777a0f-d8c6-4035-bee5-c09660adf12f", false, "gordon.john@gunclub-alabama.us" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
