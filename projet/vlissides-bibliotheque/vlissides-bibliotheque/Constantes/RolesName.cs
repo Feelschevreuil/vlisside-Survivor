@@ -1,4 +1,4 @@
-﻿namespace vlissides_bibliotheque.Constantes.Roles
+﻿namespace vlissides_bibliotheque.Constantes
 {
     public class RolesName
     {
