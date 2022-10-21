@@ -3,7 +3,7 @@
     public class NomEtatLivre
     {
         public const string Neuf = "Neuf";
-        public const string Numerique = "Numérique";
+        public const string Numerique = "Digital";
         public const string Usagee = "Usagé";
     }
 }
