@@ -14,7 +14,7 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         public int MaisonEditionId { get; set; }
-        public MaisonsEdition MaisonsEdition { get; set; }
+        public MaisonEdition MaisonsEdition { get; set; }
 
         [Required]
         [Isbn]
