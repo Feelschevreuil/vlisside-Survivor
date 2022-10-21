@@ -1,4 +1,4 @@
-﻿namespace vlissides_bibliotheque.Constantes.RolesName
+﻿namespace vlissides_bibliotheque.Constantes
 {
     public class Emails
     {

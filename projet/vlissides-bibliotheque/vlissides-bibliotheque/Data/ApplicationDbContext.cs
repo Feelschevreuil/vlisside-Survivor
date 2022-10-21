@@ -3,15 +3,13 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Constantes;
-using vlissides_bibliotheque.Constantes.Roles;
-using vlissides_bibliotheque.Constantes.RolesName;
 
 namespace vlissides_bibliotheque.Data
 {
-	/// <summary>
-	/// Classe <c>ApplicationDbContext</c> définit la compostion de la base de données.
-	/// </summary>
-	public class ApplicationDbContext : IdentityDbContext
+    /// <summary>
+    /// Classe <c>ApplicationDbContext</c> définit la compostion de la base de données.
+    /// </summary>
+    public class ApplicationDbContext : IdentityDbContext
 	{
 		public DbSet<Adresse> Adresses { get; set; }
 		public DbSet<Auteur> Auteurs { get; set; }
