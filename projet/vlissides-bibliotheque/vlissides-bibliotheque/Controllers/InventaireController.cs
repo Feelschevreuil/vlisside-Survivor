@@ -25,17 +25,12 @@ namespace vlissides_bibliotheque.Controllers
 
         public IActionResult La_blun()
         {
-            List<Evenement> evenements = new()
-            {
-              
-            };
-
             List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
             {
                 
             };
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs};
 
             return View(recommendationPromotions);
 
