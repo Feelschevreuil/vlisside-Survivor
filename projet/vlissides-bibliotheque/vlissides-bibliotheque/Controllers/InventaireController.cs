@@ -388,5 +388,13 @@ namespace vlissides_bibliotheque.Controllers
 
             return ListPrixEtat;
         }
+        public List<TuileLivreEtudiantVM> GetInventaireLaBlun()
+        {
+            List<TuileLivreEtudiantVM> listTuileLivreBibliotequeVMs = new();
+            List<LivreEtudiant> listLivreEtudiant = _context.LivresEtudiants.ToList();
+
+            return listTuileLivreBibliotequeVMs;
+
+        }
     }
 }
