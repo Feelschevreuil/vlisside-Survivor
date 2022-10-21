@@ -1,0 +1,49 @@
+﻿@model LivreEtudiant
+
+@{
+
+}
+
+
+<div class="card border-2" style="width:auto">
+
+
+    <div>
+        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.LivreId">
+            <input class="btn btn-primary shadow" type="button" value="Modifier" />
+        </a>
+
+        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.LivreId">
+            <a>
+                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Titre')" type="submit" value="Supprimer" />
+            </a>
+        </form>
+    </div>
+
+    <div class="position-relative text-center">
+        <img class="mx-auto image-livre" src=~/img/@Model.PhotoCouverture alt="PhotoLivre">
+        <div class="prix rounded-circle shadow">
+            <p class="pt-3">100.99$</p>
+        </div>
+    </div>
+
+    <div class="pt-2 w-50">
+        <select class="form-select form-select-sm" aria-label="État d'un livre">
+            <option selected value="Neuf">Neuf</option>
+            <option value="Usagé">Usagé</option>
+            <option value="Numérique">Numérique</option>
+        </select>
+    </div>
+
+
+    <div class="card border-0" style="width:auto">
+        <h5 class="card-title ">Titre: @Model.Titre</h5>
+        <p class="card-text">ISBN: @Model.Isbn</p>
+        <p class="card-text">Année de publication: @Model.DatePublication.Year</p>
+
+    </div>
+
+
+</div>
+
+<link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
