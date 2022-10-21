@@ -13,12 +13,12 @@
                     <img width="30px" src="~/img/account-circle.svg" />
                 </legend>
 
-                <div class="mb-3">
+                <div class="form-group">
                     <label asp-for="Email" class="form-label"></label>
                     <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
+                <div class="form-group">
                     <label asp-for="Password" class="form-label"></label>
                     <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" />
                     <span asp-validation-for="Password" class="text-danger"></span>
