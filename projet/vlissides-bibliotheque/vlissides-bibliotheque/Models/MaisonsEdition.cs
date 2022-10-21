@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     public class MaisonsEdition
     {
         [Required]
-        public int MaisonEditionId { get; set; }
+        public int MaisonsEditionId { get; set; }
 
         [Required]
         public string Nom { get; set; }
