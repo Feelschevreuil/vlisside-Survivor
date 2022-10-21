@@ -12,14 +12,14 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221021174900_NombreUsager")]
-    partial class NombreUsager
+    [Migration("20221021175244_migrationInitial")]
+    partial class migrationInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -501,7 +501,7 @@ namespace vlissides_bibliotheque.Migrations
                         new
                         {
                             EtatLivreId = 3,
-                            Nom = "Numérique"
+                            Nom = "Digital"
                         });
                 });
 
@@ -736,7 +736,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasKey("MaisonEditionId");
 
-                    b.ToTable("MaisonsEdition");
+                    b.ToTable("MaisonsEditions");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.PrixEtatLivre", b =>
@@ -867,16 +867,16 @@ namespace vlissides_bibliotheque.Migrations
                             Id = "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d67bb86f-d158-4f17-8142-49f7c65c082c",
-                            Email = "gordon.john@gunclub-alabama.us",
+                            Email = "admin@cegep-connaissance-aleatoire.qc.ca",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJiOLUQyzAWj2lAzGlRC4orGIo84oZba+8A+wMWq+1Q/kzId2iyCkv/VgNLf6x/IyA==",
+                            NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
+                            NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF7Z74Z43gW2rX7iIxY1mu4Jf1POsPZkUx/dz7d91xVCl4eIHRK1sfGnOBBrGdv5jg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5703cb2f-e46d-48d9-bbd4-de01b05f3468",
+                            SecurityStamp = "8f47fd20-3442-4865-987a-19b09810984e",
                             TwoFactorEnabled = false,
-                            UserName = "gordon.john@gunclub-alabama.us",
+                            UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",
                             Prenom = "Gordon"
                         });

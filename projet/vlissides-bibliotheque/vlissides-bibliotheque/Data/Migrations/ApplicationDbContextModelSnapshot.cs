@@ -17,7 +17,7 @@ namespace vlissides_bibliotheque.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -499,7 +499,7 @@ namespace vlissides_bibliotheque.Migrations
                         new
                         {
                             EtatLivreId = 3,
-                            Nom = "Numérique"
+                            Nom = "Digital"
                         });
                 });
 
@@ -734,7 +734,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasKey("MaisonEditionId");
 
-                    b.ToTable("MaisonsEdition");
+                    b.ToTable("MaisonsEditions");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.PrixEtatLivre", b =>
@@ -870,9 +870,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
                             NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM/4djC/E2dfrWN2gw1yfWn8hUWmBFIeiuBm7z8QxUw7MrbRGJ6ZVKyegtv7M7deow==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF7Z74Z43gW2rX7iIxY1mu4Jf1POsPZkUx/dz7d91xVCl4eIHRK1sfGnOBBrGdv5jg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "15ad005f-1df6-40f3-b29e-0cdf15e5022f",
+                            SecurityStamp = "8f47fd20-3442-4865-987a-19b09810984e",
                             TwoFactorEnabled = false,
                             UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",
