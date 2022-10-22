@@ -2,15 +2,18 @@
 
 @{
     int nbrEtoile = 0;
-    int moyenne = 0;
+    int nbrEvaluation = 0;
     if (Model.livreEvaluation != null)
     {
         foreach (EvaluationLivre evaluation in Model.livreEvaluation)
         {
             nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
-            moyenne++;
+            nbrEvaluation++;
         }
-        nbrEtoile = nbrEtoile / moyenne;
+        if (nbrEvaluation != 0)
+        {
+            nbrEtoile = nbrEtoile / nbrEvaluation;
+        }
     }
 }
 
