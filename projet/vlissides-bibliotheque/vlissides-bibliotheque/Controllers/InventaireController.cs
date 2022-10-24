@@ -303,7 +303,7 @@ namespace vlissides_bibliotheque.Controllers
 
             Liste.Add(new SelectListItem { Value = "", Text = "Choisissez une maison d'édition" });
 
-            foreach (var e in _context.MaisonsEditions)
+            foreach (var e in _context.MaisonsEdition)
                 Liste.Add(new SelectListItem { Value = e.MaisonEditionId.ToString(), Text = e.Nom });
 
             return Liste;
