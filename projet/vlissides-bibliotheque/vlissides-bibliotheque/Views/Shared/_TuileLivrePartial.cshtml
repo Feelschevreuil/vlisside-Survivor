@@ -41,16 +41,17 @@
     </div>
 
     <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
-            <label class="btn btn-primary">
-            <input type="radio" name="options+@Model.livreBibliotheque.LivreId" value="@NomEtatLivre.Neuf" onclick="ChangerPrix(this.value, @Model.livreBibliotheque.LivreId)" checked> Neuf
+        <label class="btn bg-top text-white" id="Neuf-@Model.livreBibliotheque.LivreId" onclick="checkTheBox(@Model.livreBibliotheque.LivreId,'Neuf')">
+            <input hidden type="radio" name="options+@Model.livreBibliotheque.LivreId" value="@NomEtatLivre.Neuf" onclick="ChangerPrix(this.value, @Model.livreBibliotheque.LivreId);" checked> Neuf
             </label>
-        <label class="btn btn-primary">
-            <input type="radio" name="options+@Model.livreBibliotheque.LivreId" value="@NomEtatLivre.Numerique" onclick="ChangerPrix(this.value, @Model.livreBibliotheque.LivreId)"> Numérique
+        <label class="btn bg-top text-white" id="Numerique-@Model.livreBibliotheque.LivreId" onclick="checkTheBox(@Model.livreBibliotheque.LivreId,'Numerique')">
+            <input hidden type="radio" name="options+@Model.livreBibliotheque.LivreId" value="@NomEtatLivre.Numerique" onclick="ChangerPrix(this.value, @Model.livreBibliotheque.LivreId)"> Numérique
             </label>
-        <label class="btn btn-primary">
-            <input type="radio" name="options+@Model.livreBibliotheque.LivreId" value="@NomEtatLivre.Usagee" onclick="ChangerPrix(this.value, @Model.livreBibliotheque.LivreId)"> Usagé
+        <label class="btn bg-top text-white" id="Usager-@Model.livreBibliotheque.LivreId" onclick="checkTheBox(@Model.livreBibliotheque.LivreId,'Usager')">
+            <input hidden type="radio" name="options+@Model.livreBibliotheque.LivreId" value="@NomEtatLivre.Usagee" onclick="ChangerPrix(this.value, @Model.livreBibliotheque.LivreId)"> Usagé
             </label>
     </div>
+
 
     <div class="card border-0" style="width:auto">
         <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
