@@ -69,7 +69,7 @@ namespace vlissides_bibliotheque.Services
         /// </summary>
 	/// <param name="id">L'id de l'objet à effacer.</param>
         /// <returns>true si l'objet a été effacé avec succès.</returns>
-	public bool delete(long id)
+	public bool Delete(long id)
 	{
 
 	    ILivre livreEffacer;
