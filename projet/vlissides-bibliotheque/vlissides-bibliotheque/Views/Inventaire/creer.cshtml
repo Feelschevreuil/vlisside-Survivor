@@ -29,7 +29,11 @@
                             <label asp-for="Photo" class="form-label"></label>
                             <input type="file" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
                             <input asp-for="Photo" class="form-control" aria-required="true" hidden id="sendImg" />
-                            <img id="viewImg" class="col-md-6 m-1" />
+                            @if(Model.Photo != null) {
+                                <img id="viewImg" src="@Model.Photo" class="col-md-6 m-1" />
+                            } else {
+                                <img id="viewImg" class="col-md-6 m-1" />
+                            }
                             <span asp-validation-for="Photo" class="text-danger"></span>
                         </div>
                         <div class="form-group">
