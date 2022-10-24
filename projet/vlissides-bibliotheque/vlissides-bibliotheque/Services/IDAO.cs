@@ -43,6 +43,6 @@ namespace vlissides_bibliotheque.Services
         /// </summary>
 	/// <param name="id">L'id de l'objet à effacer.</param>
         /// <returns>true si l'objet a été effacé avec succès.</returns>
-	bool delete(long id);
+	bool Delete(long id);
     }
 }
