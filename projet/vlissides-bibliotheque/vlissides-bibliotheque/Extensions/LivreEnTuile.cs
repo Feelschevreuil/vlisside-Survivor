@@ -37,6 +37,11 @@ namespace vlissides_bibliotheque
                     {
                         tuileVM.livreEvaluation = bdEvaluationsLivre.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                     }
+
+                    if(tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "N/A")
+                {
+                    tuileVM.livreBibliotheque.PhotoCouverture = "livreDemo.jpg";
+                }
             }
             catch (Exception e)
             {
