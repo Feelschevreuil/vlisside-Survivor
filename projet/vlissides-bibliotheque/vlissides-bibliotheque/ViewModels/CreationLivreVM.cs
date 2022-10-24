@@ -18,11 +18,6 @@ namespace vlissides_bibliotheque.ViewModels
 		[Required]
 		public string Photo { get; set; }
 
-		//[NotMapped]
-		//[Required(ErrorMessage = "Le champ {0} est requis.")]
-		//[DisplayName("Photo")]
-		//public IFormFile fichierImage { get; set; }
-
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Date de publication")]
 		[DataType(DataType.Date)]
