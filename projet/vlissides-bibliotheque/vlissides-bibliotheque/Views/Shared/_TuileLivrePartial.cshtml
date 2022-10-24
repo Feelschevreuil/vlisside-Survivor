@@ -2,14 +2,19 @@
 
 @{
     int nbrEtoile = 0;
-    //if (Model.livreEvaluation != null)
-    //{
-    //    foreach (EvaluationLivre evaluation in Model.livreEvaluation)
-    //    {
-    //       nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
-    //    }
-        
-    //}
+    int nbrEvaluation = 0;
+    if (Model.livreEvaluation != null)
+    {
+        foreach (EvaluationLivre evaluation in Model.livreEvaluation)
+        {
+            nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
+            nbrEvaluation++;
+        }
+        if (nbrEvaluation != 0)
+        {
+            nbrEtoile = nbrEtoile / nbrEvaluation;
+        }
+    }
 }
 
 
