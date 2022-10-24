@@ -6,8 +6,14 @@ const toBase64 = file => new Promise((resolve) => {
 });
 
 function convertFileToBase64(file, senderId, viewerId) {
-    toBase64(file).then(function (res) {
-        document.getElementById(senderId).value = res;
-        document.getElementById(viewerId).src = res;
-    });
+    if (file != undefined && typeof file == "object") {
+        toBase64(file).then(function (res) {
+            if (senderId != undefined) {
+                document.getElementById(senderId).value = res;
+            }
+            if (viewerId != undefined) {
+                document.getElementById(viewerId).src = res;
+            }
+        });
+    }
 }
