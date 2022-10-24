@@ -30,7 +30,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             List<Evenement> listEvenements = _context.Evenements.OrderBy(i => i.Debut).Take(4).ToList();
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetInventaireBibliotequeVMs(), evenements = listEvenements };
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetQuatreLivres.GetInventaireBibliotequeVMs(_context), evenements = listEvenements };
 
             return View(recommendationPromotions);
         }
@@ -52,16 +52,6 @@ namespace vlissides_bibliotheque.Controllers
 
 
 
-        public List<TuileLivreBibliotequeVM> GetInventaireBibliotequeVMs()
-        {
-            List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
-            IEnumerable<LivreBibliotheque> listQuatreLivre = _context.LivresBibliotheque.Take(4);
-
-            foreach (LivreBibliotheque livre in listQuatreLivre)
-            {
-                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
-                listTuileLivreBibliotequeVMs.Add(livreConvertie);
-            };
 
             return listTuileLivreBibliotequeVMs;
         }

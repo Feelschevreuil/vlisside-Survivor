@@ -152,8 +152,8 @@ namespace vlissides_bibliotheque.Controllers
             var PasNumerique = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNumerique);
             var pasUsager = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreUsager);
             var pasDeNeuf = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf);
-          
-            
+
+
 
             ModificationLivreVM ModifierLivre = new()
             {
@@ -172,10 +172,17 @@ namespace vlissides_bibliotheque.Controllers
                 Photo = livreBibliothequeRechercher.PhotoCouverture,
                 PossedeNeuf = true,
                 PossedeNumerique = true,
-                PrixNeuf = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNeuf).Prix,
-                PrixNumerique = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNumerique).Prix,
-                PrixUsage = prixEtatLivre.Find(x => x.EtatLivreId == idLivreUsager).Prix
+       
             };
+
+            var prixNeuf = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNeuf);
+            var prixDigital = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNumerique);
+            var prixUsage = prixEtatLivre.Find(x => x.EtatLivreId == idLivreUsager);
+
+            if (prixNeuf != null) { ModifierLivre.PrixNeuf = prixNeuf.Prix; } else {ModifierLivre.PrixNeuf = 0; };
+            if (prixDigital != null) { ModifierLivre.PrixNumerique = prixDigital.Prix; } else { ModifierLivre.PrixNumerique = 0; };
+            if (prixUsage != null) { ModifierLivre.PrixUsage = prixUsage.Prix; } else { ModifierLivre.PrixUsage = 0; };
+            
 
             return View(ModifierLivre);
 
@@ -271,18 +278,10 @@ namespace vlissides_bibliotheque.Controllers
             _context.LivresBibliotheque.Remove(livreSupprimer);
             _context.SaveChanges();
 
-            List<Evenement> evenements = new()
-            {
 
-            };
-            List<CoursProfesseur> listCoursProfesseurs = new()
-            {
-            };
-            List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
-            {
-            };
+            List<Evenement> listEvenements = _context.Evenements.OrderBy(i => i.Debut).Take(4).ToList();
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
+            InventaireLivreBibliotheque recommendationPromotions = new() { tuileLivreBiblioteques = GetQuatreLivres.GetInventaireBibliotequeVMs(_context)};
 
             return View("Bibliotheque", recommendationPromotions);
         }
