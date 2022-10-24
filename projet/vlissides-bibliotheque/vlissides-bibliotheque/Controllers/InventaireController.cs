@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Net;
+using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
@@ -131,9 +132,9 @@ namespace vlissides_bibliotheque.Controllers
             List<EtatLivre> etatLivres = _context.EtatsLivres.ToList();
 
 
-            int idLivreNeuf = etatLivres.Find(y => y.Nom == "Neuf").EtatLivreId;
-            int idLivreNumerique = etatLivres.Find(y => y.Nom == "Numérique").EtatLivreId;
-            int idLivreUsager = etatLivres.Find(y => y.Nom == "Usagé").EtatLivreId;
+            int idLivreNeuf = etatLivres.Find(y => y.Nom == NomEtatLivre.Neuf).EtatLivreId;
+            int idLivreNumerique = etatLivres.Find(y => y.Nom == NomEtatLivre.Numerique).EtatLivreId;
+            int idLivreUsager = etatLivres.Find(y => y.Nom == NomEtatLivre.Usagee).EtatLivreId;
 
           
             var pasEtatAuLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
@@ -322,21 +323,21 @@ namespace vlissides_bibliotheque.Controllers
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Neuf").EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Neuf).EtatLivreId,
                 Prix = form.PrixNeuf,
             };
             PrixEtatLivre AssociationPrixNumérique = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Numérique").EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Numerique).EtatLivreId,
                 Prix = form.PrixNumerique,
             };
             PrixEtatLivre AssociationPrixUsager = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Usagé").EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Usagee).EtatLivreId,
                 Prix = form.PrixUsage,
             };
 
@@ -355,21 +356,21 @@ namespace vlissides_bibliotheque.Controllers
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Neuf").EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Neuf).EtatLivreId,
                 Prix = form.PrixNeuf,
             };
             PrixEtatLivre AssociationPrixNumérique = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Numérique").EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Numerique).EtatLivreId,
                 Prix = form.PrixNumerique,
             };
             PrixEtatLivre AssociationPrixUsager = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == "Usagé").EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Usagee).EtatLivreId,
                 Prix = form.PrixUsage,
             };
 
