@@ -50,12 +50,6 @@ namespace vlissides_bibliotheque.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-
-
-            return listTuileLivreBibliotequeVMs;
-        }
-
         public string ChangerPrix([FromBody] PrixAfficher prixAfficher)
         {
             LivreBibliotheque livre = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == prixAfficher.Id);
