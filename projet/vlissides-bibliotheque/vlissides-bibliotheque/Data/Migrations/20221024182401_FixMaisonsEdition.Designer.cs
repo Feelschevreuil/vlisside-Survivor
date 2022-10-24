@@ -12,14 +12,14 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221019151409_initial")]
-    partial class initial
+    [Migration("20221024182401_FixMaisonsEdition")]
+    partial class FixMaisonsEdition
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -501,7 +501,7 @@ namespace vlissides_bibliotheque.Migrations
                         new
                         {
                             EtatLivreId = 3,
-                            Nom = "Numérique"
+                            Nom = "Digital"
                         });
                 });
 
@@ -702,6 +702,9 @@ namespace vlissides_bibliotheque.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Prix")
+                        .HasColumnType("float");
+
                     b.Property<string>("Resume")
                         .IsRequired()
                         .HasMaxLength(512)
@@ -733,7 +736,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasKey("MaisonEditionId");
 
-                    b.ToTable("MaisonsEditions");
+                    b.ToTable("MaisonsEdition");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.PrixEtatLivre", b =>
@@ -750,11 +753,11 @@ namespace vlissides_bibliotheque.Migrations
                     b.Property<int>("LivreBibliothequeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("NombreUsager")
-                        .HasColumnType("int");
-
                     b.Property<double>("Prix")
                         .HasColumnType("float");
+
+                    b.Property<int>("QuantiteUsage")
+                        .HasColumnType("int");
 
                     b.HasKey("PrixEtatLivreId");
 
@@ -864,16 +867,16 @@ namespace vlissides_bibliotheque.Migrations
                             Id = "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d67bb86f-d158-4f17-8142-49f7c65c082c",
-                            Email = "gordon.john@gunclub-alabama.us",
+                            Email = "admin@cegep-connaissance-aleatoire.qc.ca",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            NormalizedUserName = "GORDON.JOHN@GUNCLUB-ALABAMA.US",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFDdb6IzMQH2YofMyTKbY/yC0rmle+pbUWRvONClJ4o6FAH/g0IYRJRcpxu6+VYRGw==",
+                            NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
+                            NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHrf3ISDrEc19sZxlS1Foj5Tld8cCZSRVitfY7/bDeeJ1zm+KSbdWbYuDPoguqqyKg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "333a2acb-b57d-4bb8-bac6-4bf4c3bf54ff",
+                            SecurityStamp = "7cfc1c4b-9b22-4b83-a412-4e2e1b69b39c",
                             TwoFactorEnabled = false,
-                            UserName = "gordon.john@gunclub-alabama.us",
+                            UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",
                             Prenom = "Gordon"
                         });

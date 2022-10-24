@@ -87,7 +87,9 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.ProgrammeEtudes));
             ModelState.Remove(nameof(vm.Provinces));
 
-            vm.CodePostal = vm.CodePostal.ToUpper();
+            if(vm.CodePostal != null) {
+                vm.CodePostal = vm.CodePostal.ToUpper();
+            }
 
             if (ModelState.IsValid) {
 
