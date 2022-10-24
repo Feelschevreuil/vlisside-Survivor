@@ -76,16 +76,6 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string nomFicherImage = Path.GetFileNameWithoutExtension(form.fichierImage.FileName);
-                string extentionFicherImage = Path.GetExtension(form.fichierImage.FileName);
-                form.Photo = nomFicherImage = nomFicherImage + DateTime.Now.ToString("yymmssff") + extentionFicherImage;
-                string chemin = Path.Combine(wwwRootPath + "/img", nomFicherImage);
-                using (var fileStream = new FileStream(chemin, FileMode.Create))
-                {
-                    await form.fichierImage.CopyToAsync(fileStream);
-                }
-
                 LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
                 {
                     LivreId = 0,
