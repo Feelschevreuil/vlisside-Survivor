@@ -275,18 +275,10 @@ namespace vlissides_bibliotheque.Controllers
             _context.LivresBibliotheque.Remove(livreSupprimer);
             _context.SaveChanges();
 
-            List<Evenement> evenements = new()
-            {
 
-            };
-            List<CoursProfesseur> listCoursProfesseurs = new()
-            {
-            };
-            List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
-            {
-            };
+            List<Evenement> listEvenements = _context.Evenements.OrderBy(i => i.Debut).Take(4).ToList();
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs, evenements = evenements };
+            InventaireLivreBibliotheque recommendationPromotions = new() { tuileLivreBiblioteques = GetQuatreLivres.GetInventaireBibliotequeVMs(_context)};
 
             return View("Bibliotheque", recommendationPromotions);
         }
