@@ -10,7 +10,10 @@
             nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
             nbrEvaluation++;
         }
-        nbrEtoile = nbrEtoile / nbrEvaluation;
+        if (nbrEvaluation != 0)
+        {
+            nbrEtoile = nbrEtoile / nbrEvaluation;
+        }
     }
 }
 
