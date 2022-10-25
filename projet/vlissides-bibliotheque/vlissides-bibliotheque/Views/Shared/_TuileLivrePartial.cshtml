@@ -18,7 +18,7 @@
 }
 
 
-<div class="card border-2" style="width:auto">
+<div class="card border-2 tuile-livre">
 
 
     <div>
@@ -49,7 +49,7 @@
     </div>
 
 
-    <div class="card border-0" style="width:auto">
+    <div class="card border-0 livre-info">
         <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
         <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
         @if(Model.coursLivre != null){
@@ -82,7 +82,7 @@
                                 nbrEtoile = nbrEtoile - 2;
                                 etoile_vide++;
                                 <span class="star" data-value="">
-                                    <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-pleine.svg">
+                                    <img class="etoile" src="~/img/etoile-pleine.svg">
                                     <span class="star-notification"></span>
                                 </span>
                             }
@@ -92,7 +92,7 @@
                                 nbrEtoile = nbrEtoile - 1;
                                 etoile_vide++;
                                 <span class="star" data-value="">
-                                    <img style="width: 0.7rem; margin-top: -3px;" src="~/img/demi-etoile.svg">
+                                    <img class="etoile" src="~/img/demi-etoile.svg">
                                     <span class="star-notification"></span>
                                 </span>
 
@@ -102,7 +102,7 @@
                         if (etoile_vide != 5)
                         {
                             <span class="star" data-value="">
-                                <img style="width: 0.7rem; margin-top: -3px;" src="~/img/etoile-vide.svg">
+                                <img class="etoile" src="~/img/etoile-vide.svg">
                                 <span class="star-notification"></span>
                             </span>
                         }
