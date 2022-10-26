@@ -10,7 +10,8 @@ namespace vlissides_bibliotheque.Models
         
         [Required]
         public int EvaluationId { get; set; }
-
+        [Required]
+public string EtudiantId { get; set; }
         public Etudiant Etudiant { get; set; }
 
         [Required]

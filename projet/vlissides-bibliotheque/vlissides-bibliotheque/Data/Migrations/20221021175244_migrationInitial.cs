@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vlissides_bibliotheque.Migrations
 {
-    public partial class initial : Migration
+    public partial class migrationInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -410,7 +410,7 @@ namespace vlissides_bibliotheque.Migrations
                     EtatLivreId = table.Column<int>(type: "int", nullable: false),
                     LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
                     Prix = table.Column<double>(type: "float", nullable: false),
-                    NombreUsager = table.Column<int>(type: "int", nullable: false)
+                    NombreUsage = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -599,7 +599,8 @@ namespace vlissides_bibliotheque.Migrations
                     PhotoCouverture = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MaisonEdition = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Auteur = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Auteur = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prix = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -674,7 +675,7 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "gordon.john@gunclub-alabama.us", true, false, null, "GORDON.JOHN@GUNCLUB-ALABAMA.US", "GORDON.JOHN@GUNCLUB-ALABAMA.US", "AQAAAAEAACcQAAAAEFDdb6IzMQH2YofMyTKbY/yC0rmle+pbUWRvONClJ4o6FAH/g0IYRJRcpxu6+VYRGw==", null, false, "333a2acb-b57d-4bb8-bac6-4bf4c3bf54ff", false, "gordon.john@gunclub-alabama.us" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "admin@cegep-connaissance-aleatoire.qc.ca", true, false, null, "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "AQAAAAEAACcQAAAAEF7Z74Z43gW2rX7iIxY1mu4Jf1POsPZkUx/dz7d91xVCl4eIHRK1sfGnOBBrGdv5jg==", null, false, "8f47fd20-3442-4865-987a-19b09810984e", false, "admin@cegep-connaissance-aleatoire.qc.ca" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
@@ -683,7 +684,7 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     { 1, "Neuf" },
                     { 2, "Usagé" },
-                    { 3, "Numérique" }
+                    { 3, "Digital" }
                 });
 
             migrationBuilder.InsertData(
