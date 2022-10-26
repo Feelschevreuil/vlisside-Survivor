@@ -37,36 +37,36 @@
     </div>
 </nav>
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom shadow mb-2 bg-top">
-        <div class="container-fluid">
-            <div class="d-sm-inline-flex me-auto">
-                <fieldset>
+    <div class="container-fluid">
+        <div class="d-sm-inline-flex me-auto">
+            <fieldset>
                 <select id="MovieType" name="MovieType" class="btn btn-outline-light border-0 d-inline-flex">
-                        <option selected="selected" value="1">Bibliothèque</option>
-                        <option value="2">Blun</option>
-                    </select>
-                </fieldset>
+                    <option selected="selected" value="1">Bibliothèque</option>
+                    <option value="2">Blun</option>
+                </select>
+            </fieldset>
 
-                <form class="form-inline-flex navbar-collapse" asp-controller="Movies" asp-action="Filter">
-                    <input name="searchString" type="text" class="form-control" placeholder="Chercher un livre">
+            <form class="form-inline-flex navbar-collapse" asp-controller="Movies" asp-action="Filter">
+                <input name="searchString" type="text" class="form-control" placeholder="Chercher un livre">
                     
-                    @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
+                @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
 
-                    <select class="btn btn-outline-light border-0" asp-items="@sl">
+                <select class="btn btn-outline-light border-0" asp-items="@sl">
                     <option  value="">Programme d'étude</option>
-                    </select>
-@*
-                    <select asp-for="EmployeeId"
-                    asp-items="@(new SelectList(Model.EmployeesList, nameof(Employee.Id), nameof(Employee.FullName)))">
-                    <option>Please select one</option>
-                    </select>
-                    *@
+                </select>
+                @*
+                <select asp-for="EmployeeId"
+                asp-items="@(new SelectList(Model.EmployeesList, nameof(Employee.Id), nameof(Employee.FullName)))">
+                <option>Please select one</option>
+                </select>
+                *@
                 <button class="btn btn-outline-light border-0" type="submit">
                     <img src="~/img/loupe-de-recherche.svg">
                 </button>
-                </form>
+            </form>
 
             <button class="btn btn-outline-light border-0" type="submit"> Recherche avancée </button>
 
         </div>
-        </div>
-    </nav>
+    </div>
+</nav>
