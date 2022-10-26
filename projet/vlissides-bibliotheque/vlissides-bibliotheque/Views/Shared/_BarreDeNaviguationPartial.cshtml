@@ -47,7 +47,12 @@
             </fieldset>
 
             <form class="form-inline-flex navbar-collapse" asp-controller="Movies" asp-action="Filter">
-                <input name="searchString" type="text" class="form-control" placeholder="Chercher un livre">
+                <div class="input-group">
+                    <input name="searchString" type="text" class="form-control border-light" placeholder="Chercher un livre">
+                    <button class="input-group-text btn btn-outline-primary text-light border-light" type="submit">
+                        <img src="~/img/loupe-de-recherche.svg">
+                    </button>
+                </div>
                     
                 @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
 
@@ -60,9 +65,6 @@
                 <option>Please select one</option>
                 </select>
                 *@
-                <button class="btn btn-outline-primary text-light border-0" type="submit">
-                    <img src="~/img/loupe-de-recherche.svg">
-                </button>
             </form>
 
             <button class="btn btn-outline-primary text-light border-0" type="submit">Recherche avancée</button>
