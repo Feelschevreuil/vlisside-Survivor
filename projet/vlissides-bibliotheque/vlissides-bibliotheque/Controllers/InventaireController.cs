@@ -68,16 +68,6 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string nomFicherImage = Path.GetFileNameWithoutExtension(form.fichierImage.FileName);
-                string extentionFicherImage = Path.GetExtension(form.fichierImage.FileName);
-                form.Photo = nomFicherImage = nomFicherImage + DateTime.Now.ToString("yymmssff") + extentionFicherImage;
-                string chemin = Path.Combine(wwwRootPath + "/img", nomFicherImage);
-                using (var fileStream = new FileStream(chemin, FileMode.Create))
-                {
-                    await form.fichierImage.CopyToAsync(fileStream);
-                }
-
                 LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
                 {
                     LivreId = 0,
@@ -182,33 +172,13 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<ActionResult> modifier(ModificationLivreVM form)
         {
-            bool ImageIsNull = form.fichierImage == null;
             ModelState.Remove("Auteurs");
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
             ModelState.Remove("Photo");
 
-            if (ImageIsNull)
-            {
-                ModelState.Remove("fichierImage");
-            }
-
             if (ModelState.IsValid)
             {
-                if (!ImageIsNull)
-                {
-                    string wwwRootPath = _webHostEnvironment.WebRootPath;
-                    string nomFicherImage = Path.GetFileNameWithoutExtension(form.fichierImage.FileName);
-                    string extentionFicherImage = Path.GetExtension(form.fichierImage.FileName);
-                    form.Photo = nomFicherImage = nomFicherImage + DateTime.Now.ToString("yymmssff") + extentionFicherImage;
-                    string chemin = Path.Combine(wwwRootPath + "/img", nomFicherImage);
-                    using (var fileStream = new FileStream(chemin, FileMode.Create))
-                    {
-                        await form.fichierImage.CopyToAsync(fileStream);
-                    }
-                }
-
-
                 LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
                 LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
                 LivreBibliothèqueModifier.Isbn = form.ISBN;

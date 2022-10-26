@@ -15,13 +15,8 @@ namespace vlissides_bibliotheque.ViewModels
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		public string Resume { get; set; }
 
-		
+		[Required]
 		public string Photo { get; set; }
-
-		[NotMapped]
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		[DisplayName("Photo")]
-		public IFormFile fichierImage { get; set; }
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Date de publication")]
