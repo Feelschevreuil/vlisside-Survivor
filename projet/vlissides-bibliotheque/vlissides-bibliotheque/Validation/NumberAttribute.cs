@@ -7,7 +7,10 @@ namespace vlissides_bibliotheque.Validation
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             string nbCurrent = (string)value;
-
+            if(string.IsNullOrEmpty(nbCurrent)) 
+            {
+                return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre.");
+            }
             int nb;
 
             try {
