@@ -34,21 +34,5 @@ namespace vlissides_bibliotheque.Services
 	/// Une liste d'objets ayant un titre similaire ayant un titre similaire ou égal.
 	/// </returns>
 	IEnumerable<T> SearchByTitle(String title, int quantiteParPage = 20, int pages = 0);
-
-	/// <summary>Cherche les objets par leurs propriétés.</summary>
-	/// <param name="bookQueries">
-	/// Objet contenant les champs du livre à chercher.
-	/// </param>
-	/// <param name="quantiteParPage">
-	/// La quantité d'objets que l'on veut afficher par page.
-	/// </param>
-	/// <param name="page">
-	/// Le numéro de page des résultats.
-	/// </param>
-	/// <returns>
-	/// Une liste d'objets ayant les propriétés désirées ou une liste vide 
-	/// s'il n'y en a pas.
-	/// </returns>
-	ICollection<T> SearchByProperties(T recherche, int quantiteParPage = 20, int page = 0);
     }
 }

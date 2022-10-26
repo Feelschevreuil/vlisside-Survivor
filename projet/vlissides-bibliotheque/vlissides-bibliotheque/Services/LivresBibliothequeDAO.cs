@@ -7,7 +7,7 @@ namespace vlissides_bibliotheque.Services
     /// <summary>
     /// Clsase <c>LivresBibliothequeDAO</c> qui implémente l'interface DAO et l'interface LivresDAO.
     /// </summary>
-    public class LivresBibliothequeDAO : IDAO<LivreBibliotheque>, IRecherchableDAO<LivreBibliotheque>,IRecherchableTitleDAO
+    public class LivresBibliothequeDAO : IDAO<LivreBibliotheque>, IRecherchableDAO<LivreBibliotheque>, IRecherchableAvanceeDAO<LivreBibliotheque>, IRecherchableTitleDAO
     {
 
 	private ApplicationDbContext _context;
