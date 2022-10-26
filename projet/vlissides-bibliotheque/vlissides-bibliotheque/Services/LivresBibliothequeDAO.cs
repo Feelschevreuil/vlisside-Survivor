@@ -142,30 +142,30 @@ namespace vlissides_bibliotheque.Services
 	/// <param name="quantiteParPage">La quantité d'objets que l'on veut afficher par page.</param>
 	/// <param name="page">Le numéro de page des résultats.</param>
 	/// <returns>Une liste d'objets ayant les propriétés désirées ou une liste vide s'il n'y en a pas.</returns>
-	public IEnumerable<LivreBibliotheque> SearchByProperties(LivreBibliotheque livreRecherche, int quantiteParPage = 20, int page = 0)
+	public ICollection<LivreBibliotheque> SearchByProperties(LivreBibliotheque livreRecherche, int quantiteParPage = 20, int page = 0)
 	{
 
-	    IEnumerable<LivreBibliotheque> livresBibliotheque;
+	    ICollection<LivreBibliotheque> livresBibliotheque;
 
-	    if(livreBibliotheque.LivreId != 0)
+	    if(livreRecherche.LivreId != 0)
 	    {
 
 		livresBibliotheque = new List<LivreBibliotheque>();
 
-		livresBibliotheque.Add(Get(livreBibliotheque.LivreId));
+		livresBibliotheque.Add(Get(livreRecherche.LivreId));
 
 	    }
 	    else if(
-		    livreBibliotheque.DatePublication != null &&
-		    !string.IsNullOrEmpty(livreBibliotheque.Isbn) &&
-		    livreBibliotheque.MaisonEditionId != 0 &&
-		    !string.IsNullOrEmpty(livreBibliotheque.Resume) &&
-		    !string.IsNullOrEmpty(livreBibliotheque))
+		    livreRecherche.DatePublication != null &&
+		    !string.IsNullOrEmpty(livreRecherche.Isbn) &&
+		    livreRecherche.MaisonEditionId != 0 &&
+		    !string.IsNullOrEmpty(livreRecherche.Resume) &&
+		    !string.IsNullOrEmpty(livreRecherche.Titre))
 	    {
 		
 	    }
 
-	    livresBibliotheque = GetAll();
+	    livresBibliotheque = GetAll().ToList();
 
 	    return livresBibliotheque;
 	}
