@@ -9,11 +9,11 @@
 
 
     <div>
-        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.LivreId">
+        <a class="float-start" asp-area="" asp-controller="LaBlun" asp-action="modifier" asp-route-id="@Model.LivreId">
             <input class="btn btn-primary shadow" type="button" value="Modifier" />
         </a>
 
-        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.LivreId">
+        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Lablun" asp-route-id="@Model.LivreId">
             <a>
                 <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Titre')" type="submit" value="Supprimer" />
             </a>
@@ -21,25 +21,19 @@
     </div>
 
     <div class="position-relative text-center">
-        <img class="mx-auto image-livre" src=~/img/@Model.PhotoCouverture alt="PhotoLivre">
+        <img class="mx-auto image-livre" src=@Model.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle shadow">
-            <p class="pt-3">100.99$</p>
+            <p class="pt-3">@Model.Prix$</p>
         </div>
     </div>
 
-    <div class="pt-2 w-50">
-        <select class="form-select form-select-sm" aria-label="État d'un livre">
-            <option selected value="Neuf">Neuf</option>
-            <option value="Usagé">Usagé</option>
-            <option value="Numérique">Numérique</option>
-        </select>
-    </div>
-
-
     <div class="card border-0" style="width:auto">
         <h5 class="card-title ">Titre: @Model.Titre</h5>
-        <p class="card-text">ISBN: @Model.Isbn</p>
-        <p class="card-text">Année de publication: @Model.DatePublication.Year</p>
+        <p class="card-text"><strong>ISBN:</strong> @Model.Isbn</p>
+        <p class="card-text"><strong>Auteur:</strong> @Model.Auteur</p>
+        <p class="card-text"><strong>Vendeur:</strong> @Model.Etudiant.Prenom @Model.Etudiant.Nom</p>
+        <p class="card-text"><strong>MaisonEdition:</strong> @Model.MaisonEdition</p>
+        <p class="card-text"><strong>Année de publication:</strong> @Model.DatePublication.Year</p>
 
     </div>
 
