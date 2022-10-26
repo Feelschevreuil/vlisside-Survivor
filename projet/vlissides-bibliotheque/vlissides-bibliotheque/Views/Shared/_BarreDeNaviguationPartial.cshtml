@@ -38,37 +38,32 @@
 </nav>
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom shadow mb-2 bg-top">
     <div class="container-fluid">
-        <div class="d-sm-inline-flex me-auto">
-            <fieldset>
-                <select id="MovieType" name="MovieType" class="btn btn-outline-primary text-light border-0 d-inline-flex">
-                    <option selected="selected" value="1">Bibliothèque</option>
-                    <option value="2">Blun</option>
-                </select>
-            </fieldset>
+        <select id="MovieType" name="MovieType" class="btn btn-outline-primary text-light border-0 d-inline-flex">
+            <option selected="selected" value="1">Bibliothèque</option>
+            <option value="2">Blun</option>
+        </select>
 
-            <form class="form-inline-flex" asp-controller="Movies" asp-action="Filter">
-                <div class="input-group">
-                    <input name="searchString" type="text" class="form-control border-light" placeholder="Chercher un livre">
-                    <button class="input-group-text btn btn-outline-primary text-light border-light" type="submit">
-                        <img src="~/img/loupe-de-recherche.svg">
-                    </button>
-                </div>
-                    
-                @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
+        <select class="btn btn-outline-primary text-light border-0 ms-2" asp-items="@sl">
+            <option  value="">Programme d'étude</option>
+        </select>
 
-                <select class="btn btn-outline-primary text-light border-0" asp-items="@sl">
-                    <option  value="">Programme d'étude</option>
-                </select>
-                @*
-                <select asp-for="EmployeeId"
-                asp-items="@(new SelectList(Model.EmployeesList, nameof(Employee.Id), nameof(Employee.FullName)))">
-                <option>Please select one</option>
-                </select>
-                *@
-            </form>
-
-            <button class="btn btn-outline-primary text-light border-0" type="submit">Recherche avancée</button>
-
+        <div class="input-group m-auto w-50">
+            <input name="searchString" type="text" class="form-control border-light" placeholder="Chercher un livre">
+            <button class="input-group-text btn btn-outline-primary text-light border-light" type="submit">
+                <img src="~/img/loupe-de-recherche.svg">
+            </button>
         </div>
+                    
+        @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
+
+            
+        @*
+        <select asp-for="EmployeeId"
+        asp-items="@(new SelectList(Model.EmployeesList, nameof(Employee.Id), nameof(Employee.FullName)))">
+        <option>Please select one</option>
+        </select>
+        *@
+
+        <button class="btn btn-outline-primary text-light border-0 ms-auto" type="submit">Recherche avancée</button>
     </div>
 </nav>
