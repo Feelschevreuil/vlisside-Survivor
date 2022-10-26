@@ -3,12 +3,10 @@
 namespace vlissides_bibliotheque.Services
 {
     /// <summary>
-    /// Interface <c>DAO</c> définit les propriétés que les DAO's doivent avoir.
+    /// Interface <c>DAO</c> qui définit les propriétés que les DAO's doivent avoir.
     /// </summary>
     interface IDAO<T>
     {
-
-	//private ApplicationDbContext _context;
 
         /// <summary>
         /// Cherche l'objet correspondant avec l'id.
@@ -20,7 +18,7 @@ namespace vlissides_bibliotheque.Services
         /// <summary>
         /// Cherche tous les objets.
         /// </summary>
-        /// <returns>Les object en liste.</returns>
+        /// <returns>Les objets en liste.</returns>
 	IEnumerable<T> GetAll();
 
         /// <summary>
@@ -33,10 +31,10 @@ namespace vlissides_bibliotheque.Services
         /// <summary>
 	/// Met à jour l'objet désiré.
         /// </summary>
-	/// <param name="objetAJour">L'objet contenant les propriétés originales</param>
-	/// <param name="objetOriginal">L'objet contenant les modifications.</param>
+	/// <param name="idObjetOriginal">L'objet contenant les propriétés originales</param>
+	/// <param name="objetAJour">L'objet contenant les modifications.</param>
         /// <returns>true si l'objet a été sauvegardé avec succès.</returns>
-	bool Update(T objetOriginal, T objetAJour);
+	bool Update(int idObjetOriginal, T objetAJour);
 
         /// <summary>
 	/// Efface l'objet désiré.
