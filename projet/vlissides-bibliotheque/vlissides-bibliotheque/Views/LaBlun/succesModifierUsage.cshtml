@@ -1,0 +1,12 @@
+﻿@model LivreEtudiant
+
+
+<h1>Le livre @Model.Titre à été Modifier</h1>
+
+<a class="d-flex justify-content-start" asp-controller="LaBlun" asp-action="La_blun">
+    <input class="btn btn-primary shadow" type="button" value="Modifier un autre livre" />
+</a>
+
+<a class="d-flex justify-content-start pt-3" asp-controller="accueil" asp-action="Accueil">
+    <input class="btn btn-primary shadow" type="button" value="Retourner à l'accueil" />
+</a>
