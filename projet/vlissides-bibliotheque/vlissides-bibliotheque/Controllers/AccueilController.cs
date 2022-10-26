@@ -10,9 +10,11 @@ using System.Collections;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace vlissides_bibliotheque.Controllers
 {
+    [AllowAnonymous]
     public class AccueilController : Controller
     {
         private readonly ILogger<AccueilController> _logger;

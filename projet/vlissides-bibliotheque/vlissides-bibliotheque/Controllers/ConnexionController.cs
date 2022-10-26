@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,7 @@ namespace vlissides_bibliotheque.Controllers
     /// Classe <c>ConnexionController</c> gère les url(s) pour les pages
     /// relatives à la connexion d'un utilisateur.
     /// </summary>
+    [Authorize]
     public class ConnexionController : Controller
     {
         private readonly SignInManager<Utilisateur> _signInManager;
