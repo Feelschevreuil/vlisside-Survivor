@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
+    [AllowAnonymous]
     public class UsageController : Controller
     {
         private readonly ILogger<UsageController> _logger;
@@ -25,6 +27,7 @@ namespace vlissides_bibliotheque.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        [Authorize]
         [Route("Usage/Index")]
         [Route("Usage/{id?}")]
         public IActionResult Usage(int? id)
@@ -51,6 +54,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(inventaireLivreEtudiant);
 
         }
+        [Authorize]
         [Route("Usage/MaBoutique")]
         public IActionResult MaBoutique()
         {
@@ -64,15 +68,16 @@ namespace vlissides_bibliotheque.Controllers
                     .ToList();
 
             List<LivreEtudiant> livres = livreEtudiants.FindAll(x => x.Etudiant.Id == userId);
-            if(livres.Count() == 0)
+            if (livres.Count() == 0)
             {
                 return View(inventaireUnEtudiant);
             }
             inventaireUnEtudiant.inventaireLivreEtudiantVMs.AddRange(livres);
             return View(inventaireUnEtudiant);
-            
+
         }
 
+        [Authorize]
         [Route("Usage/ajouter")]
         public IActionResult ajouter()
         {
@@ -81,6 +86,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(livre);
         }
 
+        [Authorize]
         [HttpPost]
         [Route("Usage/ajouter")]
         public IActionResult ajouter(LivreEtudiant livreEtudiant)
@@ -103,10 +109,13 @@ namespace vlissides_bibliotheque.Controllers
             return View(livreEtudiant);
         }
 
+        [Authorize]
         [Route("Usage/modifier/{id?}")]
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
             if (id == null)
             {
                 Response.StatusCode = 400;
@@ -117,12 +126,15 @@ namespace vlissides_bibliotheque.Controllers
                 .Include(x => x.Etudiant)
                 .ToList()
                 .Find(x => x.LivreId == id);
-
-            return View(livreEtudiantRechercher);
+            if (livreEtudiantRechercher.Etudiant.Id == userId || User.IsInRole(RolesName.Admin))
+            {
+                return View(livreEtudiantRechercher);
+            }
+            return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas le modifier");
 
         }
 
-
+        [Authorize]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> modifier(LivreEtudiant form)
@@ -131,57 +143,69 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("Etudiant.Prenom");
             ModelState.Remove("Etudiant.Adresse");
             ModelState.Remove("Etudiant.ProgrammeEtude");
-
-
-            if(ModelState.IsValid)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
+            if (form.Etudiant.Id == userId || User.IsInRole(RolesName.Admin))
             {
-                LivreEtudiant LivreEtudiantModifier = _context.LivresEtudiants.ToList().Find(x => x.LivreId == form.LivreId);
-                LivreEtudiantModifier.MaisonEdition = form.MaisonEdition;
-                LivreEtudiantModifier.Isbn = form.Isbn;
-                LivreEtudiantModifier.Titre = form.Titre;
-                LivreEtudiantModifier.Resume = form.Resume;
-                LivreEtudiantModifier.Auteur = form.Auteur;
-                LivreEtudiantModifier.PhotoCouverture = form.PhotoCouverture;
-                LivreEtudiantModifier.DatePublication = form.DatePublication;
-                LivreEtudiantModifier.Prix = form.Prix;
+                if (ModelState.IsValid)
+                {
+                    LivreEtudiant LivreEtudiantModifier = _context.LivresEtudiants.ToList().Find(x => x.LivreId == form.LivreId);
+                    LivreEtudiantModifier.MaisonEdition = form.MaisonEdition;
+                    LivreEtudiantModifier.Isbn = form.Isbn;
+                    LivreEtudiantModifier.Titre = form.Titre;
+                    LivreEtudiantModifier.Resume = form.Resume;
+                    LivreEtudiantModifier.Auteur = form.Auteur;
+                    LivreEtudiantModifier.PhotoCouverture = form.PhotoCouverture;
+                    LivreEtudiantModifier.DatePublication = form.DatePublication;
+                    LivreEtudiantModifier.Prix = form.Prix;
 
-                _context.LivresEtudiants.Update(LivreEtudiantModifier);
-                _context.SaveChanges();
+                    _context.LivresEtudiants.Update(LivreEtudiantModifier);
+                    _context.SaveChanges();
 
 
-                return View("succesModifierUsage", LivreEtudiantModifier);
+                    return View("succesModifierUsage", LivreEtudiantModifier);
+                }
+                return View(form);
             }
-            return View(form);
+            return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas le modifier");
         }
 
+        [Authorize]
         [Route("Usage/effacer/{id?}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> effacer(int? id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
             if (id == null)
             {
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
-
             var livreSupprimer = _context.LivresEtudiants.ToList().Find(x => x.LivreId == id);
             if (livreSupprimer == null)
             {
                 Response.StatusCode = 404;
                 return Content("Ce livre n'existe pas dans la base de données");
             };
-
-            _context.LivresEtudiants.Remove(livreSupprimer);
-            _context.SaveChanges();
-
-            InventaireLaBlunVM inventaireLivreEtudiant = new()
+            var livreAssocierEtudient = _context.LivresEtudiants
+                .ToList()
+                .Find(x => x.Etudiant.Id == etudiant.Id && x.LivreId == id);
+            if (livreAssocierEtudient  != null || User.IsInRole(RolesName.Admin))
             {
-                inventaireLivreEtudiantVMs = _context.LivresEtudiants
-              .Include(x => x.Etudiant)
-              .ToList()
-            };
-            return RedirectToAction("Usage", inventaireLivreEtudiant);
+                _context.LivresEtudiants.Remove(livreSupprimer);
+                _context.SaveChanges();
+
+                InventaireLaBlunVM inventaireLivreEtudiant = new()
+                {
+                    inventaireLivreEtudiantVMs = _context.LivresEtudiants
+                  .Include(x => x.Etudiant)
+                  .ToList()
+                };
+                return RedirectToAction("Usage", inventaireLivreEtudiant);
+            }
+            return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas l'effacer");
         }
 
     }
