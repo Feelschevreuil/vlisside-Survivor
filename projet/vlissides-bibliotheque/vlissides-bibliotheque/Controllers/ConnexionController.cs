@@ -14,7 +14,7 @@ namespace vlissides_bibliotheque.Controllers
     /// Classe <c>ConnexionController</c> gère les url(s) pour les pages
     /// relatives à la connexion d'un utilisateur.
     /// </summary>
-    [Authorize]
+    [AllowAnonymous]
     public class ConnexionController : Controller
     {
         private readonly SignInManager<Utilisateur> _signInManager;

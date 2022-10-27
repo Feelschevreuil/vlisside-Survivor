@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
@@ -99,6 +100,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles =RolesName.Admin)]
         private async Task<Etudiant> GetUtilisateurCourantAsync()
         {
             return await _userManager.GetUserAsync(HttpContext.User);

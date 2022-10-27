@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
+    [Authorize]
     public class BoutiqueController : Controller
     {
         private readonly ILogger<InventaireController> _logger;

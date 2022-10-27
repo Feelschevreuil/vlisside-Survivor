@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
+    [Authorize]
     public class InventaireController : Controller
     {
         private readonly ILogger<InventaireController> _logger;
@@ -55,7 +57,7 @@ namespace vlissides_bibliotheque.Controllers
 
         }
 
-
+        [Authorize(Roles =RolesName.Admin)]
         [HttpGet]
         public ActionResult creer()
         {
@@ -64,6 +66,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(nouveauLivre);
         }
 
+        [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> creer(CreationLivreVM form)
@@ -114,6 +117,8 @@ namespace vlissides_bibliotheque.Controllers
 
         }
 
+
+        [Authorize(Roles = RolesName.Admin)]
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
         {
@@ -176,6 +181,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
 
+        [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> modifier(ModificationLivreVM form)
@@ -222,6 +228,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(form);
         }
 
+        [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> supprimer(int? id)
