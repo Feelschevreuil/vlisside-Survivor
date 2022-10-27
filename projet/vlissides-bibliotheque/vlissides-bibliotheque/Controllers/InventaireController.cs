@@ -26,16 +26,8 @@ namespace vlissides_bibliotheque.Controllers
 
         public IActionResult La_blun()
         {
-            List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
-            {
-                
-            };
-
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs};
-
-            return View(recommendationPromotions);
-
-
+           InventaireLaBlunVM inventaireLivreEtudiant = new() { inventaireLivreEtudiantVMs = _context.LivresEtudiants.ToList() };      
+           return View(inventaireLivreEtudiant);
         }
 
         public IActionResult Bibliotheque()

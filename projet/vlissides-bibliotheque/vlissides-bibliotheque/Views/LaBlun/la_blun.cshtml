@@ -1,16 +1,14 @@
-﻿@model RecommendationPromotionsVM
-
-<h1>La_blun</h1>
+﻿@model InventaireLaBlunVM
 
 <h1>Inventaire de la blun</h1>
 
 <div class="container-fluid">
 
     <div class="row">
-        @foreach (var card in Model.tuileLivreBibliotequeVMs)
+        @foreach (var card in Model.inventaireLivreEtudiantVMs)
         {
             <div class="col-12 col-sm-3 col-md-3">
-                <partial name="_TuileLivrePartial" model="card"></partial>
+                <partial name="_TuileLivreEtudiantPartial" model="card"></partial>
             </div>
         }
     </div>

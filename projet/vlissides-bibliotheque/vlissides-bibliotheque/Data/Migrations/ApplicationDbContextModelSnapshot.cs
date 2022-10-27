@@ -700,7 +700,7 @@ namespace vlissides_bibliotheque.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Prix")
+                    b.Property<double?>("Prix")
                         .HasColumnType("float");
 
                     b.Property<string>("Resume")
@@ -870,9 +870,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
                             NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHrf3ISDrEc19sZxlS1Foj5Tld8cCZSRVitfY7/bDeeJ1zm+KSbdWbYuDPoguqqyKg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFezD2VGcDeCK/CwBSJ2mmv8EpyABhAltGGLxOYzq52+/FUvr0DtgvI/uK1iAZlZvg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7cfc1c4b-9b22-4b83-a412-4e2e1b69b39c",
+                            SecurityStamp = "1e581cf7-8baf-4346-9bb0-bbcf2ae49f99",
                             TwoFactorEnabled = false,
                             UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",
