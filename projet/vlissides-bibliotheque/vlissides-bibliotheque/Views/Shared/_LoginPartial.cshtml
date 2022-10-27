@@ -7,11 +7,11 @@
 @if (SignInManager.IsSignedIn(User))
 {
         <li class="nav-item">
-            <div class="btn-group">
+            <div class="dropstart">
                 <button class="btn text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="~/img/account-circle-light.svg" width="25px">
                 </button>
-                <ul class="dropdown-menu dropdown-menu-lg-end">
+                <ul class="dropdown-menu position-absolute">
                     <li class="dropdown-item">
                         <a class="dropdown-item" asp-controller="GestionProfil" asp-action="Index">Profil</a>
                     </li>
@@ -28,23 +28,15 @@
                 </ul>
             </div>
         </li>
-
-
-          
-   @*     <form class="form-inline" 
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>*@
-
-
 }
 else
 {
         <li class="nav-item">
-            <div class="btn-group">
+            <div class="dropstart">
                 <button class="btn text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="~/img/account-circle-light.svg" width="25px">
                 </button>
-                <ul class="dropdown-menu dropdown-menu-lg-end">
+                <ul class="dropdown-menu position-absolute">
                     <li class="dropdown-item">
                         <a class="nav-link" asp-area="" asp-controller="Connexion" asp-action="Inscription">S'inscrire</a>
                     </li>
