@@ -11,28 +11,46 @@ using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
-    public class LaBlunController : Controller
+    public class UsageController : Controller
     {
-        private readonly ILogger<LaBlunController> _logger;
+        private readonly ILogger<UsageController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public LaBlunController(ILogger<LaBlunController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public UsageController(ILogger<UsageController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult La_blun()
+        [Route("Usage/Index")]
+        [Route("Usage/{id?}")]
+        public IActionResult Usage(int? id)
         {
-            InventaireLaBlunVM inventaireLivreEtudiant = new() { inventaireLivreEtudiantVMs = _context.LivresEtudiants
-                .Include(x => x.Etudiant)
-                .ToList()
+            InventaireLaBlunVM inventaireLivreEtudiant = new()
+            {
+                inventaireLivreEtudiantVMs = new()
             };
-            return View(inventaireLivreEtudiant);
-        }
+            List<LivreEtudiant> livreEtudiants = _context.LivresEtudiants
+                    .Include(x => x.Etudiant)
+                    .ToList();
 
+            if (id == null)
+            {
+                inventaireLivreEtudiant.inventaireLivreEtudiantVMs = livreEtudiants;
+                return View(inventaireLivreEtudiant);
+            }
+            var livreRecherche = livreEtudiants.Find(x => x.LivreId == id);
+            if (livreRecherche == null)
+            {
+                return Content("Cette identifiant n'appartient à aucun livre");
+            }
+            inventaireLivreEtudiant.inventaireLivreEtudiantVMs.Add(livreRecherche);
+            return View(inventaireLivreEtudiant);
+
+        }
+        [Route("Usage/modifier/{id?}")]
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
         {
@@ -83,9 +101,10 @@ namespace vlissides_bibliotheque.Controllers
             return View(form);
         }
 
+        [Route("Usage/effacer/{id?}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> supprimer(int? id)
+        public async Task<ActionResult> effacer(int? id)
         {
             if (id == null)
             {
@@ -109,7 +128,7 @@ namespace vlissides_bibliotheque.Controllers
               .Include(x => x.Etudiant)
               .ToList()
             };
-            return View("La_blun", inventaireLivreEtudiant);
+            return RedirectToAction("Usage", inventaireLivreEtudiant);
         }
 
     }
