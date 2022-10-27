@@ -1,12 +1,15 @@
 ﻿@model LivreEtudiant
 
 @{
+    var UserClaims = User.Claims.ToList();
+    var UserEmail = UserClaims[2].Value.ToString();
+    var EmailEnLiensAuLivre  = Model.Etudiant.Email;
 }
 
 
 <div class="card border-2" style="width:auto">
 
-    @if (User.IsInRole(RolesName.Admin))
+    @if (User.IsInRole(RolesName.Admin) || UserEmail == EmailEnLiensAuLivre)
     {
         <div>
             <a class="float-start" asp-area="" asp-controller="usage" asp-action="modifier" asp-route-id="@Model.LivreId">
