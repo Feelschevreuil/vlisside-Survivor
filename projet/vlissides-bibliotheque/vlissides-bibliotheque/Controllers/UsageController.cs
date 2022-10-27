@@ -13,7 +13,7 @@ using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
     public class UsageController : Controller
     {
         private readonly ILogger<UsageController> _logger;
@@ -27,7 +27,6 @@ namespace vlissides_bibliotheque.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [Authorize]
         [Route("Usage/Index")]
         [Route("Usage/{id?}")]
         public IActionResult Usage(int? id)
@@ -54,7 +53,6 @@ namespace vlissides_bibliotheque.Controllers
             return View(inventaireLivreEtudiant);
 
         }
-        [Authorize]
         [Route("Usage/MaBoutique")]
         public IActionResult MaBoutique()
         {
@@ -77,7 +75,6 @@ namespace vlissides_bibliotheque.Controllers
 
         }
 
-        [Authorize]
         [Route("Usage/ajouter")]
         public IActionResult ajouter()
         {
@@ -86,7 +83,6 @@ namespace vlissides_bibliotheque.Controllers
             return View(livre);
         }
 
-        [Authorize]
         [HttpPost]
         [Route("Usage/ajouter")]
         public IActionResult ajouter(LivreEtudiant livreEtudiant)
@@ -109,7 +105,6 @@ namespace vlissides_bibliotheque.Controllers
             return View(livreEtudiant);
         }
 
-        [Authorize]
         [Route("Usage/modifier/{id?}")]
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
@@ -134,7 +129,6 @@ namespace vlissides_bibliotheque.Controllers
 
         }
 
-        [Authorize]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> modifier(LivreEtudiant form)
@@ -170,7 +164,6 @@ namespace vlissides_bibliotheque.Controllers
             return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas le modifier");
         }
 
-        [Authorize]
         [Route("Usage/effacer/{id?}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
