@@ -22,7 +22,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" id="livreLink">
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-area="" asp-controller="Inventaire" asp-action="Bibliotheque">Blibliothèque</a>
                 </li>
@@ -40,12 +40,12 @@
     <div class="container-fluid">
         <div class="row w-100 m-none m-auto">
             <div class="col-md-4 p-0">
-                <select id="MovieType" name="MovieType" class="btn btn-outline-primary text-light border-0 d-inline-flex">
+                <select id="livreLink" name="MovieType" class="btn btn-outline-primary text-light border-0 d-inline-flex">
                     <option selected="selected" value="1">Bibliothèque</option>
                     <option value="2">Blun</option>
                 </select>
 
-                <select class="btn btn-outline-primary text-light border-0" asp-items="@sl">
+                <select class="btn btn-outline-primary text-light border-0" asp-items="@sl" id="livreLink">
                     <option value="">Programme d'étude</option>
                 </select>
             </div>
