@@ -490,7 +490,7 @@ namespace seeder
 		.With(livre => livre.Isbn = 666 + Faker.Identification.UkNhsNumber())
 		.With(livre => livre.Titre = string.Join(" ", Faker.Lorem.Words(3)))
 		.With(livre => livre.Resume = Faker.Lorem.Sentence())
-		.With(livre => livre.PhotoCouverture = "N/A")
+		.With(livre => livre.PhotoCouverture = GetImageParDefaut())
 		.With(livre => livre.DatePublication = Faker.Identification.DateOfBirth())
 		.With(livre => livre.MaisonEditionId = _context.MaisonsEdition.First().MaisonEditionId)
 		.Build();
