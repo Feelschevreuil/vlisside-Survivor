@@ -7,7 +7,7 @@
 }
 
 
-<div class="card border-2" style="width:auto">
+<div class="card border-2 tuile-livre">
 
     @if (User.IsInRole(RolesName.Admin) || UserEmail == EmailEnLiensAuLivre)
     {
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="card border-0" style="width:auto">
+    <div class="card border-0 tuile-livre">
         <h5 class="card-title ">Titre: @Model.Titre</h5>
         <p class="card-text"><strong>ISBN:</strong> @Model.Isbn</p>
         <p class="card-text"><strong>Auteur:</strong> @Model.Auteur</p>
