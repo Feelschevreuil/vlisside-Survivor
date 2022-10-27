@@ -89,6 +89,9 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("Etudiant.Prenom");
             ModelState.Remove("Etudiant.Adresse");
             ModelState.Remove("Etudiant.ProgrammeEtude");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            livreEtudiant.Etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
+
 
             if (ModelState.IsValid)
             {
