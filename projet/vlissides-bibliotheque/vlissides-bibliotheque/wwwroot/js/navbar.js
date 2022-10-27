@@ -8,7 +8,6 @@ function setBottomNavbar() {
     let copyrightInfo = bottomNav.querySelector("#copyrightInfo");
     let bottomNavContent = document.querySelector("#bottomNavContent");
     let livreLinks = document.querySelectorAll("#livreLink");
-    console.log(livreLinks);
 
     if (screenWidth <= 575) {
 
