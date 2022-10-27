@@ -7,6 +7,19 @@
         id: Id,
        
     };
+    var cercle = document.querySelector("#cercleJaune" + "N-" + DonnerRecus.id);
+    var balisePrixLoading = document.querySelector('#' + "PrixLivreId" + "-" + DonnerRecus.id)
+    var img = document.createElement("img");
+    balisePrixLoading.innerHTML = "";
+    img.src = getImage();
+    img.id = "chargement";
+    img.classList.add("position-absolute", "fixed-top","w-100", "h-100");
+    cercle.append(img);
+    
+   
+
+
+    
     var data = JSON.stringify(DonnerRecus);
 
 
@@ -24,6 +37,8 @@
 
     }).then((data) => {
 
+        var removeImage = document.querySelector("#chargement");
+        removeImage.parentElement.removeChild(removeImage);
         var prix = data.prix
         var idRecherche = data.Id
         var balisePrix = document.querySelector('#' + "PrixLivreId" + "-" + idRecherche)
@@ -46,4 +61,8 @@ function checkTheBox(LivreId,etat) {
     baliseEtat.classList.add("bg-back");
     baliseEtat.classList.remove("bg-top");
 
+}
+
+function getImage() {
+    return "https://upload.wikimedia.org/wikipedia/commons/6/63/Elipsis.gif";
 }
