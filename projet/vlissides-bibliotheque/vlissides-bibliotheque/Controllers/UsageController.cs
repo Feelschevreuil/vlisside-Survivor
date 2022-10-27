@@ -63,12 +63,42 @@ namespace vlissides_bibliotheque.Controllers
                     .Include(x => x.Etudiant)
                     .ToList();
 
-            LivreEtudiant livre = livreEtudiants.Find(x => x.Etudiant.Id == userId);
-            
-            inventaireUnEtudiant.inventaireLivreEtudiantVMs.Add(livre);
+            List<LivreEtudiant> livres = livreEtudiants.FindAll(x => x.Etudiant.Id == userId);
+            if(livres.Count() == 0)
+            {
+                return View(inventaireUnEtudiant);
+            }
+            inventaireUnEtudiant.inventaireLivreEtudiantVMs.AddRange(livres);
             return View(inventaireUnEtudiant);
+            
         }
 
+        [Route("Usage/ajouter")]
+        public IActionResult ajouter()
+        {
+            LivreEtudiant livre = new();
+
+            return View(livre);
+        }
+
+        [HttpPost]
+        [Route("Usage/ajouter")]
+        public IActionResult ajouter(LivreEtudiant livreEtudiant)
+        {
+            ModelState.Remove("Etudiant.Nom");
+            ModelState.Remove("Etudiant.Prenom");
+            ModelState.Remove("Etudiant.Adresse");
+            ModelState.Remove("Etudiant.ProgrammeEtude");
+
+            if (ModelState.IsValid)
+            {
+
+                _context.LivresEtudiants.Add(livreEtudiant);
+                _context.SaveChanges();
+                return RedirectToAction("MaBoutique");
+            }
+            return View(livreEtudiant);
+        }
 
         [Route("Usage/modifier/{id?}")]
         [HttpGet]
