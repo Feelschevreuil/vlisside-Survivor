@@ -1,5 +1,17 @@
-﻿<footer class="position-absolute fixed-bottom">
-    <div class="text-center bg-middle text-light p-2">
-        &copy; - Bibliothèque du Cégep de la Connaissance Aléatoire - 2022
+﻿<footer class="position-absolute fixed-bottom" id="bottomNav">
+    <div class="text-center bg-top text-light p-2 w-100">
+        <span class="d-block" id="copyrightInfo">
+            &copy; Tous droits réservés - <img src="~/img/bibliox.png" width="100" height="30" alt=""> - 2022
+        </span>
+        <div class="d-none" id="bottomNavContent">
+            <a class="btn btn-outline-primary text-light border-0 me-3" asp-controller="Inventaire" asp-action="Bibliotheque">
+                <img src="~/img/tableau.svg" width="25px" />
+                Bibliothèque
+            </a>
+            <a class="btn btn-outline-primary text-light border-0 ms-3" asp-controller="Inventaire" asp-action="La_blun">
+                <img src="~/img/tableau.svg" width="25px" />
+                Usagés
+            </a>
+        </div>
     </div>
 </footer>
