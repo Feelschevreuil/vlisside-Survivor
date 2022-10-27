@@ -1093,7 +1093,8 @@ namespace seeder
                 Resume = Faker.Lorem.Paragraph(),
                 PhotoCouverture = GetImageParDefaut(),
                 DatePublication = Faker.Identification.DateOfBirth().AddDays(Faker.RandomNumber.Next(-3000, 0)),
-                MaisonEdition = Faker.Company.Name()
+                MaisonEdition = Faker.Company.Name(),
+                Prix = 0
             };
 
             return livreEtudiant;
