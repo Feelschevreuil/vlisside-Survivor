@@ -1,25 +1,25 @@
 ﻿@model LivreEtudiant
 
 @{
-
 }
 
 
 <div class="card border-2" style="width:auto">
 
-
-    <div>
-        <a class="float-start" asp-area="" asp-controller="usage" asp-action="modifier" asp-route-id="@Model.LivreId">
-            <input class="btn btn-primary shadow" type="button" value="Modifier" />
-        </a>
-
-        <form method="post" class="float-end" asp-controller="usage" asp-action="effacer" asp-route-id="@Model.LivreId">
-            <a>
-                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Titre')" type="submit" value="Supprimer" />
+    @if (User.IsInRole(RolesName.Admin))
+    {
+        <div>
+            <a class="float-start" asp-area="" asp-controller="usage" asp-action="modifier" asp-route-id="@Model.LivreId">
+                <input class="btn btn-primary shadow" type="button" value="Modifier" />
             </a>
-        </form>
-    </div>
 
+            <form method="post" class="float-end" asp-controller="usage" asp-action="effacer" asp-route-id="@Model.LivreId">
+                <a>
+                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Titre')" type="submit" value="Supprimer" />
+                </a>
+            </form>
+        </div>
+    }
     <div class="position-relative text-center">
         <img class="mx-auto image-livre" src=@Model.PhotoCouverture alt="PhotoLivre">
         <div class="prix rounded-circle shadow">
