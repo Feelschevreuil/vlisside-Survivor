@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Net;
+using System.Security.Claims;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -50,6 +51,25 @@ namespace vlissides_bibliotheque.Controllers
             return View(inventaireLivreEtudiant);
 
         }
+        [Route("Usage/MaBoutique")]
+        public IActionResult MaBoutique()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            InventaireLaBlunVM inventaireUnEtudiant = new()
+            {
+                inventaireLivreEtudiantVMs = new()
+            };
+            List<LivreEtudiant> livreEtudiants = _context.LivresEtudiants
+                    .Include(x => x.Etudiant)
+                    .ToList();
+
+            LivreEtudiant livre = livreEtudiants.Find(x => x.Etudiant.Id == userId);
+            
+            inventaireUnEtudiant.inventaireLivreEtudiantVMs.Add(livre);
+            return View(inventaireUnEtudiant);
+        }
+
+
         [Route("Usage/modifier/{id?}")]
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
