@@ -8,20 +8,22 @@
 {
         <li class="nav-item">
             <div class="btn-group">
-                <button class="btn text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="~/img/account.svg" width="25px">
+                <button class="btn text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="~/img/account-circle-light.svg" width="25px">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
-                    <li><a class="dropdown-item" asp-controller="GestionProfil" asp-action="Index">Profil</a></li>
-                    <li><a class="dropdown-item" asp-controller="Boutique" asp-action="ma_boutique">Ma boutique</a></li>
-                    <li>
-                     
+                    <li class="dropdown-item">
+                        <a class="dropdown-item" asp-controller="GestionProfil" asp-action="Index">Profil</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a class="dropdown-item" asp-controller="Boutique" asp-action="ma_boutique">Ma boutique</a>
+                    </li>
+                    <li class="dropdown-item">
                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
                           asp-route-returnUrl="/"
                           method="post">
                             <button type="submit" class="dropdown-item">Déconnexion</button>
                         </form>
-                       
                     </li>
                 </ul>
             </div>
@@ -39,8 +41,8 @@ else
 {
         <li class="nav-item">
             <div class="btn-group">
-                <button class="btn text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="~/img/account.svg" width="25px">
+                <button class="btn text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="~/img/account-circle-light.svg" width="25px">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
                     <li class="dropdown-item">
