@@ -2,8 +2,8 @@
 {
     public class NomEtatLivre
     {
-        public const string Neuf = "Neuf";
-        public const string Numerique = "Digital";
-        public const string Usagee = "Usagé";
+        public const string NEUF = "Neuf";
+        public const string DIGITAL = "Digital";
+        public const string USAGE = "Usagé";
     }
 }
