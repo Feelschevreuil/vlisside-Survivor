@@ -75,7 +75,7 @@ namespace vlissides_bibliotheque.Controllers
         [Authorize (Roles =RolesName.Etudiant)]
         public IActionResult ajouter()
         {
-            LivreEtudiant livre = new();
+            LivreEtudiantVM livre = new();
 
             return View(livre);
         }
@@ -83,24 +83,36 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         [Route("Usage/ajouter")]
         [Authorize(Roles = RolesName.Etudiant)]
-        public IActionResult ajouter(LivreEtudiant livreEtudiant)
+        public IActionResult ajouter(LivreEtudiantVM livreEtudiantVM)
         {
             ModelState.Remove("Etudiant.Nom");
             ModelState.Remove("Etudiant.Prenom");
             ModelState.Remove("Etudiant.Adresse");
             ModelState.Remove("Etudiant.ProgrammeEtude");
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            livreEtudiant.Etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
-
 
             if (ModelState.IsValid)
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                livreEtudiantVM.Etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
 
+                LivreEtudiant livreEtudiant = new() { 
+                    LivreId = livreEtudiantVM.LivreId,
+                    Etudiant = livreEtudiantVM.Etudiant,
+                    Titre = livreEtudiantVM.Titre,
+                    Isbn = livreEtudiantVM.Isbn,
+                    Resume = livreEtudiantVM.Resume,
+                    PhotoCouverture = livreEtudiantVM.PhotoCouverture,
+                    DatePublication = livreEtudiantVM.DatePublication,
+                    MaisonEdition = livreEtudiantVM.MaisonEdition,
+                    Auteur = livreEtudiantVM.Auteur,
+                    Prix = livreEtudiantVM.Prix
+                    
+                };
                 _context.LivresEtudiants.Add(livreEtudiant);
                 _context.SaveChanges();
                 return RedirectToAction("MaBoutique");
             }
-            return View(livreEtudiant);
+            return View(livreEtudiantVM);
         }
 
         [Route("Usage/modifier/{id?}")]
@@ -114,14 +126,28 @@ namespace vlissides_bibliotheque.Controllers
             }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
-
             LivreEtudiant livreEtudiantRechercher = _context.LivresEtudiants
                 .Include(x => x.Etudiant)
                 .ToList()
                 .Find(x => x.LivreId == id);
+
             if (livreEtudiantRechercher.Etudiant.Id == userId || User.IsInRole(RolesName.Admin))
             {
-                return View(livreEtudiantRechercher);
+                LivreEtudiantVM livreEtudiant = new()
+                {
+                    LivreId = livreEtudiantRechercher.LivreId,
+                    Etudiant = livreEtudiantRechercher.Etudiant,
+                    Titre = livreEtudiantRechercher.Titre,
+                    Isbn = livreEtudiantRechercher.Isbn,
+                    Resume = livreEtudiantRechercher.Resume,
+                    PhotoCouverture = livreEtudiantRechercher.PhotoCouverture,
+                    DatePublication = livreEtudiantRechercher.DatePublication,
+                    MaisonEdition = livreEtudiantRechercher.MaisonEdition,
+                    Auteur = livreEtudiantRechercher.Auteur,
+                    Prix = livreEtudiantRechercher.Prix
+
+                };
+                return View(livreEtudiant);
             }
             return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas le modifier");
 
@@ -129,7 +155,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> modifier(LivreEtudiant form)
+        public async Task<ActionResult> modifier(LivreEtudiantVM form)
         {
             ModelState.Remove("Etudiant.Nom");
             ModelState.Remove("Etudiant.Prenom");
