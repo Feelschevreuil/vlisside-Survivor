@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vlissides_bibliotheque.Migrations
 {
-    public partial class resetMigrationSeeder : Migration
+    public partial class mirationInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -675,7 +675,7 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "admin@cegep-connaissance-aleatoire.qc.ca", true, false, null, "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "AQAAAAEAACcQAAAAEFezD2VGcDeCK/CwBSJ2mmv8EpyABhAltGGLxOYzq52+/FUvr0DtgvI/uK1iAZlZvg==", null, false, "1e581cf7-8baf-4346-9bb0-bbcf2ae49f99", false, "admin@cegep-connaissance-aleatoire.qc.ca" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "admin@cegep-connaissance-aleatoire.qc.ca", true, false, null, "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "AQAAAAEAACcQAAAAEAhyqDr7YBPQznUrc2G0dn3Ghs0SimOVXdCzkt3biTev2alh5v0/CEhJoefA4g0h1g==", null, false, "8a46a597-83af-4249-8e73-2cb6ce29adcd", false, "admin@cegep-connaissance-aleatoire.qc.ca" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",

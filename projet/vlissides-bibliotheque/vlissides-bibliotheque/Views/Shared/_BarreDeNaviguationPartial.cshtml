@@ -12,73 +12,57 @@
 }
 
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow d-flex flex-row-reverse bd-highlight bg-middle">
-    <div>
-    <partial name="_LoginPartial" />
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow bg-middle">
+    <div class="container-fluid">
+        <a class="navbar-brand me-auto" asp-controller="Accueil" asp-action="Accueil" title="Accueil">
+            <img src="~/img/bibliox.png" width="100" height="30" alt="">
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav" id="livreLink">
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-area="" asp-controller="Inventaire" asp-action="Bibliotheque">Blibliothèque</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-area="" asp-controller="Inventaire" asp-action="La_blun">Livres usagés</a>
+                </li>
+            </ul>
+        </div>
+        <partial name="_LoginPartial" />
+
     </div>
 </nav>
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom shadow mb-2 bg-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                    <a class="nav-link text-white" asp-area="" asp-controller="Accueil" asp-action="Accueil">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link text-white" asp-area="" asp-controller="Inventaire" asp-action="Bibliotheque">Blibliothèque</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link text-white" asp-area="" asp-controller="LaBlun" asp-action="La_blun">La blun</a>
-                    </li>
-                </ul>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom shadow bg-top">
+    <div class="container-fluid">
+        <div class="row w-100 m-none m-auto">
+            <div class="col-md-4 p-0 text-end">
+                <select id="livreLink" name="MovieType" class="btn btn-outline-primary text-light border-0 d-inline-flex">
+                    <option selected="selected" value="1">Bibliothèque</option>
+                    <option value="2">Blun</option>
+                </select>
 
-          
-                <fieldset>
-                <select id="MovieType" name="MovieType" class="btn btn-outline-light border-0 d-inline-flex">
+                <select class="btn btn-outline-primary text-light border-0" asp-items="@sl" id="livreLink">
+                    <option value="">Programme d'étude</option>
+                </select>
+            </div>
 
-                        <option selected="selected" value="1">Bibliothèque</option>
-
-                        <option value="2">Blun</option>
-
-                    </select>
+            <div class="col-md-4">
+                <div class="input-group m-none">
+                    <input name="searchString" type="text" class="form-control bg-light border-light" placeholder="Chercher un livre">
+                    <button class="input-group-text btn btn-light border-light" type="submit">
+                        <img src="~/img/loupe-de-recherche.svg">
+                    </button>
+                </div>
+            </div>
+            
+            @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
 
 
-                </fieldset>
-        
-
-                <form class="form-inline-flex navbar-collapse" asp-controller="Movies" asp-action="Filter">
-                    <input name="searchString" type="text" class="form-control" placeholder="Chercher un livre">
-                    
-                    
-                    
-                    @* TODO: logique pour afficher tous les programmes d'études basée sur le model*@
-
-                    <select class="btn btn-outline-light border-0" asp-items="@sl">
-                    <option  value="">Programme d'étude</option>
-                    </select>
-@*
-
-                    <select asp-for="EmployeeId"
-                    asp-items="@(new SelectList(Model.EmployeesList, nameof(Employee.Id), nameof(Employee.FullName)))">
-                    <option>Please select one</option>
-                    </select>
-                    
-                    
-                    *@
-
-                <button class="btn btn-outline-light border-0" type="submit">
-                    <img src="~/img/loupe-de-recherche.svg">
-                </button>
-
-                </form>
-
-            <button class="btn btn-outline-light border-0" type="submit"> Recherche avancée </button>
-
+            @*
+            <select asp-for="EmployeeId"
+            asp-items="@(new SelectList(Model.EmployeesList, nameof(Employee.Id), nameof(Employee.FullName)))">
+            <option>Please select one</option>
+            </select>
+            *@
         </div>
-        </div>
-    </nav>
+    </div>
+</nav>

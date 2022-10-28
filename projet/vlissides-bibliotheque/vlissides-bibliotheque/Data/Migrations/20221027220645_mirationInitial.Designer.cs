@@ -12,8 +12,8 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221027142508_resetMigrationSeeder")]
-    partial class resetMigrationSeeder
+    [Migration("20221027220645_mirationInitial")]
+    partial class mirationInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -872,9 +872,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
                             NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFezD2VGcDeCK/CwBSJ2mmv8EpyABhAltGGLxOYzq52+/FUvr0DtgvI/uK1iAZlZvg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAhyqDr7YBPQznUrc2G0dn3Ghs0SimOVXdCzkt3biTev2alh5v0/CEhJoefA4g0h1g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1e581cf7-8baf-4346-9bb0-bbcf2ae49f99",
+                            SecurityStamp = "8a46a597-83af-4249-8e73-2cb6ce29adcd",
                             TwoFactorEnabled = false,
                             UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",
