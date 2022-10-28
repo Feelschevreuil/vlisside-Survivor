@@ -33,7 +33,8 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="NoTelephone" class="form-label"></label>
-                            <input asp-for="NoTelephone" class="form-control" aria-required="true" />
+                            <input type="text" class="form-label" aria-required="true" oninput="formatPhone(this, 'phoneNumber')" />
+                            <input asp-for="NoTelephone" id="phoneNumber" hidden/>
                             <span asp-validation-for="NoTelephone" class="text-danger"></span>
                         </div>
                     </fieldset>
