@@ -1,11 +1,11 @@
-﻿function formatPhone(fakePhoneNumberInput, phoneNumberInput) {
-    if(fakePhoneNumberInput != undefined && phoneNumberInput != undefined) {
+﻿function formatPhone(fakePhoneNumberInput, phoneNumberInputId) {
+    if(fakePhoneNumberInput != undefined && phoneNumberInputId != undefined) {
         let phoneNumber = fakePhoneNumberInput.value;
 
         // remplacer tous les caractères qui ne sont pas des nombres
         phoneNumber = phoneNumber.replace(/\D/g,"");
     
-        phoneNumberInput.value = parseInt(phoneNumber);
+        document.getElementById(phoneNumberInputId).value = parseInt(phoneNumber);
     
         let formattedPhoneNumber = phoneNumber
     
