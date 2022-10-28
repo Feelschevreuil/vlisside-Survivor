@@ -72,6 +72,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [Route("Usage/ajouter")]
+        [Authorize (Roles =RolesName.Etudiant)]
         public IActionResult ajouter()
         {
             LivreEtudiant livre = new();
@@ -81,6 +82,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [HttpPost]
         [Route("Usage/ajouter")]
+        [Authorize(Roles = RolesName.Etudiant)]
         public IActionResult ajouter(LivreEtudiant livreEtudiant)
         {
             ModelState.Remove("Etudiant.Nom");
@@ -105,13 +107,13 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
             if (id == null)
             {
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
 
             LivreEtudiant livreEtudiantRechercher = _context.LivresEtudiants
                 .Include(x => x.Etudiant)
