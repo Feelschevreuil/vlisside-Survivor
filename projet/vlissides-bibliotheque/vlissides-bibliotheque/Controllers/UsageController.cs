@@ -196,7 +196,7 @@ namespace vlissides_bibliotheque.Controllers
                   .Include(x => x.Etudiant)
                   .ToList()
                 };
-                return RedirectToAction("Usage", inventaireLivreEtudiant);
+                return RedirectToAction("MaBoutique");
             }
             return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas l'effacer");
         }
