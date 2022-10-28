@@ -72,7 +72,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [Route("Usage/ajouter")]
-        [Authorize (Roles =RolesName.Etudiant)]
+        [Authorize(Roles = RolesName.Etudiant)]
         public IActionResult ajouter()
         {
             LivreEtudiantVM livre = new();
@@ -95,7 +95,8 @@ namespace vlissides_bibliotheque.Controllers
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 livreEtudiantVM.Etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
 
-                LivreEtudiant livreEtudiant = new() { 
+                LivreEtudiant livreEtudiant = new()
+                {
                     LivreId = livreEtudiantVM.LivreId,
                     Etudiant = livreEtudiantVM.Etudiant,
                     Titre = livreEtudiantVM.Titre,
@@ -106,7 +107,7 @@ namespace vlissides_bibliotheque.Controllers
                     MaisonEdition = livreEtudiantVM.MaisonEdition,
                     Auteur = livreEtudiantVM.Auteur,
                     Prix = livreEtudiantVM.Prix
-                    
+
                 };
                 _context.LivresEtudiants.Add(livreEtudiant);
                 _context.SaveChanges();
@@ -161,12 +162,17 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("Etudiant.Prenom");
             ModelState.Remove("Etudiant.Adresse");
             ModelState.Remove("Etudiant.ProgrammeEtude");
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
-            if (form.Etudiant.Id == userId || User.IsInRole(RolesName.Admin))
+
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                LivreEtudiant livreEtudiant = _context.LivresEtudiants
+                .Include(x => x.Etudiant)
+                .ToList()
+                .Find(x => x.Etudiant.Id == userId);
+                if (livreEtudiant != null || User.IsInRole(RolesName.Admin))
                 {
+
                     LivreEtudiant LivreEtudiantModifier = _context.LivresEtudiants.ToList().Find(x => x.LivreId == form.LivreId);
                     LivreEtudiantModifier.MaisonEdition = form.MaisonEdition;
                     LivreEtudiantModifier.Isbn = form.Isbn;
@@ -179,13 +185,11 @@ namespace vlissides_bibliotheque.Controllers
 
                     _context.LivresEtudiants.Update(LivreEtudiantModifier);
                     _context.SaveChanges();
-
-
                     return View("succesModifierUsage", LivreEtudiantModifier);
                 }
-                return View(form);
+                return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas le modifier");
             }
-            return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas le modifier");
+            return View(form);
         }
 
         [Route("Usage/effacer/{id?}")]
@@ -209,7 +213,7 @@ namespace vlissides_bibliotheque.Controllers
             var livreAssocierEtudient = _context.LivresEtudiants
                 .ToList()
                 .Find(x => x.Etudiant.Id == etudiant.Id && x.LivreId == id);
-            if (livreAssocierEtudient  != null || User.IsInRole(RolesName.Admin))
+            if (livreAssocierEtudient != null || User.IsInRole(RolesName.Admin))
             {
                 _context.LivresEtudiants.Remove(livreSupprimer);
                 _context.SaveChanges();
