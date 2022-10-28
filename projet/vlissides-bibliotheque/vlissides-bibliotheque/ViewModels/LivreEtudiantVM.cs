@@ -27,7 +27,8 @@ namespace vlissides_bibliotheque.ViewModels
         public string PhotoCouverture { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public DateTime DatePublication { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DatePublication { get; set; } = DateTime.Now;
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string MaisonEdition { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
