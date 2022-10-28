@@ -33,7 +33,7 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de modification de l'étudiant courant.
         /// </summary>
         /// <returns>¨Page de modification d'étudiant.</returns>
-        [Authorize]
+        [Authorize (Roles =RolesName.Etudiant)]
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
