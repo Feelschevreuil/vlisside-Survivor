@@ -20,25 +20,12 @@ namespace vlissides_bibliotheque.Controllers
 
         public IActionResult ma_boutique()
         {
-            List<Evenement> listEvenements = new()
-            {
-              
+          
 
-            };
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetTuileLivreBibliotequeVMs(), evenements = listEvenements };
-
-            return View(recommendationPromotions);
+            return View();
 
         }
 
-        public List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs()
-        {
-            List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
-            List<LivreBibliotheque> listLivreBibliotheque = _context.LivresBibliotheque.ToList();
-            Random random = new Random();
 
-            return listTuileLivreBibliotequeVMs;
-
-        }
     }
 }
