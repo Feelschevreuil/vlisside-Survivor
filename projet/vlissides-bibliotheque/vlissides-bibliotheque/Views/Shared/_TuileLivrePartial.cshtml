@@ -20,18 +20,21 @@
 
 <div class="card border-2 tuile-livre">
 
+    @if (User.IsInRole(RolesName.Admin))
+    {
+        <div>
 
-    <div>
-        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
-            <input class="btn btn-primary shadow" type="button" value="Modifier" />
-        </a>
-
-        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
-            <a>
-                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="submit" value="Supprimer" />
+            <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
+                <input class="btn btn-primary shadow" type="button" value="Modifier" />
             </a>
-        </form>
-    </div>
+
+            <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
+                <a>
+                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="submit" value="Supprimer" />
+                </a>
+            </form>
+        </div>
+    }
 
     <div class="position-relative text-center">
         <img class="mx-auto image-livre" src="@Model.livreBibliotheque.PhotoCouverture" alt="PhotoLivre">
