@@ -27,12 +27,12 @@ namespace vlissides_bibliotheque.Services
 	/// <param name="quantiteParPage">
 	/// La quantité d'objets que l'on veut afficher par page.
 	/// </param>
-	/// <param name="pages">
+	/// <param name="page">
 	/// Le numéro de page des résultats.
 	/// </param>
 	/// <returns>
 	/// Une liste d'objets ayant un titre similaire ayant un titre similaire ou égal.
 	/// </returns>
-	IEnumerable<T> SearchByTitle(String title, int quantiteParPage = 20, int pages = 0);
+	IEnumerable<T> SearchByTitle(String title, int quantiteParPage = 20, int page = 0);
     }
 }
