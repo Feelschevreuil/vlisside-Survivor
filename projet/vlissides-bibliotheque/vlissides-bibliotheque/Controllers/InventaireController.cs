@@ -300,6 +300,10 @@ namespace vlissides_bibliotheque.Controllers
 
         public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, CreationLivreVM form)
         {
+            if (form.PrixNeuf == null) { form.PrixNeuf = 0; };
+            if (form.PrixNumerique == null) { form.PrixNeuf = 0; };
+            if (form.PrixUsage == null) { form.PrixNeuf = 0; };
+
             List<PrixEtatLivre> ListPrixEtat = new();
 
             PrixEtatLivre AssociationPrixNeuf = new()
@@ -314,14 +318,14 @@ namespace vlissides_bibliotheque.Controllers
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
                 EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Numerique).EtatLivreId,
-                Prix = form.PrixNumerique,
+                Prix =  form.PrixNumerique,
             };
             PrixEtatLivre AssociationPrixUsager = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
                 EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Usagee).EtatLivreId,
-                Prix = form.PrixUsage,
+                Prix =  form.PrixUsage,
             };
 
             ListPrixEtat.Add(AssociationPrixNeuf);
@@ -333,6 +337,10 @@ namespace vlissides_bibliotheque.Controllers
         }
         public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
         {
+            if(form.PrixNeuf == null) { form.PrixNeuf = 0;};
+            if(form.PrixNumerique == null) { form.PrixNeuf = 0; };
+            if(form.PrixUsage == null) { form.PrixNeuf = 0; };
+
             List<PrixEtatLivre> ListPrixEtat = new();
 
             PrixEtatLivre AssociationPrixNeuf = new()

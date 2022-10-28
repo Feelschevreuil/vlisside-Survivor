@@ -23,17 +23,18 @@ namespace vlissides_bibliotheque.ViewModels
 		[DataType(DataType.Date)]
 		public DateTime DatePublication { get; set; } = DateTime.Now;
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Usagé")]
-		public double PrixUsage { get; set; } = 0;
+        [DataType(DataType.Currency)]
+        public double PrixUsage { get; set; } = 0;
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
+	
 		[DisplayName("Numérique")]
-		public double PrixNumerique { get; set; } = 0;
+        [DataType(DataType.Currency)]
+        public double PrixNumerique { get; set; } = 0;
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Neuf")]
-		public double PrixNeuf { get; set; } 
+		[DataType(DataType.Currency)]
+		public double PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
 		public int? QuantiteUsagee { get; set; }
