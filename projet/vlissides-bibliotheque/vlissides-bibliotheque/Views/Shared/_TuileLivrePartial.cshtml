@@ -24,11 +24,9 @@
     @if (User.IsInRole(RolesName.Admin))
     {
         <div>
-
-    <div>
-        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
-            <input class="btn btn-primary shadow" type="button" value="Modifier" />
-        </a>
+            <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
+                <input class="btn btn-primary shadow" type="button" value="Modifier" />
+            </a>
 
             <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
                 <a>
@@ -48,29 +46,32 @@
     <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
         <label class="btn bg-back text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
             <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.Neuf" onclick="ChangerPrix(this.value, @livreIdCourant);" checked> Neuf
-            </label>
+        </label>
         <label class="btn bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
             <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.Numerique" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
-            </label>
+        </label>
         <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
             <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.Usagee" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
-            </label>
+        </label>
     </div>
 
 
     <div class="card border-0 livre-info">
         <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
         <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
-        @if(Model.coursLivre != null){
+        @if (Model.coursLivre != null)
+        {
 
-        <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
-        <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
-        }else{
+            <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+            <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
+        }
+        else
+        {
             <p class="card-text">Programme d'étude: N/A</p>
             <p class="card-text">Année de parcours: N/A</p>
         }
         <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
-      
+
     </div>
 
     @if (Model.complementaire)
@@ -123,4 +124,4 @@
 </div>
 
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
- <script src="~/js/PrixAjax.js"></script>
+<script src="~/js/PrixAjax.js"></script>
