@@ -197,19 +197,21 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<ActionResult> effacer(int? id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
             if (id == null)
             {
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
             var livreSupprimer = _context.LivresEtudiants.ToList().Find(x => x.LivreId == id);
+            
             if (livreSupprimer == null)
             {
                 Response.StatusCode = 404;
                 return Content("Ce livre n'existe pas dans la base de données");
             };
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
             var livreAssocierEtudient = _context.LivresEtudiants
                 .ToList()
                 .Find(x => x.Etudiant.Id == etudiant.Id && x.LivreId == id);
