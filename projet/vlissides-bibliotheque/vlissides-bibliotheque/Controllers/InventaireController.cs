@@ -1,10 +1,6 @@
-﻿using Humanizer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Net;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
