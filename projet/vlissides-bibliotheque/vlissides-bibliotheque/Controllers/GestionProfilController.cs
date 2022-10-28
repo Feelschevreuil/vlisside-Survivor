@@ -78,9 +78,9 @@ namespace vlissides_bibliotheque.Controllers
         {
 
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant? paul = _context.Etudiants.ToList().Find(x => x.Id == id);
+            Etudiant? utilisateurEtudiant = _context.Etudiants.ToList().Find(x => x.Id == id);
 
-            if (paul != null || User.IsInRole(RolesName.Admin))
+            if (utilisateurEtudiant != null || User.IsInRole(RolesName.Admin))
             {
 
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
