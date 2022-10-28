@@ -3,6 +3,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace vlissides_bibliotheque
 {
@@ -43,8 +44,13 @@ namespace vlissides_bibliotheque
 				.AddRoles<IdentityRole>()
 				.AddSignInManager()
 				.AddEntityFrameworkStores<ApplicationDbContext>();
+			
+			builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
+				opt => {
+				opt.LoginPath = "/Connexion";
+			});
 
-			builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();
 
 			var app = builder.Build();
 
@@ -72,5 +78,6 @@ namespace vlissides_bibliotheque
 
 			app.Run();
 		}
+
 	}
 }
