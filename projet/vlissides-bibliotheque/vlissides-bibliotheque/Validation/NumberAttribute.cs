@@ -6,28 +6,25 @@ namespace vlissides_bibliotheque.Validation
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if(value == null)
+            if (value == null)
             {
                 return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre.");
             }
-            var nbCurrent = value.ToString();
-            if(string.IsNullOrEmpty(nbCurrent)) 
+
+
+            decimal nbCurrent;
+
+            if (decimal.TryParse(value.ToString(), out nbCurrent))
             {
-                return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre.");
-            }
-            int nb;
-
-            try {
-                nb = Convert.ToInt32(nbCurrent);
-            } catch { 
-                return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre.");
+                if (nbCurrent < 0)
+                {
+                    return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre positif.");
+                }
+                return ValidationResult.Success;
             }
 
-            if(nb < 0) {
-                return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre positif.");
-            }
+            return new ValidationResult(ErrorMessage = "Veuillez entrer un nombre.");
 
-            return ValidationResult.Success;
         }
     }
 }
