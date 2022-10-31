@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Exercice_Ajax.DTO;
 using Newtonsoft.Json;
+using vlissides_bibliotheque.Constantes;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -37,15 +38,16 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(listEvenementsVM);
         }
-
+        
+        [Authorize(Roles = RolesName.Admin)]
         [HttpGet]
         public IActionResult Creer()
         {
             EvenementVM evenementVM = new();
 
             return View(evenementVM);
-        }  
-
+        }
+        [Authorize(Roles = RolesName.Admin)]
         [HttpPost]
         public IActionResult Creer(EvenementVM evenementVM)
         {
@@ -68,6 +70,14 @@ namespace vlissides_bibliotheque.Controllers
 
             }
             return View(evenementVM);
+        }
+
+        [Authorize(Roles =RolesName.Admin)]
+        [Route("Evenement/modifier/{id?}")]
+        [HttpGet]
+        public async Task<ActionResult> modifier(int? id)
+        {
+
         }
     }
 }

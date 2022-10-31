@@ -11,10 +11,11 @@
 	</a>
 	<h1 class="p-2 flex-grow-1">Toutes les actualités courantes</h1>
 
+	@if(User.IsInRole(RolesName.Admin)){
 	<a class="d-flex justify-content-end" asp-controller="Evenement" asp-action="creer">
 		<input class="btn btn-primary shadow" type="button" value="Ajouter un événement" />
     </a>
-
+	}
 </div>
 
 <div class="container-fluid">
