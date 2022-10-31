@@ -1,4 +1,13 @@
-﻿function formatPhone(fakePhoneNumberInput, phoneNumberInputId) {
+﻿let backspaceIsActive = false;
+
+document.addEventListener("keydown", (event) => {
+    backspaceIsActive = event.key == "Backspace";
+});
+document.addEventListener("keyup", (event) => {
+    backspaceIsActive = event.key == "Backspace";
+});
+
+function formatPhone(fakePhoneNumberInput, phoneNumberInputId) {
     if(fakePhoneNumberInput != undefined && phoneNumberInputId != undefined) {
         let phoneNumber = fakePhoneNumberInput.value;
 
