@@ -1,18 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Configuration;
+﻿using System.ComponentModel.DataAnnotations;
+using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
-namespace vlissides_bibliotheque.Models
+namespace vlissides_bibliotheque.ViewModels
 {
-    /// <summary>
-    /// Classe <c>LivreEtudiant</c> définit la table livreEtudiant dans la base de données.
-    /// </summary>
-    public class LivreEtudiant : ILivre
+    public class LivreEtudiantVM
     {
-        [Key]
         [Required]
         public int LivreId { get; set; }
 
@@ -34,7 +27,8 @@ namespace vlissides_bibliotheque.Models
         public string PhotoCouverture { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public DateTime DatePublication { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DatePublication { get; set; } = DateTime.Now;
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string MaisonEdition { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -43,6 +37,7 @@ namespace vlissides_bibliotheque.Models
         [Range(0, 1000)]
         [DataType(DataType.Currency)]
         public double? Prix { get; set; }
+
 
     }
 }

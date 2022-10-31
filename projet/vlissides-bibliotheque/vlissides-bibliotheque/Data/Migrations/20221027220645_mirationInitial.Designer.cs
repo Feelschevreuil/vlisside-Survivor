@@ -12,8 +12,8 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221021180257_QuantiterUsage")]
-    partial class QuantiterUsage
+    [Migration("20221027220645_mirationInitial")]
+    partial class mirationInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -702,7 +702,7 @@ namespace vlissides_bibliotheque.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Prix")
+                    b.Property<double?>("Prix")
                         .HasColumnType("float");
 
                     b.Property<string>("Resume")
@@ -736,7 +736,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.HasKey("MaisonEditionId");
 
-                    b.ToTable("MaisonsEditions");
+                    b.ToTable("MaisonsEdition");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.PrixEtatLivre", b =>
@@ -756,7 +756,7 @@ namespace vlissides_bibliotheque.Migrations
                     b.Property<double>("Prix")
                         .HasColumnType("float");
 
-                    b.Property<int>("QuantiterUsage")
+                    b.Property<int>("QuantiteUsage")
                         .HasColumnType("int");
 
                     b.HasKey("PrixEtatLivreId");
@@ -872,9 +872,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
                             NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKfPWIoI0aTMnitWufi4KvQYlkjMBniU/SX8yZVY3AvPP39yd8sfhwZanFpXjjRBUA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAhyqDr7YBPQznUrc2G0dn3Ghs0SimOVXdCzkt3biTev2alh5v0/CEhJoefA4g0h1g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fb2fa0c8-fc15-4622-8aa6-e4b04be45882",
+                            SecurityStamp = "8a46a597-83af-4249-8e73-2cb6ce29adcd",
                             TwoFactorEnabled = false,
                             UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",

@@ -1,9 +1,6 @@
-﻿using Humanizer;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Net;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -11,6 +8,7 @@ using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
+    [Authorize]
     public class InventaireController : Controller
     {
         private readonly ILogger<InventaireController> _logger;
@@ -26,22 +24,14 @@ namespace vlissides_bibliotheque.Controllers
 
         public IActionResult La_blun()
         {
-            List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs = new()
-            {
-                
-            };
-
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = tuileLivreBibliotequeVMs};
-
-            return View(recommendationPromotions);
-
-
+           InventaireLaBlunVM inventaireLivreEtudiant = new() { inventaireLivreEtudiantVMs = _context.LivresEtudiants.ToList() };      
+           return View(inventaireLivreEtudiant);
         }
 
         public IActionResult Bibliotheque()
         {
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
-            foreach(LivreBibliotheque livre in _context.LivresBibliotheque)
+            foreach (LivreBibliotheque livre in _context.LivresBibliotheque)
             {
                 var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
                 inventaireBibliotheque.Add(livreConvertie);
@@ -49,13 +39,24 @@ namespace vlissides_bibliotheque.Controllers
 
 
 
-            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque};
+            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
+
+            foreach (TuileLivreBibliotequeVM tuile in inventaireBibliotheque)
+            {
+                if(tuile.prixEtatLivre == null)
+                {
+                   tuile.prixEtatLivre = AssocierPrixEtat(tuile);
+                    Console.WriteLine("dd");
+                }
+
+            }
+
 
             return View(inventaireLivreBibliotheque);
 
         }
 
-
+        [Authorize(Roles =RolesName.Admin)]
         [HttpGet]
         public ActionResult creer()
         {
@@ -64,6 +65,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(nouveauLivre);
         }
 
+        [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> creer(CreationLivreVM form)
@@ -76,16 +78,6 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string nomFicherImage = Path.GetFileNameWithoutExtension(form.fichierImage.FileName);
-                string extentionFicherImage = Path.GetExtension(form.fichierImage.FileName);
-                form.Photo = nomFicherImage = nomFicherImage + DateTime.Now.ToString("yymmssff") + extentionFicherImage;
-                string chemin = Path.Combine(wwwRootPath + "/img", nomFicherImage);
-                using (var fileStream = new FileStream(chemin, FileMode.Create))
-                {
-                    await form.fichierImage.CopyToAsync(fileStream);
-                }
-
                 LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
                 {
                     LivreId = 0,
@@ -124,6 +116,8 @@ namespace vlissides_bibliotheque.Controllers
 
         }
 
+
+        [Authorize(Roles = RolesName.Admin)]
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
         {
@@ -140,9 +134,9 @@ namespace vlissides_bibliotheque.Controllers
             List<EtatLivre> etatLivres = _context.EtatsLivres.ToList();
 
 
-            int idLivreNeuf = etatLivres.Find(y => y.Nom == NomEtatLivre.Neuf).EtatLivreId;
-            int idLivreNumerique = etatLivres.Find(y => y.Nom == NomEtatLivre.Numerique).EtatLivreId;
-            int idLivreUsager = etatLivres.Find(y => y.Nom == NomEtatLivre.Usagee).EtatLivreId;
+            int idLivreNeuf = etatLivres.Find(y => y.Nom == NomEtatLivre.NEUF).EtatLivreId;
+            int idLivreNumerique = etatLivres.Find(y => y.Nom == NomEtatLivre.DIGITAL).EtatLivreId;
+            int idLivreUsager = etatLivres.Find(y => y.Nom == NomEtatLivre.USAGE).EtatLivreId;
 
           
             var pasEtatAuLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
@@ -186,37 +180,18 @@ namespace vlissides_bibliotheque.Controllers
         }
 
 
+        [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> modifier(ModificationLivreVM form)
         {
-            bool ImageIsNull = form.fichierImage == null;
             ModelState.Remove("Auteurs");
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
             ModelState.Remove("Photo");
 
-            if (ImageIsNull)
-            {
-                ModelState.Remove("fichierImage");
-            }
-
             if (ModelState.IsValid)
             {
-                if (!ImageIsNull)
-                {
-                    string wwwRootPath = _webHostEnvironment.WebRootPath;
-                    string nomFicherImage = Path.GetFileNameWithoutExtension(form.fichierImage.FileName);
-                    string extentionFicherImage = Path.GetExtension(form.fichierImage.FileName);
-                    form.Photo = nomFicherImage = nomFicherImage + DateTime.Now.ToString("yymmssff") + extentionFicherImage;
-                    string chemin = Path.Combine(wwwRootPath + "/img", nomFicherImage);
-                    using (var fileStream = new FileStream(chemin, FileMode.Create))
-                    {
-                        await form.fichierImage.CopyToAsync(fileStream);
-                    }
-                }
-
-
                 LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
                 LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
                 LivreBibliothèqueModifier.Isbn = form.ISBN;
@@ -252,6 +227,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(form);
         }
 
+        [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> supprimer(int? id)
@@ -324,28 +300,32 @@ namespace vlissides_bibliotheque.Controllers
 
         public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, CreationLivreVM form)
         {
+            if (form.PrixNeuf == null) { form.PrixNeuf = 0; };
+            if (form.PrixNumerique == null) { form.PrixNeuf = 0; };
+            if (form.PrixUsage == null) { form.PrixNeuf = 0; };
+
             List<PrixEtatLivre> ListPrixEtat = new();
 
             PrixEtatLivre AssociationPrixNeuf = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Neuf).EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
                 Prix = form.PrixNeuf,
             };
             PrixEtatLivre AssociationPrixNumérique = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Numerique).EtatLivreId,
-                Prix = form.PrixNumerique,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
+                Prix =  form.PrixNumerique,
             };
             PrixEtatLivre AssociationPrixUsager = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Usagee).EtatLivreId,
-                Prix = form.PrixUsage,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
+                Prix =  form.PrixUsage,
             };
 
             ListPrixEtat.Add(AssociationPrixNeuf);
@@ -357,27 +337,31 @@ namespace vlissides_bibliotheque.Controllers
         }
         public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
         {
+            if(form.PrixNeuf == null) { form.PrixNeuf = 0;};
+            if(form.PrixNumerique == null) { form.PrixNeuf = 0; };
+            if(form.PrixUsage == null) { form.PrixNeuf = 0; };
+
             List<PrixEtatLivre> ListPrixEtat = new();
 
             PrixEtatLivre AssociationPrixNeuf = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Neuf).EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
                 Prix = form.PrixNeuf,
             };
             PrixEtatLivre AssociationPrixNumérique = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Numerique).EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
                 Prix = form.PrixNumerique,
             };
             PrixEtatLivre AssociationPrixUsager = new()
             {
                 PrixEtatLivreId = 0,
                 LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.Usagee).EtatLivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
                 Prix = form.PrixUsage,
             };
 
@@ -387,6 +371,40 @@ namespace vlissides_bibliotheque.Controllers
 
 
             return ListPrixEtat;
+        }
+        public PrixEtatLivre AssocierPrixEtat(TuileLivreBibliotequeVM LivreEtatPrix)
+        {
+            List<PrixEtatLivre> ListPrixEtat = new();
+
+            PrixEtatLivre AssociationPrixNeuf = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.livreBibliotheque.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
+                Prix = 0,
+            };
+            PrixEtatLivre AssociationPrixNumérique = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.livreBibliotheque.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
+                Prix = 0,
+            };
+            PrixEtatLivre AssociationPrixUsager = new()
+            {
+                PrixEtatLivreId = 0,
+                LivreBibliothequeId = LivreEtatPrix.livreBibliotheque.LivreId,
+                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
+                Prix = 0,
+            };
+
+            ListPrixEtat.Add(AssociationPrixNeuf);
+            ListPrixEtat.Add(AssociationPrixNumérique);
+            ListPrixEtat.Add(AssociationPrixUsager);
+            _context.PrixEtatsLivres.AddRange(ListPrixEtat);
+            _context.SaveChanges();
+
+            return AssociationPrixNeuf;
         }
     }
 }

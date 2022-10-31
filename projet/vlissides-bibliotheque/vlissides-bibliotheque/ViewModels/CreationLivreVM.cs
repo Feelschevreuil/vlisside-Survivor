@@ -15,30 +15,26 @@ namespace vlissides_bibliotheque.ViewModels
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		public string Resume { get; set; }
 
-		
+		[Required]
 		public string Photo { get; set; }
-
-		[NotMapped]
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		[DisplayName("Photo")]
-		public IFormFile fichierImage { get; set; }
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Date de publication")]
 		[DataType(DataType.Date)]
 		public DateTime DatePublication { get; set; } = DateTime.Now;
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Usagé")]
-		public double PrixUsage { get; set; } = 0;
+        [DataType(DataType.Currency)]
+        public double PrixUsage { get; set; } = 0;
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
+	
 		[DisplayName("Numérique")]
-		public double PrixNumerique { get; set; } = 0;
+        [DataType(DataType.Currency)]
+        public double PrixNumerique { get; set; } = 0;
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Neuf")]
-		public double PrixNeuf { get; set; } 
+		[DataType(DataType.Currency)]
+		public double PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
 		public int? QuantiteUsagee { get; set; }

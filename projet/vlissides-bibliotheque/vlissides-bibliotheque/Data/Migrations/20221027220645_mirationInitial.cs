@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vlissides_bibliotheque.Migrations
 {
-    public partial class migrationInitial : Migration
+    public partial class mirationInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,7 +92,7 @@ namespace vlissides_bibliotheque.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MaisonsEditions",
+                name: "MaisonsEdition",
                 columns: table => new
                 {
                     MaisonEditionId = table.Column<int>(type: "int", nullable: false)
@@ -101,7 +101,7 @@ namespace vlissides_bibliotheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MaisonsEditions", x => x.MaisonEditionId);
+                    table.PrimaryKey("PK_MaisonsEdition", x => x.MaisonEditionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -323,9 +323,9 @@ namespace vlissides_bibliotheque.Migrations
                 {
                     table.PrimaryKey("PK_LivresBibliotheque", x => x.LivreId);
                     table.ForeignKey(
-                        name: "FK_LivresBibliotheque_MaisonsEditions_MaisonEditionId",
+                        name: "FK_LivresBibliotheque_MaisonsEdition_MaisonEditionId",
                         column: x => x.MaisonEditionId,
-                        principalTable: "MaisonsEditions",
+                        principalTable: "MaisonsEdition",
                         principalColumn: "MaisonEditionId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -410,7 +410,7 @@ namespace vlissides_bibliotheque.Migrations
                     EtatLivreId = table.Column<int>(type: "int", nullable: false),
                     LivreBibliothequeId = table.Column<int>(type: "int", nullable: false),
                     Prix = table.Column<double>(type: "float", nullable: false),
-                    NombreUsage = table.Column<int>(type: "int", nullable: false)
+                    QuantiteUsage = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -600,7 +600,7 @@ namespace vlissides_bibliotheque.Migrations
                     DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MaisonEdition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Auteur = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Prix = table.Column<double>(type: "float", nullable: false)
+                    Prix = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -675,7 +675,7 @@ namespace vlissides_bibliotheque.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "admin@cegep-connaissance-aleatoire.qc.ca", true, false, null, "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "AQAAAAEAACcQAAAAEF7Z74Z43gW2rX7iIxY1mu4Jf1POsPZkUx/dz7d91xVCl4eIHRK1sfGnOBBrGdv5jg==", null, false, "8f47fd20-3442-4865-987a-19b09810984e", false, "admin@cegep-connaissance-aleatoire.qc.ca" });
+                values: new object[] { "83c10a40-c3f6-49bd-b230-f6975cc7befd", 0, "d67bb86f-d158-4f17-8142-49f7c65c082c", "admin@cegep-connaissance-aleatoire.qc.ca", true, false, null, "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA", "AQAAAAEAACcQAAAAEAhyqDr7YBPQznUrc2G0dn3Ghs0SimOVXdCzkt3biTev2alh5v0/CEhJoefA4g0h1g==", null, false, "8a46a597-83af-4249-8e73-2cb6ce29adcd", false, "admin@cegep-connaissance-aleatoire.qc.ca" });
 
             migrationBuilder.InsertData(
                 table: "EtatsLivres",
@@ -910,7 +910,7 @@ namespace vlissides_bibliotheque.Migrations
                 name: "Etudiants");
 
             migrationBuilder.DropTable(
-                name: "MaisonsEditions");
+                name: "MaisonsEdition");
 
             migrationBuilder.DropTable(
                 name: "Adresses");

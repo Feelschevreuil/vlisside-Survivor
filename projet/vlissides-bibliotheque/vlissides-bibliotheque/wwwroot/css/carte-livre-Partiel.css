@@ -11,3 +11,16 @@
     width: 6rem;
     height: 10rem;
 }
+
+.tuile-livre {
+    width: auto;
+}
+
+.livre-info {
+    width: auto;
+}
+
+.etoile {
+    width: 15px;
+    margin-top: -3px;
+}

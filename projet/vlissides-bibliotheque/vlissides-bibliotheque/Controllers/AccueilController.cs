@@ -10,9 +10,13 @@ using System.Collections;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Exercice_Ajax.DTO;
+using Newtonsoft.Json;
 
 namespace vlissides_bibliotheque.Controllers
 {
+    [AllowAnonymous]
     public class AccueilController : Controller
     {
         private readonly ILogger<AccueilController> _logger;
@@ -48,8 +52,26 @@ namespace vlissides_bibliotheque.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public string ChangerPrix([FromBody] PrixAfficher prixAfficher)
+        {
+            LivreBibliotheque livre = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == prixAfficher.Id);
+            List<PrixEtatLivre> etat = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livre.LivreId);
 
 
+            PrixEtatLivre etatLivreRechercher = etat.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == prixAfficher.Etat).EtatLivreId);
 
+            string prix;
+            if (etatLivreRechercher != null)
+            { 
+                prix = etatLivreRechercher.Prix.ToString(); 
+            }else{ 
+                prix = "À venir"; 
+            };
+
+            PrixJson prixJson = new PrixJson() { Id = prixAfficher.Id, prix = prix };
+            string json = JsonConvert.SerializeObject(prixJson);
+
+            return json;
+        }
     }
 }

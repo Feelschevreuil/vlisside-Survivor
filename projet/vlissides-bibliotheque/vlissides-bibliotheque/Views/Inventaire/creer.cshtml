@@ -26,9 +26,15 @@
                             <span asp-validation-for="Resume" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="fichierImage" class="form-label"></label>
-                            <input asp-for="fichierImage" accept="image/*" class="form-control" aria-required="true" />
-                            <span asp-validation-for="fichierImage" class="text-danger"></span>
+                            <label asp-for="Photo" class="form-label"></label>
+                            <input type="file" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
+                            <input asp-for="Photo" class="form-control" aria-required="true" hidden id="sendImg" />
+                            @if(Model.Photo != null) {
+                                <img id="viewImg" src="@Model.Photo" class="col-md-6 m-1" />
+                            } else {
+                                <img id="viewImg" class="col-md-6 m-1" />
+                            }
+                            <span asp-validation-for="Photo" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="DatePublication" class="form-label"></label>

@@ -1,0 +1,20 @@
+﻿@model InventaireLaBlunVM
+
+
+<h1>Ma boutique</h1>
+
+<a class="d-flex justify-content-end" asp-controller="usage" asp-action="ajouter">
+    <input class="btn btn-primary shadow" type="button" value="Ajouter un livre" />
+</a>
+
+<div class="container-fluid">
+
+    <div class="row">
+        @foreach (var card in Model.inventaireLivreEtudiantVMs)
+        {
+            <div class="col-12 col-sm-3 col-md-3">
+                <partial name="_TuileLivreEtudiantPartial" model="card"></partial>
+            </div>
+        }
+    </div>
+</div>
