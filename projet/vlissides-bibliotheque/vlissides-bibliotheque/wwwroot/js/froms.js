@@ -62,6 +62,53 @@ function formatPhone(fakePhoneNumberInput, phoneNumberInputId) {
     }
 }
 
-function formatPostalCode(postalCode) {
-    
+function formatPostalCode(fakePostalCodeInput, postalCodeInputId) {
+    if(fakePostalCodeInput != undefined && postalCodeInputId != undefined) {
+        let postalCode = fakePostalCodeInput.value;
+
+        // supprimer un caractère si backspace est appuyé
+        if(backspaceIsActive) {
+            let cursorPosition = fakePostalCodeInput.selectionStart;
+            if(postalCode[cursorPosition - 1] != undefined) {
+                if (cursorPosition == 3) {
+                    postalCode = postalCode.substring(0, cursorPosition - 1) + postalCode.substring(cursorPosition, postalCode.length);
+                }
+            }
+        }
+
+        // remplacer tous les caractères qui ne sont pas des chiffres ou des lettres
+        postalCode = postalCode.trim();
+        postalCode = postalCode.replace(/[^a-zA-Z0-9]/g,"");
+
+        // enlever les chiffres de trop
+        let postalCodeWithMaxLength = "";
+        for(let i = 0; i < postalCode.length; i++) {
+            if(i < 6) {
+                postalCodeWithMaxLength += postalCode[i];
+            }
+        }
+        postalCode = postalCodeWithMaxLength;
+
+        // forcer le code postal à être en majuscule
+        postalCode = postalCode.toUpperCase();
+
+        // ajouter la valeur à l'input
+        document.querySelector("#" + postalCodeInputId).value = postalCode;
+
+        // début formatage
+        let formattedPostalCode = "";
+
+        if(postalCode.length >= 3) {
+            // format : A0A ***
+            formattedPostalCode = `${postalCode[0]}${postalCode[1]}${postalCode[2]} `;
+            // ajout du reste
+            for(let i = 3; i < postalCode.length; i++) {
+                formattedPostalCode += postalCode[i];
+            }
+        } else {
+            formattedPostalCode = postalCode;
+        }
+
+        fakePostalCodeInput.value = formattedPostalCode;
+    }
 }
