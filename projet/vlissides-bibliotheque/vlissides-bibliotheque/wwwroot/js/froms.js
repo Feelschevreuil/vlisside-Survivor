@@ -35,14 +35,14 @@ function formatPhone(fakePhoneNumberInput, phoneNumberInputId) {
             formattedPhoneNumber = `(${phoneNumber})`;
         } else if(phoneNumber.length >= 3 && phoneNumber.length < 6) {
             // format : (666) ***
-            formattedPhoneNumber = `(${phoneNumber[0]}${phoneNumber[1]}${phoneNumber[2]}) `;
+            formattedPhoneNumber = `(${phoneNumber[0]}${phoneNumber[1]}${phoneNumber[2]})`;
             // ajout du reste
             for(let i = 3; i < phoneNumber.length; i++) {
                 formattedPhoneNumber += phoneNumber[i];
             }
         } else if(phoneNumber.length >= 6) {
             // format : (666) 666-****
-            formattedPhoneNumber = `(${phoneNumber[0]}${phoneNumber[1]}${phoneNumber[2]}) `
+            formattedPhoneNumber = `(${phoneNumber[0]}${phoneNumber[1]}${phoneNumber[2]})`
                                 + `${phoneNumber[3]}${phoneNumber[4]}${phoneNumber[5]}-`;
             // ajout du reste
             for(let i = 6; i < phoneNumber.length; i++) {
