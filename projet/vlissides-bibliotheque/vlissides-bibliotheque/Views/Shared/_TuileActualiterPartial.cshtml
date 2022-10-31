@@ -6,6 +6,22 @@
 
 
 <div class="card tuile-evenement">
+   
+    @if (User.IsInRole(RolesName.Admin))
+    {
+        <div>
+            <a class="float-start" asp-area="" asp-controller="Evenement" asp-action="modifier" asp-route-id="@Model.EvenementId">
+                <input class="btn btn-primary shadow" type="button" value="Modifier" />
+            </a>
+
+            <form method="post" class="float-end" asp-controller="Evenement" asp-action="supprimer" asp-route-id="@Model.EvenementId">
+                <a>
+                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.EvenementId')" type="submit" value="Supprimer" />
+                </a>
+            </form>
+        </div>
+    }
+
         
     <div class="position-relative text-center">
         <img class="mx-auto image-evenement" src=@Model.Image alt="PhotoLivre">
