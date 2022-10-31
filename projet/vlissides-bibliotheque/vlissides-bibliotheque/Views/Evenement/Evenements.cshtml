@@ -1,19 +1,22 @@
-﻿@model List<Evenement>
+﻿@model List<EvenementVM>
 @{
 	ViewData["Title"] = "Actualiter";
 	
 }
 
 <div class="d-flex accordion-header">
-	
 
 	<a asp-area="" asp-controller="Accueil" asp-action="Accueil">
 		<img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
 	</a>
 	<h1 class="p-2 flex-grow-1">Toutes les actualités courantes</h1>
-	
+
+	<div class="btn-pr">
+	<a asp-area="" asp-controller="Evenement" asp-action="Creer"></a>
+	</div>
 
 </div>
+
 <div class="container-fluid">
 
 	<div class="row">
