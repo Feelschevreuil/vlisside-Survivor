@@ -37,15 +37,6 @@ namespace vlissides_bibliotheque.Controllers
             return View(recommendationPromotions);
         }
 
-        public IActionResult Actualiter()
-        {
-
-            List<Evenement> listEvenements = new();
-            listEvenements = _context.Evenements.ToList();
-            return View(listEvenements);
-        }
-
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
