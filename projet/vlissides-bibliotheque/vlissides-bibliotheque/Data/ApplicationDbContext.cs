@@ -82,15 +82,15 @@ namespace vlissides_bibliotheque.Data
 			List<EtatLivre> EtatLivres = new() {
 				new EtatLivre() {
 					EtatLivreId = 1,
-					Nom = NomEtatLivre.Neuf
+					Nom = NomEtatLivre.NEUF
 				},
 				new EtatLivre() {
 					EtatLivreId = 2,
-					Nom = NomEtatLivre.Usagee
+					Nom = NomEtatLivre.USAGE
 				},
 				new EtatLivre() {
 					EtatLivreId = 3,
-					Nom = NomEtatLivre.Numerique
+					Nom = NomEtatLivre.DIGITAL
 				}
 			};
 
@@ -146,11 +146,11 @@ namespace vlissides_bibliotheque.Data
 			// AJOUT D'UN ADMIN
 			builder.Entity<Utilisateur>().HasData(new Utilisateur() {
 				Id = USER_ADMIN_ID,
-				Email = Emails.EmailAdmin,
+				Email = Emails.EMAIL_ADMIN,
 		EmailConfirmed = true,
-				NormalizedEmail = Emails.EmailAdmin.ToUpper(),
-				UserName = Emails.EmailAdmin,
-				NormalizedUserName = Emails.EmailAdmin.ToUpper(),
+				NormalizedEmail = Emails.EMAIL_ADMIN.ToUpper(),
+				UserName = Emails.EMAIL_ADMIN,
+				NormalizedUserName = Emails.EMAIL_ADMIN.ToUpper(),
 				Nom = "John",
 				Prenom = "Gordon",
 				ConcurrencyStamp = USER_ADMIN_CONCURRENCYSTAMP,
