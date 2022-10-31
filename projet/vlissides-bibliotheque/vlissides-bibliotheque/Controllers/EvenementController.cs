@@ -77,6 +77,49 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
         {
+            if (id == null)
+            {
+                Response.StatusCode = 400;
+                return Content("Cette identifiant n'est pas associer à un événement de la base de données.");
+            }
+            Evenement evenement  = _context.Evenements
+               .Include(x => x.Commanditaire)
+               .ToList()
+               .Find(x => x.EvenementId == id);
+
+            if (evenement != null)
+            {
+                return View(GetEvenement.GetUnEvenement(evenement));
+            }
+            return Content("L'événement recherche n'a pas été trouvé dans la base de données");
+
+        }
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> modifier (EvenementVM evenementVM)
+        {
+            if (ModelState.IsValid)
+            {
+                Evenement modifyevenement = _context.Evenements.ToList().Find(x => x.EvenementId == evenementVM.EvenementId);
+                if (modifyevenement != null)
+                {
+                    {
+                        modifyevenement.EvenementId = evenementVM.EvenementId;
+                        modifyevenement.Commanditaire = evenementVM.Commanditaire;
+                        modifyevenement.CommanditaireId = evenementVM.CommanditaireId;
+                        modifyevenement.Debut = evenementVM.Debut;
+                        modifyevenement.Fin = evenementVM.Fin;
+                        modifyevenement.Image = evenementVM.Image;
+                        modifyevenement.Nom = evenementVM.Nom;
+                        modifyevenement.Description = evenementVM.Description;
+                    };
+                    _context.Evenements.Update(modifyevenement);
+                    _context.SaveChanges();
+                    return RedirectToAction("Evenements");
+                }
+                return Content("L'événement que vous tentez de modifier n'a pas été trouver dans la base de données");
+            }
+            return View(evenementVM);
 
         }
     }
