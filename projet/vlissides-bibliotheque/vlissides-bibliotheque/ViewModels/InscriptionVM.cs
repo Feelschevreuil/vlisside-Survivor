@@ -64,9 +64,8 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "No de téléphone")]
-        [RegularExpression(@"[0-9]{3}\-[0-9]{3}\-[0-9]{4}",
-            ErrorMessage = "Le numéro de téléphone doit correspondre au format : " +
-            "123-456-7890")]
+        [MinLength(10, ErrorMessage = "Le numéro de téléphone doit être composé de 10 chiffres.")]
+        [MaxLength(10, ErrorMessage = "Le numéro de téléphone doit être composé de 10 chiffres.")]
         public string NoTelephone { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
