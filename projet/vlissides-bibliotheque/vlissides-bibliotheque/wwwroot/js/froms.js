@@ -2,9 +2,11 @@
 
 document.addEventListener("keydown", (event) => {
     backspaceIsActive = event.key == "Backspace";
+    event.preventDefault();
 });
 document.addEventListener("keyup", (event) => {
     backspaceIsActive = event.key == "Backspace";
+    event.preventDefault();
 });
 
 function formatPhone(fakePhoneNumberInput, phoneNumberInputId) {
