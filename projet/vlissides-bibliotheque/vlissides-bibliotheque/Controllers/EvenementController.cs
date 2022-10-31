@@ -38,9 +38,36 @@ namespace vlissides_bibliotheque.Controllers
             return View(listEvenementsVM);
         }
 
+        [HttpGet]
         public IActionResult Creer()
         {
-            return View();
+            EvenementVM evenementVM = new();
+
+            return View(evenementVM);
+        }  
+
+        [HttpPost]
+        public IActionResult Creer(EvenementVM evenementVM)
+        {
+            if (ModelState.IsValid)
+            {
+                Evenement newEvenement = new()
+                {
+                    EvenementId = evenementVM.EvenementId,
+                    Commanditaire = evenementVM.Commanditaire,
+                    CommanditaireId = evenementVM.CommanditaireId,
+                    Debut = evenementVM.Debut,
+                    Fin = evenementVM.Fin,
+                    Image = evenementVM.Image,
+                    Nom = evenementVM.Nom,
+                    Description = evenementVM.Description,
+                };
+                _context.Evenements.Add(newEvenement);
+                _context.SaveChanges();
+                return RedirectToAction("Evenements");
+
+            }
+            return View(evenementVM);
         }
     }
 }
