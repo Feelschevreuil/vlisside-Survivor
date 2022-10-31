@@ -31,6 +31,24 @@ namespace vlissides_bibliotheque
             };
 
             return listEvenementsVM;
+        } 
+        public static EvenementVM GetUnEvenement(Evenement evenementRecus)
+        {
+            EvenementVM EvenementsVM = new();
+
+                EvenementVM evenementVM = new()
+                {
+                    EvenementId = evenementRecus.EvenementId,
+                    Commanditaire = evenementRecus.Commanditaire,
+                    CommanditaireId = evenementRecus.CommanditaireId,
+                    Debut = evenementRecus.Debut,
+                    Fin = evenementRecus.Fin,
+                    Image = evenementRecus.Image,
+                    Nom = evenementRecus.Nom,
+                    Description = evenementRecus.Description,
+                };
+
+            return evenementVM;
         }
     }
 }
