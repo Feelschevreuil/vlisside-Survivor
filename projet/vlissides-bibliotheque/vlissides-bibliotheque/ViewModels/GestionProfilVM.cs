@@ -53,7 +53,7 @@ namespace vlissides_bibliotheque.ViewModels
         [Display(Name = "Code postal")]
         [RegularExpression(@"[A-Z][0-9][A-Z][0-9][A-Z][0-9]",
             ErrorMessage = "Le code postal doit correspondre au format : " +
-            "A0A0A0")]
+            "A0A 0A0")]
         public string CodePostal { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
