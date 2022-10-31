@@ -11,6 +11,16 @@ function formatPhone(fakePhoneNumberInput, phoneNumberInputId) {
     if(fakePhoneNumberInput != undefined && phoneNumberInputId != undefined) {
         let phoneNumber = fakePhoneNumberInput.value;
 
+        // supprimer un chiffre si backspace est appuyé
+        if(backspaceIsActive) {
+            let cursorPosition = fakePhoneNumberInput.selectionStart;
+            if(phoneNumber[cursorPosition - 1] != undefined) {
+                if ((cursorPosition <= 4 && phoneNumber.match(/\)/g) == undefined) || cursorPosition == 8) {
+                    phoneNumber = phoneNumber.substring(0, cursorPosition - 1) + phoneNumber.substring(cursorPosition, phoneNumber.length);
+                }
+            }
+        }
+
         // remplacer tous les caractères qui ne sont pas des nombres
         phoneNumber = phoneNumber.replace(/\D/g,"");
 
