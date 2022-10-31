@@ -30,9 +30,17 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult Evenements()
         {
 
-            List<Evenement> listEvenements = new();
-            listEvenements = _context.Evenements.ToList();
-            return View(listEvenements);
+            List<EvenementVM> listEvenementsVM = new();
+            List<Evenement> listEvenements = _context.Evenements.ToList();
+            listEvenementsVM = GetEvenement.GetEvenements(listEvenements);
+
+
+            return View(listEvenementsVM);
+        }
+
+        public IActionResult Creer()
+        {
+            return View();
         }
     }
 }
