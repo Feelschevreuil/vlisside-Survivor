@@ -6,7 +6,7 @@ namespace vlissides_bibliotheque.Services
     /// <summary>
     /// Classe <c>LivreCampsRecherche</c> définit les champs de recherche des livres.
     /// </summary>
-    public class LivreCampsRecherche
+    public class LivreChampsRecherche
     {
 
 	// TODO: all properties to lower
