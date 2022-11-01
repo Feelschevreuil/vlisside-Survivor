@@ -36,7 +36,7 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de modification de l'étudiant courant.
         /// </summary>
         /// <returns>¨Page de modification d'étudiant.</returns>
-        [Authorize (Roles = RolesName.Etudiant)]
+        [Authorize(Roles = $"{RolesName.Etudiant}, {RolesName.Admin}")]
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
@@ -45,10 +45,19 @@ namespace vlissides_bibliotheque.Controllers
                 Etudiant etudiant = await GetEtudiantCourantAsync();
 
                 return View(etudiant.GetEtudiantProfilVM(_context));
+            } 
+            
+            if (User.IsInRole(RolesName.Admin)) 
+            {
+                IdentityUser admin = await GetAdminCourantAsync();
+
+                return View(admin.GetAdminProfilVM());
             }
+
             return Content("Accès interdit");
         }
 
+        [Authorize(Roles = $"{RolesName.Etudiant}, {RolesName.Admin}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
@@ -74,6 +83,31 @@ namespace vlissides_bibliotheque.Controllers
 
                 return View(vm);
             }
+            
+            if (User.IsInRole(RolesName.Admin)) {
+                ModelState.Remove(nameof(vm.ProgrammeEtudeId));
+                ModelState.Remove(nameof(vm.ProgrammeEtudes));
+                ModelState.Remove(nameof(vm.ProvinceId));
+                ModelState.Remove(nameof(vm.Provinces));
+                ModelState.Remove(nameof(vm.Nom));
+                ModelState.Remove(nameof(vm.Prenom));
+                ModelState.Remove(nameof(vm.NoCivique));
+                ModelState.Remove(nameof(vm.App));
+                ModelState.Remove(nameof(vm.Rue));
+                ModelState.Remove(nameof(vm.Ville));
+                ModelState.Remove(nameof(vm.CodePostal));
+
+                if (ModelState.IsValid) {
+                    IdentityUser admin = await GetAdminCourantAsync();
+
+                    admin.ModelBinding(vm);
+
+                    _context.SaveChanges();
+                }
+
+                return View(vm);
+            }
+
             return Content("Action interdite");
         }
 
