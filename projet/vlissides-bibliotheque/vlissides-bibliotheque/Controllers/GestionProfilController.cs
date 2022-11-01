@@ -120,7 +120,13 @@ namespace vlissides_bibliotheque.Controllers
         [Authorize(Roles = RolesName.Etudiant)]
         private async Task<Etudiant> GetEtudiantCourantAsync()
         {
-            return await _userManager.GetUserAsync(HttpContext.User);
+            return await _userManagerEtudiant.GetUserAsync(HttpContext.User);
+        }
+
+        [Authorize(Roles = RolesName.Admin)]
+        private async Task<IdentityUser> GetAdminCourantAsync()
+        {
+            return await _userManagerAdmin.GetUserAsync(HttpContext.User);
         }
     }
 }
