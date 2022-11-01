@@ -33,18 +33,13 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de modification de l'étudiant courant.
         /// </summary>
         /// <returns>¨Page de modification d'étudiant.</returns>
-        [Authorize (Roles =RolesName.Etudiant)]
+        [Authorize (Roles = RolesName.Etudiant)]
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
-
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant? paul = _context.Etudiants.ToList().Find(x => x.Id == id);
-
-            if (paul != null || User.IsInRole(RolesName.Admin))
+            if (User.IsInRole(RolesName.Etudiant))
             {
-
-                Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
+                Etudiant utilisateurCourant = await GetEtudiantCourantAsync();
 
                 Adresse adresse = utilisateurCourant.GetAdresse(_context);
 
@@ -76,11 +71,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
         {
-
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant? utilisateurEtudiant = _context.Etudiants.ToList().Find(x => x.Id == id);
-
-            if (utilisateurEtudiant != null || User.IsInRole(RolesName.Admin))
+            if (User.IsInRole(RolesName.Etudiant))
             {
 
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
@@ -94,7 +85,7 @@ namespace vlissides_bibliotheque.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
+                    Etudiant utilisateurCourant = await GetEtudiantCourantAsync();
 
                     Adresse adresse = utilisateurCourant.GetAdresse(_context);
 
@@ -123,8 +114,8 @@ namespace vlissides_bibliotheque.Controllers
             return Content("Action interdite");
         }
 
-        [Authorize(Roles = RolesName.Admin)]
-        private async Task<Etudiant> GetUtilisateurCourantAsync()
+        [Authorize(Roles = RolesName.Etudiant)]
+        private async Task<Etudiant> GetEtudiantCourantAsync()
         {
             return await _userManager.GetUserAsync(HttpContext.User);
         }
