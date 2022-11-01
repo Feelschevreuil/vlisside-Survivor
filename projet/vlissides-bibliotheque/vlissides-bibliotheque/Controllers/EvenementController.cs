@@ -18,7 +18,7 @@ using vlissides_bibliotheque.Extensions;
 
 namespace vlissides_bibliotheque.Controllers
 {
-    [Authorize(Roles =RolesName.Admin)]
+    [Authorize(Roles = RolesName.Admin)]
     public class EvenementController : Controller
     {
         private readonly ILogger<AccueilController> _logger;
@@ -40,7 +40,24 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(listEvenementsVM);
         }
-       
+        [AllowAnonymous]
+        public IActionResult Detail(int id)
+        {
+            if (id == null)
+            {
+                Response.StatusCode = 400;
+                return Content("Cette identifiant n'est pas associer à un événement de la base de données.");
+            }
+            var Evenement = _context.Evenements.Include(x=>x.Commanditaire).ToList().Find(x => x.EvenementId == id);
+            if (Evenement == null)
+            {
+                Response.StatusCode = 404;
+                return Content("Cette événement n'existe pas dans la base de données");
+            };
+            return View(Evenement);
+
+        }
+
         [HttpGet]
         public IActionResult Creer()
         {
@@ -48,11 +65,11 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(evenementVM);
         }
-       
+
         [HttpPost]
         public IActionResult Creer(EvenementVM evenementVM)
         {
-            if (!DateEvenement.CompareDate(evenementVM.Debut,evenementVM.Fin))
+            if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
             {
                 ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
             }
@@ -88,7 +105,7 @@ namespace vlissides_bibliotheque.Controllers
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un événement de la base de données.");
             }
-            Evenement evenement  = _context.Evenements
+            Evenement evenement = _context.Evenements
                .Include(x => x.Commanditaire)
                .ToList()
                .Find(x => x.EvenementId == id);
@@ -102,7 +119,7 @@ namespace vlissides_bibliotheque.Controllers
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> modifier (EvenementVM evenementVM)
+        public async Task<ActionResult> modifier(EvenementVM evenementVM)
         {
             if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
             {
@@ -136,7 +153,7 @@ namespace vlissides_bibliotheque.Controllers
         [Route("Evenement/effacer/{id?}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> effacer (int? id)
+        public async Task<ActionResult> effacer(int? id)
         {
             if (id == null)
             {

@@ -1,0 +1,20 @@
+﻿@model Evenement
+
+
+<div class="row">
+    <div class="col-6">
+        <img class="col-12" src="@Model.Image" />
+    </div>
+
+    <div class="card-body col-6 m-auto">
+        <h5 class="card-title"><strong>Titre:</strong> @Model.Nom</h5>
+        <p class="card-text"><strong>Description:</strong> @Model.Description</p>
+        <p class="card-text"><strong>Date de début:</strong> @Model.Debut.Day @Model.Debut.ToString("MMMM") @Model.Debut.Year</p>
+        <p class="card-text"><strong>Date de fin:</strong> @Model.Fin.Day @Model.Debut.ToString("MMMM") @Model.Fin.Year</p>
+        <p class="card-text"><strong>Commanditaire:</strong> @Model.Commanditaire.Nom</p>
+        <p class="card-text"><strong>Courriel du commanditaire:</strong> @Model.Commanditaire.Courriel</p>
+        <p class="card-text"><strong>Message par le commanditaire:</strong> @Model.Commanditaire.Message</p>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/carte-evenement-Partial.css" asp-append-version="true" />
