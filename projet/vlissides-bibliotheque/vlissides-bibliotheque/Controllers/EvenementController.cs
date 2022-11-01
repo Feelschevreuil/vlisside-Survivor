@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Exercice_Ajax.DTO;
 using Newtonsoft.Json;
 using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.Extensions;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -51,6 +52,12 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public IActionResult Creer(EvenementVM evenementVM)
         {
+            if (!DateEvenement.CompareDate(evenementVM.Debut,evenementVM.Fin))
+            {
+                ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
+            }
+
+
             if (ModelState.IsValid)
             {
                 Evenement newEvenement = new()
@@ -97,6 +104,11 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<ActionResult> modifier (EvenementVM evenementVM)
         {
+            if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
+            {
+                ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
+            }
+
             if (ModelState.IsValid)
             {
                 Evenement modifyevenement = _context.Evenements.ToList().Find(x => x.EvenementId == evenementVM.EvenementId);
