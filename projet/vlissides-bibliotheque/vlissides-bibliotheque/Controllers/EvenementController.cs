@@ -33,7 +33,7 @@ namespace vlissides_bibliotheque.Controllers
         {
 
             List<EvenementVM> listEvenementsVM = new();
-            List<Evenement> listEvenements = _context.Evenements.ToList();
+            List<Evenement> listEvenements = _context.Evenements.OrderByDescending(x => x.Debut).ToList();
             listEvenementsVM = GetEvenement.GetEvenements(listEvenements);
 
 
