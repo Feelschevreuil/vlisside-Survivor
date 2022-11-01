@@ -7,13 +7,13 @@ document.addEventListener("keyup", (event) => {
     backspaceIsActive = event.key == "Backspace";
 });
 
-function setPhoneNumber(valueContainerInput, rawDataInputId, formattedDataInputId) {
+function setPhoneNumber(valueContainerInput, rawDataInputId) {
     if(valueContainerInput != undefined) {
         let phoneNumber = valueContainerInput.value;
 
         // supprimer un chiffre si backspace est appuyé
         if(backspaceIsActive) {
-            let cursorPosition = fakePhoneNumberInput.selectionStart;
+            let cursorPosition = valueContainerInput.selectionStart;
             if(phoneNumber[cursorPosition - 1] != undefined) {
                 if ((cursorPosition <= 4 && phoneNumber.match(/\)/g) == undefined) || cursorPosition == 8) {
                     phoneNumber = phoneNumber.substring(0, cursorPosition - 1) + phoneNumber.substring(cursorPosition, phoneNumber.length);
@@ -28,10 +28,7 @@ function setPhoneNumber(valueContainerInput, rawDataInputId, formattedDataInputI
         }
         
         // transformation de la valeur brute du no de tel. sous le format voulu
-        let formattedPhoneNumber = getFormattedPhoneNumber(phoneNumberRawData);
-        if(formattedDataInputId == undefined) {
-            document.querySelector("#" + formattedDataInputId).value = formattedPhoneNumber;
-        }
+        valueContainerInput.value = getFormattedPhoneNumber(phoneNumberRawData);
     }
 }
 
@@ -77,7 +74,7 @@ function getFormattedPhoneNumber(phoneNumber){
     return formattedPhoneNumber;
 }
 
-function setPostalCode(valueContainerInput, rawDataInputId, formattedDataInputId) {
+function setPostalCode(valueContainerInput, rawDataInputId) {
     if(valueContainerInput != undefined) {
         let postalCode = valueContainerInput.value;
 
@@ -98,10 +95,7 @@ function setPostalCode(valueContainerInput, rawDataInputId, formattedDataInputId
         }
         
         // transformation de la valeur brute du code postal sous le format voulu
-        let formattedPostalCode = getFormattedPostalCode(postalCodeRawData);
-        if(formattedDataInputId == undefined) {
-            document.querySelector("#" + formattedDataInputId).value = formattedPostalCode;
-        }
+        valueContainerInput.value = getFormattedPostalCode(postalCodeRawData);
     }
 }
 
