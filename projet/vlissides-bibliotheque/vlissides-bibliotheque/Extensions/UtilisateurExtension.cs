@@ -40,9 +40,11 @@ namespace vlissides_bibliotheque
             return etudiant;
         }
 
-        public static IdentityUser ModelBinding(this IdentityUser admin, GestionProfilVM vm)
+        public static Utilisateur ModelBinding(this Utilisateur admin, GestionProfilVM vm)
         {
             admin.Email = vm.Courriel;
+            admin.Nom = vm.Nom;
+            admin.Prenom = vm.Prenom;
             admin.UserName = vm.Courriel;
             admin.PhoneNumber = vm.NoTelephone;
 
@@ -74,10 +76,12 @@ namespace vlissides_bibliotheque
             return vm;
         }
 
-        public static GestionProfilVM GetAdminProfilVM(this IdentityUser admin)
+        public static GestionProfilVM GetAdminProfilVM(this Utilisateur admin)
         {
             GestionProfilVM vm = new() {
                 Courriel = admin.Email,
+                Nom = admin.Nom,
+                Prenom = admin.Prenom,
                 NoTelephone = admin.PhoneNumber
             };
 

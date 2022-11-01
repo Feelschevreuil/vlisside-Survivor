@@ -16,13 +16,13 @@ namespace vlissides_bibliotheque.Controllers
     {
         private readonly SignInManager<Etudiant> _signInManager;
         private readonly UserManager<Etudiant> _userManagerEtudiant;
-        private readonly UserManager<IdentityUser> _userManagerAdmin;
+        private readonly UserManager<Utilisateur> _userManagerAdmin;
         private readonly ApplicationDbContext _context;
 
         public GestionProfilController(
             SignInManager<Etudiant> signInManager,
             UserManager<Etudiant> userManagerEtudiant,
-            UserManager<IdentityUser> userManagerAdmin,
+            UserManager<Utilisateur> userManagerAdmin,
             ApplicationDbContext context
             )
         {
@@ -36,7 +36,6 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de modification de l'étudiant courant.
         /// </summary>
         /// <returns>¨Page de modification d'étudiant.</returns>
-        [Authorize(Roles = $"{RolesName.Etudiant}, {RolesName.Admin}")]
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
@@ -49,7 +48,7 @@ namespace vlissides_bibliotheque.Controllers
             
             if (User.IsInRole(RolesName.Admin)) 
             {
-                IdentityUser admin = await GetAdminCourantAsync();
+                Utilisateur admin = await GetAdminCourantAsync();
 
                 return View(admin.GetAdminProfilVM());
             }
@@ -57,7 +56,6 @@ namespace vlissides_bibliotheque.Controllers
             return Content("Accès interdit");
         }
 
-        [Authorize(Roles = $"{RolesName.Etudiant}, {RolesName.Admin}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
@@ -98,7 +96,7 @@ namespace vlissides_bibliotheque.Controllers
                 ModelState.Remove(nameof(vm.CodePostal));
 
                 if (ModelState.IsValid) {
-                    IdentityUser admin = await GetAdminCourantAsync();
+                    Utilisateur admin = await GetAdminCourantAsync();
 
                     admin.ModelBinding(vm);
 
@@ -130,7 +128,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [Authorize(Roles = RolesName.Admin)]
-        private async Task<IdentityUser> GetAdminCourantAsync()
+        private async Task<Utilisateur> GetAdminCourantAsync()
         {
             return await _userManagerAdmin.GetUserAsync(HttpContext.User);
         }
