@@ -122,5 +122,29 @@ namespace vlissides_bibliotheque.Controllers
             return View(evenementVM);
 
         }
+        [Route("Evenement/effacer/{id?}")]
+        [Authorize(Roles =RolesName.Admin)]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> effacer (int? id)
+        {
+            if (id == null)
+            {
+                Response.StatusCode = 400;
+                return Content("Cette identifiant n'est pas associer à un événement de la base de données.");
+            }
+            var EvenementSupprimer = _context.Evenements.ToList().Find(x => x.EvenementId == id);
+            if (EvenementSupprimer == null)
+            {
+                Response.StatusCode = 404;
+                return Content("Cette événement n'existe pas dans la base de données");
+            };
+
+            _context.Evenements.Remove(EvenementSupprimer);
+            _context.SaveChanges();
+
+            return RedirectToAction("Evenements");
+
+        }
     }
 }

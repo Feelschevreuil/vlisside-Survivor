@@ -14,9 +14,9 @@
                 <input class="btn btn-primary shadow" type="button" value="Modifier" />
             </a>
 
-            <form method="post" class="float-end" asp-controller="Evenement" asp-action="supprimer" asp-route-id="@Model.EvenementId">
+            <form method="post" class="float-end" asp-controller="Evenement" asp-action="effacer" asp-route-id="@Model.EvenementId">
                 <a>
-                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.EvenementId')" type="submit" value="Supprimer" />
+                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Nom')" type="submit" value="Supprimer" />
                 </a>
             </form>
         </div>
