@@ -87,24 +87,11 @@ namespace vlissides_bibliotheque.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    Etudiant etudiant = await GetEtudiantCourantAsync();
 
-                    Etudiant utilisateurCourant = await GetEtudiantCourantAsync();
+                    Adresse adresse = etudiant.GetAdresse(_context);
 
-                    Adresse adresse = utilisateurCourant.GetAdresse(_context);
-
-                    adresse.App = vm.App;
-                    adresse.CodePostal = vm.CodePostal;
-                    adresse.NumeroCivique = Convert.ToInt32(vm.NoCivique);
-                    adresse.Rue = vm.Rue;
-                    adresse.Ville = vm.Ville;
-                    adresse.ProvinceId = vm.ProvinceId;
-
-                    utilisateurCourant.Email = vm.Courriel;
-                    utilisateurCourant.UserName = vm.Courriel;
-                    utilisateurCourant.Nom = vm.Nom;
-                    utilisateurCourant.Prenom = vm.Prenom;
-                    utilisateurCourant.PhoneNumber = vm.NoTelephone;
-                    utilisateurCourant.ProgrammeEtudeId = vm.ProgrammeEtudeId;
+                    etudiant.ModelBinding(adresse, vm);
 
                     _context.SaveChanges();
                 }
