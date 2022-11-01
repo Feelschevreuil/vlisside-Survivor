@@ -15,17 +15,20 @@ namespace vlissides_bibliotheque.Controllers
     public class GestionProfilController : Controller
     {
         private readonly SignInManager<Etudiant> _signInManager;
-        private readonly UserManager<Etudiant> _userManager;
+        private readonly UserManager<Etudiant> _userManagerEtudiant;
+        private readonly UserManager<IdentityUser> _userManagerAdmin;
         private readonly ApplicationDbContext _context;
 
         public GestionProfilController(
             SignInManager<Etudiant> signInManager,
-            UserManager<Etudiant> userManager,
+            UserManager<Etudiant> userManagerEtudiant,
+            UserManager<IdentityUser> userManagerAdmin,
             ApplicationDbContext context
             )
         {
             _signInManager = signInManager;
-            _userManager = userManager;
+            _userManagerEtudiant = userManagerEtudiant;
+            _userManagerAdmin = userManagerAdmin;
             _context = context;
         }
 
