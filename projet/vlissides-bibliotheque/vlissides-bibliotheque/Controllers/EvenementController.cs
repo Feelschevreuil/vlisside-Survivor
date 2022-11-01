@@ -17,7 +17,7 @@ using vlissides_bibliotheque.Constantes;
 
 namespace vlissides_bibliotheque.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles =RolesName.Admin)]
     public class EvenementController : Controller
     {
         private readonly ILogger<AccueilController> _logger;
@@ -28,6 +28,7 @@ namespace vlissides_bibliotheque.Controllers
             _logger = logger;
             _context = context;
         }
+        [AllowAnonymous]
         public IActionResult Evenements()
         {
 
@@ -38,8 +39,7 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(listEvenementsVM);
         }
-        
-        [Authorize(Roles = RolesName.Admin)]
+       
         [HttpGet]
         public IActionResult Creer()
         {
@@ -47,7 +47,7 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(evenementVM);
         }
-        [Authorize(Roles = RolesName.Admin)]
+       
         [HttpPost]
         public IActionResult Creer(EvenementVM evenementVM)
         {
@@ -72,7 +72,6 @@ namespace vlissides_bibliotheque.Controllers
             return View(evenementVM);
         }
 
-        [Authorize(Roles =RolesName.Admin)]
         [Route("Evenement/modifier/{id?}")]
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
@@ -123,7 +122,6 @@ namespace vlissides_bibliotheque.Controllers
 
         }
         [Route("Evenement/effacer/{id?}")]
-        [Authorize(Roles =RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> effacer (int? id)
