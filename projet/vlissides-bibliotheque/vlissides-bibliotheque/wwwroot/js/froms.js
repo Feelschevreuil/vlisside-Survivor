@@ -136,3 +136,7 @@ function getFormattedPostalCode(postalCode) {
 
     return formattedPostalCode;
 }
+
+// appel initial pour setter les inputs en cas où ils auraient déjà une valeur
+setPhoneNumber(document.getElementById("phoneNumber").parentElement.children[1]);
+setPostalCode(document.getElementById("postalCode").parentElement.children[1]);
