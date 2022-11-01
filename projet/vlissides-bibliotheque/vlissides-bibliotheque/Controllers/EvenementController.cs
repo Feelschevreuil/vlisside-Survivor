@@ -30,6 +30,7 @@ namespace vlissides_bibliotheque.Controllers
             _context = context;
         }
         [AllowAnonymous]
+        [Route("Evenement/Index")]
         public IActionResult Evenements()
         {
 
