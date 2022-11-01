@@ -42,30 +42,9 @@ namespace vlissides_bibliotheque.Controllers
         {
             if (User.IsInRole(RolesName.Etudiant))
             {
-                Etudiant utilisateurCourant = await GetEtudiantCourantAsync();
+                Etudiant etudiant = await GetEtudiantCourantAsync();
 
-                Adresse adresse = utilisateurCourant.GetAdresse(_context);
-
-                GestionProfilVM vm = new()
-                {
-                    Courriel = utilisateurCourant.Email,
-                    Nom = utilisateurCourant.Nom,
-                    Prenom = utilisateurCourant.Prenom,
-                    NoTelephone = utilisateurCourant.PhoneNumber,
-                    ProgrammeEtudeId = utilisateurCourant.ProgrammeEtudeId,
-                    ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
-
-                    NoCivique = adresse.NumeroCivique.ToString(),
-                    Rue = adresse.Rue,
-                    Ville = adresse.Ville,
-                    App = adresse.App,
-                    CodePostal = adresse.CodePostal,
-                    ProvinceId = adresse.Province.ProvinceId,
-
-                    Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
-                };
-
-                return View(vm);
+                return View(etudiant.GetEtudiantProfilVM(_context));
             }
             return Content("Accès interdit");
         }
@@ -80,10 +59,7 @@ namespace vlissides_bibliotheque.Controllers
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
                 ModelState.Remove(nameof(vm.Provinces));
 
-                if (vm.CodePostal != null)
-                {
-                    vm.CodePostal = vm.CodePostal.ToUpper();
-                }
+                vm = SetEtudiantProfilVM(vm);
 
                 if (ModelState.IsValid)
                 {
@@ -96,12 +72,21 @@ namespace vlissides_bibliotheque.Controllers
                     _context.SaveChanges();
                 }
 
-                vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
-                vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
-
                 return View(vm);
             }
             return Content("Action interdite");
+        }
+
+        private GestionProfilVM SetEtudiantProfilVM(GestionProfilVM vm)
+        {
+            if (vm.CodePostal != null) {
+                vm.CodePostal = vm.CodePostal.ToUpper();
+            }
+
+            vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
+            vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
+
+            return vm;
         }
 
         [Authorize(Roles = RolesName.Etudiant)]

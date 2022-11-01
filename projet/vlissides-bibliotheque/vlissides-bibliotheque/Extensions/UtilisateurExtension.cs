@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
 using vlissides_bibliotheque.Data;
@@ -46,6 +47,41 @@ namespace vlissides_bibliotheque
             admin.PhoneNumber = vm.NoTelephone;
 
             return admin;
+        }
+
+        public static GestionProfilVM GetEtudiantProfilVM(this Etudiant etudiant, ApplicationDbContext context)
+        {
+            Adresse adresse = etudiant.GetAdresse(context);
+
+            GestionProfilVM vm = new() {
+                Courriel = etudiant.Email,
+                Nom = etudiant.Nom,
+                Prenom = etudiant.Prenom,
+                NoTelephone = etudiant.PhoneNumber,
+                ProgrammeEtudeId = etudiant.ProgrammeEtudeId,
+                ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
+
+                NoCivique = adresse.NumeroCivique.ToString(),
+                Rue = adresse.Rue,
+                Ville = adresse.Ville,
+                App = adresse.App,
+                CodePostal = adresse.CodePostal,
+                ProvinceId = adresse.Province.ProvinceId,
+
+                Provinces = new SelectList(context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
+            };
+
+            return vm;
+        }
+
+        public static GestionProfilVM GetAdminProfilVM(this IdentityUser admin)
+        {
+            GestionProfilVM vm = new() {
+                Courriel = admin.Email,
+                NoTelephone = admin.PhoneNumber
+            };
+
+            return vm;
         }
     }
 }
