@@ -22,7 +22,9 @@
     <tbody>
         @foreach(LivreBibliotheque livre in Model) {
             <tr>
-                <td>@livre.PhotoCouverture</td>
+                <td class="text-center">
+                    <img src="@livre.PhotoCouverture" width="50px">
+                </td>
                 <td>@livre.Isbn</td>
                 <td>@livre.Titre</td>
                 <td>@livre.Resume</td>

@@ -24,7 +24,9 @@
     <tbody>
         @foreach (Evenement evenement in Model) {
             <tr>
-                <td>@evenement.Image</td>
+                <td class="text-center">
+                    <img src="@evenement.Image" width="50px">
+                </td>
                 <td>@evenement.Nom</td>
                 <td>@evenement.Description</td>
                 <td>@evenement.Debut</td>
