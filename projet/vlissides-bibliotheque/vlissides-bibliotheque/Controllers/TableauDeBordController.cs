@@ -19,11 +19,13 @@ namespace vlissides_bibliotheque.Controllers
 
 		public TableauDeBordController(
 			UserManager<Utilisateur> userManager,
-			ApplicationDbContext context
+			UserManager<Etudiant> userManagerEtudiant,
+            ApplicationDbContext context
 		)
 		{
 			_userManager = userManager;
-			_context = context;
+            _userManagerEtudiant = userManagerEtudiant;
+            _context = context;
 		}
 
 		public ActionResult Index()
