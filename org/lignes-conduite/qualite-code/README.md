@@ -7,8 +7,19 @@ Standards pour s'assurer d'avoir une bonne qualité de code uniforme à travers 
 Cette section porte sur
 - [Commentaires](commentaires.md)
   - Methodes et fonctions
-  - Classes
-- Nomenclature *(todo)*
-  - Nom de variables *(todo)*
-  - Nom de méthodes et fonctions *(todo)*
-  - Nom des classes *(todo)*
+#Classes
+## Nomenclature *(todo)*
+  ### Nom de variables
+	-Les noms de variables doivent être en français
+   ###Nom de méthodes et fonctions
+  ```
+Description -->	Exemple
+Retourner un ou des objets --> Get[NowDeLaMéthode]
+Modifier un ou des objets --> Modify[NowDeLaMéthode]
+Supprimer un ou des objets --> Delete[NowDeLaMéthode]
+```
+  ### Nom des classes et des dossiers
+  ```
+  Toujours en français
+  ```
+
