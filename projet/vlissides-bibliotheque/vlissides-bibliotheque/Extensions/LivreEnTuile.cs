@@ -12,8 +12,8 @@ namespace vlissides_bibliotheque
     {
         public static TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(this LivreBibliotheque livreBibliotheque, ApplicationDbContext _context)
         {
-            IEnumerable<CoursLivre> bdCoursLivre = _context.CoursLivres;
-            IEnumerable<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x => x.Evaluation);
+            List<CoursLivre> bdCoursLivre = _context.CoursLivres.ToList();
+            List<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x => x.Evaluation).ToList();
             TuileLivreBibliotequeVM tuileVM = new()
             {
                 livreBibliotheque = livreBibliotheque,
@@ -21,7 +21,7 @@ namespace vlissides_bibliotheque
 
             try
             {
-                if (bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId) != null)
+                if (bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId) != null)
                 {
                     tuileVM.coursLivre = _context.CoursLivres
                         .Include(x => x.Cours)
@@ -35,7 +35,7 @@ namespace vlissides_bibliotheque
 
                 if (tuileVM.complementaire)
                 {
-                    tuileVM.livreEvaluation = bdEvaluationsLivre.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                    tuileVM.livreEvaluation = bdEvaluationsLivre.FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                 }
 
                 if (tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "N/A")
