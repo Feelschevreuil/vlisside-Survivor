@@ -7,8 +7,8 @@ Standards pour s'assurer d'avoir une bonne qualité de code uniforme à travers 
 Cette section porte sur
 - [Commentaires](commentaires.md)
   - Methodes et fonctions
-#Classes
-## Nomenclature *(todo)*
+
+## Nomenclature du code
   ### Nom de variables
 	-Les noms de variables doivent être en français
    ###Nom de méthodes et fonctions
