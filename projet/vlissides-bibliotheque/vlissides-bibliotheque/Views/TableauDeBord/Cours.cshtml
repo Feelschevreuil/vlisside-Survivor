@@ -1,0 +1,35 @@
+﻿@model List<Cours>
+
+<div class="d-flex accordion-header">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
+        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+    </a>
+    <h2 class="p-3">Gestion des cours</h2>
+</div>
+
+<table class="table table-light table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(cours => cours.First().Code)</th>
+            <th>@Html.DisplayNameFor(cours => cours.First().Nom)</th>
+            <th>@Html.DisplayNameFor(cours => cours.First().Description)</th>
+            <th>@Html.DisplayNameFor(cours => cours.First().ProgrammeEtude.Nom)</th>
+            <th>@Html.DisplayNameFor(cours => cours.First().AnneeParcours)</th>
+            <th>Action(s)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Cours cours in Model) {
+            <tr>
+                <td>@cours.Code</td>
+                <td>@cours.Nom</td>
+                <td>@cours.Description</td>
+                <td>@cours.ProgrammeEtude.Nom</td>
+                <td>@cours.AnneeParcours</td>
+                <td>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
