@@ -12,7 +12,11 @@ namespace vlissides_bibliotheque
     {
         public static TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(this LivreBibliotheque livreBibliotheque, ApplicationDbContext _context)
         {
-            List<CoursLivre> bdCoursLivre = _context.CoursLivres.Include(x=>x.Cours).Include(x=>x.LivreBibliotheque).ToList();
+            List<CoursLivre> bdCoursLivre = _context.CoursLivres
+                .Include(x=>x.Cours)
+                .Include(x=>x.LivreBibliotheque)
+                .Include(x=>x.Cours.ProgrammeEtude)
+                .ToList();
             List<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x => x.Evaluation).ToList();
             TuileLivreBibliotequeVM tuileVM = new()
             {
@@ -23,11 +27,7 @@ namespace vlissides_bibliotheque
             {
                 if (bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId) != null)
                 {
-                    tuileVM.coursLivre = _context.CoursLivres
-                        .Include(x => x.Cours)
-                        .Include(x => x.Cours.ProgrammeEtude)
-                        .ToList()
-                        .Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                    tuileVM.coursLivre = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                     tuileVM.complementaire = bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).Complementaire;
                     var tousLesPrix = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                     tuileVM.prixEtatLivre = tousLesPrix.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId);
