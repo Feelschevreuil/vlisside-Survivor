@@ -1,12 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Tableau de bord";
 }
-<div class="pt-2">
+<div class="d-flex accordion-header">
     <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
-        <div class="btn">
-            <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
-        </div>
+        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
     </a>
+    <h2 class="p-3">Tableau de bord</h2>
 </div>
 <div class="pt-2">
     <a asp-area="" asp-controller="TableauDeBord" asp-action="Etudiants">

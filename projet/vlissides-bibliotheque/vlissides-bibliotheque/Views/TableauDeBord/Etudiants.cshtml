@@ -1,12 +1,10 @@
 ﻿@model List<Etudiant>
 
-<div class="pt-2">
+<div class="d-flex accordion-header">
     <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <div class="btn">
-            <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
-            <h2 class="p-2 flex-grow-1">Gestion étudiants</h2>
-        </div>
+        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
     </a>
+    <h2 class="p-3">Gestion étudiants</h2>
 </div>
 
 <table class="table table-light table-hover">
