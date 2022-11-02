@@ -8,3 +8,41 @@
     </a>
 </div>
 
+<table class="table table-light table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Nom)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Prenom)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Email)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().ProgrammeEtude.Nom)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().PhoneNumber)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.NumeroCivique)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.App)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Rue)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Ville)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Province.Nom)</th>
+            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.CodePostal)</th>
+            <th>Action(s)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Etudiant etudiant in Model) {
+            <tr>
+                <td>@etudiant.Nom</td>
+                <td>@etudiant.Prenom</td>
+                <td>@etudiant.Email</td>
+                <td>@etudiant.ProgrammeEtude.Nom</td>
+                <td>@etudiant.PhoneNumber</td>
+                <td>@etudiant.Adresse.NumeroCivique</td>
+                <td>@etudiant.Adresse.App</td>
+                <td>@etudiant.Adresse.Rue</td>
+                <td>@etudiant.Adresse.Ville</td>
+                <td>@etudiant.Adresse.Province.Nom</td>
+                <td>@etudiant.Adresse.CodePostal</td>
+                <td>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
