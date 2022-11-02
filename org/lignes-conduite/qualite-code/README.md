@@ -12,5 +12,3 @@ Cette section porte sur
   - Nom de variables *(todo)*
   - Nom de méthodes et fonctions *(todo)*
   - Nom des classes *(todo)*
-- F.A.Q *(todo)*
-  - Quand créer une méthode/fonction? *(todo)*
