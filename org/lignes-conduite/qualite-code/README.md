@@ -20,6 +20,6 @@ Supprimer un ou des objets --> Delete[NowDeLaMéthode]
 ```
   ### Nom des classes et des dossiers
   ```
-  Toujours en français
+  Le nom des classes et des dossiers doivent être français
   ```
 
