@@ -1,4 +1,4 @@
-﻿@model Evenement
+﻿@model EvenementVM
 
 @{
 
@@ -6,24 +6,46 @@
 
 
 <div class="card tuile-evenement">
-    <img src="~/img/horloge.svg" class="card-img-top image-evenement" alt=" PhotoEvenement">
-    <div class="card-body">
-        <h5 class="card-title">@Model.Nom</h5>
-        <p class="card-text">@Model.Description</p>
 
+    @if (User.IsInRole(RolesName.Admin))
+    {
+        <div>
+            <a class="float-start" asp-area="" asp-controller="Evenement" asp-action="modifier" asp-route-id="@Model.EvenementId">
+                <input class="btn btn-primary shadow" type="button" value="Modifier" />
+            </a>
+
+            <form method="post" class="float-end" asp-controller="Evenement" asp-action="effacer" asp-route-id="@Model.EvenementId">
+                <a>
+                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Nom')" type="submit" value="Supprimer" />
+                </a>
+            </form>
+        </div>
+    }
+    <div>
+        <a class="text-black text-decoration-none" asp-area="" asp-controller="Evenement" asp-action="detail" asp-route-id="@Model.EvenementId">
+            <div class="position-relative text-center">
+                <img class="img-fluid w-100 flex-fill" src=@Model.Image alt="PhotoLivre">
+            </div>
+
+            <div class="card-body">
+                <h5 class="fw-bold card-title">@Model.Nom</h5>
+                <p class="card-text">@Model.Description</p>
+
+            </div>
+            <footer>
+
+                <p class="d-inline-block">
+                    <img class="evenement-horloge-debut" src="~/img/horloge.svg">
+                    Début le: @Model.Debut.Day @Model.Debut.ToString("MMMM") @Model.Debut.Year
+                </p>
+
+                <p class="">
+                    <img class="evenement-horloge-fin" src="~/img/horloge.svg">
+                    Termine le: @Model.Fin.Day @Model.Debut.ToString("MMMM") @Model.Fin.Year
+                </p>
+            </footer>
+        </a>
     </div>
-    <footer>
-
-        <p class="d-inline-block">
-            <img class="evenement-horloge-debut" src="~/img/horloge.svg">
-            Début le: @Model.Debut.Day @Model.Debut.ToString("MMMM") @Model.Debut.Year
-        </p>
-
-        <p class="">
-            <img class="evenement-horloge-fin" src="~/img/horloge.svg">
-            Termine le: @Model.Fin.Day @Model.Debut.ToString("MMMM") @Model.Fin.Year
-        </p>
-    </footer>
+  
 </div>
-
 <link rel="stylesheet" href="~/css/carte-evenement-Partial.css" asp-append-version="true" />

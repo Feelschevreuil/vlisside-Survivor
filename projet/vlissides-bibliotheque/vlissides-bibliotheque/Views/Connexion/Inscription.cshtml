@@ -75,6 +75,11 @@
                             <span asp-validation-for="NoCivique" class="text-danger"></span>
                         </div>
                         <div class="form-group">
+                            <label asp-for="App" class="form-label"></label>
+                            <input asp-for="App" class="form-control" aria-required="true" />
+                            <span asp-validation-for="App" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
                             <label asp-for="Rue" class="form-label"></label>
                             <input asp-for="Rue" class="form-control" aria-required="true" />
                             <span asp-validation-for="Rue" class="text-danger"></span>
@@ -86,7 +91,8 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="CodePostal" class="form-label"></label>
-                            <input asp-for="CodePostal" class="form-control" aria-required="true" />
+                            <input type="text" value="@Model.CodePostal" class="form-control" aria-required="true" oninput="setPostalCode(this, 'postalCode')" />
+                            <input asp-for="CodePostal" id="postalCode" hidden />
                             <span asp-validation-for="CodePostal" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -98,7 +104,8 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="NoTelephone" class="form-label"></label>
-                            <input asp-for="NoTelephone" class="form-control" aria-required="true" />
+                            <input type="text" value="@Model.NoTelephone" class="form-control" aria-required="true" oninput="setPhoneNumber(this, 'phoneNumber')" />
+                            <input asp-for="NoTelephone" id="phoneNumber" hidden />
                             <span asp-validation-for="NoTelephone" class="text-danger"></span>
                         </div>
                     </fieldset>
