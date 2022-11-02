@@ -161,11 +161,11 @@ namespace vlissides_bibliotheque.Controllers
                     {
                         if (error.Code == "PasswordTooShort")
                         {
-                            ModelState.AddModelError(string.Empty, "Le mot de passe doit être d'au moins 6 charactères.");
+                            ModelState.AddModelError(string.Empty, "Le mot de passe doit être d'au moins 6 caractères.");
                         }
                         if (error.Code == "PasswordRequiresNonAlphanumeric")
                         {
-                            ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins un charactère non alpha-numérique.");
+                            ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins un caractère spécial (Ex: !, $, %, ?, &, *, etc...).");
                         }
                         if (error.Code == "PasswordRequiresLower")
                         {
