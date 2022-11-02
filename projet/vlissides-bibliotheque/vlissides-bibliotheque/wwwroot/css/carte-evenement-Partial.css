@@ -11,9 +11,15 @@
 }
 
 .image-evenement {
-    height: 10rem;
+    width: 200px;
+    height: 150px;
 }
 
 .tuile-evenement {
     width: auto;
+}
+
+.image-detail{
+    width: 200px;
+    height: 300px
 }
