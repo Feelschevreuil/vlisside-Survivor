@@ -14,7 +14,7 @@ namespace vlissides_bibliotheque.Services
 	/// <param name="bookQueries">
 	/// Objet contenant les champs du livre à chercher.
 	/// </param>
-	/// <param name="quantiteParPage">
+	/// <param name="quantityPerPage">
 	/// La quantité d'objets que l'on veut afficher par page.
 	/// </param>
 	/// <param name="page">
@@ -24,6 +24,6 @@ namespace vlissides_bibliotheque.Services
 	/// Une liste d'objets ayant les propriétés désirées ou une liste vide 
 	/// s'il n'y en a pas.
 	/// </returns>
-	ICollection<T> SearchByProperties(T recherche, int quantiteParPage = 20, int page = 0);
+	ICollection<T> SearchByProperties(dynamic recherche, int quantityPerPage = 20, int page = 0);
     }
 }
