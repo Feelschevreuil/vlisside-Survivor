@@ -13,7 +13,7 @@ namespace vlissides_bibliotheque
         public static TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(this LivreBibliotheque livreBibliotheque, ApplicationDbContext _context)
         {
             IEnumerable<CoursLivre> bdCoursLivre = _context.CoursLivres;
-            IEnumerable<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x=>x.Evaluation);
+            IEnumerable<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x => x.Evaluation);
             TuileLivreBibliotequeVM tuileVM = new()
             {
                 livreBibliotheque = livreBibliotheque,
@@ -21,24 +21,24 @@ namespace vlissides_bibliotheque
 
             try
             {
-                    if (bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId) != null)
-                    {
-                        tuileVM.coursLivre = _context.CoursLivres
-                            .Include(x => x.Cours)
-                            .Include(x => x.Cours.ProgrammeEtude)
-                            .ToList()
-                            .Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-                        tuileVM.complementaire = bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).Complementaire;
+                if (bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId) != null)
+                {
+                    tuileVM.coursLivre = _context.CoursLivres
+                        .Include(x => x.Cours)
+                        .Include(x => x.Cours.ProgrammeEtude)
+                        .ToList()
+                        .Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                    tuileVM.complementaire = bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).Complementaire;
                     var tousLesPrix = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                     tuileVM.prixEtatLivre = tousLesPrix.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId);
-                    }
+                }
 
-                    if (tuileVM.complementaire)
-                    {
-                        tuileVM.livreEvaluation = bdEvaluationsLivre.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-                    }
+                if (tuileVM.complementaire)
+                {
+                    tuileVM.livreEvaluation = bdEvaluationsLivre.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                }
 
-                    if(tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "N/A")
+                if (tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "N/A")
                 {
                     tuileVM.livreBibliotheque.PhotoCouverture = "livreDemo.jpg";
                 }
@@ -49,6 +49,21 @@ namespace vlissides_bibliotheque
             }
 
             return tuileVM;
+        }
+
+
+        public static List<TuileLivreBibliotequeVM> GetQuatreLivresVM(ApplicationDbContext _context)
+        {
+            List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
+            List<LivreBibliotheque> listQuatreLivre = _context.LivresBibliotheque.Take(4).ToList();
+
+            foreach (LivreBibliotheque livre in listQuatreLivre)
+            {
+                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
+                listTuileLivreBibliotequeVMs.Add(livreConvertie);
+            };
+
+            return listTuileLivreBibliotequeVMs;
         }
     }
 }
