@@ -14,9 +14,9 @@ Cette section porte sur
    ###Nom de méthodes et fonctions
   ```
 Description -->	Exemple
-Retourner un ou des objets --> Get[NowDeLaMéthode]
-Modifier un ou des objets --> Modify[NowDeLaMéthode]
-Supprimer un ou des objets --> Delete[NowDeLaMéthode]
+Retourner un ou des objets --> Get[NomDeLaMéthode]
+Modifier un ou des objets --> Modify[NomDeLaMéthode]
+Supprimer un ou des objets --> Delete[NomDeLaMéthode]
 ```
   ### Nom des classes et des dossiers
   ```
