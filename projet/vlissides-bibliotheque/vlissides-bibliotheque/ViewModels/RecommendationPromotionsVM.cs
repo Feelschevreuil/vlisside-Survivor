@@ -9,7 +9,7 @@ namespace vlissides_bibliotheque.ViewModels
     {
         public List<TuileLivreBibliotequeVM> tuileLivreBibliotequeVMs;
 
-        public List<Evenement> evenements;
+        public List<EvenementVM> evenements;
 
     }
 }
