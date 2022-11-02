@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -13,7 +14,8 @@ namespace vlissides_bibliotheque.Controllers
 	public class TableauDeBordController : Controller
 	{
 		private readonly UserManager<Utilisateur> _userManager;
-		private readonly ApplicationDbContext _context;
+		private readonly UserManager<Etudiant> _userManagerEtudiant;
+        private readonly ApplicationDbContext _context;
 
 		public TableauDeBordController(
 			UserManager<Utilisateur> userManager,
@@ -27,6 +29,17 @@ namespace vlissides_bibliotheque.Controllers
 		public ActionResult Index()
 		{
 			return View();
+		}
+
+		public IActionResult Etudiants()
+		{
+			List<Etudiant> etudiants = _userManagerEtudiant.Users
+				.Include(etudiant => etudiant.ProgrammeEtude)
+				.Include(etudiant => etudiant.Adresse)
+				.Include(etudiant => etudiant.Adresse.Province)
+                .ToList();
+
+            return View(etudiants);
 		}
 	}
 }
