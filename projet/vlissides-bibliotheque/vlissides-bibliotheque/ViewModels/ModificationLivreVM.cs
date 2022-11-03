@@ -28,15 +28,21 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Usagé")]
-		public double PrixUsage { get; set; } = 0;
+        [DataType(DataType.Currency)]
+        [Number]
+        public double? PrixUsage { get; set; } = 0;
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Numérique")]
-		public double PrixNumerique { get; set; } = 0;
+        [DataType(DataType.Currency)]
+        [Number]
+        public double? PrixNumerique { get; set; } = 0;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-		[DisplayName("Neuf")]
-		public double PrixNeuf { get; set; } 
+		[Number]
+        [DataType(DataType.Currency)]
+        [DisplayName("Neuf")]
+		public double? PrixNeuf { get; set; } 
 
 		[DisplayName("Quantité")]
 		public int? QuantiteUsagee { get; set; }
