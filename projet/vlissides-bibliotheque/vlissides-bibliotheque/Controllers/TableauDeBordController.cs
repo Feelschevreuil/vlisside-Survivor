@@ -83,7 +83,7 @@ namespace vlissides_bibliotheque.Controllers
 
             GestionProfilVM vm = etudiant.GetEtudiantProfilVM(_context);
 
-            return PartialView("~/Views/Shared/_EtudiantPartial.cshtml", vm);
+            return PartialView("/Views/Shared/_EtudiantPartial.cshtml", vm);
         }
 
         [HttpPost]
@@ -116,7 +116,7 @@ namespace vlissides_bibliotheque.Controllers
                 return Ok();
             } else {
 
-                return PartialView("~/Views/Shared/_EtudiantPartial.cshtml", vm);
+                return PartialView("/Views/Shared/_EtudiantPartial.cshtml", vm);
             }
         }
 
