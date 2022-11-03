@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -25,7 +26,10 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult Bibliotheque()
         {
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
-            List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque.OrderBy(i => i.DatePublication).ToList();
+            List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
+                .Include(x=>x.MaisonEdition)
+                .OrderBy(i => i.DatePublication)
+                .ToList();
             foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
                 var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
