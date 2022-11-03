@@ -26,7 +26,7 @@
     </thead>
     <tbody>
         @foreach(Etudiant etudiant in Model) {
-            <tr>
+            <tr id="tr-@etudiant.Id">
                 <td>@etudiant.Nom</td>
                 <td>@etudiant.Prenom</td>
                 <td>@etudiant.Email</td>
@@ -54,7 +54,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="modifierEtudiant('@etudiant.Id')">Enregistrer</button>
+                            <button id="fermer-modal-@etudiant.Id" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="modifierEtudiant('@etudiant.Id')">Enregistrer</button>
                         </div>
                     </div>
                 </div>
