@@ -8,6 +8,7 @@ namespace vlissides_bibliotheque.ViewModels
 {
     public class GestionProfilVM
     {
+        public string EtudiantId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [RegularExpression(@"^[\w-\.]+@(cegep-connaissance-aleatoire\.qc\.ca)",
