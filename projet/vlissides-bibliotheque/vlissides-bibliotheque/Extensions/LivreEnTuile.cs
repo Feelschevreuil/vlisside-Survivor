@@ -16,7 +16,7 @@ namespace vlissides_bibliotheque
             IEnumerable<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x=>x.Evaluation);
             TuileLivreBibliotequeVM tuileVM = new()
             {
-                livreBibliotheque = livreBibliotheque,
+                livreBibliotheque = livreBibliotheque
             };
 
             try
