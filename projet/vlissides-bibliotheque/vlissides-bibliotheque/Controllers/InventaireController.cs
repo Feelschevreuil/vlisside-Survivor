@@ -226,7 +226,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.CoursLivres.Add(nouvelleAssociation);
                 _context.SaveChanges();
 
-                AssocierPrixEtat(LivreBibliothèqueModifier, form);
+                UpdateLesPrix(LivreBibliothèqueModifier, form);
                 return View("succesModifierLivre", LivreBibliothèqueModifier);
             }
 
@@ -344,7 +344,7 @@ namespace vlissides_bibliotheque.Controllers
 
             return ListPrixEtat;
         }
-        public bool AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
+        public bool UpdateLesPrix(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
         {
             if(form.PrixNeuf == null) { form.PrixNeuf = 0;};
             if(form.PrixNumerique == null) { form.PrixNumerique = 0; };
