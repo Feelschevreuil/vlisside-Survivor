@@ -84,7 +84,7 @@ namespace vlissides_bibliotheque.Controllers
 
             GestionProfilVM vm = etudiant.GetEtudiantProfilVM(_context);
 
-            return PartialView(HttpContext.Get("Views/Shared/_EtudiantPartial.cshtml"), vm);
+            return PartialView("Views/Shared/_EtudiantPartial.cshtml", vm);
         }
 
         [HttpPost]
