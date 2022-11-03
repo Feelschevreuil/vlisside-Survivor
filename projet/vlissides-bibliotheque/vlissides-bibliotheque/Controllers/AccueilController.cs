@@ -30,21 +30,12 @@ namespace vlissides_bibliotheque.Controllers
         [Route("")]
         public IActionResult Accueil()
         {
-            List<Evenement> listEvenements = _context.Evenements.OrderBy(i => i.Debut).Take(4).ToList();
+            List<Evenement> listEvenements = _context.Evenements.OrderByDescending(i => i.Debut).Take(4).ToList();
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetQuatreLivres.GetInventaireBibliotequeVMs(_context), evenements = listEvenements };
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = LivreEnTuile.GetQuatreLivresVM(_context), evenements = GetEvenement.GetEvenements(listEvenements) };
 
             return View(recommendationPromotions);
         }
-
-        public IActionResult Actualiter()
-        {
-
-            List<Evenement> listEvenements = new();
-            listEvenements = _context.Evenements.ToList();
-            return View(listEvenements);
-        }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
