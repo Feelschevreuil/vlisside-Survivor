@@ -44,8 +44,29 @@ function modifierEtudiant(id) {
         res.text().then(function (res) {
             parent.innerHTML = res;
             setInputsFormat();
+            if (res == "") {
+                afficherModification(id, data);
+                document.querySelector(`#fermer-modal-${id}`).click();
+            }
         });
     });
+}
+
+// afficher les valeurs modifiées et non modifiées
+function afficherModification(id, data) {
+    let table = document.querySelectorAll("table")[0];
+    let thead = table.children[0];
+    let champs = Array.from(thead.children[0].children);
+    let etudiantCourant = document.querySelector(`#tr-${id}`);
+
+    for (let key in data) {
+        let champ = champs.find(th => th.innerHTML == key);
+        let index = champs.indexOf(champ);
+        let baliseInfo = etudiantCourant.children[index];
+        if (baliseInfo != undefined) {
+            baliseInfo.innerHTML = data[`${key}`];
+        }
+    }
 }
 
 function setInputsFormat() {
