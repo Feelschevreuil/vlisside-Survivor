@@ -32,7 +32,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             List<Evenement> listEvenements = _context.Evenements.OrderByDescending(i => i.Debut).Take(4).ToList();
 
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = GetQuatreLivres.GetInventaireBibliotequeVMs(_context), evenements = GetEvenement.GetEvenements(listEvenements) };
+            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = LivreEnTuile.GetQuatreLivresVM(_context), evenements = GetEvenement.GetEvenements(listEvenements) };
 
             return View(recommendationPromotions);
         }

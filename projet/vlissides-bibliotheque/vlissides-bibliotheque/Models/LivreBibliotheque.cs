@@ -32,6 +32,7 @@ namespace vlissides_bibliotheque.Models
         public string PhotoCouverture { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime DatePublication { get; set; }
     }
 }

@@ -12,33 +12,37 @@ namespace vlissides_bibliotheque
     {
         public static TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(this LivreBibliotheque livreBibliotheque, ApplicationDbContext _context)
         {
-            IEnumerable<CoursLivre> bdCoursLivre = _context.CoursLivres;
-            IEnumerable<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x=>x.Evaluation);
+            List<CoursLivre> bdCoursLivre = _context.CoursLivres
+                .Include(x=>x.Cours)
+                .Include(x=>x.LivreBibliotheque)
+                .Include(x=>x.Cours.ProgrammeEtude)
+                .ToList();
+            List<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x => x.Evaluation).ToList();
             TuileLivreBibliotequeVM tuileVM = new()
             {
-                livreBibliotheque = livreBibliotheque,
+                livreBibliotheque = livreBibliotheque
             };
 
             try
             {
-                    if (bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId) != null)
-                    {
-                        tuileVM.coursLivre = _context.CoursLivres
-                            .Include(x => x.Cours)
-                            .Include(x => x.Cours.ProgrammeEtude)
-                            .ToList()
-                            .Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-                        tuileVM.complementaire = bdCoursLivre.ToList().Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).Complementaire;
+                if (bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId) != null)
+                {
+                    tuileVM.coursLivre = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                    tuileVM.complementaire = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).Complementaire;
                     var tousLesPrix = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                     tuileVM.prixEtatLivre = tousLesPrix.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId);
-                    }
-
-                    if (tuileVM.complementaire)
+                    if (tuileVM.prixEtatLivre == null)
                     {
-                        tuileVM.livreEvaluation = bdEvaluationsLivre.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                        tuileVM.prixEtatLivre = CreerPrixEtatLivre(_context,livreBibliotheque);
                     }
+                }
 
-                    if(tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "N/A")
+                if (tuileVM.complementaire)
+                {
+                    tuileVM.livreEvaluation = bdEvaluationsLivre.FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                }
+
+                if (tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "N/A")
                 {
                     tuileVM.livreBibliotheque.PhotoCouverture = "livreDemo.jpg";
                 }
@@ -49,6 +53,44 @@ namespace vlissides_bibliotheque
             }
 
             return tuileVM;
+        }
+
+
+        public static List<TuileLivreBibliotequeVM> GetQuatreLivresVM(ApplicationDbContext _context)
+        {
+            List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
+            List<CoursLivre> listQuatreLivre = _context.CoursLivres
+                .Include(x=>x.LivreBibliotheque)
+                .Include(x=>x.Cours)
+                .Take(4)
+                .ToList();
+
+            foreach (CoursLivre CoursLivre in listQuatreLivre)
+            {
+                var livreConvertie = CoursLivre.LivreBibliotheque.GetTuileLivreBibliotequeVMs(_context);
+                listTuileLivreBibliotequeVMs.Add(livreConvertie);
+            };
+
+            return listTuileLivreBibliotequeVMs;
+        }
+
+        public static PrixEtatLivre CreerPrixEtatLivre(ApplicationDbContext _context, LivreBibliotheque livre)
+        {
+            EtatLivre PrixNeuf = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF);
+
+            PrixEtatLivre prixEtatLivre = new()
+            {
+                PrixEtatLivreId = 0,
+                EtatLivre = PrixNeuf,
+                EtatLivreId = PrixNeuf.EtatLivreId,
+                LivreBibliotheque = livre,
+                LivreBibliothequeId = livre.LivreId,
+                Prix = 10
+            };
+            _context.PrixEtatsLivres.Add(prixEtatLivre);
+            _context.SaveChanges();
+
+            return prixEtatLivre;
         }
     }
 }
