@@ -18,23 +18,20 @@
     
     var fetchEnLocal = "/Accueil/ChangerPrix";
     var fetchSurServeur = "2036516/Accueil/ChangerPrix";
-    var stringFech = "";
+    var stringFetch = "";
     var url = location.host;
 
-    let text = "Mr. Blue has a blue house"
-    let position = text.search("Blue");
-
     if (url.match("localhost") == null) {
-        stringFech = fetchSurServeur;
+        stringFetch = fetchSurServeur;
     } else {
-        stringFech = fetchEnLocal;
+        stringFetch = fetchEnLocal;
     }
 
     
     var data = JSON.stringify(DonnerRecus);
 
 
-    fetch(stringFech, {
+    fetch(stringFetch, {
         method: 'Post',
         body: data,
         contentType: "application/json; charset=utf-8",
