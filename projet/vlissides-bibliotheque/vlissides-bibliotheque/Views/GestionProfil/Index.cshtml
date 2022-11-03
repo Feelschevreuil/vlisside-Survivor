@@ -52,15 +52,15 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="checkBoxCours" class="form-label"></label>
-                            <table>
+                            <div class="cours">
                                 @foreach (var Cours in Model.checkBoxCours)
                                 {
-                                    <tr>
-                                        <td><input id="Cours-@Cours.Cours.CoursId" type="checkbox" name="Cours" value="@Cours.Cours.CoursId" checked="@Cours.Cocher" onchange="assignerCours(this.value);" /></td>
-                                        <td><label for="@Cours.Cours.Nom">@Cours.Cours.Nom</label></td>
-                                    </tr>
+                                   <br />
+                                        <input id="Cours-@Cours.Cours.CoursId" type="checkbox" name="Cours" value="@Cours.Cours.CoursId" checked="@Cours.Cocher" onchange="assignerCours(this.value);" /> 
+                                        <label for="@Cours.Cours.Nom">@Cours.Cours.Nom</label> <br/>
+                                   
                                 }
-                            </table>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
