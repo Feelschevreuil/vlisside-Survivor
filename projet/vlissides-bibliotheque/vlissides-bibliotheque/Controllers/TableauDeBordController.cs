@@ -28,12 +28,14 @@ namespace vlissides_bibliotheque.Controllers
             _context = context;
 		}
 
+        [HttpGet]
 		public ActionResult Index()
 		{
 			return View();
 		}
 
-		public IActionResult Commandes()
+        [HttpGet]
+        public IActionResult Commandes()
 		{
 			List<CommandeEtudiant> commandes = _context.CommandesEtudiants
 				.Include(commande => commande.PrixEtatLivre)
@@ -47,6 +49,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(commandes);
 		}
 
+        [HttpGet]
         public IActionResult Cours()
         {
             List<Cours> cours = _context.Cours
@@ -56,6 +59,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(cours);
         }
 
+        [HttpGet]
         public IActionResult Etudiants()
         {
             List<Etudiant> etudiants = _userManagerEtudiant.Users
@@ -67,6 +71,56 @@ namespace vlissides_bibliotheque.Controllers
             return View(etudiants);
         }
 
+        [HttpGet]
+        public IActionResult ModifierEtudiant([FromBody] string Id)
+        {
+            Etudiant? etudiant = _userManagerEtudiant.Users
+                .Where(etudiant => etudiant.Id == Id)
+                .FirstOrDefault();
+
+            // retourner un erreur si l'étudiant n'existe pas
+            if(etudiant == null) return NotFound();
+
+            GestionProfilVM vm = etudiant.GetEtudiantProfilVM(_context);
+
+            return PartialView("~/Views/Shared/_EtudiantPartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult ModifierEtudiant([FromBody] GestionProfilVM vm)
+        {
+            ModelState.Remove(nameof(vm.ProgrammeEtudes));
+            ModelState.Remove(nameof(vm.Provinces));
+
+            if (vm.CodePostal != null) {
+                vm.CodePostal = vm.CodePostal.ToUpper();
+            }
+
+            vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
+            vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
+
+            if (ModelState.IsValid) {
+                Etudiant? etudiant = _userManagerEtudiant.Users
+                    .Where(etudiant => etudiant.Id == vm.EtudiantId)
+                    .FirstOrDefault();
+
+                // retourner un erreur si l'étudiant n'existe pas
+                if (etudiant == null) return NotFound();
+
+                Adresse adresse = etudiant.GetAdresse(_context);
+
+                etudiant.ModelBinding(adresse, vm);
+
+                _context.SaveChanges();
+
+                return Ok();
+            } else {
+
+                return PartialView("~/Views/Shared/_EtudiantPartial.cshtml", vm);
+            }
+        }
+
+        [HttpGet]
         public IActionResult Livres()
         {
             List<LivreBibliotheque> livres = _context.LivresBibliotheque
@@ -76,6 +130,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(livres);
         }
 
+        [HttpGet]
         public IActionResult ProgrammesEtudes()
         {
             List<ProgrammeEtude> programmesEtudes = _context.ProgrammesEtudes.ToList();
@@ -83,6 +138,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(programmesEtudes);
         }
 
+        [HttpGet]
         public IActionResult Promotions()
         {
             List<Evenement> evenements = _context.Evenements
