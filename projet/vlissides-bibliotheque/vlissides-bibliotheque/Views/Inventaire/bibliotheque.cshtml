@@ -3,11 +3,12 @@
 
 <h1>Inventaire de la bibliothèque</h1>
 
-
-    <a class="d-flex justify-content-end" asp-controller="inventaire" asp-action="creer">
-        <input class="btn btn-primary shadow" type="button" value="Ajouter un livre" />
-    </a>
-
+    @if (User.IsInRole(RolesName.Admin))
+    {
+        <a class="d-flex justify-content-end" asp-controller="inventaire" asp-action="creer">
+            <input class="btn btn-primary shadow" type="button" value="Ajouter un livre" />
+        </a>
+    }
 
 <div class="container-fluid">
 
