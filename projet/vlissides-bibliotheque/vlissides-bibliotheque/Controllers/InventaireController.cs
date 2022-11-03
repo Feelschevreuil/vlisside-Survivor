@@ -266,7 +266,7 @@ namespace vlissides_bibliotheque.Controllers
 
             List<Evenement> listEvenements = _context.Evenements.OrderBy(i => i.Debut).Take(4).ToList();
 
-            InventaireLivreBibliotheque recommendationPromotions = new() { tuileLivreBiblioteques = GetQuatreLivres.GetInventaireBibliotequeVMs(_context)};
+            InventaireLivreBibliotheque recommendationPromotions = new() { tuileLivreBiblioteques = LivreEnTuile.GetQuatreLivresVM(_context)};
 
             return View("Bibliotheque", recommendationPromotions);
         }
