@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -22,16 +23,14 @@ namespace vlissides_bibliotheque.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult La_blun()
-        {
-           InventaireLaBlunVM inventaireLivreEtudiant = new() { inventaireLivreEtudiantVMs = _context.LivresEtudiants.ToList() };      
-           return View(inventaireLivreEtudiant);
-        }
-
         public IActionResult Bibliotheque()
         {
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
-            foreach (LivreBibliotheque livre in _context.LivresBibliotheque)
+            List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
+                .Include(x=>x.MaisonEdition)
+                .OrderBy(i => i.DatePublication)
+                .ToList();
+            foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
                 var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
                 inventaireBibliotheque.Add(livreConvertie);
@@ -54,6 +53,19 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(inventaireLivreBibliotheque);
 
+        }
+
+        public IActionResult Detail(int id)
+        {
+           
+            LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.ToList().Find(x=>x.LivreId == id);
+            if(livreBibliotheque != null)
+            {
+                return View(LivreEnTuile.GetTuileLivreBibliotequeVMs(livreBibliotheque,_context));
+            }
+
+
+            return Content("Ce livre n'existe pas dans la base de données.");
         }
 
         [Authorize(Roles =RolesName.Admin)]
