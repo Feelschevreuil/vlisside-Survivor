@@ -2,24 +2,24 @@
 
 @{
     int livreIdCourant = @Model.livreBibliotheque.LivreId;
-    int nbrEtoile = 0;
-    int nbrEvaluation = 0;
-    if (Model.livreEvaluation != null)
-    {
-        foreach (EvaluationLivre evaluation in Model.livreEvaluation)
-        {
-            nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
-            nbrEvaluation++;
-        }
-        if (nbrEvaluation != 0)
-        {
-            nbrEtoile = nbrEtoile / nbrEvaluation;
-        }
-    }
+    //int nbrEtoile = 0;
+    //int nbrEvaluation = 0;
+    //if (Model.livreEvaluation != null)
+    //{
+    //    foreach (EvaluationLivre evaluation in Model.livreEvaluation)
+    //    {
+    //        nbrEtoile = nbrEtoile + evaluation.Evaluation.Etoiles;
+    //        nbrEvaluation++;
+    //    }
+    //    if (nbrEvaluation != 0)
+    //    {
+    //        nbrEtoile = nbrEtoile / nbrEvaluation;
+    //    }
+    //}
 }
 
 
-<div class="card border-2 tuile-livre">
+<div class="card border-2 tuile-livre mt-3">
 
     @if (User.IsInRole(RolesName.Admin))
     {
@@ -78,7 +78,7 @@
 
             </div>
 
-            @if (Model.complementaire)
+          @*  @if (Model.complementaire)
             {
                 <footer>
                     <div class="card-body">
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                 </footer>
-            }
+            }*@
    
 </div>
 
