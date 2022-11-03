@@ -16,24 +16,36 @@ function getFormulaireModifierEtudiant(id) {
     });
 }
 
-function modifierEtudiant() {
-    //fetch("/TableauDeBord/ModifierEtudiant/" + String(id), {
-    //    method: 'GET',
-    //    body: data,
-    //    contentType: "application/json; charset=utf-8",
-    //    headers: {
-    //        "Content-Type": "application/json",
-    //    }
-    //}).then(function (res) {
-    //    if (!res.ok) {
-    //        alert("L'étudiant est introuvable.")
-    //    }
+function modifierEtudiant(id) {
+    let parent = document.querySelector("#etudiant-" + String(id))
+        .querySelector(".modal-body");
 
-    //    res.text().then(function (res) {
-    //        document.querySelector("#etudiant-" + String(id))
-    //            .querySelector(".modal-body").innerHTML = res;
-    //    });
-    //});
+    let formulaire = parent.querySelector("form");
+
+    let formData = new FormData(formulaire);
+
+    let data = {};
+    formData.forEach(function (value, key) {
+        data[key] = value;
+    });
+
+    fetch(host + "TableauDeBord/ModifierEtudiant/", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Aucune modification n'a pu être effectuée.")
+        }
+
+        res.text().then(function (res) {
+            parent.innerHTML = res;
+            setInputsFormat();
+        });
+    });
 }
 
 function setInputsFormat() {
