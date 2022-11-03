@@ -25,7 +25,8 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult Bibliotheque()
         {
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
-            foreach (LivreBibliotheque livre in _context.LivresBibliotheque)
+            List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque.OrderBy(i => i.DatePublication).ToList();
+            foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
                 var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
                 inventaireBibliotheque.Add(livreConvertie);
