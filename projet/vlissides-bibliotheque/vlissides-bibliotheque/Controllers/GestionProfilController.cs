@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Exercice_Ajax.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Security.Claims;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 
@@ -65,6 +68,7 @@ namespace vlissides_bibliotheque.Controllers
                     ProvinceId = adresse.Province.ProvinceId,
 
                     Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
+                    checkBoxCours = CoursCheckedBox.GetCoursCheckedBox(_context, id)
                 };
 
                 return View(vm);
@@ -85,6 +89,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
                 ModelState.Remove(nameof(vm.Provinces));
+                ModelState.Remove(nameof(vm.checkBoxCours));
 
                 if (vm.CodePostal != null)
                 {
@@ -117,7 +122,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
                 vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
-
+                vm.checkBoxCours = CoursCheckedBox.GetCoursCheckedBox(_context, id);
                 return View(vm);
             }
             return Content("Action interdite");
@@ -127,6 +132,36 @@ namespace vlissides_bibliotheque.Controllers
         private async Task<Etudiant> GetUtilisateurCourantAsync()
         {
             return await _userManager.GetUserAsync(HttpContext.User);
+        }
+
+        public string AssignerCours([FromBody] CoursAssocier coursAssocier)
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Etudiant? utilisateurEtudiant = _context.Etudiants.ToList().Find(x => x.Id == id);
+            Cours CoursRechercher = _context.Cours.ToList().Find(x => x.CoursId == coursAssocier.CoursId);
+
+            if (coursAssocier.Cocher)
+            {
+                CoursEtudiant nouveauCoursEtudiant = new()
+                {
+                    Cours = CoursRechercher,
+                    CoursId = CoursRechercher.CoursId,
+                    Etudiant = utilisateurEtudiant,
+                    EtudiantId = utilisateurEtudiant.Id
+                };
+                _context.CoursEtudiants.Add(nouveauCoursEtudiant);
+                _context.SaveChanges();
+
+            }
+
+            if (!coursAssocier.Cocher)
+            {
+               CoursEtudiant coursEtudiant = _context.CoursEtudiants.ToList().Find(x => x.CoursId == coursAssocier.CoursId && x.EtudiantId == utilisateurEtudiant.Id);
+                _context.CoursEtudiants.Remove(coursEtudiant);
+                _context.SaveChanges();
+            }
+
+            return null;
         }
     }
 }
