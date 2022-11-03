@@ -23,7 +23,7 @@
     var data = JSON.stringify(DonnerRecus);
 
 
-    fetch("/Accueil/ChangerPrix", {
+    fetch("~/Accueil/ChangerPrix", {
         method: 'Post',
         body: data,
         contentType: "application/json; charset=utf-8",
