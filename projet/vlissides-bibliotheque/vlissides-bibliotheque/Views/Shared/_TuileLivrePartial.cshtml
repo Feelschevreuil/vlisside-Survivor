@@ -16,6 +16,8 @@
             nbrEtoile = nbrEtoile / nbrEvaluation;
         }
     }
+
+
 }
 
 
@@ -41,92 +43,101 @@
             <div class="position-relative text-center">
                 <img class="mx-auto image-livre" src="@Model.livreBibliotheque.PhotoCouverture" alt="PhotoLivre">
                 <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
-                    <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre.Prix$</p>
+                    @if (Model.prixEtatLivre == null)
+                    {
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3"></p>
+                    }
+                    else
+                    {
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre.Prix$</p>
+                    }
                 </div>
             </div>
         </a>
     </div>
+        <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
+              @if(Model.prixEtatLivre != null)
+                    {
+            <label class="btn bg-back text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(this.value, @livreIdCourant);" checked> Neuf
+            </label>
+                    }
+            <label class="btn bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
+            </label>
+            <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
+            </label>
+        </div>
 
-            <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
-                <label class="btn bg-back text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
-                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(this.value, @livreIdCourant);" checked> Neuf
-                </label>
-                <label class="btn bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
-                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
-                </label>
-                <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
-                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
-                </label>
-            </div>
 
-
-            <div class="card border-0 livre-info">
-                <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
-                <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
-                @if (Model.coursLivre != null)
-                {
-
-                    <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
-                    <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
-                }
-                else
-                {
-                    <p class="card-text">Programme d'étude: N/A</p>
-                    <p class="card-text">Année de parcours: N/A</p>
-                }
-                <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
-
-            </div>
-
-            @if (Model.complementaire)
+        <div class="card border-0 livre-info">
+            <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
+            <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
+            @if (Model.coursLivre != null)
             {
-                <footer>
-                    <div class="card-body">
 
-                        <div id="rating" class="star-rating" role="img" data-rating="3">
+                <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+                <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
+            }
+            else
+            {
+                <p class="card-text">Programme d'étude: N/A</p>
+                <p class="card-text">Année de parcours: N/A</p>
+            }
+            <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
+
+        </div>
+
+        @if (Model.complementaire)
+        {
+            <footer>
+                <div class="card-body">
+
+                    <div id="rating" class="star-rating" role="img" data-rating="3">
 
 
 
-                            @for (int etoile_vide = 0; etoile_vide < 5; etoile_vide++)
+                        @for (int etoile_vide = 0; etoile_vide < 5; etoile_vide++)
+                        {
+                            @while (nbrEtoile > 0)
                             {
-                                @while (nbrEtoile > 0)
+                                if (nbrEtoile >= 2)
                                 {
-                                    if (nbrEtoile >= 2)
-                                    {
-                                        nbrEtoile = nbrEtoile - 2;
-                                        etoile_vide++;
-                                        <span class="star" data-value="">
-                                            <img class="etoile" src="~/img/etoile-pleine.svg">
-                                            <span class="star-notification"></span>
-                                        </span>
-                                    }
-
-                                    if (nbrEtoile == 1)
-                                    {
-                                        nbrEtoile = nbrEtoile - 1;
-                                        etoile_vide++;
-                                        <span class="star" data-value="">
-                                            <img class="etoile" src="~/img/demi-etoile.svg">
-                                            <span class="star-notification"></span>
-                                        </span>
-
-                                    }
-                                }
-
-                                if (etoile_vide != 5)
-                                {
+                                    nbrEtoile = nbrEtoile - 2;
+                                    etoile_vide++;
                                     <span class="star" data-value="">
-                                        <img class="etoile" src="~/img/etoile-vide.svg">
+                                        <img class="etoile" src="~/img/etoile-pleine.svg">
                                         <span class="star-notification"></span>
                                     </span>
                                 }
-                            }
-                        </div>
-                    </div>
-                </footer>
-            }
-   
-</div>
 
-<link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
-<script src="~/js/PrixAjax.js"></script>
+                                if (nbrEtoile == 1)
+                                {
+                                    nbrEtoile = nbrEtoile - 1;
+                                    etoile_vide++;
+                                    <span class="star" data-value="">
+                                        <img class="etoile" src="~/img/demi-etoile.svg">
+                                        <span class="star-notification"></span>
+                                    </span>
+
+                                }
+                            }
+
+                            if (etoile_vide != 5)
+                            {
+                                <span class="star" data-value="">
+                                    <img class="etoile" src="~/img/etoile-vide.svg">
+                                    <span class="star-notification"></span>
+                                </span>
+                            }
+                        }
+                    </div>
+                </div>
+            </footer>
+        }
+
+    </div>
+
+    <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
+    <script src="~/js/PrixAjax.js"></script>

@@ -36,21 +36,7 @@ namespace vlissides_bibliotheque.Controllers
                 inventaireBibliotheque.Add(livreConvertie);
             };
 
-
-
             InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
-
-            foreach (TuileLivreBibliotequeVM tuile in inventaireBibliotheque)
-            {
-                if(tuile.prixEtatLivre == null)
-                {
-                   tuile.prixEtatLivre = AssocierPrixEtat(tuile);
-                    Console.WriteLine("dd");
-                }
-
-            }
-
-
             return View(inventaireLivreBibliotheque);
 
         }
@@ -384,39 +370,6 @@ namespace vlissides_bibliotheque.Controllers
 
             return ListPrixEtat;
         }
-        public PrixEtatLivre AssocierPrixEtat(TuileLivreBibliotequeVM LivreEtatPrix)
-        {
-            List<PrixEtatLivre> ListPrixEtat = new();
-
-            PrixEtatLivre AssociationPrixNeuf = new()
-            {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.livreBibliotheque.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
-                Prix = 0,
-            };
-            PrixEtatLivre AssociationPrixNumérique = new()
-            {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.livreBibliotheque.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
-                Prix = 0,
-            };
-            PrixEtatLivre AssociationPrixUsager = new()
-            {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.livreBibliotheque.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
-                Prix = 0,
-            };
-
-            ListPrixEtat.Add(AssociationPrixNeuf);
-            ListPrixEtat.Add(AssociationPrixNumérique);
-            ListPrixEtat.Add(AssociationPrixUsager);
-            _context.PrixEtatsLivres.AddRange(ListPrixEtat);
-            _context.SaveChanges();
-
-            return AssociationPrixNeuf;
-        }
+        
     }
 }

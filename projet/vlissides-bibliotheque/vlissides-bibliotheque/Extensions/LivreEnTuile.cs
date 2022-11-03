@@ -31,10 +31,6 @@ namespace vlissides_bibliotheque
                     tuileVM.complementaire = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).Complementaire;
                     var tousLesPrix = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                     tuileVM.prixEtatLivre = tousLesPrix.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId);
-                    if (tuileVM.prixEtatLivre == null)
-                    {
-                        tuileVM.prixEtatLivre = CreerPrixEtatLivre(_context,livreBibliotheque);
-                    }
                 }
 
                 if (tuileVM.complementaire)
@@ -74,23 +70,5 @@ namespace vlissides_bibliotheque
             return listTuileLivreBibliotequeVMs;
         }
 
-        public static PrixEtatLivre CreerPrixEtatLivre(ApplicationDbContext _context, LivreBibliotheque livre)
-        {
-            EtatLivre PrixNeuf = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF);
-
-            PrixEtatLivre prixEtatLivre = new()
-            {
-                PrixEtatLivreId = 0,
-                EtatLivre = PrixNeuf,
-                EtatLivreId = PrixNeuf.EtatLivreId,
-                LivreBibliotheque = livre,
-                LivreBibliothequeId = livre.LivreId,
-                Prix = 10
-            };
-            _context.PrixEtatsLivres.Add(prixEtatLivre);
-            _context.SaveChanges();
-
-            return prixEtatLivre;
-        }
     }
 }
