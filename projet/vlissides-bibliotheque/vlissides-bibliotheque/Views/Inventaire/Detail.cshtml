@@ -1,0 +1,27 @@
+﻿@model TuileLivreBibliotequeVM
+
+
+<div class="row">
+    <div class="col-6">
+        <img class="col-12" src="@Model.livreBibliotheque.PhotoCouverture" />
+    </div>
+
+    <div class="card-body col-6 m-auto">
+        <h5 class="card-title"><strong>Titre:</strong> @Model.livreBibliotheque.Titre</h5>
+        <p class="card-text"><strong>ISBN:</strong> @Model.livreBibliotheque.Isbn</p>
+        <p class="card-text"><strong>Resume:</strong> @Model.livreBibliotheque.Resume</p>
+        @if (Model.coursLivre != null)
+        {
+            <p class="card-text"><strong>Programme d'étude:</strong> @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+            <p class="card-text"><strong>Année de parcours:</strong> @Model.coursLivre.Cours.AnneeParcours</p>
+        }
+        else
+        {
+            <p class="card-text"><strong>Programme d'étude:</strong> N/A</p>
+            <p class="card-text"><strong>Année de parcours:</strong> N/A</p>
+        }
+        <p class="card-text"><strong>Date de publication:</strong> @Model.livreBibliotheque.DatePublication.Day @Model.livreBibliotheque.DatePublication.ToString("MMMM") @Model.livreBibliotheque.DatePublication.Year</p>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/carte-evenement-Partial.css" asp-append-version="true" />
