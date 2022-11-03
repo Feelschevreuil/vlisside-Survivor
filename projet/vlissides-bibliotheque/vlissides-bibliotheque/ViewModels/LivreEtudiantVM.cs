@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
@@ -15,11 +16,12 @@ namespace vlissides_bibliotheque.ViewModels
         [StringLength(64)]
         public string Titre { get; set; }
 
+        [DisplayName("ISBN")]
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Isbn]
         public string Isbn { get; set; }
 
-
+        [DisplayName("Description")]
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [StringLength(512)]
         public string Resume { get; set; }
