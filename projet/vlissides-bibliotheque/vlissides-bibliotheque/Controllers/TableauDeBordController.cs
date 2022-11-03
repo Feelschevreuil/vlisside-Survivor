@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.Extensions;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 
@@ -83,7 +84,7 @@ namespace vlissides_bibliotheque.Controllers
 
             GestionProfilVM vm = etudiant.GetEtudiantProfilVM(_context);
 
-            return PartialView("/Views/Shared/_EtudiantPartial.cshtml", vm);
+            return PartialView(HttpContext.Get("Views/Shared/_EtudiantPartial.cshtml"), vm);
         }
 
         [HttpPost]
