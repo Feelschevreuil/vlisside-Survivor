@@ -35,9 +35,26 @@
                 <td>@commande.PrixEtatLivre.Prix</td>
                 <td>@commande.FactureEtudiant.TypePaiement.Nom</td>
                 <td>
-                    <img src="~/img/pencil.svg" width="25px">
+                    <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#commande-@commande.FactureEtudiantId-@commande.PrixEtatLivreId">
                     <img src="~/img/delete.svg" width="25px">
                 </td>
+                <div class="modal fade" id="commande-@commande.FactureEtudiantId-@commande.PrixEtatLivreId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier la commande</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                contenu
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                <button type="button" class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </tr>
         }
     </tbody>
