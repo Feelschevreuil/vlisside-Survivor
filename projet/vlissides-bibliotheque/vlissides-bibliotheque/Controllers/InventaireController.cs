@@ -187,6 +187,8 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
             ModelState.Remove("Photo");
+         
+
 
             if (ModelState.IsValid)
             {
@@ -214,6 +216,13 @@ namespace vlissides_bibliotheque.Controllers
 
                 UpdateLesPrix(LivreBibliothèqueModifier, form);
                 return View("succesModifierLivre", LivreBibliothèqueModifier);
+            }
+
+             var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
+            foreach (var error in ModelErrors)
+            {
+
+                ModelState.AddModelError(string.Empty, error.ErrorMessage);
             }
 
             form.Auteurs = ListDropDownAuteurs();
