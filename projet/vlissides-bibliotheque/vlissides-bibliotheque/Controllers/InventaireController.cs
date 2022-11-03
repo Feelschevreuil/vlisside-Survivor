@@ -22,12 +22,6 @@ namespace vlissides_bibliotheque.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult La_blun()
-        {
-           InventaireLaBlunVM inventaireLivreEtudiant = new() { inventaireLivreEtudiantVMs = _context.LivresEtudiants.ToList() };      
-           return View(inventaireLivreEtudiant);
-        }
-
         public IActionResult Bibliotheque()
         {
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
@@ -54,6 +48,19 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(inventaireLivreBibliotheque);
 
+        }
+
+        public IActionResult Detail(int id)
+        {
+           
+            LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.ToList().Find(x=>x.LivreId == id);
+            if(livreBibliotheque != null)
+            {
+                return View(LivreEnTuile.GetTuileLivreBibliotequeVMs(livreBibliotheque,_context));
+            }
+
+
+            return Content("Ce livre n'existe pas dans la base de données.");
         }
 
         [Authorize(Roles =RolesName.Admin)]
