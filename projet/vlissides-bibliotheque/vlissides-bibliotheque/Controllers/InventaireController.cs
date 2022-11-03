@@ -221,8 +221,14 @@ namespace vlissides_bibliotheque.Controllers
              var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
             foreach (var error in ModelErrors)
             {
-
-                ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                if (error.Exception == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Le format est incorrect. Voici un exemple du bon format: 10,45");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
             }
 
             form.Auteurs = ListDropDownAuteurs();
