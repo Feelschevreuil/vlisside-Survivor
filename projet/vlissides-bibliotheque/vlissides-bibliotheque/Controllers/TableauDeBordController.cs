@@ -84,6 +84,8 @@ namespace vlissides_bibliotheque.Controllers
 
             GestionProfilVM vm = etudiant.GetEtudiantProfilVM(_context);
 
+            vm.EtudiantId = Id;
+
             return PartialView("Views/Shared/_EtudiantPartial.cshtml", vm);
         }
 
