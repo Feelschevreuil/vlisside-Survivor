@@ -62,5 +62,9 @@ namespace vlissides_bibliotheque.ViewModels
 
         // liste des provinces
         public SelectList Provinces { get; set; }
+
+        public int CoursId { get; set; }
+        [Display(Name = "Liste des cours")]
+        public List<checkBoxCours> checkBoxCours { get; set; }
     }
 }
