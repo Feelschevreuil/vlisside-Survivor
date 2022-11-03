@@ -1,7 +1,7 @@
 ﻿
 function getFormulaireModifierEtudiant(id) {
 
-    fetch("/Accueil/ChangerPrix" + String(id), {
+    fetch("/TableauDeBord/ModifierEtudiant/" + String(id), {
         method: 'GET',
     }).then(function (res) {
         if (!res.ok) {
@@ -16,7 +16,7 @@ function getFormulaireModifierEtudiant(id) {
 }
 
 function modifierEtudiant() {
-    //fetch("/Accueil/ChangerPrix" + String(id), {
+    //fetch("/TableauDeBord/ModifierEtudiant/" + String(id), {
     //    method: 'GET',
     //    body: data,
     //    contentType: "application/json; charset=utf-8",
