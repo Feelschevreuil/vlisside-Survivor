@@ -32,8 +32,6 @@ namespace vlissides_bibliotheque
 		);
 	    }
 
-	    Thread.CurrentThread.CurrentCulture = StringComparison.CurrentCultureIgnoreCase;
-
 			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 			builder.Services.AddDefaultIdentity<Utilisateur>(options => options.SignIn.RequireConfirmedAccount = true)
