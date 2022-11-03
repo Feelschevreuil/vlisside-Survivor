@@ -72,7 +72,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
-        public IActionResult ModifierEtudiant([FromBody] string Id)
+        public IActionResult ModifierEtudiant(string Id)
         {
             Etudiant? etudiant = _userManagerEtudiant.Users
                 .Where(etudiant => etudiant.Id == Id)
