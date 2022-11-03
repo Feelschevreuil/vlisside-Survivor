@@ -226,10 +226,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.CoursLivres.Add(nouvelleAssociation);
                 _context.SaveChanges();
 
-                _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(LivreBibliothèqueModifier, form));
-                _context.SaveChanges();
-
-
+                UpdateLesPrix(LivreBibliothèqueModifier, form);
                 return View("succesModifierLivre", LivreBibliothèqueModifier);
             }
 
@@ -347,42 +344,45 @@ namespace vlissides_bibliotheque.Controllers
 
             return ListPrixEtat;
         }
-        public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
+        public bool UpdateLesPrix(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
         {
             if(form.PrixNeuf == null) { form.PrixNeuf = 0;};
-            if(form.PrixNumerique == null) { form.PrixNeuf = 0; };
-            if(form.PrixUsage == null) { form.PrixNeuf = 0; };
+            if(form.PrixNumerique == null) { form.PrixNumerique = 0; };
+            if(form.PrixUsage == null) { form.PrixUsage = 0; form.QuantiteUsagee = 0; };
 
-            List<PrixEtatLivre> ListPrixEtat = new();
+            List<PrixEtatLivre> listPrixEtat = _context.PrixEtatsLivres
+                .Include(x => x.LivreBibliotheque)
+                .Include(x => x.EtatLivre)
+                .ToList();
 
-            PrixEtatLivre AssociationPrixNeuf = new()
+
+            PrixEtatLivre prixNeuf = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.NEUF);
+
+            PrixEtatLivre prixDigital =listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
+
+            PrixEtatLivre prixUsager = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.USAGE);
+
+            if(prixNeuf != null)
             {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
-                Prix = form.PrixNeuf,
-            };
-            PrixEtatLivre AssociationPrixNumérique = new()
+                prixNeuf.Prix = (double)form.PrixNeuf;
+                _context.PrixEtatsLivres.Update(prixNeuf);
+                _context.SaveChanges();
+            }
+            if(prixDigital != null)
             {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
-                Prix = form.PrixNumerique,
-            };
-            PrixEtatLivre AssociationPrixUsager = new()
+                prixDigital.Prix = (double)form.PrixNumerique;
+                _context.PrixEtatsLivres.Update(prixDigital);
+                _context.SaveChanges();
+            }
+            if(prixUsager != null)
             {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
-                Prix = form.PrixUsage,
-            };
+                prixUsager.Prix = (double)form.PrixUsage;
+                _context.PrixEtatsLivres.Update(prixUsager);
+                _context.SaveChanges();
+            }
+            
 
-            ListPrixEtat.Add(AssociationPrixNeuf);
-            ListPrixEtat.Add(AssociationPrixNumérique);
-            ListPrixEtat.Add(AssociationPrixUsager);
-
-
-            return ListPrixEtat;
+            return true;
         }
         public PrixEtatLivre AssocierPrixEtat(TuileLivreBibliotequeVM LivreEtatPrix)
         {
