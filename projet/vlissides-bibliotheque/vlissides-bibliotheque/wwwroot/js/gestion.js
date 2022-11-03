@@ -1,7 +1,7 @@
 ﻿
 function getFormulaireModifierEtudiant(id) {
 
-    fetch("/TableauDeBord/ModifierEtudiant/" + String(id), {
+    fetch(host + "TableauDeBord/ModifierEtudiant/" + String(id), {
         method: 'GET',
     }).then(function (res) {
         if (!res.ok) {
