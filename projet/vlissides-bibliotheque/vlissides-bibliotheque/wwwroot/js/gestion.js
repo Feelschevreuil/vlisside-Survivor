@@ -11,6 +11,7 @@ function getFormulaireModifierEtudiant(id) {
         res.text().then(function (res) {
             document.querySelector("#etudiant-" + String(id))
                 .querySelector(".modal-body").innerHTML = res;
+            setInputsFormat();
         });
     });
 }
@@ -33,4 +34,14 @@ function modifierEtudiant() {
     //            .querySelector(".modal-body").innerHTML = res;
     //    });
     //});
+}
+
+function setInputsFormat() {
+    // appel initial pour setter les inputs en cas où ils auraient déjà une valeur
+    for (let phoneNumberInput of document.querySelectorAll("#phoneNumber")) {
+        setPhoneNumber(phoneNumberInput.parentElement.children[1]);
+    }
+    for (let postalCodeInput of document.querySelectorAll("#postalCode")) {
+        setPostalCode(postalCodeInput.parentElement.children[1]);
+    }
 }
