@@ -89,7 +89,16 @@ namespace vlissides_bibliotheque
             return vm;
         }
 
-        public static InscriptionVM NewGestionProfilVM(this ApplicationDbContext context)
+        public static GestionProfilVM NewGestionProfilVM(this ApplicationDbContext context)
+        {
+            GestionProfilVM vm = new() {
+                ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
+                Provinces = new SelectList(context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
+            };
+            return vm;
+        }
+
+        public static InscriptionVM NewInscriptionVM(this ApplicationDbContext context)
         {
             InscriptionVM vm = new() {
                 ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
@@ -97,5 +106,6 @@ namespace vlissides_bibliotheque
             };
             return vm;
         }
+
     }
 }
