@@ -118,8 +118,11 @@ namespace vlissides_bibliotheque.Controllers
                     EmailConfirmed = true
                 };
 
+                // Obj pour HASHER un mot de passe
+                PasswordHasher<Etudiant> passwordHasher = new();
+
                 // création
-                var result = await _userManagerEtudiant.CreateAsync(etudiant, vm.Password);
+                var result = await _userManagerEtudiant.CreateAsync(etudiant, passwordHasher.HashPassword(null, "Jaimelaprog1!"));
 
                 if (result.Succeeded) {
 
