@@ -1,9 +1,15 @@
 ﻿@model Evenement
 
+@{
+    if(Model.Image == "N/A"){
+        Model.Image = LivreEnTuile.GetImageParDefaut();
+    }
+}
+
 
 <div class="row">
     <div class="col-6">
-        <img class="col-12" src="@Model.Image" />
+        <img class="col-12 img-fluid flex-fill image-detail" src="@Model.Image" />
     </div>
 
     <div class="card-body col-6 m-auto">
