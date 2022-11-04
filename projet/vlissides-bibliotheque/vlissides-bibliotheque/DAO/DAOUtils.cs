@@ -1,4 +1,4 @@
-namespace vlissides_bibliotheque.Services
+namespace vlissides_bibliotheque.DAO
 {
 
     /// <summary>
@@ -10,14 +10,14 @@ namespace vlissides_bibliotheque.Services
 	/// <summary>
 	/// Calcule la quantité de pages selon le nombre total d'éléments et le nombre d'éléments par page.
 	/// </summary>
-	public static int GetNumberOfPages(int totalElements, int elementsPerPage)
+	public int GetNombrePages(int quantiteEnregistrements,int quantiteParPage)
 	{
 
-	    double numberOfPages;
+	    double nombreDePages;
 
-	    numberOfPages = totalElements / elementsPerPage;
+	    nombreDePages = quantiteEnregistrements / quantiteParPage;
 	    
-	    return (int)Math.Ceiling(numberOfPages);
+	    return (int)Math.Ceiling(nombreDePages);
 	}
 
 	/// <summary>
@@ -27,6 +27,8 @@ namespace vlissides_bibliotheque.Services
 	/// </summary>
 	public static int GetQuantityOfElementsToSkip(int elementsPerPage, int pageToGet)
 	{
+
+	    Console.WriteLine("page to get: " + pageToGet);
 
 	    if(pageToGet > 0)
 	    {
@@ -38,7 +40,7 @@ namespace vlissides_bibliotheque.Services
 		return elementsToSkip;
 	    }
 
-	    return elementsPerPage;
+	    return 0;
 	}
     }
 }

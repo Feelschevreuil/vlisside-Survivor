@@ -1,21 +1,23 @@
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 
-namespace vlissides_bibliotheque.Services
+namespace vlissides_bibliotheque.DAO
 {
     /// <summary>
     /// Interface <c>IRecherchableDAO</c> définit les fonctionnalités à implémenter 
     /// pour les DAO offrant une recherche des titres.
     /// </summary>
-    interface IRecherchableTitleDAO
+    interface IDAORecherchableSuggestions
     {
+
 	/// <summary>
-	/// Cherche les titres des objects.
+	/// Cherche une propriété des objet.
 	/// </summary>
-	/// <param name="title">Titre à chercher.</param>
+	/// <param name="recherche">Recherche de propriété.</param>
+	/// <param name="quantiteSuggestions">Quantité de suggestions à retourner.</param>
 	/// <returns>
 	/// Une liste de Strings contenant les titres correspondant à la recherche.
 	/// </returns>
-	IEnumerable<String> SearchTitlesByTitle(String title, int maxResult = 10);
+	IEnumerable<string> GetSuggestions(string recherche, int quantiteSuggestions);
     }
 }

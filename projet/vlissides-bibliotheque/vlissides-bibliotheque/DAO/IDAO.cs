@@ -1,6 +1,6 @@
 ﻿using vlissides_bibliotheque.Data;
 
-namespace vlissides_bibliotheque.Services
+namespace vlissides_bibliotheque.DAO
 {
     /// <summary>
     /// Interface <c>DAO</c> qui définit les propriétés que les DAO's doivent avoir.

@@ -1,6 +1,6 @@
 using vlissides_bibliotheque.Models;
 
-namespace vlissides_bibliotheque.Services
+namespace vlissides_bibliotheque.DAO
 {
 
     /// <summary>
@@ -44,7 +44,7 @@ namespace vlissides_bibliotheque.Services
 	/// <summary>
 	/// Vérifie si la recherche contient un prix minimum.
 	/// </summary>
-	public bool SearchesWithPrixMinimum()
+	public bool ChercheAvecPrixMinimum()
 	{
 
 	    bool prixMaxmiumPresent;
@@ -57,7 +57,7 @@ namespace vlissides_bibliotheque.Services
 	/// <summary>
 	/// Vérifie si la recherche contient un prix maximum.
 	/// </summary>
-	public bool SearchesWithPrixMaximum()
+	public bool ChercheAvecPrixMaximum()
 	{
 
 	    bool prixMaxmiumPresent;
@@ -70,12 +70,12 @@ namespace vlissides_bibliotheque.Services
 	/// <summary>
 	/// Vérifie si la recherche est entre un "range" de prix.
 	/// </summary>
-	public bool SearchesWithPriceRange()
+	public bool ChercheAvecEtenduePrix()
 	{
 
 	    bool searchesWithPriceRange;
 
-	    searchesWithPriceRange = SearchesWithMaxiumPrix() && SearchesWithMinimumPrix();
+	    searchesWithPriceRange = ChercheAvecPrixMaximum() && ChercheAvecPrixMinimum();
 
 	    return searchesWithPriceRange;
 	}
@@ -83,12 +83,14 @@ namespace vlissides_bibliotheque.Services
 	/// <summary>
 	/// Vérifie que le prix maxmium soit plus petit que le prix minimum.
 	/// </summary>
-	public bool PriceRangeIsValid()
+	public bool EtenduePrixEstValide()
 	{
 
 	    bool prixMinimumSmallerThanPrixMaximum;
 
-	    if(SearchesWithPriceRange())
+	    prixMinimumSmallerThanPrixMaximum = false;
+
+	    if(ChercheAvecEtenduePrix())
 	    {
 
 		prixMinimumSmallerThanPrixMaximum = PrixMaximum > PrixMinimum;
@@ -102,10 +104,12 @@ namespace vlissides_bibliotheque.Services
 	/// <summary>
 	/// Regarde si une recherche est valide.
 	/// </summary>
-	public bool IsValid()
+	public bool EstValide()
 	{
 
 	    bool rechercheValide;
+
+	    rechercheValide = false;
 
 	    if(Neuf || Digital || Usage)
 	    {
@@ -113,7 +117,7 @@ namespace vlissides_bibliotheque.Services
 		rechercheValide = true;
 	    }
 
-	    rechercheValide;
+	    return rechercheValide;
 	}
     }
 }
