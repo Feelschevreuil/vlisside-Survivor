@@ -17,17 +17,9 @@ function getFormulaireModifierEtudiant(id) {
 }
 
 function modifierEtudiant(id) {
-    let parent = document.querySelector("#etudiant-" + String(id))
-        .querySelector(".modal-body");
-
+    let parent = document.querySelector("#etudiant-" + String(id)).querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
-
-    let formData = new FormData(formulaire);
-
-    let data = {};
-    formData.forEach(function (value, key) {
-        data[key] = value;
-    });
+    let data = getFormData(formulaire);
 
     fetch(host + "TableauDeBord/ModifierEtudiant/", {
         method: 'POST',
@@ -40,16 +32,49 @@ function modifierEtudiant(id) {
         if (!res.ok) {
             alert("Aucune modification n'a pu être effectuée.")
         }
+        // valider si le contenu reçu est du json ou du text
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
 
-        res.text().then(function (res) {
-            parent.innerHTML = res;
-            setInputsFormat();
-            if (res == "") {
-                afficherModification(id, data);
-                document.querySelector(`#fermer-modal-${id}`).click();
-            }
-        });
+            res.json().then(function (res) {
+                if (res != "") {
+                    afficherModification(id, resetMajusculeJsonKey(res));
+                    document.querySelector(`#fermer-modal-${id}`).click();
+                }
+            });
+        } else {
+
+            res.text().then(function (res) {
+                parent.innerHTML = res;
+                setInputsFormat();
+            });
+        }
     });
+}
+
+function getFormData(formulaire) {
+    let formData = new FormData(formulaire);
+    let data = {};
+
+    formData.forEach(function (value, key) {
+        data[key] = value;
+    });
+
+    return data;
+}
+
+function resetMajusculeJsonKey(json) {
+    let data = {};
+
+    for(let key in json) {
+        data[setPremiereLettreEnMajuscule(key)] = json[key];
+    }
+
+    return data;
+}
+
+function setPremiereLettreEnMajuscule(string){
+    return string[0].toUpperCase() + string.slice(1);
 }
 
 // afficher les valeurs modifiées et non modifiées
