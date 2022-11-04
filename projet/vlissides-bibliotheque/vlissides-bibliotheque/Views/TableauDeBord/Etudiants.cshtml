@@ -10,17 +10,17 @@
 <table class="table table-light table-hover">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Nom)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Prenom)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Email)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().ProgrammeEtude.Nom)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().PhoneNumber)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.NumeroCivique)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.App)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Rue)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Ville)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Province.Nom)</th>
-            <th>@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.CodePostal)</th>
+            <th id="@nameof(GestionProfilVM.Nom)">@Html.DisplayNameFor(etudiant => etudiant.First().Nom)</th>
+            <th id="@nameof(GestionProfilVM.Prenom)">@Html.DisplayNameFor(etudiant => etudiant.First().Prenom)</th>
+            <th id="@nameof(GestionProfilVM.Courriel)">@Html.DisplayNameFor(etudiant => etudiant.First().Email)</th>
+            <th id="@nameof(GestionProfilVM.NomProgrammeEtude)">@Html.DisplayNameFor(etudiant => etudiant.First().ProgrammeEtude.Nom)</th>
+            <th id="@nameof(GestionProfilVM.NoTelephone)">@Html.DisplayNameFor(etudiant => etudiant.First().PhoneNumber)</th>
+            <th id="@nameof(GestionProfilVM.NoCivique)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.NumeroCivique)</th>
+            <th id="@nameof(GestionProfilVM.App)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.App)</th>
+            <th id="@nameof(GestionProfilVM.Rue)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Rue)</th>
+            <th id="@nameof(GestionProfilVM.Ville)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Ville)</th>
+            <th id="@nameof(GestionProfilVM.NomProvince)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Province.Nom)</th>
+            <th id="@nameof(GestionProfilVM.CodePostal)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.CodePostal)</th>
             <th>Action(s)</th>
         </tr>
     </thead>

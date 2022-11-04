@@ -60,7 +60,7 @@ function afficherModification(id, data) {
     let etudiantCourant = document.querySelector(`#tr-${id}`);
 
     for (let key in data) {
-        let champ = champs.find(th => th.innerHTML == key);
+        let champ = champs.find(th => th.id == key);
         let index = champs.indexOf(champ);
         let baliseInfo = etudiantCourant.children[index];
         if (baliseInfo != undefined) {
