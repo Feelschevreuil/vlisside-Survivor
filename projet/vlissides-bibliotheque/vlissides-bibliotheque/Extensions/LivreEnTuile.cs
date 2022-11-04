@@ -17,7 +17,13 @@ namespace vlissides_bibliotheque
                 .Include(x=>x.LivreBibliotheque)
                 .Include(x=>x.Cours.ProgrammeEtude)
                 .ToList();
-            List<EvaluationLivre> bdEvaluationsLivre = _context.EvaluationsLivres.Include(x => x.Evaluation).ToList();
+            CoursLivre coursLivreAssocier = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+            
+            List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
+                .Include(x => x.EtatLivre)
+                .ToList()
+                .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+            
             TuileLivreBibliotequeVM tuileVM = new()
             {
                 livreBibliotheque = livreBibliotheque
@@ -25,17 +31,14 @@ namespace vlissides_bibliotheque
 
             try
             {
-                if (bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId) != null)
+                if (coursLivreAssocier != null)
                 {
                     tuileVM.coursLivre = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-                    tuileVM.complementaire = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).Complementaire;
-                    var tousLesPrix = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-                    tuileVM.prixEtatLivre = tousLesPrix.FindAll(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId);
+                    
                 }
-
-                if (tuileVM.complementaire)
+                if (bdPrixLivre != null)
                 {
-                    tuileVM.livreEvaluation = bdEvaluationsLivre.FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                    tuileVM.prixEtatLivre = bdPrixLivre;
                 }
 
                 if (tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "N/A")
