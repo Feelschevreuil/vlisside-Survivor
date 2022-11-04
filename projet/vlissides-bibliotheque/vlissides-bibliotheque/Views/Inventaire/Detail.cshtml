@@ -6,7 +6,7 @@
     PrixEtatLivre prixNeuf;
     PrixEtatLivre prixDigital;
     PrixEtatLivre prixUsager;
-    if(Model.prixEtatLivre == null)
+    if(Model.prixEtatLivre == null || Model.prixEtatLivre.Count() == 0)
     {
         prixNeuf = null;
         prixDigital = null;
