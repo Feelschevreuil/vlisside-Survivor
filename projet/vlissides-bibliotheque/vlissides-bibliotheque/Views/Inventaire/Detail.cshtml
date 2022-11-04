@@ -2,6 +2,20 @@
 
 @{
     int livreIdCourant = @Model.livreBibliotheque.LivreId;
+    string pasDePrix = "Pas de prix disponible";
+    PrixEtatLivre prixNeuf;
+    PrixEtatLivre prixDigital;
+    PrixEtatLivre prixUsager;
+    if(Model.prixEtatLivre == null)
+    {
+        prixNeuf = null;
+        prixDigital = null;
+        prixUsager = null;
+    }else{
+        prixNeuf = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.NEUF);
+        prixDigital = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
+        prixUsager = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.USAGE);
+    }
 }
 
 
@@ -41,36 +55,36 @@
         </label>
     </div> 
     
-    <div class="o-switch row col-12 justify-content-center" data-toggle="buttons" role="group">
+    <div class="row col-12 justify-content-center">
 
-        <div class="text-center col-3 mt-1 me-5 rounded-4" id="cercleJauneN-@livreIdCourant">
-            @if (Model.prixEtatLivre == null)
+        <div class="text-center col-3 mt-1 me-5 rounded-4">
+            @if (prixNeuf == null)
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3"></p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@pasDePrix</p>
             }
             else
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[0].Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixNeuf.Prix$</p>
             }
         </div>     
-        <div class="text-center col-3 mt-1 rounded-4" id="cercleJauneN-@livreIdCourant">
-            @if (Model.prixEtatLivre == null)
+        <div class="text-center col-3 mt-1 rounded-4">
+            @if (prixDigital == null)
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3"></p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@pasDePrix</p>
             }
             else
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[0].Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixDigital.Prix$</p>
             }
         </div>    
-        <div class="text-center col-3 mt-1 ms-5 rounded-4" id="cercleJauneN-@livreIdCourant">
-            @if (Model.prixEtatLivre == null)
+        <div class="text-center col-3 mt-1 ms-5 rounded-4">
+            @if (prixUsager == null)
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3"></p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@pasDePrix</p>
             }
             else
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[0].Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixUsager.Prix$</p>
             }
         </div>
 
