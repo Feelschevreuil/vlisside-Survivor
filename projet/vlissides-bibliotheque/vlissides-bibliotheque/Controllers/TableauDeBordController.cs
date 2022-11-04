@@ -82,7 +82,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreerEtudiantAsync(GestionProfilVM vm)
+        public async Task<IActionResult> CreerEtudiantAsync([FromBody] GestionProfilVM vm)
         {
             ModelState.Remove(nameof(vm.ProgrammeEtudes));
             ModelState.Remove(nameof(vm.Provinces));
@@ -129,7 +129,10 @@ namespace vlissides_bibliotheque.Controllers
                     // ajouter rôle
                     await _userManagerEtudiant.AddToRoleAsync(etudiant, "Etudiant");
 
-                    return Ok();
+                    vm.NomProgrammeEtude = etudiant.ProgrammeEtude.Nom;
+                    vm.NomProvince = etudiant.Adresse.Province.Nom;
+
+                    return Json(vm);
                 }
 
                 foreach (var error in result.Errors) {
