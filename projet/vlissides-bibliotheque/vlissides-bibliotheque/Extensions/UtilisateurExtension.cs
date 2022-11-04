@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
@@ -85,6 +86,15 @@ namespace vlissides_bibliotheque
                 NoTelephone = admin.PhoneNumber
             };
 
+            return vm;
+        }
+
+        public static InscriptionVM NewGestionProfilVM(this ApplicationDbContext context)
+        {
+            InscriptionVM vm = new() {
+                ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
+                Provinces = new SelectList(context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
+            };
             return vm;
         }
     }
