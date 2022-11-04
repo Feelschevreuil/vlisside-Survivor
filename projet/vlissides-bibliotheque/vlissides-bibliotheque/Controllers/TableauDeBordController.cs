@@ -77,6 +77,8 @@ namespace vlissides_bibliotheque.Controllers
         {
             Etudiant? etudiant = _userManagerEtudiant.Users
                 .Where(etudiant => etudiant.Id == Id)
+                .Include(etudiant => etudiant.ProgrammeEtude)
+                .Include(etudiant => etudiant.Adresse.Province)
                 .FirstOrDefault();
 
             // retourner un erreur si l'étudiant n'existe pas
@@ -105,6 +107,8 @@ namespace vlissides_bibliotheque.Controllers
             if (ModelState.IsValid) {
                 Etudiant? etudiant = _userManagerEtudiant.Users
                     .Where(etudiant => etudiant.Id == vm.EtudiantId)
+                    .Include(etudiant => etudiant.ProgrammeEtude)
+                    .Include(etudiant => etudiant.Adresse.Province)
                     .FirstOrDefault();
 
                 // retourner un erreur si l'étudiant n'existe pas
@@ -116,7 +120,10 @@ namespace vlissides_bibliotheque.Controllers
 
                 _context.SaveChanges();
 
-                return Ok();
+                vm.NomProgrammeEtude = etudiant.ProgrammeEtude.Nom;
+                vm.NomProvince = etudiant.Adresse.Province.Nom;
+
+                return Json(vm);
             } else {
 
                 return PartialView("/Views/Shared/_EtudiantPartial.cshtml", vm);
