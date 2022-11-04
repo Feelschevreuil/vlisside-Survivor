@@ -223,7 +223,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 if (error.Exception == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Le format est incorrect. Voici un exemple du bon format: 10,45");
+                    ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
                 }
                 else
                 {
