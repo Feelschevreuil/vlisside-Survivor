@@ -6,12 +6,14 @@
     PrixEtatLivre prixNeuf;
     PrixEtatLivre prixDigital;
     PrixEtatLivre prixUsager;
-    if(Model.prixEtatLivre == null || Model.prixEtatLivre.Count() == 0)
+    if (Model.prixEtatLivre == null || Model.prixEtatLivre.Count() == 0)
     {
         prixNeuf = null;
         prixDigital = null;
         prixUsager = null;
-    }else{
+    }
+    else
+    {
         prixNeuf = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.NEUF);
         prixDigital = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
         prixUsager = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.USAGE);
@@ -20,30 +22,33 @@
 
 
 <div class="row">
-    <div class="col-6">
-        <img class="col-12" src="@Model.livreBibliotheque.PhotoCouverture" />
+    <div class="row d-flex justify-content-end">
+        <div class="col-6 end-0">
+            <img class="col-12 img-fluid flex-fill image-detail" src="@Model.livreBibliotheque.PhotoCouverture" />
+        </div>
+
+        <div class="card-body col-6 m-auto">
+            <h5 class="card-title"><strong>Titre:</strong> @Model.livreBibliotheque.Titre</h5>
+            <p class="card-text"><strong>ISBN:</strong> @Model.livreBibliotheque.Isbn</p>
+            @if (Model.coursLivre != null)
+            {
+                <p class="card-text"><strong>Programme d'étude:</strong> @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+                <p class="card-text"><strong>Année de parcours:</strong> @Model.coursLivre.Cours.AnneeParcours</p>
+            }
+            else
+            {
+                <p class="card-text"><strong>Programme d'étude:</strong> N/A</p>
+                <p class="card-text"><strong>Année de parcours:</strong> N/A</p>
+            }
+            <p class="card-text"><strong>Date de publication:</strong> @Model.livreBibliotheque.DatePublication.Day @Model.livreBibliotheque.DatePublication.ToString("MMMM") @Model.livreBibliotheque.DatePublication.Year</p>
+        </div>
     </div>
 
-    <div class="card-body col-6 m-auto">
-        <h5 class="card-title"><strong>Titre:</strong> @Model.livreBibliotheque.Titre</h5>
-        <p class="card-text"><strong>ISBN:</strong> @Model.livreBibliotheque.Isbn</p>
-        @if (Model.coursLivre != null)
-        {
-            <p class="card-text"><strong>Programme d'étude:</strong> @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
-            <p class="card-text"><strong>Année de parcours:</strong> @Model.coursLivre.Cours.AnneeParcours</p>
-        }
-        else
-        {
-            <p class="card-text"><strong>Programme d'étude:</strong> N/A</p>
-            <p class="card-text"><strong>Année de parcours:</strong> N/A</p>
-        }
-        <p class="card-text"><strong>Date de publication:</strong> @Model.livreBibliotheque.DatePublication.Day @Model.livreBibliotheque.DatePublication.ToString("MMMM") @Model.livreBibliotheque.DatePublication.Year</p>
-    </div>
     <p class="card-text"><strong>Description:</strong> @Model.livreBibliotheque.Resume</p>
 
     <div class="o-switch row col-12 justify-content-center" data-toggle="buttons" role="group">
-    
-            <label class="btn bg-back text-white p-4 col-3 me-5 rounded-4" id="Neuf-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Neuf')">
+
+        <label class="btn bg-back text-white p-4 col-3 me-5 rounded-4" id="Neuf-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Neuf')">
             <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" checked> Neuf
         </label>
 
@@ -53,8 +58,8 @@
         <label class="btn bg-top col-3 p-4 ms-5 rounded-4 text-white" id="Usager-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Usager')">
             <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE"> Usagé
         </label>
-    </div> 
-    
+    </div>
+
     <div class="row col-12 justify-content-center">
 
         <div class="text-center col-3 mt-1 me-5 rounded-4">
@@ -66,7 +71,7 @@
             {
                 <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixNeuf.Prix$</p>
             }
-        </div>     
+        </div>
         <div class="text-center col-3 mt-1 rounded-4">
             @if (prixDigital == null)
             {
@@ -76,7 +81,7 @@
             {
                 <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixDigital.Prix$</p>
             }
-        </div>    
+        </div>
         <div class="text-center col-3 mt-1 ms-5 rounded-4">
             @if (prixUsager == null)
             {
@@ -93,5 +98,5 @@
 
 </div>
 
-<link rel="stylesheet" href="~/css/carte-evenement-Partial.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
 <script src="~/js/LivreDetail.js"></script>
