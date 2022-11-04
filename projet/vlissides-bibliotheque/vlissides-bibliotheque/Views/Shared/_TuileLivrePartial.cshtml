@@ -47,7 +47,7 @@
                     }
                     else
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre.Prix$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[0].Prix$</p>
                     }
                 </div>
             </div>
@@ -138,4 +138,4 @@
 </div>
 
     <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
-    <script src="~/js/PrixAjax.js"></script>
+<script src="~/js/PrixAjax.js"></script>

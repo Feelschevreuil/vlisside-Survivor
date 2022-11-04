@@ -30,7 +30,7 @@ namespace vlissides_bibliotheque
                     tuileVM.coursLivre = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
                     tuileVM.complementaire = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).Complementaire;
                     var tousLesPrix = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-                    tuileVM.prixEtatLivre = tousLesPrix.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId);
+                    tuileVM.prixEtatLivre = tousLesPrix.FindAll(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId);
                 }
 
                 if (tuileVM.complementaire)

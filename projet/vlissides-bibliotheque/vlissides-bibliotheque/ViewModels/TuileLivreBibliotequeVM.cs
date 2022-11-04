@@ -13,7 +13,7 @@ namespace vlissides_bibliotheque.ViewModels
 
         public CoursLivre coursLivre;
 
-        public PrixEtatLivre prixEtatLivre;
+        public List<PrixEtatLivre> prixEtatLivre;
 
         public Boolean complementaire;
     }
