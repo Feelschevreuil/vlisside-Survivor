@@ -14,17 +14,20 @@ namespace vlissides_bibliotheque.Controllers
 	[Authorize(Roles =RolesName.Admin)]
 	public class TableauDeBordController : Controller
 	{
+		private readonly SignInManager<Etudiant> _signInManager;
 		private readonly UserManager<Utilisateur> _userManager;
-		private readonly UserManager<Etudiant> _userManagerEtudiant;
+        private readonly UserManager<Etudiant> _userManagerEtudiant;
         private readonly ApplicationDbContext _context;
 
 		public TableauDeBordController(
-			UserManager<Utilisateur> userManager,
+            SignInManager<Etudiant> signInManager,
+            UserManager<Utilisateur> userManager,
 			UserManager<Etudiant> userManagerEtudiant,
             ApplicationDbContext context
 		)
 		{
-			_userManager = userManager;
+            signInManager = _signInManager;
+            _userManager = userManager;
             _userManagerEtudiant = userManagerEtudiant;
             _context = context;
 		}
@@ -70,6 +73,82 @@ namespace vlissides_bibliotheque.Controllers
                 .ToList();
 
             return View(etudiants);
+        }
+
+        [HttpGet]
+        public IActionResult CreerEtudiant()
+        {
+            return PartialView("Views/Shared/_EtudiantPartial.cshtml", _context.NewGestionProfilVM());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreerEtudiantAsync(GestionProfilVM vm)
+        {
+            ModelState.Remove(nameof(vm.ProgrammeEtudes));
+            ModelState.Remove(nameof(vm.Provinces));
+
+            if (vm.CodePostal != null) {
+                vm.CodePostal = vm.CodePostal.ToUpper();
+            }
+
+            if (ModelState.IsValid) {
+
+                Adresse adresse = new() {
+                    App = vm.App,
+                    CodePostal = vm.CodePostal,
+                    NumeroCivique = Convert.ToInt32(vm.NoCivique),
+                    Rue = vm.Rue,
+                    Ville = vm.Ville,
+                    ProvinceId = (int)vm.ProvinceId,
+                };
+
+                _context.Adresses.Add(adresse);
+                _context.SaveChanges();
+
+                // model binding
+                Etudiant etudiant = new() {
+                    Email = vm.Courriel,
+                    UserName = vm.Courriel,
+                    Nom = vm.Nom,
+                    Prenom = vm.Prenom,
+                    PhoneNumber = vm.NoTelephone,
+                    ProgrammeEtudeId = (int)vm.ProgrammeEtudeId,
+                    AdresseId = adresse.AdresseId,
+                    Adresse = adresse,
+                    EmailConfirmed = true
+                };
+
+                // création
+                var result = await _userManagerEtudiant.CreateAsync(etudiant, vm.Password);
+
+                if (result.Succeeded) {
+
+                    // ajouter rôle
+                    await _userManagerEtudiant.AddToRoleAsync(etudiant, "Etudiant");
+
+                    return Ok();
+                }
+
+                foreach (var error in result.Errors) {
+                    if (error.Code == "PasswordTooShort") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit être d'au moins 6 caractères.");
+                    }
+                    if (error.Code == "PasswordRequiresNonAlphanumeric") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins un caractère spécial (Ex: !, $, %, ?, &, *, etc...).");
+                    }
+                    if (error.Code == "PasswordRequiresLower") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre minuscule.");
+                    }
+                    if (error.Code == "PasswordRequiresUpper") {
+                        ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre majuscule.");
+                    }
+                }
+            }
+
+            vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
+            vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
+
+            return PartialView("Views/Shared/_EtudiantPartial.cshtml", vm);
         }
 
         [HttpGet]
