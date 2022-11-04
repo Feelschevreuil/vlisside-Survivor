@@ -129,8 +129,8 @@ namespace vlissides_bibliotheque.Controllers
                     // ajouter rôle
                     await _userManagerEtudiant.AddToRoleAsync(etudiant, "Etudiant");
 
-                    vm.NomProgrammeEtude = etudiant.ProgrammeEtude.Nom;
-                    vm.NomProvince = etudiant.Adresse.Province.Nom;
+                    vm.NomProgrammeEtude = _context.ProgrammesEtudes.Find(vm.ProgrammeEtudeId).Nom;
+                    vm.NomProvince = _context.Provinces.Find(vm.ProvinceId).Nom;
 
                     return Json(vm);
                 }
