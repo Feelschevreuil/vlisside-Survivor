@@ -89,12 +89,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             if (!_signInManager.IsSignedIn(User))
             {
-                InscriptionVM vm = new()
-                {
-                    ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
-                    Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
-                };
-                return View(vm);
+                return View(_context.NewInscriptionVM());
             }
             return Content("Imposssible de s'inscrire quand connecté.");
         }

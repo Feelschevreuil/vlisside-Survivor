@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Tableau de bord";
+}
+<div class="d-flex accordion-header">
+    <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
+        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+    </a>
+    <h2 class="p-3">Tableau de bord</h2>
+</div>
+<div class="pt-2">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="Etudiants">
+        <div class="btn-light">
+            <img class="tableau-de-bord inline-block" src="~/img/account-cog.svg" />
+            <p class="d-inline texte-tableau-de-bord">Gestion des étudiants</p>
+        </div>
+    </a>
+</div>
+<div class="pt-2">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="Livres">
+        <div class="btn-light">
+            <img class="tableau-de-bord inline-block" src="~/img/book-edit.svg" />
+            <p class="d-inline texte-tableau-de-bord">Gestion des livres</p>
+        </div>
+    </a>
+</div>
+<div class="pt-2">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="Cours">
+        <div class="btn-light">
+            <img class="tableau-de-bord inline-block" src="~/img/google-maps.svg" />
+            <p class="d-inline texte-tableau-de-bord">Gestion des cours</p>
+        </div>
+    </a>
+</div>
+<div class="pt-2">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="ProgrammesEtudes">
+        <div class="btn-light">
+            <img class="tableau-de-bord inline-block" src="~/img/account-school.svg" />
+            <p class="d-inline texte-tableau-de-bord">Gestion des programmes d'étude</p>
+        </div>
+    </a>
+</div>
+<div class="pt-2">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="Commandes">
+        <div class="btn-light">
+            <img class="tableau-de-bord inline-block" src="~/img/tableau.svg" />
+            <p class="d-inline texte-tableau-de-bord">Gestion des commandes</p>
+        </div>
+    </a>
+</div>
+<div class="pt-2">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="Promotions">
+        <div class="btn-light">
+            <img class="tableau-de-bord inline-block" src="~/img/horloge.svg" />
+            <p class="d-inline texte-tableau-de-bord">Gestion des promotions</p>
+        </div>
+    </a>
+</div>
