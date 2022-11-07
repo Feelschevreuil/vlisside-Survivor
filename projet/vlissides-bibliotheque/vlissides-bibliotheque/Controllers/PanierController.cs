@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.DTO;
+using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -18,6 +21,26 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult GetLivres([FromBody] GetLivres ids)
+        {
+            if (ids == null)
+            {
+                return BadRequest();
+            }
+
+            List<LivreBibliotheque> livres = _context.LivresBibliotheque.ToList();
+
+            foreach(int id in ids.Id)
+            {
+                livres.Find(element => element.LivreId == id);
+            }
+
+
+            return Ok();
         }
     }
 }
