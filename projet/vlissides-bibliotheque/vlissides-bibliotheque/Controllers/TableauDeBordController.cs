@@ -148,6 +148,9 @@ namespace vlissides_bibliotheque.Controllers
                     if (error.Code == "PasswordRequiresUpper") {
                         ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre majuscule.");
                     }
+                    if(error.Code == "DuplicateUserName") {
+                        ModelState.AddModelError(string.Empty, "Le courriel que vous avez entré existe déjà.");
+                    }
                 }
             }
 
