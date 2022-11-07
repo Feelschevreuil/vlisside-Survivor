@@ -24,7 +24,9 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [Route("Usage/Index")]
+        [Route("Usage/Index/{id?}")]
         [Route("Usage/{id?}")]
+        [HttpGet]
         public IActionResult Usage(int? id)
         {
             InventaireLaBlunVM inventaireLivreEtudiant = new()
@@ -49,7 +51,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(inventaireLivreEtudiant);
 
         }
-
+        [HttpGet]
         public IActionResult Detail(int id)
         {
 
@@ -81,6 +83,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [Route("Usage/MaBoutique")]
+        [HttpGet]
         public IActionResult MaBoutique()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
