@@ -8,11 +8,23 @@
     var tryEmpty = true
 
     //fausse valeurs
-    //var ids = ["51", "34"]
+    var ids = ["51", "34"]
     //var ids = []
-    //var objetLocalStorage = { "id": ids };
-    //localStorage.setItem('itemsPanier', JSON.stringify(objetLocalStorage))
+    var objetLocalStorage = { "id": ids };
+    localStorage.setItem('itemsPanier', JSON.stringify(objetLocalStorage))
 
+    var fetchEnLocal = "/../Panier/GetLivres";
+    var fetchSurServeur = "2036516/Panier/GetItems";
+    var stringFetch = "";
+    var url = location.host;
+    var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
+    var data = (localStorage.getItem('itemsPanier'));
+
+    if (url.match("localhost") == null) {
+        stringFetch = fetchSurServeur;
+    } else {
+        stringFetch = fetchEnLocal;
+    }
 ;
     try {
         typeof (Storage) !== undefined
@@ -31,7 +43,28 @@
 
     if (tryStorage) {
         if (tryEmpty) {
-            alert(JSON.parse(localStorage.getItem('itemsPanier')).id[0]);
+
+            fetch(stringFetch, {
+                method: 'Post',
+                body: data,
+                contentType: "application/json; charset=utf-8",
+                headers: {
+                    "Content-Type": "application/json",
+                    //"X-CSRF-TOKEN": csrfToken
+                },
+
+            }).then(function (response) {
+
+                return response.json();
+
+            }).then((data) => {
+
+                var removeImage = document.querySelector("#chargement");
+                
+
+            });
+
+
         }
         else {
             div.appendChild(pVide);
