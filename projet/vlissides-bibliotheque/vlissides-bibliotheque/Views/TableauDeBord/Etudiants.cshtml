@@ -9,76 +9,78 @@
 
 <img src="~/img/plus-circle.svg" width="50px" class="position-fixed bottom-0 end-0 me-5 mb-4" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerEtudiant()" />
 
-<table class="table table-light table-hover">
-    <thead>
-        <tr>
-            <th id="@nameof(GestionProfilVM.Nom)">@Html.DisplayNameFor(etudiant => etudiant.First().Nom)</th>
-            <th id="@nameof(GestionProfilVM.Prenom)">@Html.DisplayNameFor(etudiant => etudiant.First().Prenom)</th>
-            <th id="@nameof(GestionProfilVM.Courriel)">@Html.DisplayNameFor(etudiant => etudiant.First().Email)</th>
-            <th id="@nameof(GestionProfilVM.NomProgrammeEtude)">@Html.DisplayNameFor(etudiant => etudiant.First().ProgrammeEtude.Nom)</th>
-            <th id="@nameof(GestionProfilVM.NoTelephone)">@Html.DisplayNameFor(etudiant => etudiant.First().PhoneNumber)</th>
-            <th id="@nameof(GestionProfilVM.NoCivique)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.NumeroCivique)</th>
-            <th id="@nameof(GestionProfilVM.App)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.App)</th>
-            <th id="@nameof(GestionProfilVM.Rue)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Rue)</th>
-            <th id="@nameof(GestionProfilVM.Ville)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Ville)</th>
-            <th id="@nameof(GestionProfilVM.NomProvince)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Province.Nom)</th>
-            <th id="@nameof(GestionProfilVM.CodePostal)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.CodePostal)</th>
-            <th>Action(s)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(Etudiant etudiant in Model) {
-            <tr id="tr-@etudiant.Id">
-                <td>@etudiant.Nom</td>
-                <td>@etudiant.Prenom</td>
-                <td>@etudiant.Email</td>
-                <td>@etudiant.ProgrammeEtude.Nom</td>
-                <td>@etudiant.PhoneNumber</td>
-                <td>@etudiant.Adresse.NumeroCivique</td>
-                <td>@etudiant.Adresse.App</td>
-                <td>@etudiant.Adresse.Rue</td>
-                <td>@etudiant.Adresse.Ville</td>
-                <td>@etudiant.Adresse.Province.Nom</td>
-                <td>@etudiant.Adresse.CodePostal</td>
-                <td>
-                    <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#etudiant-@etudiant.Id" onclick="getFormulaireModifierEtudiant('@etudiant.Id')">
-                    <img src="~/img/delete.svg" width="25px">
-                </td>
+<div style="overflow-x: scroll;">
+    <table class="table table-light table-hover">
+        <thead>
+            <tr>
+                <th id="@nameof(GestionProfilVM.Nom)">@Html.DisplayNameFor(etudiant => etudiant.First().Nom)</th>
+                <th id="@nameof(GestionProfilVM.Prenom)">@Html.DisplayNameFor(etudiant => etudiant.First().Prenom)</th>
+                <th id="@nameof(GestionProfilVM.Courriel)">@Html.DisplayNameFor(etudiant => etudiant.First().Email)</th>
+                <th id="@nameof(GestionProfilVM.NomProgrammeEtude)">@Html.DisplayNameFor(etudiant => etudiant.First().ProgrammeEtude.Nom)</th>
+                <th id="@nameof(GestionProfilVM.NoTelephone)">@Html.DisplayNameFor(etudiant => etudiant.First().PhoneNumber)</th>
+                <th id="@nameof(GestionProfilVM.NoCivique)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.NumeroCivique)</th>
+                <th id="@nameof(GestionProfilVM.App)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.App)</th>
+                <th id="@nameof(GestionProfilVM.Rue)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Rue)</th>
+                <th id="@nameof(GestionProfilVM.Ville)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Ville)</th>
+                <th id="@nameof(GestionProfilVM.NomProvince)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Province.Nom)</th>
+                <th id="@nameof(GestionProfilVM.CodePostal)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.CodePostal)</th>
+                <th>Action(s)</th>
             </tr>
-            <div class="modal fade" id="etudiant-@etudiant.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        </thead>
+        <tbody>
+            @foreach(Etudiant etudiant in Model) {
+                <tr id="tr-@etudiant.Id">
+                    <td>@etudiant.Nom</td>
+                    <td>@etudiant.Prenom</td>
+                    <td>@etudiant.Email</td>
+                    <td>@etudiant.ProgrammeEtude.Nom</td>
+                    <td>@etudiant.PhoneNumber</td>
+                    <td>@etudiant.Adresse.NumeroCivique</td>
+                    <td>@etudiant.Adresse.App</td>
+                    <td>@etudiant.Adresse.Rue</td>
+                    <td>@etudiant.Adresse.Ville</td>
+                    <td>@etudiant.Adresse.Province.Nom</td>
+                    <td>@etudiant.Adresse.CodePostal</td>
+                    <td>
+                        <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#etudiant-@etudiant.Id" onclick="getFormulaireModifierEtudiant('@etudiant.Id')">
+                        <img src="~/img/delete.svg" width="25px">
+                    </td>
+                </tr>
+                <div class="modal fade" id="etudiant-@etudiant.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier l'étudiant</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button id="fermer-modal-@etudiant.Id" data-bs-dismiss="modal" hidden></button>
+                                <button type="button" class="btn btn-primary" onclick="modifierEtudiant('@etudiant.Id')">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier l'étudiant</h1>
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Nouvel étudiant</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
 
                         </div>
                         <div class="modal-footer">
-                            <button id="fermer-modal-@etudiant.Id" data-bs-dismiss="modal" hidden></button>
-                            <button type="button" class="btn btn-primary" onclick="modifierEtudiant('@etudiant.Id')">Enregistrer</button>
+                            <button id="fermer-modal-creer" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="creerEtudiant()">Enregistrer</button>
                         </div>
                     </div>
                 </div>
             </div>
-        }
-        <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Nouvel étudiant</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button id="fermer-modal-creer" data-bs-dismiss="modal" hidden></button>
-                        <button type="button" class="btn btn-primary" onclick="creerEtudiant()">Enregistrer</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
