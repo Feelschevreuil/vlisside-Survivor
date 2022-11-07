@@ -9,3 +9,13 @@
     baliseEtat.classList.add("bg-back");
     baliseEtat.classList.remove("bg-top");
 }
+
+function CopierCourriel() {
+
+    var courriel = document.querySelector("#Courriel");
+
+    courriel.select();
+    courriel.setSelectionRange(0, 99999); // Pour téléphone
+
+    navigator.clipboard.writeText(courriel.value);
+}

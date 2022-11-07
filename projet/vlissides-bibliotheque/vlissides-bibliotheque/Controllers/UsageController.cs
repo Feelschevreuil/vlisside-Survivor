@@ -49,6 +49,37 @@ namespace vlissides_bibliotheque.Controllers
             return View(inventaireLivreEtudiant);
 
         }
+
+        public IActionResult Detail(int id)
+        {
+
+            LivreEtudiant livre = _context.LivresEtudiants
+                .Include(x=>x.Etudiant)
+                .ToList()
+                .Find(x => x.LivreId == id);
+            if (livre != null)
+            {
+                LivreEtudiantVM livreEtudiant = new()
+                {
+                    LivreId = livre.LivreId,
+                    Etudiant = livre.Etudiant,
+                    Titre = livre.Titre,
+                    Isbn = livre.Isbn,
+                    Resume = livre.Resume,
+                    PhotoCouverture = livre.PhotoCouverture,
+                    DatePublication = livre.DatePublication,
+                    MaisonEdition = livre.MaisonEdition,
+                    Auteur = livre.Auteur,
+                    Prix = livre.Prix
+
+                };
+                return View(livreEtudiant);
+            }
+
+
+            return Content("Ce livre n'existe pas dans la base de données.");
+        }
+
         [Route("Usage/MaBoutique")]
         public IActionResult MaBoutique()
         {
