@@ -38,3 +38,7 @@
 .btn-img-hover:active {
     width: 55px;
 }
+
+.devant {
+    z-index: 1;
+}
