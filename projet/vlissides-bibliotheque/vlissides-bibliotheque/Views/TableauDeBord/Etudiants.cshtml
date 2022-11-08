@@ -2,15 +2,15 @@
 
 <div class="d-flex accordion-header">
     <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
     </a>
-    <h2 class="p-3">Gestion des étudiants</h2>
+    <h2 class="p-2">Gestion des étudiants</h2>
 </div>
 
-<img src="~/img/plus-circle.svg" width="50px" class="position-fixed bottom-0 end-0 me-5 mb-4" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerEtudiant()" />
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerEtudiant()" />
 
-<div style="overflow-x: scroll;">
-    <table class="table table-light table-hover">
+<div style="overflow-x: auto;">
+    <table class="table table-light">
         <thead>
             <tr>
                 <th id="@nameof(GestionProfilVM.Nom)">@Html.DisplayNameFor(etudiant => etudiant.First().Nom)</th>
@@ -24,12 +24,11 @@
                 <th id="@nameof(GestionProfilVM.Ville)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Ville)</th>
                 <th id="@nameof(GestionProfilVM.NomProvince)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Province.Nom)</th>
                 <th id="@nameof(GestionProfilVM.CodePostal)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.CodePostal)</th>
-                <th>Action(s)</th>
             </tr>
         </thead>
         <tbody>
             @foreach(Etudiant etudiant in Model) {
-                <tr id="tr-@etudiant.Id">
+                <tr id="tr-@etudiant.Id" class="modif-suppr">
                     <td>@etudiant.Nom</td>
                     <td>@etudiant.Prenom</td>
                     <td>@etudiant.Email</td>
@@ -41,9 +40,9 @@
                     <td>@etudiant.Adresse.Ville</td>
                     <td>@etudiant.Adresse.Province.Nom</td>
                     <td>@etudiant.Adresse.CodePostal</td>
-                    <td>
-                        <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#etudiant-@etudiant.Id" onclick="getFormulaireModifierEtudiant('@etudiant.Id')">
-                        <img src="~/img/delete.svg" width="25px">
+                    <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#etudiant-@etudiant.Id" onclick="getFormulaireModifierEtudiant('@etudiant.Id')">
+                        <img src="~/img/delete.svg" class="btn-img-hover">
                     </td>
                 </tr>
                 <div class="modal fade" id="etudiant-@etudiant.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
