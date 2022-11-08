@@ -112,6 +112,26 @@ function creerEtudiant() {
     });
 }
 
+function supprimerEtudiant(id) {
+    fetch(host + "TableauDeBord/SupprimerEtudiant/", {
+        method: 'POST',
+        body: JSON.stringify(id),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then(function (res) {
+        if (res.ok) {
+            alert("Étudiant supprimé avec succès!");
+            let etudiant = document.querySelector(`#tr-${id}`);
+            let parent = etudiant.parentElement;
+            parent.removeChild(etudiant);
+        } else {
+            alert(`Impossible de supprimer l'étudiant selon le code d'identification ${id}`);
+        }
+    });
+}
+
 function getFormData(formulaire) {
     let formData = new FormData(formulaire);
     let data = {};

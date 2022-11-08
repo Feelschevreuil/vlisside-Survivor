@@ -218,6 +218,23 @@ namespace vlissides_bibliotheque.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SupprimerEtudiantAsync([FromBody] string Id)
+        {
+            Etudiant? etudiant = _userManagerEtudiant.Users
+                    .Where(etudiant => etudiant.Id == Id)
+                    .Include(etudiant => etudiant.ProgrammeEtude)
+                    .Include(etudiant => etudiant.Adresse.Province)
+                    .FirstOrDefault();
+            if (etudiant == null) {
+                return NotFound();
+            }
+
+            await _userManagerEtudiant.DeleteAsync(etudiant);
+
+            return Ok();
+        }
+
         [HttpGet]
         public IActionResult Livres()
         {
