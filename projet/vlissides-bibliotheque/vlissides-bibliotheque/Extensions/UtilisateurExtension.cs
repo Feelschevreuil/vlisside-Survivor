@@ -62,7 +62,7 @@ namespace vlissides_bibliotheque
                 Prenom = etudiant.Prenom,
                 NoTelephone = etudiant.PhoneNumber,
                 ProgrammeEtudeId = etudiant.ProgrammeEtudeId,
-                NomProgrammeEtude = etudiant.ProgrammeEtude.Nom,
+                //NomProgrammeEtude = etudiant.ProgrammeEtude.Nom,
                 ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
                 NoCivique = adresse.NumeroCivique.ToString(),
                 Rue = adresse.Rue,
