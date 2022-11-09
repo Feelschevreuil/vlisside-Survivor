@@ -1,0 +1,57 @@
+﻿@model List<LivreBibliotheque>
+
+<div class="d-flex accordion-header">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
+        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+    </a>
+    <h2 class="p-3">Gestion des livres de bibliothèque</h2>
+</div>
+
+<table class="table table-light table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)</th>
+            <th>@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
+            <th>@Html.DisplayNameFor(livre => livre.First().Titre)</th>
+            <th>@Html.DisplayNameFor(livre => livre.First().Resume)</th>
+            <th>@Html.DisplayNameFor(livre => livre.First().DatePublication)</th>
+            <th>@Html.DisplayNameFor(livre => livre.First().MaisonEdition.Nom)</th>
+            <th>Action(s)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(LivreBibliotheque livre in Model) {
+            <tr>
+                <td class="text-center">
+                    <img src="@livre.PhotoCouverture" width="50px">
+                </td>
+                <td>@livre.Isbn</td>
+                <td>@livre.Titre</td>
+                <td>@livre.Resume</td>
+                <td>@livre.DatePublication</td>
+                <td>@livre.MaisonEdition.Nom</td>
+                <td>
+                    <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#livre-@livre.LivreId">
+                    <img src="~/img/delete.svg" width="25px">
+                </td>
+            </tr>
+            <div class="modal fade" id="livre-@livre.LivreId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le livre</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            contenu
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
