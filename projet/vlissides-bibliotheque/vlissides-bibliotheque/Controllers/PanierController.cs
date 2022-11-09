@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -18,9 +18,14 @@ namespace vlissides_bibliotheque.Controllers
             _logger = logger;
             _context = context;
         }
-        public IActionResult Index()
+
+        [HttpGet]
+        public IActionResult Index(List<TuileLivreBibliotequeVM>? cardsPanier)
         {
-            return View();
+            //TODO modifier/ajouter un viewmodel pour la vue
+            if (cardsPanier == null)
+                return View();
+            return View(cardsPanier);
         }
 
         [HttpPost]
@@ -33,14 +38,31 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             List<LivreBibliotheque> livres = _context.LivresBibliotheque.ToList();
+            List<LivreBibliotheque> livresTrouves = new List<LivreBibliotheque>();
+            List<TuileLivreBibliotequeVM> livresModifie = new List<TuileLivreBibliotequeVM>();
+            List<CoursLivre> cours = new List<CoursLivre>();
 
-            foreach(int id in ids.Id)
-            {
-                livres.Find(element => element.LivreId == id);
+            if (livres != null) { 
+                
+                foreach (int id in ids.Id)
+                {
+                    livresTrouves.Add(livres.Find(element => element.LivreId == id));
+                }
             }
 
+            if (livresTrouves != null)
+            {
+                foreach (LivreBibliotheque livre in livresTrouves)
+                {
+                    if(livre!=null)
+                        livresModifie.Add(new TuileLivreBibliotequeVM { livreBibliotheque=livre, coursLivre=_context.CoursLivres.ToList().Find(element => element.LivreBibliothequeId == livre.LivreId)/*TODO à changer pour ce commentaire quand la tuille acceptera plusieurs cours ||| _context.CoursLivres.ToList().Where(element=>element.LivreBibliothequeId==livre.LivreId)*/});
+                }
+            }
 
-            return Ok();
+            //TODO crééer un view model pour les vue partiels et update la liste de livre  
+
+            return PartialView("_ConteneurPanier", livresModifie);
+
         }
     }
 }
