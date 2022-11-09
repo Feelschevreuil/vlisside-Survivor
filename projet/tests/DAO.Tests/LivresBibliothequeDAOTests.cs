@@ -338,6 +338,46 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	}
 
 	[Fact]
+	public void TestGetSelonMaisonEdition()
+	{
+
+	    string nomMaisonEdition;
+	    string nomMaisonEditionQuery;
+	    int nombreLivresAvecMaisonEditionDesire;
+	    int nombreLivresSelonRecherche;
+	    MaisonEdition maisonEdition;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    nomMaisonEdition = "AAT triple ex";
+	    nomMaisonEditionQuery = "TrIPle Ex";
+	    maisonEdition = CreateMaisonEdition(nomMaisonEdition);
+	    nombreLivresAvecMaisonEditionDesire = 10;
+
+	    ViderTable();
+	    AjouterLivres(nombreLivresAvecMaisonEditionDesire, maisonEdition);
+	    AjouterLivres(20);
+
+	    livreChampsRecherche = new()
+	    {
+		MaisonEdition = nomMaisonEditionQuery,
+		Neuf = true,
+		Digital = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecMaisonEditionDesire,
+		    nombreLivresSelonRecherche
+		);
+	}
+
+	[Fact]
 	public void TestGetSelonProprietes()
 	{
 
@@ -348,40 +388,198 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	/// Ajoute N nombre de livres à la base de données.
 	/// </summary>
 	/// <param name="nombreLivresAjouter">Nombre de livres à ajouter.</param>
-	private void AjouterLivres(int nombreLivresAjouter = 10)
+	/// <param name="maisonEditionFixe">
+	/// Maison d'Édition fixe dans le cas où on veut ajouter plusieurs livres
+	/// aléatoires publiés par la même maison d'édition. Si omis,
+	/// une maison d'édition aléatoire sera ajoutée et assignée par livre.
+	/// </param>
+	/// <param name="dateFixe">
+	/// Date fixe dans le cas où on veut ajouter plusieurs livres aléatoires
+	/// ayant étés faits à une data particulière. Si omis, une date aléatoire
+	/// sera aojutée et assignée par livre.
+	/// </param>
+	/// <param name="auteurFixe">
+	/// Auteur fixe dans le cas où on veut ajouter plusieurs livres aléatoires
+	/// ayant été écrits par le même auteur. Si omis, un auteur aléatoire
+	/// sera ajouté et assigné par livre.
+	/// <param name="prixMaximum">
+	/// Prix maximum fixe dans le cas où on veut ajouter plusieurs livres
+	/// aléatoires sous un certain prix.
+	/// </param>
+	/// <param name="prixMinimum">
+	/// Prix minimum fixe dans le cas où on veut ajouter plusieurs livres
+	/// aléatoires au dessus d'un certain prix.
+	/// </param>
+	/// <param name="neuf">
+	/// État neuf dans le cas où on veut rendre disponible le livre.
+	/// </param>
+	/// <param name="usage">
+	/// État usagé dans le cas où on veut rendre disponible le livre.
+	/// </param>
+	/// <param name="digital">
+	/// État digital dans le cas où on veut rendre disponible le livre.
+	/// </param>
+	private void AjouterLivres
+	(
+	    int nombreLivresAjouter = 10,
+	    MaisonEdition maisonEditionFixe = null,
+	    DateTime dateFixe = new DateTime(),
+	    Auteur auteurFixe = null,
+	    double prixMaximum = 0.0,
+	    double prixMinimum = 0.0,
+	    bool neuf = false,
+	    bool usage = false,
+	    bool digital = false
+	)
 	{
 
-	    List<LivreBibliotheque> livresBiliotheque;
-
-	    livresBiliotheque = new();
+	    LivreBibliotheque livreBibliotheque;
 
 	    for(int i = 0; i < nombreLivresAjouter; i++)
 	    {
 
-		MaisonEdition maisonEdition;
-		LivreBibliotheque livreBibliotheque;
-
-		maisonEdition = new()
-		{
-		    Nom = Faker.Company.Name()
-		};
-
-		_context.MaisonsEditions.Add(maisonEdition);
-		_context.SaveChanges();
-
 		livreBibliotheque = new()
 		{
 		    Titre = Faker.Company.CatchPhrase(),
-		    DatePublication = Faker.Identification.DateOfBirth(),
+		    DatePublication = dateFixe
+			.Equals
+			(
+			    new DateTime()) ? 
+				Faker.Identification.DateOfBirth() : 
+				dateFixe,
 		    Isbn = 666 + Faker.Identification.UkNhsNumber(),
-		    MaisonEdition = maisonEdition,
+		    MaisonEdition = maisonEditionFixe == null ? 
+			CreateMaisonEdition
+			(
+			    Faker.Company.Name()
+			) : 
+			maisonEditionFixe,
 		    PhotoCouverture = "N/A",
 		    Resume = Faker.Lorem.Sentence()
 		};
-	    }
 
-	    _context.LivresBibliotheque.AddRange(livresBiliotheque);
+		_context.LivresBibliotheque.Add(livreBibliotheque);
+		_context.SaveChanges();
+
+		LierAuteurALivre
+		(
+		    livreBibliotheque, 
+		    auteurFixe == null ? 
+			CreateAuteur
+			(
+			    Faker.Name.Last(), 
+			    Faker.Name.First()
+			) : 
+			auteurFixe
+		);
+	    }
+	}
+
+	/// <summary>
+	/// Crée une maison d'édition et la sauvegarde dans la base
+	/// de données.
+	/// </summary>
+	/// <param name="nom">Nom que la maison d'éditon va posséder.</param>
+	private MaisonEdition CreateMaisonEdition(string nom)
+	{
+
+	    MaisonEdition maisonEdition;
+
+	    maisonEdition = new()
+	    {
+		Nom = nom
+	    };
+
+	    _context.MaisonsEditions.Add(maisonEdition);
 	    _context.SaveChanges();
+
+	    return maisonEdition;
+	}
+
+	/// <summary>
+	/// Crée un auteur et le sauvegarde dans la base de 
+	/// données.
+	/// </summary>
+	/// <param name="nom">Nom de l'auteur.</param>
+	/// <param name="prenom">Prénom de l'auteur.</param>
+	private Auteur CreateAuteur(string nom, string prenom)
+	{
+
+	    Auteur auteur;
+
+	    auteur = new()
+	    {
+
+		Nom = nom,
+		Prenom = prenom
+	    };
+
+	    _context.Auteurs.Add(auteur);
+	    _context.SaveChanges();
+
+	    return auteur;
+	}
+
+	/// <summary>
+	/// Lie un livre de bibliothèque à un auteur.
+	/// </summary>
+	/// <param name="livreBibliotheque">Livre de bibliothèque à lier avec l'auteur.</param>
+	/// <param name="auteur">Autuer à lier avec le livre de bibliothèque.</param>
+	private void LierAuteurALivre(LivreBibliotheque livreBibliotheque, Auteur auteur)
+	{
+
+	    AuteurLivre auteurLivre;
+
+	    auteurLivre = new()
+	    {
+
+		Auteur = auteur,
+		LivreBibliotheque = livreBibliotheque 
+	    };
+
+	    _context.AuteursLivres.Add(auteurLivre);
+	    _context.SaveChanges();
+	}
+
+	/// <summary>
+	/// Lie un livre à un état.
+	/// </summary>
+	private void LierLivreAEtat
+	(
+	    LivreBibliotheque livreBibliotheque, 
+	    EtatLivre etatLivre, 
+	    double prixFixe = 0.0,
+	    double prixMaximum = 0.0,
+	    double prixMinimum = 0.0 
+	)
+	{
+
+	    PrixEtatLivre prixEtatLivre;
+
+	    prixEtatLivre = new()
+	    {
+
+		EtatLivre = etatLivre,
+		LivreBibliotheque = livreBibliotheque,
+		Prix = prixFixe != 0.0 ? 
+		    prixFixe : 
+		    GenererPrix(prixMaximum, prixMinimum)
+	    };
+	}
+
+	/// <summary>
+	/// Génère un prix aléatoire selon les paramètres.
+	/// </summary>
+	/// <param name="prixMaximum">Limite maximale du prix.</param>
+	/// <param name="prixMinimum">Limite miniale du prix.</param>
+	private double GenererPrix(double prixMaximum = 0.0, double prixMinimum = 0.0)
+	{
+
+	    double prixGenere;
+
+	    prixGenere = Faker.RandomNumber.Next((long)prixMinimum, (long)prixMaximum);
+
+	    return prixGenere;
 	}
 
 	/// <summary>
