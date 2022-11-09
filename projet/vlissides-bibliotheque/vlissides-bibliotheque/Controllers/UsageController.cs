@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using vlissides_bibliotheque.Constantes;
@@ -147,6 +148,18 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("MaBoutique");
             }
+            var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
+            foreach (var error in ModelErrors)
+            {
+                if (error.ErrorMessage.StartsWith("The value"))
+                {
+                    ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
+            }
             return View(livreEtudiantVM);
         }
 
@@ -222,6 +235,18 @@ namespace vlissides_bibliotheque.Controllers
                     return View("succesModifierUsage", LivreEtudiantModifier);
                 }
                 return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas le modifier");
+            }
+            var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
+            foreach (var error in ModelErrors)
+            {
+                if (error.ErrorMessage.StartsWith("The value"))
+                {
+                    ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
             }
             return View(form);
         }
