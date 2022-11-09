@@ -1,20 +1,17 @@
 ﻿@model GestionProfilVM
 
-@{
-    int size = User.IsInRole(RolesName.Admin) ? 12 : 6;
-}
-
 <div class="row">
     <div class="col-md-8 d-block m-auto">
-        <form class="text-center m-3" method="post" asp-action="Index" asp-controller="GestionProfil">
+        <form class="text-center m-3" method="post">
 
-            <img width="200px" src="~/img/account-cog.svg" />
+            <input asp-for="EtudiantId" hidden />
+            <input asp-for="NomProgrammeEtude" hidden />
+            <input asp-for="NomProvince" hidden />
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="row text-start">
-
-                <div class="col-md-@size">
+                <div class="col-md-6">
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <legend>
                             <img width="30px" src="~/img/account-circle.svg" />
@@ -35,32 +32,21 @@
                             <input asp-for="Prenom" class="form-control" aria-required="true" />
                             <span asp-validation-for="Prenom" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="NoTelephone" class="form-label"></label>
-                            <input type="text" value="@Model.NoTelephone" class="form-control" aria-required="true" oninput="setPhoneNumber(this, 'phoneNumber')" />
-                            <input asp-for="NoTelephone" id="phoneNumber" hidden />
-                            <span asp-validation-for="NoTelephone" class="text-danger"></span>
-                        </div>
                     </fieldset>
 
-                    @if(User.IsInRole(RolesName.Etudiant)) {
-                        <fieldset class="rounded shadow p-3 m-2 mb-4">
-                            <legend>
-                                <img width="30px" src="~/img/account-school.svg" />
-                            </legend>
-                            <div class="form-group">
-                                <label asp-for="ProgrammeEtudeId" class="form-label"></label>
-                                <select asp-for="ProgrammeEtudeId" asp-items="Model.ProgrammeEtudes" class="form-control" aria-required="true">
-                                    <option>Sélectionner un programme</option>
-                                </select>
-                                <span asp-validation-for="ProgrammeEtudeId" class="text-danger"></span>
-                            </div>
-                        </fieldset>
-                    }
+                    <fieldset class="rounded shadow p-3 m-2 mb-4">
+                        <legend>
+                            <img width="30px" src="~/img/account-school.svg" />
+                        </legend>
+                        <div class="form-group">
+                            <label asp-for="ProgrammeEtudeId" class="form-label"></label>
+                            <select asp-for="ProgrammeEtudeId" asp-items="Model.ProgrammeEtudes" class="form-control" aria-required="true">
+                            </select>
+                            <span asp-validation-for="ProgrammeEtudeId" class="text-danger"></span>
+                        </div>
+                    </fieldset>
                 </div>
 
-                @if (User.IsInRole(RolesName.Etudiant))
-                {
                 <div class="col-md-6">
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <legend>
@@ -95,28 +81,19 @@
                         <div class="form-group">
                             <label asp-for="ProvinceId" class="form-label"></label>
                             <select asp-for="ProvinceId" asp-items="Model.Provinces" class="form-control" aria-required="true">
-                                <option>Sélectionner une province</option>
                             </select>
                             <span asp-validation-for="ProvinceId" class="text-danger"></span>
                         </div>
+                        <div class="form-group">
+                            <label asp-for="NoTelephone" class="form-label"></label>
+                            <input type="text" value="@Model.NoTelephone" class="form-control" aria-required="true" oninput="setPhoneNumber(this, 'phoneNumber')" />
+                            <input asp-for="NoTelephone" id="phoneNumber" hidden />
+                            <span asp-validation-for="NoTelephone" class="text-danger"></span>
+                        </div>
                     </fieldset>
-                </div>
-                }
-
-                <div class="col-md-6">
-                    <div class="m-2 mb-4">
-                        <a asp-action="Accueil" asp-controller="Accueil" class="btn btn-secondary w-100 shadow">Annuler</a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="m-2 mb-4">
-                        <button type="submit" class="btn btn-primary w-100 shadow">Modifier</button>
-                    </div>
                 </div>
             </div>
             @Html.AntiForgeryToken()
         </form>
     </div>
 </div>
-
-<script src="~/js/gestionCours.js" asp-append-version="true"></script>

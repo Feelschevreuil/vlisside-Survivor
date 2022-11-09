@@ -18,17 +18,20 @@ namespace vlissides_bibliotheque.Controllers
     public class GestionProfilController : Controller
     {
         private readonly SignInManager<Etudiant> _signInManager;
-        private readonly UserManager<Etudiant> _userManager;
+        private readonly UserManager<Etudiant> _userManagerEtudiant;
+        private readonly UserManager<Utilisateur> _userManagerAdmin;
         private readonly ApplicationDbContext _context;
 
         public GestionProfilController(
             SignInManager<Etudiant> signInManager,
-            UserManager<Etudiant> userManager,
+            UserManager<Etudiant> userManagerEtudiant,
+            UserManager<Utilisateur> userManagerAdmin,
             ApplicationDbContext context
             )
         {
             _signInManager = signInManager;
-            _userManager = userManager;
+            _userManagerEtudiant = userManagerEtudiant;
+            _userManagerAdmin = userManagerAdmin;
             _context = context;
         }
 
@@ -36,43 +39,23 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de modification de l'étudiant courant.
         /// </summary>
         /// <returns>¨Page de modification d'étudiant.</returns>
-        [Authorize (Roles =RolesName.Etudiant)]
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
-
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant? paul = _context.Etudiants.ToList().Find(x => x.Id == id);
-
-            if (paul != null || User.IsInRole(RolesName.Admin))
+            if (User.IsInRole(RolesName.Etudiant))
             {
+                Etudiant etudiant = await GetEtudiantCourantAsync();
 
-                Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
+                return View(etudiant.GetEtudiantProfilVM(_context));
+            } 
+            
+            if (User.IsInRole(RolesName.Admin)) 
+            {
+                Utilisateur admin = await GetAdminCourantAsync();
 
-                Adresse adresse = utilisateurCourant.GetAdresse(_context);
-
-                GestionProfilVM vm = new()
-                {
-                    Courriel = utilisateurCourant.Email,
-                    Nom = utilisateurCourant.Nom,
-                    Prenom = utilisateurCourant.Prenom,
-                    NoTelephone = utilisateurCourant.PhoneNumber,
-                    ProgrammeEtudeId = utilisateurCourant.ProgrammeEtudeId,
-                    ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
-
-                    NoCivique = adresse.NumeroCivique.ToString(),
-                    Rue = adresse.Rue,
-                    Ville = adresse.Ville,
-                    App = adresse.App,
-                    CodePostal = adresse.CodePostal,
-                    ProvinceId = adresse.Province.ProvinceId,
-
-                    Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
-                    checkBoxCours = CoursCheckedBox.GetCoursCheckedBox(_context, id)
-                };
-
-                return View(vm);
+                return View(admin.GetAdminProfilVM());
             }
+
             return Content("Accès interdit");
         }
 
@@ -80,58 +63,78 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
         {
-
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant? utilisateurEtudiant = _context.Etudiants.ToList().Find(x => x.Id == id);
-
-            if (utilisateurEtudiant != null || User.IsInRole(RolesName.Admin))
+            if (User.IsInRole(RolesName.Etudiant))
             {
 
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
                 ModelState.Remove(nameof(vm.Provinces));
                 ModelState.Remove(nameof(vm.checkBoxCours));
 
-                if (vm.CodePostal != null)
-                {
-                    vm.CodePostal = vm.CodePostal.ToUpper();
-                }
+                vm = SetEtudiantProfilVM(vm);
 
                 if (ModelState.IsValid)
                 {
+                    Etudiant etudiant = await GetEtudiantCourantAsync();
 
-                    Etudiant utilisateurCourant = await GetUtilisateurCourantAsync();
+                    Adresse adresse = etudiant.GetAdresse(_context);
 
-                    Adresse adresse = utilisateurCourant.GetAdresse(_context);
-
-                    adresse.App = vm.App;
-                    adresse.CodePostal = vm.CodePostal;
-                    adresse.NumeroCivique = Convert.ToInt32(vm.NoCivique);
-                    adresse.Rue = vm.Rue;
-                    adresse.Ville = vm.Ville;
-                    adresse.ProvinceId = vm.ProvinceId;
-
-                    utilisateurCourant.Email = vm.Courriel;
-                    utilisateurCourant.UserName = vm.Courriel;
-                    utilisateurCourant.Nom = vm.Nom;
-                    utilisateurCourant.Prenom = vm.Prenom;
-                    utilisateurCourant.PhoneNumber = vm.NoTelephone;
-                    utilisateurCourant.ProgrammeEtudeId = vm.ProgrammeEtudeId;
+                    etudiant.ModelBinding(adresse, vm);
 
                     _context.SaveChanges();
                 }
 
-                vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
-                vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
-                vm.checkBoxCours = CoursCheckedBox.GetCoursCheckedBox(_context, id);
                 return View(vm);
             }
+            
+            if (User.IsInRole(RolesName.Admin)) {
+                ModelState.Remove(nameof(vm.ProgrammeEtudeId));
+                ModelState.Remove(nameof(vm.ProgrammeEtudes));
+                ModelState.Remove(nameof(vm.ProvinceId));
+                ModelState.Remove(nameof(vm.Provinces));
+                ModelState.Remove(nameof(vm.Nom));
+                ModelState.Remove(nameof(vm.Prenom));
+                ModelState.Remove(nameof(vm.NoCivique));
+                ModelState.Remove(nameof(vm.App));
+                ModelState.Remove(nameof(vm.Rue));
+                ModelState.Remove(nameof(vm.Ville));
+                ModelState.Remove(nameof(vm.CodePostal));
+
+                if (ModelState.IsValid) {
+                    Utilisateur admin = await GetAdminCourantAsync();
+
+                    admin.ModelBinding(vm);
+
+                    _context.SaveChanges();
+                }
+
+                return View(vm);
+            }
+
             return Content("Action interdite");
         }
 
-        [Authorize(Roles = RolesName.Admin)]
-        private async Task<Etudiant> GetUtilisateurCourantAsync()
+        private GestionProfilVM SetEtudiantProfilVM(GestionProfilVM vm)
         {
-            return await _userManager.GetUserAsync(HttpContext.User);
+            if (vm.CodePostal != null) {
+                vm.CodePostal = vm.CodePostal.ToUpper();
+            }
+
+            vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
+            vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
+
+            return vm;
+        }
+
+        [Authorize(Roles = RolesName.Etudiant)]
+        private async Task<Etudiant> GetEtudiantCourantAsync()
+        {
+            return await _userManagerEtudiant.GetUserAsync(HttpContext.User);
+        }
+
+        [Authorize(Roles = RolesName.Admin)]
+        private async Task<Utilisateur> GetAdminCourantAsync()
+        {
+            return await _userManagerAdmin.GetUserAsync(HttpContext.User);
         }
 
         public string AssignerCours([FromBody] CoursAssocier coursAssocier)

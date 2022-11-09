@@ -1,0 +1,10 @@
+﻿.tableau-de-bord {
+    height: 80px;
+    width: 80px;
+}
+
+.texte-tableau-de-bord {
+    padding: 40px;
+    font-size:20px;
+    color: blue;
+}

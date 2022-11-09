@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -22,16 +23,14 @@ namespace vlissides_bibliotheque.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult La_blun()
-        {
-           InventaireLaBlunVM inventaireLivreEtudiant = new() { inventaireLivreEtudiantVMs = _context.LivresEtudiants.ToList() };      
-           return View(inventaireLivreEtudiant);
-        }
-
         public IActionResult Bibliotheque()
         {
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
-            foreach (LivreBibliotheque livre in _context.LivresBibliotheque)
+            List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
+                .Include(x=>x.MaisonEdition)
+                .OrderBy(i => i.DatePublication)
+                .ToList();
+            foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
                 var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
                 inventaireBibliotheque.Add(livreConvertie);
@@ -54,6 +53,19 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(inventaireLivreBibliotheque);
 
+        }
+
+        public IActionResult Detail(int id)
+        {
+           
+            LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.ToList().Find(x=>x.LivreId == id);
+            if(livreBibliotheque != null)
+            {
+                return View(LivreEnTuile.GetTuileLivreBibliotequeVMs(livreBibliotheque,_context));
+            }
+
+
+            return Content("Ce livre n'existe pas dans la base de données.");
         }
 
         [Authorize(Roles =RolesName.Admin)]
@@ -214,10 +226,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.CoursLivres.Add(nouvelleAssociation);
                 _context.SaveChanges();
 
-                _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(LivreBibliothèqueModifier, form));
-                _context.SaveChanges();
-
-
+                UpdateLesPrix(LivreBibliothèqueModifier, form);
                 return View("succesModifierLivre", LivreBibliothèqueModifier);
             }
 
@@ -254,7 +263,7 @@ namespace vlissides_bibliotheque.Controllers
 
             List<Evenement> listEvenements = _context.Evenements.OrderBy(i => i.Debut).Take(4).ToList();
 
-            InventaireLivreBibliotheque recommendationPromotions = new() { tuileLivreBiblioteques = GetQuatreLivres.GetInventaireBibliotequeVMs(_context)};
+            InventaireLivreBibliotheque recommendationPromotions = new() { tuileLivreBiblioteques = LivreEnTuile.GetQuatreLivresVM(_context)};
 
             return View("Bibliotheque", recommendationPromotions);
         }
@@ -335,42 +344,45 @@ namespace vlissides_bibliotheque.Controllers
 
             return ListPrixEtat;
         }
-        public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
+        public bool UpdateLesPrix(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
         {
             if(form.PrixNeuf == null) { form.PrixNeuf = 0;};
-            if(form.PrixNumerique == null) { form.PrixNeuf = 0; };
-            if(form.PrixUsage == null) { form.PrixNeuf = 0; };
+            if(form.PrixNumerique == null) { form.PrixNumerique = 0; };
+            if(form.PrixUsage == null) { form.PrixUsage = 0; form.QuantiteUsagee = 0; };
 
-            List<PrixEtatLivre> ListPrixEtat = new();
+            List<PrixEtatLivre> listPrixEtat = _context.PrixEtatsLivres
+                .Include(x => x.LivreBibliotheque)
+                .Include(x => x.EtatLivre)
+                .ToList();
 
-            PrixEtatLivre AssociationPrixNeuf = new()
+
+            PrixEtatLivre prixNeuf = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.NEUF);
+
+            PrixEtatLivre prixDigital =listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
+
+            PrixEtatLivre prixUsager = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.USAGE);
+
+            if(prixNeuf != null)
             {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
-                Prix = form.PrixNeuf,
-            };
-            PrixEtatLivre AssociationPrixNumérique = new()
+                prixNeuf.Prix = (double)form.PrixNeuf;
+                _context.PrixEtatsLivres.Update(prixNeuf);
+                _context.SaveChanges();
+            }
+            if(prixDigital != null)
             {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
-                Prix = form.PrixNumerique,
-            };
-            PrixEtatLivre AssociationPrixUsager = new()
+                prixDigital.Prix = (double)form.PrixNumerique;
+                _context.PrixEtatsLivres.Update(prixDigital);
+                _context.SaveChanges();
+            }
+            if(prixUsager != null)
             {
-                PrixEtatLivreId = 0,
-                LivreBibliothequeId = LivreEtatPrix.LivreId,
-                EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
-                Prix = form.PrixUsage,
-            };
+                prixUsager.Prix = (double)form.PrixUsage;
+                _context.PrixEtatsLivres.Update(prixUsager);
+                _context.SaveChanges();
+            }
+            
 
-            ListPrixEtat.Add(AssociationPrixNeuf);
-            ListPrixEtat.Add(AssociationPrixNumérique);
-            ListPrixEtat.Add(AssociationPrixUsager);
-
-
-            return ListPrixEtat;
+            return true;
         }
         public PrixEtatLivre AssocierPrixEtat(TuileLivreBibliotequeVM LivreEtatPrix)
         {

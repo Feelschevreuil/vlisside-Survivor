@@ -7,21 +7,21 @@ namespace vlissides_bibliotheque.Models
     /// </summary>
     public class Commanditaire
     {
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
         public int CommanditaireId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} du commanditaire est requis.")]
         [StringLength(40)]
         public string Nom { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} du commanditaire est requis.")]
         [EmailAddress]
         public string Courriel { get; set; }
 
         [Url]
         public string? Url { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} du commanditaire est requis.")]
         [StringLength(512)]
         public string Message { get; set; }
     }
