@@ -55,12 +55,12 @@
 
             }).then(function (response) {
 
-                return response.json();
+                return response.text;
 
             }).then((data) => {
 
-                var removeImage = document.querySelector("#chargement");
-                
+                var parentPartiel = document.getElementById("affichageLivre");
+                parentPartiel.html(data);
 
             });
 
