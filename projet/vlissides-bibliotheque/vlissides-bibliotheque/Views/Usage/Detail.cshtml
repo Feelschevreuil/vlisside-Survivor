@@ -1,0 +1,42 @@
+﻿@model LivreEtudiantVM
+
+@{
+    if (Model.PhotoCouverture == "N/A")
+    {
+        Model.PhotoCouverture = LivreEnTuile.GetImageParDefaut();
+    }
+}
+
+
+<div class="row">
+    <div class="col-4">
+        <img class="col-12 img-fluid flex-fill image-detail" src="@Model.PhotoCouverture" />
+    </div>
+
+    <div class="card-body col-6 m-auto">
+        <h5 class="card-title"><strong>Titre:</strong> @Model.Titre</h5>
+        <p class="card-text"><strong>ISBN:</strong> @Model.Isbn</p>
+        <p class="card-text"><strong>Date de publication:</strong> @Model.DatePublication.Day @Model.DatePublication.ToString("MMMM") @Model.DatePublication.Year</p>
+        <p class="card-text"><strong>Maison d'éditions:</strong> @Model.MaisonEdition</p>
+        <p class="card-text"><strong>Auteur:</strong> @Model.Auteur</p>
+        <p class="card-text"><strong>Prix:</strong> @Model.Prix</p>
+    </div>
+</div>
+
+<div class="row">
+    <p class="card-text"><strong>Description:</strong> @Model.Resume</p>
+
+    <div>
+        <p class="card-text"><strong>Courriel</strong></p>
+        <div class="input-group">
+
+            <input disabled type="text" class="form-control" value="@Model.Etudiant.Email" id="Courriel">
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary" onclick="CopierCourriel()" type="button">Copier</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="~/css/carte-evenement-Partial.css" asp-append-version="true" />

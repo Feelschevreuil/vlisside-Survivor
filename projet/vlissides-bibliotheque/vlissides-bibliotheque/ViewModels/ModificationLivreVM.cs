@@ -18,7 +18,8 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Resume { get; set; }
 
-        
+        [Required]
+        [Image]
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -42,7 +43,8 @@ namespace vlissides_bibliotheque.ViewModels
 		[Number]
         [DataType(DataType.Currency)]
         [DisplayName("Neuf")]
-		public double? PrixNeuf { get; set; } 
+        [RegularExpression(@"^\d+(\,\d{1,2})?$",ErrorMessage ="Les prix doivent une virgule ET ne peux pas dépasser deux chiffres après cette même virgule.")]
+        public double? PrixNeuf { get; set; } 
 
 		[DisplayName("Quantité")]
 		public int? QuantiteUsagee { get; set; }
