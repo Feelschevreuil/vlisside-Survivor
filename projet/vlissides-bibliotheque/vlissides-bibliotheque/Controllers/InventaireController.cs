@@ -71,7 +71,6 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("Auteurs");
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
-            ModelState.Remove("Photo");
             ModelState.Remove("ListeCoursAssocie");
             ModelState.Remove("ListeCoursComplete");
             ModelState.Remove("CoursId");
