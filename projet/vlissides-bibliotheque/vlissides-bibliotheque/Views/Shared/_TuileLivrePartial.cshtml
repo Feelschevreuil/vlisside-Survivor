@@ -41,31 +41,37 @@
             <div class="position-relative text-center">
                 <img class="mx-auto image-livre" src="@Model.livreBibliotheque.PhotoCouverture" alt="PhotoLivre">
                 <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
-                    @if (Model.prixEtatLivre == null)
+                    @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3"></p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[0].Prix$</p>
                     }
                     else
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[0].Prix$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3"></p>
                     }
                 </div>
             </div>
         </a>
     </div>
         <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
-              @if(Model.prixEtatLivre != null)
+              @if(Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x=>x.EtatLivre.Nom == NomEtatLivre.NEUF) != null)
                     {
             <label class="btn bg-back text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
                 <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(this.value, @livreIdCourant);" checked> Neuf
             </label>
                     }
+        @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.DIGITAL) != null)
+        {
             <label class="btn bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
                 <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
             </label>
-            <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
+        }
+          @if(Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x=>x.EtatLivre.Nom == NomEtatLivre.USAGE) != null)
+                    {
+        <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
                 <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
             </label>
+                    }
         </div>
 
 
