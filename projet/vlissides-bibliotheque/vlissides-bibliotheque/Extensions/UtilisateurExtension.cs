@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
@@ -61,15 +62,15 @@ namespace vlissides_bibliotheque
                 Prenom = etudiant.Prenom,
                 NoTelephone = etudiant.PhoneNumber,
                 ProgrammeEtudeId = etudiant.ProgrammeEtudeId,
+                NomProgrammeEtude = etudiant.ProgrammeEtude.Nom,
                 ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
-
                 NoCivique = adresse.NumeroCivique.ToString(),
                 Rue = adresse.Rue,
                 Ville = adresse.Ville,
                 App = adresse.App,
                 CodePostal = adresse.CodePostal,
                 ProvinceId = adresse.Province.ProvinceId,
-
+                NomProvince = adresse.Province.Nom,
                 Provinces = new SelectList(context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
             };
 
@@ -87,5 +88,24 @@ namespace vlissides_bibliotheque
 
             return vm;
         }
+
+        public static GestionProfilVM NewGestionProfilVM(this ApplicationDbContext context)
+        {
+            GestionProfilVM vm = new() {
+                ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
+                Provinces = new SelectList(context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
+            };
+            return vm;
+        }
+
+        public static InscriptionVM NewInscriptionVM(this ApplicationDbContext context)
+        {
+            InscriptionVM vm = new() {
+                ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
+                Provinces = new SelectList(context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom))
+            };
+            return vm;
+        }
+
     }
 }

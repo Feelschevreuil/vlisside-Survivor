@@ -1,0 +1,47 @@
+﻿@model List<ProgrammeEtude>
+
+<div class="d-flex accordion-header">
+    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
+        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+    </a>
+    <h2 class="p-3">Gestion des programmes d'études</h2>
+</div>
+
+<table class="table table-light table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(programme => programme.First().Code)</th>
+            <th>@Html.DisplayNameFor(programme => programme.First().Nom)</th>
+            <th>Action(s)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ProgrammeEtude programme in Model) {
+            <tr>
+                <td>@programme.Code</td>
+                <td>@programme.Nom</td>
+                <td>
+                    <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#programme-@programme.ProgrammeEtudeId">
+                    <img src="~/img/delete.svg" width="25px">
+                </td>
+            </tr>
+            <div class="modal fade" id="programme-@programme.ProgrammeEtudeId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le programme d'études</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            contenu
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
