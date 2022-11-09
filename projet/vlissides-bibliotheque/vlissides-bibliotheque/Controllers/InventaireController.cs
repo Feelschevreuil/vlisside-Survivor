@@ -28,7 +28,7 @@ namespace vlissides_bibliotheque.Controllers
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
             List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
                 .Include(x => x.MaisonEdition)
-                .OrderBy(i => i.DatePublication)
+                .OrderByDescending(i => i.DatePublication)
                 .ToList();
             foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
@@ -74,6 +74,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("Photo");
             ModelState.Remove("ListeCoursAssocie");
             ModelState.Remove("ListeCoursComplete");
+            ModelState.Remove("CoursId");
 
             if (ModelState.IsValid)
             {
@@ -91,15 +92,24 @@ namespace vlissides_bibliotheque.Controllers
                 _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
                 _context.SaveChanges();
 
-                CoursLivre nouvelleAssociation = new()
-                {
-                    CoursLivreId = 0,
-                    CoursId = (int)form.CoursId,
-                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                    Complementaire = form.Obligatoire
-                };
+                //CoursLivre nouvelleAssociation = new()
+                //{
+                //    CoursLivreId = 0,
+                //    CoursId = (int)form.CoursId,
+                //    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                //    Complementaire = form.Obligatoire
+                //};
 
-                _context.CoursLivres.Add(nouvelleAssociation);
+                //_context.CoursLivres.Add(nouvelleAssociation);
+                //_context.SaveChanges();
+
+
+                AuteurLivre auteurLivre = new AuteurLivre()
+                {
+                    AuteurId = (int)form.AuteurId,
+                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                };
+                _context.AuteursLivres.Add(auteurLivre);
                 _context.SaveChanges();
 
                 _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, form));
@@ -149,7 +159,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 AuteurId = auteurLivre.AuteurId,
-                CoursId = coursLivre.CoursId,
+               // CoursId = coursLivre.CoursId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
                 Auteurs = ListDropDownAuteurs(),
                 ListeCours = ListDropDownCours(),
@@ -158,7 +168,6 @@ namespace vlissides_bibliotheque.Controllers
                 ISBN = livreBibliothequeRechercher.Isbn,
                 Titre = livreBibliothequeRechercher.Titre,
                 Resume = livreBibliothequeRechercher.Resume,
-                Obligatoire = coursLivre.Complementaire,
                 Photo = livreBibliothequeRechercher.PhotoCouverture,
                 PossedeNeuf = true,
                 PossedeNumerique = true,
@@ -188,6 +197,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
             ModelState.Remove("Photo");
+            ModelState.Remove("CoursId");
 
 
 
@@ -204,16 +214,31 @@ namespace vlissides_bibliotheque.Controllers
                 _context.LivresBibliotheque.Update(LivreBibliothèqueModifier);
                 _context.SaveChanges();
 
-                CoursLivre nouvelleAssociation = new()
-                {
-                    CoursLivreId = 0,
-                    CoursId = (int)form.CoursId,
-                    LivreBibliothequeId = LivreBibliothèqueModifier.LivreId,
-                    Complementaire = form.Obligatoire
-                };
+                //CoursLivre nouvelleAssociation = new()
+                //{
+                //    CoursLivreId = 0,
+                //    CoursId = (int)form.CoursId,
+                //    LivreBibliothequeId = LivreBibliothèqueModifier.LivreId,
+                //    Complementaire = form.Obligatoire
+                //};
 
-                _context.CoursLivres.Add(nouvelleAssociation);
-                _context.SaveChanges();
+                //_context.CoursLivres.Add(nouvelleAssociation);
+                //_context.SaveChanges();
+
+                AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x=>x.LivreBibliothequeId == form.IdDuLivre);
+                if(auteurLivre != null && auteurLivre.AuteurId != form.AuteurId)
+                {
+                    _context.AuteursLivres.Remove(auteurLivre);
+                    _context.SaveChanges();
+
+                    AuteurLivre nouveauAuteurLivre = new()
+                    {
+                        AuteurId = (int) form.AuteurId,
+                        LivreBibliothequeId = LivreBibliothèqueModifier.LivreId
+                    };
+                    _context.AuteursLivres.Add(nouveauAuteurLivre);
+                    _context.SaveChanges();
+                }
 
                 UpdateLesPrix(LivreBibliothèqueModifier, form);
                 return View("succesModifierLivre", LivreBibliothèqueModifier);
@@ -262,12 +287,7 @@ namespace vlissides_bibliotheque.Controllers
             _context.LivresBibliotheque.Remove(livreSupprimer);
             _context.SaveChanges();
 
-
-            List<Evenement> listEvenements = _context.Evenements.OrderBy(i => i.Debut).Take(4).ToList();
-
-            InventaireLivreBibliotheque recommendationPromotions = new() { tuileLivreBiblioteques = LivreEnTuile.GetQuatreLivresVM(_context) };
-
-            return View("Bibliotheque", recommendationPromotions);
+            return RedirectToAction("Bibliotheque");
         }
 
         public List<SelectListItem> ListDropDownAuteurs()
@@ -389,6 +409,8 @@ namespace vlissides_bibliotheque.Controllers
 
             return true;
         }
+
+
 
     }
 }
