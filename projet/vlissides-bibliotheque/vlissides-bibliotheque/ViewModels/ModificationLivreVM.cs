@@ -18,7 +18,8 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Resume { get; set; }
 
-        
+        [Required]
+        [Image]
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
