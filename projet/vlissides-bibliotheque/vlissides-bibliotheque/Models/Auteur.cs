@@ -26,7 +26,7 @@ namespace vlissides_bibliotheque.Models
 
 	    string nomComplet;
 
-	    nomComplet = prenom + nom;
+	    nomComplet = Prenom + Nom;
 
 	    return nomComplet;
 	}
