@@ -191,10 +191,6 @@ namespace vlissides_bibliotheque.DAO
 	)
 	{
 
-	    int quantiteASauter;
-
-	    quantiteASauter = DAOUtils.GetQuantityOfElementsToSkip(quantiteParPage, page); 
-
 	    if(livreChampsRecherche.LivreId != 0)
 	    {
 
@@ -212,6 +208,9 @@ namespace vlissides_bibliotheque.DAO
 	    {
 		
 		IEnumerable<LivreBibliotheque> livresBibliotheque;
+		int quantiteASauter;
+
+		quantiteASauter = DAOUtils.GetQuantityOfElementsToSkip(quantiteParPage, page); 
 
 		livresBibliotheque = _context
 		    .LivresBibliotheque
@@ -228,7 +227,6 @@ namespace vlissides_bibliotheque.DAO
 					    .ContainsCaseInsensitive(livreChampsRecherche.Titre)
 				)
 		    )
-		    
 		    .If
 		    (
 			!string.IsNullOrEmpty(livreChampsRecherche.MaisonEdition),
@@ -237,16 +235,9 @@ namespace vlissides_bibliotheque.DAO
 			    (
 				livre =>
 				    livre
-					.MaisonEdition == 
-					_context
-					    .MaisonsEditions
-					    .Where
-					    (
-						maisonEdition =>
-						    maisonEdition
-							.Nom
-							.ContainsCaseInsensitive(livreChampsRecherche.MaisonEdition)
-					    )
+					.MaisonEdition
+					    .Nom
+					    .ContainsCaseInsensitive(livreChampsRecherche.MaisonEdition)
 			    )
 		    )
 		    .If
@@ -407,6 +398,8 @@ namespace vlissides_bibliotheque.DAO
 			livres => livres.Skip(quantiteASauter)
 		    )
 		    .Take(quantiteParPage);
+
+		return livresBibliotheque.ToList();
 	    }
 
 	    return new List<LivreBibliotheque>();
