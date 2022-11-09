@@ -28,8 +28,6 @@ namespace vlissides_bibliotheque.DAO
 	public static int GetQuantityOfElementsToSkip(int elementsPerPage, int pageToGet)
 	{
 
-	    Console.WriteLine("page to get: " + pageToGet);
-
 	    if(pageToGet > 0)
 	    {
 
