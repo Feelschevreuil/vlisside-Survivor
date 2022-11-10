@@ -79,6 +79,8 @@ namespace vlissides_bibliotheque.ViewModels
         public int? MaisonDeditionId { get; set; }
 		
 		public List<SelectListItem> MaisonsDeditions { get; set; }
+        [DisplayName("Liste des cours")]
+        public List<checkBoxCours> checkBoxCours { get; set; }
 	}
 
 }

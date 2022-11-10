@@ -84,10 +84,24 @@
 
                 <div class="col-md-6">
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
-                        <div class="form-group">
-                            <label asp-for="CoursId" class="form-label"></label>
-                            <select asp-for="CoursId" asp-items="Model.ListeCours" class="form-control" aria-required="true"></select>
-                            <span asp-validation-for="CoursId" class="text-danger"></span>
+                        <div class="form-group" id="listDeCours">
+
+                            <label asp-for="checkBoxCours" class="form-label"></label>
+
+
+                            <div class="cours">
+                                @foreach (var Cours in Model.checkBoxCours)
+                                {
+                                    <div class="row ms-2 mt-2">
+                                        <input class="col-2 mt-1 checkBoxCours" id="@Cours.Cours.CoursId" type="checkbox" name="Cours" value="@Cours.Cours.CoursId" checked="@Cours.Cocher" />
+                                        <label class="col-8 text-break" for="@Cours.Cours.Nom">@Cours.Cours.Nom</label>
+                                    </div>
+                                }
+                            </div>
+                            <div class="row">
+                                <input class="mt-2 btn btn-primary w-100" type="button" onclick="assignerCoursLivre(@Model.IdDuLivre)" value="confirmer choix" />
+                            </div>
+
                         </div>
                     </fieldset>
                     <fieldset class="rounded shadow p-3 m-2 mb-4">

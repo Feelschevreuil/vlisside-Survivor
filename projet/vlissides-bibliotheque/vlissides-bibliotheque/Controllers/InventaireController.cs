@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 
@@ -158,7 +160,6 @@ namespace vlissides_bibliotheque.Controllers
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 AuteurId = auteurLivre.AuteurId,
-               // CoursId = coursLivre.CoursId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
                 Auteurs = ListDropDownAuteurs(),
                 ListeCours = ListDropDownCours(),
@@ -170,6 +171,7 @@ namespace vlissides_bibliotheque.Controllers
                 Photo = livreBibliothequeRechercher.PhotoCouverture,
                 PossedeNeuf = true,
                 PossedeNumerique = true,
+                checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
 
             };
 
@@ -197,9 +199,11 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("ListeCours");
             ModelState.Remove("CoursId");
 
+            LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
+
             if (ModelState.IsValid)
             {
-                LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
+               
                 LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
                 LivreBibliothèqueModifier.Isbn = form.ISBN;
                 LivreBibliothèqueModifier.Titre = form.Titre;
@@ -209,17 +213,6 @@ namespace vlissides_bibliotheque.Controllers
 
                 _context.LivresBibliotheque.Update(LivreBibliothèqueModifier);
                 _context.SaveChanges();
-
-                //CoursLivre nouvelleAssociation = new()
-                //{
-                //    CoursLivreId = 0,
-                //    CoursId = (int)form.CoursId,
-                //    LivreBibliothequeId = LivreBibliothèqueModifier.LivreId,
-                //    Complementaire = form.Obligatoire
-                //};
-
-                //_context.CoursLivres.Add(nouvelleAssociation);
-                //_context.SaveChanges();
 
                 AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x=>x.LivreBibliothequeId == form.IdDuLivre);
                 if(auteurLivre != null && auteurLivre.AuteurId != form.AuteurId)
@@ -256,6 +249,7 @@ namespace vlissides_bibliotheque.Controllers
             form.Auteurs = ListDropDownAuteurs();
             form.ListeCours = ListDropDownCours();
             form.MaisonsDeditions = ListDropDownMaisonDedition();
+            form.checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
             return View(form);
         }
 
@@ -406,7 +400,54 @@ namespace vlissides_bibliotheque.Controllers
             return true;
         }
 
+        [HttpPost]
+        public string AssignerCoursLivre([FromBody] CoursAssocier coursAssocier)
+        {
+            List<Cours> listCours = _context.Cours.ToList();
+            List<CoursLivre> listCoursLivre = _context.CoursLivres.ToList();
+            List<CoursLivre> coursAssocierLivre = listCoursLivre.FindAll(x => x.LivreBibliothequeId == coursAssocier.livreId);
+            List<Cours> listCoursCocher = new();
+            List<Cours> listCoursDecocher = new();
 
+            foreach (Cours cour in listCours)
+            {
+                Cours coursCocher = listCours.Find(x => x.CoursId == coursAssocier.CoursId.Find(x => x.Equals(cour.CoursId)));
+                if (coursCocher != null)
+                {
+                    listCoursCocher.Add(coursCocher);
+                }
+                else
+                {
+                    listCoursDecocher.Add(cour);
+                }
+            }
+
+
+            foreach (Cours cours in listCoursCocher)
+            {
+                if (coursAssocierLivre.Find(x => x.CoursId == cours.CoursId && x.LivreBibliothequeId == coursAssocier.livreId) == null)
+                {
+                    CoursLivre nouveauCoursLivre = new()
+                    {
+                        CoursId = cours.CoursId,
+                        LivreBibliothequeId = coursAssocier.livreId
+                    };
+                    _context.CoursLivres.Add(nouveauCoursLivre);
+                    _context.SaveChanges();
+                }
+            }
+
+            foreach (Cours cours1 in listCoursDecocher)
+            {
+                CoursLivre coursLivre = coursAssocierLivre.Find(x => x.CoursId == cours1.CoursId && x.LivreBibliothequeId == coursAssocier.livreId);
+                if (coursLivre != null)
+                {
+                    _context.CoursLivres.Remove(coursLivre);
+                    _context.SaveChanges();
+                }
+            }
+            return null;
+        }
 
     }
 }

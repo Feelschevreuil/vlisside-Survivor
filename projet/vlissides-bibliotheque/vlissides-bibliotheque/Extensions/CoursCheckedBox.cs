@@ -13,7 +13,7 @@ namespace vlissides_bibliotheque
         {
             List<checkBoxCours> listCheckedBox = new();
             List<Cours> coursBD = _context.Cours
-                .Include(x=>x.ProgrammeEtude)
+                .Include(x => x.ProgrammeEtude)
                 .ToList();
             List<CoursEtudiant> listCoursEtudiant = _context.CoursEtudiants
                 .Include(x => x.Cours)
@@ -21,7 +21,7 @@ namespace vlissides_bibliotheque
                 .ToList();
             List<CoursEtudiant> coursAssocierEtudiant = listCoursEtudiant.FindAll(x => x.EtudiantId == etudiantId);
 
-            foreach(Cours cours in coursBD)
+            foreach (Cours cours in coursBD)
             {
                 checkBoxCours checkBox = new();
                 checkBox.Cours = cours;
@@ -30,11 +30,41 @@ namespace vlissides_bibliotheque
 
             }
 
-            foreach(CoursEtudiant coursEtudiant in coursAssocierEtudiant)
+            foreach (CoursEtudiant coursEtudiant in coursAssocierEtudiant)
             {
                 listCheckedBox.Find(x => x.Cours.CoursId == coursEtudiant.CoursId).Cocher = true;
 
             }
+            return listCheckedBox;
+        }
+
+        public static List<checkBoxCours> GetCoursLivre(ApplicationDbContext _context, LivreBibliotheque livreBibliotheque)
+        {
+            List<checkBoxCours> listCheckedBox = new();
+            List<Cours> coursBD = _context.Cours
+                .Include(x => x.ProgrammeEtude)
+                .ToList();
+
+            List<CoursLivre> coursAssocierLivre = _context.CoursLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+
+            foreach (Cours cours in coursBD)
+            {
+                checkBoxCours boxCours = new()
+                {
+                    Cours = cours,
+                    Cocher = false
+                };
+
+                listCheckedBox.Add(boxCours);
+            }
+
+            foreach (CoursLivre coursLivre in coursAssocierLivre)
+            {
+                listCheckedBox.Find(x => x.Cours.CoursId == coursLivre.CoursId).Cocher = true;
+
+            }
+
+
             return listCheckedBox;
         }
     }
