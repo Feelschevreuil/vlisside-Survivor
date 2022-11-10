@@ -1,4 +1,6 @@
-﻿function getCards() {
+﻿getCards()
+
+function getCards() {
     var div = document.getElementById("cardsIci")
     const pImpossible = document.createElement("p");
     const pVide = document.createElement("p");
@@ -8,9 +10,15 @@
     var tryEmpty = true
 
     //fausse valeurs
-    var ids = ["51", "34"]
-    //var ids = []
-    var objetLocalStorage = { "id": ids };
+    var ids=[]
+    var objetLocalStorage =
+    {
+        
+            "Neuf": ["51"],
+            "Usage": ["64", "67", "68"],
+            "Numerique": [ "65", "66"]
+        
+    }
     localStorage.setItem('itemsPanier', JSON.stringify(objetLocalStorage))
 
     var fetchEnLocal = "/../Panier/GetLivres";
@@ -18,7 +26,8 @@
     var stringFetch = "";
     var url = location.host;
     var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
-    var data = (localStorage.getItem('itemsPanier'));
+    var data = localStorage.getItem('itemsPanier');
+    var parentPartiel = document.getElementById("affichageLivre");
 
     if (url.match("localhost") == null) {
         stringFetch = fetchSurServeur;
@@ -34,7 +43,7 @@
     }
 
     try {
-        if (JSON.parse(localStorage.getItem('itemsPanier')).id[0] == undefined)
+        if (JSON.parse(localStorage.getItem('itemsPanier')).Neuf == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usage == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numerique == undefined)
             tryEmpty = false
     }
     catch (e) {
@@ -54,14 +63,11 @@
                 },
 
             }).then(function (response) {
-
-                return response.text;
+                return response.text();
 
             }).then((data) => {
 
-                var parentPartiel = document.getElementById("affichageLivre");
-                parentPartiel.html(data);
-
+                parentPartiel.innerHTML=data;
             });
 
 
@@ -73,4 +79,5 @@
     else {
         div.appendChild(pImpossible);
     }
+
 }
