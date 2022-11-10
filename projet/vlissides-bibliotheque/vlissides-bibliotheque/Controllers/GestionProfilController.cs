@@ -11,6 +11,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
+using static Humanizer.In;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -138,34 +139,54 @@ namespace vlissides_bibliotheque.Controllers
         {
             return await _userManagerAdmin.GetUserAsync(HttpContext.User);
         }
-
+        [HttpPost]
         public string AssignerCours([FromBody] CoursAssocier coursAssocier)
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Etudiant? utilisateurEtudiant = _context.Etudiants.ToList().Find(x => x.Id == id);
-            Cours CoursRechercher = _context.Cours.ToList().Find(x => x.CoursId == coursAssocier.CoursId);
+            List<Cours> listCours = _context.Cours.ToList();
+            List<CoursEtudiant> listCoursEtudiant = _context.CoursEtudiants.ToList();
+            List<CoursEtudiant> coursAssocierEtudiant = listCoursEtudiant.FindAll(x=>x.EtudiantId == id);
+            List<Cours> listCoursCocher = new(); 
+            List<Cours> listCoursDecocher = new(); 
 
-            if (coursAssocier.Cocher)
+            foreach(Cours cour in listCours)
             {
-                CoursEtudiant nouveauCoursEtudiant = new()
+                Cours coursCocher = listCours.Find(x => x.CoursId == coursAssocier.CoursId.Find(x=>x.Equals(cour.CoursId)));
+                if(coursCocher != null)
                 {
-                    Cours = CoursRechercher,
-                    CoursId = CoursRechercher.CoursId,
-                    Etudiant = utilisateurEtudiant,
-                    EtudiantId = utilisateurEtudiant.Id
-                };
-                _context.CoursEtudiants.Add(nouveauCoursEtudiant);
-                _context.SaveChanges();
-
+                    listCoursCocher.Add(coursCocher);
+                }
+                else
+                {
+                    listCoursDecocher.Add(cour);
+                }
             }
+                 
 
-            if (!coursAssocier.Cocher)
+            foreach(Cours cours in listCoursCocher)
             {
-               CoursEtudiant coursEtudiant = _context.CoursEtudiants.ToList().Find(x => x.CoursId == coursAssocier.CoursId && x.EtudiantId == utilisateurEtudiant.Id);
-                _context.CoursEtudiants.Remove(coursEtudiant);
-                _context.SaveChanges();
+                if (coursAssocierEtudiant.Find(x=>x.CoursId == cours.CoursId && x.EtudiantId == id) == null)
+                {
+                    CoursEtudiant nouveauCoursEtudiant = new()
+                    {
+                        CoursId = cours.CoursId,
+                        EtudiantId =id
+                    };
+                    _context.CoursEtudiants.Add(nouveauCoursEtudiant);
+                    _context.SaveChanges();
+                }
             }
 
+            foreach(Cours cours1 in listCoursDecocher)
+            {
+              CoursEtudiant coursEtudiant = coursAssocierEtudiant.Find(x => x.CoursId == cours1.CoursId && x.EtudiantId == id);
+                if (coursEtudiant != null)
+                {
+                    _context.CoursEtudiants.Remove(coursEtudiant);
+                    _context.SaveChanges();
+                }
+            }
             return null;
         }
     }

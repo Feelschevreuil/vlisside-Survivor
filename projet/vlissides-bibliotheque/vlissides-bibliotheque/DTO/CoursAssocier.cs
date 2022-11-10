@@ -2,7 +2,6 @@
 {
     public class CoursAssocier
     {
-        public int CoursId { get; set; }
-        public bool Cocher { get; set; }
+        public List<int> CoursId { get; set; }
     }
 }

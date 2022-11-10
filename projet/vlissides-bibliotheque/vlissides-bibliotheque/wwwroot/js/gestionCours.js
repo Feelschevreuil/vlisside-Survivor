@@ -1,14 +1,19 @@
-﻿function assignerCours(CoursId) {
+﻿function assignerCours() {
 
-    var Cocher = document.querySelector('#' + "Cours" + "-" + CoursId).checked
+    var divListCours = document.querySelector("#listDeCours");
+    var coursCocher = divListCours.querySelectorAll("input");
+    var listCoursCocher = new Array();
+
+    coursCocher.forEach((cours) => {
+        if (cours.checked) {
+            listCoursCocher.push(cours.id);
+        }
+    });
 
     var DonnerRecus =
     {
-        CoursId: CoursId,
-        cocher: Cocher,
-
-    };
-
+        CoursId: listCoursCocher
+    }; 
 
     var data = JSON.stringify(DonnerRecus);
 
@@ -23,7 +28,7 @@
 
     }).then(function (response) {
 
-        return null;
+        return response;
 
     });
 }
