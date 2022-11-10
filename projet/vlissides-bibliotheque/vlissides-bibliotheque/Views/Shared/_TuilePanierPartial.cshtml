@@ -1,0 +1,88 @@
+﻿@model TuileLivreBibliotequeVM
+
+@{
+    int livreIdCourant = @Model.livreBibliotheque.LivreId;
+}
+
+
+<div class="card border-2 tuile-livre mt-3">
+
+    
+    <div>
+        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
+            <input class="btn btn-primary shadow" type="button" value="Modifier" />
+        </a>
+
+        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
+            <a>
+                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="submit" value="Supprimer" />
+            </a>
+        </form>
+    </div>
+    
+    <div>
+        <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.livreBibliotheque.LivreId">
+
+            <div class="position-relative text-center">
+                <img class="mx-auto image-livre" src="@Model.livreBibliotheque.PhotoCouverture" alt="PhotoLivre">
+                <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
+                    @if (Model.prixEtatLivre[0] != null && Model.prixEtatLivre.Count() > 0)
+                    {
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[0].Prix$</p>
+                    }
+                    @if (Model.prixEtatLivre[1] != null && Model.prixEtatLivre.Count() > 0)
+                    {
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[1].Prix$</p>
+                    }
+                    @if (Model.prixEtatLivre[2] != null && Model.prixEtatLivre.Count() > 0)
+                    {
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[2].Prix$</p>
+                    }
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
+        
+        @if (Model.prixEtatLivre[0] != null)
+            {
+                <label class="btn bg-back text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(this.value, @livreIdCourant);" checked> Neuf
+                </label>
+            }
+        @if (Model.prixEtatLivre[2] != null)
+            {
+                <label class="btn bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
+                </label>
+            }
+        @if (Model.prixEtatLivre[1] != null)
+            {
+                <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
+                </label>
+            }
+    </div>
+
+
+    <div class="card border-0 livre-info">
+        <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
+        <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
+        @if (Model.coursLivre != null)
+        {
+
+            <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+            <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
+        }
+        else
+        {
+            <p class="card-text">Programme d'étude: N/A</p>
+            <p class="card-text">Année de parcours: N/A</p>
+        }
+        <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
+
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
+<script src="~/js/PrixAjax.js"></script>
