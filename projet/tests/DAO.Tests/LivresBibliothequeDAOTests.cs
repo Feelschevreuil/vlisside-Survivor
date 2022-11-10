@@ -468,21 +468,152 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonDatePublicationMinimum()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    DateTime dateFixePasse;
+	    DateTime dateMinimumQuery;
+	    int nombreLivresAvecDateMinimumDesire;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    dateFixePasse = new DateTime(1996, 12, 31);
+	    dateMinimumQuery = new DateTime(1995, 10, 5);
+	    nombreLivresAvecDateMinimumDesire = 10;
+
+	    AjouterLivresSelonContrainteDeDate
+	    (
+		dateFixePasse,
+		nombreLivresAvecDateMinimumDesire,
+		20,
+		false,
+		1000
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		DatePublicationMinimum = dateMinimumQuery,
+		Neuf = true,
+		Digital = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecDateMinimumDesire,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonDatePublicationMaximum()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    DateTime dateFixeMaximum;
+	    DateTime dateMaxiumQuery;
+	    int nombreLivresAvecDateMaximumDesire;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    dateFixeMaximum = new DateTime(2000, 12, 31);
+	    dateMaxiumQuery = new DateTime(2002, 10, 5);
+	    nombreLivresAvecDateMaximumDesire = 10;
+
+	    AjouterLivresSelonContrainteDeDate
+	    (
+		dateFixeMaximum,
+		nombreLivresAvecDateMaximumDesire,
+		20,
+		true,
+		1000
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		DatePublicationMaximale = dateMaxiumQuery,
+		Neuf = true,
+		Digital = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecDateMaximumDesire,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonDatePublicationRange()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    DateTime dateFixePasse;
+	    DateTime dateFixeMaximum;
+	    DateTime dateMaxiumQuery;
+	    DateTime dateMinimumQuery;
+	    int nombreLivresAvecDatesLimites;
+	    int nombreLivresAvecDateEtendueDesire;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    dateFixeMaximum = new DateTime(2000, 12, 31);
+	    dateFixePasse = new DateTime(1996, 12, 31);
+	    dateMinimumQuery = new DateTime(1960, 10, 5);
+	    dateMaxiumQuery = new DateTime(2002, 10, 5);
+
+	    nombreLivresAvecDatesLimites = 10;
+	    nombreLivresAvecDateEtendueDesire = 20;
+
+	    AjouterLivresSelonContrainteDeDate
+	    (
+		dateFixePasse,
+		nombreLivresAvecDatesLimites,
+		20,
+		false,
+		10000
+	    );
+
+	    AjouterLivresSelonContrainteDeDate
+	    (
+		dateFixeMaximum,
+		nombreLivresAvecDatesLimites,
+		20,
+		true,
+		10000
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		DatePublicationMinimum = dateMinimumQuery,
+		DatePublicationMaximale = dateMaxiumQuery,
+		Neuf = true,
+		Digital = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecDateEtendueDesire,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
@@ -779,6 +910,78 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    prixGenere = Faker.RandomNumber.Next((long)prixMinimum, (long)prixMaximum);
 
 	    return prixGenere;
+	}
+
+	/// <summary>
+	/// Ajoute des livres ayant une date maximale.
+	/// </summary>
+	/// <param name="dateLimite">
+	/// Date limite que les livres doivent respecter.
+	/// </param>
+	/// <param name="nombreLivresRespectantLimite">
+	/// Nombre de livres à ajouter qui respectent la limite.
+	/// </param>
+	/// <param name="nombreLivresNonRespectantLimite">
+	/// Nombre de livres à ajouter qui ne respectent pas la limite.
+	/// </param>
+	/// <param name="maximale">
+	/// Indique si c'est la date maximale à respecter. Si omis, la date
+	/// indiquée sera la data minimale à respecter.
+	/// </param>
+	/// <param name="differenceEntreDates">
+	/// Spécifie la différence à ajouter ou à enlever sur la date limite en jours.
+	///
+	/// Si on spécifie 500 à une génération de livres avec une date limite, les
+	/// livres qui respecterons la limite de date seront 500 jours en dessous et ceux
+	/// qui ne respecterons pas la limite, seront 500 jours au dessus.
+	/// </param>
+	private void AjouterLivresSelonContrainteDeDate
+	(
+	    DateTime dateLimite,
+	    int nombreLivresRespectantLimite,
+	    int nombreLivresNonRespectantLimite,
+	    bool maximale = false,
+	    int differenceEntreDates = 666
+	)
+	{
+
+	    TimeSpan timeSpanRespectantLimite;
+	    TimeSpan timeSpanNonRespectantLimite;
+	    DateTime dateCorrecte;
+	    DateTime dateNonCorrecte;
+
+	    timeSpanRespectantLimite = TimeSpan
+		.FromDays
+		(
+		    maximale ? 
+			-differenceEntreDates: 
+			differenceEntreDates
+		);
+
+	    timeSpanNonRespectantLimite = TimeSpan
+		.FromDays
+		(
+		    maximale ? 
+			differenceEntreDates : 
+			-differenceEntreDates
+		);
+
+	    dateCorrecte = dateLimite.Add(timeSpanRespectantLimite);
+	    dateNonCorrecte = dateLimite.Add(timeSpanNonRespectantLimite);
+
+	    AjouterLivres
+	    (
+		nombreLivresRespectantLimite,
+		null,
+		dateCorrecte
+	    );
+
+	    AjouterLivres
+	    (
+		nombreLivresNonRespectantLimite,
+		null,
+		dateNonCorrecte
+	    );
 	}
 
 	/// <summary>

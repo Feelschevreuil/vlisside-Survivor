@@ -281,20 +281,9 @@ namespace vlissides_bibliotheque.DAO
 					    )
 			    )
 		    )
-		    /*
 		    .If
 		    (
-			livreChampsRecherche.DatePublicationMinimum != null,
-			livres => livres
-			    .Where
-			    (
-				livre =>
-				    DateTime.Compare(livre.DatePublication, livreChampsRecherche.DatePublicationMinimum) > 0
-			    )
-		    )
-		    .If
-		    (
-			livreChampsRecherche.DatePublication != null,
+			livreChampsRecherche.DatePublication != default(DateTime),
 			livres => livres
 			    .Where
 			    (
@@ -304,16 +293,25 @@ namespace vlissides_bibliotheque.DAO
 		    )
 		    .If
 		    (
-			livreChampsRecherche.DatePublication != null,
+			livreChampsRecherche.DatePublication == default(DateTime) && livreChampsRecherche.DatePublicationMinimum != default(DateTime),
 			livres => livres
 			    .Where
 			    (
 				livre =>
-				    DateTime.Compare(livre.DatePublication, livreChampsRecherche.DatePublicationMinimum) < 0
+				    DateTime.Compare(livre.DatePublication, livreChampsRecherche.DatePublicationMinimum) > 0
 			    )
 		    )
-		    
-
+		    .If
+		    (
+			livreChampsRecherche.DatePublication == default(DateTime) && livreChampsRecherche.DatePublicationMaximale != default(DateTime),
+			livres => livres
+			    .Where
+			    (
+				livre =>
+				    DateTime.Compare(livre.DatePublication, livreChampsRecherche.DatePublicationMaximale) < 0
+			    )
+		    )
+		    /*
 		    // TODO: utiliser le DAO lorsqu'implementé (temp: livre usagés only), prix minimum and usage
 		    .If
 		    (
