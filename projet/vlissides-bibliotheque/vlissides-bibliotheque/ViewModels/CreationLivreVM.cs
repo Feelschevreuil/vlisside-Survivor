@@ -26,13 +26,13 @@ namespace vlissides_bibliotheque.ViewModels
 		public DateTime DatePublication { get; set; } = DateTime.Now;
 
 		[DisplayName("Usagé")]
-        [DataType(DataType.Currency)]
-        public double PrixUsage { get; set; } = 0;
+		[DataType(DataType.Currency)]
+		public double PrixUsage { get; set; } = 0;
 
-	
+
 		[DisplayName("Numérique")]
-        [DataType(DataType.Currency)]
-        public double PrixNumerique { get; set; } = 0;
+		[DataType(DataType.Currency)]
+		public double PrixNumerique { get; set; } = 0;
 
 		[DisplayName("Neuf")]
 		[DataType(DataType.Currency)]
@@ -51,7 +51,7 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[Isbn]
-		[Range (1000000000,9999999999999,ErrorMessage = "Veuillez entrer un nombre.")]
+		[Range(1000000000, 9999999999999, ErrorMessage = "Veuillez entrer un nombre.")]
 		public string ISBN { get; set; }
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -59,10 +59,6 @@ namespace vlissides_bibliotheque.ViewModels
 		public int? AuteurId { get; set; }
 
 		public List<SelectListItem> Auteurs { get; set; }
-		
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		[DisplayName("Cours")]
-		public int? CoursId { get; set; }
 
 		[DisplayName("Ajouter un cours pour le livre")]
 		public List<SelectListItem> ListeCoursComplete { get; set; }
@@ -73,9 +69,9 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Maison d'édition")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		public int? MaisonDeditionId { get; set; }
-		
+
 		public List<SelectListItem> MaisonsDeditions { get; set; }
-	}
+	} 
 
 }
 
