@@ -70,6 +70,7 @@ namespace vlissides_bibliotheque
                 CodePostal = adresse.CodePostal,
                 ProvinceId = adresse.Province.ProvinceId,
                 NomProvince = adresse.Province.Nom,
+                checkBoxCours = CoursCheckedBox.GetCoursCheckedBox(context, etudiant.Id),
                 Provinces = new SelectList(context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
             };
 

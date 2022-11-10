@@ -79,6 +79,7 @@ namespace vlissides_bibliotheque.Controllers
                     Adresse adresse = etudiant.GetAdresse(_context);
 
                     etudiant.ModelBinding(adresse, vm);
+                   
 
                     _context.SaveChanges();
                 }
@@ -120,6 +121,7 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
+            vm.checkBoxCours = CoursCheckedBox.GetCoursCheckedBox(_context,vm.EtudiantId);
             vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
 
             return vm;
