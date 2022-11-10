@@ -217,6 +217,18 @@ namespace vlissides_bibliotheque.DAO
 		    .LivresBibliotheque
 		    .If
 		    (
+			!string.IsNullOrEmpty(livreChampsRecherche.Isbn) && livreChampsRecherche.IsbnQueryValid(),
+			livres =>
+			    livres
+				.Where
+				(
+				    livre =>
+					livre.Isbn
+					    .ContainsCaseInsensitive(livreChampsRecherche.Isbn)
+				)
+		    )
+		    .If
+		    (
 			!string.IsNullOrEmpty(livreChampsRecherche.Titre),
 			livres => 
 			    livres

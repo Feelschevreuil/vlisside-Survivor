@@ -40,6 +40,22 @@ namespace vlissides_bibliotheque.DAO
 	public bool Usage { get; set; }
 
 	// TODO: no. cours et nom du cours
+	
+	/// <summary> 
+	/// Vérifie que la recherche d'Isbn est valide.
+	/// </summary>
+	public bool IsbnQueryValid()
+	{
+
+	    bool isbnQueryValid;
+	    int isbnLength;
+
+	    isbnLength = Isbn.Length;
+
+	    isbnQueryValid = isbnLength > 0 && isbnLength < 14;
+
+	    return isbnQueryValid;
+	}
 
 	/// <summary>
 	/// Vérifie si la recherche contient un prix minimum.

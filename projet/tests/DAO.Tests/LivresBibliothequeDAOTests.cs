@@ -421,7 +421,47 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonIsbn()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    string isbn;
+	    string isbnQuery;
+	    int nombreLivresAvecIsbnDesire;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    isbn = "6666666666969";
+	    isbnQuery = "6666969";
+	    nombreLivresAvecIsbnDesire = 1;
+
+	    AjouterLivres
+	    (
+		nombreLivresAvecIsbnDesire, 
+		null, 
+		default(DateTime),
+		null,
+		isbn
+	    );
+
+	    AjouterLivres(10);
+
+	    livreChampsRecherche = new()
+	    {
+		Isbn = isbn,
+		Neuf = true,
+		Digital = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecIsbnDesire,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
@@ -515,6 +555,27 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    throw new NotImplementedException("Not implemented");
 	}
 
+	[Fact]
+	public void TestGetSelonProgramme()
+	{
+
+	    throw new NotImplementedException("Not implemented");    
+	}
+
+	[Fact]
+	public void TestGetSelonCours()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestSelonProfesseur()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
 	/// <summary>
 	/// Ajoute N nombre de livres à la base de données.
 	/// </summary>
@@ -533,6 +594,10 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	/// Auteur fixe dans le cas où on veut ajouter plusieurs livres aléatoires
 	/// ayant été écrits par le même auteur. Si omis, un auteur aléatoire
 	/// sera ajouté et assigné par livre.
+	/// <param name="IsbnFixe">
+	/// Isbn fixe à mettre sur un livre. Si omis, un isbn aléatoire sera
+	/// assigné par livre.
+	/// </param>
 	/// <param name="prixMaximum">
 	/// Prix maximum fixe dans le cas où on veut ajouter plusieurs livres
 	/// aléatoires sous un certain prix.
@@ -556,6 +621,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    MaisonEdition maisonEditionFixe = null,
 	    DateTime dateFixe = new DateTime(),
 	    Auteur auteurFixe = null,
+	    string IsbnFixe = null,
 	    double prixMaximum = 0.0,
 	    double prixMinimum = 0.0,
 	    bool neuf = false,
@@ -578,7 +644,9 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 			    new DateTime()) ? 
 				Faker.Identification.DateOfBirth() : 
 				dateFixe,
-		    Isbn = 666 + Faker.Identification.UkNhsNumber(),
+		    Isbn = !string.IsNullOrEmpty(IsbnFixe) ?  
+			IsbnFixe :
+			666 + Faker.Identification.UkNhsNumber(),
 		    MaisonEdition = maisonEditionFixe == null ? 
 			CreateMaisonEdition
 			(
