@@ -288,7 +288,7 @@ namespace vlissides_bibliotheque.DAO
 			    .Where
 			    (
 				livre =>
-				    DateTime.Compare(livre.DatePublication, livreChampsRecherche.DatePublicationMinimum) == 0
+				    DateTime.Compare(livre.DatePublication, livreChampsRecherche.DatePublication) == 0
 			    )
 		    )
 		    .If

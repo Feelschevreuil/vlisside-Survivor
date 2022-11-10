@@ -619,8 +619,51 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	[Fact]
 	public void TestGetSelonDatePublicationExacte()
 	{
+	    
+	    DateTime dateExacte;
+	    DateTime dateMauvaise;
+	    int nombreLivresAvecDateExate;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
 
-	    throw new NotImplementedException("Not implemented");
+	    ViderTable();
+
+	    dateExacte = new DateTime(1969, 12, 31);
+	    dateMauvaise = new DateTime(2005, 05, 10);
+	    nombreLivresAvecDateExate = 10;
+
+	    AjouterLivres
+	    (
+		nombreLivresAvecDateExate, 
+		null, 
+		dateExacte
+	    );
+
+	    AjouterLivres
+	    (
+		20, 
+		null, 
+		dateMauvaise
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		DatePublication = dateExacte,
+		Neuf = true,
+		Digital = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecDateExate,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
