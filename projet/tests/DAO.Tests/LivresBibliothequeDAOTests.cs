@@ -417,6 +417,104 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 		);
 	}
 
+	[Fact]
+	public void TestGetSelonIsbn()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonDatePublicationMinimum()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonDatePublicationMaximum()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonDatePublicationRange()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonDatePublicationExacte()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonPrixMinimum()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonPrixMaximum()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonPrixRange()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonEtatNeuf()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonEtatDigital()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonEtatUsage()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonEtatNeufEtDigital()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonEtatNeufEtUsage()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
+	[Fact]
+	public void TestGetSelonEtatDigitalEtUsage()
+	{
+
+	    throw new NotImplementedException("Not implemented");
+	}
+
 	/// <summary>
 	/// Ajoute N nombre de livres à la base de données.
 	/// </summary>
