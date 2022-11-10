@@ -1,4 +1,10 @@
 .cours {
     height: 180px;
     overflow-y: scroll;
+    width:auto;
+}
+
+.checkBoxCours{
+    height: 20px;
+    width: 20px;
 }
