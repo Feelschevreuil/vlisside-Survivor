@@ -2,6 +2,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Extentions;
+using System.Linq;
 
 namespace vlissides_bibliotheque.DAO
 {
@@ -245,20 +246,29 @@ namespace vlissides_bibliotheque.DAO
 			!string.IsNullOrEmpty(livreChampsRecherche.Auteur),
 			livres => livres
 			    .Where
-			    (
+			    ( 
 				livre =>
-				    livre == 
 				    _context
 					.AuteursLivres
-					.Where
-					(
-					    auteurLivre =>
-						auteurLivre.LivreBibliotheque == livre &&
-						auteurLivre.Auteur.Nom.ContainsCaseInsensitive(livreChampsRecherche.Auteur)
-					)
+					    .Where
+					    (
+						auteurLivre =>
+						    auteurLivre
+							.Auteur
+							    .Nom
+							    .ContainsCaseInsensitive(livreChampsRecherche.Auteur)
+					    )
+					    .Select
+					    (
+						auteurLivre =>
+						    auteurLivre.LivreBibliotheque
+					    )
+					    .Contains
+					    (
+						livre
+					    )
 			    )
 		    )
-
 		    /*
 		    .If
 		    (
@@ -290,7 +300,7 @@ namespace vlissides_bibliotheque.DAO
 				    DateTime.Compare(livre.DatePublication, livreChampsRecherche.DatePublicationMinimum) < 0
 			    )
 		    )
-		    */
+		    
 
 		    // TODO: utiliser le DAO lorsqu'implementé (temp: livre usagés only), prix minimum and usage
 		    .If
@@ -337,9 +347,10 @@ namespace vlissides_bibliotheque.DAO
 						GetCorrectEtatPredicate(livreChampsRecherche)
 					)
 			    )
-			    */
 		    )
+			    */
 		    // TODO: utiliser le DAO lorsqu'implementé
+		    /*
 		    .If
 		    (
 			livreChampsRecherche.ChercheAvecPrixMinimum() && !livreChampsRecherche.ChercheAvecPrixMaximum(),
@@ -389,6 +400,7 @@ namespace vlissides_bibliotheque.DAO
 					)
 			    )
 		    )
+		    */
 		    // TODO: programme
 		    // TODO: cours
 		    // TODO: prof.

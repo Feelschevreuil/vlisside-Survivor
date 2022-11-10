@@ -348,12 +348,13 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    MaisonEdition maisonEdition;
 	    LivreChampsRecherche livreChampsRecherche;
 
+	    ViderTable();
+
 	    nomMaisonEdition = "AAT triple ex";
 	    nomMaisonEditionQuery = "TrIPle Ex";
 	    maisonEdition = CreateMaisonEdition(nomMaisonEdition);
 	    nombreLivresAvecMaisonEditionDesire = 10;
 
-	    ViderTable();
 	    AjouterLivres(nombreLivresAvecMaisonEditionDesire, maisonEdition);
 	    AjouterLivres(20);
 
@@ -378,10 +379,42 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	}
 
 	[Fact]
-	public void TestGetSelonProprietes()
+	public void TestGetSelonAuteur()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    string nomAuteurQuery;
+	    int nombreLivresAvecAuteurDesire;
+	    int nombreLivresSelonRecherche;
+	    Auteur auteur;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    nomAuteurQuery = "khAlif";
+	    auteur = CreateAuteur("Khalifa", "Mia");
+	    nombreLivresAvecAuteurDesire = 10;
+
+	    AjouterLivres(nombreLivresAvecAuteurDesire, null, default(DateTime), auteur);
+	    AjouterLivres(20);
+
+	    livreChampsRecherche = new()
+	    {
+		Auteur = nomAuteurQuery,
+		Neuf = true,
+		Digital = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecAuteurDesire,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	/// <summary>
