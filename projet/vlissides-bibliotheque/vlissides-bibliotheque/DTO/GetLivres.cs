@@ -1,10 +1,10 @@
-﻿namespace vlissides_bibliotheque.DTO
+﻿//https://json2csharp.com/
+namespace vlissides_bibliotheque.DTO
 {
     public class GetLivres
     {
-        public int[] Id
-        {
-            get; set;
-        }
+        public List<int> Neuf { get; set; }
+        public List<int> Usage { get; set; }
+        public List<int> Numerique { get; set; }
     }
 }
