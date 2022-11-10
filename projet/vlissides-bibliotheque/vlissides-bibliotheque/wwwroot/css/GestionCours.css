@@ -1,6 +1,7 @@
 .cours {
     height: 180px;
     overflow-y: scroll;
+    overflow-x:hidden;
     width:auto;
 }
 
