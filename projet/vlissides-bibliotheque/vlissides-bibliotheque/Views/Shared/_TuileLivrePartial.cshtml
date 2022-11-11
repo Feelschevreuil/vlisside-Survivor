@@ -16,6 +16,10 @@
     //        nbrEtoile = nbrEtoile / nbrEvaluation;
     //    }
     //}
+    if (Model.livreBibliotheque.PhotoCouverture == "N/A")
+    {
+        Model.livreBibliotheque.PhotoCouverture = LivreEnTuile.GetImageParDefaut();
+    }
 }
 
 
