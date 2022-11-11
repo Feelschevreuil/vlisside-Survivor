@@ -67,7 +67,8 @@ function getCards() {
 
             }).then((data) => {
 
-                parentPartiel.innerHTML=data;
+                parentPartiel.innerHTML = data;
+                updatePrix();
             });
 
 
@@ -80,4 +81,23 @@ function getCards() {
         div.appendChild(pImpossible);
     }
 
+    
+}
+
+function updatePrix() {
+    var Taxes = {
+        "TPS": 0.05,
+        "TVQ":0.09975
+    }
+    var tousPrix = document.querySelectorAll('[id^="PrixLivreId"]');
+    var prixTotal = 0.0;
+    for (var e = 0; e < tousPrix.length; e++) {
+        prixTotal += parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
+    }
+
+    var pPrixSansTaxes = document.getElementById('PrixAvantTaxes')
+    var pPrixAvecTaxes = document.getElementById("PrixAvecTaxes")
+
+    pPrixSansTaxes.innerHTML = prixTotal.toFixed(2) + "$";
+    pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.TPS + prixTotal * Taxes.TVQ).toFixed(2) + "$";
 }
