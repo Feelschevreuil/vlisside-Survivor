@@ -9,5 +9,17 @@
     </div>
 </div>
 
-<div class="container-fluid row" id="affichageLivre">
+<div class="col-12 row">
+
+    <div class="row col-9" id="affichageLivre">
+    </div>
+
+    <div class="col-md-3 rounded shadow p-3 m-2 mb-4 h-100 mt-3">
+      
+        <p>Prix avant taxes: <span id="PrixAvantTaxes"></span></p>   
+        <p>Prix avec taxes: <span id="PrixAvecTaxes"></span></p>
+        <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
+            <p class="btn btn-primary shadow">Proceder à la facture</p>
+        </a>
+    </div>
 </div>
