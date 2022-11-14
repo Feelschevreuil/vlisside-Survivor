@@ -67,5 +67,26 @@ namespace vlissides_bibliotheque
 
             return listCheckedBox;
         }
+
+        public static List<checkBoxCours> GetCours(ApplicationDbContext _context)
+        {
+            List<checkBoxCours> listCheckedBox = new();
+            List<Cours> coursBD = _context.Cours
+                .Include(x => x.ProgrammeEtude)
+                .ToList();
+
+            foreach (Cours cours in coursBD)
+            {
+                checkBoxCours boxCours = new()
+                {
+                    Cours = cours,
+                    Cocher = false
+                };
+
+                listCheckedBox.Add(boxCours);
+            }
+
+            return listCheckedBox;
+        }
     }
 }

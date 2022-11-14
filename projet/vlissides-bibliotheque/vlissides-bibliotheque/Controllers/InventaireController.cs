@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Text.Json;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
@@ -61,67 +63,71 @@ namespace vlissides_bibliotheque.Controllers
         public ActionResult creer()
         {
 
-            CreationLivreVM nouveauLivre = new CreationLivreVM { Auteurs = ListDropDownAuteurs(), MaisonsDeditions = ListDropDownMaisonDedition(), ListeCoursComplete = ListDropDownCours() };
+            AssocierLivreCours nouveauLivre = new AssocierLivreCours { 
+                Auteurs = ListDropDownAuteurs(), 
+                MaisonsDeditions = ListDropDownMaisonDedition(),
+            checkBoxCours = CoursCheckedBox.GetCours(_context)};
             return View(nouveauLivre);
         }
 
         [Authorize(Roles = RolesName.Admin)]
-        [ValidateAntiForgeryToken]
+    
         [HttpPost]
-        public async Task<ActionResult> creer(CreationLivreVM form)
+        public async Task<ActionResult> creer([FromBody] AssocierLivreCours form)
         {
             ModelState.Remove("Auteurs");
             ModelState.Remove("MaisonsDeditions");
-            ModelState.Remove("ListeCours");
             ModelState.Remove("ListeCoursAssocie");
             ModelState.Remove("ListeCoursComplete");
-            ModelState.Remove("CoursId");
+            ModelState.Remove("checkBoxCours");
+            
 
-            if (ModelState.IsValid)
-            {
-                LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
-                {
-                    LivreId = 0,
-                    MaisonEditionId = (int)form.MaisonDeditionId,
-                    Isbn = form.ISBN,
-                    Titre = form.Titre,
-                    Resume = form.Resume,
-                    PhotoCouverture = form.Photo,
-                    DatePublication = form.DatePublication,
-                };
+            if (ModelState.IsValid) 
+            { 
+            //    LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
+            //    {
+            //        LivreId = 0,
+            //        MaisonEditionId = form.MaisonDeditionId,
+            //        Isbn = form.ISBN,
+            //        Titre = form.Titre,
+            //        Resume = form.Resume,
+            //        PhotoCouverture = form.Photo,
+            //        DatePublication = form.DatePublication,
+            //    };
 
-                _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
-                _context.SaveChanges();
+            //    _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
+            //    _context.SaveChanges();
 
-                //CoursLivre nouvelleAssociation = new()
-                //{
-                //    CoursLivreId = 0,
-                //    CoursId = (int)form.CoursId,
-                //    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                //    Complementaire = form.Obligatoire
-                //};
+            //    //CoursLivre nouvelleAssociation = new()
+            //    //{
+            //    //    CoursLivreId = 0,
+            //    //    CoursId = (int)form.CoursId,
+            //    //    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+            //    //    Complementaire = form.Obligatoire
+            //    //};
 
-                //_context.CoursLivres.Add(nouvelleAssociation);
-                //_context.SaveChanges();
-
-
-                AuteurLivre auteurLivre = new AuteurLivre()
-                {
-                    AuteurId = (int)form.AuteurId,
-                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                };
-                _context.AuteursLivres.Add(auteurLivre);
-                _context.SaveChanges();
-
-                _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, form));
-                _context.SaveChanges();
+            //    //_context.CoursLivres.Add(nouvelleAssociation);
+            //    //_context.SaveChanges();
 
 
-                return View("succesAjoutLivre", nouveauLivreBibliothèque);
+            //    AuteurLivre auteurLivre = new AuteurLivre()
+            //    {
+            //        AuteurId = form.AuteurId,
+            //        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+            //    };
+            //    _context.AuteursLivres.Add(auteurLivre);
+            //    _context.SaveChanges();
+
+            //    _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, form));
+            //    _context.SaveChanges();
+
+
+            //    return View("succesAjoutLivre", nouveauLivreBibliothèque);
             }
+
             form.Auteurs = ListDropDownAuteurs();
-            form.ListeCoursComplete = ListDropDownCours();
             form.MaisonsDeditions = ListDropDownMaisonDedition();
+            form.checkBoxCours = CoursCheckedBox.GetCours(_context);
             return View(form);
 
         }
@@ -319,7 +325,7 @@ namespace vlissides_bibliotheque.Controllers
             return Liste;
         }
 
-        public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, CreationLivreVM form)
+        public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, AssocierLivreCours form)
         {
             List<PrixEtatLivre> ListPrixEtat = new();
 

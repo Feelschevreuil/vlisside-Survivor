@@ -26,7 +26,7 @@ function prixToggleNumerique() {
 function prixToggleUsager() {
 
     var input = document.querySelector("#inputPrixUsage");
-    var inputQuantiter = document.querySelector("#quantitePrixUsager");
+    var inputQuantiter = document.querySelector("#QuantiteUsagee");
     if (input.disabled == true) {
         input.disabled = false
         inputQuantiter.disabled = false
