@@ -114,7 +114,7 @@ function assignerCoursLivre() {
 
     }).then((data) => {
 
-        var pageCreer = document.querySelector("#ViewCreerLivre");
-        pageCreer.innerHTML = data;
+        var pageCourante = document.querySelector("#PageCourante");
+        pageCourante.innerHTML = data;
     });
 }
