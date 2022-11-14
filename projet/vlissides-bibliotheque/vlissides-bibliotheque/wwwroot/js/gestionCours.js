@@ -45,7 +45,7 @@ function assignerCoursLivre() {
 
     var Titre = document.querySelector("#Titre");
     var Resume = document.querySelector("#Resume");
-    var Photo = document.querySelector("#viewImg");
+    var Photo = document.querySelector("#viewImg").src = "";
     var DatePublication = document.querySelector("#DatePublication");
     var PrixUsage = document.querySelector("#PrixUsage");
     var PrixNumerique = document.querySelector("#PrixNumerique");
@@ -67,9 +67,7 @@ function assignerCoursLivre() {
     var maisonEdition = MaisonDeditionId.value
     var autheur = AuteurId.value
 
-    if (QuantiteUsagee.value == "") {
-        QuantiteUsagee.value = 0;
-    }
+
     if (AuteurId.value == "") {
         autheur = 0;
     }
@@ -85,10 +83,10 @@ function assignerCoursLivre() {
         Resume: Resume.value,
         Photo: Photo.src,
         DatePublication: DatePublication.value,
-        PrixUsage: PrixUsage.value,
-        PrixNumerique: PrixNumerique.value,
-        PrixNeuf: PrixNeuf.value,
-        QuantiteUsagee: QuantiteUsagee.value,
+        PrixUsage: possedeDesLettres(PrixUsage.value),
+        PrixNumerique: possedeDesLettres(PrixNumerique.value),
+        PrixNeuf: possedeDesLettres(PrixNeuf.value),
+        QuantiteUsagee: possedeDesLettres( QuantiteUsagee.value),
         PossedeNumerique: PossedeNumerique.checked,
         PossedeNeuf: PossedeNeuf.checked,
         ISBN: ISBN.value,
@@ -117,4 +115,17 @@ function assignerCoursLivre() {
         var pageCourante = document.querySelector("#PageCourante");
         pageCourante.innerHTML = data;
     });
+}
+
+
+function possedeDesLettres(nombre) {
+
+    if (isNaN(nombre) || nombre == "")
+    {
+        return nombre = 0;
+    }
+    else
+    {
+        return nombre;
+    }
 }
