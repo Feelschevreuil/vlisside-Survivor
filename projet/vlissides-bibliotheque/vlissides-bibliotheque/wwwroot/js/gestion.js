@@ -94,10 +94,10 @@ function creerEtudiant() {
                     let nouvelleLigne = document.createElement("tr");
                     let id = res.etudiantId;
                     nouvelleLigne.id = "tr-" + id;
-                    for (let i in thead.children) {
+                    for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
-                    tbody.appendChild(nouvelleLigne);
+                    tbody.insertBefore(nouvelleLigne, tbody.children[0]);
                     afficherModification(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
