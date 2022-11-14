@@ -26,8 +26,6 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            //TODO modifier/ajouter un viewmodel pour la vue
-
             return View();
         }
 
@@ -101,9 +99,6 @@ namespace vlissides_bibliotheque.Controllers
                     }
                 }
             }
-
-
-            //TODO crééer un view model pour les vue partiels et update la liste de livre  
 
             return PartialView("_ConteneurPanier", livresModifie);
         }
