@@ -9,17 +9,15 @@ function getCards() {
     var tryStorage = true
     var tryEmpty = true
 
-    //fausse valeurs
-    var ids=[]
-    var objetLocalStorage =
-    {
-        
-            "Neuf": ["51"],
-            "Usage": ["64", "67", "68"],
-            "Numerique": [ "65", "66"]
-        
-    }
-    localStorage.setItem('itemsPanier', JSON.stringify(objetLocalStorage))
+    //fausse valeurs tests
+    //var ids=[]
+    //var objetLocalStorage =
+    //{
+    //        "Neuf": ["51"],
+    //        "Usage": ["64", "67", "68"],
+    //        "Numerique": [ "65", "66"]
+    //}
+    //localStorage.setItem('itemsPanier', JSON.stringify(objetLocalStorage))
 
     var fetchEnLocal = "/../Panier/GetLivres";
     var fetchSurServeur = "2036516/Panier/GetItems";
