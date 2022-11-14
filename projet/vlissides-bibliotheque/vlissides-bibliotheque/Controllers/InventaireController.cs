@@ -83,46 +83,50 @@ namespace vlissides_bibliotheque.Controllers
             
 
             if (ModelState.IsValid) 
-            { 
-            //    LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
-            //    {
-            //        LivreId = 0,
-            //        MaisonEditionId = form.MaisonDeditionId,
-            //        Isbn = form.ISBN,
-            //        Titre = form.Titre,
-            //        Resume = form.Resume,
-            //        PhotoCouverture = form.Photo,
-            //        DatePublication = form.DatePublication,
-            //    };
+            {
+                LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
+                {
+                    LivreId = 0,
+                    MaisonEditionId = (int)form.MaisonDeditionId,
+                    Isbn = form.ISBN,
+                    Titre = form.Titre,
+                    Resume = form.Resume,
+                    PhotoCouverture = form.Photo,
+                    DatePublication = form.DatePublication,
+                };
 
-            //    _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
-            //    _context.SaveChanges();
+                _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
+                _context.SaveChanges();
 
-            //    //CoursLivre nouvelleAssociation = new()
-            //    //{
-            //    //    CoursLivreId = 0,
-            //    //    CoursId = (int)form.CoursId,
-            //    //    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-            //    //    Complementaire = form.Obligatoire
-            //    //};
+                List<Cours> coursBD = _context.Cours.ToList();
+                foreach (int coursId in form.CoursId)
+                {
+                    Cours idCoursRechercher = coursBD.Find(x => x.CoursId == coursId);
 
-            //    //_context.CoursLivres.Add(nouvelleAssociation);
-            //    //_context.SaveChanges();
+                    CoursLivre nouvelleAssociation = new()
+                    {
+                        CoursLivreId = 0,
+                        CoursId = idCoursRechercher.CoursId,
+                        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                    };
+
+                    _context.CoursLivres.Add(nouvelleAssociation);
+                    _context.SaveChanges();
+                }
+
+                AuteurLivre auteurLivre = new AuteurLivre()
+                {
+                    AuteurId =(int)form.AuteurId,
+                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                };
+                _context.AuteursLivres.Add(auteurLivre);
+                _context.SaveChanges();
+
+                _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, form));
+                _context.SaveChanges();
 
 
-            //    AuteurLivre auteurLivre = new AuteurLivre()
-            //    {
-            //        AuteurId = form.AuteurId,
-            //        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-            //    };
-            //    _context.AuteursLivres.Add(auteurLivre);
-            //    _context.SaveChanges();
-
-            //    _context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, form));
-            //    _context.SaveChanges();
-
-
-            //    return View("succesAjoutLivre", nouveauLivreBibliothèque);
+                return View("succesAjoutLivre", nouveauLivreBibliothèque);
             }
 
             form.Auteurs = ListDropDownAuteurs();
