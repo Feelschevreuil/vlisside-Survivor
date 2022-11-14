@@ -210,14 +210,12 @@ namespace vlissides_bibliotheque.DAO
 	    {
 
 		IEnumerable<LivreBibliotheque> livresBibliotheque;
+		Expression<Func<PrixEtatLivre, bool>> etatDesire;
 		int quantiteASauter;
 
 		quantiteASauter = DAOUtils.GetQuantityOfElementsToSkip(quantiteParPage, page); 
+		etatDesire = GetExpressionSelonEtatLivreDesire(livreChampsRecherche);
 
-		EtatLivre etatLivreUsage;
-		etatLivreUsage = GetEtatLivreSelonNom(NomEtatLivre.Usagee);
-
-		Expression<Func<PrixEtatLivre, bool>> etatDesire = GetExpressionSelonEtatLivreDesire(livreChampsRecherche);
 		livresBibliotheque = _context
 		    .LivresBibliotheque
 		    .If
@@ -525,5 +523,6 @@ namespace vlissides_bibliotheque.DAO
 
 	    return etatLivre;
 	}
+
     }
 }
