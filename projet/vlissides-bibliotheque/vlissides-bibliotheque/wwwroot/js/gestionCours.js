@@ -45,7 +45,7 @@ function assignerCoursLivre() {
 
     var Titre = document.querySelector("#Titre");
     var Resume = document.querySelector("#Resume");
-    var Photo = document.querySelector("#viewImg").src = "";
+    var Photo = document.querySelector("#viewImg");
     var DatePublication = document.querySelector("#DatePublication");
     var PrixUsage = document.querySelector("#PrixUsage");
     var PrixNumerique = document.querySelector("#PrixNumerique");
