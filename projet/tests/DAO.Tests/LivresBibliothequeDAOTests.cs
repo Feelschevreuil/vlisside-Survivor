@@ -6,6 +6,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque_tests.Data;
 using System.Collections.Generic;
 using System.Linq;
+using vlissides_bibliotheque.Constantes;
 
 namespace vlissides_bibliotheque_tests.DAO.Tests
 {
@@ -670,21 +671,194 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonPrixMinimum()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    ICollection<LivreBibliotheque> livresBibliotheque;
+	    double prixMinimum;
+	    double prixCorrect;
+	    double prixNonCorrect;
+	    int nombreLivresAvecPrixMinimum;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    prixMinimum = 10.0;
+	    prixCorrect = 15.0;
+	    prixNonCorrect = 5.0;
+	    nombreLivresAvecPrixMinimum = 10;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresAvecPrixMinimum);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque, 
+		0.0, 
+		0.0, 
+		prixCorrect, 
+		5
+	    );
+
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		0.0,
+		prixNonCorrect,
+		5
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		PrixMinimum = prixMinimum,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecPrixMinimum,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonPrixMaximum()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    ICollection<LivreBibliotheque> livresBibliotheque;
+	    double prixMaximum;
+	    double prixCorrect;
+	    double prixNonCorrect;
+	    int nombreLivresAvecPrixMaximum;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    prixMaximum = 15.00;
+	    prixCorrect = 10.00;
+	    prixNonCorrect = 20.00;
+	    nombreLivresAvecPrixMaximum = 10;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresAvecPrixMaximum);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		0.0,
+		prixCorrect,
+		5
+	    );
+
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		0.0,
+		prixNonCorrect,
+		5
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		PrixMaximum = prixMaximum,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecPrixMaximum,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonPrixRange()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    ICollection<LivreBibliotheque> livresBibliotheque;
+	    double prixMaximum;
+	    double prixMinimum;
+	    double prixCorrect;
+	    double prixNonCorrect;
+	    double prixNonCorrectTropBas;
+	    double prixNonCorrectTropHaut;
+	    int nombreLivresDansEtendue;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    prixMaximum = 20.0;
+	    prixMinimum = 10.0;
+	    prixCorrect = 15.0;
+	    prixNonCorrectTropBas = 5.0;
+	    prixNonCorrectTropHaut = 25.0;
+	    nombreLivresDansEtendue = 8;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresDansEtendue);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		0.0, 
+		prixCorrect,
+		5
+	    );
+
+	    livresBibliotheque = AjouterLivres(10);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		0.0,
+		prixNonCorrectTropBas,
+		5
+	    );
+
+	    livresBibliotheque = AjouterLivres(10);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		0.0,
+		prixNonCorrectTropHaut,
+		5
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		PrixMaximum = prixMaximum,
+		PrixMinimum = prixMinimum,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+	    
+	    Assert
+		.Equal
+		(
+		    nombreLivresDansEtendue,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
@@ -772,39 +946,20 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	/// Isbn fixe à mettre sur un livre. Si omis, un isbn aléatoire sera
 	/// assigné par livre.
 	/// </param>
-	/// <param name="prixMaximum">
-	/// Prix maximum fixe dans le cas où on veut ajouter plusieurs livres
-	/// aléatoires sous un certain prix.
-	/// </param>
-	/// <param name="prixMinimum">
-	/// Prix minimum fixe dans le cas où on veut ajouter plusieurs livres
-	/// aléatoires au dessus d'un certain prix.
-	/// </param>
-	/// <param name="neuf">
-	/// État neuf dans le cas où on veut rendre disponible le livre.
-	/// </param>
-	/// <param name="usage">
-	/// État usagé dans le cas où on veut rendre disponible le livre.
-	/// </param>
-	/// <param name="digital">
-	/// État digital dans le cas où on veut rendre disponible le livre.
-	/// </param>
-	private void AjouterLivres
+	private ICollection<LivreBibliotheque> AjouterLivres
 	(
 	    int nombreLivresAjouter = 10,
 	    MaisonEdition maisonEditionFixe = null,
 	    DateTime dateFixe = new DateTime(),
 	    Auteur auteurFixe = null,
-	    string IsbnFixe = null,
-	    double prixMaximum = 0.0,
-	    double prixMinimum = 0.0,
-	    bool neuf = false,
-	    bool usage = false,
-	    bool digital = false
+	    string IsbnFixe = null
 	)
 	{
 
+	    ICollection<LivreBibliotheque> livresBibliotheque;
 	    LivreBibliotheque livreBibliotheque;
+
+	    livresBibliotheque = new List<LivreBibliotheque>();
 
 	    for(int i = 0; i < nombreLivresAjouter; i++)
 	    {
@@ -833,6 +988,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 
 		_context.LivresBibliotheque.Add(livreBibliotheque);
 		_context.SaveChanges();
+		livresBibliotheque.Add(livreBibliotheque);
 
 		LierAuteurALivre
 		(
@@ -846,6 +1002,8 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 			auteurFixe
 		);
 	    }
+
+	    return livresBibliotheque;
 	}
 
 	/// <summary>
@@ -938,6 +1096,9 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 		    prixFixe : 
 		    GenererPrix(prixMaximum, prixMinimum)
 	    };
+
+	    _context.PrixEtatsLivres.Add(prixEtatLivre);
+	    _context.SaveChanges();
 	}
 
 	/// <summary>
@@ -1025,6 +1186,191 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 		null,
 		dateNonCorrecte
 	    );
+	}
+
+	/// <summary>
+	/// Ajoute les États des livres nécessaires au fontionnement du projet.
+	/// </summary>
+	private void AjouterEtatLivres()
+	{
+
+	    EtatLivre etatLivreNeuf;
+	    EtatLivre etatLivreDigital;
+	    EtatLivre etatLivreUsage;
+
+	    etatLivreNeuf = new()
+	    {
+		Nom = NomEtatLivre.Neuf
+	    };
+
+	    etatLivreDigital = new()
+	    {
+		Nom = NomEtatLivre.Numerique
+	    };
+
+	    etatLivreUsage = new()
+	    {
+		Nom = NomEtatLivre.Usagee
+	    };
+
+	    _context.EtatsLivres.Add(etatLivreNeuf);
+	    _context.EtatsLivres.Add(etatLivreDigital);
+	    _context.EtatsLivres.Add(etatLivreUsage);
+
+	    _context.SaveChanges();
+	}
+
+	/// <summary>
+	/// Crée des prix états livres selon les critères sur les livres présents
+	/// dans la base de données.
+	/// </summary>
+	/// <param name="prixNeuf">
+	/// Prix pour les livres neufs.
+	/// </param>
+	/// <param name="prixDigital">
+	/// Prix pour les livres en format digial.
+	/// </param>
+	/// <param name="prixUsage">
+	/// Pirx pour les livres usagés.
+	/// </param>
+	/// <param name="quantiteUsage">
+	/// Quantité de livres usagés.
+	/// </param>
+	private void LierPrixEtatLivresAuxLivresPresents
+	(
+	    ICollection<LivreBibliotheque> livresBibliotheque,
+	    double prixNeuf = 0.0,
+	    double prixDigital = 0.0,
+	    double prixUsage = 0.0,
+	    int quantiteUsage = 0
+	)
+	{
+
+	    EtatLivre etatLivreNeuf;
+	    EtatLivre etatLivreDigital;
+	    EtatLivre etatLivreUsage;
+	    bool neuf;
+	    bool digital;
+	    bool usage;
+
+	    if(_context.EtatsLivres.Count() == 0) 
+	    {
+
+		AjouterEtatLivres();
+	    }
+
+	    etatLivreNeuf = null;
+	    etatLivreDigital = null;
+	    etatLivreUsage = null;
+
+	    neuf = prixNeuf > 0;
+	    digital = prixDigital > 0;
+	    usage = prixUsage > 0;
+
+	    if(neuf)
+	    {
+		
+		etatLivreNeuf = GetEtatLivreSelonEtat(NomEtatLivre.Neuf);
+	    }
+
+	    if(digital)
+	    {
+
+		etatLivreDigital = GetEtatLivreSelonEtat(NomEtatLivre.Numerique);
+	    }
+
+	    if(usage)
+	    {
+
+		etatLivreUsage = GetEtatLivreSelonEtat(NomEtatLivre.Usagee);
+	    }
+
+	    foreach(LivreBibliotheque livre in livresBibliotheque)
+	    {
+
+		if(neuf)
+		{
+
+		    LierEtatLivreALivreBibliotheque
+		    (
+			etatLivreNeuf, 
+			livre, 
+			prixNeuf
+		    );
+		}
+
+		if(digital)
+		{
+
+		    LierEtatLivreALivreBibliotheque
+		    (
+			etatLivreDigital, 
+			livre, 
+			prixDigital
+		    );
+		}
+
+		if(usage)
+		{
+
+		    LierEtatLivreALivreBibliotheque
+		    (
+			etatLivreUsage, 
+			livre, 
+			prixUsage, 
+			quantiteUsage
+		    );
+		}
+	    }
+	}
+
+	//TODO : utiliser le DAO
+	/// <summary>
+	/// Lie un <c>EtatLivre</c> à un <c>LivreBibliotheque</c>.
+	/// </summary>
+	private void LierEtatLivreALivreBibliotheque
+	(
+	    EtatLivre etatLivre, 
+	    LivreBibliotheque livreBibliotheque, 
+	    double prix,
+	    int quantite = 0
+	)
+	{
+
+	    PrixEtatLivre prixEtatLivre;
+
+	    prixEtatLivre = new()
+	    {
+		LivreBibliotheque = livreBibliotheque,
+		EtatLivre = etatLivre,
+		Prix = prix,
+		QuantiteUsage = quantite
+	    };
+
+	    _context.PrixEtatsLivres.Add(prixEtatLivre);
+	    _context.SaveChanges();
+	}
+
+	//TODO : utiliser le DAO
+	/// <summary>
+	/// Cherche l'objet correspondant à l'état du livre désiré.
+	/// </summary>
+	/// <param name="nomEtat">Nom de l'état à aller chercher.</param>
+	private EtatLivre GetEtatLivreSelonEtat(string nomEtat)
+	{
+
+	    EtatLivre etatLivre;
+
+	    etatLivre = _context
+		.EtatsLivres
+		.Where
+		(
+		    etatLivre =>
+			etatLivre.Nom.Equals(nomEtat)
+		)
+		.FirstOrDefault();
+
+	    return etatLivre;
 	}
 
 	/// <summary>

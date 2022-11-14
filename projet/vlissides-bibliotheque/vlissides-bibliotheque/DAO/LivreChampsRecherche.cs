@@ -63,11 +63,11 @@ namespace vlissides_bibliotheque.DAO
 	public bool ChercheAvecPrixMinimum()
 	{
 
-	    bool prixMaxmiumPresent;
+	    bool prixMinimumPresent;
 
-	    prixMaxmiumPresent = PrixMinimum > 0;
+	    prixMinimumPresent = PrixMinimum > 0;
 
-	    return prixMaxmiumPresent;
+	    return prixMinimumPresent;
 	}
 
 	/// <summary>

@@ -3,6 +3,7 @@ using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Extentions;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace vlissides_bibliotheque.DAO
 {
@@ -207,12 +208,16 @@ namespace vlissides_bibliotheque.DAO
 	    }
 	    else if(livreChampsRecherche.EstValide())
 	    {
-		
+
 		IEnumerable<LivreBibliotheque> livresBibliotheque;
 		int quantiteASauter;
 
 		quantiteASauter = DAOUtils.GetQuantityOfElementsToSkip(quantiteParPage, page); 
 
+		EtatLivre etatLivreUsage;
+		etatLivreUsage = GetEtatLivreSelonNom(NomEtatLivre.Usagee);
+
+		Expression<Func<PrixEtatLivre, bool>> etatDesire = GetExpressionSelonEtatLivreDesire(livreChampsRecherche);
 		livresBibliotheque = _context
 		    .LivresBibliotheque
 		    .If
@@ -311,7 +316,68 @@ namespace vlissides_bibliotheque.DAO
 				    DateTime.Compare(livre.DatePublication, livreChampsRecherche.DatePublicationMaximale) < 0
 			    )
 		    )
-		    /*
+		    // TODO: utiliser le DAO lorsqu'implementé (temp: livre usagés only), prix minimum and usage
+		    .If
+		    (
+			livreChampsRecherche.ChercheAvecPrixMinimum() && !livreChampsRecherche.ChercheAvecPrixMaximum(),
+			livres => livres
+			    .Where
+			    (
+				livre =>
+				    _context
+					.PrixEtatsLivres
+					.Where
+					(
+					    prixEtatLivre =>
+						prixEtatLivre.Prix >= livreChampsRecherche
+						    .PrixMinimum
+					)
+					.Where
+					(
+					    etatDesire
+					)
+					.Select
+					(
+					    prixEtatLivre =>
+						prixEtatLivre.LivreBibliotheque
+					)
+					.Contains
+					(
+					    livre
+					)
+			    )
+		    )
+		    // TODO: utiliser le DAO lorsqu'implementé (temp: livre usagés only), prix minimum and usage
+		    .If
+		    (
+			livreChampsRecherche.ChercheAvecPrixMaximum() && !livreChampsRecherche.ChercheAvecPrixMinimum(),
+			livres => livres
+			    .Where
+			    (
+				livre =>
+				    _context
+					.PrixEtatsLivres
+					.Where
+					(
+					    prixEtatLivre =>
+						prixEtatLivre.Prix <= livreChampsRecherche
+						    .PrixMaximum
+					)
+					.Where
+					(
+					    etatDesire
+					)
+					.Select
+					(
+					    prixEtatLivre =>
+						prixEtatLivre.LivreBibliotheque
+					)
+					.Contains
+					(
+					    livre
+					)
+			    )
+		    )
 		    // TODO: utiliser le DAO lorsqu'implementé (temp: livre usagés only), prix minimum and usage
 		    .If
 		    (
@@ -320,97 +386,32 @@ namespace vlissides_bibliotheque.DAO
 			    .Where
 			    (
 				livre =>
-				    livre ==
 				    _context
 					.PrixEtatsLivres
 					.Where
 					(
 					    prixEtatLivre =>
-						prixEtatLivre.LivreBibliotheque == livre &&
-						prixEtatLivre.Prix < livreChampsRecherche.PrixMaximum &&
-						prixEtatLivre.Prix > livreChampsRecherche.PrixMinimum &&
-						PredicateEtatUsage(prixEtatLivre)
-						// TODO: not working
-						// GetCorrectEtatPredicate(livreChampsRecherche)
+						prixEtatLivre.Prix <= livreChampsRecherche
+						    .PrixMaximum &&
+						prixEtatLivre.Prix >= livreChampsRecherche
+						    .PrixMinimum
+						    
+					)
+					.Where
+					(
+					    etatDesire
 					)
 					.Select
 					(
 					    prixEtatLivre =>
 						prixEtatLivre.LivreBibliotheque
 					)
-			    )
-
-			    /*
-			livreChampsRecherche.SearchesWithPriceRange(),
-			livres => livres
-			    .Where
-			    (
-				livre =>
-				    _context
-					.PrixEtatsLivres
-					.Where
+					.Contains
 					(
-					    prixEtatsLivre =>
-						prixEtatsLivre.LivreBibliotheque == livre &&
-						prixEtatsLivre.Prix < livreChampsRecherche.PrixMaximum &&
-						prixEtatsLivre.Prix > livreChampsRecherche.PrixMinimum &&
-						GetCorrectEtatPredicate(livreChampsRecherche)
+					    livre
 					)
 			    )
 		    )
-			    */
-		    // TODO: utiliser le DAO lorsqu'implementé
-		    /*
-		    .If
-		    (
-			livreChampsRecherche.ChercheAvecPrixMinimum() && !livreChampsRecherche.ChercheAvecPrixMaximum(),
-			livres => livres
-			    .Where
-			    (
-				livre =>
-				    livre ==
-				    _context
-					.PrixEtatsLivres
-					.Where
-					(
-					    prixEtatLivre =>
-						prixEtatLivre.LivreBibliotheque == livre &&
-						prixEtatLivre.Prix > livreChampsRecherche.PrixMinimum
-						// TODO: get état correct as well
-					)
-					.Select
-					(
-					    prixEtatLivre =>
-						prixEtatLivre.LivreBibliotheque
-					)
-			    )
-		    )
-		    // TODO: utiliser le DAO lorsqu'implementé
-		    .If
-		    (
-			!livreChampsRecherche.ChercheAvecPrixMinimum() && livreChampsRecherche.ChercheAvecPrixMaximum(),
-			livres => livres
-			    .Where
-			    (
-				livre =>
-				    livre ==
-				    _context
-					.PrixEtatsLivres
-					.Where
-					(
-					    prixEtatLivre =>
-						prixEtatLivre.LivreBibliotheque == livre &&
-						prixEtatLivre.Prix < livreChampsRecherche.PrixMaximum
-						// TODO: get état correct as well
-					)
-					.Select
-					(
-					    prixEtatLivre =>
-						prixEtatLivre.LivreBibliotheque
-					)
-			    )
-		    )
-		    */
 		    // TODO: programme
 		    // TODO: cours
 		    // TODO: prof.
@@ -427,194 +428,102 @@ namespace vlissides_bibliotheque.DAO
 	    return new List<LivreBibliotheque>();
 	}
 
-	/*
-	/// <summary>Cherche les objets par leurs propriétés.</summary>
-	/// <param name="bookQueries">Objet contenant les champs du livre à chercher.</param>
-	/// <param name="quantiteParPage">La quantité d'objets que l'on veut afficher par page.</param>
-	/// <param name="page">Le numéro de page des résultats.</param>
-	/// <returns>Une liste d'objets ayant les propriétés désirées ou null s'il n'y en a pas.</returns>
-	//public ICollection<LivreBibliotheque> SearchByProperties(dynamic livreChampsRecherche, int quantiteParPage = 20, int page = 0)
-	*/
-
-	/*
 	/// <summary>
+	/// Construit l'expression linq pour chercher
+	/// les livres selon l'état désiré.
+	/// Confirme que le livre est dans l'état désiré.
 	/// </summary>
-	private Predicate<LivreBibliotheque> GetCorrectEtatPredicate(LivreChampsRecherche livreChampRecherche)
+	/// <param name="livreChampsRecherche">
+	/// Chapms de recherche contenant l'état du livre désiré.
+	/// </param>
+	private Expression<Func<PrixEtatLivre, bool>> GetExpressionSelonEtatLivreDesire
+	(
+	    LivreChampsRecherche livreChampsRecherche
+	)
 	{
 
-	    Predicate<LivreBibliotheque> predicate;
+	    Expression<Func<PrixEtatLivre, bool>> expressionEtatLivreDesire;
+	    EtatLivre etatLivreNeuf;
+	    EtatLivre etatLivreDigital;
+	    EtatLivre etatLivreUsage;
 
-	    if(livreChampRecherche.Neuf && livreChampRecherche.Digital && livreChampRecherche.Usage)
+	    etatLivreNeuf = GetEtatLivreSelonNom(NomEtatLivre.Neuf);
+	    etatLivreDigital = GetEtatLivreSelonNom(NomEtatLivre.Numerique);
+	    etatLivreUsage = GetEtatLivreSelonNom(NomEtatLivre.Usagee);
+
+	    if(livreChampsRecherche.Neuf && livreChampsRecherche.Digital && livreChampsRecherche.Usage)
 	    {
 
-		predicate = PredicateEtatNeufDigitalUsage();
+		expressionEtatLivreDesire = prixEtatLivre =>
+		    prixEtatLivre.EtatLivre == etatLivreNeuf ||
+		    prixEtatLivre.EtatLivre == etatLivreDigital ||
+		    prixEtatLivre.EtatLivre == etatLivreUsage;
 	    }
-	    else if(livreChampRecherche.Neuf && livreChampRecherche.Digital)
+	    else if(livreChampsRecherche.Neuf && livreChampsRecherche.Digital)
 	    {
 
-		predicate = PredicateEtatNeufDigital();
+		expressionEtatLivreDesire = prixEtatLivre =>
+		    prixEtatLivre.EtatLivre == etatLivreNeuf ||
+		    prixEtatLivre.EtatLivre == etatLivreUsage;
 	    }
-	    else if(livreChampRecherche.Neuf && livreChampRecherche.Usage)
+	    else if(livreChampsRecherche.Usage && livreChampsRecherche.Digital)
 	    {
 
-		predicate = PredicateEtatNeufUsage();
+		expressionEtatLivreDesire = prixEtatLivre =>
+		    prixEtatLivre.EtatLivre == etatLivreDigital ||
+		    prixEtatLivre.EtatLivre == etatLivreUsage;
 	    }
-	    else if(livreChampRecherche.Neuf)
+	    else if(livreChampsRecherche.Neuf && livreChampsRecherche.Usage)
 	    {
 
-		predicate = PredicateEtatNeuf();
+		expressionEtatLivreDesire = prixEtatLivre =>
+		    prixEtatLivre.EtatLivre == etatLivreNeuf ||
+		    prixEtatLivre.EtatLivre == etatLivreUsage;
 	    }
-	    else if(livreChampRecherche.Digital)
+	    else if(livreChampsRecherche.Usage)
 	    {
 
-		predicate = PredicateEtatDigital();
+		expressionEtatLivreDesire = prixEtatLivre =>
+		    prixEtatLivre.EtatLivre == etatLivreUsage;
 	    }
-	    else if(livreChampRecherche.Digital && livreChampRecherche.Usage)
+	    else if(livreChampsRecherche.Digital)
 	    {
 
-		predicate = PredicateEtatDigitalUsage();
+		expressionEtatLivreDesire = prixEtatLivre =>
+		    prixEtatLivre.EtatLivre == etatLivreDigital;
 	    }
-	    else if(livreChampRecherche.Usage)
-	    {
-
-		predicate = PredicateEtatNeuf();
-		// TODO: predicate = PredicateEtatUsage();
-	    }
-	    // TODO: same as new
 	    else
 	    {
 
-		predicate = PredicateEtatNeuf();
+		expressionEtatLivreDesire = prixEtatLivre =>
+		    prixEtatLivre.EtatLivre == etatLivreNeuf;
 	    }
 
-	    return predicate;
+	    return expressionEtatLivreDesire;
 	}
 
+	// TODO: utiliser le DAO
 	/// <summary>
-	/// Construit le prédicat pour chercher les livres neufs, digitals et usagés.
+	/// Cherche l'<c>EtatLivre</c> correspondant au nom désiré.
 	/// </summary>
-	private Predicate<LivreBibliotheque> PredicateEtatNeufDigitalUsage()
+	/// <param name="nomEtatLivre">
+	/// Nom de l'<c>EtatLivre</c> à aller chercher.
+	/// </param>
+	private EtatLivre GetEtatLivreSelonNom(string nomEtatLivre)
 	{
 
-	    Predicate<LivreBibliotheque> predicate;
+	    EtatLivre etatLivre;
 
-	    predicate = new(WhereBookEtatNew && WhereBookEtatDigital && WhereBookEtatUsage);
+	    etatLivre = _context
+		.EtatsLivres
+		    .Where
+		    (
+			etatLivre =>
+			    String.Equals(etatLivre.Nom, nomEtatLivre)
+		    )
+		    .FirstOrDefault();
 
-	    return predicate;
-	}
-
-	/// <summary>
-	/// Construit le prédicat pour chercher les livres neufs et digitals.
-	/// </summary>
-	private Predicate<LivreBibliotheque> PredicateEtatNeufDigital()
-	{
-
-	    Predicate<LivreBibliotheque> predicate;
-
-	    predicate = new(WhereBookEtatNew && WhereBookEtatDigital);
-
-	    return predicate;
-	}
-
-	/// <summary>
-	/// Construit le prédicat pour chercher les livres neufs et usagés.
-	/// </summary>
-	private Predicate<LivreBibliotheque> PredicateEtatNeufUsage()
-	{
-
-	    Predicate<LivreBibliotheque> predicate;
-
-	    predicate = new(WhereBookEtatNew && WhereBookEtatUsage);
-
-	    return predicate;
-	}
-
-	/// <summary>
-	/// Construit le prédicat pour chercher les livres digitals et usagés.
-	/// </summary>
-	private Predicate<LivreBibliotheque> PredicateEtatDigitalUsage()
-	{
-
-	    Predicate<LivreBibliotheque> predicate;
-
-	    predicate = new(WhereBookEtatDigital && WhereBookEtatUsage);
-
-	    return predicate;
-	}
-
-	/// <summary>
-	/// Construit le prédicat pour chercher les livres neufs.
-	/// </summary>
-	private Predicate<LivreBibliotheque> PredicateEtatNeuf()
-	{
-	    Predicate<LivreBibliotheque> predicate;
-
-	    predicate = new(WhereBookEtatNew);
-
-	    return predicate;
-	}
-
-	/// <summary>
-	/// Construit le prédicat pour chercher les livres digitals.
-	/// </summary>
-	private Predicate<LivreBibliotheque> PredicateEtatDigital()
-	{
-	    Predicate<LivreBibliotheque> predicate;
-
-	    predicate = new(WhereBookEtatDigital);
-
-	    return predicate;
-	}
-	*/
-
-	/// <summary>
-	/// Construit le prédicat pour chercher les livres usagés.
-	/// </summary>
-	private bool PredicateEtatUsage(PrixEtatLivre prixEtatLivre)
-	{
-	    Predicate<PrixEtatLivre> predicate;
-
-	    predicate = new Predicate<PrixEtatLivre>(WhereBookEtatUsage);
-
-	    return predicate.Invoke(prixEtatLivre);
-	}
-
-	/// <summary>
-	/// Condition pour chercher un prix état livre correspondant à l'état désiré.
-	/// <param name="prixEtatLivre">L'objet PrixEtatLivre à vérifier.</param>
-	/// <param name="etatLivre">L'état du livre désiré.</param>
-	/// </summary>
-	private bool WhereBookEtat(PrixEtatLivre prixEtatLivre, string etatLivre)
-	{
-
-	    return prixEtatLivre.EtatLivre.Nom.Equals(etatLivre);
-	}
-
-	/// <summary>
-	/// Construit un prédicat pour chercher les livres qui sont en format neuf.
-	/// </summary>
-	private bool WhereBookEtatNew(PrixEtatLivre prixEtatLivre)
-	{
-
-	    return WhereBookEtat(prixEtatLivre, NomEtatLivre.Neuf);
-	}
-
-	/// <summary>
-	/// Construit un prédicat pour chercher les livres qui sont en format digital.
-	/// </summary>
-	private bool WhereBookEtatDigital(PrixEtatLivre prixEtatLivre)
-	{
-
-	    return WhereBookEtat(prixEtatLivre, NomEtatLivre.Numerique);
-	}
-
-	/// <summary>
-	/// Construit un prédicat pour chercher les livres qui sont en format usagé.
-	/// </summary>
-	private bool WhereBookEtatUsage(PrixEtatLivre prixEtatLivre)
-	{
-
-	    return WhereBookEtat(prixEtatLivre, NomEtatLivre.Usagee);
+	    return etatLivre;
 	}
     }
 }
