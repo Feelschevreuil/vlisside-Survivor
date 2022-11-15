@@ -342,6 +342,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonMaisonEdition()
 	{
 
+	    List<LivreBibliotheque> livresBibliotheque;
 	    string nomMaisonEdition;
 	    string nomMaisonEditionQuery;
 	    int nombreLivresAvecMaisonEditionDesire;
@@ -356,8 +357,19 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    maisonEdition = CreateMaisonEdition(nomMaisonEdition);
 	    nombreLivresAvecMaisonEditionDesire = 10;
 
-	    AjouterLivres(nombreLivresAvecMaisonEditionDesire, maisonEdition);
-	    AjouterLivres(20);
+	    livresBibliotheque = AjouterLivres
+	    (
+		nombreLivresAvecMaisonEditionDesire, 
+		maisonEdition
+	    );
+
+	    livresBibliotheque.AddRange(AjouterLivres(20));
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0
+	    );
 
 	    livreChampsRecherche = new()
 	    {
@@ -383,6 +395,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonAuteur()
 	{
 
+	    List<LivreBibliotheque> livresBibliotheque;
 	    string nomAuteurQuery;
 	    int nombreLivresAvecAuteurDesire;
 	    int nombreLivresSelonRecherche;
@@ -395,15 +408,25 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    auteur = CreateAuteur("Khalifa", "Mia");
 	    nombreLivresAvecAuteurDesire = 10;
 
-	    AjouterLivres(nombreLivresAvecAuteurDesire, null, default(DateTime), auteur);
-	    AjouterLivres(20);
+	    livresBibliotheque = AjouterLivres
+	    (
+		nombreLivresAvecAuteurDesire, 
+		null, 
+		default(DateTime), auteur
+	    );
+
+	    livresBibliotheque.AddRange(AjouterLivres(20));
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0
+	    );
 
 	    livreChampsRecherche = new()
 	    {
 		Auteur = nomAuteurQuery,
-		Neuf = true,
-		Digital = true,
-		Usage = true
+		Neuf = true
 	    };
 
 	    nombreLivresSelonRecherche = _livresBibliothequeDao
@@ -422,6 +445,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonIsbn()
 	{
 
+	    List<LivreBibliotheque> livresBibliotheque;
 	    string isbn;
 	    string isbnQuery;
 	    int nombreLivresAvecIsbnDesire;
@@ -434,7 +458,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    isbnQuery = "6666969";
 	    nombreLivresAvecIsbnDesire = 1;
 
-	    AjouterLivres
+	    livresBibliotheque = AjouterLivres
 	    (
 		nombreLivresAvecIsbnDesire, 
 		null, 
@@ -443,7 +467,13 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 		isbn
 	    );
 
-	    AjouterLivres(10);
+	    livresBibliotheque.AddRange(AjouterLivres(10));
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0
+	    );
 
 	    livreChampsRecherche = new()
 	    {
@@ -469,6 +499,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonDatePublicationMinimum()
 	{
 
+	    List<LivreBibliotheque> livresBibliotheque;
 	    DateTime dateFixePasse;
 	    DateTime dateMinimumQuery;
 	    int nombreLivresAvecDateMinimumDesire;
@@ -481,7 +512,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    dateMinimumQuery = new DateTime(1995, 10, 5);
 	    nombreLivresAvecDateMinimumDesire = 10;
 
-	    AjouterLivresSelonContrainteDeDate
+	    livresBibliotheque = AjouterLivresSelonContrainteDeDate
 	    (
 		dateFixePasse,
 		nombreLivresAvecDateMinimumDesire,
@@ -490,12 +521,16 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 		1000
 	    );
 
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0
+	    );
+
 	    livreChampsRecherche = new()
 	    {
 		DatePublicationMinimum = dateMinimumQuery,
-		Neuf = true,
-		Digital = true,
-		Usage = true
+		Neuf = true
 	    };
 
 	    nombreLivresSelonRecherche = _livresBibliothequeDao
@@ -514,6 +549,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonDatePublicationMaximum()
 	{
 
+	    List<LivreBibliotheque> livresBibliotheque;
 	    DateTime dateFixeMaximum;
 	    DateTime dateMaxiumQuery;
 	    int nombreLivresAvecDateMaximumDesire;
@@ -526,7 +562,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    dateMaxiumQuery = new DateTime(2002, 10, 5);
 	    nombreLivresAvecDateMaximumDesire = 10;
 
-	    AjouterLivresSelonContrainteDeDate
+	    livresBibliotheque = AjouterLivresSelonContrainteDeDate
 	    (
 		dateFixeMaximum,
 		nombreLivresAvecDateMaximumDesire,
@@ -535,12 +571,16 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 		1000
 	    );
 
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0
+	    );
+
 	    livreChampsRecherche = new()
 	    {
 		DatePublicationMaximale = dateMaxiumQuery,
-		Neuf = true,
-		Digital = true,
-		Usage = true
+		Neuf = true
 	    };
 
 	    nombreLivresSelonRecherche = _livresBibliothequeDao
@@ -559,6 +599,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonDatePublicationRange()
 	{
 
+	    List<LivreBibliotheque> livresBibliotheque;
 	    DateTime dateFixePasse;
 	    DateTime dateFixeMaximum;
 	    DateTime dateMaxiumQuery;
@@ -578,7 +619,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    nombreLivresAvecDatesLimites = 10;
 	    nombreLivresAvecDateEtendueDesire = 20;
 
-	    AjouterLivresSelonContrainteDeDate
+	    livresBibliotheque = AjouterLivresSelonContrainteDeDate
 	    (
 		dateFixePasse,
 		nombreLivresAvecDatesLimites,
@@ -587,22 +628,28 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 		10000
 	    );
 
-	    AjouterLivresSelonContrainteDeDate
+	    livresBibliotheque.AddRange(
+		AjouterLivresSelonContrainteDeDate
+		(
+		    dateFixeMaximum,
+		    nombreLivresAvecDatesLimites,
+		    20,
+		    true,
+		    10000
+		)
+	    );
+
+	    LierPrixEtatLivresAuxLivresPresents
 	    (
-		dateFixeMaximum,
-		nombreLivresAvecDatesLimites,
-		20,
-		true,
-		10000
+		livresBibliotheque,
+		10.0
 	    );
 
 	    livreChampsRecherche = new()
 	    {
 		DatePublicationMinimum = dateMinimumQuery,
 		DatePublicationMaximale = dateMaxiumQuery,
-		Neuf = true,
-		Digital = true,
-		Usage = true
+		Neuf = true
 	    };
 
 	    nombreLivresSelonRecherche = _livresBibliothequeDao
@@ -621,6 +668,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonDatePublicationExacte()
 	{
 	    
+	    List<LivreBibliotheque> livresBibliotheque;
 	    DateTime dateExacte;
 	    DateTime dateMauvaise;
 	    int nombreLivresAvecDateExate;
@@ -633,18 +681,27 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    dateMauvaise = new DateTime(2005, 05, 10);
 	    nombreLivresAvecDateExate = 10;
 
-	    AjouterLivres
+	    livresBibliotheque = AjouterLivres
 	    (
 		nombreLivresAvecDateExate, 
 		null, 
 		dateExacte
 	    );
 
-	    AjouterLivres
+	    livresBibliotheque.AddRange
 	    (
-		20, 
-		null, 
-		dateMauvaise
+		AjouterLivres
+		(
+		    20, 
+		    null, 
+		    dateMauvaise
+		)
+	    );
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0
 	    );
 
 	    livreChampsRecherche = new()
@@ -671,7 +728,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonPrixMinimum()
 	{
 
-	    ICollection<LivreBibliotheque> livresBibliotheque;
+	    List<LivreBibliotheque> livresBibliotheque;
 	    double prixMinimum;
 	    double prixCorrect;
 	    double prixNonCorrect;
@@ -730,7 +787,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonPrixMaximum()
 	{
 
-	    ICollection<LivreBibliotheque> livresBibliotheque;
+	    List<LivreBibliotheque> livresBibliotheque;
 	    double prixMaximum;
 	    double prixCorrect;
 	    double prixNonCorrect;
@@ -789,7 +846,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonPrixRange()
 	{
 
-	    ICollection<LivreBibliotheque> livresBibliotheque;
+	    List<LivreBibliotheque> livresBibliotheque;
 	    double prixMaximum;
 	    double prixMinimum;
 	    double prixCorrect;
@@ -865,49 +922,308 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestGetSelonEtatNeuf()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    List<LivreBibliotheque> livresBibliotheque;
+	    int nombreLivresNeufs;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    nombreLivresNeufs = 10;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresNeufs);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0
+	    );
+
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		10.0,
+		10.0,
+		5
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		Neuf = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresNeufs,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonEtatDigital()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    List<LivreBibliotheque> livresBibliotheque;
+	    int nombreLivresDigitaux;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    nombreLivresDigitaux = 10;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresDigitaux);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		10.0
+	    );
+
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0,
+		0.0,
+		10.0,
+		5
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		Digital = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresDigitaux,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonEtatUsage()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    List<LivreBibliotheque> livresBibliotheque;
+	    int nombreLivresUsages;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    nombreLivresUsages = 10;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresUsages);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		0.0,
+		10.0,
+		5
+	    );
+
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0,
+		10.0
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresUsages,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonEtatNeufEtDigital()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    List<LivreBibliotheque> livresBibliotheque;
+	    int nombreLivresNeufsEtDigitaux;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    nombreLivresNeufsEtDigitaux = 10;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresNeufsEtDigitaux);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0,
+		10.0
+	    );
+
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		0.0,
+		10.0,
+		5
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		Neuf = true,
+		Digital = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresNeufsEtDigitaux,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonEtatNeufEtUsage()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    List<LivreBibliotheque> livresBibliotheque;
+	    int nombreLivresNeufsEtUsage;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    nombreLivresNeufsEtUsage = 10;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresNeufsEtUsage);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0,
+		0.0,
+		10.0,
+		5
+	    );
+
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		10.0
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		Neuf = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresNeufsEtUsage,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonEtatDigitalEtUsage()
 	{
 
-	    throw new NotImplementedException("Not implemented");
+	    List<LivreBibliotheque> livresBibliotheque;
+	    int nombreLivresDigitauxEtUsages;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    ViderTable();
+
+	    nombreLivresDigitauxEtUsages = 10;
+
+	    livresBibliotheque = AjouterLivres(nombreLivresDigitauxEtUsages);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		0.0,
+		10.0,
+		10.0,
+		5
+	    );
+
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierPrixEtatLivresAuxLivresPresents
+	    (
+		livresBibliotheque,
+		10.0
+	    );
+
+	    livreChampsRecherche = new()
+	    {
+		Digital = true,
+		Usage = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresDigitauxEtUsages,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
 	public void TestGetSelonProgramme()
 	{
 
-	    throw new NotImplementedException("Not implemented");    
+	    throw new NotImplementedException("Not implemented");
 	}
 
 	[Fact]
@@ -946,7 +1262,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	/// Isbn fixe à mettre sur un livre. Si omis, un isbn aléatoire sera
 	/// assigné par livre.
 	/// </param>
-	private ICollection<LivreBibliotheque> AjouterLivres
+	private List<LivreBibliotheque> AjouterLivres
 	(
 	    int nombreLivresAjouter = 10,
 	    MaisonEdition maisonEditionFixe = null,
@@ -956,7 +1272,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	)
 	{
 
-	    ICollection<LivreBibliotheque> livresBibliotheque;
+	    List<LivreBibliotheque> livresBibliotheque;
 	    LivreBibliotheque livreBibliotheque;
 
 	    livresBibliotheque = new List<LivreBibliotheque>();
@@ -1139,7 +1455,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	/// livres qui respecterons la limite de date seront 500 jours en dessous et ceux
 	/// qui ne respecterons pas la limite, seront 500 jours au dessus.
 	/// </param>
-	private void AjouterLivresSelonContrainteDeDate
+	private List<LivreBibliotheque> AjouterLivresSelonContrainteDeDate
 	(
 	    DateTime dateLimite,
 	    int nombreLivresRespectantLimite,
@@ -1149,6 +1465,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	)
 	{
 
+	    List<LivreBibliotheque> livresBibliotheque;
 	    TimeSpan timeSpanRespectantLimite;
 	    TimeSpan timeSpanNonRespectantLimite;
 	    DateTime dateCorrecte;
@@ -1173,19 +1490,24 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    dateCorrecte = dateLimite.Add(timeSpanRespectantLimite);
 	    dateNonCorrecte = dateLimite.Add(timeSpanNonRespectantLimite);
 
-	    AjouterLivres
+	    livresBibliotheque = AjouterLivres
 	    (
 		nombreLivresRespectantLimite,
 		null,
 		dateCorrecte
 	    );
 
-	    AjouterLivres
+	    livresBibliotheque.AddRange
 	    (
-		nombreLivresNonRespectantLimite,
-		null,
-		dateNonCorrecte
+		AjouterLivres
+		(
+		    nombreLivresNonRespectantLimite,
+		    null,
+		    dateNonCorrecte
+		)
 	    );
+
+	    return livresBibliotheque;
 	}
 
 	/// <summary>
@@ -1238,7 +1560,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	/// </param>
 	private void LierPrixEtatLivresAuxLivresPresents
 	(
-	    ICollection<LivreBibliotheque> livresBibliotheque,
+	    List<LivreBibliotheque> livresBibliotheque,
 	    double prixNeuf = 0.0,
 	    double prixDigital = 0.0,
 	    double prixUsage = 0.0,

@@ -118,6 +118,19 @@ namespace vlissides_bibliotheque.DAO
 	}
 
 	/// <summary>
+	/// Véerifie que la recherche ne contient aucune restriction de prix.
+	/// </summary>
+	public bool AucuneRestrictionPrix()
+	{
+
+	    bool aucuneRestrictionPrix;
+
+	    aucuneRestrictionPrix = !ChercheAvecPrixMaximum() && !ChercheAvecPrixMaximum();
+
+	    return aucuneRestrictionPrix;
+	}
+
+	/// <summary>
 	/// Regarde si une recherche est valide.
 	/// </summary>
 	public bool EstValide()

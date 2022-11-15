@@ -410,6 +410,31 @@ namespace vlissides_bibliotheque.DAO
 					)
 			    )
 		    )
+		    // TODO: utiliser le DAO lorsqu'implementé (temp: livre usagés only), prix minimum and usage
+		    .If
+		    (
+			livreChampsRecherche.AucuneRestrictionPrix(),
+			livres => livres
+			    .Where
+			    (
+				livre =>
+				    _context
+					.PrixEtatsLivres
+					.Where
+					(
+					    etatDesire
+					)
+					.Select
+					(
+					    prixEtatLivre =>
+						prixEtatLivre.LivreBibliotheque
+					)
+					.Contains
+					(
+					    livre
+					)
+			    )
+		    )
 		    // TODO: programme
 		    // TODO: cours
 		    // TODO: prof.
@@ -462,7 +487,7 @@ namespace vlissides_bibliotheque.DAO
 
 		expressionEtatLivreDesire = prixEtatLivre =>
 		    prixEtatLivre.EtatLivre == etatLivreNeuf ||
-		    prixEtatLivre.EtatLivre == etatLivreUsage;
+		    prixEtatLivre.EtatLivre == etatLivreDigital;
 	    }
 	    else if(livreChampsRecherche.Usage && livreChampsRecherche.Digital)
 	    {
