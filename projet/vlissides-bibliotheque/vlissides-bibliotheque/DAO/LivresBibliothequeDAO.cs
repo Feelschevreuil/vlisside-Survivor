@@ -436,6 +436,40 @@ namespace vlissides_bibliotheque.DAO
 			    )
 		    )
 		    // TODO: programme
+		    .If
+		    (
+			livreChampsRecherche.ProgrammesEtudeId != null && 
+			    livreChampsRecherche.ProgrammesEtudeId.Count() > 0,
+			livres => livres
+			    .Where
+			    ( 
+				livre =>
+				    _context
+					.CoursLivres
+					    .Where
+					    (
+						coursLivre =>
+						    livreChampsRecherche
+							.ProgrammesEtudeId
+							.Contains
+							(
+							    coursLivre
+								.Cours
+								    .ProgrammeEtude
+									.ProgrammeEtudeId
+							)
+					    )
+					    .Select
+					    (
+						coursLivre =>
+						    coursLivre.LivreBibliotheque
+					    )
+					    .Contains
+					    (
+						livre
+					    )
+			    )
+		    )
 		    // TODO: cours
 		    // TODO: prof.
 		    .If
