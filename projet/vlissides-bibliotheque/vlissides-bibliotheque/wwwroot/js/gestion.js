@@ -1,4 +1,63 @@
-﻿
+﻿//--------------------------------------------
+//              Réutilisable
+//--------------------------------------------
+function getFormData(formulaire) {
+    let formData = new FormData(formulaire);
+    let data = {};
+
+    formData.forEach(function (value, key) {
+        data[key] = value;
+    });
+
+    return data;
+}
+
+function resetMajusculeJsonKey(json) {
+    let data = {};
+
+    for (let key in json) {
+        data[setPremiereLettreEnMajuscule(key)] = json[key];
+    }
+
+    return data;
+}
+
+function setPremiereLettreEnMajuscule(string) {
+    return string[0].toUpperCase() + string.slice(1);
+}
+
+function afficherModification(id, data) {
+    // afficher les valeurs modifiées et non modifiées
+
+    let table = document.querySelectorAll("table")[0];
+    let thead = table.children[0];
+    let champs = Array.from(thead.children[0].children);
+    let ligneCourante = document.querySelector(`#tr-${id}`);
+
+    for (let key in data) {
+        let champ = champs.find(th => th.id == key);
+        let index = champs.indexOf(champ);
+        let baliseInfo = ligneCourante.children[index];
+        if (baliseInfo != undefined) {
+            baliseInfo.innerHTML = data[`${key}`];
+        }
+    }
+}
+
+function setInputsFormat() {
+    // appel initial pour setter les inputs en cas où ils auraient déjà une valeur
+    for (let phoneNumberInput of document.querySelectorAll("#phoneNumber")) {
+        setPhoneNumber(phoneNumberInput.parentElement.children[1]);
+    }
+    for (let postalCodeInput of document.querySelectorAll("#postalCode")) {
+        setPostalCode(postalCodeInput.parentElement.children[1]);
+    }
+}
+
+//--------------------------------------------
+//              Étudiants
+//--------------------------------------------
+
 function getFormulaireModifierEtudiant(id) {
 
     fetch(host + "TableauDeBord/ModifierEtudiant/" + String(id), {
@@ -132,54 +191,22 @@ function supprimerEtudiant(id) {
     });
 }
 
-function getFormData(formulaire) {
-    let formData = new FormData(formulaire);
-    let data = {};
+//--------------------------------------------
+//              Livres
+//--------------------------------------------
 
-    formData.forEach(function (value, key) {
-        data[key] = value;
-    });
+//--------------------------------------------
+//              Cours
+//--------------------------------------------
 
-    return data;
-}
+//--------------------------------------------
+//              Programmes d'étude
+//--------------------------------------------
 
-function resetMajusculeJsonKey(json) {
-    let data = {};
+//--------------------------------------------
+//              Commandes
+//--------------------------------------------
 
-    for(let key in json) {
-        data[setPremiereLettreEnMajuscule(key)] = json[key];
-    }
-
-    return data;
-}
-
-function setPremiereLettreEnMajuscule(string){
-    return string[0].toUpperCase() + string.slice(1);
-}
-
-// afficher les valeurs modifiées et non modifiées
-function afficherModification(id, data) {
-    let table = document.querySelectorAll("table")[0];
-    let thead = table.children[0];
-    let champs = Array.from(thead.children[0].children);
-    let ligneCourante = document.querySelector(`#tr-${id}`);
-
-    for (let key in data) {
-        let champ = champs.find(th => th.id == key);
-        let index = champs.indexOf(champ);
-        let baliseInfo = ligneCourante.children[index];
-        if (baliseInfo != undefined) {
-            baliseInfo.innerHTML = data[`${key}`];
-        }
-    }
-}
-
-function setInputsFormat() {
-    // appel initial pour setter les inputs en cas où ils auraient déjà une valeur
-    for (let phoneNumberInput of document.querySelectorAll("#phoneNumber")) {
-        setPhoneNumber(phoneNumberInput.parentElement.children[1]);
-    }
-    for (let postalCodeInput of document.querySelectorAll("#postalCode")) {
-        setPostalCode(postalCodeInput.parentElement.children[1]);
-    }
-}
+//--------------------------------------------
+//              Promotions
+//--------------------------------------------
