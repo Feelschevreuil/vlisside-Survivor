@@ -41,6 +41,8 @@ namespace vlissides_bibliotheque.DAO
 
 	public List<int> ProgrammesEtudeId { get; set; }
 
+	public List<int> CoursId { get; set; }
+
 	// TODO: no. cours et nom du cours
 	
 	/// <summary> 

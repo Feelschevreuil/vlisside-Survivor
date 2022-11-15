@@ -435,7 +435,7 @@ namespace vlissides_bibliotheque.DAO
 					)
 			    )
 		    )
-		    // TODO: programme
+		    // TODO: test unitaire
 		    .If
 		    (
 			livreChampsRecherche.ProgrammesEtudeId != null && 
@@ -471,6 +471,38 @@ namespace vlissides_bibliotheque.DAO
 			    )
 		    )
 		    // TODO: cours
+		    .If
+		    (
+			livreChampsRecherche.CoursId != null && 
+			    livreChampsRecherche.CoursId.Count() > 0,
+			livres => livres
+			    .Where
+			    ( 
+				livre =>
+				    _context
+					.CoursLivres
+					    .Where
+					    (
+						coursLivre =>
+						    livreChampsRecherche
+							.CoursId
+							.Contains
+							(
+							    coursLivre
+								.CoursId
+							)
+					    )
+					    .Select
+					    (
+						coursLivre =>
+						    coursLivre.LivreBibliotheque
+					    )
+					    .Contains
+					    (
+						livre
+					    )
+			    )
+		    )
 		    // TODO: prof.
 		    .If
 		    (
