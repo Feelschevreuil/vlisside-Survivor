@@ -43,6 +43,8 @@ namespace vlissides_bibliotheque.DAO
 
 	public List<int> CoursId { get; set; }
 
+	public List<int> ProfesseursId { get; set; }
+
 	// TODO: no. cours et nom du cours
 	
 	/// <summary> 
