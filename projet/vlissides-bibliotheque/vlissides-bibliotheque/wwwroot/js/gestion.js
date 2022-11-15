@@ -195,6 +195,22 @@ function supprimerEtudiant(id) {
 //              Livres
 //--------------------------------------------
 
+function getFormulaireModifierLivre(id) {
+
+    fetch(host + "TableauDeBord/ModifierLivre/" + String(id), {
+        method: 'GET',
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Le livre est introuvable.")
+        }
+
+        res.text().then(function (res) {
+            document.querySelector("#livre-" + String(id))
+                .querySelector(".modal-body").innerHTML = res;
+        });
+    });
+}
+
 //--------------------------------------------
 //              Cours
 //--------------------------------------------
