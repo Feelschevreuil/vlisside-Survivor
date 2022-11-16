@@ -137,6 +137,45 @@ namespace vlissides_bibliotheque.DAO
 	}
 
 	/// <summary>
+	/// Vérifie  que la recherche contient une restriction de professeur.
+	/// </summary>
+	public bool ChercheAvecProfesseur()
+	{
+
+	    bool chercheAvecProfesseur;
+
+	    chercheAvecProfesseur = ProfesseursId != null && ProfesseursId.Count() > 0 && ChercheAvecProgrammeEtude() && ChercherAvecCours();
+
+	    return chercheAvecProfesseur;
+	}
+
+	/// <summary>
+	/// Vérifie que la recherche contient une restriction du programme d'étude.
+	/// </summary>
+	public bool ChercheAvecProgrammeEtude()
+	{
+
+	    bool chercheAvecProgrammeEtude;
+
+	    chercheAvecProgrammeEtude = ProgrammesEtudeId != null && ProgrammesEtudeId.Count() > 0;
+
+	    return chercheAvecProgrammeEtude;
+	}
+
+	/// <summary>
+	/// Vérifie que la recherche contient une restriction de cours.
+	/// </summary>
+	public bool ChercherAvecCours()
+	{
+
+	    bool chercheAvecCours;
+
+	    chercheAvecCours = CoursId != null && CoursId.Count() > 0 && ChercheAvecProgrammeEtude();
+
+	    return chercheAvecCours;
+	}
+
+	/// <summary>
 	/// Regarde si une recherche est valide.
 	/// </summary>
 	public bool EstValide()

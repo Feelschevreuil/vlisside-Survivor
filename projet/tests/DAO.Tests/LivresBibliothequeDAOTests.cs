@@ -1413,6 +1413,30 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	}
 
 	/// <summary>
+	/// Crée un professeur et le sauvegarde dans la base de 
+	/// données.
+	/// </summary>
+	/// <param name="nom">Nom du professeur.</param>
+	/// <param name="prenom">Prénom du professeur.</param>
+	private Professeur CreateProfesseur(string nom, string prenom)
+	{
+
+	    Professeur professeur;
+
+	    professeur = new()
+	    {
+		Nom = nom,
+		Prenom = prenom,
+	    };
+
+	    _context.Professeurs.Add(professeur);
+	    
+	    _context.SaveChanges();
+
+	    return professeur;
+	}
+
+	/// <summary>
 	/// Crée un auteur et le sauvegarde dans la base de 
 	/// données.
 	/// </summary>

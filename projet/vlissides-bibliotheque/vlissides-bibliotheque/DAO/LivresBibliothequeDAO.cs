@@ -437,8 +437,8 @@ namespace vlissides_bibliotheque.DAO
 		    )
 		    .If
 		    (
-			livreChampsRecherche.ProgrammesEtudeId != null && 
-			    livreChampsRecherche.ProgrammesEtudeId.Count() > 0,
+			livreChampsRecherche.ChercheAvecProgrammeEtude() 
+			    && (!livreChampsRecherche.ChercheAvecProfesseur() && !livreChampsRecherche.ChercherAvecCours()),
 			livres => livres
 			    .Where
 			    ( 
@@ -469,11 +469,12 @@ namespace vlissides_bibliotheque.DAO
 					    )
 			    )
 		    )
+		    // TODO: utiliser un Prédicat?
 		    // TODO: test unitaire
 		    .If
 		    (
-			livreChampsRecherche.CoursId != null && 
-			    livreChampsRecherche.CoursId.Count() > 0,
+			 livreChampsRecherche.ChercherAvecCours()
+			    && !livreChampsRecherche.ChercheAvecProfesseur(),
 			livres => livres
 			    .Where
 			    ( 
