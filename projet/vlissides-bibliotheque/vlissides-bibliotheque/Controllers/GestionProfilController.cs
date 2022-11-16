@@ -140,7 +140,7 @@ namespace vlissides_bibliotheque.Controllers
             return await _userManagerAdmin.GetUserAsync(HttpContext.User);
         }
         [HttpPost]
-        public string AssignerCours([FromBody] CoursAssocier coursAssocier)
+        public string AssignerCoursEtudiant([FromBody] CoursAssocier coursAssocier)
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Etudiant? utilisateurEtudiant = _context.Etudiants.ToList().Find(x => x.Id == id);
