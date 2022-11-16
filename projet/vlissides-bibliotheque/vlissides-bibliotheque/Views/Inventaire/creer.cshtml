@@ -54,7 +54,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">$</div>
                                     </div>
-                                    <input asp-for="PrixNumerique" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNumerique" />
+                                    <input asp-for="PrixNumerique" disabled class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNumerique" />
                                     <label class="ps-1">
                                         Disponible
                                     <input asp-for="PossedeNumerique" aria-required="true" type="checkbox" onclick="prixToggleNumerique()" />
@@ -67,7 +67,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">$</div>
                                     </div>
-                                    <input asp-for="PrixNeuf" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNeuf" />
+                                    <input asp-for="PrixNeuf" disabled class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNeuf" />
                                     <label class="ps-1">
                                         Disponible
                                     <input asp-for="PossedeNeuf" aria-required="true" type="checkbox" onclick="prixToggleNeuf()"/>
@@ -81,8 +81,8 @@
                                         <div class="input-group-text">$</div>
                                     </div>
                                     
-                                    <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage" />
-                                    <input asp-for="QuantiteUsagee" class="form-control" type="number" placeholder="Quantité" id="quantitePrixUsager" />
+                                    <input asp-for="PrixUsage" disabled class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage" />
+                                    <input asp-for="QuantiteUsagee" disabled class="form-control" type="number" placeholder="Quantité" id="quantitePrixUsager" />
                                     <label class="ps-1">
                                         Disponible
                                         <input asp-for="PossedeNeuf" class="" type="checkbox" onclick="prixToggleUsager()" />
