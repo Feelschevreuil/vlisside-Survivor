@@ -437,8 +437,7 @@ namespace vlissides_bibliotheque.DAO
 		    )
 		    .If
 		    (
-			livreChampsRecherche.ChercheAvecProgrammeEtude() 
-			    && (!livreChampsRecherche.ChercheAvecProfesseur() && !livreChampsRecherche.ChercherAvecCours()),
+			livreChampsRecherche.ChercheAvecContraintesCoursLivre(),
 			livres => livres
 			    .Where
 			    ( 
@@ -447,120 +446,7 @@ namespace vlissides_bibliotheque.DAO
 					.CoursLivres
 					    .Where
 					    (
-						coursLivre =>
-						    livreChampsRecherche
-							.ProgrammesEtudeId
-							.Contains
-							(
-							    coursLivre
-								.Cours
-								    .ProgrammeEtude
-									.ProgrammeEtudeId
-							)
-					    )
-					    .Select
-					    (
-						coursLivre =>
-						    coursLivre.LivreBibliotheque
-					    )
-					    .Contains
-					    (
-						livre
-					    )
-			    )
-		    )
-		    // TODO: utiliser un Prédicat?
-		    .If
-		    (
-			 livreChampsRecherche.ChercherAvecCours()
-			    && !livreChampsRecherche.ChercheAvecProfesseur(),
-			livres => livres
-			    .Where
-			    ( 
-				livre =>
-				    _context
-					.CoursLivres
-					    .Where
-					    (
-						coursLivre =>
-						    // TODO: seule différence avec la recherche selon le programme d'étude
-						    livreChampsRecherche
-							.CoursId
-							.Contains
-							(
-							    coursLivre
-								.CoursId
-							)
-						    &&
-						    livreChampsRecherche
-							.ProgrammesEtudeId
-							.Contains
-							(
-							    coursLivre
-								.Cours
-								    .ProgrammeEtude
-									.ProgrammeEtudeId
-							)
-					    )
-					    .Select
-					    (
-						coursLivre =>
-						    coursLivre.LivreBibliotheque
-					    )
-					    .Contains
-					    (
-						livre
-					    )
-			    )
-		    )
-		    // TODO: par prof. (penser à la possibilité d'une expression linq pour réutiliser en haut pour le filtre par cours
-		    .If
-		    (
-			livreChampsRecherche.ChercheAvecProfesseur(),
-			livres => livres
-			    .Where
-			    ( 
-				livre =>
-				    _context
-					.CoursLivres
-					    .Where
-					    (
-						coursLivre =>
-						    // TODO: seule différence avec la recherche selon le programme d'étude
-						    livreChampsRecherche
-							.CoursId
-							.Contains
-							(
-							    coursLivre
-								.CoursId
-							)
-						    &&
-						    livreChampsRecherche
-							.ProgrammesEtudeId
-							.Contains
-							(
-							    coursLivre
-								.Cours
-								    .ProgrammeEtude
-									.ProgrammeEtudeId
-							)
-						    &&
-						    _context
-							.CoursProfesseurs
-							    .Where
-							    (
-								coursProfesseurs =>
-								    coursProfesseurs
-									.Cours == coursLivre.Cours
-								    &&
-								    livreChampsRecherche
-									.ProfesseursId
-									    .Contains
-									    (
-										coursProfesseurs.ProfesseurId
-									    )
-							    )
-							    .Count() > 0
+						GetExpressionCoursLivreDesire(livreChampsRecherche)
 					    )
 					    .Select
 					    (
@@ -584,6 +470,110 @@ namespace vlissides_bibliotheque.DAO
 	    }
 
 	    return new List<LivreBibliotheque>();
+	}
+
+	/// <summary>
+	/// Construit l'expression linq pour chercher les livres
+	/// selon le cours livre désiré. Alors, selon le cours, 
+	/// le programme d'étude et ou le professeur.
+	/// </summary>
+	/// <param name="livreChampsRecherche">
+	/// Champs de recherche contenant les critères désirés.
+	/// </param>
+	private Expression<Func<CoursLivre, bool>> GetExpressionCoursLivreDesire
+	(
+	    LivreChampsRecherche livreChampsRecherche
+	)
+	{
+
+	    Expression<Func<CoursLivre, bool>> expressionCoursLivre;
+	    expressionCoursLivre = null;
+
+	    if
+	    (
+		livreChampsRecherche.ChercheAvecProgrammeEtude() 
+		    && (!livreChampsRecherche.ChercheAvecProfesseur() && !livreChampsRecherche.ChercheAvecCours())
+	    )
+	    {
+
+		expressionCoursLivre = 	coursLivre =>
+		    livreChampsRecherche
+			.ProgrammesEtudeId
+			.Contains
+			(
+			    coursLivre
+				.Cours
+				    .ProgrammeEtude
+					.ProgrammeEtudeId
+			);
+	    }
+	    else if
+	    (
+		livreChampsRecherche.ChercheAvecCours()
+		    && !livreChampsRecherche.ChercheAvecProfesseur()
+	    )
+	    {
+
+		expressionCoursLivre = 	coursLivre =>
+		    livreChampsRecherche
+			.CoursId
+			.Contains
+			(
+			    coursLivre
+				.CoursId
+			)
+		    &&
+		    livreChampsRecherche
+			.ProgrammesEtudeId
+			.Contains
+			(
+			    coursLivre
+				.Cours
+				    .ProgrammeEtude
+					.ProgrammeEtudeId
+			);
+	    }
+	    else if(livreChampsRecherche.ChercheAvecProfesseur())
+	    {
+
+		expressionCoursLivre = coursLivre =>
+		    livreChampsRecherche
+			.CoursId
+			.Contains
+			(
+			    coursLivre
+				.CoursId
+			)
+		    &&
+		    livreChampsRecherche
+			.ProgrammesEtudeId
+			.Contains
+			(
+			    coursLivre
+				.Cours
+				    .ProgrammeEtude
+					.ProgrammeEtudeId
+			)
+		    &&
+		    _context
+			.CoursProfesseurs
+			    .Where
+			    (
+				coursProfesseurs =>
+				    coursProfesseurs
+					.Cours == coursLivre.Cours
+				    &&
+				    livreChampsRecherche
+					.ProfesseursId
+					    .Contains
+					    (
+						coursProfesseurs.ProfesseurId
+					    )
+			    )
+			    .Count() > 0;
+	    }
+
+	    return expressionCoursLivre;
 	}
 
 	/// <summary>

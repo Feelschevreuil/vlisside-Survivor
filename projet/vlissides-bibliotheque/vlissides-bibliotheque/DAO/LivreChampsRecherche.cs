@@ -144,7 +144,7 @@ namespace vlissides_bibliotheque.DAO
 
 	    bool chercheAvecProfesseur;
 
-	    chercheAvecProfesseur = ProfesseursId != null && ProfesseursId.Count() > 0 && ChercheAvecProgrammeEtude() && ChercherAvecCours();
+	    chercheAvecProfesseur = ProfesseursId != null && ProfesseursId.Count() > 0 && ChercheAvecProgrammeEtude() && ChercheAvecCours();
 
 	    return chercheAvecProfesseur;
 	}
@@ -165,7 +165,7 @@ namespace vlissides_bibliotheque.DAO
 	/// <summary>
 	/// Vérifie que la recherche contient une restriction de cours.
 	/// </summary>
-	public bool ChercherAvecCours()
+	public bool ChercheAvecCours()
 	{
 
 	    bool chercheAvecCours;
@@ -173,6 +173,20 @@ namespace vlissides_bibliotheque.DAO
 	    chercheAvecCours = CoursId != null && CoursId.Count() > 0 && ChercheAvecProgrammeEtude();
 
 	    return chercheAvecCours;
+	}
+
+	/// <summary>
+	/// Vérifie si la recherche à des contraintes reliées aux cours, 
+	/// aux programmes d'études et ou aux professeurs
+	/// </summary>
+	public bool ChercheAvecContraintesCoursLivre()
+	{
+
+	    bool chercheAvecContraintesCoursLivre;
+
+	    chercheAvecContraintesCoursLivre = ChercheAvecCours() || ChercheAvecProgrammeEtude() || ChercheAvecProfesseur();
+
+	    return chercheAvecContraintesCoursLivre;
 	}
 
 	/// <summary>
