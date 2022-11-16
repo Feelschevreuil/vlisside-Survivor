@@ -1222,8 +1222,47 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	[Fact]
 	public void TestGetSelonProgramme()
 	{
+	    
+	    List<LivreBibliotheque> livresBibliotheque;
+	    List<int> programmesEtudeId;
+	    ProgrammeEtude programmeEtude;
+	    int nombreLivresAvecBonProgramme;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
 
-	    throw new NotImplementedException("Not implemented");
+	    nombreLivresAvecBonProgramme = 10;
+	    programmesEtudeId = new();
+
+	    programmeEtude = CreateProgrammeEtude("Production vidéo", "6969");
+	    livresBibliotheque = AjouterLivres(nombreLivresAvecBonProgramme);
+
+	    LierProgrammeEtudeAuxLivres(livresBibliotheque, programmeEtude);
+	    LierPrixEtatLivresAuxLivresPresents(livresBibliotheque, 10.0);
+
+	    programmesEtudeId.Add(programmeEtude.ProgrammeEtudeId);
+
+	    livresBibliotheque = AjouterLivres(20);
+	    programmeEtude = CreateProgrammeEtude("Aucun rapport", "6669");
+
+	    LierProgrammeEtudeAuxLivres(livresBibliotheque, programmeEtude);
+	    LierPrixEtatLivresAuxLivresPresents(livresBibliotheque, 10.0);
+
+	    livreChampsRecherche = new()
+	    {
+		ProgrammesEtudeId = programmesEtudeId,
+		Neuf = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecBonProgramme,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	[Fact]
@@ -1236,6 +1275,12 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	[Fact]
 	public void TestSelonProfesseur()
 	{
+
+	    Professeur professeur;
+
+	    professeur = CreateProfesseur("Mia", "Khalifa");
+
+	    // LierProgrammeEtudeAuxLivres(livresBibliotheque, professeur);
 
 	    throw new NotImplementedException("Not implemented");
 	}
@@ -1344,6 +1389,30 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	}
 
 	/// <summary>
+	/// Crée un programme d'étude et le sauvegarde dans la base
+	/// de données.
+	/// </summary>
+	/// <param name="nom">Nom du programme d'étude</param>
+	/// <param name="code">Code du programme d'étude</param>
+	private ProgrammeEtude CreateProgrammeEtude(string nom, string code)
+	{
+
+	    ProgrammeEtude programmeEtude;
+
+	    programmeEtude = new()
+	    {
+		Nom = nom,
+		Code = code
+	    };
+
+	    _context.ProgrammesEtudes.Add(programmeEtude);
+
+	    _context.SaveChanges();
+
+	    return programmeEtude;
+	}
+
+	/// <summary>
 	/// Crée un auteur et le sauvegarde dans la base de 
 	/// données.
 	/// </summary>
@@ -1385,6 +1454,63 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    };
 
 	    _context.AuteursLivres.Add(auteurLivre);
+	    _context.SaveChanges();
+	}
+
+	/// <summary>
+	/// Lie un livre de bibliothèque à un programme d'étude. 
+	/// </summary>
+	/// <param name="livresBibliotheque">
+	/// Livres de bibliothèque à lier avec le programme d'étude.
+	/// </param>
+	/// <param name="programmeEtude">
+	/// Programme d'étude à lier avec le livre bibliothèque.
+	/// </param>
+	private void LierProgrammeEtudeAuxLivres
+	(
+	    List<LivreBibliotheque> livresBibliotheque,
+	    ProgrammeEtude programmeEtude
+	)
+	{
+
+	    List<CoursLivre> coursLivres;
+	    Cours cours;
+
+	    cours = new()
+	    {
+		AnneeParcours = 1,
+		Nom = "introduction à la pornographie",
+		Description = "You know who you are",
+		Code = "69696969",
+		ProgrammeEtude = programmeEtude
+	    };
+
+	    _context
+		.Cours
+		.Add(cours);
+
+	    _context.SaveChanges();
+
+	    coursLivres = new();
+
+	    foreach(LivreBibliotheque livreBibliotheque in livresBibliotheque)
+	    {
+
+		coursLivres.Add
+		(
+		    new CoursLivre()
+		    {
+			Complementaire = false,
+			Cours = cours,
+			LivreBibliotheque = livreBibliotheque
+		    }
+		);
+	    }
+
+	    _context
+		.CoursLivres
+		.AddRange(coursLivres);
+
 	    _context.SaveChanges();
 	}
 

@@ -435,7 +435,6 @@ namespace vlissides_bibliotheque.DAO
 					)
 			    )
 		    )
-		    // TODO: test unitaire
 		    .If
 		    (
 			livreChampsRecherche.ProgrammesEtudeId != null && 
@@ -504,12 +503,14 @@ namespace vlissides_bibliotheque.DAO
 			    )
 		    )
 		    // TODO: par prof. (penser à la possibilité d'une expression linq pour réutiliser en haut pour le filtre par cours
+		    /*
 		    .If
 		    (
 			livreChampsRecherche.ProfesseursId != null &&
 			    livreChampsRecherche.ProfesseursId.Count() > 0,
 			// TODO: implement
 		    )
+		    */
 		    .If
 		    (
 			quantiteASauter > 0,
