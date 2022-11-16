@@ -47,15 +47,20 @@
 
         var removeImage = document.querySelector("#chargement");
         removeImage.parentElement.removeChild(removeImage);
-        var prix = data.prix
-        var idRecherche = data.Id
-        var balisePrix = document.querySelector('#' + "PrixLivreId" + "-" + idRecherche)
-        balisePrix.innerHTML = prix + "$";
+        var prix = data.prix;
+        var prixAvecPoint = parseFloat(prix.replace(",", "."));
+        var prixEnDecimal = Number(prixAvecPoint.toString().match(/^\d+(?:\.\d{0,2})?/));
+        if (prix.match(",") == null)
+        {
+            prixEnDecimal = prixEnDecimal + "." + 0 + 0
+        }
+        var idRecherche = data.Id;
+        var balisePrix = document.querySelector('#' + "PrixLivreId" + "-" + idRecherche);
+        balisePrix.innerHTML = prixEnDecimal + "$";
         
      });
 
 }
-
 
 function checkTheBox(LivreId,etat) {
 

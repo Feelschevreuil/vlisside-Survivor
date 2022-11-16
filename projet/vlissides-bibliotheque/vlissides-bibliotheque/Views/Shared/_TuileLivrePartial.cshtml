@@ -2,6 +2,15 @@
 
 @{
     int livreIdCourant = @Model.livreBibliotheque.LivreId;
+    double prixInitial = Model.prixEtatLivre[0].Prix;
+    string Prixdecimal = "";
+    prixInitial = Math.Floor(100 * prixInitial) / 100;
+    if (prixInitial == (int)prixInitial)
+    {
+         Prixdecimal = ",00";
+    }
+
+
     //int nbrEtoile = 0;
     //int nbrEvaluation = 0;
     //if (Model.livreEvaluation != null)
@@ -47,7 +56,7 @@
                 <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
                     @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@Model.prixEtatLivre[0].Prix$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixInitial@Prixdecimal$</p>
                     }
                     else
                     {
@@ -147,5 +156,5 @@
    
 </div>
 
-    <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
 <script src="~/js/PrixAjax.js"></script>

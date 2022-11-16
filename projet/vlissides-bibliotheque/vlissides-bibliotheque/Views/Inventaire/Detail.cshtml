@@ -73,7 +73,7 @@
             }
             else
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixNeuf.Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixNeuf.Prix.ToString("0.00")$</p>
             }
         </div>
         <div class="text-center col-3 mt-1 rounded-4">
@@ -83,7 +83,7 @@
             }
             else
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixDigital.Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixDigital.Prix.ToString("0.00")$</p>
             }
         </div>
         <div class="text-center col-3 mt-1 ms-5 rounded-4">
@@ -93,7 +93,7 @@
             }
             else
             {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixUsager.Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixUsager.Prix.ToString("0.00")$</p>
             }
         </div>
 
