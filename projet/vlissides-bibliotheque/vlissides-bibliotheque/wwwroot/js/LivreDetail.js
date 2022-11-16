@@ -241,3 +241,38 @@ function initDetail() {
         ajouter.hidden = true;
     }
 }
+
+function supresionRapide(id) {
+    let confirmtaion = confirm("Cet item sera retiré du panier")
+    if (confirmtaion) {
+        var livres = JSON.parse(localStorage.getItem('itemsPanier'))
+
+        if (livres != null || livres != undefined) {
+
+            if (livres.Neuf != null) {
+                for (var j = 0; j < livres.Neuf.length; j++) {
+                    if (livres.Neuf[j] == id) {
+                        livres.Neuf.splice(j, 1);
+                    }
+                }
+            }
+            if (livres.Usage != null) {
+                for (var j = 0; j < livres.Usage.length; j++) {
+                    if (livres.Usage[j] == id) {
+                        livres.Usage.splice(j, 1);
+                    }
+                }
+            }
+            if (livres.Numerique != null) {
+                for (var j = 0; j < livres.Numerique.length; j++) {
+                    if (livres.Numerique[j] == id) {
+                        livres.Numerique.splice(j, 1);
+                    }
+                }
+            }
+
+            localStorage.setItem('itemsPanier', JSON.stringify(livres))
+            location.reload() 
+        }
+    }
+}
