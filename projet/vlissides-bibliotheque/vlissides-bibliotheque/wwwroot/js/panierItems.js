@@ -1,7 +1,7 @@
 ﻿getCards()
 
 function getCards() {
-    var div = document.getElementById("cardsIci")
+    var div = document.querySelector("#cardsIci")
     const pImpossible = document.createElement("p");
     const pVide = document.createElement("p");
     pImpossible.innerHTML = 'Désolé, votre navigateur ne supporte pas le "localStorage". Essayez de changer de navigateur si ce problème persiste.'
@@ -25,7 +25,7 @@ function getCards() {
     var url = location.host;
     var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
     var data = localStorage.getItem('itemsPanier');
-    var parentPartiel = document.getElementById("affichageLivre");
+    var parentPartiel = document.querySelector("#affichageLivre");
 
     if (url.match("localhost") == null) {
         stringFetch = fetchSurServeur;
@@ -93,8 +93,8 @@ function updatePrix() {
         prixTotal += parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
     }
 
-    var pPrixSansTaxes = document.getElementById('PrixAvantTaxes')
-    var pPrixAvecTaxes = document.getElementById("PrixAvecTaxes")
+    var pPrixSansTaxes = document.querySelector('#PrixAvantTaxes')
+    var pPrixAvecTaxes = document.querySelector("#PrixAvecTaxes")
 
     pPrixSansTaxes.innerHTML = prixTotal.toFixed(2) + "$";
     pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.TPS + prixTotal * Taxes.TVQ).toFixed(2) + "$";
