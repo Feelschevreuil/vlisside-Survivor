@@ -23,6 +23,7 @@
 
 <div class="row">
     <p id="pErreur"></p>
+    <p hidden id="idLivre">@livreIdCourant</p>
     <div class="row d-flex float-start">
         <div class="col-4">
             <img class="img-fluid image-detail" src="@Model.livreBibliotheque.PhotoCouverture" />
@@ -49,64 +50,63 @@
 
     <div class="o-switch row col-12 justify-content-center" data-toggle="buttons" role="group">
 
-        <label class="btn bg-back text-white p-4 col-3 me-5 rounded-4" id="Neuf-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Neuf')">
-            <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" checked> Neuf
-        </label>
-
-        <label class="btn bg-top col-3 p-4 rounded-4 text-white" id="Numerique-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Numerique')">
-            <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL"> Numérique
-        </label>
-        <label class="btn bg-top col-3 p-4 ms-5 rounded-4 text-white" id="Usager-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Usager')">
-            <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE"> Usagé
-        </label>
+        @if (prixNeuf != null)
+        {
+            <label class="btn bg-back text-white p-4 col-3 me-5 rounded-4" id="Neuf-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Neuf')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" checked> Neuf
+            </label>
+        }
+        @if (prixDigital != null)
+        {
+            <label class="btn bg-top col-3 p-4 rounded-4 text-white" id="Numerique-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Numerique')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL"> Numérique
+            </label>
+        }
+        @if (prixUsager != null)
+        {
+            <label class="btn bg-top col-3 p-4 ms-5 rounded-4 text-white" id="Usager-@livreIdCourant" onclick="BoxChecked(@livreIdCourant,'Usager')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE"> Usagé
+            </label>
+        }
     </div>
 
     <div class="row col-12 justify-content-center">
 
-        <div class="text-center col-3 mt-1 me-5 rounded-4">
-            @if (prixNeuf == null)
-            {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@pasDePrix</p>
-            }
-            else
-            {
+        @if (prixNeuf != null)
+        {
+            <div class="text-center col-3 mt-1 me-5 rounded-4">
                 <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixNeuf.Prix$</p>
-            }
-        </div>
-        <div class="text-center col-3 mt-1 rounded-4">
-            @if (prixDigital == null)
-            {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@pasDePrix</p>
-            }
-            else
-            {
+            </div>
+        }
+        @if (prixDigital != null)
+        {
+            <div class="text-center col-3 mt-1 rounded-4">
                 <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixDigital.Prix$</p>
-            }
-        </div>
-        <div class="text-center col-3 mt-1 ms-5 rounded-4">
-            @if (prixUsager == null)
-            {
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@pasDePrix</p>
-            }
-            else
-            {
+            </div>
+        }
+        @if (prixUsager != null)
+        {
+            <div class="text-center col-3 mt-1 ms-5 rounded-4">
                 <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixUsager.Prix$</p>
-            }
-        </div>
+            </div>
+        }
 
     </div>
 
     @*<div class="d-flex flex-row-reverse">
-        <div class="form-group col-2">
-            <label asp-for="quantite" class="form-label"></label>
-            <input asp-for="quantite" class="form-control" aria-required="true" />
-            <span asp-validation-for="quantite" class="text-danger"></span>
-        </div>
-    </div>*@ 
-    
+    <div class="form-group col-2">
+    <label asp-for="quantite" class="form-label"></label>
+    <input asp-for="quantite" class="form-control" aria-required="true" />
+    <span asp-validation-for="quantite" class="text-danger"></span>
+    </div>
+    </div>*@
+
     <div class="d-flex flex-row-reverse">
-        <div class="form-group col-2">
-                <input class="btn btn-primary mt-4 shadow" type="button" value="Ajouter au panier" onclick="ajouterLivreLocalStorage(@Model.livreBibliotheque.LivreId)"/>
+        <div class="form-group col-2" id="ajouter">
+            <input class="btn btn-primary mt-4 shadow" type="button" value="Ajouter au panier" onclick="ajouterLivreLocalStorage(@Model.livreBibliotheque.LivreId)" />
+        </div>
+        <div class="form-group col-2" id="supprimer" hidden>
+            <input class="btn btn-danger mt-4 shadow" type="button" value="Supprimer du panier" onclick="supprimerLivreLocalStorage(@Model.livreBibliotheque.LivreId)" />
         </div>
     </div>
 
