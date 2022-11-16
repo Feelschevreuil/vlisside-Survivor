@@ -470,7 +470,6 @@ namespace vlissides_bibliotheque.DAO
 			    )
 		    )
 		    // TODO: utiliser un Prédicat?
-		    // TODO: test unitaire
 		    .If
 		    (
 			 livreChampsRecherche.ChercherAvecCours()
@@ -484,12 +483,23 @@ namespace vlissides_bibliotheque.DAO
 					    .Where
 					    (
 						coursLivre =>
+						    // TODO: seule différence avec la recherche selon le programme d'étude
 						    livreChampsRecherche
 							.CoursId
 							.Contains
 							(
 							    coursLivre
 								.CoursId
+							)
+						    &&
+						    livreChampsRecherche
+							.ProgrammesEtudeId
+							.Contains
+							(
+							    coursLivre
+								.Cours
+								    .ProgrammeEtude
+									.ProgrammeEtudeId
 							)
 					    )
 					    .Select
