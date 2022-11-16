@@ -1322,13 +1322,62 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	public void TestSelonProfesseur()
 	{
 
+	    List<LivreBibliotheque> livresBibliotheque;
+	    List<int> coursId;
+	    List<int> programmesEtudeId;
+	    List<int> professeursId;
+	    Cours cours;
 	    Professeur professeur;
+	    ProgrammeEtude programmeEtude;
+	    int nombreLivresAvecBonProfesseur;
+	    int nombreLivresSelonRecherche;
+	    LivreChampsRecherche livreChampsRecherche;
+
+	    nombreLivresAvecBonProfesseur = 10;
+	    programmesEtudeId = new();
+	    coursId = new();
+	    professeursId = new();
 
 	    professeur = CreateProfesseur("Mia", "Khalifa");
+	    programmeEtude = CreateProgrammeEtude("Arts visuels", "69696969");
+	    cours = CreateCours(programmeEtude, "Production vidéo", "6969");
+	    livresBibliotheque = AjouterLivres(nombreLivresAvecBonProfesseur);
 
-	    // LierProgrammeEtudeAuxLivres(livresBibliotheque, professeur);
+	    LierCoursAuxLivres(livresBibliotheque, cours);
+	    LierCoursAuProfesseur(cours, professeur);
+	    LierPrixEtatLivresAuxLivresPresents(livresBibliotheque, 10.0);
 
-	    throw new NotImplementedException("Not implemented");
+	    programmesEtudeId.Add(programmeEtude.ProgrammeEtudeId);
+	    coursId.Add(cours.CoursId);
+	    professeursId.Add(professeur.ProfesseurId);
+
+	    professeur = CreateProfesseur("John", "Doe");
+	    programmeEtude = CreateProgrammeEtude("Sports", "66666666");
+	    cours = CreateCours(programmeEtude, "Plein air", "6666");
+	    livresBibliotheque = AjouterLivres(20);
+
+	    LierCoursAuxLivres(livresBibliotheque, cours);
+	    LierCoursAuProfesseur(cours, professeur);
+	    LierPrixEtatLivresAuxLivresPresents(livresBibliotheque, 10.0);
+
+	    livreChampsRecherche = new()
+	    {
+		ProgrammesEtudeId = programmesEtudeId,
+		CoursId = coursId,
+		ProfesseursId = professeursId,
+		Neuf = true
+	    };
+
+	    nombreLivresSelonRecherche = _livresBibliothequeDao
+		.GetSelonProprietes(livreChampsRecherche)
+		.Count();
+
+	    Assert
+		.Equal
+		(
+		    nombreLivresAvecBonProfesseur,
+		    nombreLivresSelonRecherche
+		);
 	}
 
 	/// <summary>
@@ -1939,6 +1988,35 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 	    }
 
 	    _context.CoursLivres.AddRange(coursLivres);
+
+	    _context.SaveChanges();
+	}
+
+	/// <summary>
+	/// Lie un <c>Cours</c> au <c>Professeur</c> spécifie dans la base de données.
+	/// </summary>
+	/// <param name="cours">
+	/// <c>Cours</c> à lier au <c>Professeur</c>.
+	/// </param>
+	/// <param name="professeur">
+	/// <c>Professeur</c> à lier au <c>Cours</c>.
+	/// </param>
+	private void LierCoursAuProfesseur
+	(
+	    Cours cours,
+	    Professeur professeur
+	)
+	{
+
+	    CoursProfesseur coursProfesseur;
+
+	    coursProfesseur = new()
+	    {
+		Cours = cours,
+		Professeur = professeur
+	    };
+
+	    _context.CoursProfesseurs.Add(coursProfesseur);
 
 	    _context.SaveChanges();
 	}
