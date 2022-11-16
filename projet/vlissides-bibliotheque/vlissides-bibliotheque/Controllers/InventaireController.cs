@@ -413,7 +413,7 @@ namespace vlissides_bibliotheque.Controllers
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
                     EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
-                    Prix = (double)form.PrixNeuf,
+                    Prix = (double)form.PrixNumerique,
                 };
                 _context.PrixEtatsLivres.Add(nouveauPrixDigital);
                 _context.SaveChanges();
@@ -433,7 +433,7 @@ namespace vlissides_bibliotheque.Controllers
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
                     EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
-                    Prix = (double)form.PrixNeuf,
+                    Prix = (double)form.PrixUsage,
                     QuantiteUsage = 0
                 };
                 if (form.QuantiteUsagee != null)
