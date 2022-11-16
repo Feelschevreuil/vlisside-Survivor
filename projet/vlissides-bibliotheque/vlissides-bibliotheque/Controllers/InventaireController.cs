@@ -194,12 +194,6 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
             ModelState.Remove("CoursId");
-            if (form.PrixNeuf == null || form.PrixNumerique == 0 || form.PrixUsage == 0 || form.QuantiteUsagee == 0)
-            {
-                ModelState.Remove("PrixNeuf");
-            }
-
-
 
             if (ModelState.IsValid)
             {
