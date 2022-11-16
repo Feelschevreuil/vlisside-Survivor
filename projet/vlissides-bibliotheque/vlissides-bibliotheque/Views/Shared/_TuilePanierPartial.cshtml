@@ -9,15 +9,9 @@
 
     
     <div>
-        <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
-            <input class="btn btn-primary shadow" type="button" value="Modifier" />
-        </a>
-
-        <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
             <a>
-                <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="submit" value="Supprimer" />
+                <input class="btn btn-danger shadow" onclick="supresionRapide(@livreIdCourant)" type="submit" value="Supprimer" />
             </a>
-        </form>
     </div>
     
     <div>
@@ -86,3 +80,4 @@
 
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
 <script src="~/js/PrixAjax.js"></script>
+<script src="~/js/LivreDetail.js"></script>
