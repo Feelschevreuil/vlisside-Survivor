@@ -59,7 +59,7 @@ namespace vlissides_bibliotheque.Controllers
         public ActionResult creer()
         {
 
-            CreationLivreVM nouveauLivre = new CreationLivreVM { Auteurs = ListDropDownAuteurs(), MaisonsDeditions = ListDropDownMaisonDedition(), ListeCoursComplete = ListDropDownCours() };
+            CreationLivreVM nouveauLivre = new CreationLivreVM { Auteurs = ListDropDownAuteurs(), MaisonsDeditions = ListDropDownMaisonDedition() };
             return View(nouveauLivre);
         }
 
@@ -118,7 +118,6 @@ namespace vlissides_bibliotheque.Controllers
                 return View("succesAjoutLivre", nouveauLivreBibliothèque);
             }
             form.Auteurs = ListDropDownAuteurs();
-            form.ListeCoursComplete = ListDropDownCours();
             form.MaisonsDeditions = ListDropDownMaisonDedition();
             return View(form);
 
@@ -158,10 +157,9 @@ namespace vlissides_bibliotheque.Controllers
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 AuteurId = auteurLivre.AuteurId,
-               // CoursId = coursLivre.CoursId,
+                // CoursId = coursLivre.CoursId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
                 Auteurs = ListDropDownAuteurs(),
-                ListeCours = ListDropDownCours(),
                 MaisonsDeditions = ListDropDownMaisonDedition(),
                 DatePublication = livreBibliothequeRechercher.DatePublication,
                 ISBN = livreBibliothequeRechercher.Isbn,
@@ -179,7 +177,7 @@ namespace vlissides_bibliotheque.Controllers
 
             if (prixNeuf != null) { ModifierLivre.PrixNeuf = prixNeuf.Prix; } else { ModifierLivre.PrixNeuf = 0; };
             if (prixDigital != null) { ModifierLivre.PrixNumerique = prixDigital.Prix; } else { ModifierLivre.PrixNumerique = 0; };
-            if (prixUsage != null) { ModifierLivre.PrixUsage = prixUsage.Prix; } else { ModifierLivre.PrixUsage = 0; };
+            if (prixUsage != null) { ModifierLivre.PrixUsage = prixUsage.Prix; ModifierLivre.QuantiteUsagee = prixUsage.QuantiteUsage; } else { ModifierLivre.PrixUsage = 0; ModifierLivre.QuantiteUsagee = 0; };
 
 
             return View(ModifierLivre);
@@ -196,6 +194,12 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
             ModelState.Remove("CoursId");
+            if (form.PrixNeuf == null || form.PrixNumerique == 0 || form.PrixUsage == 0 || form.QuantiteUsagee == 0)
+            {
+                ModelState.Remove("PrixNeuf");
+            }
+
+
 
             if (ModelState.IsValid)
             {
@@ -221,15 +225,15 @@ namespace vlissides_bibliotheque.Controllers
                 //_context.CoursLivres.Add(nouvelleAssociation);
                 //_context.SaveChanges();
 
-                AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x=>x.LivreBibliothequeId == form.IdDuLivre);
-                if(auteurLivre != null && auteurLivre.AuteurId != form.AuteurId)
+                AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x => x.LivreBibliothequeId == form.IdDuLivre);
+                if (auteurLivre != null && auteurLivre.AuteurId != form.AuteurId)
                 {
                     _context.AuteursLivres.Remove(auteurLivre);
                     _context.SaveChanges();
 
                     AuteurLivre nouveauAuteurLivre = new()
                     {
-                        AuteurId = (int) form.AuteurId,
+                        AuteurId = (int)form.AuteurId,
                         LivreBibliothequeId = LivreBibliothèqueModifier.LivreId
                     };
                     _context.AuteursLivres.Add(nouveauAuteurLivre);
@@ -254,7 +258,6 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             form.Auteurs = ListDropDownAuteurs();
-            form.ListeCours = ListDropDownCours();
             form.MaisonsDeditions = ListDropDownMaisonDedition();
             return View(form);
         }
@@ -311,20 +314,6 @@ namespace vlissides_bibliotheque.Controllers
 
             return Liste;
         }
-
-        public List<SelectListItem> ListDropDownCours()
-        {
-
-            List<SelectListItem> Liste = new List<SelectListItem>();
-
-            Liste.Add(new SelectListItem { Value = "", Text = "Choisissez un cours" });
-
-            foreach (var e in _context.Cours)
-                Liste.Add(new SelectListItem { Value = e.CoursId.ToString(), Text = e.Code + " " + e.Nom + " " + e.AnneeParcours });
-
-            return Liste;
-        }
-
         public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, CreationLivreVM form)
         {
             List<PrixEtatLivre> ListPrixEtat = new();
@@ -367,15 +356,10 @@ namespace vlissides_bibliotheque.Controllers
         }
         public bool UpdateLesPrix(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
         {
-            if (form.PrixNeuf == null) { form.PrixNeuf = 0; };
-            if (form.PrixNumerique == null) { form.PrixNumerique = 0; };
-            if (form.PrixUsage == null) { form.PrixUsage = 0; form.QuantiteUsagee = 0; };
-
             List<PrixEtatLivre> listPrixEtat = _context.PrixEtatsLivres
                 .Include(x => x.LivreBibliotheque)
                 .Include(x => x.EtatLivre)
                 .ToList();
-
 
             PrixEtatLivre prixNeuf = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.NEUF);
 
@@ -383,22 +367,86 @@ namespace vlissides_bibliotheque.Controllers
 
             PrixEtatLivre prixUsager = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.USAGE);
 
-            if (prixNeuf != null)
+
+            if (form.PrixNeuf == null || form.PrixNeuf == 0 && prixNeuf !=null)
+            {
+                _context.PrixEtatsLivres.Remove(prixNeuf);
+                _context.SaveChanges();
+            };
+
+            if (form.PrixNumerique == null || form.PrixNumerique == 0 && prixDigital != null)
+            {
+                _context.PrixEtatsLivres.Remove(prixDigital);
+                _context.SaveChanges();
+            };
+            if (form.PrixUsage == null || form.PrixUsage == 0 && prixUsager != null)
+            {
+                _context.PrixEtatsLivres.Remove(prixUsager);
+                _context.SaveChanges();
+            };
+
+
+            if (prixNeuf != null && form.PrixNeuf != 0)
             {
                 prixNeuf.Prix = (double)form.PrixNeuf;
                 _context.PrixEtatsLivres.Update(prixNeuf);
                 _context.SaveChanges();
             }
-            if (prixDigital != null)
+            else if(form.PrixNeuf != 0)
+            {
+                PrixEtatLivre nouveauPrixNeuf = new()
+                {
+                    PrixEtatLivreId = 0,
+                    LivreBibliothequeId = LivreEtatPrix.LivreId,
+                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
+                    Prix = (double)form.PrixNeuf,
+                };
+                _context.PrixEtatsLivres.Add(nouveauPrixNeuf);
+                _context.SaveChanges();
+            }
+
+
+            if (prixDigital != null && form.PrixNumerique != 0)
             {
                 prixDigital.Prix = (double)form.PrixNumerique;
                 _context.PrixEtatsLivres.Update(prixDigital);
                 _context.SaveChanges();
             }
-            if (prixUsager != null)
+            else if(form.PrixNumerique != 0)
+            {
+                PrixEtatLivre nouveauPrixDigital = new()
+                {
+                    PrixEtatLivreId = 0,
+                    LivreBibliothequeId = LivreEtatPrix.LivreId,
+                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
+                    Prix = (double)form.PrixNeuf,
+                };
+                _context.PrixEtatsLivres.Add(nouveauPrixDigital);
+                _context.SaveChanges();
+            }
+
+            if (prixUsager != null && form.PrixUsage != 0)
             {
                 prixUsager.Prix = (double)form.PrixUsage;
+                prixUsager.QuantiteUsage = (int)form.QuantiteUsagee;
                 _context.PrixEtatsLivres.Update(prixUsager);
+                _context.SaveChanges();
+            }
+            else if (form.PrixUsage != 0)
+            {
+                PrixEtatLivre nouveauPrixUsage = new()
+                {
+                    PrixEtatLivreId = 0,
+                    LivreBibliothequeId = LivreEtatPrix.LivreId,
+                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
+                    Prix = (double)form.PrixNeuf,
+                    QuantiteUsage = 0
+                };
+                if (form.QuantiteUsagee != null)
+                {
+                    nouveauPrixUsage.QuantiteUsage = (int)form.QuantiteUsagee;
+                }
+                _context.PrixEtatsLivres.Add(nouveauPrixUsage);
                 _context.SaveChanges();
             }
 
