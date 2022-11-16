@@ -1,5 +1,6 @@
 ﻿@model CreationLivreVM
 
+<body onload="ToggleCheckPrixUsager(); ToggleCheckPrixNumerique(); ToggleCheckPrixNeuf()">
 <div class="row">
     <div class="col-md-8 d-block m-auto">
         <form method="post" class="text-center m-3" asp-action="Creer" asp-controller="Inventaire" enctype="multipart/form-data">
@@ -85,7 +86,7 @@
                                     <input asp-for="QuantiteUsagee" disabled class="form-control" type="number" placeholder="Quantité" id="quantitePrixUsager" />
                                     <label class="ps-1">
                                         Disponible
-                                        <input asp-for="PossedeNeuf" class="" type="checkbox" onclick="prixToggleUsager()" />
+                                            <input id="PossedeUsage" class="" type="checkbox" onclick="prixToggleUsager()" />
                                     </label>
                                     
                                 </div>
@@ -120,3 +121,4 @@
         </form>
     </div>
 </div>
+</body>
