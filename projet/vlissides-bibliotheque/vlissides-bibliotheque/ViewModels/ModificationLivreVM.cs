@@ -43,7 +43,6 @@ namespace vlissides_bibliotheque.ViewModels
         [Number]
         [DataType(DataType.Currency)]
         [DisplayName("Neuf")]
-        [RegularExpression(@"^\d+(\,\d{1,2})?$", ErrorMessage = "Les prix doivent une virgule ET ne peux pas dépasser deux chiffres après cette même virgule.")]
         public double? PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
