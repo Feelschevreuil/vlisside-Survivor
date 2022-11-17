@@ -18,7 +18,8 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Resume { get; set; }
 
-        
+        [Required]
+        [Image]
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -39,10 +40,10 @@ namespace vlissides_bibliotheque.ViewModels
         public double? PrixNumerique { get; set; } = 0;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-		[Number]
+        [Number]
         [DataType(DataType.Currency)]
         [DisplayName("Neuf")]
-		public double? PrixNeuf { get; set; } 
+        public double? PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
 		public int? QuantiteUsagee { get; set; }
@@ -63,12 +64,8 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DisplayName("Auteur")]
         public int? AuteurId { get; set; }
-
 		
 		public List<SelectListItem> Auteurs { get; set; }
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [DisplayName("Cours")]
-        public int? CoursId { get; set; }
 		
 		public List<SelectListItem> ListeCours { get; set; }
 
@@ -77,6 +74,8 @@ namespace vlissides_bibliotheque.ViewModels
         public int? MaisonDeditionId { get; set; }
 		
 		public List<SelectListItem> MaisonsDeditions { get; set; }
+        [DisplayName("Liste des cours")]
+        public List<checkBoxCours> checkBoxCours { get; set; }
 	}
 
 }

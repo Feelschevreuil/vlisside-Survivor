@@ -1,4 +1,5 @@
-﻿using vlissides_bibliotheque.Models;
+﻿using System.ComponentModel;
+using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.ViewModels
 {
@@ -13,8 +14,8 @@ namespace vlissides_bibliotheque.ViewModels
 
         public CoursLivre coursLivre;
 
-        public PrixEtatLivre prixEtatLivre;
-
-        public Boolean complementaire;
+        public List<PrixEtatLivre> prixEtatLivre;
+        [DisplayName("Quantité")]
+        public int quantite { get; set; }
     }
 }

@@ -31,14 +31,15 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="PhotoCouverture" class="form-label"></label>
-                            <input type="file" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
+
+                            <input type="file" accept=".png,.jpg,.jpeg" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
                             <input asp-for="PhotoCouverture" class="form-control" aria-required="true" hidden id="sendImg" />
                             @if (Model.PhotoCouverture != null) {
                                 <img id="viewImg" src="@Model.PhotoCouverture" class="col-md-6 m-1" />
                             } else {
                                 <img id="viewImg" class="col-md-6 m-1" />
                             }
-                            <span asp-validation-for="PhotoCouverture" class="text-danger"></span>
+                            <span asp-validation-for="PhotoCouverture" class="row text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="DatePublication" class="form-label"></label>
@@ -51,7 +52,6 @@
                         <div class="form-group">
                             <label asp-for="Prix" class="form-label"></label>
                             <input asp-for="Prix" class="form-control" aria-required="true" />
-                            <span asp-validation-for="Prix" class="text-danger"></span>
                         </div>
                     </fieldset>
                 </div>

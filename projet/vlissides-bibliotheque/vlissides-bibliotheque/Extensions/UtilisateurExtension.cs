@@ -62,7 +62,6 @@ namespace vlissides_bibliotheque
                 Prenom = etudiant.Prenom,
                 NoTelephone = etudiant.PhoneNumber,
                 ProgrammeEtudeId = etudiant.ProgrammeEtudeId,
-                NomProgrammeEtude = etudiant.ProgrammeEtude.Nom,
                 ProgrammeEtudes = new SelectList(context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom)),
                 NoCivique = adresse.NumeroCivique.ToString(),
                 Rue = adresse.Rue,
@@ -71,6 +70,7 @@ namespace vlissides_bibliotheque
                 CodePostal = adresse.CodePostal,
                 ProvinceId = adresse.Province.ProvinceId,
                 NomProvince = adresse.Province.Nom,
+                checkBoxCours = CoursCheckedBox.GetCoursCheckedBox(context, etudiant.Id),
                 Provinces = new SelectList(context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom)),
             };
 
