@@ -307,13 +307,15 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
-        public IActionResult ModifierLivre()
+        public IActionResult ModifierLivre(int id)
         {
-            List<LivreBibliotheque> livres = _context.LivresBibliotheque
+            ModificationLivreVM vm = new();
+            LivreBibliotheque livre = _context.LivresBibliotheque
                 .Include(livre => livre.MaisonEdition)
-                .ToList();
+                .ToList()
+                .FirstOrDefault();
 
-            return View(livres);
+            return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", vm);
         }
 
         [HttpGet]
