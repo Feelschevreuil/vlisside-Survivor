@@ -10,14 +10,14 @@ namespace vlissides_bibliotheque.DAO
     interface IDAORecherchableSuggestions
     {
 
-	/// <summary>
-	/// Cherche une propriété des objet.
-	/// </summary>
-	/// <param name="recherche">Recherche de propriété.</param>
-	/// <param name="quantiteSuggestions">Quantité de suggestions à retourner.</param>
-	/// <returns>
-	/// Une liste de Strings contenant les titres correspondant à la recherche.
-	/// </returns>
-	IEnumerable<string> GetSuggestions(string recherche, int quantiteSuggestions);
+        /// <summary>
+        /// Cherche une propriété des objet.
+        /// </summary>
+        /// <param name="recherche">Recherche de propriété.</param>
+        /// <param name="quantiteSuggestions">Quantité de suggestions à retourner.</param>
+        /// <returns>
+        /// Une liste de Strings contenant les titres correspondant à la recherche.
+        /// </returns>
+        IEnumerable<string> GetSuggestions(string recherche, int quantiteSuggestions);
     }
 }
