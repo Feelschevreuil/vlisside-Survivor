@@ -18,5 +18,17 @@ namespace vlissides_bibliotheque.Models
         [StringLength(40)]
         public string Prenom { get; set; }
 
+	/// <summary>
+	/// Concatenate le prénom de l'auteur et son nom.
+	/// </summary>
+	public string GetNomComplet()
+	{
+
+	    string nomComplet;
+
+	    nomComplet = Prenom + " " + Nom;
+
+	    return nomComplet;
+	}
     }
 }
