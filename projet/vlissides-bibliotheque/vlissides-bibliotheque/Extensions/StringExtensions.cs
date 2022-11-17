@@ -8,15 +8,15 @@ namespace vlissides_bibliotheque.Extentions
     public static class StringExtensions
     {
 
-	/// <summary>
-	/// Confirme qu'une chaîne de caractères est présente dans une autre chaîne de caractères.
-	/// <param name="source">Source à regarder si elle possède la chaîne de caractère cherchée.</param>
-	/// <param name="substring">Chaîne de caractère à chercher.</param>
-	/// </summary>
-	public static bool ContainsCaseInsensitive(this string source, string substring)
-	{
+        /// <summary>
+        /// Confirme qu'une chaîne de caractères est présente dans une autre chaîne de caractères.
+        /// <param name="source">Source à regarder si elle possède la chaîne de caractère cherchée.</param>
+        /// <param name="substring">Chaîne de caractère à chercher.</param>
+        /// </summary>
+        public static bool ContainsCaseInsensitive(this string source, string substring)
+        {
 
-	    return source?.IndexOf(substring, StringComparison.CurrentCultureIgnoreCase) > -1;
-	}
+            return source?.IndexOf(substring, StringComparison.CurrentCultureIgnoreCase) > -1;
+        }
     }
 }

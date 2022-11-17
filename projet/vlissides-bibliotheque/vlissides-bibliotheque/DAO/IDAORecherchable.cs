@@ -11,21 +11,21 @@ namespace vlissides_bibliotheque.DAO
     interface IDAORecherchable<T>
     {
 
-	/// <summary>
-	/// Cherche les objets par une propriété.
-	/// </summary>
-	/// <param name="propriete">
-	/// Propriété à chercher.
-	/// </param>
-	/// <param name="quantityPerPage">
-	/// La quantité d'objets que l'on veut afficher par page.
-	/// </param>
-	/// <param name="page">
-	/// Le numéro de page des résultats.
-	/// </param>
-	/// <returns>
-	/// Une liste d'objets ayant la propriété similaire égale.
-	/// </returns>
-	IEnumerable<T> GetSelonPropriete(string propriete, int quantiteParPage = ConstantesDAO.QUANTITE_PAR_PAGE, int page = 0);
+        /// <summary>
+        /// Cherche les objets par une propriété.
+        /// </summary>
+        /// <param name="propriete">
+        /// Propriété à chercher.
+        /// </param>
+        /// <param name="quantityPerPage">
+        /// La quantité d'objets que l'on veut afficher par page.
+        /// </param>
+        /// <param name="page">
+        /// Le numéro de page des résultats.
+        /// </param>
+        /// <returns>
+        /// Une liste d'objets ayant la propriété similaire égale.
+        /// </returns>
+        IEnumerable<T> GetSelonPropriete(string propriete, int quantiteParPage = ConstantesDAO.QUANTITE_PAR_PAGE, int page = 0);
     }
 }

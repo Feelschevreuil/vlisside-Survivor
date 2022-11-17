@@ -7,7 +7,7 @@ namespace vlissides_bibliotheque_tests.Constantes
     public static class ConstantesDb
     {
 
-	public const string DB_NOM = "pi";
-	public const int DB_VIDE = 0;
+        public const string DB_NOM = "pi";
+        public const int DB_VIDE = 0;
     }
 }
