@@ -42,7 +42,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
                 Nom = "BitchX - irc"
             };
 
-            _context.MaisonsEditions.Add(maisonEdition);
+            _context.MaisonsEdition.Add(maisonEdition);
             _context.SaveChanges();
 
             livreBibliothequeAjouter = new()
@@ -73,7 +73,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
                 Nom = "PornHub"
             };
 
-            _context.MaisonsEditions.Add(maisonEdition);
+            _context.MaisonsEdition.Add(maisonEdition);
             _context.SaveChanges();
 
             livreBibliothequeAjouter = new()
@@ -118,7 +118,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
                 Nom = "PornHub"
             };
 
-            _context.MaisonsEditions.Add(maisonEdition);
+            _context.MaisonsEdition.Add(maisonEdition);
             _context.SaveChanges();
 
             livreBibliothequeAjouter0 = new()
@@ -205,7 +205,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
                 Nom = "PornHub"
             };
 
-            _context.MaisonsEditions.Add(maisonEdition);
+            _context.MaisonsEdition.Add(maisonEdition);
             _context.SaveChanges();
 
             nombreSuggestions = 1;
@@ -281,7 +281,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
                 Nom = "PornHub"
             };
 
-            _context.MaisonsEditions.Add(maisonEdition);
+            _context.MaisonsEdition.Add(maisonEdition);
             _context.SaveChanges();
 
             nombreResultats = 1;
@@ -1477,7 +1477,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
                 Nom = nom
             };
 
-            _context.MaisonsEditions.Add(maisonEdition);
+            _context.MaisonsEdition.Add(maisonEdition);
             _context.SaveChanges();
 
             return maisonEdition;
@@ -1799,17 +1799,17 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 
             etatLivreNeuf = new()
             {
-                Nom = NomEtatLivre.Neuf
+                Nom = NomEtatLivre.NEUF
             };
 
             etatLivreDigital = new()
             {
-                Nom = NomEtatLivre.Numerique
+                Nom = NomEtatLivre.DIGITAL
             };
 
             etatLivreUsage = new()
             {
-                Nom = NomEtatLivre.Usagee
+                Nom = NomEtatLivre.USAGE
             };
 
             _context.EtatsLivres.Add(etatLivreNeuf);
@@ -1869,19 +1869,19 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
             if(neuf)
             {
             
-                etatLivreNeuf = GetEtatLivreSelonEtat(NomEtatLivre.Neuf);
+                etatLivreNeuf = GetEtatLivreSelonEtat(NomEtatLivre.NEUF);
             }
 
             if(digital)
             {
 
-                etatLivreDigital = GetEtatLivreSelonEtat(NomEtatLivre.Numerique);
+                etatLivreDigital = GetEtatLivreSelonEtat(NomEtatLivre.DIGITAL);
             }
 
             if(usage)
             {
 
-                etatLivreUsage = GetEtatLivreSelonEtat(NomEtatLivre.Usagee);
+                etatLivreUsage = GetEtatLivreSelonEtat(NomEtatLivre.USAGE);
             }
 
             foreach(LivreBibliotheque livre in livresBibliotheque)
