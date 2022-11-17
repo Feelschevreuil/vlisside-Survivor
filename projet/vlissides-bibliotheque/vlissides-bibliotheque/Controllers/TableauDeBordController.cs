@@ -287,15 +287,16 @@ namespace vlissides_bibliotheque.Controllers
                 _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
                 _context.SaveChanges();
 
-                CoursLivre nouvelleAssociation = new() {
-                    CoursLivreId = 0,
-                    CoursId = (int)vm.CoursId,
-                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                    Complementaire = vm.Obligatoire
-                };
+                //TODO: implémenter la nouvelle façcons d'associer les cours à un livre
+                //CoursLivre nouvelleAssociation = new() {
+                //    CoursLivreId = 0,
+                //    CoursId = (int)vm.CoursId,
+                //    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                //    Complementaire = vm.Obligatoire
+                //};
 
-                _context.CoursLivres.Add(nouvelleAssociation);
-                _context.SaveChanges();
+                //_context.CoursLivres.Add(nouvelleAssociation);
+                //_context.SaveChanges();
 
                 //_context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, vm));
                 _context.SaveChanges();
@@ -315,30 +316,39 @@ namespace vlissides_bibliotheque.Controllers
         {
             ModificationLivreVM vm = new();
             LivreBibliotheque livreBibliothequeRechercher = _livresBibliothequeDAO.Get(id);
-            AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x => x.LivreBibliothequeId == id);
-            List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == id);
-            List<EtatLivre> etatLivres = _context.EtatsLivres.ToList();
+            AuteurLivre auteurLivre = _context.AuteursLivres
+                .ToList()
+                .Find(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
+            List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres
+                .ToList()
+                .FindAll(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
+            List<EtatLivre> etatLivres = _context.EtatsLivres
+                .ToList();
 
+            int idLivreNeuf = etatLivres
+                .Find(y => y.Nom == NomEtatLivre.NEUF).EtatLivreId;
+            int idLivreNumerique = etatLivres
+                .Find(y => y.Nom == NomEtatLivre.DIGITAL).EtatLivreId;
+            int idLivreUsager = etatLivres
+                .Find(y => y.Nom == NomEtatLivre.USAGE).EtatLivreId;
 
-            int idLivreNeuf = etatLivres.Find(y => y.Nom == NomEtatLivre.NEUF).EtatLivreId;
-            int idLivreNumerique = etatLivres.Find(y => y.Nom == NomEtatLivre.DIGITAL).EtatLivreId;
-            int idLivreUsager = etatLivres.Find(y => y.Nom == NomEtatLivre.USAGE).EtatLivreId;
-
-
-            var pasEtatAuLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
-            var PasNumerique = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNumerique);
-            var pasUsager = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreUsager);
-            var pasDeNeuf = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf);
-
-
+            var pasEtatAuLivre = _context.PrixEtatsLivres
+                .ToList()
+                .FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
+            var PasNumerique = pasEtatAuLivre
+                .Find(x => x.EtatLivreId == idLivreNumerique);
+            var pasUsager = pasEtatAuLivre
+                .Find(x => x.EtatLivreId == idLivreUsager);
+            var pasDeNeuf = pasEtatAuLivre
+                .Find(x => x.EtatLivreId == idLivreNeuf);
 
             ModificationLivreVM ModifierLivre = new()
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 AuteurId = auteurLivre.AuteurId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
-                Auteurs = ListDropDownAuteurs(),
-                MaisonsDeditions = ListDropDownMaisonDedition(),
+                Auteurs = ListDropDown.ListDropDownAuteurs(_context),
+                MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
                 DatePublication = livreBibliothequeRechercher.DatePublication,
                 ISBN = livreBibliothequeRechercher.Isbn,
                 Titre = livreBibliothequeRechercher.Titre,

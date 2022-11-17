@@ -170,8 +170,8 @@ namespace vlissides_bibliotheque.Controllers
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 AuteurId = auteurLivre.AuteurId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
-                Auteurs = ListDropDownAuteurs(),
-                MaisonsDeditions = ListDropDownMaisonDedition(),
+                Auteurs = ListDropDown.ListDropDownAuteurs(_context),
+                MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
                 DatePublication = livreBibliothequeRechercher.DatePublication,
                 ISBN = livreBibliothequeRechercher.Isbn,
                 Titre = livreBibliothequeRechercher.Titre,
@@ -285,32 +285,6 @@ namespace vlissides_bibliotheque.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Bibliotheque");
-        }
-
-        public List<SelectListItem> ListDropDownAuteurs()
-        {
-
-            List<SelectListItem> Liste = new List<SelectListItem>();
-
-            Liste.Add(new SelectListItem { Value = "", Text = "Choisissez un auteur" });
-
-            foreach (var e in _context.Auteurs)
-                Liste.Add(new SelectListItem { Value = e.AuteurId.ToString(), Text = e.Nom + ", " + e.Prenom });
-
-            return Liste;
-        }
-
-        public List<SelectListItem> ListDropDownMaisonDedition()
-        {
-
-            List<SelectListItem> Liste = new List<SelectListItem>();
-
-            Liste.Add(new SelectListItem { Value = "", Text = "Choisissez une maison d'édition" });
-
-            foreach (var e in _context.MaisonsEdition)
-                Liste.Add(new SelectListItem { Value = e.MaisonEditionId.ToString(), Text = e.Nom });
-
-            return Liste;
         }
         public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, CreationLivreVM form)
         {
