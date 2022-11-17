@@ -328,7 +328,7 @@ namespace vlissides_bibliotheque.Controllers
                 };
                 ListPrixEtat.Add(AssociationPrixNeuf);
             }
-            if (form.PrixNumerique == null && form.PrixNumerique != 0)
+            if (form.PrixNumerique != null && form.PrixNumerique != 0)
             {
                 PrixEtatLivre AssociationPrixNumérique = new()
                 {
@@ -339,7 +339,7 @@ namespace vlissides_bibliotheque.Controllers
                 };
                 ListPrixEtat.Add(AssociationPrixNumérique);
             }
-            if (form.PrixUsage == null && form.PrixUsage != 0)
+            if (form.PrixUsage != null && form.PrixUsage != 0)
             {
                 PrixEtatLivre AssociationPrixUsager = new()
                 {
