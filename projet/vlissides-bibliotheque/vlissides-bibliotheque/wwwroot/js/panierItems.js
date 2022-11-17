@@ -85,8 +85,8 @@ function getCards() {
 
 function updatePrix() {
     var Taxes = {
-        "TPS": 0.05,
-        "TVQ":0.09975
+        "GST": 0.05,
+       
     }
     var tousPrix = document.querySelectorAll('[id^="PrixLivreId"]');
     var prixTotal = 0.00;
@@ -103,7 +103,7 @@ function updatePrix() {
     
 
     pPrixSansTaxes.innerHTML = prixTotal.toFixed(2) + "$";
-    pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.TPS + prixTotal * Taxes.TVQ).toFixed(2) + "$";
+    pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.GST).toFixed(2) + "$";
 }
 
 function GetDecimal(prix) {
