@@ -15,21 +15,21 @@
     img.id = "chargement";
     img.classList.add("position-absolute", "fixed-top","w-100", "h-100");
     cercle.append(img);
-    
+
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
     var fetchEnLocal = "/Accueil/ChangerPrix";
-    var fetchSurServeur = "2036516/Accueil/ChangerPrix";
+    var fetchSurServeur = numeroEtudiant + "Accueil/ChangerPrix";
     var stringFetch = "";
     var url = location.host;
+
 
     if (url.match("localhost") == null) {
         stringFetch = fetchSurServeur;
     } else {
         stringFetch = fetchEnLocal;
     }
-
     
     var data = JSON.stringify(DonnerRecus);
-
 
     fetch(stringFetch, {
         method: 'Post',
@@ -47,15 +47,20 @@
 
         var removeImage = document.querySelector("#chargement");
         removeImage.parentElement.removeChild(removeImage);
-        var prix = data.prix
-        var idRecherche = data.Id
-        var balisePrix = document.querySelector('#' + "PrixLivreId" + "-" + idRecherche)
-        balisePrix.innerHTML = prix + "$";
+        var prix = data.prix;
+        var prixAvecPoint = parseFloat(prix.replace(",", "."));
+        var prixEnDecimal = Number(prixAvecPoint.toString().match(/^\d+(?:\.\d{0,2})?/));
+        if (prix.match(",") == null)
+        {
+            prixEnDecimal = prixEnDecimal + "." + 0 + 0
+        }
+        var idRecherche = data.Id;
+        var balisePrix = document.querySelector('#' + "PrixLivreId" + "-" + idRecherche);
+        balisePrix.innerHTML = prixEnDecimal + "$";
         
      });
 
 }
-
 
 function checkTheBox(LivreId,etat) {
 
