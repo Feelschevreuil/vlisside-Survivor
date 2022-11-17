@@ -12,10 +12,12 @@ namespace vlissides_bibliotheque.ViewModels
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		public string Titre { get; set; }
 
+		[DisplayName("Description")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		public string Resume { get; set; }
 
 		[Required]
+		[ImageAttribute]
 		public string Photo { get; set; }
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
