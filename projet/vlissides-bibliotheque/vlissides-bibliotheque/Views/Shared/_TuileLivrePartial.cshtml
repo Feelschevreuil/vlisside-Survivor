@@ -3,19 +3,6 @@
 @{
     int livreIdCourant = @Model.livreBibliotheque.LivreId;
 
-    double prixInitial = 0;
-    string Prixdecimal = "";
-
-    if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
-    {
-        prixInitial = Model.prixEtatLivre[0].Prix;
-        prixInitial = Math.Floor(100 * prixInitial) / 100;
-        if (prixInitial == (int)prixInitial)
-        {
-            Prixdecimal = ",00";
-        }
-       
-    }
     if (Model.livreBibliotheque.PhotoCouverture == "N/A")
     {
         Model.livreBibliotheque.PhotoCouverture = LivreEnTuile.GetImageParDefaut();
@@ -47,7 +34,7 @@
                 <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
                     @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixInitial@Prixdecimal$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model)$</p>
                     }
                     else
                     {
