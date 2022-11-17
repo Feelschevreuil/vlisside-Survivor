@@ -1,4 +1,5 @@
-﻿initDetail()
+﻿NbLivrePanier()
+initDetail()
 
 function BoxChecked(LivreId, etat) {
     var boutonPanierSupprimer = document.getElementById("supprimer")
@@ -148,6 +149,8 @@ function ajouterLivreLocalStorage(id) {
         var p = document.getElementById("pErreur");
         p.innerText = "* L'état du livre que vous essayez d'ajouter à votre panier est invalide, sélectionnez un autre état."
     }
+
+    NbLivrePanier()
 }
 
 function supprimerLivreLocalStorage(id) {
@@ -197,6 +200,7 @@ function supprimerLivreLocalStorage(id) {
         p.innerText = "Erreur lors de la suppression du livre"
     }
 
+    NbLivrePanier()
 }
 
 function initDetail() {
@@ -272,7 +276,30 @@ function supresionRapide(id) {
             }
 
             localStorage.setItem('itemsPanier', JSON.stringify(livres))
-            location.reload() 
+            location.reload()
         }
+    }
+}
+
+function NbLivrePanier() {
+    var nbPanier = document.getElementById("NbItemPanier");
+    var livres = JSON.parse(localStorage.getItem('itemsPanier'));
+    var nbLivreDansPanier = 0;
+
+    if (livres != null || livres != undefined) {
+
+        if (livres.Neuf != null) {
+            nbLivreDansPanier += livres.Neuf.length
+        }
+        if (livres.Usage != null) {
+            nbLivreDansPanier += livres.Usage.length
+        }
+        if (livres.Numerique != null) {
+            nbLivreDansPanier += livres.Numerique.length
+        }
+        nbPanier.innerHTML = nbLivreDansPanier.toString();
+    }
+    else {
+        nbPanier.innerHTML = "";
     }
 }
