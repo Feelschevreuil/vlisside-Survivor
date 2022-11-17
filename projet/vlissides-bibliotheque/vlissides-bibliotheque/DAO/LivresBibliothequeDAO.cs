@@ -595,9 +595,9 @@ namespace vlissides_bibliotheque.DAO
 	    EtatLivre etatLivreDigital;
 	    EtatLivre etatLivreUsage;
 
-	    etatLivreNeuf = GetEtatLivreSelonNom(NomEtatLivre.Neuf);
-	    etatLivreDigital = GetEtatLivreSelonNom(NomEtatLivre.Numerique);
-	    etatLivreUsage = GetEtatLivreSelonNom(NomEtatLivre.Usagee);
+	    etatLivreNeuf = GetEtatLivreSelonNom(NomEtatLivre.NEUF);
+	    etatLivreDigital = GetEtatLivreSelonNom(NomEtatLivre.DIGITAL);
+	    etatLivreUsage = GetEtatLivreSelonNom(NomEtatLivre.USAGE);
 
 	    if(livreChampsRecherche.Neuf && livreChampsRecherche.Digital && livreChampsRecherche.Usage)
 	    {
