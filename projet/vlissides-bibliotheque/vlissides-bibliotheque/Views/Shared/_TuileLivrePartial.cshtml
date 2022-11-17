@@ -5,7 +5,7 @@
     double prixInitial = 0;
     string Prixdecimal = "";
 
-    if (Model.prixEtatLivre != null)
+    if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
     {
         prixInitial = Model.prixEtatLivre[0].Prix;
         prixInitial = Math.Floor(100 * prixInitial) / 100;
