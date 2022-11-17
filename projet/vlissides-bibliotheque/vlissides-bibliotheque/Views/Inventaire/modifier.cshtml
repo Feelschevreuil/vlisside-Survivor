@@ -1,5 +1,6 @@
 ﻿@model ModificationLivreVM
 
+<body onload="ToggleCheckPrixUsager(); ToggleCheckPrixNumerique(); ToggleCheckPrixNeuf()">
 <div class="row">
     <div class="col-md-8 d-block m-auto">
         <form method="post" class="text-center m-3" asp-action="modifier" asp-controller="Inventaire" enctype="multipart/form-data">
@@ -27,14 +28,14 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="Photo" class="form-label"></label>
-                            <input type="file" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
+                            <input type="file" accept=".png,.jpg,.jpeg" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
                             <input asp-for="Photo" class="form-control" aria-required="true" hidden id="sendImg" />
                             @if (Model.Photo != null) {
                                 <img id="viewImg" src="@Model.Photo" class="col-md-6 m-1" />
                             } else {
                                 <img id="viewImg" class="col-md-6 m-1" />
                             }
-                            <span asp-validation-for="Photo" class="text-danger"></span>
+                            <span asp-validation-for="Photo" class="row text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="DatePublication" class="form-label"></label>
@@ -54,8 +55,11 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">$</div>
                                     </div>
-                                    <input asp-for="PrixNumerique" class="form-control" aria-required="true" type="text" placeholder="prix" />
-                                    <input asp-for="PossedeNumerique" aria-required="true" type="checkbox" />
+                                    <input asp-for="PrixNumerique" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNumerique" />
+                                    <label class="ps-1">
+                                        Disponible
+                                        <input asp-for="PossedeNumerique" aria-required="true" type="checkbox" onclick="prixToggleNumerique()" checked />
+                                    </label>
                                 </div>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
@@ -64,8 +68,11 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">$</div>
                                     </div>
-                                    <input asp-for="PrixNeuf" class="form-control" type="number" aria-required="true" type="text" placeholder="prix" />
-                                    <input asp-for="PossedeNeuf" aria-required="true" type="checkbox" />
+                                    <input asp-for="PrixNeuf" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNeuf" />
+                                    <label class="ps-1">
+                                        Disponible
+                                        <input asp-for="PossedeNeuf" aria-required="true" type="checkbox" onclick="prixToggleNeuf()" checked />
+                                    </label>
                                 </div>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
@@ -74,8 +81,14 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">$</div>
                                     </div>
-                                    <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix" />
-                                    <input asp-for="QuantiteUsagee" aria-required="true" type="number" placeholder="Quantité" />
+
+                                    <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage" />
+                                    <input asp-for="QuantiteUsagee" class="form-control" type="number" placeholder="Quantité" id="quantitePrixUsager" />
+                                    <label class="ps-1">
+                                        Disponible
+                                            <input id="PossedeUsage" class="" type="checkbox" onclick="prixToggleUsager()" checked />
+                                    </label>
+
                                 </div>
                             </div>
                         </div>
@@ -122,6 +135,6 @@
         </form>
     </div>
 </div>
-
+</body>
 
 <link rel="stylesheet" href="~/css/FormulaireAjoutModifier.css" asp-append-version="true" />
