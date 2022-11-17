@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Extensions;
 using vlissides_bibliotheque.Models;
@@ -18,18 +19,21 @@ namespace vlissides_bibliotheque.Controllers
 		private readonly UserManager<Utilisateur> _userManager;
         private readonly UserManager<Etudiant> _userManagerEtudiant;
         private readonly ApplicationDbContext _context;
+        private readonly LivresBibliothequeDAO _livresBibliothequeDAO;
 
 		public TableauDeBordController(
             SignInManager<Etudiant> signInManager,
             UserManager<Utilisateur> userManager,
 			UserManager<Etudiant> userManagerEtudiant,
-            ApplicationDbContext context
+            ApplicationDbContext context,
+            LivresBibliothequeDAO livresBibliothequeDAO
 		)
 		{
             signInManager = _signInManager;
             _userManager = userManager;
             _userManagerEtudiant = userManagerEtudiant;
             _context = context;
+            _livresBibliothequeDAO = _livresBibliothequeDAO;
 		}
 
         [HttpGet]
@@ -310,10 +314,50 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult ModifierLivre(int id)
         {
             ModificationLivreVM vm = new();
-            LivreBibliotheque livre = _context.LivresBibliotheque
-                .Include(livre => livre.MaisonEdition)
-                .ToList()
-                .FirstOrDefault();
+            LivreBibliotheque livreBibliothequeRechercher = _livresBibliothequeDAO.Get(id);
+            AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x => x.LivreBibliothequeId == id);
+            List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == id);
+            List<EtatLivre> etatLivres = _context.EtatsLivres.ToList();
+
+
+            int idLivreNeuf = etatLivres.Find(y => y.Nom == NomEtatLivre.NEUF).EtatLivreId;
+            int idLivreNumerique = etatLivres.Find(y => y.Nom == NomEtatLivre.DIGITAL).EtatLivreId;
+            int idLivreUsager = etatLivres.Find(y => y.Nom == NomEtatLivre.USAGE).EtatLivreId;
+
+
+            var pasEtatAuLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
+            var PasNumerique = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNumerique);
+            var pasUsager = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreUsager);
+            var pasDeNeuf = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf);
+
+
+
+            ModificationLivreVM ModifierLivre = new()
+            {
+                IdDuLivre = livreBibliothequeRechercher.LivreId,
+                AuteurId = auteurLivre.AuteurId,
+                MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
+                Auteurs = ListDropDownAuteurs(),
+                MaisonsDeditions = ListDropDownMaisonDedition(),
+                DatePublication = livreBibliothequeRechercher.DatePublication,
+                ISBN = livreBibliothequeRechercher.Isbn,
+                Titre = livreBibliothequeRechercher.Titre,
+                Resume = livreBibliothequeRechercher.Resume,
+                Photo = livreBibliothequeRechercher.PhotoCouverture,
+                PossedeNeuf = true,
+                PossedeNumerique = true,
+                checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
+
+            };
+
+            var prixNeuf = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNeuf);
+            var prixDigital = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNumerique);
+            var prixUsage = prixEtatLivre.Find(x => x.EtatLivreId == idLivreUsager);
+
+            if (prixNeuf != null) { ModifierLivre.PrixNeuf = prixNeuf.Prix; } else { ModifierLivre.PrixNeuf = 0; };
+            if (prixDigital != null) { ModifierLivre.PrixNumerique = prixDigital.Prix; } else { ModifierLivre.PrixNumerique = 0; };
+            if (prixUsage != null) { ModifierLivre.PrixUsage = prixUsage.Prix; ModifierLivre.QuantiteUsagee = prixUsage.QuantiteUsage; } else { ModifierLivre.PrixUsage = 0; ModifierLivre.QuantiteUsagee = 0; };
+
 
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", vm);
         }
