@@ -18,13 +18,13 @@
 
     var numeroEtudiant = window.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
     var fetchEnLocal = "/Accueil/ChangerPrix";
-    var fetchSurServeur = numeroEtudiant + "/Accueil/ChangerPrix";
+    var fetchSurServeur = "/Accueil/ChangerPrix";
     var stringFetch = "";
     var url = location.host;
 
 
     if (url.match("localhost") == null) {
-        stringFetch =url + "/" + fetchSurServeur;
+        stringFetch = fetchSurServeur;
     } else {
         stringFetch = fetchEnLocal;
     }
