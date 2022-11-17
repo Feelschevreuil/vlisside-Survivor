@@ -1,4 +1,5 @@
-﻿initDetail()
+﻿NbLivrePanier()
+initDetail()
 
 function BoxChecked(LivreId, etat) {
     var boutonPanierSupprimer = document.getElementById("supprimer")
@@ -272,7 +273,30 @@ function supresionRapide(id) {
             }
 
             localStorage.setItem('itemsPanier', JSON.stringify(livres))
-            location.reload() 
+            location.reload()
         }
+    }
+}
+
+function NbLivrePanier() {
+    var nbPanier = document.getElementById("NbItemPanier");
+    var livres = JSON.parse(localStorage.getItem('itemsPanier'));
+    var nbLivreDansPanier = 0;
+
+    if (livres != null || livres != undefined) {
+
+        if (livres.Neuf != null) {
+            nbLivreDansPanier += livres.Neuf.length
+        }
+        if (livres.Usage != null) {
+            nbLivreDansPanier += livres.Usage.length
+        }
+        if (livres.Numerique != null) {
+            nbLivreDansPanier += livres.Numerique.length
+        }
+        nbPanier.innerHTML = nbLivreDansPanier.toString();
+    }
+    else {
+        nbPanier.innerHTML = "";
     }
 }
