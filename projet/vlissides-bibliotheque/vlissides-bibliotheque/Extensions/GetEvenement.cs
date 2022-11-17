@@ -26,9 +26,17 @@ namespace vlissides_bibliotheque
                     Image = evenement.Image,
                     Nom =evenement.Nom,
                     Description = evenement.Description,
+                    
                 };
+                if (evenement.Image == "N/A" || evenement.Image == null)
+                {
+                    evenementVM.Image = LivreEnTuile.GetImageParDefaut();
+                }
+
                 listEvenementsVM.Add(evenementVM);
             };
+        
+
 
             return listEvenementsVM;
         } 

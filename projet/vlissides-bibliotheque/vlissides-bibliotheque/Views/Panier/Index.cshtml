@@ -1,0 +1,25 @@
+﻿<div class="d-flex accordion-header">
+    <div class="pr-3">
+        <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
+            <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+        </a>
+    </div>
+    <div class="px-5">
+        <h1 class="p-2 flex-grow-1 px-2">Panier</h1>
+    </div>
+</div>
+
+<div class="col-12 row">
+
+    <div class="row col-md-9 col-9 col-sm-12" id="affichageLivre">
+    </div>
+
+    <div class="col-md-3 rounded shadow p-3 m-2 mb-3 h-100 mt-3">
+      
+        <p>Prix avant taxes: <span id="PrixAvantTaxes"></span></p>   
+        <p>Prix avec taxes: <span id="PrixAvecTaxes"></span></p>
+        <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
+            <p class="btn btn-primary shadow">Proceder à la facture</p>
+        </a>
+    </div>
+</div>
