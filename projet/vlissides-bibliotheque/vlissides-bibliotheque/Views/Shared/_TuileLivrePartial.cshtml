@@ -2,14 +2,18 @@
 
 @{
     int livreIdCourant = @Model.livreBibliotheque.LivreId;
-    double prixInitial = Model.prixEtatLivre[0].Prix;
+    double prixInitial = 0;
     string Prixdecimal = "";
-    prixInitial = Math.Floor(100 * prixInitial) / 100;
-    if (prixInitial == (int)prixInitial)
-    {
-         Prixdecimal = ",00";
-    }
 
+    if (Model.prixEtatLivre != null)
+    {
+        prixInitial = Model.prixEtatLivre[0].Prix;
+        prixInitial = Math.Floor(100 * prixInitial) / 100;
+        if (prixInitial == (int)prixInitial)
+        {
+            Prixdecimal = ",00";
+        }
+    }
 
     //int nbrEtoile = 0;
     //int nbrEvaluation = 0;
