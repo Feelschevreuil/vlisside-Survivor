@@ -6,7 +6,7 @@ namespace vlissides_bibliotheque.Validation
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (value == null)
+            if (value == null || !value.ToString().StartsWith("data"))
             {
                 return new ValidationResult(ErrorMessage = "Veuillez choisir une image.");
             }

@@ -16,7 +16,7 @@ namespace vlissides_bibliotheque.ViewModels
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		public string Resume { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[ImageAttribute]
 		public string Photo { get; set; }
 
@@ -26,13 +26,13 @@ namespace vlissides_bibliotheque.ViewModels
 		public DateTime DatePublication { get; set; } = DateTime.Now;
 
 		[DisplayName("Usagé")]
-        [DataType(DataType.Currency)]
-        public double PrixUsage { get; set; } = 0;
+		[DataType(DataType.Currency)]
+		public double PrixUsage { get; set; } = 0;
 
-	
+
 		[DisplayName("Numérique")]
-        [DataType(DataType.Currency)]
-        public double PrixNumerique { get; set; } = 0;
+		[DataType(DataType.Currency)]
+		public double PrixNumerique { get; set; } = 0;
 
 		[DisplayName("Neuf")]
 		[DataType(DataType.Currency)]
@@ -51,31 +51,25 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[Isbn]
-		[Range (1000000000,9999999999999,ErrorMessage = "Veuillez entrer un nombre.")]
+		[Range(1000000000, 9999999999999, ErrorMessage = "Veuillez entrer un nombre.")]
 		public string ISBN { get; set; }
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Auteur")]
-		public int? AuteurId { get; set; }
+        [Range(1, 99999999, ErrorMessage = "Le champ {0} est requis")]
+        public int? AuteurId { get; set; }
 
 		public List<SelectListItem> Auteurs { get; set; }
-		
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		[DisplayName("Cours")]
-		public int? CoursId { get; set; }
-
-		[DisplayName("Ajouter un cours pour le livre")]
-		public List<SelectListItem> ListeCoursComplete { get; set; }
-
-		[DisplayName("Cours associé au livre")]
-		public List<CoursLivre> ListeCoursAssocie { get; set; }
 
 		[DisplayName("Maison d'édition")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		[Range(1,99999999,ErrorMessage ="Le champ {0} est requis")]
 		public int? MaisonDeditionId { get; set; }
-		
+
 		public List<SelectListItem> MaisonsDeditions { get; set; }
-	}
+		[DisplayName("Liste des cours")]
+		public List<checkBoxCours> checkBoxCours { get; set; }
+	} 
 
 }
 

@@ -1,9 +1,9 @@
-﻿@model CreationLivreVM
+﻿@model AssocierLivreCours
 
 <body onload="ToggleCheckPrixUsager(); ToggleCheckPrixNumerique(); ToggleCheckPrixNeuf()">
 <div class="row">
     <div class="col-md-8 d-block m-auto">
-        <form method="post" class="text-center m-3" asp-action="Creer" asp-controller="Inventaire" enctype="multipart/form-data">
+        <form method="post" class="text-center m-3" id="formLivre" asp-action="Creer" asp-controller="Inventaire" enctype="multipart/form-data">
 
             <img class="d-block m-auto mb-3" width="200px" src="~/img/book-plus.svg" />
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
@@ -13,17 +13,17 @@
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <div class="form-group">
                             <label asp-for="Titre" class="form-label"></label>
-                            <input asp-for="Titre" class="form-control" aria-required="true" />
+                            <input asp-for="Titre" id="Titre" class="form-control" aria-required="true" />
                             <span asp-validation-for="Titre" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="ISBN" class="form-label"></label>
-                            <input asp-for="ISBN" class="form-control" aria-required="true" />
+                            <input asp-for="ISBN" id="ISBN" class="form-control" aria-required="true" />
                             <span asp-validation-for="ISBN" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Resume" class="form-label"></label>
-                            <input asp-for="Resume" class="form-control" aria-required="true" />
+                            <input asp-for="Resume" id="Resume" class="form-control" aria-required="true" />
                             <span asp-validation-for="Resume" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="DatePublication" class="form-label"></label>
-                            <input asp-for="DatePublication" class="form-control" aria-required="true" />
+                            <input asp-for="DatePublication" id="DatePublication" class="form-control" aria-required="true" />
                             <span asp-validation-for="DatePublication" class="text-danger"></span>
                         </div>
                     </fieldset>
@@ -97,23 +97,44 @@
 
                 <div class="col-md-6">
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
+                        <div class="form-group" id="listDeCours">
+
+                            <label asp-for="checkBoxCours" class="form-label"></label>
+
+
+                            <div class="cours">
+                                @foreach (var Cours in Model.checkBoxCours)
+                                {
+                                    <div class="row ms-2 mt-2">
+                                        <input class="col-2 mt-1 checkBoxCours" id="@Cours.Cours.CoursId" type="checkbox" name="Cours" value="@Cours.Cours.CoursId" checked="@Cours.Cocher" />
+                                        <label class="col-8 text-break" for="@Cours.Cours.Nom">@Cours.Cours.Nom</label>
+                                    </div>
+                                }
+                            </div>
+                           
+
+                        </div>
+                    </fieldset>
+
+
+                    <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <div class="form-group">
                             <label asp-for="AuteurId" class="form-label"></label>
-                            <select asp-for="AuteurId" asp-items="Model.Auteurs" class="form-control" aria-required="true"></select>
+                            <select asp-for="AuteurId" id="AuteurId" asp-items="Model.Auteurs" class="form-control" aria-required="true"></select>
                             <span asp-validation-for="AuteurId" class="text-danger"></span>
                         </div>
                     </fieldset>
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <div class="form-group">
                             <label asp-for="MaisonDeditionId" class="form-label"></label>
-                            <select asp-for="MaisonDeditionId" asp-items="Model.MaisonsDeditions" class="form-control" aria-required="true"></select>
+                            <select asp-for="MaisonDeditionId" id="MaisonDeditionId" asp-items="Model.MaisonsDeditions" class="form-control" aria-required="true"></select>
                             <span asp-validation-for="MaisonDeditionId" class="text-danger"></span>
                         </div>
                     </fieldset>
                 </div>
 
                 <div class="m-3 mt-4">
-                    <button type="submit" class="btn btn-primary col-md-12 shadow">Creer</button>
+                    <input class="mt-2 btn btn-primary w-100" type="button" onclick="assignerCoursLivre()" value="Créer" />
                 </div>
 
                 @Html.AntiForgeryToken()

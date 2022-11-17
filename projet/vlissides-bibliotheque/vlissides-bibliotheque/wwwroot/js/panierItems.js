@@ -85,18 +85,29 @@ function getCards() {
 
 function updatePrix() {
     var Taxes = {
-        "TPS": 0.05,
-        "TVQ":0.09975
+        "GST": 0.05,
+       
     }
     var tousPrix = document.querySelectorAll('[id^="PrixLivreId"]');
-    var prixTotal = 0.0;
+    var prixTotal = 0.00;
     for (var e = 0; e < tousPrix.length; e++) {
-        prixTotal += parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
+        prixCourant = GetDecimal(tousPrix[e].innerHTML);
+        prixTotal = prixTotal + prixCourant;
     }
-
+    //parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
     var pPrixSansTaxes = document.querySelector('#PrixAvantTaxes')
     var pPrixAvecTaxes = document.querySelector("#PrixAvecTaxes")
+    if (prixTotal.toString().match(",") == null && prixTotal.toString().match(".") == null) {
+        prixTotal = prixTotal + "." + 0 + 0
+    }
+    
 
     pPrixSansTaxes.innerHTML = prixTotal.toFixed(2) + "$";
-    pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.TPS + prixTotal * Taxes.TVQ).toFixed(2) + "$";
+    pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.GST).toFixed(2) + "$";
+}
+
+function GetDecimal(prix) {
+    var prixAvecPoint = parseFloat(prix.toString().replace(",", "."));
+    var prixEnDecimal = Number(prixAvecPoint.toString().match(/^\d+(?:\.\d{0,2})?/));
+    return Number(prixEnDecimal);
 }
