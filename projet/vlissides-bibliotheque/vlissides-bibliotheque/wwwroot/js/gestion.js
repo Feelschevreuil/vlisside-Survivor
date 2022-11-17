@@ -211,6 +211,42 @@ function getFormulaireModifierLivre(id) {
     });
 }
 
+function modifierLivre(id) {
+    let parent = document.querySelector("#livre-" + String(id)).querySelector(".modal-body");
+    let formulaire = parent.querySelector("form");
+    let data = getFormData(formulaire);
+
+    fetch(host + "TableauDeBord/ModifierEtudiant/", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Aucune modification n'a pu être effectuée.")
+        }
+        // valider si le contenu reçu est du json ou du text
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+
+            res.json().then(function (res) {
+                if (res != "") {
+                    afficherModification(id, resetMajusculeJsonKey(res));
+                    document.querySelector(`#fermer-modal-${id}`).click();
+                }
+            });
+        } else {
+
+            res.text().then(function (res) {
+                parent.innerHTML = res;
+                setInputsFormat();
+            });
+        }
+    });
+}
+
 //--------------------------------------------
 //              Cours
 //--------------------------------------------
