@@ -149,6 +149,8 @@ function ajouterLivreLocalStorage(id) {
         var p = document.getElementById("pErreur");
         p.innerText = "* L'état du livre que vous essayez d'ajouter à votre panier est invalide, sélectionnez un autre état."
     }
+
+    NbLivrePanier()
 }
 
 function supprimerLivreLocalStorage(id) {
@@ -198,6 +200,7 @@ function supprimerLivreLocalStorage(id) {
         p.innerText = "Erreur lors de la suppression du livre"
     }
 
+    NbLivrePanier()
 }
 
 function initDetail() {
