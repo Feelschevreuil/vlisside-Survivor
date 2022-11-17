@@ -11,36 +11,36 @@ namespace vlissides_bibliotheque.DAO
         /// <summary>
         /// Cherche l'objet correspondant avec l'id.
         /// </summary>
-	/// <param name="id">L'id de l'objet à chercher.</param>
+        /// <param name="id">L'id de l'objet à chercher.</param>
         /// <returns>L'object correspondant à l'objet.</returns>
-	T Get(long id);
+        T Get(long id);
 
         /// <summary>
         /// Cherche tous les objets.
         /// </summary>
         /// <returns>Les objets en liste.</returns>
-	IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll();
 
         /// <summary>
-	/// Sauvegarde l'objet désiré.
+        /// Sauvegarde l'objet désiré.
         /// </summary>
-	/// <param name="t">L'objet à sauvegarder.</param>
+        /// <param name="t">L'objet à sauvegarder.</param>
         /// <returns>true si l'objet a été sauvegardé avec succès.</returns>
-	bool Save(T t);
+        bool Save(T t);
 
         /// <summary>
-	/// Met à jour l'objet désiré.
+        /// Met à jour l'objet désiré.
         /// </summary>
-	/// <param name="idObjetOriginal">L'objet contenant les propriétés originales</param>
-	/// <param name="objetAJour">L'objet contenant les modifications.</param>
+        /// <param name="idObjetOriginal">L'objet contenant les propriétés originales</param>
+        /// <param name="objetAJour">L'objet contenant les modifications.</param>
         /// <returns>true si l'objet a été sauvegardé avec succès.</returns>
-	T Update(int idObjetOriginal, T objetAJour);
+        T Update(int idObjetOriginal, T objetAJour);
 
         /// <summary>
-	/// Efface l'objet désiré.
+        /// Efface l'objet désiré.
         /// </summary>
-	/// <param name="id">L'id de l'objet à effacer.</param>
+        /// <param name="id">L'id de l'objet à effacer.</param>
         /// <returns>true si l'objet a été effacé avec succès.</returns>
-	bool Delete(long id);
+        bool Delete(long id);
     }
 }
