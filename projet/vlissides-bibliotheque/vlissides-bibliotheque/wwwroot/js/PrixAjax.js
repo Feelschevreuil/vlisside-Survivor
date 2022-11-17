@@ -24,7 +24,7 @@
 
 
     if (url.match("localhost") == null) {
-        stringFetch = fetchSurServeur;
+        stringFetch =url + "/" + fetchSurServeur;
     } else {
         stringFetch = fetchEnLocal;
     }
