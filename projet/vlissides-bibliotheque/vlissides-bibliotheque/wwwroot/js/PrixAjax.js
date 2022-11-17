@@ -18,7 +18,7 @@
 
     var numeroEtudiant = window.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
     var fetchEnLocal = "/Accueil/ChangerPrix";
-    var fetchSurServeur = "/Accueil/ChangerPrix";
+    var fetchSurServeur = host + "Accueil/ChangerPrix";
     var stringFetch = "";
     var url = location.host;
 
