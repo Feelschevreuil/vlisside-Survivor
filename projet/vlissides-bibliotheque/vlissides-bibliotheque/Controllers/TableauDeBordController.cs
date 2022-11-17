@@ -38,6 +38,8 @@ namespace vlissides_bibliotheque.Controllers
 			return View();
 		}
 
+        //------------------Commandes------------------
+
         [HttpGet]
         public IActionResult Commandes()
 		{
@@ -53,6 +55,8 @@ namespace vlissides_bibliotheque.Controllers
             return View(commandes);
 		}
 
+        //------------------Cours------------------
+
         [HttpGet]
         public IActionResult Cours()
         {
@@ -62,6 +66,8 @@ namespace vlissides_bibliotheque.Controllers
 
             return View(cours);
         }
+
+        //------------------Étudiants------------------
 
         [HttpGet]
         public IActionResult Etudiants()
@@ -235,6 +241,8 @@ namespace vlissides_bibliotheque.Controllers
             return Ok();
         }
 
+        //------------------Livres------------------
+
         [HttpGet]
         public IActionResult Livres()
         {
@@ -246,12 +254,89 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
+        public IActionResult CreerLivre()
+        {
+            CreationLivreVM vm = new();
+            return PartialView("Views/Shared/_LivrePartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult CreerLivre([FromBody] CreationLivreVM vm)
+        {
+            ModelState.Remove("Auteurs");
+            ModelState.Remove("MaisonsDeditions");
+            ModelState.Remove("ListeCours");
+            ModelState.Remove("Photo");
+
+
+            if (ModelState.IsValid) {
+                LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque() {
+                    LivreId = 0,
+                    MaisonEditionId = (int)vm.MaisonDeditionId,
+                    Isbn = vm.ISBN,
+                    Titre = vm.Titre,
+                    Resume = vm.Resume,
+                    PhotoCouverture = vm.Photo,
+                    DatePublication = vm.DatePublication,
+                };
+
+                _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
+                _context.SaveChanges();
+
+                CoursLivre nouvelleAssociation = new() {
+                    CoursLivreId = 0,
+                    CoursId = (int)vm.CoursId,
+                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                    Complementaire = vm.Obligatoire
+                };
+
+                _context.CoursLivres.Add(nouvelleAssociation);
+                _context.SaveChanges();
+
+                //_context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, vm));
+                _context.SaveChanges();
+
+
+                return View("succesAjoutLivre", nouveauLivreBibliothèque);
+            }
+            //vm.Auteurs = ListDropDownAuteurs();
+            //vm.ListeCoursComplete = ListDropDownCours();
+            //vm.MaisonsDeditions = ListDropDownMaisonDedition();
+
+            return PartialView("Views/Shared/_LivrePartial.cshtml", vm);
+        }
+
+        [HttpGet]
+        public IActionResult ModifierLivre()
+        {
+            List<LivreBibliotheque> livres = _context.LivresBibliotheque
+                .Include(livre => livre.MaisonEdition)
+                .ToList();
+
+            return View(livres);
+        }
+
+        [HttpGet]
+        public IActionResult SupprimerLivre()
+        {
+            List<LivreBibliotheque> livres = _context.LivresBibliotheque
+                .Include(livre => livre.MaisonEdition)
+                .ToList();
+
+            return View(livres);
+        }
+
+        //------------------Programmes d'études------------------
+
+        [HttpGet]
         public IActionResult ProgrammesEtudes()
         {
             List<ProgrammeEtude> programmesEtudes = _context.ProgrammesEtudes.ToList();
 
             return View(programmesEtudes);
         }
+
+        //------------------Promotions------------------
 
         [HttpGet]
         public IActionResult Promotions()
