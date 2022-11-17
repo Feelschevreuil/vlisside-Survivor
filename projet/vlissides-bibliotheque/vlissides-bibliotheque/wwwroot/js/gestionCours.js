@@ -63,7 +63,9 @@ function modifierCoursLivre(id) {
         },
 
     }).then(function (response) {
-
+        if (response.ok) {
+            alert("Vos cours ont été modifiés avec succès");
+        }
         return response;
 
     });
