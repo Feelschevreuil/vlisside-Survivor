@@ -9,203 +9,203 @@ namespace vlissides_bibliotheque.DAO
     public class LivreChampsRecherche
     {
 
-	// TODO: all properties to lower
+        // TODO: all properties to lower
 
-	public int LivreId { get; set; }
+        public int LivreId { get; set; }
 
-	public string Titre { get; set; }
+        public string Titre { get; set; }
 
-	public string MaisonEdition { get; set; }
+        public string MaisonEdition { get; set; }
 
-	public string Auteur { get; set; }
+        public string Auteur { get; set; }
 
-	public string Isbn { get; set; }
+        public string Isbn { get; set; }
 
-	public string Resume { get; set; }
+        public string Resume { get; set; }
 
-	public DateTime DatePublicationMinimum { get; set; }
+        public DateTime DatePublicationMinimum { get; set; }
 
-	public DateTime DatePublication { get; set; }
+        public DateTime DatePublication { get; set; }
 
-	public DateTime DatePublicationMaximale { get; set; }
+        public DateTime DatePublicationMaximale { get; set; }
 
-	public double PrixMinimum { get; set; }
+        public double PrixMinimum { get; set; }
 
-	public double PrixMaximum { get; set; }
+        public double PrixMaximum { get; set; }
 
-	public bool Neuf { get; set; }
+        public bool Neuf { get; set; }
 
-	public bool Digital { get; set; }
+        public bool Digital { get; set; }
 
-	public bool Usage { get; set; }
+        public bool Usage { get; set; }
 
-	public List<int> ProgrammesEtudeId { get; set; }
+        public List<int> ProgrammesEtudeId { get; set; }
 
-	public List<int> CoursId { get; set; }
+        public List<int> CoursId { get; set; }
 
-	public List<int> ProfesseursId { get; set; }
+        public List<int> ProfesseursId { get; set; }
 
-	// TODO: no. cours et nom du cours
-	
-	/// <summary> 
-	/// Vérifie que la recherche d'Isbn est valide.
-	/// </summary>
-	public bool IsbnQueryValid()
-	{
+        // TODO: no. cours et nom du cours
+        
+        /// <summary> 
+        /// Vérifie que la recherche d'Isbn est valide.
+        /// </summary>
+        public bool IsbnQueryValid()
+        {
 
-	    bool isbnQueryValid;
-	    int isbnLength;
+            bool isbnQueryValid;
+            int isbnLength;
 
-	    isbnLength = Isbn.Length;
+            isbnLength = Isbn.Length;
 
-	    isbnQueryValid = isbnLength > 0 && isbnLength < 14;
+            isbnQueryValid = isbnLength > 0 && isbnLength < 14;
 
-	    return isbnQueryValid;
-	}
+            return isbnQueryValid;
+        }
 
-	/// <summary>
-	/// Vérifie si la recherche contient un prix minimum.
-	/// </summary>
-	public bool ChercheAvecPrixMinimum()
-	{
+        /// <summary>
+        /// Vérifie si la recherche contient un prix minimum.
+        /// </summary>
+        public bool ChercheAvecPrixMinimum()
+        {
 
-	    bool prixMinimumPresent;
+            bool prixMinimumPresent;
 
-	    prixMinimumPresent = PrixMinimum > 0;
+            prixMinimumPresent = PrixMinimum > 0;
 
-	    return prixMinimumPresent;
-	}
+            return prixMinimumPresent;
+        }
 
-	/// <summary>
-	/// Vérifie si la recherche contient un prix maximum.
-	/// </summary>
-	public bool ChercheAvecPrixMaximum()
-	{
+        /// <summary>
+        /// Vérifie si la recherche contient un prix maximum.
+        /// </summary>
+        public bool ChercheAvecPrixMaximum()
+        {
 
-	    bool prixMaxmiumPresent;
+            bool prixMaxmiumPresent;
 
-	    prixMaxmiumPresent = PrixMaximum > 1;
+            prixMaxmiumPresent = PrixMaximum > 1;
 
-	    return prixMaxmiumPresent;
-	}
+            return prixMaxmiumPresent;
+        }
 
-	/// <summary>
-	/// Vérifie si la recherche est entre un "range" de prix.
-	/// </summary>
-	public bool ChercheAvecEtenduePrix()
-	{
+        /// <summary>
+        /// Vérifie si la recherche est entre un "range" de prix.
+        /// </summary>
+        public bool ChercheAvecEtenduePrix()
+        {
 
-	    bool searchesWithPriceRange;
+            bool searchesWithPriceRange;
 
-	    searchesWithPriceRange = ChercheAvecPrixMaximum() && ChercheAvecPrixMinimum();
+            searchesWithPriceRange = ChercheAvecPrixMaximum() && ChercheAvecPrixMinimum();
 
-	    return searchesWithPriceRange;
-	}
+            return searchesWithPriceRange;
+        }
 
-	/// <summary>
-	/// Vérifie que le prix maxmium soit plus petit que le prix minimum.
-	/// </summary>
-	public bool EtenduePrixEstValide()
-	{
+        /// <summary>
+        /// Vérifie que le prix maxmium soit plus petit que le prix minimum.
+        /// </summary>
+        public bool EtenduePrixEstValide()
+        {
 
-	    bool prixMinimumSmallerThanPrixMaximum;
+            bool prixMinimumSmallerThanPrixMaximum;
 
-	    prixMinimumSmallerThanPrixMaximum = false;
+            prixMinimumSmallerThanPrixMaximum = false;
 
-	    if(ChercheAvecEtenduePrix())
-	    {
+            if(ChercheAvecEtenduePrix())
+            {
 
-		prixMinimumSmallerThanPrixMaximum = PrixMaximum > PrixMinimum;
+                prixMinimumSmallerThanPrixMaximum = PrixMaximum > PrixMinimum;
 
-		return prixMinimumSmallerThanPrixMaximum;
-	    }
+                return prixMinimumSmallerThanPrixMaximum;
+            }
 
-	    return prixMinimumSmallerThanPrixMaximum;
-	}
+            return prixMinimumSmallerThanPrixMaximum;
+        }
 
-	/// <summary>
-	/// Véerifie que la recherche ne contient aucune restriction de prix.
-	/// </summary>
-	public bool AucuneRestrictionPrix()
-	{
+        /// <summary>
+        /// Véerifie que la recherche ne contient aucune restriction de prix.
+        /// </summary>
+        public bool AucuneRestrictionPrix()
+        {
 
-	    bool aucuneRestrictionPrix;
+            bool aucuneRestrictionPrix;
 
-	    aucuneRestrictionPrix = !ChercheAvecPrixMaximum() && !ChercheAvecPrixMaximum();
+            aucuneRestrictionPrix = !ChercheAvecPrixMaximum() && !ChercheAvecPrixMaximum();
 
-	    return aucuneRestrictionPrix;
-	}
+            return aucuneRestrictionPrix;
+        }
 
-	/// <summary>
-	/// Vérifie  que la recherche contient une restriction de professeur.
-	/// </summary>
-	public bool ChercheAvecProfesseur()
-	{
+        /// <summary>
+        /// Vérifie  que la recherche contient une restriction de professeur.
+        /// </summary>
+        public bool ChercheAvecProfesseur()
+        {
 
-	    bool chercheAvecProfesseur;
+            bool chercheAvecProfesseur;
 
-	    chercheAvecProfesseur = ProfesseursId != null && ProfesseursId.Count() > 0 && ChercheAvecProgrammeEtude() && ChercheAvecCours();
+            chercheAvecProfesseur = ProfesseursId != null && ProfesseursId.Count() > 0 && ChercheAvecProgrammeEtude() && ChercheAvecCours();
 
-	    return chercheAvecProfesseur;
-	}
+            return chercheAvecProfesseur;
+        }
 
-	/// <summary>
-	/// Vérifie que la recherche contient une restriction du programme d'étude.
-	/// </summary>
-	public bool ChercheAvecProgrammeEtude()
-	{
+        /// <summary>
+        /// Vérifie que la recherche contient une restriction du programme d'étude.
+        /// </summary>
+        public bool ChercheAvecProgrammeEtude()
+        {
 
-	    bool chercheAvecProgrammeEtude;
+            bool chercheAvecProgrammeEtude;
 
-	    chercheAvecProgrammeEtude = ProgrammesEtudeId != null && ProgrammesEtudeId.Count() > 0;
+            chercheAvecProgrammeEtude = ProgrammesEtudeId != null && ProgrammesEtudeId.Count() > 0;
 
-	    return chercheAvecProgrammeEtude;
-	}
+            return chercheAvecProgrammeEtude;
+        }
 
-	/// <summary>
-	/// Vérifie que la recherche contient une restriction de cours.
-	/// </summary>
-	public bool ChercheAvecCours()
-	{
+        /// <summary>
+        /// Vérifie que la recherche contient une restriction de cours.
+        /// </summary>
+        public bool ChercheAvecCours()
+        {
 
-	    bool chercheAvecCours;
+            bool chercheAvecCours;
 
-	    chercheAvecCours = CoursId != null && CoursId.Count() > 0 && ChercheAvecProgrammeEtude();
+            chercheAvecCours = CoursId != null && CoursId.Count() > 0 && ChercheAvecProgrammeEtude();
 
-	    return chercheAvecCours;
-	}
+            return chercheAvecCours;
+        }
 
-	/// <summary>
-	/// Vérifie si la recherche à des contraintes reliées aux cours, 
-	/// aux programmes d'études et ou aux professeurs
-	/// </summary>
-	public bool ChercheAvecContraintesCoursLivre()
-	{
+        /// <summary>
+        /// Vérifie si la recherche à des contraintes reliées aux cours, 
+        /// aux programmes d'études et ou aux professeurs
+        /// </summary>
+        public bool ChercheAvecContraintesCoursLivre()
+        {
 
-	    bool chercheAvecContraintesCoursLivre;
+            bool chercheAvecContraintesCoursLivre;
 
-	    chercheAvecContraintesCoursLivre = ChercheAvecCours() || ChercheAvecProgrammeEtude() || ChercheAvecProfesseur();
+            chercheAvecContraintesCoursLivre = ChercheAvecCours() || ChercheAvecProgrammeEtude() || ChercheAvecProfesseur();
 
-	    return chercheAvecContraintesCoursLivre;
-	}
+            return chercheAvecContraintesCoursLivre;
+        }
 
-	/// <summary>
-	/// Regarde si une recherche est valide.
-	/// </summary>
-	public bool EstValide()
-	{
+        /// <summary>
+        /// Regarde si une recherche est valide.
+        /// </summary>
+        public bool EstValide()
+        {
 
-	    bool rechercheValide;
+            bool rechercheValide;
 
-	    rechercheValide = false;
+            rechercheValide = false;
 
-	    if(Neuf || Digital || Usage)
-	    {
+            if(Neuf || Digital || Usage)
+            {
 
-		rechercheValide = true;
-	    }
+                rechercheValide = true;
+            }
 
-	    return rechercheValide;
-	}
+            return rechercheValide;
+        }
     }
 }
