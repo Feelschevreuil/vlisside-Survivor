@@ -21,7 +21,7 @@ function getCards() {
 
     var numeroEtudiant = "/"+window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
     var fetchEnLocal = "/../Panier/GetLivres";
-    var fetchSurServeur = numeroEtudiant+"Panier/GetItems";
+    var fetchSurServeur = numeroEtudiant+"Panier/GetLivres";
     var stringFetch = "";
     var url = location.host;
     var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
