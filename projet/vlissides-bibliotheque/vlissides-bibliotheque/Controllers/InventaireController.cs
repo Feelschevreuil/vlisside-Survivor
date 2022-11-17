@@ -206,7 +206,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("Auteurs");
             ModelState.Remove("MaisonsDeditions");
             ModelState.Remove("ListeCours");
-            ModelState.Remove("CoursId");
+            ModelState.Remove("checkBoxCours");
 
             LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
 

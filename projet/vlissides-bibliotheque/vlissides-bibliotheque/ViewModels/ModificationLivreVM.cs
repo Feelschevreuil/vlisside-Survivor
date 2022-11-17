@@ -64,12 +64,8 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DisplayName("Auteur")]
         public int? AuteurId { get; set; }
-
 		
 		public List<SelectListItem> Auteurs { get; set; }
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [DisplayName("Cours")]
-        public int? CoursId { get; set; }
 		
 		public List<SelectListItem> ListeCours { get; set; }
 

@@ -33,7 +33,7 @@
     });
 }
 
-function modifierCoursLivre() {
+function modifierCoursLivre(id) {
 
     var divListCours = document.querySelector("#listDeCours");
     var coursCocher = divListCours.querySelectorAll("input");
@@ -47,7 +47,8 @@ function modifierCoursLivre() {
 
     var DonnerRecus =
     {
-        CoursId: listCoursCocher
+        CoursId: listCoursCocher,
+        livreId: id
     };
 
     var data = JSON.stringify(DonnerRecus);
@@ -82,10 +83,10 @@ function assignerCoursLivre() {
     var Resume = document.querySelector("#Resume");
     var Photo = document.querySelector("#viewImg");
     var DatePublication = document.querySelector("#DatePublication");
-    var PrixUsage = document.querySelector("#PrixUsage");
-    var PrixNumerique = document.querySelector("#PrixNumerique");
-    var PrixNeuf = document.querySelector("#PrixNeuf");
-    var QuantiteUsagee = document.querySelector("#QuantiteUsagee");
+    var PrixUsage = document.querySelector("#inputPrixUsage");
+    var PrixNumerique = document.querySelector("#inputPrixNumerique");
+    var PrixNeuf = document.querySelector("#inputPrixNeuf");
+    var QuantiteUsagee = document.querySelector("#quantitePrixUsager");
     var PossedeNumerique = document.querySelector("#PossedeNumerique");
     var PossedeNeuf = document.querySelector("#PossedeNeuf");
     var ISBN = document.querySelector("#ISBN");
