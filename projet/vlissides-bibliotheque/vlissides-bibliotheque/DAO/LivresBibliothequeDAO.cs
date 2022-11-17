@@ -64,10 +64,10 @@ namespace vlissides_bibliotheque.DAO
 	/// <param name="idObjetOriginal">L'objet contenant les propriétés originales</param>
 	/// <param name="objetAJour">L'objet contenant les modifications.</param>
         /// <returns>true si l'objet a été sauvegardé avec succès.</returns>
-	public bool Update(int idObjetOriginal, LivreBibliotheque objetAJour) 
+	public LivreBibliotheque Update(int idObjetOriginal, LivreBibliotheque objetAJour) 
 	{
 
-	    return false;
+	    return null;
 	}
 
         /// <summary>
