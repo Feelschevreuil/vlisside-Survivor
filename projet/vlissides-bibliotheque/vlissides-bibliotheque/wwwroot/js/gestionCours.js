@@ -17,8 +17,23 @@
 
     var data = JSON.stringify(DonnerRecus);
 
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+    var fetchEnLocal = "/GestionProfil/AssignerCoursEtudiant";
+    var fetchSurServeur = numeroEtudiant + "GestionProfil/AssignerCoursEtudiant";
+    var stringFetch = "";
+    var url = location.host;
 
-    fetch("/GestionProfil/AssignerCoursEtudiant", {
+
+    if (url.match("localhost") == null) {
+        stringFetch = fetchSurServeur;
+    } else {
+        stringFetch = fetchEnLocal;
+    }
+
+
+
+
+    fetch(stringFetch, {
         method: 'Post',
         body: data,
         contentType: "application/json; charset=utf-8",
@@ -53,8 +68,21 @@ function modifierCoursLivre(id) {
 
     var data = JSON.stringify(DonnerRecus);
 
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+    var fetchEnLocal = "/Inventaire/AssignerCoursLivre";
+    var fetchSurServeur = numeroEtudiant + "Inventaire/AssignerCoursLivre";
+    var stringFetch = "";
+    var url = location.host;
 
-    fetch("/Inventaire/AssignerCoursLivre", {
+
+    if (url.match("localhost") == null) {
+        stringFetch = fetchSurServeur;
+    } else {
+        stringFetch = fetchEnLocal;
+    }
+
+
+    fetch(stringFetch, {
         method: 'Post',
         body: data,
         contentType: "application/json; charset=utf-8",
