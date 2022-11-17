@@ -79,19 +79,19 @@
         @if (prixNeuf != null)
         {
             <div class="text-center col-3 mt-1 me-5 rounded-4">
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixNeuf.Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPrixNeufEnDecimal(Model)$</p>
             </div>
         }
         @if (prixDigital != null)
         {
             <div class="text-center col-3 mt-1 rounded-4">
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixDigital.Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPrixNumeriqueEnDecimal(Model)$</p>
             </div>
         }
         @if (prixUsager != null)
         {
             <div class="text-center col-3 mt-1 ms-5 rounded-4">
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixUsager.Prix$</p>
+                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPrixUsageEnDecimal(Model)$</p>
             </div>
         }
 
