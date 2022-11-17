@@ -135,8 +135,22 @@ function assignerCoursLivre() {
 
     var data = JSON.stringify(DonnerRecus);
 
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+    var fetchEnLocal = "/Inventaire/Creer";
+    var fetchSurServeur = numeroEtudiant + "Inventaire/Creer";
+    var stringFetch = "";
+    var url = location.host;
 
-    fetch("/Inventaire/Creer", {
+
+    if (url.match("localhost") == null) {
+        stringFetch = fetchSurServeur;
+    } else {
+        stringFetch = fetchEnLocal;
+    }
+
+
+
+    fetch(stringFetch, {
         method: 'Post',
         body: data,
         contentType: "application/json; charset=utf-8",
