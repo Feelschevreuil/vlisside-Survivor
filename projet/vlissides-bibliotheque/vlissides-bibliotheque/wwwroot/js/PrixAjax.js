@@ -16,9 +16,9 @@
     img.classList.add("position-absolute", "fixed-top","w-100", "h-100");
     cercle.append(img);
 
-    var numeroEtudiant = window.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
     var fetchEnLocal = "/Accueil/ChangerPrix";
-    var fetchSurServeur = host + "Accueil/ChangerPrix";
+    var fetchSurServeur = numeroEtudiant + "Accueil/ChangerPrix";
     var stringFetch = "";
     var url = location.host;
 
