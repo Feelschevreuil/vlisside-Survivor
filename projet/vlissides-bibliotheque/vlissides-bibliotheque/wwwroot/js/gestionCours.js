@@ -200,7 +200,8 @@ function assignerCoursLivre() {
 
 function possedeDesLettres(nombre) {
 
-    if (isNaN(nombre) || nombre == "")
+    
+    if (isNaN(parseFloat(nombre)) || nombre == "")
     {
         return nombre = 0;
     }
