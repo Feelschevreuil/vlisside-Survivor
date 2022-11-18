@@ -412,7 +412,7 @@ namespace vlissides_bibliotheque.Controllers
                     _context.SaveChanges();
                 }
 
-                UpdateLesPrix(LivreBibliothèqueModifier, form);
+                GestionPrix.UpdateLesPrix(LivreBibliothèqueModifier, form, _context);
                 return View("succesModifierLivre", LivreBibliothèqueModifier);
             }
 
