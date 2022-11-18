@@ -314,7 +314,6 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult ModifierLivre(int id)
         {
-            ModificationLivreVM vm = new();
             LivreBibliotheque livreBibliothequeRechercher = _livresBibliothequeDAO.Get(id);
             AuteurLivre auteurLivre = _context.AuteursLivres
                 .ToList()
@@ -333,6 +332,8 @@ namespace vlissides_bibliotheque.Controllers
                 .Find(y => y.Nom == NomEtatLivre.USAGE).EtatLivreId;
 
             var pasEtatAuLivre = _context.PrixEtatsLivres
+                .Include(x=>x.LivreBibliotheque)
+                .Include(x=>x.EtatLivre)
                 .ToList()
                 .FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
             var PasNumerique = pasEtatAuLivre
@@ -342,7 +343,7 @@ namespace vlissides_bibliotheque.Controllers
             var pasDeNeuf = pasEtatAuLivre
                 .Find(x => x.EtatLivreId == idLivreNeuf);
 
-            ModificationLivreVM ModifierLivre = new()
+            ModificationLivreVM vm = new()
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 AuteurId = auteurLivre.AuteurId,
@@ -364,9 +365,9 @@ namespace vlissides_bibliotheque.Controllers
             var prixDigital = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNumerique);
             var prixUsage = prixEtatLivre.Find(x => x.EtatLivreId == idLivreUsager);
 
-            if (prixNeuf != null) { ModifierLivre.PrixNeuf = prixNeuf.Prix; } else { ModifierLivre.PrixNeuf = 0; };
-            if (prixDigital != null) { ModifierLivre.PrixNumerique = prixDigital.Prix; } else { ModifierLivre.PrixNumerique = 0; };
-            if (prixUsage != null) { ModifierLivre.PrixUsage = prixUsage.Prix; ModifierLivre.QuantiteUsagee = prixUsage.QuantiteUsage; } else { ModifierLivre.PrixUsage = 0; ModifierLivre.QuantiteUsagee = 0; };
+            if (prixNeuf != null) { vm.PrixNeuf = prixNeuf.Prix; } else { vm.PrixNeuf = 0; };
+            if (prixDigital != null) { vm.PrixNumerique = prixDigital.Prix; } else { vm.PrixNumerique = 0; };
+            if (prixUsage != null) { vm.PrixUsage = prixUsage.Prix; vm.QuantiteUsagee = prixUsage.QuantiteUsage; } else { vm.PrixUsage = 0; vm.QuantiteUsagee = 0; };
 
 
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", vm);
