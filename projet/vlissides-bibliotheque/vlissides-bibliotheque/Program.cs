@@ -4,6 +4,7 @@ using vlissides_bibliotheque.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using vlissides_bibliotheque.DAO;
 
 namespace vlissides_bibliotheque
 {
@@ -32,8 +33,9 @@ namespace vlissides_bibliotheque
 		    )
 		);
 	    }
-
-			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            builder.Services.AddScoped<LivresBibliothequeDAO>();
+            
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 			builder.Services.AddDefaultIdentity<Utilisateur>(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddRoles<IdentityRole>()
