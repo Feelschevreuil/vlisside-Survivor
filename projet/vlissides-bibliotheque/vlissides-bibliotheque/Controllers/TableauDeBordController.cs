@@ -29,11 +29,11 @@ namespace vlissides_bibliotheque.Controllers
             LivresBibliothequeDAO livresBibliothequeDAO
 		)
 		{
-            signInManager = _signInManager;
+            _signInManager = signInManager;
             _userManager = userManager;
             _userManagerEtudiant = userManagerEtudiant;
             _context = context;
-            _livresBibliothequeDAO = _livresBibliothequeDAO;
+            _livresBibliothequeDAO = livresBibliothequeDAO;
 		}
 
         [HttpGet]
