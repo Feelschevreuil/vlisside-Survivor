@@ -373,6 +373,68 @@ namespace vlissides_bibliotheque.Controllers
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", vm);
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> ModifierLivre(ModificationLivreVM form)
+        {
+            ModelState.Remove("Auteurs");
+            ModelState.Remove("MaisonsDeditions");
+            ModelState.Remove("ListeCours");
+            ModelState.Remove("checkBoxCours");
+
+            LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
+
+            if (ModelState.IsValid)
+            {
+
+                LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
+                LivreBibliothèqueModifier.Isbn = form.ISBN;
+                LivreBibliothèqueModifier.Titre = form.Titre;
+                LivreBibliothèqueModifier.Resume = form.Resume;
+                LivreBibliothèqueModifier.PhotoCouverture = form.Photo;
+                LivreBibliothèqueModifier.DatePublication = form.DatePublication;
+
+                _context.LivresBibliotheque.Update(LivreBibliothèqueModifier);
+                _context.SaveChanges();
+
+                AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x => x.LivreBibliothequeId == form.IdDuLivre);
+                if (auteurLivre != null && auteurLivre.AuteurId != form.AuteurId)
+                {
+                    _context.AuteursLivres.Remove(auteurLivre);
+                    _context.SaveChanges();
+
+                    AuteurLivre nouveauAuteurLivre = new()
+                    {
+                        AuteurId = (int)form.AuteurId,
+                        LivreBibliothequeId = LivreBibliothèqueModifier.LivreId
+                    };
+                    _context.AuteursLivres.Add(nouveauAuteurLivre);
+                    _context.SaveChanges();
+                }
+
+                UpdateLesPrix(LivreBibliothèqueModifier, form);
+                return View("succesModifierLivre", LivreBibliothèqueModifier);
+            }
+
+            var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
+            foreach (var error in ModelErrors)
+            {
+                if (error.Exception == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
+            }
+
+            form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
+            form.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
+            form.checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
+            return View(form);
+        }
+
         [HttpGet]
         public IActionResult SupprimerLivre()
         {
