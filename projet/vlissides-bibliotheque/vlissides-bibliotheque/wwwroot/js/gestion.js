@@ -216,6 +216,21 @@ function modifierLivre(id) {
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
 
+    var divListCours = document.querySelector("#listDeCours");
+    var coursCocher = divListCours.querySelectorAll("input");
+    var listCoursCocher = new Array();
+   
+    coursCocher.forEach((cours) => {
+        if (cours.checked) {
+            listCoursCocher.push(cours.id);
+        }
+    });
+    if (data.PossedeNeuf === 'true') { data.PossedeNeuf = true } else { data.PossedeNeuf = false }
+    if (data.PossedeNumerique === 'true') { data.PossedeNumerique = true } else { data.PossedeNumerique = false }
+    data.QuantiteUsagee = parseFloat(data.QuantiteUsagee)
+
+    data.Cours = listCoursCocher;
+
     fetch(host + "TableauDeBord/ModifierLivre/", {
         method: 'POST',
         body: JSON.stringify(data),
@@ -225,6 +240,9 @@ function modifierLivre(id) {
         }
     }).then(function (res) {
         if (!res.ok) {
+            res.text();
+            var pageCourante = document.querySelector("#PageCourante");
+            pageCourante.innerHTML = data;
             alert("Aucune modification n'a pu être effectuée.")
         }
         // valider si le contenu reçu est du json ou du text

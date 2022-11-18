@@ -54,8 +54,6 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Vendable")]
 		public bool PossedeNeuf { get; set; } = false;
 
-		public bool Obligatoire { get; set; } = false;
-
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Isbn]
         [Range (1000000000,9999999999999,ErrorMessage = "Veuillez entrer un nombre.")]

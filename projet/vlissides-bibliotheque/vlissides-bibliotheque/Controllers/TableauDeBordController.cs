@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Extensions;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
@@ -194,6 +195,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             ModelState.Remove(nameof(vm.ProgrammeEtudes));
             ModelState.Remove(nameof(vm.Provinces));
+            ModelState.Remove(nameof(vm.checkBoxCours));
 
             if (vm.CodePostal != null) {
                 vm.CodePostal = vm.CodePostal.ToUpper();
@@ -304,10 +306,9 @@ namespace vlissides_bibliotheque.Controllers
 
                 return View("succesAjoutLivre", nouveauLivreBibliothèque);
             }
-            //vm.Auteurs = ListDropDownAuteurs();
-            //vm.ListeCoursComplete = ListDropDownCours();
-            //vm.MaisonsDeditions = ListDropDownMaisonDedition();
-
+            vm.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
+            vm.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
+            vm.checkBoxCours = CoursCheckedBox.GetCours(_context);
             return PartialView("Views/Shared/_LivrePartial.cshtml", vm);
         }
 
@@ -373,9 +374,8 @@ namespace vlissides_bibliotheque.Controllers
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", vm);
         }
 
-        [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> ModifierLivre(ModificationLivreVM form)
+        public async Task<ActionResult> ModifierLivre([FromBody]ModifierLivreCours form)
         {
             ModelState.Remove("Auteurs");
             ModelState.Remove("MaisonsDeditions");
@@ -386,7 +386,6 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-
                 LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
                 LivreBibliothèqueModifier.Isbn = form.ISBN;
                 LivreBibliothèqueModifier.Titre = form.Titre;
@@ -413,26 +412,25 @@ namespace vlissides_bibliotheque.Controllers
                 }
 
                 GestionPrix.UpdateLesPrix(LivreBibliothèqueModifier, form, _context);
-                return View("succesModifierLivre", LivreBibliothèqueModifier);
+                return Json(form);
             }
-
-            var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
-            foreach (var error in ModelErrors)
-            {
-                if (error.Exception == null)
-                {
-                    ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
-                }
-            }
+            //var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
+            //foreach (var error in ModelErrors)
+            //{
+            //    if (error.Exception == null)
+            //    {
+            //        ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
+            //    }
+            //    else
+            //    {
+            //        ModelState.AddModelError(string.Empty, error.ErrorMessage);
+            //    }
+            //}
 
             form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             form.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
             form.checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
-            return View(form);
+            return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", form);
         }
 
         [HttpGet]
