@@ -9,7 +9,6 @@ namespace vlissides_bibliotheque.Services
     public class FactureEtudiantService
     {
 
-
         /// <summary>
         /// Compare deux factures etudiants et regarde si les propriétés diffèrent.
         /// Tenir en compte que ni l'id ni l'étudiant sont comparés.
