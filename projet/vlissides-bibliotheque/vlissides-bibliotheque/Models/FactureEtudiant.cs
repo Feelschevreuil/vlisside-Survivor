@@ -10,6 +10,10 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int FactureEtudiantId { get; set; }
 
+        [Required]
+        [StringLength(32)]
+        public string PaymentInentId { get; set; }
+
         public Etudiant Etudiant { get; set; }
 
         [Required]
@@ -22,5 +26,8 @@ namespace vlissides_bibliotheque.Models
         public decimal Tps { get; set; }
 
         public decimal Tvq { get; set; }
+
+        [Required]
+        public short Statut { get; set; }
     }
 }
