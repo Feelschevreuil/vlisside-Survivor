@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.DAO
     /// <summary>
     /// Clsase <c>FacturesEtudiantsDAO</c> qui implémente l'interface DAO.
     /// </summary>
-    public class FacturesEtudiantsDAO : IDAO<FactureEtudiant> 
+    public class FacturesEtudiantsDAO : IDAO<FactureEtudiant>, IDAOCleUnique<FactureEtudiant>
     {
 
         private ApplicationDbContext _context;
@@ -75,7 +75,7 @@ namespace vlissides_bibliotheque.DAO
         /// <param name="idObjetOriginal">L'objet contenant les propriétés originales</param>
         /// <param name="objetAJour">L'objet contenant les modifications.</param>
         /// <returns>true si l'objet a été sauvegardé avec succès.</returns>
-        public FactureEtudiant Update(int idObjetOriginal, FactureEtudiant objetAJour)
+        public FactureEtudiant Update(long idObjetOriginal, FactureEtudiant objetAJour)
         {
 
             FactureEtudiant factureEtudiantOriginale;
