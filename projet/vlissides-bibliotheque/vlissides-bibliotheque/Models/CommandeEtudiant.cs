@@ -16,6 +16,9 @@ namespace vlissides_bibliotheque.Models
         public PrixEtatLivre PrixEtatLivre { get; set; }
 
         [Required]
+        public double PrixUnitaireGele { get; set; }
+
+        [Required]
         public int Quantite { get; set; }
     }
 }
