@@ -2,60 +2,79 @@
 
 <div class="d-flex accordion-header">
     <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
     </a>
     <h2 class="p-3">Gestion des commandes</h2>
 </div>
 
-<table class="table table-light table-hover">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre.Nom)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().Quantite)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.QuantiteUsage)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.LivreBibliotheque.Titre)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.Etudiant.Email)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.AdresseLivraison)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.DateFacturation)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.Prix)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.TypePaiement.Nom)</th>
-            <th>Action(s)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (CommandeEtudiant commande in Model) {
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerCommande()" />
+
+<div style="overflow-x: auto;">
+    <table class="table table-light">
+        <thead>
             <tr>
-                <td>@commande.PrixEtatLivre.EtatLivre.Nom</td>
-                <td>@commande.Quantite</td>
-                <td>@commande.PrixEtatLivre.QuantiteUsage</td>
-                <td>@commande.PrixEtatLivre.LivreBibliotheque.Titre</td>
-                <td>@commande.FactureEtudiant.Etudiant.Email</td>
-                <td>@commande.FactureEtudiant.AdresseLivraison</td>
-                <td>@commande.FactureEtudiant.DateFacturation</td>
-                <td>@commande.PrixEtatLivre.Prix</td>
-                <td>@commande.FactureEtudiant.TypePaiement.Nom</td>
-                <td>
-                    <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#commande-@commande.FactureEtudiantId-@commande.PrixEtatLivreId">
-                    <img src="~/img/delete.svg" width="25px">
-                </td>
-                <div class="modal fade" id="commande-@commande.FactureEtudiantId-@commande.PrixEtatLivreId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre.Nom)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().Quantite)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.QuantiteUsage)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.LivreBibliotheque.Titre)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.Etudiant.Email)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.AdresseLivraison)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.DateFacturation)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.Prix)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.TypePaiement.Nom)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CommandeEtudiant commande in Model) {
+                <tr>
+                    <td>@commande.PrixEtatLivre.EtatLivre.Nom</td>
+                    <td>@commande.Quantite</td>
+                    <td>@commande.PrixEtatLivre.QuantiteUsage</td>
+                    <td>@commande.PrixEtatLivre.LivreBibliotheque.Titre</td>
+                    <td>@commande.FactureEtudiant.Etudiant.Email</td>
+                    <td>@commande.FactureEtudiant.AdresseLivraison</td>
+                    <td>@commande.FactureEtudiant.DateFacturation</td>
+                    <td>@commande.PrixEtatLivre.Prix</td>
+                    <td>@commande.FactureEtudiant.TypePaiement.Nom</td>
+                    <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#commande-@commande.PrixEtatLivreId" onclick="getFormulaireModifierCommande('@commande.PrixEtatLivreId')">
+                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCommande('@commande.PrixEtatLivreId')">
+                    </td>
+                </tr>
+                <div class="modal fade" id="commande-@commande.PrixEtatLivreId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier la commande</h1>
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le commande</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                contenu
+
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                <button type="button" class="btn btn-primary">Enregistrer</button>
+                                <button id="fermer-modal-@commande.PrixEtatLivreId" data-bs-dismiss="modal" hidden></button>
+                                <button type="button" class="btn btn-primary" onclick="modifierCommande('@commande.PrixEtatLivreId')">Enregistrer</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </tr>
-        }
-    </tbody>
-</table>
+            }
+            <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Nouvelle commande</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="fermer-modal-creer" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="creerCommande()">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tbody>
+    </table>
+</div>

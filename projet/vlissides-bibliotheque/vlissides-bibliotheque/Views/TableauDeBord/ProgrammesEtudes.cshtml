@@ -2,46 +2,66 @@
 
 <div class="d-flex accordion-header">
     <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
     </a>
     <h2 class="p-3">Gestion des programmes d'études</h2>
 </div>
 
-<table class="table table-light table-hover">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(programme => programme.First().Code)</th>
-            <th>@Html.DisplayNameFor(programme => programme.First().Nom)</th>
-            <th>Action(s)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (ProgrammeEtude programme in Model) {
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerProgrammeEtudes()" />
+
+<div style="overflow-x: auto;">
+    <table class="table table-light">
+        <thead>
             <tr>
-                <td>@programme.Code</td>
-                <td>@programme.Nom</td>
-                <td>
-                    <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#programme-@programme.ProgrammeEtudeId">
-                    <img src="~/img/delete.svg" width="25px">
-                </td>
+                <th id="@nameof(GestionProgrammeEtudesVM)">@Html.DisplayNameFor(programme => programme.First().Code)</th>
+                <th id="@nameof(GestionProgrammeEtudesVM)">@Html.DisplayNameFor(programme => programme.First().Nom)</th>
+
             </tr>
-            <div class="modal fade" id="programme-@programme.ProgrammeEtudeId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
+        </thead>
+        <tbody>
+            @foreach (ProgrammeEtude programmeEtudes in Model) {
+                <tr>
+                    <td>@programmeEtudes.Code</td>
+                    <td>@programmeEtudes.Nom</td>
+                    <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#programmeEtudes-@programmeEtudes.ProgrammeEtudeId" onclick="getFormulaireModifierProgrammeEtudes('@programmeEtudes.ProgrammeEtudeId')">
+                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerProgrammeEtudes('@programmeEtudes.ProgrammeEtudeId')">
+                    </td>
+                </tr>
+                <div class="modal fade" id="programmeEtudes-@programmeEtudes.ProgrammeEtudeId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le programmeEtudes</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button id="fermer-modal-@programmeEtudes.ProgrammeEtudeId" data-bs-dismiss="modal" hidden></button>
+                                <button type="button" class="btn btn-primary" onclick="modifierProgrammeEtudes('@programmeEtudes.ProgrammeEtudeId')">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le programme d'études</h1>
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Nouveau programme d'études</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            contenu
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-primary">Enregistrer</button>
+                            <button id="fermer-modal-creer" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="creerProgrammeEtudes()">Enregistrer</button>
                         </div>
                     </div>
                 </div>
             </div>
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
