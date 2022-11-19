@@ -13,7 +13,7 @@ namespace vlissides_bibliotheque.Services
         /// Compare deux factures etudiants et regarde si les propriétés diffèrent.
         /// Tenir en compte que ni l'id ni l'étudiant sont comparés.
         /// </summary>
-        /// <param name="idFactureEtudiantReference">Objet de référence.</param>
+        /// <param name="factureEtudiantReference">Objet de référence.</param>
         /// <param name="factureEtudiantModifie">Objet modifié à comparer.</param>
         public static bool EstDifferentDe
         (
