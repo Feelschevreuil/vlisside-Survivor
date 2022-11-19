@@ -1,3 +1,5 @@
+using vlissides_bibliotheque.DAO;
+using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.Services
@@ -8,6 +10,14 @@ namespace vlissides_bibliotheque.Services
     /// </summary>
     public class CommandeEtudiantService
     {
+
+        private ApplicationDbContext _context;
+
+        public CommandeEtudiantService(ApplicationDbContext context)
+        {
+
+            _context = context;
+        }
 
         /// <summary>
         /// Compare deux commandeEtudiants et regarde si les propriétés diffèrent.
@@ -69,6 +79,57 @@ namespace vlissides_bibliotheque.Services
             }
 
             return commandeEtudiantAMettreAJour;
+        }
+
+        /// <summary>
+        /// Crée les commandes selon une liste d'ids de PrixEtatLivres.
+        /// </summary>
+        /// <param name="factureEtudiant">Facture à associer les commandes.</param>
+        /// <param name="prixEtatLivresId">Liste des Id's PrixÉtatsLivres désirés.</param>
+        public List<CommandeEtudiant> CreerCommandesSelonListeIdsPrixEtatLivre
+        (
+            FactureEtudiant factureEtudiant,
+            List<int> prixEtatLivresId
+        )
+        {
+
+            List<CommandeEtudiant> commandesEtudiant;
+            PrixEtatLivreDAO prixEtatLivreDAO;
+            PrixEtatLivre prixEtatLivre;
+            CommandeEtudiant commandeEtudiant;
+
+            prixEtatLivreDAO = new(_context);
+
+            commandesEtudiant = new();
+
+            foreach(int idPrixEtatLivre in prixEtatLivresId)
+            {
+
+                prixEtatLivre = PrixEtatLivreDAO.Get(idPrixEtatLivre);
+
+                if(prixEtatLivre != null)
+                {
+
+                    // TODO: si usagé: enlever un!
+                    
+                    // TODO: enum pour les état livres
+                    if(prixEtatLivre.Etat == EtatLivreEnum.USAGE)
+                    {
+
+
+                    }
+
+                    commandeEtudiant = new()
+                    {
+                        FactureEtudiant = factureEtudiant,
+                        PrixEtatLivre = prixEtatLivre,
+                        Quantite = 1
+                    };
+                }
+                
+            }
+
+            return commandesEtudiant;
         }
     }
 }
