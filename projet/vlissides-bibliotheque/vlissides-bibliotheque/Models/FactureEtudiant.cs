@@ -10,10 +10,6 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int FactureEtudiantId { get; set; }
 
-        [Required]
-        public int TypePaiementId { get; set; }
-        public TypePaiement TypePaiement { get; set; }
-
         public Etudiant Etudiant { get; set; }
 
         [Required]

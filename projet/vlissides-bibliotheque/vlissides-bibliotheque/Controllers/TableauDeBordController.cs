@@ -47,7 +47,6 @@ namespace vlissides_bibliotheque.Controllers
 				.Include(commande => commande.PrixEtatLivre.LivreBibliotheque)
                 .Include(commande => commande.FactureEtudiant)
                 .Include(commande => commande.FactureEtudiant.Etudiant)
-                .Include(commande => commande.FactureEtudiant.TypePaiement)
                 .ToList();
 
             return View(commandes);

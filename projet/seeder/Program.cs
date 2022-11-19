@@ -80,9 +80,6 @@ namespace seeder
             _context.MaisonsEdition
                 .RemoveRange(_context.MaisonsEdition);
 
-            _context.TypesPaiement
-                .RemoveRange(_context.TypesPaiement);
-
             _context.Professeurs
 		.RemoveRange(_context.Professeurs);
 	}
@@ -132,8 +129,6 @@ namespace seeder
             _context.SaveChanges();
 
             SetCoursParProfesseur();
-
-            _context.TypesPaiement.AddRange(GetTypesPaiement());
 
             _context.Commanditaires.AddRange(GetCommanditaires());
 
@@ -745,31 +740,6 @@ namespace seeder
             _context.SaveChanges();
         }
 
-        // TODO: Sera possiblement enlevé dépendament
-        // du système de paiement que l'on va utiliser.
-        /// <summary>
-        /// Crée une liste des types de paiement.
-        /// </summary>
-        /// <returns>Les types de paiement liste.</returns>
-        private static ICollection<TypePaiement> GetTypesPaiement()
-        {
-
-            return new List<TypePaiement>
-	    {
-
-		new TypePaiement()
-		{
-		    TypePaiementId = 0,
-		    Nom = "Débit"
-		},
-		new TypePaiement()
-		{
-		    TypePaiementId = 0,
-		    Nom = "Crédit"
-		}
-	    };
-        }
-
         /// <summary>
         /// Crée une liste des commanditaires.
         /// </summary>
@@ -995,11 +965,6 @@ namespace seeder
             factureEtudiant = new()
             {
                 FactureEtudiantId = 0,
-                TypePaiement = _context
-				.TypesPaiement
-				    .Skip(Faker.RandomNumber.Next(0, _context.TypesPaiement.Count() - 1))
-				    .Take(1)
-				    .First(),
                 Etudiant = etudiant,
                 // TODO: ne pas enregistrer l'id de l'objet, mais l'adresse au complete en texte.
                 AdresseLivraison = "adresse place holder",

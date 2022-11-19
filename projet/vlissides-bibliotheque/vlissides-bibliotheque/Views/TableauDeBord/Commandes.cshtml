@@ -18,7 +18,6 @@
             <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.AdresseLivraison)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.DateFacturation)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.Prix)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.TypePaiement.Nom)</th>
             <th>Action(s)</th>
         </tr>
     </thead>
@@ -33,7 +32,6 @@
                 <td>@commande.FactureEtudiant.AdresseLivraison</td>
                 <td>@commande.FactureEtudiant.DateFacturation</td>
                 <td>@commande.PrixEtatLivre.Prix</td>
-                <td>@commande.FactureEtudiant.TypePaiement.Nom</td>
                 <td>
                     <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#commande-@commande.FactureEtudiantId-@commande.PrixEtatLivreId">
                     <img src="~/img/delete.svg" width="25px">
