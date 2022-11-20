@@ -77,8 +77,6 @@ namespace vlissides_bibliotheque
 				pattern: "{controller=Home}/{action=Index}/{id?}");
 			app.MapRazorPages();
 
-            StripeConfiguration.ApiKey = builder.Configuration.GetConnectionString("stripe_api_key");
-
 			app.Run();
 		}
 

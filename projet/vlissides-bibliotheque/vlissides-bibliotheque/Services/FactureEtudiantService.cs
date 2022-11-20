@@ -131,7 +131,7 @@ namespace vlissides_bibliotheque.Services
         /// </returns>
         public FactureEtudiant Create
         (
-            string etudiantId,
+            Etudiant etudiant,
             List<int> prixEtatLivresId
         )
         {
@@ -149,17 +149,17 @@ namespace vlissides_bibliotheque.Services
             {
 
                 facturesEtudiantsDAO = new(_context);
-
+                
                 // TODO: outsource tax from config!!
                 factureEtudiant = new()
                 {
-                    EtudiantId = etudiantId,
+                    Etudiant = etudiant,
                     DateFacturation = DateTime.Now,
                     Statut = StatusFacture.ATTENTE_PAIEMENT,
                     Tvq = 0.0M,
                     Tps = 0.05M
                 };
-
+                
                 facturesEtudiantsDAO.Save(factureEtudiant);
 
                 commandeEtudiantService = new(_context);
@@ -191,13 +191,22 @@ namespace vlissides_bibliotheque.Services
                     totalFacture = totalFacture * decimal.ToDouble(1 + factureEtudiant.Tps);
                 }
 
+                long factureFinale;
+
+                factureFinale = (long)(totalFacture * 100);
+
                 // TODO: créer payment intent avec API de stripe
                 // totalFacture, price and so on.
                 PaymentIntent paymentIntent;
+                string apiKey;
+
+                apiKey = GetStripeApiKey();
+
+                StripeConfiguration.ApiKey = apiKey;
 
                 var options = new PaymentIntentCreateOptions
                 {
-                    Amount = 999,
+                    Amount = factureFinale,
                     Currency = "cad",
                     PaymentMethodTypes = new List<string> { "card" }
                 };
@@ -212,6 +221,33 @@ namespace vlissides_bibliotheque.Services
             }
 
             return null;
+        }
+
+        /*
+        private double GetTotalFacture()
+        {
+        }
+        */
+
+        /// <summary>
+        /// Gets the stripe API key from the configuration file.
+        /// </summary>
+        private string GetStripeApiKey()
+        {
+
+            string apiKey;
+            IConfigurationRoot configuration; 
+
+            configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                // TODO: outsource name in Constants
+                .AddJsonFile(Directory.GetCurrentDirectory() + "/appsettings.json")
+                .Build();
+
+            // TODO: outsoude names in Constants
+            apiKey = configuration.GetSection("Paiements")["StripeApiKey"] ?? throw new InvalidOperationException("Clé d'API stripe non trouvée!");
+
+            return apiKey;
         }
     }
 }

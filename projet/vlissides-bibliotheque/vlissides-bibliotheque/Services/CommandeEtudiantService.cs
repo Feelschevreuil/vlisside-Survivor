@@ -98,6 +98,7 @@ namespace vlissides_bibliotheque.Services
             PrixEtatLivreDAO prixEtatLivreDAO;
             PrixEtatLivre prixEtatLivre;
             CommandeEtudiant commandeEtudiant;
+            bool livreUsage;
 
             prixEtatLivreDAO = new(_context);
 
@@ -111,22 +112,25 @@ namespace vlissides_bibliotheque.Services
                 if(prixEtatLivre != null)
                 {
 
-                    if(prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE)
+                    livreUsage = prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE;
+
+                    //TODO: something more effcient than re-finding the object
+                    if
+                    (
+                        (livreUsage && prixEtatLivreDAO.SoustraireDuStock(prixEtatLivre.PrixEtatLivreId)) || 
+                        !livreUsage
+                    )
                     {
 
-                        //TODO: something more effcient than re-finding the object
-                        if(prixEtatLivreDAO.SoustraireDuStock(prixEtatLivre.PrixEtatLivreId))
+                        commandeEtudiant = new()
                         {
+                            FactureEtudiant = factureEtudiant,
+                            PrixEtatLivre = prixEtatLivre,
+                            Quantite = 1,
+                            PrixUnitaireGele = prixEtatLivre.Prix
+                        };
 
-                            commandeEtudiant = new()
-                            {
-                                FactureEtudiant = factureEtudiant,
-                                PrixEtatLivre = prixEtatLivre,
-                                Quantite = 1
-                            };
-
-                            commandesEtudiant.Add(commandeEtudiant);
-                        }
+                        commandesEtudiant.Add(commandeEtudiant);
                     }
                 }
             }
