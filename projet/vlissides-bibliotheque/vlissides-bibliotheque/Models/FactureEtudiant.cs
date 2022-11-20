@@ -12,13 +12,13 @@ namespace vlissides_bibliotheque.Models
         public int FactureEtudiantId { get; set; }
 
         [StringLength(32)]
-        public string PaymentIntentId { get; set; }
+        public string? PaymentIntentId { get; set; }
 
         [Required]
         public string EtudiantId { get; set; }
         public Etudiant Etudiant { get; set; }
 
-        public string AdresseLivraison { get; set; }
+        public string? AdresseLivraison { get; set; }
 
         [Required]
         public DateTime DateFacturation { get; set; }
