@@ -23,8 +23,11 @@
     </thead>
     <tbody>
         @foreach (CommandeEtudiant commande in Model) {
+
+            int etatLivre = (int)commande.EtatLivre;
+
             <tr>
-                <td>@commande.PrixEtatLivre.EtatLivre</td>
+                <td>@etatLivre</td>
                 <td>@commande.Quantite</td>
                 <td>@commande.PrixEtatLivre.QuantiteUsage</td>
                 <td>@commande.PrixEtatLivre.LivreBibliotheque.Titre</td>
