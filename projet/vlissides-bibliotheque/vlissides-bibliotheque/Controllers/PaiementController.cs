@@ -38,7 +38,8 @@ namespace vlissides_bibliotheque.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index ()
+        // POST: /paiements
+        public async Task<IActionResult> Index([FromBody] FactureEtudiantDTO factureEtudiantDTO)
         {
 
             /*
