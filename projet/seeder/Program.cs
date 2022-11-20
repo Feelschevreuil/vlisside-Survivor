@@ -2,6 +2,7 @@
 using FizzWare.NBuilder;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.Enums;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -50,9 +51,6 @@ namespace seeder
             _context.Commanditaires
                 .RemoveRange(_context.Commanditaires);
 
-            _context.EtatsLivres
-                .RemoveRange(_context.EtatsLivres);
-
             _context.Etudiants
                 .RemoveRange(_context.Etudiants);
 
@@ -99,8 +97,6 @@ namespace seeder
             _context.Adresses.AddRange(GetAdresses());
 
             _context.Auteurs.AddRange(GetAuteurs());
-
-            _context.EtatsLivres.AddRange(GetEtatsLivres());
 
             _context.ProgrammesEtudes.AddRange(GetProgrammesEtudes());
 
@@ -200,31 +196,6 @@ namespace seeder
 		.With(auteur => auteur.Nom = Faker.Name.Last())
 		.With(auteur => auteur.Prenom = Faker.Name.First())
 		.Build();
-        }
-
-        // TODO: mettre dans le db_context.
-        /// <summary>
-        /// Crée une liste des États des livres.
-        /// </summary>
-        /// <returns>Les États des livres en liste.</returns>
-        private static List<EtatLivre> GetEtatsLivres()
-        {
-
-            return new List<EtatLivre> {
-
-                new EtatLivre() {
-		    EtatLivreId = 0,
-                    Nom = "Neuf"
-                },
-                new EtatLivre() {
-		    EtatLivreId = 0,
-                    Nom = "Usagé"
-                },
-                new EtatLivre() {
-		    EtatLivreId = 0,
-                    Nom = "Digital"
-                }
-            };
         }
 
         // TODO: mettre dans le db_context.
@@ -497,19 +468,6 @@ namespace seeder
         private static void SetPrixEtatsLivres()
         {
 
-            EtatLivre etatUsage;
-            EtatLivre etatNeuf;
-            EtatLivre etatDigital;
-
-            etatUsage = _context.EtatsLivres
-                .Where(etatLivre => etatLivre.Nom == "Usagé").First();
-
-            etatNeuf = _context.EtatsLivres
-                .Where(etatLivre => etatLivre.Nom == "Neuf").First();
-
-            etatDigital = _context.EtatsLivres
-                .Where(etatLivre => etatLivre.Nom == "Digital").First();
-
             foreach (LivreBibliotheque livreBibliotheque in _context.LivresBibliotheque)
             {
 
@@ -521,7 +479,7 @@ namespace seeder
                     prixEtatLivreUsage = new()
                     {
                         PrixEtatLivreId = 0,
-                        EtatLivre = etatUsage,
+                        EtatLivre = EtatLivreEnum.USAGE,
                         LivreBibliotheque = livreBibliotheque,
                         Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                     };
@@ -535,7 +493,7 @@ namespace seeder
                 prixEtatLivreNeuf = new()
                 {
                     PrixEtatLivreId = 0,
-                    EtatLivre = etatNeuf,
+                    EtatLivre = EtatLivreEnum.NEUF,
                     LivreBibliotheque = livreBibliotheque,
                     Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                 };
@@ -543,7 +501,7 @@ namespace seeder
                 prixEtatLivreDigital = new()
                 {
                     PrixEtatLivreId = 0,
-                    EtatLivre = etatDigital,
+                    EtatLivre = EtatLivreEnum.NUMERIQUE,
                     LivreBibliotheque = livreBibliotheque,
                     Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                 };
