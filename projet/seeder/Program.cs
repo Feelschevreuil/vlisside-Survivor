@@ -946,15 +946,22 @@ namespace seeder
         {
 
             CommandeEtudiant commandeEtudiant;
+            PrixEtatLivre prixEtatLivre;
+
+            prixEtatLivre = _context
+				    .PrixEtatsLivres
+					.Skip(Faker.RandomNumber.Next(0, _context.PrixEtatsLivres.Count() - 1))
+					.Take(1)
+					.First();
 
             commandeEtudiant = new()
             {
                 FactureEtudiant = factureEtudiant,
-                PrixEtatLivre = _context
-				    .PrixEtatsLivres
-					.Skip(Faker.RandomNumber.Next(0, _context.PrixEtatsLivres.Count() - 1))
-					.Take(1)
-					.First(),
+                PrixEtatLivre = prixEtatLivre,
+                Isbn = prixEtatLivre.LivreBibliotheque.Isbn,
+                Titre = prixEtatLivre.LivreBibliotheque.Titre,
+                EtatLivre = prixEtatLivre.EtatLivre,
+                PrixUnitaireGele = prixEtatLivre.Prix,
                 Quantite = Faker.RandomNumber.Next(1, 2)
             };
 
