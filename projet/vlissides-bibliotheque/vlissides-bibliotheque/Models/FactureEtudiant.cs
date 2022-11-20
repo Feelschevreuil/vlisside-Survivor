@@ -14,6 +14,9 @@ namespace vlissides_bibliotheque.Models
         [StringLength(32)]
         public string? PaymentIntentId { get; set; }
 
+        [StringLength(64)]
+        public string? ClientSecret { get; set; }
+
         [Required]
         public string EtudiantId { get; set; }
         public Etudiant Etudiant { get; set; }

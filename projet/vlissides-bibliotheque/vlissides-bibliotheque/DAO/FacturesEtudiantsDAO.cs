@@ -79,10 +79,12 @@ namespace vlissides_bibliotheque.DAO
         {
 
             FactureEtudiant factureEtudiantOriginale;
+            FactureEtudiantService factureEtudiantService;
 
             factureEtudiantOriginale = Get(idObjetOriginal);
+            factureEtudiantService = new(_context);
 
-            FactureEtudiantService
+            factureEtudiantService
                 .MettreAJourProprietes(factureEtudiantOriginale, objetAJour);
 
             _context.FacturesEtudiants.Update(factureEtudiantOriginale);

@@ -68,6 +68,51 @@ namespace vlissides_bibliotheque.Services
 
                 return true;
             }
+            else if
+            (
+                !string
+                    .Equals
+                    (
+                        factureEtudiantReference.EtudiantId, 
+                        factureEtudiantModifie.EtudiantId
+                    )
+            )
+            {
+
+                return true;
+            }
+            else if
+            (
+                !string.IsNullOrEmpty(factureEtudiantReference.PaymentIntentId) &&
+                    !string.IsNullOrEmpty(factureEtudiantModifie.PaymentIntentId) &&
+                        !string
+                            .Equals
+                            (
+                                factureEtudiantReference.PaymentIntentId, 
+                                factureEtudiantModifie.PaymentIntentId, 
+                                StringComparison.OrdinalIgnoreCase
+                            )
+            )
+            {
+
+                return true;
+            }
+            else if
+            (
+                !string.IsNullOrEmpty(factureEtudiantReference.ClientSecret) &&
+                    !string.IsNullOrEmpty(factureEtudiantModifie.ClientSecret) &&
+                        !string
+                            .Equals
+                            (
+                                factureEtudiantReference.ClientSecret, 
+                                factureEtudiantModifie.ClientSecret, 
+                                StringComparison.OrdinalIgnoreCase
+                            )
+            )
+            {
+
+                return true;
+            }
 
             return false;
         }
@@ -77,7 +122,7 @@ namespace vlissides_bibliotheque.Services
         /// </summary>
         /// <param name="factureEtudiantAMettreAJour">Objet à mettre à jour.</param>
         /// <param name="factureEtudiantModifie">Objet avec les modifications.</param>
-        public static FactureEtudiant MettreAJourProprietes
+        public FactureEtudiant MettreAJourProprietes
         (
             FactureEtudiant factureEtudiantAMettreAJour, 
             FactureEtudiant factureEtudiantModifie
@@ -112,6 +157,70 @@ namespace vlissides_bibliotheque.Services
             {
 
                 factureEtudiantAMettreAJour.Tvq = factureEtudiantModifie.Tvq;
+            }
+
+            if
+            (
+                !string
+                    .Equals
+                    (
+                        factureEtudiantAMettreAJour.EtudiantId, 
+                        factureEtudiantModifie.EtudiantId
+                    )
+            )
+            {
+
+                Etudiant etudiantAJour;
+
+                // TODO: utiliser DAO
+                etudiantAJour = _context
+                    .Etudiants
+                        .First
+                        (
+                            etudiant => 
+                                etudiant.Id == factureEtudiantModifie.EtudiantId
+                        );
+
+                if(etudiantAJour != null)
+                {
+
+                    factureEtudiantAMettreAJour.Etudiant = etudiantAJour;
+                }
+            }
+            // TODO: optimiser comparaison
+            if
+            (
+                !string.IsNullOrEmpty(factureEtudiantAMettreAJour.PaymentIntentId) &&
+                    !string.IsNullOrEmpty(factureEtudiantModifie.PaymentIntentId) &&
+                        !string
+                            .Equals
+                            (
+                                factureEtudiantAMettreAJour.PaymentIntentId, 
+                                factureEtudiantModifie.PaymentIntentId, 
+                                StringComparison.OrdinalIgnoreCase
+                            )
+            )
+            {
+
+                factureEtudiantAMettreAJour
+                    .PaymentIntentId = factureEtudiantModifie.PaymentIntentId;
+            }
+            if
+            (
+                !string.IsNullOrEmpty(factureEtudiantAMettreAJour.ClientSecret) &&
+                    !string.IsNullOrEmpty(factureEtudiantModifie.ClientSecret) &&
+                        !string
+                            .Equals
+                            (
+                                factureEtudiantAMettreAJour.ClientSecret, 
+                                factureEtudiantModifie.ClientSecret, 
+                                StringComparison.OrdinalIgnoreCase
+                            )
+            )
+            {
+
+                factureEtudiantAMettreAJour
+                    .ClientSecret = factureEtudiantModifie.ClientSecret;
             }
 
             return factureEtudiantAMettreAJour;
@@ -216,6 +325,10 @@ namespace vlissides_bibliotheque.Services
                 paymentIntent = service.Create(options);
                 
                 factureEtudiant.PaymentIntentId = paymentIntent.Id;
+                factureEtudiant.ClientSecret = paymentIntent.ClientSecret;
+
+                // TODO optimiser à la place de chercher une autre fois l'item
+                facturesEtudiantsDAO.Update(factureEtudiant.FactureEtudiantId, factureEtudiant);
                 
                 return factureEtudiant;
             }
