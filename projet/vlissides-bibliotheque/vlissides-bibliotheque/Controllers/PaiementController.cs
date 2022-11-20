@@ -5,6 +5,7 @@ using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Services;
+using vlissides_bibliotheque.Constantes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ using Newtonsoft.Json;
 namespace vlissides_bibliotheque.Controllers
 {
 
-    [Authorize]
+    [Authorize(Roles = RolesName.Etudiant)]
     public class PaiementController : Controller
     {
         private readonly ILogger<AccueilController> _logger;
@@ -37,25 +38,28 @@ namespace vlissides_bibliotheque.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public IActionResult Index ([FromBody] FactureEtudiantDTO factureEtudiantDTO)
+        public async Task<IActionResult> Index ()
         {
 
+            /*
             if(ModelState.IsValid)
             {
+            */
 
+                Etudiant etudiant;
                 FactureEtudiantService factureEtudiantService;
                 FactureEtudiant factureEtudiant;
                 string userId;
 
-                userId = User.FindFirst(ClaimTypes.NameIdentifier).ToString();
+                etudiant = await _userManagerEtudiant
+                    .GetUserAsync(HttpContext.User);
 
                 factureEtudiantService = new(_context);
                 factureEtudiant = factureEtudiantService
                     .Create
                     (
-                        userId, 
-                        factureEtudiantDTO.PrixEtatsLivres
+                        etudiant, 
+                        new List<int>() {121, 115, 107}
                     );
 
                 if(factureEtudiant != null)
@@ -72,9 +76,13 @@ namespace vlissides_bibliotheque.Controllers
 
                     return Content("not valid");
                 }
-            }
+                
 
-            return Content("What did you send?");
+                /*
+            }
+            */
+
+            //return Content("What did you send? : " + userId2);
         }
     }
 }
