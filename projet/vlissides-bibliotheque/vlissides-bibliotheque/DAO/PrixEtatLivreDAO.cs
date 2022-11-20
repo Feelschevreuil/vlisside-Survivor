@@ -92,7 +92,11 @@ namespace vlissides_bibliotheque.DAO
                 prixEtatLivre.QuantiteUsage--;
                 
                 Update(prixEtatLivre.PrixEtatLivreId, prixEtatLivre);
+
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>

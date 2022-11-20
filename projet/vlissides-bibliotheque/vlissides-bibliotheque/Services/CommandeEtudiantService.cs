@@ -1,6 +1,7 @@
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Enums;
 
 namespace vlissides_bibliotheque.Services
 {
@@ -105,15 +106,12 @@ namespace vlissides_bibliotheque.Services
             foreach(int idPrixEtatLivre in prixEtatLivresId)
             {
 
-                prixEtatLivre = PrixEtatLivreDAO.Get(idPrixEtatLivre);
+                prixEtatLivre = prixEtatLivreDAO.Get(idPrixEtatLivre);
 
                 if(prixEtatLivre != null)
                 {
 
-                    // TODO: si usagé: enlever un!
-                    
-                    // TODO: enum pour les état livres
-                    if(prixEtatLivre.Etat == EtatLivreEnum.USAGE)
+                    if(prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE)
                     {
 
 

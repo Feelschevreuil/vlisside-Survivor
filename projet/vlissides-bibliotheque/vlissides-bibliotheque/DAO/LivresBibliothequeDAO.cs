@@ -2,6 +2,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Extentions;
+using vlissides_bibliotheque.Enums;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -592,13 +593,6 @@ namespace vlissides_bibliotheque.DAO
         {
 
             Expression<Func<PrixEtatLivre, bool>> expressionEtatLivreDesire;
-            EtatLivre etatLivreNeuf;
-            EtatLivre etatLivreDigital;
-            EtatLivre etatLivreUsage;
-
-            etatLivreNeuf = GetEtatLivreSelonNom(NomEtatLivre.NEUF);
-            etatLivreDigital = GetEtatLivreSelonNom(NomEtatLivre.DIGITAL);
-            etatLivreUsage = GetEtatLivreSelonNom(NomEtatLivre.USAGE);
 
             if
             (
@@ -609,9 +603,9 @@ namespace vlissides_bibliotheque.DAO
             {
 
                 expressionEtatLivreDesire = prixEtatLivre =>
-                    prixEtatLivre.EtatLivre == etatLivreNeuf ||
-                    prixEtatLivre.EtatLivre == etatLivreDigital ||
-                    prixEtatLivre.EtatLivre == etatLivreUsage;
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.NEUF ||
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.NUMERIQUE ||
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE;
             }
             else if
             (
@@ -621,8 +615,8 @@ namespace vlissides_bibliotheque.DAO
             {
 
                 expressionEtatLivreDesire = prixEtatLivre =>
-                    prixEtatLivre.EtatLivre == etatLivreNeuf ||
-                    prixEtatLivre.EtatLivre == etatLivreDigital;
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.NEUF ||
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.NUMERIQUE;
             }
             else if
             (
@@ -632,8 +626,8 @@ namespace vlissides_bibliotheque.DAO
             {
 
                 expressionEtatLivreDesire = prixEtatLivre =>
-                    prixEtatLivre.EtatLivre == etatLivreDigital ||
-                    prixEtatLivre.EtatLivre == etatLivreUsage;
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.NUMERIQUE ||
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE;
             }
             else if
             (
@@ -643,53 +637,29 @@ namespace vlissides_bibliotheque.DAO
             {
 
                 expressionEtatLivreDesire = prixEtatLivre =>
-                    prixEtatLivre.EtatLivre == etatLivreNeuf ||
-                    prixEtatLivre.EtatLivre == etatLivreUsage;
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.NEUF ||
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE;
             }
             else if(livreChampsRecherche.Usage)
             {
 
                 expressionEtatLivreDesire = prixEtatLivre =>
-                    prixEtatLivre.EtatLivre == etatLivreUsage;
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE;
             }
             else if(livreChampsRecherche.Digital)
             {
 
                 expressionEtatLivreDesire = prixEtatLivre =>
-                    prixEtatLivre.EtatLivre == etatLivreDigital;
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.NUMERIQUE;
             }
             else
             {
 
                 expressionEtatLivreDesire = prixEtatLivre =>
-                    prixEtatLivre.EtatLivre == etatLivreNeuf;
+                    prixEtatLivre.EtatLivre == EtatLivreEnum.NEUF;
             }
 
             return expressionEtatLivreDesire;
-        }
-
-        // TODO: utiliser le DAO
-        /// <summary>
-        /// Cherche l'<c>EtatLivre</c> correspondant au nom désiré.
-        /// </summary>
-        /// <param name="nomEtatLivre">
-        /// Nom de l'<c>EtatLivre</c> à aller chercher.
-        /// </param>
-        private EtatLivre GetEtatLivreSelonNom(string nomEtatLivre)
-        {
-
-            EtatLivre etatLivre;
-
-            etatLivre = _context
-                .EtatsLivres
-                    .Where
-                    (
-                    etatLivre =>
-                        String.Equals(etatLivre.Nom, nomEtatLivre)
-                    )
-                    .FirstOrDefault();
-
-            return etatLivre;
         }
     }
 }

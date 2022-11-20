@@ -16,7 +16,6 @@ namespace vlissides_bibliotheque.Data
 		public DbSet<AuteurLivre> AuteursLivres { get; set; }
 		public DbSet<CommandeEtudiant> CommandesEtudiants { get; set; }
 		public DbSet<Commanditaire> Commanditaires { get; set; }
-		public DbSet<EtatLivre> EtatsLivres { get; set; }
 		public DbSet<Etudiant> Etudiants { get; set; }
 		public DbSet<Evaluation> Evaluations { get; set; }
 		public DbSet<EvaluationLivre> EvaluationsLivres { get; set; }
@@ -51,8 +50,6 @@ namespace vlissides_bibliotheque.Data
 
 			CreerTableUtilisateurs(builder);
 
-			CreerEtatLivre(builder);
-
 			CreerRoles(builder);
 
 			CreerAdmin(builder);
@@ -70,30 +67,6 @@ namespace vlissides_bibliotheque.Data
 		{
 			builder.Entity<Utilisateur>().ToTable(nameof(Utilisateurs));
 			builder.Entity<Etudiant>().ToTable(nameof(Etudiants));
-		}
-
-		/// <summary>
-		/// Crée les états de livre.
-		/// </summary>
-		/// <param name="builder"></param>
-		private void CreerEtatLivre(ModelBuilder builder)
-		{
-			List<EtatLivre> EtatLivres = new() {
-				new EtatLivre() {
-					EtatLivreId = 1,
-					Nom = NomEtatLivre.NEUF
-				},
-				new EtatLivre() {
-					EtatLivreId = 2,
-					Nom = NomEtatLivre.USAGE
-				},
-				new EtatLivre() {
-					EtatLivreId = 3,
-					Nom = NomEtatLivre.DIGITAL
-				}
-			};
-
-			builder.Entity<EtatLivre>().HasData(EtatLivres);
 		}
 
 		/// <summary>

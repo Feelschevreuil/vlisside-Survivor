@@ -10,7 +10,7 @@
 <table class="table table-light table-hover">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre.Nom)</th>
+            <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().Quantite)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.QuantiteUsage)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.LivreBibliotheque.Titre)</th>
@@ -24,7 +24,7 @@
     <tbody>
         @foreach (CommandeEtudiant commande in Model) {
             <tr>
-                <td>@commande.PrixEtatLivre.EtatLivre.Nom</td>
+                <td>@commande.PrixEtatLivre.EtatLivre</td>
                 <td>@commande.Quantite</td>
                 <td>@commande.PrixEtatLivre.QuantiteUsage</td>
                 <td>@commande.PrixEtatLivre.LivreBibliotheque.Titre</td>
