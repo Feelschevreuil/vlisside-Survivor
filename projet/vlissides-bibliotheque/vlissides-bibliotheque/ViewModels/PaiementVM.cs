@@ -3,7 +3,7 @@ using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.ViewModels
 {
-    public class EvenementVM
+    public class PaiementVM
     {
 
         // TODO: implement
