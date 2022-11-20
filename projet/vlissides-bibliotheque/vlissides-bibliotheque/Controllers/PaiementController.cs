@@ -6,6 +6,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Services;
 using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,8 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         // POST: /paiements
+        // GET pour le moment, pour tester
+        // [HttpPost]
         public async Task<IActionResult> Index()//[FromBody] FactureEtudiantDTO factureEtudiantDTO)
         {
 
@@ -46,55 +49,49 @@ namespace vlissides_bibliotheque.Controllers
             if(ModelState.IsValid)
             {
             */
-
                 Etudiant etudiant;
                 FactureEtudiantService factureEtudiantService;
-                FactureEtudiant factureEtudiant;
-                string userId;
                 ConfigurationService configurationService;
+                CommandeEtudiantService commandeEtudiantService;
+                PaiementVM paiementVM;
 
                 configurationService = new
                 (
                     ConstantesConfiguration.FICHIER_CONFIGURATION_PRINCIPAL
                 );
 
+                commandeEtudiantService = new(_context);
+
                 etudiant = await _userManagerEtudiant
                     .GetUserAsync(HttpContext.User);
 
-                factureEtudiantService = new(_context, configurationService);
+                factureEtudiantService = new
+                (
+                    _context, 
+                    configurationService, 
+                    commandeEtudiantService,
+                    etudiant
+                );
 
-                factureEtudiant = factureEtudiantService
-                    .Create
+                paiementVM = factureEtudiantService
+                    .CreateViewModel
                     (
-                        etudiant, 
                         new List<int>() {121, 115, 107}
                     );
 
-                if(factureEtudiant != null)
+                if(paiementVM != null)
                 {
 
                     // TODO: retourner la page pour qu'il entre ses informations pour payer
-                    //
-                    string apiKeyPublique;
-
-                    apiKeyPublique = configurationService
-                        .GetProprieteDeSection
-                        (
-                            ConstantesConfiguration.PROPRIETE_STRIPE, 
-                            ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PUBLIQUE
-                        );
                         
-                    return Content("u gotta pay now");
+                    return View(paiementVM);
                 }
                 else
                 {
 
                     // TODO: retourner un message d'erreur (aucun livre choisi diponible)
-
-                    return Content("not valid");
+                    return StatusCode(401);
                 }
-                
-
                 /*
             }
             */

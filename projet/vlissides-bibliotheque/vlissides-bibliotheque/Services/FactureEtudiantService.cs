@@ -3,6 +3,7 @@ using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.ViewModels;
 using Stripe;
 
 namespace vlissides_bibliotheque.Services
@@ -16,6 +17,12 @@ namespace vlissides_bibliotheque.Services
 
         private ApplicationDbContext _context;
         private ConfigurationService _configurationService;
+
+        private Etudiant _etudiant;
+        private FactureEtudiant _factureEtudiant;
+        private List<CommandeEtudiant> _commandesEtudiantsAjouter;
+        private CommandeEtudiantService _commandeEtudiantService;
+        private double _totalFacture;
 
         /// <summary>
         /// Constructeur de base lorsque l'on n'a pas besoin du configuration service.
@@ -32,15 +39,20 @@ namespace vlissides_bibliotheque.Services
         /// </summary>
         /// <param name="context">Représente la base de données.</param>
         /// <param name="configurationService">ConfigurationService.</param>
+        /// <param name="etudiant">Étudiant effectuant la commande.</param>
         public FactureEtudiantService
         (
             ApplicationDbContext context, 
-            ConfigurationService configurationService
+            ConfigurationService configurationService,
+            CommandeEtudiantService commandeEtudiantService,
+            Etudiant etudiant
         )
         {
 
             _context = context;
             _configurationService = configurationService;
+            _commandeEtudiantService = commandeEtudiantService;
+            _etudiant = etudiant;
         }
 
         /// <summary>
@@ -255,6 +267,54 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
+        /// Crée une facture et retourne le bon modèle de vue à afficher.
+        /// </summary>
+        /// <param name="prixEtatLivresId">Livres à ajouter à la facture.</param>
+        /// <returns>
+        /// Le modèle de vue <c>PaiementVM</c> avec les informations du paiement.
+        /// </returns>
+        public PaiementVM CreateViewModel
+        (
+            List<int> prixEtatLivresId
+        )
+        {
+
+            if(Create(prixEtatLivresId) != null)
+            {
+
+                PaiementVM paiementVM;
+                string apiKeyPublique;
+                List<CommandePartielleVM> commandesPartielles;
+
+                apiKeyPublique = _configurationService
+                    .GetProprieteDeSection
+                    (
+                        ConstantesConfiguration.PROPRIETE_STRIPE,
+                        ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PUBLIQUE
+                    );
+
+                commandesPartielles = _commandeEtudiantService
+                    .GetCommandesPartiellesFromCommandes(_commandesEtudiantsAjouter);
+
+                paiementVM = new()
+                {
+                    PublicApiKey = apiKeyPublique,
+                    PaymentIntentId = _factureEtudiant.PaymentIntentId,
+                    AdresseLivraison = _etudiant.Adresse,
+                    CommandesPartielles = commandesPartielles,
+                    Tvq = _factureEtudiant.Tvq,
+                    Tps = _factureEtudiant.Tps,
+                    Total = _totalFacture,
+                    StatutFacture = _factureEtudiant.Statut
+                };
+
+                return paiementVM;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Crée une <c>FactureEtudiant</c> avec les commandes désirées.
         /// </summary>
         /// <param name="etudiantId">
@@ -266,18 +326,15 @@ namespace vlissides_bibliotheque.Services
         /// <returns>Le <c>PrixEtatLivre</c> avec les commandes désirés ou null si les
         /// livres à commander ne sont pas valides.
         /// </returns>
-        public FactureEtudiant Create
+        private FactureEtudiant Create
         (
-            Etudiant etudiant,
             List<int> prixEtatLivresId
         )
         {
 
             List<CommandeEtudiant> commandesEtudiantsAjouter;
-            FactureEtudiant factureEtudiant;
             PrixEtatLivreDAO prixEtatLivreDAO;
             FacturesEtudiantsDAO facturesEtudiantsDAO;
-            CommandeEtudiantService commandeEtudiantService;
             long prixFactureFinal;
 
             prixEtatLivreDAO = new(_context);
@@ -288,49 +345,41 @@ namespace vlissides_bibliotheque.Services
                 facturesEtudiantsDAO = new(_context);
                 
                 // TODO: outsource tax from config!!
-                factureEtudiant = new()
+                _factureEtudiant = new()
                 {
-                    Etudiant = etudiant,
+                    Etudiant = _etudiant,
                     DateFacturation = DateTime.Now,
                     Statut = StatusFacture.ATTENTE_PAIEMENT,
                     Tvq = 0.0M,
                     Tps = 0.05M
                 };
                 
-                facturesEtudiantsDAO.Save(factureEtudiant);
+                facturesEtudiantsDAO.Save(_factureEtudiant);
 
-                commandeEtudiantService = new(_context);
-
-                commandesEtudiantsAjouter = commandeEtudiantService
+                _commandesEtudiantsAjouter = _commandeEtudiantService
                     .CreerCommandesSelonListeIdsPrixEtatLivre
                     (
-                        factureEtudiant,
+                        _factureEtudiant,
                         prixEtatLivresId
                     );
 
-                prixFactureFinal = AdapterPrixAStripe
-                (
-                    CalculerTotalCommandes
-                    (
-                        commandesEtudiantsAjouter, 
-                        factureEtudiant
-                    )
-                );
+                _totalFacture = CalculerTotalCommandes();
 
-                factureEtudiant = TraiterFactureAvecStripe
+                prixFactureFinal = AdapterPrixAStripe(_totalFacture);
+
+                _factureEtudiant = TraiterFactureAvecStripe
                 (
-                    factureEtudiant, 
                     prixFactureFinal
                 );
 
                 facturesEtudiantsDAO
                     .Update
                     (
-                        factureEtudiant.FactureEtudiantId, 
-                        factureEtudiant
+                        _factureEtudiant.FactureEtudiantId, 
+                        _factureEtudiant
                     );
                 
-                return factureEtudiant;
+                return _factureEtudiant;
             }
 
             return null;
@@ -342,33 +391,29 @@ namespace vlissides_bibliotheque.Services
         /// <param name="commandesEtudiantes">Commandes à chercher le prix.</param>
         /// <param name="factureEtudiant">Factue contenant le taux d'impôts.</param>
         /// <returns>Le total en format double des commandes.</returns>
-        private double CalculerTotalCommandes
-        (
-            List<CommandeEtudiant> commandesEtudiantes, 
-            FactureEtudiant factureEtudiant
-        )
+        private double CalculerTotalCommandes()
         {
 
             double totalFacture;
 
             totalFacture = 0.0;
 
-            foreach(CommandeEtudiant commandeEtudiant in commandesEtudiantes)
+            foreach(CommandeEtudiant commandeEtudiant in _commandesEtudiantsAjouter)
             {
 
                 totalFacture += commandeEtudiant.PrixUnitaireGele;
             }
 
-            if(factureEtudiant.Tvq > 0)
+            if(_factureEtudiant.Tvq > 0)
             {
 
-                totalFacture = totalFacture * decimal.ToDouble(1 + factureEtudiant.Tvq);
+                totalFacture = totalFacture * decimal.ToDouble(1 + _factureEtudiant.Tvq);
             }
 
-            if(factureEtudiant.Tps > 0)
+            if(_factureEtudiant.Tps > 0)
             {
 
-                totalFacture = totalFacture * decimal.ToDouble(1 + factureEtudiant.Tps);
+                totalFacture = totalFacture * decimal.ToDouble(1 + _factureEtudiant.Tps);
             }
 
             return totalFacture;
@@ -394,7 +439,6 @@ namespace vlissides_bibliotheque.Services
         /// </summary>
         private FactureEtudiant TraiterFactureAvecStripe
         (
-            FactureEtudiant factureEtudiant,
             long totalFacture
         )
         {
@@ -423,10 +467,10 @@ namespace vlissides_bibliotheque.Services
 
             paymentIntent = service.Create(options);
             
-            factureEtudiant.PaymentIntentId = paymentIntent.Id;
-            factureEtudiant.ClientSecret = paymentIntent.ClientSecret;
+            _factureEtudiant.PaymentIntentId = paymentIntent.Id;
+            _factureEtudiant.ClientSecret = paymentIntent.ClientSecret;
 
-            return factureEtudiant;
+            return _factureEtudiant;
         }
     }
 }
