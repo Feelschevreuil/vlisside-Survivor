@@ -930,7 +930,9 @@ namespace seeder
 				    .Now
 				    .AddDays(Faker.RandomNumber.Next(-355, 0)),
                 Tps = 0.05M,
-                Tvq = 0.09975M
+                Tvq = 0.09975M,
+                PaymentInentId = "N/A, SEEDER DATA",
+                Statut = 0
             };
 
             return factureEtudiant;
