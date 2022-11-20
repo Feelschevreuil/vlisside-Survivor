@@ -300,6 +300,7 @@ namespace vlissides_bibliotheque.Services
                 {
                     PublicApiKey = apiKeyPublique,
                     PaymentIntentId = _factureEtudiant.PaymentIntentId,
+                    ClientSecret = _factureEtudiant.ClientSecret,
                     AdresseLivraison = _etudiant.Adresse,
                     CommandesPartielles = commandesPartielles,
                     Tvq = _factureEtudiant.Tvq,

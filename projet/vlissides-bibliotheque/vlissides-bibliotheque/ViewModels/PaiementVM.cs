@@ -9,6 +9,7 @@ namespace vlissides_bibliotheque.ViewModels
 
         public string PublicApiKey { get; set; }
         public string PaymentIntentId { get; set; }
+        public string ClientSecret { get; set; }
         public Adresse AdresseLivraison { get; set; }
         public List<CommandePartielleVM> CommandesPartielles { get; set; }
         public decimal Tvq { get; set; }
