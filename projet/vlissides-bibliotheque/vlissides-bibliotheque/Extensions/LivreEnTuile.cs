@@ -20,7 +20,6 @@ namespace vlissides_bibliotheque
             CoursLivre coursLivreAssocier = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
             
             List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
-                .Include(x => x.EtatLivre)
                 .ToList()
                 .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
             
