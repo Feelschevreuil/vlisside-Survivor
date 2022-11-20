@@ -2,6 +2,7 @@ using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Constantes;
 using Stripe;
 
 namespace vlissides_bibliotheque.Services
@@ -14,11 +15,32 @@ namespace vlissides_bibliotheque.Services
     {
 
         private ApplicationDbContext _context;
+        private ConfigurationService _configurationService;
 
+        /// <summary>
+        /// Constructeur de base lorsque l'on n'a pas besoin du configuration service.
+        /// </summary>
+        /// <param name="context">Représente la base de données.</param>
         public FactureEtudiantService(ApplicationDbContext context)
         {
 
             _context = context;
+        }
+
+        /// <summary>
+        /// Constructeur surchagé lorsque l'on abesoin du configuration service.
+        /// </summary>
+        /// <param name="context">Représente la base de données.</param>
+        /// <param name="configurationService">ConfigurationService.</param>
+        public FactureEtudiantService
+        (
+            ApplicationDbContext context, 
+            ConfigurationService configurationService
+        )
+        {
+
+            _context = context;
+            _configurationService = configurationService;
         }
 
         /// <summary>
@@ -141,12 +163,19 @@ namespace vlissides_bibliotheque.Services
             )
             {
 
-                factureEtudiantAMettreAJour.AdresseLivraison = factureEtudiantModifie.AdresseLivraison;
+                factureEtudiantAMettreAJour
+                    .AdresseLivraison = factureEtudiantModifie.AdresseLivraison;
             }
-            if(!factureEtudiantAMettreAJour.DateFacturation.Equals(factureEtudiantModifie.DateFacturation))
+            if
+            (
+                !factureEtudiantAMettreAJour
+                    .DateFacturation
+                    .Equals(factureEtudiantModifie.DateFacturation)
+            )
             {
 
-                factureEtudiantAMettreAJour.DateFacturation = factureEtudiantModifie.DateFacturation;
+                factureEtudiantAMettreAJour
+                    .DateFacturation = factureEtudiantModifie.DateFacturation;
             }
             if(factureEtudiantAMettreAJour.Tps != factureEtudiantModifie.Tps)
             {
@@ -158,7 +187,6 @@ namespace vlissides_bibliotheque.Services
 
                 factureEtudiantAMettreAJour.Tvq = factureEtudiantModifie.Tvq;
             }
-
             if
             (
                 !string
@@ -250,7 +278,7 @@ namespace vlissides_bibliotheque.Services
             PrixEtatLivreDAO prixEtatLivreDAO;
             FacturesEtudiantsDAO facturesEtudiantsDAO;
             CommandeEtudiantService commandeEtudiantService;
-            double totalFacture;
+            long prixFactureFinal;
 
             prixEtatLivreDAO = new(_context);
 
@@ -280,55 +308,27 @@ namespace vlissides_bibliotheque.Services
                         prixEtatLivresId
                     );
 
-                totalFacture = 0.0;
+                prixFactureFinal = AdapterPrixAStripe
+                (
+                    CalculerTotalCommandes
+                    (
+                        commandesEtudiantsAjouter, 
+                        factureEtudiant
+                    )
+                );
 
-                foreach(CommandeEtudiant commandeEtudiant in commandesEtudiantsAjouter)
-                {
+                factureEtudiant = TraiterFactureAvecStripe
+                (
+                    factureEtudiant, 
+                    prixFactureFinal
+                );
 
-                    totalFacture += commandeEtudiant.PrixUnitaireGele;
-                }
-
-                if(factureEtudiant.Tvq > 0)
-                {
-
-                    totalFacture = totalFacture * decimal.ToDouble(1 + factureEtudiant.Tvq);
-                }
-
-                if(factureEtudiant.Tps > 0)
-                {
-
-                    totalFacture = totalFacture * decimal.ToDouble(1 + factureEtudiant.Tps);
-                }
-
-                long factureFinale;
-
-                factureFinale = (long)(totalFacture * 100);
-
-                // TODO: créer payment intent avec API de stripe
-                // totalFacture, price and so on.
-                PaymentIntent paymentIntent;
-                string apiKey;
-
-                apiKey = GetStripeApiKey();
-
-                StripeConfiguration.ApiKey = apiKey;
-
-                var options = new PaymentIntentCreateOptions
-                {
-                    Amount = factureFinale,
-                    Currency = "cad",
-                    PaymentMethodTypes = new List<string> { "card" }
-                };
-
-                var service = new PaymentIntentService();
-
-                paymentIntent = service.Create(options);
-                
-                factureEtudiant.PaymentIntentId = paymentIntent.Id;
-                factureEtudiant.ClientSecret = paymentIntent.ClientSecret;
-
-                // TODO optimiser à la place de chercher une autre fois l'item
-                facturesEtudiantsDAO.Update(factureEtudiant.FactureEtudiantId, factureEtudiant);
+                facturesEtudiantsDAO
+                    .Update
+                    (
+                        factureEtudiant.FactureEtudiantId, 
+                        factureEtudiant
+                    );
                 
                 return factureEtudiant;
             }
@@ -336,31 +336,97 @@ namespace vlissides_bibliotheque.Services
             return null;
         }
 
-        /*
-        private double GetTotalFacture()
+        /// <summary>
+        /// Calcule le total d'une liste de commandes.
+        /// </summary>
+        /// <param name="commandesEtudiantes">Commandes à chercher le prix.</param>
+        /// <param name="factureEtudiant">Factue contenant le taux d'impôts.</param>
+        /// <returns>Le total en format double des commandes.</returns>
+        private double CalculerTotalCommandes
+        (
+            List<CommandeEtudiant> commandesEtudiantes, 
+            FactureEtudiant factureEtudiant
+        )
         {
+
+            double totalFacture;
+
+            totalFacture = 0.0;
+
+            foreach(CommandeEtudiant commandeEtudiant in commandesEtudiantes)
+            {
+
+                totalFacture += commandeEtudiant.PrixUnitaireGele;
+            }
+
+            if(factureEtudiant.Tvq > 0)
+            {
+
+                totalFacture = totalFacture * decimal.ToDouble(1 + factureEtudiant.Tvq);
+            }
+
+            if(factureEtudiant.Tps > 0)
+            {
+
+                totalFacture = totalFacture * decimal.ToDouble(1 + factureEtudiant.Tps);
+            }
+
+            return totalFacture;
         }
-        */
 
         /// <summary>
-        /// Gets the stripe API key from the configuration file.
+        /// Transforme un prix de double à long, qui est le format que
+        /// Stripe veut.
         /// </summary>
-        private string GetStripeApiKey()
+        /// <param name="prix">Prix à trasnformer.</param>
+        /// <returns>Le prix adapté au format que Stripe veut.</returns>
+        private long AdapterPrixAStripe(double prix)
         {
 
-            string apiKey;
-            IConfigurationRoot configuration; 
+            long prixStripe;
 
-            configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                // TODO: outsource name in Constants
-                .AddJsonFile(Directory.GetCurrentDirectory() + "/appsettings.json")
-                .Build();
+            prixStripe = (long)(prix * 100);
 
-            // TODO: outsoude names in Constants
-            apiKey = configuration.GetSection("Paiements")["StripeApiKey"] ?? throw new InvalidOperationException("Clé d'API stripe non trouvée!");
+            return prixStripe;
+        }
 
-            return apiKey;
+        /// <summary>
+        /// </summary>
+        private FactureEtudiant TraiterFactureAvecStripe
+        (
+            FactureEtudiant factureEtudiant,
+            long totalFacture
+        )
+        {
+
+            PaymentIntent paymentIntent;
+            string apiKeyPrivee;
+            string apiKeyPublique;
+
+            apiKeyPrivee = _configurationService
+                .GetProprieteDeSection
+                (
+                    ConstantesConfiguration.PROPRIETE_STRIPE, 
+                    ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PRIVEE
+                );
+
+            StripeConfiguration.ApiKey = apiKeyPrivee;
+
+            var options = new PaymentIntentCreateOptions
+            {
+                Amount = totalFacture,
+                Currency = "cad",
+                PaymentMethodTypes = new List<string> { "card" }
+            };
+
+            var service = new PaymentIntentService();
+
+            paymentIntent = service.Create(options);
+            
+            factureEtudiant.PaymentIntentId = paymentIntent.Id;
+            factureEtudiant.ClientSecret = paymentIntent.ClientSecret;
+
+            return factureEtudiant;
         }
     }
 }
