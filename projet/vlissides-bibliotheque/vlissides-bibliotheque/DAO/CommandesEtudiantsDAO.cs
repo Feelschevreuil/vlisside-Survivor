@@ -106,6 +106,20 @@ namespace vlissides_bibliotheque.DAO
         }
 
         /// <summary>
+        /// Sauvegarde une liste de commandeEtudiant désirée.
+        /// </summary>
+        /// <param name="commandesEtudiants">liste de commandeEtudiant à sauvegarder.</param>
+        /// <returns>true si les commandes étudiants ont étés sauvegardés avec succès.</returns>
+        public bool SaveAll(List<CommandeEtudiant> commandesEtudiants)
+        {
+
+            _context.CommandesEtudiants.AddRange(commandesEtudiants);
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        /// <summary>
         /// Met à jour commandeEtudiant désiré.
         /// </summary>
         /// <param name="factureEtudiantId">Id de la facture étudiant.</param>
