@@ -4,6 +4,7 @@ using vlissides_bibliotheque.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Stripe;
 
 namespace vlissides_bibliotheque
 {
@@ -75,6 +76,8 @@ namespace vlissides_bibliotheque
 				name: "default",
 				pattern: "{controller=Home}/{action=Index}/{id?}");
 			app.MapRazorPages();
+
+            StripeConfiguration.ApiKey = builder.Configuration.GetConnectionString("stripe_api_key");
 
 			app.Run();
 		}
