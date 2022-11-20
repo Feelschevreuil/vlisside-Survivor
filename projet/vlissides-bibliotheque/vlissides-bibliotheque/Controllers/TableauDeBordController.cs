@@ -43,7 +43,6 @@ namespace vlissides_bibliotheque.Controllers
 		{
 			List<CommandeEtudiant> commandes = _context.CommandesEtudiants
 				.Include(commande => commande.PrixEtatLivre)
-				.Include(commande => commande.PrixEtatLivre.EtatLivre)
 				.Include(commande => commande.PrixEtatLivre.LivreBibliotheque)
                 .Include(commande => commande.FactureEtudiant)
                 .Include(commande => commande.FactureEtudiant.Etudiant)
