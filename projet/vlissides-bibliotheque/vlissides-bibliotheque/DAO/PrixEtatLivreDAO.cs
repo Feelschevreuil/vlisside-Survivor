@@ -1,6 +1,9 @@
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Services;
+using vlissides_bibliotheque.Extentions;
+using vlissides_bibliotheque.Enums;
+using System.Linq;
 
 namespace vlissides_bibliotheque.DAO
 {
@@ -23,7 +26,7 @@ namespace vlissides_bibliotheque.DAO
         /// Cherche prixEtatLivre correspondant avec l'id.
         /// </summary>
         /// <param name="id">L'id de prixEtatLivre à chercher.</param>
-        /// <returns>PrixEtatLivre correspondant à prixEtatLivre.</returns>
+        /// <returns>PrixEtatLivre correspondant à prixEtatLivre. ou NULL s'il n'y en a plus.</returns>
         public PrixEtatLivre Get(long id)
         {
 
@@ -39,6 +42,68 @@ namespace vlissides_bibliotheque.DAO
                     .FirstOrDefault();
 
             return prixEtatLivre;
+        }
+
+        /// <summary>
+        /// Cherche prixEtatLivre correspondant avec l'id.
+        /// </summary>
+        /// <param name="id">L'id de prixEtatLivre à chercher.</param>
+        /// <param name="quantiteUsageMinimum">
+        /// Quantité usagée de livres minimum à avoir.
+        /// </param>
+        /// <returns>PrixEtatLivre correspondant à prixEtatLivre. ou NULL s'il n'y en a plus.</returns>
+        public PrixEtatLivre Get(long id, int quantiteUsageMinimum)
+        {
+
+            PrixEtatLivre prixEtatLivre;
+
+            prixEtatLivre = _context
+                .PrixEtatsLivres
+                    .Where
+                    (
+                        prixEtatLivre =>
+                            prixEtatLivre.PrixEtatLivreId == id &&
+                            prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE ?
+                                prixEtatLivre.QuantiteUsage >= quantiteUsageMinimum : 
+                                true
+                    )
+                    .FirstOrDefault();
+
+            return prixEtatLivre;
+        }
+
+        /// <summary>
+        /// Va chercher les <c>PrixEtatLivre</c>s correspondants aux id's donnés
+        /// en paramètres.
+        /// </summary>
+        /// <param name="prixEtatsLivresIds">
+        /// Liste d'ids de <c>PrixEtatLivre</c>`à aller chercher.
+        /// </param>
+        /// <param name="quantiteUsageMinimum">
+        /// Quantité usagée de livres minimum à avoir.
+        /// </param>
+        /// <returns></returns>
+        public IEnumerable<PrixEtatLivre> GetBulk
+        (
+            List<int> prixEtatsLivresIds,
+            int quantiteUsageMinimum = 1
+        )
+        {
+
+            IEnumerable<PrixEtatLivre> prixEtatsLivres;
+
+            prixEtatsLivres = _context
+                .PrixEtatsLivres
+                    .Where
+                    (
+                        prixEtatLivre =>
+                            prixEtatsLivresIds.Contains(prixEtatLivre.PrixEtatLivreId) &&
+                                prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE ? 
+                                    prixEtatLivre.QuantiteUsage >= quantiteUsageMinimum : 
+                                    true
+                    );
+
+            return prixEtatsLivres;
         }
 
         /// <summary>
@@ -82,16 +147,53 @@ namespace vlissides_bibliotheque.DAO
             return null;
         }
 
-        // TODO: commenter! --> DANS SERVICE!
-        public bool SoustraireDuStock(PrixEtatLivre prixEtatLivre, int quantite = 1)
+        /// <summary>
+        /// Enlève la quantité désirée à un prix état livre usagé.
+        /// </summary>
+        /// <param name="prixEtatLivreId">PrixEtatLivre usagé à soustraire la quantité désiré.</param>
+        /// <param name="quantite">Quantité en inventaire à soustraire.</param>
+        public bool SoustraireDuStock(long prixEtatLivreId, int quantite = 1)
         {
 
-            if(prixEtatLivre.QuantiteUsage > 0)
+            PrixEtatLivre prixEtatLivreSoustraire;
+
+            prixEtatLivreSoustraire = Get(prixEtatLivreId);
+
+            if(prixEtatLivreSoustraire != null && quantite > 0 && prixEtatLivreSoustraire.QuantiteUsage >= quantite)
             {
 
-                prixEtatLivre.QuantiteUsage--;
+                prixEtatLivreSoustraire.QuantiteUsage -= quantite;
                 
-                Update(prixEtatLivre.PrixEtatLivreId, prixEtatLivre);
+                //TODO: use Update() when implemented.
+                _context.PrixEtatsLivres.Update(prixEtatLivreSoustraire);
+                _context.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Ajoute la quantité désirée à un prix état livre usagé.
+        /// </summary>
+        /// <param name="prixEtatLivreId">PrixEtatLivre usagé à ajouter la quantité désiré.</param>
+        /// <param name="quantite">Quantité en inventaire à ajouter.</param>
+        public bool AjouterDuStock(long prixEtatLivreId, int quantite = 1)
+        {
+
+            PrixEtatLivre prixEtatLivreAjouterDuStock;
+
+            prixEtatLivreAjouterDuStock = Get(prixEtatLivreId);
+
+            if(prixEtatLivreAjouterDuStock != null && quantite >= 1)
+            {
+
+                prixEtatLivreAjouterDuStock.QuantiteUsage += quantite;
+
+                //TODO: use Update() when implemented.
+                _context.PrixEtatsLivres.Update(prixEtatLivreAjouterDuStock);
+                _context.SaveChanges();
 
                 return true;
             }
