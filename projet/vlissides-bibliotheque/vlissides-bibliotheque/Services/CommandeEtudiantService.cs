@@ -137,5 +137,42 @@ namespace vlissides_bibliotheque.Services
 
             return commandesEtudiant;
         }
+
+        /// <summary>
+        /// Crée une liste de <c>CommandePartielleVM</c> affin de les afficher dans une
+        /// vue.
+        /// </summary>
+        /// <param name"commandesEtudiantes">
+        /// Commandes contenant les informations désirés
+        /// </param>
+        /// <returns>Une liste de <c>CommandePartielleVM</c>.</returns>
+        public List<CommandePartielleVM> GetCommandesPartiellesFromCommandes
+        (
+            List<CommandeEtudiant> commandesEtudiantes
+        )
+        {
+
+            List<CommandePartielleVM> commandesPartielles;
+            CommandePartielleVM commandePartielle;
+
+            commandesPartielles = new();
+
+            foreach(CommandeEtudiant commandeEtudiant in commandesEtudiantes)
+            {
+                
+                commandePartielle = new()
+                {
+                    Isbn = commandeEtudiant.Isbn,
+                    Titre = commandeEtudiant.Titre,
+                    EtatLivre = commandeEtudiant.EtatLivre,
+                    PrixUnitaireGele = commandeEtudiant.PrixUnitaireGele,
+                    Quantite = commandeEtudiant.Quantite
+                };
+
+                commandesPartielles.Add(commandePartielle);
+            }
+
+            return commandesPartielles;
+        }
     }
 }
