@@ -39,7 +39,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         // POST: /paiements
-        public async Task<IActionResult> Index([FromBody] FactureEtudiantDTO factureEtudiantDTO)
+        public async Task<IActionResult> Index()//[FromBody] FactureEtudiantDTO factureEtudiantDTO)
         {
 
             /*
@@ -51,11 +51,18 @@ namespace vlissides_bibliotheque.Controllers
                 FactureEtudiantService factureEtudiantService;
                 FactureEtudiant factureEtudiant;
                 string userId;
+                ConfigurationService configurationService;
+
+                configurationService = new
+                (
+                    ConstantesConfiguration.FICHIER_CONFIGURATION_PRINCIPAL
+                );
 
                 etudiant = await _userManagerEtudiant
                     .GetUserAsync(HttpContext.User);
 
-                factureEtudiantService = new(_context);
+                factureEtudiantService = new(_context, configurationService);
+
                 factureEtudiant = factureEtudiantService
                     .Create
                     (
@@ -67,7 +74,16 @@ namespace vlissides_bibliotheque.Controllers
                 {
 
                     // TODO: retourner la page pour qu'il entre ses informations pour payer
-                    
+                    //
+                    string apiKeyPublique;
+
+                    apiKeyPublique = configurationService
+                        .GetProprieteDeSection
+                        (
+                            ConstantesConfiguration.PROPRIETE_STRIPE, 
+                            ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PUBLIQUE
+                        );
+                        
                     return Content("u gotta pay now");
                 }
                 else
