@@ -45,14 +45,12 @@ namespace vlissides_bibliotheque.Controllers
 
         // POST: /paiements
         // GET pour le moment, pour tester
-        // [HttpPost]
-        public async Task<IActionResult> Index2()//[FromBody] FactureEtudiantDTO factureEtudiantDTO)
+        [HttpPost]
+        public async Task<IActionResult> Index([FromBody] FactureEtudiantDTO factureEtudiantDTO)
         {
 
-            /*
             if(ModelState.IsValid)
             {
-            */
                 Etudiant etudiant;
                 FactureEtudiantService factureEtudiantService;
                 ConfigurationService configurationService;
@@ -96,16 +94,14 @@ namespace vlissides_bibliotheque.Controllers
                     // TODO: retourner un message d'erreur (aucun livre choisi diponible)
                     return StatusCode(401);
                 }
-                /*
             }
-            */
 
-            //return Content("What did you send? : " + userId2);
+            return Content("What did you do?");
         }
 
         // GET: /paiement/test/
         // TODO: enlever! route uniquement pour le design!
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index2()
         {
 
             List<CommandePartielleVM> commandesPartielles;
