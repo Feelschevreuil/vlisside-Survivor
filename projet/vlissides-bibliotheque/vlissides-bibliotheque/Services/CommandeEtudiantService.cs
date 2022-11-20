@@ -114,17 +114,21 @@ namespace vlissides_bibliotheque.Services
                     if(prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE)
                     {
 
+                        //TODO: something more effcient than re-finding the object
+                        if(prixEtatLivreDAO.SoustraireDuStock(prixEtatLivre.PrixEtatLivreId))
+                        {
 
+                            commandeEtudiant = new()
+                            {
+                                FactureEtudiant = factureEtudiant,
+                                PrixEtatLivre = prixEtatLivre,
+                                Quantite = 1
+                            };
+
+                            commandesEtudiant.Add(commandeEtudiant);
+                        }
                     }
-
-                    commandeEtudiant = new()
-                    {
-                        FactureEtudiant = factureEtudiant,
-                        PrixEtatLivre = prixEtatLivre,
-                        Quantite = 1
-                    };
                 }
-                
             }
 
             return commandesEtudiant;
