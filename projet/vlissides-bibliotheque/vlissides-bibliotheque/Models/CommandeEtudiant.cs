@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using vlissides_bibliotheque.Validation;
 using vlissides_bibliotheque.Enums;
 
 namespace vlissides_bibliotheque.Models
@@ -15,6 +16,14 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int PrixEtatLivreId { get; set; }
         public PrixEtatLivre PrixEtatLivre { get; set; }
+
+        [Required]
+        [Isbn]
+        public string Isbn { get; set; }
+
+        [Required]
+        [StringLength(64)]
+        public string Titre;
 
         [Required]
         public EtatLivreEnum EtatLivre { get; set; }
