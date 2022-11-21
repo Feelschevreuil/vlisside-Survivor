@@ -143,7 +143,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [Authorize(Roles = RolesName.Admin)]
         [HttpGet]
-        public async Task<ActionResult> modifier(int? id)
+        public async Task<ActionResult> modifier(long id)
         {
             if (id == null)
             {
