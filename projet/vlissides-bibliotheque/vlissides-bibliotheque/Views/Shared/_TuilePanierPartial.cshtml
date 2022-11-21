@@ -40,7 +40,7 @@
         
         @if (Model.prixEtatLivre[0] != null)
             {
-                <label class="btn bg-back text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
+                <label class="btn bg-top text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
                     <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(this.value, @livreIdCourant);" checked> Neuf
                 </label>
             }
