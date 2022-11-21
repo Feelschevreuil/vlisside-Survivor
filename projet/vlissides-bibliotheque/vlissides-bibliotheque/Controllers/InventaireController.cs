@@ -11,6 +11,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
+using vlissides_bibliotheque.Enums;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -154,20 +155,6 @@ namespace vlissides_bibliotheque.Controllers
             LivreBibliotheque livreBibliothequeRechercher = _livresBibliothequeDAO.Get(id);
             AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x => x.LivreBibliothequeId == id);
             List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == id);
-            List<EtatLivre> etatLivres = _context.EtatsLivres.ToList();
-
-
-            int idLivreNeuf = etatLivres.Find(y => y.Nom == NomEtatLivre.NEUF).EtatLivreId;
-            int idLivreNumerique = etatLivres.Find(y => y.Nom == NomEtatLivre.DIGITAL).EtatLivreId;
-            int idLivreUsager = etatLivres.Find(y => y.Nom == NomEtatLivre.USAGE).EtatLivreId;
-
-
-            var pasEtatAuLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
-            var PasNumerique = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNumerique);
-            var pasUsager = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreUsager);
-            var pasDeNeuf = pasEtatAuLivre.Find(x => x.EtatLivreId == idLivreNeuf);
-
-
 
             ModificationLivreVM ModifierLivre = new()
             {
@@ -187,9 +174,9 @@ namespace vlissides_bibliotheque.Controllers
 
             };
 
-            var prixNeuf = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNeuf);
-            var prixDigital = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNumerique);
-            var prixUsage = prixEtatLivre.Find(x => x.EtatLivreId == idLivreUsager);
+            var prixNeuf = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NEUF);
+            var prixDigital = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
+            var prixUsage = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE);
 
             if (prixNeuf != null) { ModifierLivre.PrixNeuf = prixNeuf.Prix; } else { ModifierLivre.PrixNeuf = 0; };
             if (prixDigital != null) { ModifierLivre.PrixNumerique = prixDigital.Prix; } else { ModifierLivre.PrixNumerique = 0; };

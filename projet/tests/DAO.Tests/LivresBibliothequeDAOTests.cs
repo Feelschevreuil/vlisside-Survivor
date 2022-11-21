@@ -7,6 +7,7 @@ using vlissides_bibliotheque_tests.Data;
 using System.Collections.Generic;
 using System.Linq;
 using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.Enums;
 
 namespace vlissides_bibliotheque_tests.DAO.Tests
 {
@@ -1672,7 +1673,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
         private void LierLivreAEtat
         (
             LivreBibliotheque livreBibliotheque, 
-            EtatLivre etatLivre, 
+            EtatLivreEnum etatLivre, 
             double prixFixe = 0.0,
             double prixMaximum = 0.0,
             double prixMinimum = 0.0 
@@ -1788,38 +1789,6 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
         }
 
         /// <summary>
-        /// Ajoute les États des livres nécessaires au fontionnement du projet.
-        /// </summary>
-        private void AjouterEtatLivres()
-        {
-
-            EtatLivre etatLivreNeuf;
-            EtatLivre etatLivreDigital;
-            EtatLivre etatLivreUsage;
-
-            etatLivreNeuf = new()
-            {
-                Nom = NomEtatLivre.NEUF
-            };
-
-            etatLivreDigital = new()
-            {
-                Nom = NomEtatLivre.DIGITAL
-            };
-
-            etatLivreUsage = new()
-            {
-                Nom = NomEtatLivre.USAGE
-            };
-
-            _context.EtatsLivres.Add(etatLivreNeuf);
-            _context.EtatsLivres.Add(etatLivreDigital);
-            _context.EtatsLivres.Add(etatLivreUsage);
-
-            _context.SaveChanges();
-        }
-
-        /// <summary>
         /// Crée des prix états livres selon les critères sur les livres présents
         /// dans la base de données.
         /// </summary>
@@ -1845,44 +1814,13 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
         )
         {
 
-            EtatLivre etatLivreNeuf;
-            EtatLivre etatLivreDigital;
-            EtatLivre etatLivreUsage;
             bool neuf;
             bool digital;
             bool usage;
 
-            if(_context.EtatsLivres.Count() == 0) 
-            {
-
-                AjouterEtatLivres();
-            }
-
-            etatLivreNeuf = null;
-            etatLivreDigital = null;
-            etatLivreUsage = null;
-
             neuf = prixNeuf > 0;
             digital = prixDigital > 0;
             usage = prixUsage > 0;
-
-            if(neuf)
-            {
-            
-                etatLivreNeuf = GetEtatLivreSelonEtat(NomEtatLivre.NEUF);
-            }
-
-            if(digital)
-            {
-
-                etatLivreDigital = GetEtatLivreSelonEtat(NomEtatLivre.DIGITAL);
-            }
-
-            if(usage)
-            {
-
-                etatLivreUsage = GetEtatLivreSelonEtat(NomEtatLivre.USAGE);
-            }
 
             foreach(LivreBibliotheque livre in livresBibliotheque)
             {
@@ -1892,7 +1830,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 
                     LierEtatLivreALivreBibliotheque
                     (
-                        etatLivreNeuf, 
+                        EtatLivreEnum.NEUF, 
                         livre, 
                         prixNeuf
                     );
@@ -1903,7 +1841,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 
                     LierEtatLivreALivreBibliotheque
                     (
-                        etatLivreDigital, 
+                        EtatLivreEnum.NUMERIQUE, 
                         livre, 
                         prixDigital
                     );
@@ -1914,7 +1852,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
 
                     LierEtatLivreALivreBibliotheque
                     (
-                        etatLivreUsage, 
+                        EtatLivreEnum.USAGE, 
                         livre, 
                         prixUsage, 
                         quantiteUsage
@@ -1929,7 +1867,7 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
         /// </summary>
         private void LierEtatLivreALivreBibliotheque
         (
-            EtatLivre etatLivre, 
+            EtatLivreEnum etatLivre, 
             LivreBibliotheque livreBibliotheque, 
             double prix,
             int quantite = 0
@@ -2016,28 +1954,6 @@ namespace vlissides_bibliotheque_tests.DAO.Tests
             _context.CoursProfesseurs.Add(coursProfesseur);
 
             _context.SaveChanges();
-        }
-
-        //TODO : utiliser le DAO
-        /// <summary>
-        /// Cherche l'objet correspondant à l'état du livre désiré.
-        /// </summary>
-        /// <param name="nomEtat">Nom de l'état à aller chercher.</param>
-        private EtatLivre GetEtatLivreSelonEtat(string nomEtat)
-        {
-
-            EtatLivre etatLivre;
-
-            etatLivre = _context
-                .EtatsLivres
-                .Where
-                (
-                    etatLivre =>
-                    etatLivre.Nom.Equals(nomEtat)
-                )
-                .FirstOrDefault();
-
-            return etatLivre;
         }
 
         /// <summary>

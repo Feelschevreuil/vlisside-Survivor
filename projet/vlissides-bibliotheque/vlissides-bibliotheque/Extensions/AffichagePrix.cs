@@ -5,6 +5,7 @@ using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
+using vlissides_bibliotheque.Enums;
 
 namespace vlissides_bibliotheque
 {
@@ -14,7 +15,7 @@ namespace vlissides_bibliotheque
         {
             double prixInitial = 0;
             string Prixdecimal = "";
-            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x=>x.EtatLivre.Nom == NomEtatLivre.NEUF);
+            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x=>x.EtatLivre == EtatLivreEnum.NEUF);
 
             if (getEntrerPrix != null)
             {
@@ -33,7 +34,7 @@ namespace vlissides_bibliotheque
         {
             double prixInitial = 0;
             string Prixdecimal = "";
-            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
+            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
 
             if (getEntrerPrix != null)
             {
@@ -52,7 +53,7 @@ namespace vlissides_bibliotheque
         {
             double prixInitial = 0;
             string Prixdecimal = "";
-            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.USAGE);
+            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE);
 
             if (getEntrerPrix != null)
             {

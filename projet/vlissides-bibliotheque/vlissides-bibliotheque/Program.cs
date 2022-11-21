@@ -4,6 +4,7 @@ using vlissides_bibliotheque.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Stripe;
 using vlissides_bibliotheque.DAO;
 
 namespace vlissides_bibliotheque
