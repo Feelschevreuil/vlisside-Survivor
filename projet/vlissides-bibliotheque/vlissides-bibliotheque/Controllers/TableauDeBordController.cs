@@ -414,19 +414,7 @@ namespace vlissides_bibliotheque.Controllers
                 GestionPrix.UpdateLesPrix(LivreBibliothèqueModifier, form, _context);
                 return Json(form);
             }
-            //var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
-            //foreach (var error in ModelErrors)
-            //{
-            //    if (error.Exception == null)
-            //    {
-            //        ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
-            //    }
-            //    else
-            //    {
-            //        ModelState.AddModelError(string.Empty, error.ErrorMessage);
-            //    }
-            //}
-
+   
             form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             form.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
             form.checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
