@@ -14,9 +14,9 @@
     }
     else
     {
-        prixNeuf = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.NEUF);
-        prixDigital = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
-        prixUsager = Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.USAGE);
+        prixNeuf = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NEUF);
+        prixDigital = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
+        prixUsager = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE);
     }
 
     if(Model.livreBibliotheque.PhotoCouverture == "N/A"){

@@ -2,7 +2,7 @@
 {
     public class PrixAfficher
     {
-        public string? Etat { get; set; }
+        public int Etat { get; set; }
         public int Id { get; set; }
 
     }

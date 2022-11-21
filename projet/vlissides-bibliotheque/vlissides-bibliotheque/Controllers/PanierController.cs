@@ -7,6 +7,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
+using vlissides_bibliotheque.Enums;
 using static Humanizer.In;
 
 namespace vlissides_bibliotheque.Controllers
@@ -57,7 +58,7 @@ namespace vlissides_bibliotheque.Controllers
 
                     if (coursLivresTrouves != null)
                     {
-                        PrixEtatLivre prixNeuf = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre.Nom == NomEtatLivre.NEUF);
+                        PrixEtatLivre prixNeuf = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre == EtatLivreEnum.NEUF);
 
                         livresModifie.Add(new TuileLivreBibliotequeVM
                         {
@@ -73,7 +74,7 @@ namespace vlissides_bibliotheque.Controllers
                     coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id);
                     if (coursLivresTrouves != null)
                     {
-                        PrixEtatLivre prixUsage = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre.Nom == NomEtatLivre.USAGE);
+                        PrixEtatLivre prixUsage = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre == EtatLivreEnum.USAGE);
 
                         livresModifie.Add(new TuileLivreBibliotequeVM
                         {
@@ -88,7 +89,7 @@ namespace vlissides_bibliotheque.Controllers
                     coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id);
                     if (coursLivresTrouves != null)
                     {
-                        PrixEtatLivre prixNumerique = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
+                        PrixEtatLivre prixNumerique = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre == EtatLivreEnum.NUMERIQUE);
 
                         livresModifie.Add(new TuileLivreBibliotequeVM
                         {

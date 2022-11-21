@@ -10,7 +10,7 @@
 <table class="table table-light table-hover">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre.Nom)</th>
+            <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().Quantite)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.QuantiteUsage)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.LivreBibliotheque.Titre)</th>
@@ -18,14 +18,16 @@
             <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.AdresseLivraison)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.DateFacturation)</th>
             <th>@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.Prix)</th>
-            <th>@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.TypePaiement.Nom)</th>
             <th>Action(s)</th>
         </tr>
     </thead>
     <tbody>
         @foreach (CommandeEtudiant commande in Model) {
+
+            int etatLivre = (int)commande.EtatLivre;
+
             <tr>
-                <td>@commande.PrixEtatLivre.EtatLivre.Nom</td>
+                <td>@etatLivre</td>
                 <td>@commande.Quantite</td>
                 <td>@commande.PrixEtatLivre.QuantiteUsage</td>
                 <td>@commande.PrixEtatLivre.LivreBibliotheque.Titre</td>
@@ -33,7 +35,6 @@
                 <td>@commande.FactureEtudiant.AdresseLivraison</td>
                 <td>@commande.FactureEtudiant.DateFacturation</td>
                 <td>@commande.PrixEtatLivre.Prix</td>
-                <td>@commande.FactureEtudiant.TypePaiement.Nom</td>
                 <td>
                     <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#commande-@commande.FactureEtudiantId-@commande.PrixEtatLivreId">
                     <img src="~/img/delete.svg" width="25px">

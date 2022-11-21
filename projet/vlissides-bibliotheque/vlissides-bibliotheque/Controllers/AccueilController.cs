@@ -6,6 +6,7 @@ using System.Diagnostics;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
+using vlissides_bibliotheque.Enums;
 using System.Collections;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
@@ -45,11 +46,12 @@ namespace vlissides_bibliotheque.Controllers
 
         public string ChangerPrix([FromBody] PrixAfficher prixAfficher)
         {
-            LivreBibliotheque livre = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == prixAfficher.Id);
+
+            LivreBibliotheque livre = _context.LivresBibliotheque.Where(livre => livre.LivreId == prixAfficher.Id).FirstOrDefault();
             List<PrixEtatLivre> etat = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livre.LivreId);
 
-
-            PrixEtatLivre etatLivreRechercher = etat.Find(x => x.EtatLivreId == _context.EtatsLivres.ToList().Find(x => x.Nom == prixAfficher.Etat).EtatLivreId);
+            // TODO: check if this thing even works x)
+            PrixEtatLivre etatLivreRechercher = etat.Find(x => x.EtatLivre.CompareTo(prixAfficher.Etat) == 0);
 
             string prix;
             if (etatLivreRechercher != null)
