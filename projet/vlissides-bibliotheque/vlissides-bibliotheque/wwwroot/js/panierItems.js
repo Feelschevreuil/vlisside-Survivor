@@ -18,7 +18,55 @@ function getCards() {
     //        "Numerique": [ "65", "66"]
     //}
     //localStorage.setItem('itemsPanier', JSON.stringify(objetLocalStorage))
-
+    //var objetLocalStorage =
+    //{
+    //    "Neuf":
+    //    [
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        }
+    //    ],
+    //        "Numerique":
+    //    [
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        }
+    //    ],
+    //        "Usage":
+    //    [
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        }
+    //    ]
+    //}
+    
     var numeroEtudiant = "/"+window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
     var fetchEnLocal = "/../Panier/GetLivres";
     var fetchSurServeur = numeroEtudiant+"Panier/GetLivres";
