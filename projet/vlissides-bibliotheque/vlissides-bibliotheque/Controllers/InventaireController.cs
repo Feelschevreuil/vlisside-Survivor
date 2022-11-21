@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json;
 using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
@@ -19,12 +20,15 @@ namespace vlissides_bibliotheque.Controllers
         private readonly ILogger<InventaireController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly LivresBibliothequeDAO _livresBibliothequeDAO;
 
-        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+
+        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,LivresBibliothequeDAO livresBibliothequeDAO)
         {
             _logger = logger;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _livresBibliothequeDAO = livresBibliothequeDAO;
         }
 
         public IActionResult Bibliotheque()
@@ -147,7 +151,7 @@ namespace vlissides_bibliotheque.Controllers
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
 
-            LivreBibliotheque livreBibliothequeRechercher = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == id);
+            LivreBibliotheque livreBibliothequeRechercher = _livresBibliothequeDAO.Get(id);
             AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x => x.LivreBibliothequeId == id);
             List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliothequeId == id);
             List<EtatLivre> etatLivres = _context.EtatsLivres.ToList();
@@ -207,7 +211,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("ListeCours");
             ModelState.Remove("checkBoxCours");
 
-            LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
+            LivreBibliotheque LivreBibliothèqueModifier = _livresBibliothequeDAO.Get(form.IdDuLivre);
 
             if (ModelState.IsValid)
             {

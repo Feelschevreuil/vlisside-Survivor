@@ -382,7 +382,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove("ListeCours");
             ModelState.Remove("checkBoxCours");
 
-            LivreBibliotheque LivreBibliothèqueModifier = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == form.IdDuLivre);
+            LivreBibliotheque LivreBibliothèqueModifier = _livresBibliothequeDAO.Get(form.IdDuLivre);
 
             if (ModelState.IsValid)
             {
@@ -396,7 +396,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.LivresBibliotheque.Update(LivreBibliothèqueModifier);
                 _context.SaveChanges();
 
-                AuteurLivre auteurLivre = _context.AuteursLivres.ToList().Find(x => x.LivreBibliothequeId == form.IdDuLivre);
+                AuteurLivre auteurLivre = _context.AuteursLivres.Where(x => x.LivreBibliothequeId == form.IdDuLivre).FirstOrDefault();
                 if (auteurLivre != null && auteurLivre.AuteurId != form.AuteurId)
                 {
                     _context.AuteursLivres.Remove(auteurLivre);
