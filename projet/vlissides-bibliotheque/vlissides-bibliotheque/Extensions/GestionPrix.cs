@@ -5,6 +5,7 @@ using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
+using vlissides_bibliotheque.Enums;
 
 namespace vlissides_bibliotheque
 {
@@ -17,11 +18,11 @@ namespace vlissides_bibliotheque
                 .Include(x => x.EtatLivre)
                 .ToList();
 
-            PrixEtatLivre prixNeuf = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.NEUF);
+            PrixEtatLivre prixNeuf = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre == EtatLivreEnum.NEUF);
 
-            PrixEtatLivre prixDigital = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
+            PrixEtatLivre prixDigital = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre == EtatLivreEnum.NUMERIQUE);
 
-            PrixEtatLivre prixUsager = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre.Nom == NomEtatLivre.USAGE);
+            PrixEtatLivre prixUsager = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre == EtatLivreEnum.USAGE);
 
 
             if (form.PrixNeuf == null || form.PrixNeuf == 0 && prixNeuf != null)
@@ -54,7 +55,7 @@ namespace vlissides_bibliotheque
                 {
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
-                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
+                    EtatLivre = EtatLivreEnum.NEUF,
                     Prix = (double)form.PrixNeuf,
                 };
                 _context.PrixEtatsLivres.Add(nouveauPrixNeuf);
@@ -74,7 +75,7 @@ namespace vlissides_bibliotheque
                 {
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
-                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
+                    EtatLivre = EtatLivreEnum.NUMERIQUE,
                     Prix = (double)form.PrixNumerique,
                 };
                 _context.PrixEtatsLivres.Add(nouveauPrixDigital);
@@ -94,7 +95,7 @@ namespace vlissides_bibliotheque
                 {
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
-                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
+                    EtatLivre =EtatLivreEnum.USAGE,
                     Prix = (double)form.PrixUsage,
                     QuantiteUsage = 0
                 };
@@ -120,7 +121,7 @@ namespace vlissides_bibliotheque
                 {
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
-                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.NEUF).EtatLivreId,
+                    EtatLivre = EtatLivreEnum.NEUF,
                     Prix = form.PrixNeuf,
                 };
                 ListPrixEtat.Add(AssociationPrixNeuf);
@@ -131,7 +132,7 @@ namespace vlissides_bibliotheque
                 {
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
-                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.DIGITAL).EtatLivreId,
+                    EtatLivre = EtatLivreEnum.NUMERIQUE,
                     Prix = form.PrixNumerique,
                 };
                 ListPrixEtat.Add(AssociationPrixNumérique);
@@ -142,7 +143,7 @@ namespace vlissides_bibliotheque
                 {
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
-                    EtatLivreId = _context.EtatsLivres.ToList().Find(x => x.Nom == NomEtatLivre.USAGE).EtatLivreId,
+                    EtatLivre = EtatLivreEnum.USAGE,
                     Prix = form.PrixUsage,
                 };
                 ListPrixEtat.Add(AssociationPrixUsager);

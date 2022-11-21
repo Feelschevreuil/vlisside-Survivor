@@ -13,7 +13,7 @@
     <table class="table table-light">
         <thead>
             <tr>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre.Nom)</th>
+                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre)</th>
                 <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().Quantite)</th>
                 <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.QuantiteUsage)</th>
                 <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.LivreBibliotheque.Titre)</th>
@@ -21,13 +21,12 @@
                 <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.AdresseLivraison)</th>
                 <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.DateFacturation)</th>
                 <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.Prix)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.TypePaiement.Nom)</th>
             </tr>
         </thead>
         <tbody>
             @foreach (CommandeEtudiant commande in Model) {
                 <tr>
-                    <td>@commande.PrixEtatLivre.EtatLivre.Nom</td>
+                    <td>@commande.PrixEtatLivre.EtatLivre</td>
                     <td>@commande.Quantite</td>
                     <td>@commande.PrixEtatLivre.QuantiteUsage</td>
                     <td>@commande.PrixEtatLivre.LivreBibliotheque.Titre</td>
@@ -35,7 +34,6 @@
                     <td>@commande.FactureEtudiant.AdresseLivraison</td>
                     <td>@commande.FactureEtudiant.DateFacturation</td>
                     <td>@commande.PrixEtatLivre.Prix</td>
-                    <td>@commande.FactureEtudiant.TypePaiement.Nom</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#commande-@commande.PrixEtatLivreId" onclick="getFormulaireModifierCommande('@commande.PrixEtatLivreId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCommande('@commande.PrixEtatLivreId')">

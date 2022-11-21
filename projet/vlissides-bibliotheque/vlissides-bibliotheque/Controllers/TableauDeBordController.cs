@@ -10,6 +10,7 @@ using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Extensions;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
+using vlissides_bibliotheque.Enums;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -320,28 +321,8 @@ namespace vlissides_bibliotheque.Controllers
             List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres
                 .ToList()
                 .FindAll(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
-            List<EtatLivre> etatLivres = _context.EtatsLivres
-                .ToList();
 
-            int idLivreNeuf = etatLivres
-                .Find(y => y.Nom == NomEtatLivre.NEUF).EtatLivreId;
-            int idLivreNumerique = etatLivres
-                .Find(y => y.Nom == NomEtatLivre.DIGITAL).EtatLivreId;
-            int idLivreUsager = etatLivres
-                .Find(y => y.Nom == NomEtatLivre.USAGE).EtatLivreId;
-
-            var pasEtatAuLivre = _context.PrixEtatsLivres
-                .Include(x=>x.LivreBibliotheque)
-                .Include(x=>x.EtatLivre)
-                .ToList()
-                .FindAll(x => x.LivreBibliotheque.LivreId == livreBibliothequeRechercher.LivreId);
-            var PasNumerique = pasEtatAuLivre
-                .Find(x => x.EtatLivreId == idLivreNumerique);
-            var pasUsager = pasEtatAuLivre
-                .Find(x => x.EtatLivreId == idLivreUsager);
-            var pasDeNeuf = pasEtatAuLivre
-                .Find(x => x.EtatLivreId == idLivreNeuf);
-
+          
             ModificationLivreVM vm = new()
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
@@ -360,12 +341,12 @@ namespace vlissides_bibliotheque.Controllers
 
             };
 
-            var prixNeuf = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNeuf);
-            var prixDigital = prixEtatLivre.Find(x => x.EtatLivreId == idLivreNumerique);
-            var prixUsage = prixEtatLivre.Find(x => x.EtatLivreId == idLivreUsager);
+            var prixNeuf = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NEUF);
+            var prixNumerique = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
+            var prixUsage = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE);
 
             if (prixNeuf != null) { vm.PrixNeuf = prixNeuf.Prix; } else { vm.PrixNeuf = 0; };
-            if (prixDigital != null) { vm.PrixNumerique = prixDigital.Prix; } else { vm.PrixNumerique = 0; };
+            if (prixNumerique != null) { vm.PrixNumerique = prixNumerique.Prix; } else { vm.PrixNumerique = 0; };
             if (prixUsage != null) { vm.PrixUsage = prixUsage.Prix; vm.QuantiteUsagee = prixUsage.QuantiteUsage; } else { vm.PrixUsage = 0; vm.QuantiteUsagee = 0; };
 
 
