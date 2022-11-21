@@ -35,3 +35,12 @@ body {
     border-color: #F44336;
     color: white;
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.dropdown-menu > li > a:hover {
+    background-color: grey;
+}
