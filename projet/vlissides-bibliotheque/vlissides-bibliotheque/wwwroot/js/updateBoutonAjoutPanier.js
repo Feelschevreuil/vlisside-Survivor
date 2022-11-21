@@ -6,8 +6,8 @@ function initiationCards() {
 
         if (livres.Neuf != null) {
             for (var j = 0; j < livres.Neuf.length; j++) {
-                var supprimer = document.getElementById("suppressionRapideBibli-" + livres.Neuf[j])
-                var ajouter = document.getElementById("ajoutRapide-" + livres.Neuf[j])
+                var supprimer = document.getElementById("suppressionRapideBibli-" + livres.Neuf[j].LivreId)
+                var ajouter = document.getElementById("ajoutRapide-" + livres.Neuf[j].LivreId)
                 if (!(ajouter == null || supprimer == null)) {
                     ajouter.hidden = true;
                     supprimer.hidden = false;
@@ -17,15 +17,15 @@ function initiationCards() {
         }
         if (livres.Usage != null) {
             for (var j = 0; j < livres.Usage.length; j++) {
-                var supprimer = document.getElementById("suppressionRapideBibli-" + livres.Usage[j])
-                var ajouter = document.getElementById("ajoutRapide-" + livres.Usage[j])
+                var supprimer = document.getElementById("suppressionRapideBibli-" + livres.Usage[j].LivreId)
+                var ajouter = document.getElementById("ajoutRapide-" + livres.Usage[j].LivreId)
                 if (!(ajouter == null || supprimer == null)) {
                     ajouter.hidden = true;
                     supprimer.hidden = false;
 
-                    var neuf = document.getElementById("Neuf-" + livres.Usage[j])
-                    var usage = document.getElementById("Usager-" + livres.Usage[j])
-                    var numerique = document.getElementById("Numerique-" + livres.Usage[j])
+                    var neuf = document.getElementById("Neuf-" + livres.Usage[j].LivreId)
+                    var usage = document.getElementById("Usager-" + livres.Usage[j].LivreId)
+                    var numerique = document.getElementById("Numerique-" + livres.Usage[j].LivreId)
 
                     if (!usage.classList.contains("bg-back")) {
                         if (neuf != null) {
@@ -45,15 +45,15 @@ function initiationCards() {
         }
         if (livres.Numerique != null) {
             for (var j = 0; j < livres.Numerique.length; j++) {
-                var supprimer = document.getElementById("suppressionRapideBibli-" + livres.Numerique[j])
-                var ajouter = document.getElementById("ajoutRapide-" + livres.Numerique[j])
+                var supprimer = document.getElementById("suppressionRapideBibli-" + livres.Numerique[j].LivreId)
+                var ajouter = document.getElementById("ajoutRapide-" + livres.Numerique[j].LivreId)
                 if (!(ajouter == null || supprimer == null)) {
                     ajouter.hidden = true;
                     supprimer.hidden = false;
 
-                    var neuf = document.getElementById("Neuf-" + livres.Numerique[j])
-                    var usage = document.getElementById("Usager-" + livres.Numerique[j])
-                    var numerique = document.getElementById("Numerique-" + livres.Numerique[j])
+                    var neuf = document.getElementById("Neuf-" + livres.Numerique[j].LivreId)
+                    var usage = document.getElementById("Usager-" + livres.Numerique[j].LivreId)
+                    var numerique = document.getElementById("Numerique-" + livres.Numerique[j].LivreId)
 
                     if (!numerique.classList.contains("bg-back")) {
                         if (neuf != null) {

@@ -169,7 +169,7 @@ function supprimerLivreLocalStorage(id) {
 
         if (livres.Neuf != null) {
             for (var j = 0; j < livres.Neuf.length; j++) {
-                if (livres.Neuf[j] == id) {
+                if (livres.Neuf[j].LivreId == id) {
                     livres.Neuf.splice(j, 1);
                     idTrouveModifie = true;
                 }
@@ -177,7 +177,7 @@ function supprimerLivreLocalStorage(id) {
         }
         if (livres.Usage != null) {
             for (var j = 0; j < livres.Usage.length; j++) {
-                if (livres.Usage[j] == id) {
+                if (livres.Usage[j].LivreId == id) {
                     livres.Usage.splice(j, 1);
                     idTrouveModifie = true;
                 }
@@ -185,7 +185,7 @@ function supprimerLivreLocalStorage(id) {
         }
         if (livres.Numerique != null) {
             for (var j = 0; j < livres.Numerique.length; j++) {
-                if (livres.Numerique[j] == id) {
+                if (livres.Numerique[j].LivreId == id) {
                     livres.Numerique.splice(j, 1);
                     idTrouveModifie = true;
                 }
@@ -218,7 +218,7 @@ function initDetail() {
 
         if (livres.Neuf != null) {
             for (var j = 0; j < livres.Neuf.length; j++) {
-                if (livres.Neuf[j] == id) {
+                if (livres.Neuf[j].LivreId == id) {
                     idTrouveModifie = true;
                     BoxChecked(id, "Neuf");
                 }
@@ -226,7 +226,7 @@ function initDetail() {
         }
         if (livres.Usage != null) {
             for (var j = 0; j < livres.Usage.length; j++) {
-                if (livres.Usage[j] == id) {
+                if (livres.Usage[j].LivreId == id) {
                     idTrouveModifie = true;
                     BoxChecked(id, "Usager");
                 }
@@ -234,7 +234,7 @@ function initDetail() {
         }
         if (livres.Numerique != null) {
             for (var j = 0; j < livres.Numerique.length; j++) {
-                if (livres.Numerique[j] == id) {
+                if (livres.Numerique[j].LivreId == id) {
                     idTrouveModifie = true;
                     BoxChecked(id, "Numerique");
                 }
@@ -258,21 +258,21 @@ function supresionRapide(id) {
 
             if (livres.Neuf != null) {
                 for (var j = 0; j < livres.Neuf.length; j++) {
-                    if (livres.Neuf[j] == id) {
+                    if (livres.Neuf[j].LivreId == id) {
                         livres.Neuf.splice(j, 1);
                     }
                 }
             }
             if (livres.Usage != null) {
                 for (var j = 0; j < livres.Usage.length; j++) {
-                    if (livres.Usage[j] == id) {
+                    if (livres.Usage[j].LivreId == id) {
                         livres.Usage.splice(j, 1);
                     }
                 }
             }
             if (livres.Numerique != null) {
                 for (var j = 0; j < livres.Numerique.length; j++) {
-                    if (livres.Numerique[j] == id) {
+                    if (livres.Numerique[j].LivreId == id) {
                         livres.Numerique.splice(j, 1);
                     }
                 }

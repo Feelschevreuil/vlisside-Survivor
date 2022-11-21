@@ -51,9 +51,9 @@ namespace vlissides_bibliotheque.Controllers
             if (coursLivres != null)
             {
 
-                foreach (int id in livres.Neuf)
+                foreach (Neuf id in livres.Neuf)
                 {
-                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id);
+                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
 
                     if (coursLivresTrouves != null)
                     {
@@ -68,9 +68,9 @@ namespace vlissides_bibliotheque.Controllers
                     }
                 }
 
-                foreach (int id in livres.Usage)
+                foreach (Usage id in livres.Usage)
                 {
-                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id);
+                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
                     if (coursLivresTrouves != null)
                     {
                         PrixEtatLivre prixUsage = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre.Nom == NomEtatLivre.USAGE);
@@ -83,9 +83,9 @@ namespace vlissides_bibliotheque.Controllers
                         });
                     }
                 }
-                foreach (int id in livres.Numerique)
+                foreach (Numerique id in livres.Numerique)
                 {
-                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id);
+                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
                     if (coursLivresTrouves != null)
                     {
                         PrixEtatLivre prixNumerique = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre.Nom == NomEtatLivre.DIGITAL);
