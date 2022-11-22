@@ -28,7 +28,7 @@ namespace vlissides_bibliotheque.ViewModels
         [DisplayName("Photo de couverture")]
         [Image]
         [Required (ErrorMessage ="Le champ {0} est requis")]
-        public string PhotoCouverture { get; set; }
+        public string Photo { get; set; }
 
         [DisplayName("Date de publication")]
         [Required(ErrorMessage = "Le champ {0} est requis.")]

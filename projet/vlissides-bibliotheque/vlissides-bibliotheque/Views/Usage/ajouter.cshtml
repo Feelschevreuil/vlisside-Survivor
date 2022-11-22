@@ -30,16 +30,16 @@
                             <span asp-validation-for="Resume" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="PhotoCouverture" class="form-label"></label>
+                            <label asp-for="Photo" class="form-label"></label>
 
                             <input type="file" accept=".png,.jpg,.jpeg" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
-                            <input asp-for="PhotoCouverture" class="form-control" aria-required="true" hidden id="sendImg" />
-                            @if (Model.PhotoCouverture != null) {
-                                <img id="viewImg" src="@Model.PhotoCouverture" class="col-md-6 m-1" />
+                            <input asp-for="Photo" class="form-control" aria-required="true" hidden id="sendImg" />
+                            @if (Model.Photo != null) {
+                                <img id="viewImg" src="@Model.Photo" class="col-md-6 m-1" />
                             } else {
                                 <img id="viewImg" class="col-md-6 m-1" />
                             }
-                            <span asp-validation-for="PhotoCouverture" class="row text-danger"></span>
+                            <span asp-validation-for="Photo" class="row text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="DatePublication" class="form-label"></label>

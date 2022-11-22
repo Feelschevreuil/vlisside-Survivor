@@ -1,16 +1,16 @@
 ﻿@model LivreEtudiantVM
 
 @{
-    if (Model.PhotoCouverture == "N/A")
+    if (Model.Photo == "N/A")
     {
-        Model.PhotoCouverture = LivreEnTuile.GetImageParDefaut();
+        Model.Photo = LivreEnTuile.GetImageParDefaut();
     }
 }
 
 
 <div class="row">
     <div class="col-4">
-        <img class="col-12 img-fluid flex-fill image-detail" src="@Model.PhotoCouverture" />
+        <img class="col-12 img-fluid flex-fill image-detail" src="@Model.Photo" />
     </div>
 
     <div class="card-body col-6 m-auto">
