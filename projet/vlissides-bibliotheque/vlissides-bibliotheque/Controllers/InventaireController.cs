@@ -76,7 +76,6 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [Authorize(Roles = RolesName.Admin)]
-    
         [HttpPost]
         public async Task<ActionResult> creer([FromBody] AssocierLivreCours form)
         {
