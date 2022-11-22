@@ -103,7 +103,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
 
                 List<Cours> coursBD = _context.Cours.ToList();
-                foreach (int coursId in form.CoursId)
+                foreach (int coursId in form.Cours)
                 {
                     Cours idCoursRechercher = coursBD.Find(x => x.CoursId == coursId);
 
