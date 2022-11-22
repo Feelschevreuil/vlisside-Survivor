@@ -50,6 +50,38 @@ function afficherModification(id, data) {
     }
 }
 
+function afficherCreation(id, data) {
+    // afficher les valeurs modifiées et non modifiées
+    let table = document.querySelectorAll("table")[0];
+    let thead = table.children[0];
+    let champs = Array.from(thead.children[0].children);
+    let ligneCourante = document.querySelector(`#tr-${id}`);
+
+    for (let key in data) {
+        let champ = champs.find(th => th.id == key);
+        let index = champs.indexOf(champ);
+        let baliseInfo = ligneCourante.children[index];
+
+
+
+        if (baliseInfo != undefined) {
+            if (key == "Photo") {
+                var img = document.createElement('img');
+                img.src = data.Photo
+                img.classList.add('tableauDeBord-image');
+                baliseInfo.appendChild(img);
+                baliseInfo.classList.add('text-center');
+            } else {
+                baliseInfo.innerHTML = data[`${key}`];
+            }
+        }
+        if (key == "MaisonsDeditions") {
+            baliseInfo = ligneCourante.children[5];
+            baliseInfo.innerHTML = document.querySelector("#MaisonDeditionId")[data.MaisonDeditionId].innerHTML
+        }
+    }
+}
+
 function setInputsFormat() {
     // appel initial pour setter les inputs en cas où ils auraient déjà une valeur
     for (let phoneNumberInput of document.querySelectorAll("#phoneNumber")) {
@@ -57,6 +89,42 @@ function setInputsFormat() {
     }
     for (let postalCodeInput of document.querySelectorAll("#postalCode")) {
         setPostalCode(postalCodeInput.parentElement.children[1]);
+    }
+}
+
+function getCoursCheckBox()
+{
+    var divListCours = document.querySelector("#listDeCours");
+    var coursCocher = divListCours.querySelectorAll("input");
+    var listCoursCocher = new Array();
+
+    coursCocher.forEach((cours) => {
+        if (cours.checked) {
+            listCoursCocher.push(cours.id);
+        }
+    });
+    return listCoursCocher;
+}
+
+function livreGestionErreur(data) {
+    if (data.AuteurId == "") { data.AuteurId = 0 }
+    if (data.MaisonDeditionId == "") { data.MaisonDeditionId = 0 }
+    data.PossedeNeuf = document.querySelector("#PossedeNeuf").checked;
+    data.PossedeNumerique = document.querySelector("#PossedeNumerique").checked;
+    data.PossedeUsagee = document.querySelector("#PossedeUsagee").checked;
+    data.PrixNeuf = possedeDesLettres(data.PrixNeuf);
+    data.PrixNumerique = possedeDesLettres(data.PrixNumerique);
+    data.PrixUsage = possedeDesLettres(data.PrixUsage);
+    data.QuantiteUsagee = possedeDesLettres(data.QuantiteUsagee);
+    return data
+}
+
+function possedeDesLettres(nombre) {
+    if (isNaN(parseFloat(nombre)) || nombre == "") {
+        return nombre = 0;
+    }
+    else {
+        return parseFloat(nombre.replace(",", "."));
     }
 }
 
@@ -247,20 +315,8 @@ function modifierLivre(id) {
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
 
-    var divListCours = document.querySelector("#listDeCours");
-    var coursCocher = divListCours.querySelectorAll("input");
-    var listCoursCocher = new Array();
-   
-    coursCocher.forEach((cours) => {
-        if (cours.checked) {
-            listCoursCocher.push(cours.id);
-        }
-    });
-    if (data.PossedeNeuf === 'true') { data.PossedeNeuf = true } else { data.PossedeNeuf = false }
-    if (data.PossedeNumerique === 'true') { data.PossedeNumerique = true } else { data.PossedeNumerique = false }
-    data.QuantiteUsagee = parseFloat(data.QuantiteUsagee)
-
-    data.Cours = listCoursCocher;
+    data = livreGestionErreur(data);
+    data.Cours = getCoursCheckBox();
 
     fetch(host + "TableauDeBord/ModifierLivre/", {
         method: 'POST',
@@ -313,6 +369,9 @@ function creerLivre() {
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
 
+    data = livreGestionErreur(data);
+    data.Cours = getCoursCheckBox();
+
     fetch(host + "TableauDeBord/CreerLivre/", {
         method: 'POST',
         body: JSON.stringify(data),
@@ -340,7 +399,7 @@ function creerLivre() {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherModification(id, resetMajusculeJsonKey(res));
+                    afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });

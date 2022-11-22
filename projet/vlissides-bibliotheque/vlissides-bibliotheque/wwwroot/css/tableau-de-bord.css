@@ -40,3 +40,7 @@
 .devant {
     z-index: 1;
 }
+
+.tableauDeBord-image {
+    width: 40px;
+}

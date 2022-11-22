@@ -96,6 +96,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             ModelState.Remove(nameof(vm.ProgrammeEtudes));
             ModelState.Remove(nameof(vm.Provinces));
+            ModelState.Remove(nameof(vm.checkBoxCours));
 
             if (vm.CodePostal != null) {
                 vm.CodePostal = vm.CodePostal.ToUpper();
@@ -261,21 +262,27 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult CreerLivre()
         {
-            CreationLivreVM vm = new();
-            return PartialView("Views/Shared/_LivrePartial.cshtml", vm);
+            AssocierLivreCours vm = new AssocierLivreCours
+            {
+                Auteurs = ListDropDown.ListDropDownAuteurs(_context),
+                MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
+                checkBoxCours = CoursCheckedBox.GetCours(_context)
+            };
+            return PartialView("Views/Shared/_AjouterLivrePartial.cshtml", vm);
         }
 
         [HttpPost]
-        public IActionResult CreerLivre([FromBody] CreationLivreVM vm)
+        public IActionResult CreerLivre([FromBody] AssocierLivreCours vm)
         {
-            ModelState.Remove("Auteurs");
-            ModelState.Remove("MaisonsDeditions");
-            ModelState.Remove("ListeCours");
-            ModelState.Remove("Photo");
+            ModelState.Remove(nameof(vm.Auteurs));
+            ModelState.Remove(nameof(vm.MaisonsDeditions));
+            ModelState.Remove(nameof(vm.checkBoxCours));
+            ModelState.Remove(nameof(vm.Photo));
 
 
             if (ModelState.IsValid) {
-                LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque() {
+                LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
+                {
                     LivreId = 0,
                     MaisonEditionId = (int)vm.MaisonDeditionId,
                     Isbn = vm.ISBN,
@@ -288,27 +295,39 @@ namespace vlissides_bibliotheque.Controllers
                 _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
                 _context.SaveChanges();
 
-                //TODO: implémenter la nouvelle façcons d'associer les cours à un livre
-                //CoursLivre nouvelleAssociation = new() {
-                //    CoursLivreId = 0,
-                //    CoursId = (int)vm.CoursId,
-                //    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                //    Complementaire = vm.Obligatoire
-                //};
+                List<Cours> coursBD = _context.Cours.ToList();
+                foreach (int coursId in vm.Cours)
+                {
+                    Cours idCoursRechercher = coursBD.Find(x => x.CoursId == coursId);
 
-                //_context.CoursLivres.Add(nouvelleAssociation);
-                //_context.SaveChanges();
+                    CoursLivre nouvelleAssociation = new()
+                    {
+                        CoursLivreId = 0,
+                        CoursId = idCoursRechercher.CoursId,
+                        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                    };
 
-                //_context.PrixEtatsLivres.AddRange(AssocierPrixEtat(nouveauLivreBibliothèque, vm));
+                    _context.CoursLivres.Add(nouvelleAssociation);
+                    _context.SaveChanges();
+                }
+
+                AuteurLivre auteurLivre = new AuteurLivre()
+                {
+                    AuteurId = (int)vm.AuteurId,
+                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                };
+                _context.AuteursLivres.Add(auteurLivre);
                 _context.SaveChanges();
 
+                _context.PrixEtatsLivres.AddRange(GestionPrix.AssocierPrixEtat(nouveauLivreBibliothèque, vm, _context));
+                _context.SaveChanges();
 
-                return View("succesAjoutLivre", nouveauLivreBibliothèque);
+                return Json(vm);
             }
             vm.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             vm.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
             vm.checkBoxCours = CoursCheckedBox.GetCours(_context);
-            return PartialView("Views/Shared/_LivrePartial.cshtml", vm);
+            return PartialView("Views/Shared/_AjouterLivrePartial.cshtml", vm);
         }
 
         [HttpGet]

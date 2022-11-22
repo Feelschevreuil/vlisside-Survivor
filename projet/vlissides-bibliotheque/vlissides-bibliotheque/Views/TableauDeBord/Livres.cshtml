@@ -14,14 +14,14 @@
                 <th id="@nameof(LivreEtudiantVM.Titre)">@Html.DisplayNameFor(livre => livre.First().Titre)</th>
                 <th id="@nameof(LivreEtudiantVM.Resume)">@Html.DisplayNameFor(livre => livre.First().Resume)</th>
                 <th id="@nameof(LivreEtudiantVM.DatePublication)">@Html.DisplayNameFor(livre => livre.First().DatePublication)</th>
-                <th id="@nameof(LivreEtudiantVM.MaisonEdition)">@Html.DisplayNameFor(livre => livre.First().MaisonEdition.Nom)</th>
+                <th id="@nameof(LivreEtudiantVM.MaisonEdition)">@Html.DisplayNameFor(livre => livre.First().MaisonEdition)</th>
             </tr>
         </thead>
         <tbody>
             @foreach(LivreBibliotheque livre in Model) {
                 <tr id="tr-@livre.LivreId" class="modif-suppr">
                     <td class="text-center">
-                        <img id="PhotoLivre-@livre.LivreId" src="@livre.PhotoCouverture" width="40px">
+                        <img class="tableauDeBord-image" id="PhotoLivre-@livre.LivreId" src="@livre.PhotoCouverture">
                     </td>
                     <td>@livre.Isbn</td>
                     <td>@livre.Titre</td>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button id="fermer-modal-@livre.LivreId" data-bs-dismiss="modal" hidden></button>
-                                <button onclick="modifierLivre('@livre.LivreId')" type="button" class="btn btn-primary">Enregistrer</button>
+                                <button id="btnEnregistrer" onclick="modifierLivre('@livre.LivreId')" type="button" class="btn btn-primary">Enregistrer</button>
                             </div>
                         </div>
                     </div>
