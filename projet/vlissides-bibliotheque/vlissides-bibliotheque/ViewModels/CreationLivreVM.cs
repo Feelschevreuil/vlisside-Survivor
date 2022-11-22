@@ -10,11 +10,11 @@ namespace vlissides_bibliotheque.ViewModels
 	public class CreationLivreVM
 	{
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		public string Titre { get; set; }
+		public string Titre { get; set; } //= "La mort";
 
 		[DisplayName("Description")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		public string Resume { get; set; }
+		public string Resume { get; set; } //= "la mort";
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[ImageAttribute]
@@ -41,18 +41,15 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Quantité")]
 		public int? QuantiteUsagee { get; set; }
 
-		[DisplayName("Vendable")]
-		public bool PossedeNumerique { get; set; } = false;
-
-		[DisplayName("Vendable")]
 		public bool PossedeNeuf { get; set; } = false;
 
-		public bool Obligatoire { get; set; } = false;
+        public bool PossedeNumerique { get; set; } = false;
+        public bool PossedeUsagee { get; set; } = false;
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
 		[Isbn]
 		[Range(1000000000, 9999999999999, ErrorMessage = "Veuillez entrer un nombre.")]
-		public string ISBN { get; set; }
+		public string ISBN { get; set; } //= "4545854745";
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Auteur")]
