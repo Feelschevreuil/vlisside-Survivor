@@ -93,13 +93,13 @@ namespace vlissides_bibliotheque
                 }
                 else if(prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
                 {
-                    prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NEUF).Prix;
+                    prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE).Prix;
                     prixEtat.EtatLivre = EtatLivreEnum.NUMERIQUE;
 
                 }
                 else if(prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
                 {
-                    prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NEUF).Prix;
+                    prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.USAGE).Prix;
                     prixEtat.EtatLivre = EtatLivreEnum.USAGE;
 
                 }
@@ -127,7 +127,7 @@ namespace vlissides_bibliotheque
                 prixAvecDecimal = prixInitial.ToString() + ",00";
                 return prixAvecDecimal;
             }
-            return ""; 
+            return prixInitial.ToString(); 
         }
     }
 }

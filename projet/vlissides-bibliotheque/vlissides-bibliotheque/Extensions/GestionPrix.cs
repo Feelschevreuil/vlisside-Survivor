@@ -15,7 +15,6 @@ namespace vlissides_bibliotheque
         {
             List<PrixEtatLivre> listPrixEtat = _context.PrixEtatsLivres
                 .Include(x => x.LivreBibliotheque)
-                .Include(x => x.EtatLivre)
                 .ToList();
 
             PrixEtatLivre prixNeuf = listPrixEtat.Find(x => x.LivreBibliotheque == LivreEtatPrix && x.EtatLivre == EtatLivreEnum.NEUF);

@@ -12,15 +12,17 @@
     int etatLivreUsage = (int)EtatLivreEnum.USAGE;
 
     PrixEtatLivre prixParDéfaut = AffichagePrix.GetPremierPrix(Model);
-    string prixAvecDecimal = AffichagePrix.AjouteDecimal(prixParDéfaut.Prix);
 
     if (Model.livreBibliotheque.PhotoCouverture == "N/A")
     {
         Model.livreBibliotheque.PhotoCouverture = LivreEnTuile.GetImageParDefaut();
     }
-    if (prixParDéfaut.EtatLivre == EtatLivreEnum.NEUF) { checkedNeuf = "bg-back"; }
-    if (prixParDéfaut.EtatLivre == EtatLivreEnum.NUMERIQUE) { checkedNumerique = "bg-back"; }
-    if (prixParDéfaut.EtatLivre == EtatLivreEnum.USAGE) { checkedUsagee = "bg-back"; }
+    if (prixParDéfaut != null)
+    {
+        if (prixParDéfaut.EtatLivre == EtatLivreEnum.NEUF) { checkedNeuf = "bg-back"; }
+        if (prixParDéfaut.EtatLivre == EtatLivreEnum.NUMERIQUE) { checkedNumerique = "bg-back"; }
+        if (prixParDéfaut.EtatLivre == EtatLivreEnum.USAGE) { checkedUsagee = "bg-back"; }
+    }
 }
 
 
@@ -48,6 +50,7 @@
                 <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
                     @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
                     {
+                        string prixAvecDecimal = AffichagePrix.AjouteDecimal(prixParDéfaut.Prix);
                         <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixAvecDecimal$</p>
                     }
                     else
