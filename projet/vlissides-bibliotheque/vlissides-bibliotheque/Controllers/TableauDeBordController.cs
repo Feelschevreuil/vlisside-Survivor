@@ -255,7 +255,7 @@ namespace vlissides_bibliotheque.Controllers
                 .Include(livre => livre.MaisonEdition)
                 .ToList();
 
-            return View(livres);
+            return PartialView("~/Views/TableauDeBord/Livres.cshtml", livres);
         }
 
         [HttpGet]

@@ -1,19 +1,15 @@
 ﻿@model List<LivreBibliotheque>
 
-<div class="d-flex accordion-header">
-    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
-    </a>
-    <h2 class="p-3">Gestion des livres de bibliothèque</h2>
-</div>
+<h2 class="p-3">Gestion des livres de bibliothèque</h2>
+
 
 <img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerLivre()" />
 
-<div style="overflow-x: auto;">
+<div>
     <table class="table table-light">
         <thead>
             <tr>
-                <th id="@nameof(LivreEtudiantVM.PhotoCouverture)">@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)</th>
+                <th id="@nameof(LivreEtudiantVM.Photo)">@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)</th>
                 <th id="@nameof(LivreEtudiantVM.Isbn)">@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
                 <th id="@nameof(LivreEtudiantVM.Titre)">@Html.DisplayNameFor(livre => livre.First().Titre)</th>
                 <th id="@nameof(LivreEtudiantVM.Resume)">@Html.DisplayNameFor(livre => livre.First().Resume)</th>
@@ -25,7 +21,7 @@
             @foreach(LivreBibliotheque livre in Model) {
                 <tr id="tr-@livre.LivreId" class="modif-suppr">
                     <td class="text-center">
-                        <img src="@livre.PhotoCouverture" width="40px">
+                        <img id="PhotoLivre-@livre.LivreId" src="@livre.PhotoCouverture" width="40px">
                     </td>
                     <td>@livre.Isbn</td>
                     <td>@livre.Titre</td>

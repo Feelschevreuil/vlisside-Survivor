@@ -28,7 +28,6 @@ function setPremiereLettreEnMajuscule(string) {
 
 function afficherModification(id, data) {
     // afficher les valeurs modifiées et non modifiées
-
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
     let champs = Array.from(thead.children[0].children);
@@ -38,9 +37,16 @@ function afficherModification(id, data) {
         let champ = champs.find(th => th.id == key);
         let index = champs.indexOf(champ);
         let baliseInfo = ligneCourante.children[index];
-        if (baliseInfo != undefined) {
-            baliseInfo.innerHTML = data[`${key}`];
+
+        if (baliseInfo != undefined)
+        {
+            if (key == "Photo") {
+                baliseInfo.children[0].src = data.Photo;
+            } else {
+                baliseInfo.innerHTML = data[`${key}`];
+            }
         }
+      
     }
 }
 
@@ -207,6 +213,18 @@ function supprimerEtudiant(id) {
 //--------------------------------------------
 //              Livres
 //--------------------------------------------
+function getPartialViewLivre() {
+    fetch(host + "TableauDeBord/Livres/", {
+        method: 'GET',
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Une erreur c'est produite")
+        }
+        res.text().then(function (res) {
+            document.querySelector("#partials").innerHTML = res;
+        });
+    });
+}
 
 function getFormulaireModifierLivre(id) {
 
