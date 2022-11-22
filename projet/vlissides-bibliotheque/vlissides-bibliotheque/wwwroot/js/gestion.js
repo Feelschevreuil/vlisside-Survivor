@@ -57,6 +57,19 @@ function setInputsFormat() {
 //--------------------------------------------
 //              Étudiants
 //--------------------------------------------
+function getPartialViewEtudiant() {
+    fetch(host + "TableauDeBord/Etudiants/", {
+        method: 'GET',
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Une erreur c'est produite")
+        }
+        res.text().then(function (res) {
+            document.querySelector("#partials").innerHTML = res;
+        });
+    });
+}
+
 
 function getFormulaireModifierEtudiant(id) {
 

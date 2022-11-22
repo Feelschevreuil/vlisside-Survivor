@@ -82,7 +82,7 @@ namespace vlissides_bibliotheque.Controllers
                 .Include(etudiant => etudiant.Adresse.Province)
                 .ToList();
 
-            return View(etudiants);
+            return PartialView("~/Views/TableauDeBord/Etudiants.cshtml", etudiants);
         }
 
         [HttpGet]

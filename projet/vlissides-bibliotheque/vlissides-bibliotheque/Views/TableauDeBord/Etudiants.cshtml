@@ -1,15 +1,10 @@
 ﻿@model List<Etudiant>
 
-<div class="d-flex accordion-header">
-    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
-    </a>
-    <h2 class="p-2">Gestion des étudiants</h2>
-</div>
+<h2 class="p-2">Gestion des étudiants</h2>
 
 <img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerEtudiant()" />
 
-<div style="overflow-x: auto;">
+<div>
     <table class="table table-light">
         <thead>
             <tr>
@@ -46,7 +41,7 @@
                     </td>
                 </tr>
                 <div class="modal fade" id="etudiant-@etudiant.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier l'étudiant</h1>
@@ -64,7 +59,7 @@
                 </div>
             }
             <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="staticBackdropLabel">Nouvel étudiant</h1>
