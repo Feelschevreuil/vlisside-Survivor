@@ -11,6 +11,7 @@ using vlissides_bibliotheque.Extensions;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Enums;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -419,14 +420,27 @@ namespace vlissides_bibliotheque.Controllers
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", form);
         }
 
-        [HttpGet]
-        public IActionResult SupprimerLivre()
+        [HttpPost]
+        public IActionResult SupprimerLivre([FromBody]int id)
         {
-            List<LivreBibliotheque> livres = _context.LivresBibliotheque
-                .Include(livre => livre.MaisonEdition)
-                .ToList();
+            if (id == null)
+            {
+                Response.StatusCode = 400;
+                return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
+            }
 
-            return View(livres);
+            var livreSupprimer = _livresBibliothequeDAO.Get(id);
+            if (livreSupprimer == null)
+            {
+                return NotFound();
+            };
+
+            List<CoursLivre> ListCoursRelier = _context.CoursLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreSupprimer.LivreId);
+            _context.CoursLivres.RemoveRange(ListCoursRelier);
+            _context.LivresBibliotheque.Remove(livreSupprimer);
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         //------------------Programmes d'études------------------
