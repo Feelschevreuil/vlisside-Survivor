@@ -24,20 +24,16 @@ namespace vlissides_bibliotheque.Controllers
     {
         private readonly ILogger<AccueilController> _logger;
         private readonly ApplicationDbContext _context;
-        // TODO: both are separated??
         private readonly UserManager<Etudiant> _userManagerEtudiant;
-        private readonly UserManager<Utilisateur> _userManagerAdmin;
 
         public PaiementController
         (
             ILogger<AccueilController> logger, 
             ApplicationDbContext context,
-            UserManager<Etudiant> userManagerEtudiant,
-            UserManager<Utilisateur> userManagerAdmin
+            UserManager<Etudiant> userManagerEtudiant
         )
         {
 
-            _userManagerAdmin = userManagerAdmin;
             _userManagerEtudiant = userManagerEtudiant;
             _logger = logger;
             _context = context;
