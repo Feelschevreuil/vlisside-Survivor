@@ -131,6 +131,31 @@ namespace vlissides_bibliotheque.Controllers
             vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
             return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
 
+        } 
+        [HttpPost]
+        public IActionResult ModifierCours([FromBody] GestionCoursVM vm)
+        {
+            ModelState.Remove(nameof(vm.ProgrammeEtude));
+            ModelState.Remove(nameof(vm.ProgrammesEtude));
+
+            if (ModelState.IsValid)
+            {
+                Cours coursRechercher = _context.Cours.Where(x=>x.CoursId == vm.CoursId).FirstOrDefault();
+
+                coursRechercher.ProgrammeEtudeId = vm.ProgrammesEtudeId;
+                coursRechercher.Nom = vm.Nom;
+                coursRechercher.Code = vm.Code;
+                coursRechercher.AnneeParcours = vm.AnneeParcours;
+                coursRechercher.Description = vm.Description;
+                
+                _context.Cours.Update(coursRechercher);
+                _context.SaveChanges();
+                return Json(vm);
+            }
+
+            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
+
         }
 
         //------------------Étudiants------------------
