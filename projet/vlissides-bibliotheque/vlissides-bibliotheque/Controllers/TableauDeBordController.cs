@@ -157,6 +157,22 @@ namespace vlissides_bibliotheque.Controllers
             return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
 
         }
+        [HttpPost]
+        public IActionResult SupprimerCours([FromBody] int id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            Cours supprimerCours = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
+            if(supprimerCours == null)
+            {
+                return NotFound();
+            }
+            _context.Cours.Remove(supprimerCours);
+            _context.SaveChanges();
+            return Ok();
+                }
 
         //------------------Étudiants------------------
 
