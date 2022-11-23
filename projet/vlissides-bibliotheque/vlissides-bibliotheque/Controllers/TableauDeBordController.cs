@@ -12,6 +12,7 @@ using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Enums;
 using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
+using static Humanizer.In;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -104,6 +105,32 @@ namespace vlissides_bibliotheque.Controllers
 
             vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
             return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
+        }
+        [HttpGet]
+        public IActionResult ModifierCours(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Cours coursRechercher = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
+            if (coursRechercher == null)
+            {
+                return NotFound();
+            }
+
+            GestionCoursVM vm = new()
+            {
+                CoursId = coursRechercher.CoursId,
+                Nom = coursRechercher.Nom,
+                Code = coursRechercher.Code,
+                AnneeParcours = coursRechercher.AnneeParcours,
+                Description = coursRechercher.Description,
+                ProgrammesEtudeId = coursRechercher.ProgrammeEtudeId,
+            };
+            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
+
         }
 
         //------------------Étudiants------------------
@@ -368,7 +395,18 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult ModifierLivre(int id)
         {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
             LivreBibliotheque livreBibliothequeRechercher = _livresBibliothequeDAO.Get(id);
+
+            if(livreBibliothequeRechercher == null)
+            {
+                return NotFound();
+            }
+
             AuteurLivre auteurLivre = _context.AuteursLivres
                 .ToList()
                 .Find(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
