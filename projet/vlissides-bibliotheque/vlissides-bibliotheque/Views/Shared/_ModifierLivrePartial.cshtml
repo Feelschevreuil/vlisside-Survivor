@@ -57,10 +57,10 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">$</div>
                                         </div>
-                                        <input asp-for="PrixNumerique" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNumerique" />
+                                        <input asp-for="PrixNumerique" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNumerique-@Model.IdDuLivre" />
                                         <label class="ps-1">
                                             Disponible
-                                            <input asp-for="PossedeNumerique" aria-required="true" type="checkbox" onclick="prixToggleNumerique()" checked />
+                                    <input asp-for="PossedeNumerique" aria-required="true" type="checkbox" onclick="ToggleNumerique('inputPrixNumerique-@Model.IdDuLivre')" checked />
                                         </label>
                                     </div>
                                     <div class="input-group mb-2">
@@ -70,10 +70,10 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">$</div>
                                         </div>
-                                        <input asp-for="PrixNeuf" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNeuf" />
+                                        <input asp-for="PrixNeuf" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNeuf-@Model.IdDuLivre" />
                                         <label class="ps-1">
                                             Disponible
-                                            <input asp-for="PossedeNeuf" aria-required="true" type="checkbox" onclick="prixToggleNeuf()" checked />
+                                    <input asp-for="PossedeNeuf" aria-required="true" type="checkbox" onclick="ToggleNeuf('inputPrixNeuf-@Model.IdDuLivre')" checked />
                                         </label>
                                     </div>
                                     <div class="input-group mb-2">
@@ -84,11 +84,11 @@
                                             <div class="input-group-text">$</div>
                                         </div>
 
-                                        <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage" />
-                                        <input asp-for="QuantiteUsagee" class="form-control" type="number" placeholder="Quantité" id="quantitePrixUsager" />
+                                        <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage-@Model.IdDuLivre" />
+                                        <input asp-for="QuantiteUsagee" class="form-control" type="number" placeholder="Quantité" id="quantitePrixUsager-@Model.IdDuLivre" />
                                         <label class="ps-1">
                                             Disponible
-                                    <input asp-for="PossedeUsagee" id="PossedeUsagee" class="" type="checkbox" onclick="prixToggleUsager()" checked />
+                                    <input asp-for="PossedeUsagee" id="PossedeUsagee" class="" type="checkbox" onclick="ToggleUsager('inputPrixUsage-@Model.IdDuLivre','quantitePrixUsager-@Model.IdDuLivre')" checked />
                                         </label>
 
                                     </div>

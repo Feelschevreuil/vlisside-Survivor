@@ -74,3 +74,38 @@ function ToggleCheckPrixUsager() {
         inputQuantiter.disabled = true
     }
 }
+
+function ToggleNeuf(id) {
+
+    var input = document.querySelector("#" + id);
+    if (input.disabled == true) {
+        document.querySelector("#PossedeNeuf").checked = true;
+        input.disabled = false
+    } else {
+        document.querySelector("#PossedeNeuf").checked = false;
+        input.disabled = true
+    }
+}
+function ToggleNumerique(id) {
+    var input = document.querySelector("#" + id);
+    if (input.disabled == true) {
+        document.querySelector("#PossedeNumerique").checked = true;
+        input.disabled = false
+    } else {
+        document.querySelector("#PossedeNumerique").checked = false;
+        input.disabled = true
+    }
+}
+function ToggleUsager(id, idQuantiter) {
+    var input = document.querySelector("#" + id);
+    var inputQuantiter = document.querySelector("#" + idQuantiter);
+    if (input.disabled == true) {
+        document.querySelector("#PossedeUsagee").checked = true;
+        input.disabled = false
+        inputQuantiter.disabled = false
+    } else {
+        document.querySelector("#PossedeUsagee").checked = false;
+        input.disabled = true
+        inputQuantiter.disabled = true
+    }
+}
