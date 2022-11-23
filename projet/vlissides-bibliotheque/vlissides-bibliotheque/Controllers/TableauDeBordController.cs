@@ -563,7 +563,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             List<ProgrammeEtude> programmesEtudes = _context.ProgrammesEtudes.ToList();
 
-            return View(programmesEtudes);
+            return PartialView("~/Views/TableauDeBord/ProgrammesEtudes.cshtml", programmesEtudes);
         }
 
         //------------------Promotions------------------

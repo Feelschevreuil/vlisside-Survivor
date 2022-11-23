@@ -1,15 +1,12 @@
 ﻿@model List<ProgrammeEtude>
 
-<div class="d-flex accordion-header">
-    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
-    </a>
+
     <h2 class="p-3">Gestion des programmes d'études</h2>
-</div>
 
-<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerProgrammeEtudes()" />
 
-<div style="overflow-x: auto;">
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-5 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerProgrammeEtudes()" />
+
+<div class="ms-5">
     <table class="table table-light">
         <thead>
             <tr>
@@ -20,7 +17,7 @@
         </thead>
         <tbody>
             @foreach (ProgrammeEtude programmeEtudes in Model) {
-                <tr>
+                <tr id="tr-@programmeEtudes.ProgrammeEtudeId" class="modif-suppr">
                     <td>@programmeEtudes.Code</td>
                     <td>@programmeEtudes.Nom</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">

@@ -597,6 +597,19 @@ function supprimerCours(id) {
 //--------------------------------------------
 //              Programmes d'étude
 //--------------------------------------------
+function getPartialViewProgrammesEtude() {
+    fetch(host + "TableauDeBord/ProgrammesEtudes/", {
+        method: 'GET',
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Une erreur c'est produite")
+        }
+        res.text().then(function (res) {
+            document.querySelector("#partials").innerHTML = res;
+        });
+    });
+}
+
 function getFormulaireModifierProgrammeEtudes(id) {
 
     fetch(host + "TableauDeBord/ModifierProgrammeEtudes/" + String(id), {
