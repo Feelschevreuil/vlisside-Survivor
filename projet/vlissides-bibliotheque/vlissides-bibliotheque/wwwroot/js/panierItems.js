@@ -115,7 +115,6 @@ function getCards() {
             }).then((data) => {
 
                 parentPartiel.innerHTML = data;
-                initialisationPage()
                 updatePrix();
             });
 

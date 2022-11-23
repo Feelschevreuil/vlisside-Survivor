@@ -1,41 +1,4 @@
-﻿function initialisationPage() {
-    var livres = JSON.parse(localStorage.getItem('itemsPanier'))
-
-    if (livres != null || livres != undefined) {
-
-
-
-        if (livres.Neuf != null) {
-            for (var j = 0; j < livres.Neuf.length; j++) {
-                if (livres.Neuf[j].LivreId != null) {
-                    var quantiteLivre = document.querySelector("#Quantite-" + livres.Neuf[j].LivreId)
-                    quantiteLivre.value = livres.Neuf[j].Quantite
-                    quantiteLivre.setAttribute("max", null);
-                }
-            }
-        }
-        if (livres.Usage != null) {
-            for (var j = 0; j < livres.Usage.length; j++) {
-                if (livres.Usage[j].LivreId != null) {
-                    var quantiteLivre = document.getElementById("Quantite-" + livres.Usage[j].LivreId)
-                    quantiteLivre.value = livres.Usage[j].Quantite
-                    quantiteLivre.setAttribute("max", 2);
-                }
-            }
-        }
-        if (livres.Numerique != null) {
-            for (var j = 0; j < livres.Numerique.length; j++) {
-                if (livres.Numerique[j].LivreId != null) {
-                    var quantiteLivre = document.getElementById("Quantite-" + livres.Numerique[j].LivreId)
-                    quantiteLivre.value = livres.Numerique[j].Quantite
-                    quantiteLivre.setAttribute("max", null);
-                }
-            }
-        }
-    }
-}
-
-function quantiteChange(id) {
+﻿function quantiteChange(id) {
     var livres = JSON.parse(localStorage.getItem('itemsPanier'))
 
     if (livres != null || livres != undefined) {
