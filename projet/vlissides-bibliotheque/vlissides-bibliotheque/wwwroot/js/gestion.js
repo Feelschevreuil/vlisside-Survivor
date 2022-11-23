@@ -121,6 +121,11 @@ function livreGestionErreur(data) {
     return data
 }
 
+function EtudiantGestionErreur(data) {
+    if (data.App == "") { data.App = 0 }
+    return data;
+}
+
 function CoursGestionErreur(data)
 {
     if (data.programmeEtudesId == "") { data.programmeEtudesId = 0 }
@@ -176,6 +181,7 @@ function modifierEtudiant(id) {
     let parent = document.querySelector("#etudiant-" + String(id)).querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
+    data = EtudiantGestionErreur(data);
 
     fetch(host + "TableauDeBord/ModifierEtudiant/", {
         method: 'POST',
@@ -496,7 +502,7 @@ function modifierCours(id) {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(id, resetMajusculeJsonKey(res));
+                    afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector(`#fermer-modal-${id}`).click();
                 }
             });
