@@ -1,0 +1,227 @@
+@model PaiementVM
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+
+/** TODO: à sortir dans son propre fichier **/
+
+const stripe = Stripe(
+    "@Model.PublicApiKey"
+);
+
+const options = {
+          clientSecret: "@Model.ClientSecret"
+};
+
+// Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
+const elements = stripe.elements(options);
+
+</script>
+
+<p class="fs-2">Achat</p>
+
+<div class="alert alert-primary" role="alert">
+    Cher, <strong>John Doe</strong>, vos articles sont réservés pour 15 minutes. Veuillez procéder au paiement.
+</div>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+
+            <div class="accordion" id="accordionInformationsPaiement">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <img class="me-2" width="24px" src="~/img/map.svg" />
+                            Adresse de livraison
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionInformationsPaiement">
+                        <div class="accordion-body">
+                            
+                            <p>Veuillez noter que nous ne livrons qu'au Québec uniquement et que les délais de livraisons sont de <strong>3 jours ouvrables</strong> suite au paiement de la commande.</p>
+
+                            <div class="row">
+                                <div class="mb-3 col-6">
+                                      <label class="form-label">Numéro civique</label>
+                                        <input class="form-control">
+                                </div>
+
+                                <div class="mb-3 col-6">
+                                      <label class="form-label">Numéro d'appartement</label>
+                                        <input class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="mb-3 col-4">
+                                      <label class="form-label">Code postal</label>
+                                        <input class="form-control">
+                                </div>
+
+                                <div class="mb-3 col-8">
+                                      <label class="form-label">Ville</label>
+                                        <input class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                  <label class="form-label">Numéro de téléphone</label>
+                                    <input class="form-control">
+                            </div>
+
+                            <p>En continuant à payer la commande, vous confirmez que vous avez entré une adresse de livraison <strong>valide</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <img class="me-2" width="24px" src="~/img/credit-card.svg" />
+                            Détails de paiement
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionInformationsPaiement">
+                        <div class="accordion-body">
+
+                            <p>Paiement <strong>sécurisé</strong> en ligne.</p>
+
+                            <form id="payment-form">
+                                  <div id="payment-element">
+                                        <!-- Elements will create form elements here -->
+                                        </div>
+                                            <button id="submit" class="btn btn-primary mt-3">Payer</button>
+                                        <div id="error-message">
+                                        <!-- Display error message to your customers here -->
+                                  </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <img class="me-2" width="24px" src="~/img/package.svg" />
+                            Statut de la commande
+                        </button>
+                    </h2>
+
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionInformationsPaiement">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <img class="col-1" width="24px" src="~/img/clock.svg" />
+                                <span class="col-11 align-middle">En attente de paiement. Réservée pour <strong>15 minutes</strong>.</span>
+                            </div>
+
+                            <div class="row">
+                                <img class="col-1" width="24px" src="~/img/truck-fast.svg" />
+                                <span class="col-11 align-middle">En transit. Prévoyez <strong>3 jours ouvrables</strong>.</span>
+                            </div>
+
+                            <div class="row">
+                                <img class="col-1" width="24px" src="~/img/check-circle.svg" />
+                                <span class="col-11 align-middle">Commande livrée avec succès! <strong>Merc!</strong>.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <img class="col-2" width="24px" src="~/img/book-open.svg" />
+                    <h5 class="card-title col-8 ps-0">Commande</h5>
+                </div>
+
+                @{
+
+                    for(int i = 0; i < 3; i++)
+                    {
+
+                <div class="row@(i < (3-1) ? " mb-3" : "")">
+
+                    <div class="col-6">
+                        <span class="align-middle">
+                            <h6 class="mb-0 text-truncate">Titre du livre</h6>
+                            <p class="mb-0 small fw-light">Numérique</p>
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <span class="badge alert-info align-middle">22</span>
+                    </div>
+                    <div class="col-4">
+                        <span class="align-middle text-end">
+                            <strong>999.99 $</strong>
+                        </span>
+                    </div>
+                </div>
+
+
+                    }
+
+                }
+
+                <hr>
+
+                <div class="row">
+                    <p class="col-8 text-end">Sous total</p>
+                    <p class="col-4 text-end">999.99$</p>
+                </div>
+
+                <div class="row">
+                    <p class="col-8 text-end">Taxes</p>
+                    <p class="col-4 text-end">999.99$</p>
+                </div>
+
+                <div class="row">
+                    <p class="col-8 mb-0 text-end"><strong>Total</strong></p>
+                    <p class="col-4 mb-0 text-end"><strong>999.99$</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+/** TODO: à sortir dans son propre fichier**/
+
+// Create and mount the Payment Element
+const paymentElement = elements.create('payment');
+paymentElement.mount('#payment-element');
+
+var form = document.querySelector("#payment-form");
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const {error} = await stripe.confirmPayment({
+        //`Elements` instance that was used to create the Payment Element
+        elements,
+        confirmParams: {
+                    return_url: 'https://example.com/order/123/complete',
+                  },
+        });
+
+    if (error) {
+      // This point will only be reached if there is an immediate error when
+      // confirming the payment. Show error to your customer (for example, payment
+                  // details incomplete)
+      const messageContainer = document.querySelector('#error-message');
+      messageContainer.textContent = error.message;
+    } else {
+                // Your customer will be redirected to your `return_url`. For some payment
+                // methods like iDEAL, your customer will be redirected to an intermediate
+                // site first to authorize the payment, then redirected to the `return_url`.
+    }
+});
+
+</script>
