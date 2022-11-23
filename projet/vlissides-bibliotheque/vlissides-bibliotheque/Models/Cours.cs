@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -7,24 +8,27 @@ namespace vlissides_bibliotheque.Models
     /// </summary>
     public class Cours
     {
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")] 
         public int CoursId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")] 
         public int ProgrammeEtudeId { get; set; }
+        [DisplayName("Programme d'étude")]
         public ProgrammeEtude ProgrammeEtude { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Nom { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Description { get; set; }
 
-        [Required]
-        [MaxLength(8)]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(8, ErrorMessage ="Le code ne peux pas dépasser 8 caractères")]
         public string Code { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Range(1,3, ErrorMessage ="L'année du parcours doit se situer entre 1 et 3")]
+        [DisplayName("Année")]
         public int AnneeParcours { get; set; }
     }
 }

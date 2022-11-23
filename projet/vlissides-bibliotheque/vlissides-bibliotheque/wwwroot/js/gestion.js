@@ -62,8 +62,6 @@ function afficherCreation(id, data) {
         let index = champs.indexOf(champ);
         let baliseInfo = ligneCourante.children[index];
 
-
-
         if (baliseInfo != undefined) {
             if (key == "Photo") {
                 var img = document.createElement('img');
@@ -71,7 +69,10 @@ function afficherCreation(id, data) {
                 img.classList.add('tableauDeBord-image');
                 baliseInfo.appendChild(img);
                 baliseInfo.classList.add('text-center');
-            } else {
+            } else if(key == "ProgrammeEtude") {
+                baliseInfo = ligneCourante.children[3];
+                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[data.ProgrammesEtudeId].innerHTML
+            }else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
         }
@@ -79,6 +80,7 @@ function afficherCreation(id, data) {
             baliseInfo = ligneCourante.children[5];
             baliseInfo.innerHTML = document.querySelector("#MaisonDeditionId")[data.MaisonDeditionId].innerHTML
         }
+        
     }
 }
 
@@ -116,6 +118,14 @@ function livreGestionErreur(data) {
     data.PrixNumerique = possedeDesLettres(data.PrixNumerique);
     data.PrixUsage = possedeDesLettres(data.PrixUsage);
     data.QuantiteUsagee = possedeDesLettres(data.QuantiteUsagee);
+    return data
+}
+
+function CoursGestionErreur(data)
+{
+    if (data.programmeEtudesId == "") { data.programmeEtudesId = 0 }
+    if (data.ProgrammesEtudeId == "") { data.ProgrammesEtudeId = 0 }
+
     return data
 }
 
@@ -516,6 +526,7 @@ function creerCours() {
     let parent = document.querySelector("#creer").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
+    data = CoursGestionErreur(data);
 
     fetch(host + "TableauDeBord/CreerCours/", {
         method: 'POST',
@@ -544,7 +555,7 @@ function creerCours() {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherModification(id, resetMajusculeJsonKey(res));
+                    afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });

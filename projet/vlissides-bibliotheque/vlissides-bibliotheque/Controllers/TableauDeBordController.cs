@@ -75,9 +75,35 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult CreerCours()
         {
-            CoursVM cours = new();
+            GestionCoursVM cours = new();
             cours.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
             return PartialView("Views/Shared/_CoursPartial.cshtml", cours);
+        }   
+        [HttpPost]
+        public IActionResult CreerCours([FromBody] GestionCoursVM vm)
+        {
+            ModelState.Remove(nameof(vm.ProgrammeEtude));
+            ModelState.Remove(nameof(vm.ProgrammesEtude));
+
+            if (ModelState.IsValid)
+            {
+                Cours nouveauCours = new()
+                {
+                    CoursId = 0,
+                    ProgrammeEtudeId= vm.ProgrammesEtudeId,
+                    Nom = vm.Nom,
+                    Code = vm.Code,
+                    AnneeParcours = vm.AnneeParcours,
+                    Description = vm.Description,
+                };
+                _context.Cours.Add(nouveauCours);
+                _context.SaveChanges();
+
+                return Json(vm);
+            }
+
+            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
         }
 
         //------------------Étudiants------------------
