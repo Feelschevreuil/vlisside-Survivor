@@ -435,6 +435,19 @@ function supprimerLivre(id) {
 //--------------------------------------------
 //              Cours
 //--------------------------------------------
+function getPartialViewCours() {
+    fetch(host + "TableauDeBord/Cours/", {
+        method: 'GET',
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Une erreur c'est produite")
+        }
+        res.text().then(function (res) {
+            document.querySelector("#partials").innerHTML = res;
+        });
+    });
+}
+
 function getFormulaireModifierCours(id) {
 
     fetch(host + "TableauDeBord/ModifierCours/" + String(id), {

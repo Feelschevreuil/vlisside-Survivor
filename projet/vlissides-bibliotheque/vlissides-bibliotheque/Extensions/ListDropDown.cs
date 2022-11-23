@@ -35,5 +35,17 @@ namespace vlissides_bibliotheque
 
             return Liste;
         }
+        public static List<SelectListItem> ListDropDownProgrammesEtude(ApplicationDbContext _context)
+        {
+
+            List<SelectListItem> Liste = new List<SelectListItem>();
+            List<ProgrammeEtude> bdProgrammeEtude = _context.ProgrammesEtudes.ToList();
+            Liste.Add(new SelectListItem { Value = "", Text = "Choisissez un programme d'étude" });
+
+            foreach (var e in bdProgrammeEtude)
+                Liste.Add(new SelectListItem { Value = e.ProgrammeEtudeId.ToString(), Text = e.Nom });
+
+            return Liste;
+        }
     }
 }

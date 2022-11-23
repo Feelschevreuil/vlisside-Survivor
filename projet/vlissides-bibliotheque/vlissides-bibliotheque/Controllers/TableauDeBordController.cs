@@ -69,7 +69,15 @@ namespace vlissides_bibliotheque.Controllers
                 .Include(cours => cours.ProgrammeEtude)
                 .ToList();
 
-            return View(cours);
+            return PartialView("~/Views/TableauDeBord/Cours.cshtml", cours);
+        }
+
+        [HttpGet]
+        public IActionResult CreerCours()
+        {
+            CoursVM cours = new();
+            cours.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            return PartialView("Views/Shared/_CoursPartial.cshtml", cours);
         }
 
         //------------------Étudiants------------------
