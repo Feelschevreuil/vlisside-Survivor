@@ -76,6 +76,9 @@
         <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
 
     </div>
+    <div>
+        <input type="number" id="Quantite-@livreIdCourant" min="1" max="999999" value="1" onchange="quantiteChange(@livreIdCourant)" />
+    </div>
 </div>
 
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
