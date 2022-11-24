@@ -720,23 +720,26 @@ function creerProgrammeEtudes() {
 }
 
 function supprimerProgrammeEtudes(id) {
-    fetch(host + "TableauDeBord/SupprimerProgrammeEtudes/", {
-        method: 'POST',
-        body: JSON.stringify(id),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    }).then(function (res) {
-        if (res.ok) {
-            alert("ProgrammeEtudes supprimé avec succès!");
-            let programmeEtudes = document.querySelector(`#tr-${id}`);
-            let parent = programmeEtudes.parentElement;
-            parent.removeChild(programmeEtudes);
-        } else {
-            alert(`Impossible de supprimer le programmeEtudes selon le code d'identification ${id}`);
-        }
-    });
+    var confirmation = confirm("Êtes-vous sur de vouloir supprimer cette item?");
+    if (confirmation) {
+        fetch(host + "TableauDeBord/SupprimerProgrammeEtudes/", {
+            method: 'POST',
+            body: JSON.stringify(id),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (res) {
+            if (res.ok) {
+                alert("ProgrammeEtudes supprimé avec succès!");
+                let programmeEtudes = document.querySelector(`#tr-${id}`);
+                let parent = programmeEtudes.parentElement;
+                parent.removeChild(programmeEtudes);
+            } else {
+                alert(`Impossible de supprimer le programmeEtudes selon le code d'identification ${id}`);
+            }
+        });
+    }
 }
 //--------------------------------------------
 //              Commandes

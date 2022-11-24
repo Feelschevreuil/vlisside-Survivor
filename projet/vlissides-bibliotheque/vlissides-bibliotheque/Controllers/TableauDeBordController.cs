@@ -17,50 +17,50 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace vlissides_bibliotheque.Controllers
 {
-	[Authorize(Roles =RolesName.Admin)]
-	public class TableauDeBordController : Controller
-	{
-		private readonly SignInManager<Etudiant> _signInManager;
-		private readonly UserManager<Utilisateur> _userManager;
+    [Authorize(Roles = RolesName.Admin)]
+    public class TableauDeBordController : Controller
+    {
+        private readonly SignInManager<Etudiant> _signInManager;
+        private readonly UserManager<Utilisateur> _userManager;
         private readonly UserManager<Etudiant> _userManagerEtudiant;
         private readonly ApplicationDbContext _context;
         private readonly LivresBibliothequeDAO _livresBibliothequeDAO;
 
-		public TableauDeBordController(
+        public TableauDeBordController(
             SignInManager<Etudiant> signInManager,
             UserManager<Utilisateur> userManager,
-			UserManager<Etudiant> userManagerEtudiant,
+            UserManager<Etudiant> userManagerEtudiant,
             ApplicationDbContext context,
             LivresBibliothequeDAO livresBibliothequeDAO
-		)
-		{
+        )
+        {
             _signInManager = signInManager;
             _userManager = userManager;
             _userManagerEtudiant = userManagerEtudiant;
             _context = context;
             _livresBibliothequeDAO = livresBibliothequeDAO;
-		}
+        }
 
         [HttpGet]
-		public ActionResult Index()
-		{
-			return View();
-		}
+        public ActionResult Index()
+        {
+            return View();
+        }
 
         //------------------Commandes------------------
 
         [HttpGet]
         public IActionResult Commandes()
-		{
-			List<CommandeEtudiant> commandes = _context.CommandesEtudiants
-				.Include(commande => commande.PrixEtatLivre)
-				.Include(commande => commande.PrixEtatLivre.LivreBibliotheque)
+        {
+            List<CommandeEtudiant> commandes = _context.CommandesEtudiants
+                .Include(commande => commande.PrixEtatLivre)
+                .Include(commande => commande.PrixEtatLivre.LivreBibliotheque)
                 .Include(commande => commande.FactureEtudiant)
                 .Include(commande => commande.FactureEtudiant.Etudiant)
                 .ToList();
 
             return View(commandes);
-		}
+        }
 
         //------------------Cours------------------
 
@@ -80,7 +80,7 @@ namespace vlissides_bibliotheque.Controllers
             GestionCoursVM cours = new();
             cours.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
             return PartialView("Views/Shared/_CoursPartial.cshtml", cours);
-        }   
+        }
         [HttpPost]
         public IActionResult CreerCours([FromBody] GestionCoursVM vm)
         {
@@ -92,7 +92,7 @@ namespace vlissides_bibliotheque.Controllers
                 Cours nouveauCours = new()
                 {
                     CoursId = 0,
-                    ProgrammeEtudeId= vm.ProgrammesEtudeId,
+                    ProgrammeEtudeId = vm.ProgrammesEtudeId,
                     Nom = vm.Nom,
                     Code = vm.Code,
                     AnneeParcours = vm.AnneeParcours,
@@ -132,7 +132,7 @@ namespace vlissides_bibliotheque.Controllers
             vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
             return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
 
-        } 
+        }
         [HttpPost]
         public IActionResult ModifierCours([FromBody] GestionCoursVM vm)
         {
@@ -141,14 +141,14 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                Cours coursRechercher = _context.Cours.Where(x=>x.CoursId == vm.CoursId).FirstOrDefault();
+                Cours coursRechercher = _context.Cours.Where(x => x.CoursId == vm.CoursId).FirstOrDefault();
 
                 coursRechercher.ProgrammeEtudeId = vm.ProgrammesEtudeId;
                 coursRechercher.Nom = vm.Nom;
                 coursRechercher.Code = vm.Code;
                 coursRechercher.AnneeParcours = vm.AnneeParcours;
                 coursRechercher.Description = vm.Description;
-                
+
                 _context.Cours.Update(coursRechercher);
                 _context.SaveChanges();
                 return Json(vm);
@@ -166,14 +166,14 @@ namespace vlissides_bibliotheque.Controllers
                 return NotFound();
             }
             Cours supprimerCours = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
-            if(supprimerCours == null)
+            if (supprimerCours == null)
             {
                 return NotFound();
             }
             _context.Cours.Remove(supprimerCours);
             _context.SaveChanges();
             return Ok();
-                }
+        }
 
         //------------------Étudiants------------------
 
@@ -263,7 +263,7 @@ namespace vlissides_bibliotheque.Controllers
                     if (error.Code == "PasswordRequiresUpper") {
                         ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre majuscule.");
                     }
-                    if(error.Code == "DuplicateUserName") {
+                    if (error.Code == "DuplicateUserName") {
                         ModelState.AddModelError(string.Empty, "Le courriel que vous avez entré existe déjà.");
                     }
                 }
@@ -285,7 +285,7 @@ namespace vlissides_bibliotheque.Controllers
                 .FirstOrDefault();
 
             // retourner un erreur si l'étudiant n'existe pas
-            if(etudiant == null) return NotFound();
+            if (etudiant == null) return NotFound();
 
             GestionProfilVM vm = etudiant.GetEtudiantProfilVM(_context);
 
@@ -437,14 +437,14 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult ModifierLivre(int id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             LivreBibliotheque livreBibliothequeRechercher = _livresBibliothequeDAO.Get(id);
 
-            if(livreBibliothequeRechercher == null)
+            if (livreBibliothequeRechercher == null)
             {
                 return NotFound();
             }
@@ -456,7 +456,7 @@ namespace vlissides_bibliotheque.Controllers
                 .ToList()
                 .FindAll(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
 
-          
+
             ModificationLivreVM vm = new()
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
@@ -488,7 +488,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ModifierLivre([FromBody]ModifierLivreCours form)
+        public async Task<ActionResult> ModifierLivre([FromBody] ModifierLivreCours form)
         {
             ModelState.Remove("Auteurs");
             ModelState.Remove("MaisonsDeditions");
@@ -527,7 +527,7 @@ namespace vlissides_bibliotheque.Controllers
                 GestionPrix.UpdateLesPrix(LivreBibliothèqueModifier, form, _context);
                 return Json(form);
             }
-   
+
             form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             form.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
             form.checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
@@ -535,12 +535,11 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult SupprimerLivre([FromBody]int id)
+        public IActionResult SupprimerLivre([FromBody] int id)
         {
             if (id == null)
             {
-                Response.StatusCode = 400;
-                return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
+                return NotFound();
             }
 
             var livreSupprimer = _livresBibliothequeDAO.Get(id);
@@ -571,7 +570,7 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult CreerProgrammeEtudes()
         {
             GestionProgrammeEtudesVM vm = new();
-          
+
             return PartialView("Views/Shared/_ProgrameEtudePartial.cshtml", vm);
         }
         [HttpPost]
@@ -596,12 +595,12 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult ModifierProgrammeEtudes(int id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            ProgrammeEtude programme = _context.ProgrammesEtudes.Where(x=>x.ProgrammeEtudeId == id).FirstOrDefault();
-            if(programme == null)
+            ProgrammeEtude programme = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId == id).FirstOrDefault();
+            if (programme == null)
             {
                 return NotFound();
             }
@@ -621,8 +620,8 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(GestionProgrammeEtudesVM.ProgrammeEtudeId));
             if (ModelState.IsValid)
             {
-                ProgrammeEtude modifierProgramme = _context.ProgrammesEtudes.Where(x=>x.ProgrammeEtudeId == vm.ProgrammeEtudeId).FirstOrDefault();
-                if(modifierProgramme != null) 
+                ProgrammeEtude modifierProgramme = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId == vm.ProgrammeEtudeId).FirstOrDefault();
+                if (modifierProgramme != null)
                 {
                     modifierProgramme.Nom = vm.Nom;
                     modifierProgramme.Code = vm.Code;
@@ -632,6 +631,25 @@ namespace vlissides_bibliotheque.Controllers
                 }
             }
             return PartialView("Views/Shared/_ProgrameEtudePartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult SupprimerProgrammeEtudes([FromBody] int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var programmeEtudeSupprimer = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId == id).FirstOrDefault();
+            if (programmeEtudeSupprimer == null)
+            {
+                return NotFound();
+            };
+
+            _context.ProgrammesEtudes.Remove(programmeEtudeSupprimer);
+            _context.SaveChanges();
+            return Ok();
         }
 
         //------------------Promotions------------------
