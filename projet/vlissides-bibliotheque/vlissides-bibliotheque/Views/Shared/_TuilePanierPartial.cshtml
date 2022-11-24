@@ -22,15 +22,15 @@
                 <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
                     @if (Model.prixEtatLivre[0] != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model)$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model).Prix$</p>
                     }
                     @if (Model.prixEtatLivre[1] != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model)$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model).Prix$</p>
                     }
                     @if (Model.prixEtatLivre[2] != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model)$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model).Prix$</p>
                     }
                 </div>
             </div>
