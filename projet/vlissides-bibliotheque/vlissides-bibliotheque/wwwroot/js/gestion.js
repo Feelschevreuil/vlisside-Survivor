@@ -665,17 +665,17 @@ function getFormulaireModifierProgrammeEtudes(id) {
         }
 
         res.text().then(function (res) {
-            document.querySelector("#programmeEtudes-" + String(id))
+            document.querySelector("#modal-modifier")
                 .querySelector(".modal-body").innerHTML = res;
         });
     });
 }
 
-function modifierProgrammeEtudes(id) {
-    let parent = document.querySelector("#programmeEtudes-" + String(id)).querySelector(".modal-body");
+function modifierProgrammeEtudes() {
+    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
-
+    data.Id = 0
     fetch(host + "TableauDeBord/ModifierProgrammeEtudes/", {
         method: 'POST',
         body: JSON.stringify(data),
@@ -693,10 +693,8 @@ function modifierProgrammeEtudes(id) {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(id, resetMajusculeJsonKey(res));
-                    document.querySelector(`#fermer-modal-${id}`).click();
-
-                    document.querySelector("#programmeEtudes-" + String(id)).querySelector(".modal-body").innerHTML = "";
+                    afficherModification(res.id, resetMajusculeJsonKey(res));
+                    document.querySelector("#fermer-modal-modifier").click();
                 }
             });
         } else {
@@ -747,13 +745,14 @@ function creerProgrammeEtudes() {
                     let thead = table.children[0];
                     let tbody = table.children[1];
                     let nouvelleLigne = document.createElement("tr");
-                    let id = res.programmeEtudeId;
+                    let id = res.id;
                     nouvelleLigne.id = "tr-" + id;
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
+                    nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherModification(id, resetMajusculeJsonKey(res));
+                    afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });
@@ -821,8 +820,8 @@ function getFormulaireModifierPromotions(id) {
     });
 }
 
-function modifierPromotions(id) {
-    let parent = document.querySelector("#promotions-" + String(id)).querySelector(".modal-body");
+function modifierPromotions() {
+    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
 
@@ -844,8 +843,7 @@ function modifierPromotions(id) {
             res.json().then(function (res) {
                 if (res != "") {
                     afficherModification(id, resetMajusculeJsonKey(res));
-                    document.querySelector(`#fermer-modal-${id}`).click();
-                    document.querySelector("#promotions-" + String(id)).querySelector(".modal-body").innerHTML = "";
+                    document.querySelector("#fermer-modal-modifier").click();
                 }
             });
         } else {

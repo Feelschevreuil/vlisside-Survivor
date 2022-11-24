@@ -600,6 +600,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public IActionResult CreerProgrammeEtudes([FromBody] GestionProgrammeEtudesVM vm)
         {
+            ModelState.Remove(nameof(vm.Id));
             if (ModelState.IsValid)
             {
                 ProgrammeEtude nouveauProgramme = new()
@@ -610,6 +611,7 @@ namespace vlissides_bibliotheque.Controllers
                 };
                 _context.ProgrammesEtudes.Add(nouveauProgramme);
                 _context.SaveChanges();
+                vm.Id = nouveauProgramme.ProgrammeEtudeId;
                 return Json(vm);
             }
 
@@ -642,6 +644,7 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult ModifierProgrammeEtudes([FromBody] GestionProgrammeEtudesVM vm)
         {
             ModelState.Remove(nameof(GestionProgrammeEtudesVM.ProgrammeEtudeId));
+            ModelState.Remove(nameof(GestionProgrammeEtudesVM.Id));
             if (ModelState.IsValid)
             {
                 ProgrammeEtude modifierProgramme = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId == vm.ProgrammeEtudeId).FirstOrDefault();
@@ -651,6 +654,7 @@ namespace vlissides_bibliotheque.Controllers
                     modifierProgramme.Code = vm.Code;
                     _context.ProgrammesEtudes.Update(modifierProgramme);
                     _context.SaveChanges();
+                    vm.Id = modifierProgramme.ProgrammeEtudeId;
                     return Json(vm);
                 }
             }
