@@ -661,7 +661,7 @@ namespace vlissides_bibliotheque.Controllers
                 .Include(commande => commande.Commanditaire)
                 .ToList();
 
-            return View(evenements);
+            return PartialView("~/Views/TableauDeBord/Promotions.cshtml", evenements);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace vlissides_bibliotheque.ViewModels
 {
-    public class GestionPromotionVM
+    public class GestionPromotionVM : EvenementVM
     {
     }
 }

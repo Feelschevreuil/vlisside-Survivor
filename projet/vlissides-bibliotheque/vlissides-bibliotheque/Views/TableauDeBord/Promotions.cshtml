@@ -1,33 +1,28 @@
 ﻿@model List<Evenement>
 
-<div class="d-flex accordion-header">
-    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
-    </a>
-    <h2 class="p-3">Gestion des événements</h2>
-</div>
+<h2 class="p-3">Gestion des événements</h2>
 
 <img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerPromotion()" />
 
-<div style="overflow-x: auto;">
+<div>
     <table class="table table-light">
         <thead>
             <tr>
-                <th id="@nameof(GestionPromotionVM)">@Html.DisplayNameFor(evenement => evenement.First().Image)</th>
-                <th id="@nameof(GestionPromotionVM)">@Html.DisplayNameFor(evenement => evenement.First().Nom)</th>
-                <th id="@nameof(GestionPromotionVM)">@Html.DisplayNameFor(evenement => evenement.First().Description)</th>
-                <th id="@nameof(GestionPromotionVM)">@Html.DisplayNameFor(evenement => evenement.First().Debut)</th>
-                <th id="@nameof(GestionPromotionVM)">@Html.DisplayNameFor(evenement => evenement.First().Fin)</th>
-                <th id="@nameof(GestionPromotionVM)">@Html.DisplayNameFor(evenement => evenement.First().Commanditaire.Nom)</th>
-                <th id="@nameof(GestionPromotionVM)">@Html.DisplayNameFor(evenement => evenement.First().Commanditaire.Courriel)</th>
-                <th id="@nameof(GestionPromotionVM)">@Html.DisplayNameFor(evenement => evenement.First().Commanditaire.Message)</th>
+                <th id="@nameof(GestionPromotionVM.Image)">@Html.DisplayNameFor(evenement => evenement.First().Image)</th>
+                <th id="@nameof(GestionPromotionVM.Nom)">@Html.DisplayNameFor(evenement => evenement.First().Nom)</th>
+                <th id="@nameof(GestionPromotionVM.Description)">@Html.DisplayNameFor(evenement => evenement.First().Description)</th>
+                <th id="@nameof(GestionPromotionVM.Debut)">@Html.DisplayNameFor(evenement => evenement.First().Debut)</th>
+                <th id="@nameof(GestionPromotionVM.Fin)">@Html.DisplayNameFor(evenement => evenement.First().Fin)</th>
+                <th id="@nameof(GestionPromotionVM.Commanditaire.Nom)">@Html.DisplayNameFor(evenement => evenement.First().Commanditaire.Nom)</th>
+                <th id="@nameof(GestionPromotionVM.Commanditaire.Courriel)">@Html.DisplayNameFor(evenement => evenement.First().Commanditaire.Courriel)</th>
+                <th id="@nameof(GestionPromotionVM.Commanditaire.Message)">@Html.DisplayNameFor(evenement => evenement.First().Commanditaire.Message)</th>
             </tr>
         </thead>
         <tbody>
             @foreach (Evenement evenement in Model) {
-                <tr>
+                <tr id="tr-@evenement.EvenementId" class="modif-suppr">
                     <td class="text-center">
-                        <img src="@evenement.Image" width="50px">
+                        <img class="tableauDeBord-image" src="@evenement.Image">
                     </td>
                     <td>@evenement.Nom</td>
                     <td>@evenement.Description</td>

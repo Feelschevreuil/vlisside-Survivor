@@ -756,6 +756,18 @@ function supprimerProgrammeEtudes(id) {
 //--------------------------------------------
 //              Promotions
 //--------------------------------------------
+function getPartialViewPromotions() {
+    fetch(host + "TableauDeBord/Promotions/", {
+        method: 'GET',
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Une erreur c'est produite")
+        }
+        res.text().then(function (res) {
+            document.querySelector("#partials").innerHTML = res;
+        });
+    });
+}
 
 function getFormulaireModifierPromotions(id) {
 
