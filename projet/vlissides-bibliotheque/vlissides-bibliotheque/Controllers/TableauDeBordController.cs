@@ -86,6 +86,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             ModelState.Remove(nameof(vm.ProgrammeEtude));
             ModelState.Remove(nameof(vm.ProgrammesEtude));
+            ModelState.Remove(nameof(vm.Id));
 
             if (ModelState.IsValid)
             {
@@ -100,7 +101,7 @@ namespace vlissides_bibliotheque.Controllers
                 };
                 _context.Cours.Add(nouveauCours);
                 _context.SaveChanges();
-
+                vm.Id = nouveauCours.CoursId;
                 return Json(vm);
             }
 
@@ -138,6 +139,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             ModelState.Remove(nameof(vm.ProgrammeEtude));
             ModelState.Remove(nameof(vm.ProgrammesEtude));
+            ModelState.Remove(nameof(vm.Id));
 
             if (ModelState.IsValid)
             {
@@ -151,6 +153,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 _context.Cours.Update(coursRechercher);
                 _context.SaveChanges();
+                vm.Id = coursRechercher.CoursId;
                 return Json(vm);
             }
 

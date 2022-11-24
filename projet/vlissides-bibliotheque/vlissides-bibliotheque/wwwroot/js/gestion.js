@@ -27,7 +27,7 @@ function setPremiereLettreEnMajuscule(string) {
 }
 
 function afficherModification(id, data) {
-    // afficher les valeurs modifiées et non modifiées
+    // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
     let champs = Array.from(thead.children[0].children);
@@ -38,20 +38,23 @@ function afficherModification(id, data) {
         let index = champs.indexOf(champ);
         let baliseInfo = ligneCourante.children[index];
 
-        if (baliseInfo != undefined)
-        {
+        if (baliseInfo != undefined) {
             if (key == "Photo") {
                 baliseInfo.children[0].src = data.Photo;
+            } else if (key == "ProgrammeEtude") {
+                baliseInfo = ligneCourante.children[3];
+                index = document.querySelector('#ProgrammesEtudeId').selectedIndex
+                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
             } else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
         }
-      
+
     }
 }
 
 function afficherCreation(id, data) {
-    // afficher les valeurs modifiées et non modifiées
+    // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
     let champs = Array.from(thead.children[0].children);
@@ -69,10 +72,11 @@ function afficherCreation(id, data) {
                 img.classList.add('tableauDeBord-image');
                 baliseInfo.appendChild(img);
                 baliseInfo.classList.add('text-center');
-            } else if(key == "ProgrammeEtude") {
+            } else if (key == "ProgrammeEtude") {
                 baliseInfo = ligneCourante.children[3];
-                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[data.ProgrammesEtudeId].innerHTML
-            }else {
+                index = document.querySelector('#ProgrammesEtudeId').selectedIndex
+                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
+            } else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
         }
@@ -80,7 +84,7 @@ function afficherCreation(id, data) {
             baliseInfo = ligneCourante.children[5];
             baliseInfo.innerHTML = document.querySelector("#MaisonDeditionId")[data.MaisonDeditionId].innerHTML
         }
-        
+
     }
 }
 
@@ -94,8 +98,7 @@ function setInputsFormat() {
     }
 }
 
-function getCoursCheckBox()
-{
+function getCoursCheckBox() {
     var divListCours = document.querySelector("#listDeCours");
     var coursCocher = divListCours.querySelectorAll("input");
     var listCoursCocher = new Array();
@@ -126,8 +129,7 @@ function EtudiantGestionErreur(data) {
     return data;
 }
 
-function CoursGestionErreur(data)
-{
+function CoursGestionErreur(data) {
     if (data.programmeEtudesId == "") { data.programmeEtudesId = 0 }
     if (data.ProgrammesEtudeId == "") { data.ProgrammesEtudeId = 0 }
 
@@ -143,8 +145,8 @@ function possedeDesLettres(nombre) {
     }
 }
 
-function creerBtnModifSuppri(nouvelleLigne, id)
-{
+function creerBtnModifSuppri(nouvelleLigne, id) {
+    nouvelleLigne.classList.add("modif-suppr");
     trBtn = document.createElement("td");
     trBtn.classList.add("options-ligne", "position-absolute", "text-center", "vw-100", "start-0", "bg-transparent", "border-0")
     nouvelleLigne.appendChild(trBtn);
@@ -165,8 +167,7 @@ function creerBtnModifSuppri(nouvelleLigne, id)
     return nouvelleLigne;
 }
 
-function getLivreId()
-{
+function getLivreId() {
     let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let livreId = formulaire.IdDuLivre;
@@ -359,7 +360,7 @@ function getFormulaireModifierLivre(id) {
     });
 }
 
-function modifierLivre(id) {
+function modifierLivre() {
     let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
@@ -466,8 +467,7 @@ function creerLivre() {
 
 function supprimerLivre(id) {
     var confirmation = confirm("Êtes-vous sur de vouloir supprimer cet livre?");
-    if (confirmation)
-    {
+    if (confirmation) {
         fetch(host + "TableauDeBord/SupprimerLivre/", {
             method: 'POST',
             body: JSON.stringify(id),
@@ -514,14 +514,14 @@ function getFormulaireModifierCours(id) {
         }
 
         res.text().then(function (res) {
-            document.querySelector("#cours-" + String(id))
+            document.querySelector("#modal-modifier")
                 .querySelector(".modal-body").innerHTML = res;
         });
     });
 }
 
-function modifierCours(id) {
-    let parent = document.querySelector("#cours-" + String(id)).querySelector(".modal-body");
+function modifierCours() {
+    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
 
@@ -542,9 +542,8 @@ function modifierCours(id) {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherCreation(id, resetMajusculeJsonKey(res));
-                    document.querySelector(`#fermer-modal-${id}`).click();
-                    document.querySelector("#cours-" + String(id)).querySelector(".modal-body").innerHTML = "";
+                    afficherModification(res.id, resetMajusculeJsonKey(res));
+                    document.querySelector("#fermer-modal-modifier").click();
                 }
             });
         } else {
@@ -574,6 +573,7 @@ function creerCours() {
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
     data = CoursGestionErreur(data);
+    data.Id = 0;
 
     fetch(host + "TableauDeBord/CreerCours/", {
         method: 'POST',
@@ -596,11 +596,12 @@ function creerCours() {
                     let thead = table.children[0];
                     let tbody = table.children[1];
                     let nouvelleLigne = document.createElement("tr");
-                    let id = res.coursId;
+                    let id = res.id;
                     nouvelleLigne.id = "tr-" + id;
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
+                    nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
                     afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
@@ -617,8 +618,7 @@ function creerCours() {
 
 function supprimerCours(id) {
     var confirmation = confirm("Êtes-vous sur de vouloir supprimer ce cours?");
-    if (confirmation)
-    {
+    if (confirmation) {
         fetch(host + "TableauDeBord/SupprimerCours/", {
             method: 'POST',
             body: JSON.stringify(id),
@@ -695,7 +695,7 @@ function modifierProgrammeEtudes(id) {
                 if (res != "") {
                     afficherModification(id, resetMajusculeJsonKey(res));
                     document.querySelector(`#fermer-modal-${id}`).click();
-                    
+
                     document.querySelector("#programmeEtudes-" + String(id)).querySelector(".modal-body").innerHTML = "";
                 }
             });
