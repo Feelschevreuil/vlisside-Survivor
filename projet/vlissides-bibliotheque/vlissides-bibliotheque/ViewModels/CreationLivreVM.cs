@@ -10,11 +10,13 @@ namespace vlissides_bibliotheque.ViewModels
 	public class CreationLivreVM
 	{
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
+		[MaxLength(64)]
 		public string Titre { get; set; } //= "La mort";
 
 		[DisplayName("Description")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		public string Resume { get; set; } //= "la mort";
+        [MaxLength(512)]
+        public string Resume { get; set; } //= "la mort";
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[ImageAttribute]
@@ -27,16 +29,19 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[DisplayName("Usagé")]
 		[DataType(DataType.Currency)]
+		[MaxLength(64)]
 		public double PrixUsage { get; set; } = 0;
 
 
 		[DisplayName("Numérique")]
 		[DataType(DataType.Currency)]
-		public double PrixNumerique { get; set; } = 0;
+        [MaxLength(64)]
+        public double PrixNumerique { get; set; } = 0;
 
 		[DisplayName("Neuf")]
 		[DataType(DataType.Currency)]
-		public double PrixNeuf { get; set; } = 0;
+        [MaxLength(64)]
+        public double PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
 		public int? QuantiteUsagee { get; set; }
@@ -49,6 +54,7 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
 		[Isbn]
 		[Range(1000000000, 9999999999999, ErrorMessage = "Veuillez entrer un nombre.")]
+		[MaxLength(13)]
 		public string ISBN { get; set; } //= "4545854745";
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]

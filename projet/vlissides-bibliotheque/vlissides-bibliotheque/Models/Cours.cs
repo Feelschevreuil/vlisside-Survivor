@@ -17,6 +17,7 @@ namespace vlissides_bibliotheque.Models
         public ProgrammeEtude ProgrammeEtude { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+
         public string Nom { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]

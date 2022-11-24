@@ -507,15 +507,13 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifierLivre([FromBody] ModifierLivreCours form)
         {
-            ModelState.Remove("Auteurs");
-            ModelState.Remove("MaisonsDeditions");
-            ModelState.Remove("ListeCours");
-            ModelState.Remove("checkBoxCours");
-
-            LivreBibliotheque LivreBibliothèqueModifier = _livresBibliothequeDAO.Get(form.IdDuLivre);
+            ModelState.Remove(nameof(form.Auteurs));
+            ModelState.Remove(nameof(form.MaisonsDeditions));
+            ModelState.Remove(nameof(form.checkBoxCours));
 
             if (ModelState.IsValid)
             {
+                LivreBibliotheque LivreBibliothèqueModifier = _livresBibliothequeDAO.Get(form.IdDuLivre);
                 LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
                 LivreBibliothèqueModifier.Isbn = form.ISBN;
                 LivreBibliothèqueModifier.Titre = form.Titre;
