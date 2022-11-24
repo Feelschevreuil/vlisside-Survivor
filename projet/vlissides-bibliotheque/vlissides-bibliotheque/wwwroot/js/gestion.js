@@ -616,7 +616,7 @@ function getFormulaireModifierProgrammeEtudes(id) {
         method: 'GET',
     }).then(function (res) {
         if (!res.ok) {
-            alert("Le programmeEtudes est introuvable.")
+            alert("Le programme d'étude est introuvable.")
         }
 
         res.text().then(function (res) {
@@ -700,7 +700,7 @@ function creerProgrammeEtudes() {
                     let thead = table.children[0];
                     let tbody = table.children[1];
                     let nouvelleLigne = document.createElement("tr");
-                    let id = res.programmeEtudesId;
+                    let id = res.programmeEtudeId;
                     nouvelleLigne.id = "tr-" + id;
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));

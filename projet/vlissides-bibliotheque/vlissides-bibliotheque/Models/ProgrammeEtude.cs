@@ -10,11 +10,11 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int ProgrammeEtudeId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Nom { get; set; }
 
-        [Required]
-        [MaxLength(4)]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(4, ErrorMessage = "Le code ne peux pas excéder 4 charactères")]
         public string Code { get; set; }
     }
 }

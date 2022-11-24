@@ -13,6 +13,7 @@ using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Enums;
 using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 using static Humanizer.In;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -564,6 +565,73 @@ namespace vlissides_bibliotheque.Controllers
             List<ProgrammeEtude> programmesEtudes = _context.ProgrammesEtudes.ToList();
 
             return PartialView("~/Views/TableauDeBord/ProgrammesEtudes.cshtml", programmesEtudes);
+        }
+
+        [HttpGet]
+        public IActionResult CreerProgrammeEtudes()
+        {
+            GestionProgrammeEtudesVM vm = new();
+          
+            return PartialView("Views/Shared/_ProgrameEtudePartial.cshtml", vm);
+        }
+        [HttpPost]
+        public IActionResult CreerProgrammeEtudes([FromBody] GestionProgrammeEtudesVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                ProgrammeEtude nouveauProgramme = new()
+                {
+                    ProgrammeEtudeId = 0,
+                    Nom = vm.Nom,
+                    Code = vm.Code
+                };
+                _context.ProgrammesEtudes.Add(nouveauProgramme);
+                _context.SaveChanges();
+                return Json(vm);
+            }
+
+            return PartialView("Views/Shared/_ProgrameEtudePartial.cshtml", vm);
+        }
+
+        [HttpGet]
+        public IActionResult ModifierProgrammeEtudes(int id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            ProgrammeEtude programme = _context.ProgrammesEtudes.Where(x=>x.ProgrammeEtudeId == id).FirstOrDefault();
+            if(programme == null)
+            {
+                return NotFound();
+            }
+            GestionProgrammeEtudesVM vm = new()
+            {
+                ProgrammeEtudeId = programme.ProgrammeEtudeId,
+                Nom = programme.Nom,
+                Code = programme.Code
+            };
+
+            return PartialView("Views/Shared/_ProgrameEtudePartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult ModifierProgrammeEtudes([FromBody] GestionProgrammeEtudesVM vm)
+        {
+            ModelState.Remove(nameof(GestionProgrammeEtudesVM.ProgrammeEtudeId));
+            if (ModelState.IsValid)
+            {
+                ProgrammeEtude modifierProgramme = _context.ProgrammesEtudes.Where(x=>x.ProgrammeEtudeId == vm.ProgrammeEtudeId).FirstOrDefault();
+                if(modifierProgramme != null) 
+                {
+                    modifierProgramme.Nom = vm.Nom;
+                    modifierProgramme.Code = vm.Code;
+                    _context.ProgrammesEtudes.Update(modifierProgramme);
+                    _context.SaveChanges();
+                    return Json(vm);
+                }
+            }
+            return PartialView("Views/Shared/_ProgrameEtudePartial.cshtml", vm);
         }
 
         //------------------Promotions------------------

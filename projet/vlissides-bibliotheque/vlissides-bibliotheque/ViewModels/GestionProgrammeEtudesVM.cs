@@ -1,6 +1,8 @@
-﻿namespace vlissides_bibliotheque.ViewModels
+﻿using vlissides_bibliotheque.Models;
+
+namespace vlissides_bibliotheque.ViewModels
 {
-    public class GestionProgrammeEtudesVM
+    public class GestionProgrammeEtudesVM : ProgrammeEtude
     {
     }
 }
