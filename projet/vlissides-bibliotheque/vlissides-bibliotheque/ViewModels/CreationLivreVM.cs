@@ -10,11 +10,13 @@ namespace vlissides_bibliotheque.ViewModels
 	public class CreationLivreVM
 	{
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		public string Titre { get; set; }
+		[MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
+		public string Titre { get; set; } //= "La mort";
 
 		[DisplayName("Description")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		public string Resume { get; set; }
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères")]
+        public string Resume { get; set; } //= "la mort";
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[ImageAttribute]
@@ -27,32 +29,34 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[DisplayName("Usagé")]
 		[DataType(DataType.Currency)]
+	
 		public double PrixUsage { get; set; } = 0;
 
 
 		[DisplayName("Numérique")]
 		[DataType(DataType.Currency)]
-		public double PrixNumerique { get; set; } = 0;
+
+        public double PrixNumerique { get; set; } = 0;
 
 		[DisplayName("Neuf")]
 		[DataType(DataType.Currency)]
-		public double PrixNeuf { get; set; } = 0;
+
+        public double PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
+
 		public int? QuantiteUsagee { get; set; }
 
-		[DisplayName("Vendable")]
-		public bool PossedeNumerique { get; set; } = false;
-
-		[DisplayName("Vendable")]
 		public bool PossedeNeuf { get; set; } = false;
 
-		public bool Obligatoire { get; set; } = false;
+        public bool PossedeNumerique { get; set; } = false;
+        public bool PossedeUsagee { get; set; } = false;
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Required(ErrorMessage = "Le champ {0} est requis.")]
 		[Isbn]
 		[Range(1000000000, 9999999999999, ErrorMessage = "Veuillez entrer un nombre.")]
-		public string ISBN { get; set; }
+		[MaxLength(13)]
+		public string ISBN { get; set; } //= "4545854745";
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Auteur")]

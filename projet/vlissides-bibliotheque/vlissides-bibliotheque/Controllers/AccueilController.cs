@@ -48,10 +48,13 @@ namespace vlissides_bibliotheque.Controllers
         {
 
             LivreBibliotheque livre = _context.LivresBibliotheque.Where(livre => livre.LivreId == prixAfficher.Id).FirstOrDefault();
-            List<PrixEtatLivre> etat = _context.PrixEtatsLivres.ToList().FindAll(x => x.LivreBibliotheque.LivreId == livre.LivreId);
+            List<PrixEtatLivre> etat = _context.PrixEtatsLivres
+                .Include(x=>x.LivreBibliotheque)
+                .ToList()
+                .FindAll(x => x.LivreBibliotheque.LivreId == livre.LivreId);
 
             // TODO: check if this thing even works x)
-            PrixEtatLivre etatLivreRechercher = etat.Find(x => x.EtatLivre.CompareTo(prixAfficher.Etat) == 0);
+            PrixEtatLivre etatLivreRechercher = etat.Find(x=>(int)x.EtatLivre == prixAfficher.Etat);
 
             string prix;
             if (etatLivreRechercher != null)

@@ -1,42 +1,41 @@
 ﻿@model List<LivreBibliotheque>
 
-<div class="d-flex accordion-header">
-    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
-    </a>
-    <h2 class="p-3">Gestion des livres de bibliothèque</h2>
-</div>
+<h2 class="p-3">Gestion des livres de bibliothèque</h2>
 
-<table class="table table-light table-hover">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)</th>
-            <th>@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
-            <th>@Html.DisplayNameFor(livre => livre.First().Titre)</th>
-            <th>@Html.DisplayNameFor(livre => livre.First().Resume)</th>
-            <th>@Html.DisplayNameFor(livre => livre.First().DatePublication)</th>
-            <th>@Html.DisplayNameFor(livre => livre.First().MaisonEdition.Nom)</th>
-            <th>Action(s)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(LivreBibliotheque livre in Model) {
+
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerLivre()" />
+
+<div>
+    <table class="table table-light">
+        <thead>
             <tr>
-                <td class="text-center">
-                    <img src="@livre.PhotoCouverture" width="50px">
-                </td>
-                <td>@livre.Isbn</td>
-                <td>@livre.Titre</td>
-                <td>@livre.Resume</td>
-                <td>@livre.DatePublication</td>
-                <td>@livre.MaisonEdition.Nom</td>
-                <td>
-                    <img src="~/img/pencil.svg" width="25px" data-bs-toggle="modal" data-bs-target="#livre-@livre.LivreId">
-                    <img src="~/img/delete.svg" width="25px">
-                </td>
+                <th id="@nameof(LivreEtudiantVM.Photo)">@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)</th>
+                <th id="@nameof(LivreEtudiantVM.Isbn)">@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
+                <th id="@nameof(LivreEtudiantVM.Titre)">@Html.DisplayNameFor(livre => livre.First().Titre)</th>
+                <th id="@nameof(LivreEtudiantVM.Resume)">@Html.DisplayNameFor(livre => livre.First().Resume)</th>
+                <th id="@nameof(LivreEtudiantVM.DatePublication)">@Html.DisplayNameFor(livre => livre.First().DatePublication)</th>
+                <th id="@nameof(LivreEtudiantVM.MaisonEdition)">@Html.DisplayNameFor(livre => livre.First().MaisonEdition)</th>
             </tr>
-            <div class="modal fade" id="livre-@livre.LivreId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
+        </thead>
+        <tbody>
+            @foreach(LivreBibliotheque livre in Model) {
+                <tr id="tr-@livre.LivreId" class="modif-suppr">
+                    <td class="text-center">
+                        <img class="tableauDeBord-image" id="PhotoLivre-@livre.LivreId" src="@livre.PhotoCouverture">
+                    </td>
+                    <td>@livre.Isbn</td>
+                    <td>@livre.Titre</td>
+                    <td>@livre.Resume</td>
+                    <td>@livre.DatePublication</td>
+                    <td>@livre.MaisonEdition.Nom</td>
+                    <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierLivre('@livre.LivreId')">
+                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerLivre('@livre.LivreId')">
+                    </td>
+                </tr>
+            }
+            <div class="modal" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le livre</h1>
@@ -46,12 +45,31 @@
                             contenu
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-primary">Enregistrer</button>
+                            <button id="fermer-modal-modifier" data-bs-dismiss="modal" hidden></button>
+                            <button id="btnEnregistrer" onclick="modifierLivre('getLivreId()')" type="button" class="btn btn-primary">Enregistrer</button>
                         </div>
                     </div>
                 </div>
             </div>
-        }
-    </tbody>
-</table>
+
+
+
+            <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Nouveau livre</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="fermer-modal-creer" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="creerLivre()">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tbody>
+    </table>
+</div>
