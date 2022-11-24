@@ -46,7 +46,6 @@ namespace vlissides_bibliotheque.Controllers
 
             List<PrixEtatLivre> listPrixEtat = _context.PrixEtatsLivres
                 .Include(x => x.LivreBibliotheque)
-                .Include(x => x.EtatLivre)
                 .ToList();
 
             if (coursLivres != null)
