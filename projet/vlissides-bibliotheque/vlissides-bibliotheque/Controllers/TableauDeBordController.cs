@@ -397,8 +397,6 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.Auteurs));
             ModelState.Remove(nameof(vm.MaisonsDeditions));
             ModelState.Remove(nameof(vm.checkBoxCours));
-            ModelState.Remove(nameof(vm.Photo));
-
 
             if (ModelState.IsValid)
             {
