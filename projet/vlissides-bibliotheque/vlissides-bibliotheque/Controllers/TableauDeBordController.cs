@@ -510,10 +510,16 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(form.Auteurs));
             ModelState.Remove(nameof(form.MaisonsDeditions));
             ModelState.Remove(nameof(form.checkBoxCours));
+            if(form == null) 
+            {
+                ModificationLivreVM Emptyform = new(); 
+                return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", Emptyform); 
+            };
 
+            LivreBibliotheque LivreBibliothèqueModifier = _livresBibliothequeDAO.Get(form.IdDuLivre);
             if (ModelState.IsValid)
             {
-                LivreBibliotheque LivreBibliothèqueModifier = _livresBibliothequeDAO.Get(form.IdDuLivre);
+              
                 LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
                 LivreBibliothèqueModifier.Isbn = form.ISBN;
                 LivreBibliothèqueModifier.Titre = form.Titre;
