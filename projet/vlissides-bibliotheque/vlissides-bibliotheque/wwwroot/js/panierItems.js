@@ -151,7 +151,7 @@ function updatePrix() {
         prixTotal = prixTotal + "." + 0 + 0
     }
     
-    pTaxes.innerHTML=Taxes.GST+"%"
+    pTaxes.innerHTML=Taxes.GST*100+"%"
     pPrixSansTaxes.innerHTML = prixTotal.toFixed(2) + "$";
     pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.GST).toFixed(2) + "$";
 }
