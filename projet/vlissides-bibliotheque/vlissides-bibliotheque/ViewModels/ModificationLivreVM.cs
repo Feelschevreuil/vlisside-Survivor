@@ -33,25 +33,22 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Usagé")]
         [DataType(DataType.Currency)]
         [Number]
-        [MaxLength(64)]
+    
         public double? PrixUsage { get; set; } = 0;
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[DisplayName("Numérique")]
         [DataType(DataType.Currency)]
         [Number]
-        [MaxLength(64)]
         public double? PrixNumerique { get; set; } = 0;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Number]
         [DataType(DataType.Currency)]
         [DisplayName("Neuf")]
-        [MaxLength(64)]
         public double? PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
-        [MaxLength(64)]
         public int? QuantiteUsagee { get; set; }
 
 		[DisplayName("Vendable")]

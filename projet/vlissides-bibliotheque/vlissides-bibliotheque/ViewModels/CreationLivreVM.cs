@@ -29,22 +29,22 @@ namespace vlissides_bibliotheque.ViewModels
 
 		[DisplayName("Usagé")]
 		[DataType(DataType.Currency)]
-		[MaxLength(64)]
+	
 		public double PrixUsage { get; set; } = 0;
 
 
 		[DisplayName("Numérique")]
 		[DataType(DataType.Currency)]
-        [MaxLength(64)]
+
         public double PrixNumerique { get; set; } = 0;
 
 		[DisplayName("Neuf")]
 		[DataType(DataType.Currency)]
-        [MaxLength(64)]
+
         public double PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
-		[MaxLength(64)]
+
 		public int? QuantiteUsagee { get; set; }
 
 		public bool PossedeNeuf { get; set; } = false;
