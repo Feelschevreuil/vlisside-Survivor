@@ -65,37 +65,37 @@
         @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NEUF) != null)
         {
             <label class="btn @checkedNeuf text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
-                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(@etatLivreNeuf, @livreIdCourant);"> Neuf
+                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NEUF" onclick="ChangerPrix(@etatLivreNeuf, @livreIdCourant);"> Neuf
             </label>
-            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.DIGITAL) != null)
+            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
             {
                 <label class="btn bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
-                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NUMERIQUE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
                 </label>
             }
-            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.USAGE) != null)
+            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
             {
                 <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
-                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
                 </label>
             }
         }
-        else if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.DIGITAL) != null)
+        else if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
         {
             <label class="btn bg-back text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
-                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
+                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NUMERIQUE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
             </label>
-            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.USAGE) != null)
+            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
             {
                 <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
-                    <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
                 </label>
             }
         }
-        else @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre.Nom == NomEtatLivre.USAGE) != null)
+        else @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
         {
             <label class="btn bg-back text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
-                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
+                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
             </label>
         }
     </div>
