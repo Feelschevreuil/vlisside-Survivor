@@ -16,9 +16,11 @@ namespace vlissides_bibliotheque.ViewModels
         public string Courriel { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         public string Nom { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         [Display(Name = "Prénom")]
         public string Prenom { get; set; }
 

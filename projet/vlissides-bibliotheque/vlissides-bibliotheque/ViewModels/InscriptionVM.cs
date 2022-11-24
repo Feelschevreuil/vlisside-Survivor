@@ -13,6 +13,7 @@ namespace vlissides_bibliotheque.ViewModels
     public class InscriptionVM
     {
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]
         [RegularExpression(@"^[\w-\.]+@(cegep-connaissance-aleatoire\.qc\.ca)",
             ErrorMessage = "Le courriel doit correspondre au format : 123456@cegep-connaissance-aleatoire.qc.ca")]
         public string Courriel { get; set; }

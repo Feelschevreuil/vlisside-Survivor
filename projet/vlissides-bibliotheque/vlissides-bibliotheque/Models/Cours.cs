@@ -17,10 +17,11 @@ namespace vlissides_bibliotheque.Models
         public ProgrammeEtude ProgrammeEtude { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
         public string Nom { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]

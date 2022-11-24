@@ -10,12 +10,12 @@ namespace vlissides_bibliotheque.ViewModels
 	public class CreationLivreVM
 	{
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		[MaxLength(64)]
+		[MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
 		public string Titre { get; set; } //= "La mort";
 
 		[DisplayName("Description")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
-        [MaxLength(512)]
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères")]
         public string Resume { get; set; } //= "la mort";
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]

@@ -12,12 +12,12 @@ namespace vlissides_bibliotheque.ViewModels
 		public int IdDuLivre { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [MaxLength(64)]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         public string Titre { get; set; }
 
 		[DisplayName("Description")]
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [MaxLength(512)]
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]
         public string Resume { get; set; }
 
         [Required]
@@ -62,7 +62,7 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Isbn]
         [Range (1000000000,9999999999999,ErrorMessage = "Veuillez entrer un nombre.")]
-        [MaxLength(13)]
+        [MaxLength(13, ErrorMessage = "Le champ {0} ne peux pas dépasser 13 caractères ")]
         public string ISBN { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]

@@ -9,7 +9,7 @@ namespace vlissides_bibliotheque.ViewModels
         public int EvenementId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [StringLength(64, ErrorMessage = "Votre {0} est trop longue")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         public string Nom { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -21,7 +21,7 @@ namespace vlissides_bibliotheque.ViewModels
         public DateTime Fin { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [StringLength(512, ErrorMessage = "Votre {0} est trop longue")]
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Photo { get; set; }
@@ -30,12 +30,13 @@ namespace vlissides_bibliotheque.ViewModels
         public int CommanditaireId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [StringLength(40)]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         [DisplayName("Nom du commanditaire")]
         public string CommanditaireNom { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [EmailAddress(ErrorMessage = "Veuillez entrer une adresse courriel valide")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         [DisplayName("Courriel du commanditaire")]
         public string CommanditaireCourriel { get; set; }
 
