@@ -487,6 +487,7 @@ namespace vlissides_bibliotheque.Controllers
                 Photo = livreBibliothequeRechercher.PhotoCouverture,
                 PossedeNeuf = true,
                 PossedeNumerique = true,
+                PossedeUsagee = true,
                 checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
 
             };
@@ -495,9 +496,9 @@ namespace vlissides_bibliotheque.Controllers
             var prixNumerique = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
             var prixUsage = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE);
 
-            if (prixNeuf != null) { vm.PrixNeuf = prixNeuf.Prix; } else { vm.PrixNeuf = 0; };
-            if (prixNumerique != null) { vm.PrixNumerique = prixNumerique.Prix; } else { vm.PrixNumerique = 0; };
-            if (prixUsage != null) { vm.PrixUsage = prixUsage.Prix; vm.QuantiteUsagee = prixUsage.QuantiteUsage; } else { vm.PrixUsage = 0; vm.QuantiteUsagee = 0; };
+            if (prixNeuf != null) { vm.PrixNeuf = prixNeuf.Prix; } else { vm.PrixNeuf = 0; vm.PossedeNeuf = false; };
+            if (prixNumerique != null) { vm.PrixNumerique = prixNumerique.Prix; } else { vm.PrixNumerique = 0; vm.PossedeNumerique = false; };
+            if (prixUsage != null) { vm.PrixUsage = prixUsage.Prix; vm.QuantiteUsagee = prixUsage.QuantiteUsage; } else { vm.PrixUsage = 0; vm.QuantiteUsagee = 0; vm.PossedeUsagee = false; };
 
 
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", vm);
