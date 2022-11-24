@@ -143,6 +143,36 @@ function possedeDesLettres(nombre) {
     }
 }
 
+function creerBtnModifSuppri(nouvelleLigne, id)
+{
+    trBtn = document.createElement("td");
+    trBtn.classList.add("options-ligne", "position-absolute", "text-center", "vw-100", "start-0", "bg-transparent", "border-0")
+    nouvelleLigne.appendChild(trBtn);
+    editImg = document.createElement("img")
+    editImg.classList.add("btn-img-hover");
+    editImg.setAttribute("data-bs-toggle", "modal");
+    editImg.setAttribute("data-bs-target", "#livre-" + id);
+    editImg.setAttribute("id", "#livre-" + id);
+    editImg.setAttribute("onclick", "getFormulaireModifierLivre(" + id + ")");
+    editImg.setAttribute("src", "/img/pencil.svg");
+    trBtn.appendChild(editImg);
+
+    deleteImg = document.createElement("img");
+    deleteImg.classList.add("btn-img-hover");
+    deleteImg.setAttribute("onclick", "supprimerLivre(" + id + ")");
+    deleteImg.setAttribute("src", "/img/delete.svg");
+    trBtn.appendChild(deleteImg);
+    return nouvelleLigne;
+}
+
+function getLivreId()
+{
+    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
+    let formulaire = parent.querySelector("form");
+    let livreId = formulaire.IdDuLivre;
+    return livreId;
+}
+
 //--------------------------------------------
 //              Étudiants
 //--------------------------------------------
@@ -324,14 +354,13 @@ function getFormulaireModifierLivre(id) {
         }
 
         res.text().then(function (res) {
-            document.querySelector("#livre-" + String(id))
-                .querySelector(".modal-body").innerHTML = res;
+            document.querySelector("#modal-modifier").querySelector(".modal-body").innerHTML = res;
         });
     });
 }
 
 function modifierLivre(id) {
-    let parent = document.querySelector("#livre-" + String(id)).querySelector(".modal-body");
+    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
 
@@ -358,9 +387,8 @@ function modifierLivre(id) {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(id, resetMajusculeJsonKey(res));
-                    document.querySelector(`#fermer-modal-${id}`).click();
-                    document.querySelector("#livre-" + String(id)).querySelector(".modal-body").innerHTML = "";
+                    afficherModification(res.idDuLivre, resetMajusculeJsonKey(res));
+                    document.querySelector("#fermer-modal-modifier").click();
                 }
             });
         } else {
@@ -392,6 +420,7 @@ function creerLivre() {
 
     data = livreGestionErreur(data);
     data.Cours = getCoursCheckBox();
+    data.id = 0;
 
     fetch(host + "TableauDeBord/CreerLivre/", {
         method: 'POST',
@@ -414,11 +443,13 @@ function creerLivre() {
                     let thead = table.children[0];
                     let tbody = table.children[1];
                     let nouvelleLigne = document.createElement("tr");
-                    let id = res.livreId;
+                    nouvelleLigne.classList.add('modif-suppr');
+                    let id = res.id;
                     nouvelleLigne.id = "tr-" + id;
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
+                    nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
                     afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();

@@ -397,6 +397,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.Auteurs));
             ModelState.Remove(nameof(vm.MaisonsDeditions));
             ModelState.Remove(nameof(vm.checkBoxCours));
+            ModelState.Remove(nameof(vm.Id));
 
             if (ModelState.IsValid)
             {
@@ -440,7 +441,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 _context.PrixEtatsLivres.AddRange(GestionPrix.AssocierPrixEtat(nouveauLivreBibliothèque, vm, _context));
                 _context.SaveChanges();
-
+                vm.Id = nouveauLivreBibliothèque.LivreId;
                 return Json(vm);
             }
             vm.Auteurs = ListDropDown.ListDropDownAuteurs(_context);

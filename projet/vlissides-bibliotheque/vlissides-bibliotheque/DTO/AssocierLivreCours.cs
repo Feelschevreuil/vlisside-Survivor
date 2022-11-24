@@ -10,5 +10,6 @@ namespace vlissides_bibliotheque.DTO
     public class AssocierLivreCours : CreationLivreVM
     {
         public List<int> Cours { get; set; }
+        public int Id { get; set; }
     }
 }

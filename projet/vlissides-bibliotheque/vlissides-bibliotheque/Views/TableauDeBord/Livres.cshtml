@@ -29,28 +29,31 @@
                     <td>@livre.DatePublication</td>
                     <td>@livre.MaisonEdition.Nom</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
-                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#livre-@livre.LivreId" onclick="getFormulaireModifierLivre('@livre.LivreId')">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierLivre('@livre.LivreId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerLivre('@livre.LivreId')">
                     </td>
                 </tr>
-                <div class="modal fade" id="livre-@livre.LivreId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le livre</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                contenu
-                            </div>
-                            <div class="modal-footer">
-                                <button id="fermer-modal-@livre.LivreId" data-bs-dismiss="modal" hidden></button>
-                                <button id="btnEnregistrer" onclick="modifierLivre('@livre.LivreId')" type="button" class="btn btn-primary">Enregistrer</button>
-                            </div>
+            }
+            <div class="modal" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le livre</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            contenu
+                        </div>
+                        <div class="modal-footer">
+                            <button id="fermer-modal-modifier" data-bs-dismiss="modal" hidden></button>
+                            <button id="btnEnregistrer" onclick="modifierLivre('getLivreId()')" type="button" class="btn btn-primary">Enregistrer</button>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
+
+
+
             <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
