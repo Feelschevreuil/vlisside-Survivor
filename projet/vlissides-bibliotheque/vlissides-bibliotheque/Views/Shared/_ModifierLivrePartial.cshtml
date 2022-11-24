@@ -85,7 +85,7 @@
                                         </div>
 
                                         <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage-@Model.IdDuLivre" />
-                                        <input asp-for="QuantiteUsagee" class="form-control" type="number" placeholder="Quantité" id="quantitePrixUsager-@Model.IdDuLivre" />
+                                <input asp-for="QuantiteUsagee" class="form-control" type="text" placeholder="Quantité" id="quantitePrixUsager-@Model.IdDuLivre" />
                                         <label class="ps-1">
                                             Disponible
                                     <input asp-for="PossedeUsagee" id="PossedeUsagee" class="" type="checkbox" onclick="ToggleUsager('inputPrixUsage-@Model.IdDuLivre','quantitePrixUsager-@Model.IdDuLivre')" checked />
