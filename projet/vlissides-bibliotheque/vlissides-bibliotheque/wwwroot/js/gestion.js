@@ -202,6 +202,7 @@ function modifierEtudiant(id) {
                 if (res != "") {
                     afficherModification(id, resetMajusculeJsonKey(res));
                     document.querySelector(`#fermer-modal-${id}`).click();
+                    document.querySelector("#etudiant-" + String(id)).querySelector(".modal-body").innerHTML = "";
                 }
             });
         } else {
@@ -359,6 +360,7 @@ function modifierLivre(id) {
                 if (res != "") {
                     afficherModification(id, resetMajusculeJsonKey(res));
                     document.querySelector(`#fermer-modal-${id}`).click();
+                    document.querySelector("#livre-" + String(id)).querySelector(".modal-body").innerHTML = "";
                 }
             });
         } else {
@@ -511,6 +513,7 @@ function modifierCours(id) {
                 if (res != "") {
                     afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector(`#fermer-modal-${id}`).click();
+                    document.querySelector("#cours-" + String(id)).querySelector(".modal-body").innerHTML = "";
                 }
             });
         } else {
@@ -661,6 +664,8 @@ function modifierProgrammeEtudes(id) {
                 if (res != "") {
                     afficherModification(id, resetMajusculeJsonKey(res));
                     document.querySelector(`#fermer-modal-${id}`).click();
+                    
+                    document.querySelector("#programmeEtudes-" + String(id)).querySelector(".modal-body").innerHTML = "";
                 }
             });
         } else {
@@ -809,6 +814,7 @@ function modifierPromotions(id) {
                 if (res != "") {
                     afficherModification(id, resetMajusculeJsonKey(res));
                     document.querySelector(`#fermer-modal-${id}`).click();
+                    document.querySelector("#promotions-" + String(id)).querySelector(".modal-body").innerHTML = "";
                 }
             });
         } else {
@@ -941,6 +947,7 @@ function modifierCommandes(id) {
                 if (res != "") {
                     afficherModification(id, resetMajusculeJsonKey(res));
                     document.querySelector(`#fermer-modal-${id}`).click();
+                    document.querySelector("#commandes-" + String(id)).querySelector(".modal-body").innerHTML = "";
                 }
             });
         } else {
