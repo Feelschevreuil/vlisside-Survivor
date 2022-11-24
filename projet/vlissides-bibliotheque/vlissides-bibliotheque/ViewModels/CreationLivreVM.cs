@@ -44,6 +44,7 @@ namespace vlissides_bibliotheque.ViewModels
         public double PrixNeuf { get; set; } = 0;
 
 		[DisplayName("Quantité")]
+		[MaxLength(64)]
 		public int? QuantiteUsagee { get; set; }
 
 		public bool PossedeNeuf { get; set; } = false;
