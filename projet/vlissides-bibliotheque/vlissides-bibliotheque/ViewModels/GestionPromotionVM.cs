@@ -21,7 +21,7 @@ namespace vlissides_bibliotheque.ViewModels
         public DateTime Fin { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Photo { get; set; }
@@ -44,7 +44,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string? Url { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [StringLength(512)]
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]
         [DisplayName("Message du commanditaire")]
         public string CommanditaireMessage { get; set; }
     }
