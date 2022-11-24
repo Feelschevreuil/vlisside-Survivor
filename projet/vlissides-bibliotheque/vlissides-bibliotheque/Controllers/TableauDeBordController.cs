@@ -202,13 +202,16 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.Provinces));
             ModelState.Remove(nameof(vm.checkBoxCours));
 
-            if (vm.CodePostal != null) {
+            if (vm.CodePostal != null)
+            {
                 vm.CodePostal = vm.CodePostal.ToUpper();
             }
 
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
 
-                Adresse adresse = new() {
+                Adresse adresse = new()
+                {
                     App = vm.App,
                     CodePostal = vm.CodePostal,
                     NumeroCivique = Convert.ToInt32(vm.NoCivique),
@@ -221,7 +224,8 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
 
                 // model binding
-                Etudiant etudiant = new() {
+                Etudiant etudiant = new()
+                {
                     Email = vm.Courriel,
                     UserName = vm.Courriel,
                     Nom = vm.Nom,
@@ -239,7 +243,8 @@ namespace vlissides_bibliotheque.Controllers
                 // création
                 var result = await _userManagerEtudiant.CreateAsync(etudiant, passwordHasher.HashPassword(null, "Jaimelaprog1!"));
 
-                if (result.Succeeded) {
+                if (result.Succeeded)
+                {
 
                     // ajouter rôle
                     await _userManagerEtudiant.AddToRoleAsync(etudiant, "Etudiant");
@@ -250,20 +255,26 @@ namespace vlissides_bibliotheque.Controllers
                     return Json(vm);
                 }
 
-                foreach (var error in result.Errors) {
-                    if (error.Code == "PasswordTooShort") {
+                foreach (var error in result.Errors)
+                {
+                    if (error.Code == "PasswordTooShort")
+                    {
                         ModelState.AddModelError(string.Empty, "Le mot de passe doit être d'au moins 6 caractères.");
                     }
-                    if (error.Code == "PasswordRequiresNonAlphanumeric") {
+                    if (error.Code == "PasswordRequiresNonAlphanumeric")
+                    {
                         ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins un caractère spécial (Ex: !, $, %, ?, &, *, etc...).");
                     }
-                    if (error.Code == "PasswordRequiresLower") {
+                    if (error.Code == "PasswordRequiresLower")
+                    {
                         ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre minuscule.");
                     }
-                    if (error.Code == "PasswordRequiresUpper") {
+                    if (error.Code == "PasswordRequiresUpper")
+                    {
                         ModelState.AddModelError(string.Empty, "Le mot de passe doit avoir au moins une lettre majuscule.");
                     }
-                    if (error.Code == "DuplicateUserName") {
+                    if (error.Code == "DuplicateUserName")
+                    {
                         ModelState.AddModelError(string.Empty, "Le courriel que vous avez entré existe déjà.");
                     }
                 }
@@ -301,14 +312,16 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.Provinces));
             ModelState.Remove(nameof(vm.checkBoxCours));
 
-            if (vm.CodePostal != null) {
+            if (vm.CodePostal != null)
+            {
                 vm.CodePostal = vm.CodePostal.ToUpper();
             }
 
             vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
             vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
 
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 Etudiant? etudiant = _userManagerEtudiant.Users
                     .Where(etudiant => etudiant.Id == vm.EtudiantId)
                     .Include(etudiant => etudiant.ProgrammeEtude)
@@ -328,7 +341,9 @@ namespace vlissides_bibliotheque.Controllers
                 vm.NomProvince = etudiant.Adresse.Province.Nom;
 
                 return Json(vm);
-            } else {
+            }
+            else
+            {
 
                 return PartialView("/Views/Shared/_EtudiantPartial.cshtml", vm);
             }
@@ -342,7 +357,8 @@ namespace vlissides_bibliotheque.Controllers
                     .Include(etudiant => etudiant.ProgrammeEtude)
                     .Include(etudiant => etudiant.Adresse.Province)
                     .FirstOrDefault();
-            if (etudiant == null) {
+            if (etudiant == null)
+            {
                 return NotFound();
             }
 
@@ -384,7 +400,8 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.Photo));
 
 
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
                 {
                     LivreId = 0,
@@ -662,6 +679,53 @@ namespace vlissides_bibliotheque.Controllers
                 .ToList();
 
             return PartialView("~/Views/TableauDeBord/Promotions.cshtml", evenements);
+        }
+
+        [HttpGet]
+        public IActionResult CreerPromotions()
+        {
+            GestionPromotionVM vm = new();
+            return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult CreerPromotions([FromBody] GestionPromotionVM vm)
+        {
+            if (!DateEvenement.CompareDate(vm.Debut, vm.Fin))
+            {
+                ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Commanditaire commanditaire = new()
+                {
+                    CommanditaireId = 0,
+                    Nom = vm.CommanditaireNom,
+                    Courriel = vm.CommanditaireCourriel,
+                    Message = vm.CommanditaireMessage,
+                    Url = vm.Url
+                };
+                _context.Commanditaires.Add(commanditaire);
+                _context.SaveChanges();
+
+                Evenement nouveauEvenement = new()
+                {
+                    EvenementId = vm.EvenementId,
+                    Commanditaire = commanditaire,
+                    CommanditaireId = vm.CommanditaireId,
+                    Debut = vm.Debut,
+                    Fin = vm.Fin,
+                    Image = vm.Photo,
+                    Nom = vm.Nom,
+                    Description = vm.Description,
+                };
+                _context.Evenements.Add(nouveauEvenement);
+                _context.SaveChanges();
+                return Json(vm);
+
+            }
+            return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
         }
     }
 }

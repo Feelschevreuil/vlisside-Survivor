@@ -820,7 +820,7 @@ function modifierPromotions(id) {
     });
 }
 
-function getFormulaireCreerPromotions() {
+function getFormulaireCreerPromotion() {
 
     fetch(host + "TableauDeBord/CreerPromotions/", {
         method: 'GET',
@@ -833,7 +833,7 @@ function getFormulaireCreerPromotions() {
     });
 }
 
-function creerPromotions() {
+function creerPromotion() {
     let parent = document.querySelector("#creer").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
@@ -865,7 +865,7 @@ function creerPromotions() {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherModification(id, resetMajusculeJsonKey(res));
+                    afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });
