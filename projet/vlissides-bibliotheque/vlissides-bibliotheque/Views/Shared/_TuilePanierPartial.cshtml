@@ -36,23 +36,23 @@
             </div>
         </a>
     </div>
-    <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
+    <div class="o-switch btn-group w-100 px-3" data-toggle="buttons" role="group">
         
         @if (Model.prixEtatLivre[0] != null)
             {
-                <label class="btn bg-top text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
+                <label class="btn btn-rounded bg-top text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
                     <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(this.value, @livreIdCourant);" checked> Neuf
                 </label>
             }
         @if (Model.prixEtatLivre[2] != null)
             {
-                <label class="btn bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
+            <label class="btn btn-rounded bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
                     <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
                 </label>
             }
         @if (Model.prixEtatLivre[1] != null)
             {
-                <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
+            <label class="btn btn-rounded bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
                     <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
                 </label>
             }
