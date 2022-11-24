@@ -4,7 +4,43 @@
 }
 
 .texte-tableau-de-bord {
-    padding: 40px;
-    font-size:20px;
     color: blue;
+}
+
+.modif-suppr > .options-ligne {
+    display: none;
+    height: 75px;
+}
+
+.modif-suppr:hover > .options-ligne {
+    display: block;
+}
+
+.modif-suppr > td {
+    height: 75px;
+}
+
+.modif-suppr:hover > td {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+}
+
+.btn-img-hover {
+    transition: 0.5s;
+    width: 50px;
+}
+
+.btn-img-hover:hover {
+    width: 60px;
+}
+
+.btn-img-hover:active {
+    width: 55px;
+}
+
+.devant {
+    z-index: 1;
+}
+
+.tableauDeBord-image {
+    width: 40px;
 }

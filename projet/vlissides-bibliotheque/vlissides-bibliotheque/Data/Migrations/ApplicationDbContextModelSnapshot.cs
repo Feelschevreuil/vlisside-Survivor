@@ -339,6 +339,16 @@ namespace vlissides_bibliotheque.Migrations
                     b.Property<int>("PrixEtatLivreId")
                         .HasColumnType("int");
 
+                    b.Property<int>("EtatLivre")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Isbn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("PrixUnitaireGele")
+                        .HasColumnType("float");
+
                     b.Property<int>("Quantite")
                         .HasColumnType("int");
 
@@ -469,40 +479,6 @@ namespace vlissides_bibliotheque.Migrations
                     b.ToTable("CoursProfesseurs");
                 });
 
-            modelBuilder.Entity("vlissides_bibliotheque.Models.EtatLivre", b =>
-                {
-                    b.Property<int>("EtatLivreId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EtatLivreId"), 1L, 1);
-
-                    b.Property<string>("Nom")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EtatLivreId");
-
-                    b.ToTable("EtatsLivres");
-
-                    b.HasData(
-                        new
-                        {
-                            EtatLivreId = 1,
-                            Nom = "Neuf"
-                        },
-                        new
-                        {
-                            EtatLivreId = 2,
-                            Nom = "Usagé"
-                        },
-                        new
-                        {
-                            EtatLivreId = 3,
-                            Nom = "Digital"
-                        });
-                });
-
             modelBuilder.Entity("vlissides_bibliotheque.Models.Evaluation", b =>
                 {
                     b.Property<int>("EvaluationId")
@@ -599,11 +575,11 @@ namespace vlissides_bibliotheque.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FactureEtudiantId"), 1L, 1);
 
                     b.Property<string>("AdresseLivraison")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AdresseLivraisonId")
-                        .HasColumnType("int");
+                    b.Property<string>("ClientSecret")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<DateTime>("DateFacturation")
                         .HasColumnType("datetime2");
@@ -612,20 +588,22 @@ namespace vlissides_bibliotheque.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("PaymentIntentId")
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<int>("Statut")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Tps")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Tvq")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("TypePaiementId")
-                        .HasColumnType("int");
-
                     b.HasKey("FactureEtudiantId");
 
                     b.HasIndex("EtudiantId");
-
-                    b.HasIndex("TypePaiementId");
 
                     b.ToTable("FacturesEtudiants");
                 });
@@ -745,7 +723,7 @@ namespace vlissides_bibliotheque.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrixEtatLivreId"), 1L, 1);
 
-                    b.Property<int>("EtatLivreId")
+                    b.Property<int>("EtatLivre")
                         .HasColumnType("int");
 
                     b.Property<int>("LivreBibliothequeId")
@@ -758,8 +736,6 @@ namespace vlissides_bibliotheque.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("PrixEtatLivreId");
-
-                    b.HasIndex("EtatLivreId");
 
                     b.HasIndex("LivreBibliothequeId");
 
@@ -826,23 +802,6 @@ namespace vlissides_bibliotheque.Migrations
                     b.ToTable("Provinces");
                 });
 
-            modelBuilder.Entity("vlissides_bibliotheque.Models.TypePaiement", b =>
-                {
-                    b.Property<int>("TypePaiementId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypePaiementId"), 1L, 1);
-
-                    b.Property<string>("Nom")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TypePaiementId");
-
-                    b.ToTable("TypesPaiement");
-                });
-
             modelBuilder.Entity("vlissides_bibliotheque.Models.Utilisateur", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -870,9 +829,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
                             NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAhyqDr7YBPQznUrc2G0dn3Ghs0SimOVXdCzkt3biTev2alh5v0/CEhJoefA4g0h1g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMULLh300qyfsTBd6dET3I4gKcskIv3VID3gAJ+S5CvIqwxcwoTyUxYwnFmI6dzIGA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8a46a597-83af-4249-8e73-2cb6ce29adcd",
+                            SecurityStamp = "d0c6315c-aa62-460f-8f59-09ecfcb4f70d",
                             TwoFactorEnabled = false,
                             UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",
@@ -1117,15 +1076,7 @@ namespace vlissides_bibliotheque.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("vlissides_bibliotheque.Models.TypePaiement", "TypePaiement")
-                        .WithMany()
-                        .HasForeignKey("TypePaiementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Etudiant");
-
-                    b.Navigation("TypePaiement");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.LivreBibliotheque", b =>
@@ -1152,19 +1103,11 @@ namespace vlissides_bibliotheque.Migrations
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.PrixEtatLivre", b =>
                 {
-                    b.HasOne("vlissides_bibliotheque.Models.EtatLivre", "EtatLivre")
-                        .WithMany()
-                        .HasForeignKey("EtatLivreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("vlissides_bibliotheque.Models.LivreBibliotheque", "LivreBibliotheque")
                         .WithMany()
                         .HasForeignKey("LivreBibliothequeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("EtatLivre");
 
                     b.Navigation("LivreBibliotheque");
                 });

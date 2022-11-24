@@ -1,4 +1,16 @@
-﻿function assignerCoursEtudiant() {
+﻿function getFormData(formulaire) {
+    let formData = new FormData(formulaire);
+    let data = {};
+
+    formData.forEach(function (value, key) {
+        data[key] = value;
+    });
+
+    return data;
+}
+
+//-----------------------------------------------------
+function assignerCoursEtudiant() {
 
     var divListCours = document.querySelector("#listDeCours");
     var coursCocher = divListCours.querySelectorAll("input");
@@ -108,20 +120,27 @@ function assignerCoursLivre() {
 
     //TODO Peux remplacer ce qui a en dessous
     var form = document.querySelector('#formLivre');
+    var DonnerRecus = getFormData(form);
 
-    var Titre = document.querySelector("#Titre");
-    var Resume = document.querySelector("#Resume");
-    var Photo = document.querySelector("#viewImg");
-    var DatePublication = document.querySelector("#DatePublication");
-    var PrixUsage = document.querySelector("#inputPrixUsage");
-    var PrixNumerique = document.querySelector("#inputPrixNumerique");
-    var PrixNeuf = document.querySelector("#inputPrixNeuf");
-    var QuantiteUsagee = document.querySelector("#quantitePrixUsager");
-    var PossedeNumerique = document.querySelector("#PossedeNumerique");
-    var PossedeNeuf = document.querySelector("#PossedeNeuf");
-    var ISBN = document.querySelector("#ISBN");
-    var AuteurId = document.querySelector("#AuteurId");
-    var MaisonDeditionId = document.querySelector("#MaisonDeditionId");
+    if (DonnerRecus.AuteurId.value == "") {
+        DonnerRecus.AuteurId.value = 0;
+    }
+    if (DonnerRecus.MaisonDeditionId.value == "")
+    {
+        DonnerRecus.MaisonDeditionId.value = 0
+    }
+    if (DonnerRecus.PrixNeuf == null || DonnerRecus.PrixNeuf == undefined)
+    {
+        DonnerRecus.PrixNeuf = document.querySelector("#inputPrixNeuf").value;
+    }
+    if (DonnerRecus.PrixNumerique == null || DonnerRecus.PrixNumerique == undefined)
+    {
+        DonnerRecus.PrixNumerique = document.querySelector("#inputPrixNumerique").value;
+    }
+    if (DonnerRecus.PrixUsage == null || DonnerRecus.PrixUsage == undefined)
+    {
+        DonnerRecus.PrixUsage = document.querySelector("#inputPrixUsage").value
+    }
 
 
     coursCocher.forEach((cours) => {
@@ -130,36 +149,14 @@ function assignerCoursLivre() {
         }
     });
 
-    var maisonEdition = MaisonDeditionId.value
-    var autheur = AuteurId.value
-
-
-    if (AuteurId.value == "") {
-        autheur = 0;
-    }
-    if (MaisonDeditionId.value == "") {
-
-        maisonEdition = 0
-    }
-
-    var DonnerRecus =
-    {
-        CoursId: listCoursCocher,
-        Titre: Titre.value,
-        Resume: Resume.value,
-        Photo: Photo.src,
-        DatePublication: DatePublication.value,
-        PrixUsage: possedeDesLettres(PrixUsage.value),
-        PrixNumerique: possedeDesLettres(PrixNumerique.value),
-        PrixNeuf: possedeDesLettres(PrixNeuf.value),
-        QuantiteUsagee: possedeDesLettres( QuantiteUsagee.value),
-        PossedeNumerique: PossedeNumerique.checked,
-        PossedeNeuf: PossedeNeuf.checked,
-        ISBN: ISBN.value,
-        AuteurId: autheur,
-        MaisonDeditionId: maisonEdition,
-        
-    }
+    DonnerRecus.CoursId = listCoursCocher;
+    DonnerRecus.PrixNeuf = possedeDesLettres(DonnerRecus.PrixNeuf);
+    DonnerRecus.PrixNumerique = possedeDesLettres(DonnerRecus.PrixNumerique);
+    DonnerRecus.PrixUsage = possedeDesLettres(DonnerRecus.PrixUsage);
+    DonnerRecus.QuantiteUsagee = possedeDesLettres(DonnerRecus.QuantiteUsagee);
+    DonnerRecus.PossedeNeuf = PossedeNeuf.checked;
+    DonnerRecus.PossedeNumerique= PossedeNumerique.checked;
+    DonnerRecus.PossedeUsagee = PossedeUsagee.checked;
 
     var data = JSON.stringify(DonnerRecus);
 
@@ -200,12 +197,13 @@ function assignerCoursLivre() {
 
 function possedeDesLettres(nombre) {
 
-    if (isNaN(nombre) || nombre == "")
+    
+    if (isNaN(parseFloat(nombre)) || nombre == "")
     {
         return nombre = 0;
     }
     else
     {
-        return nombre;
+        return parseFloat(nombre.replace(",", ".")); 
     }
 }

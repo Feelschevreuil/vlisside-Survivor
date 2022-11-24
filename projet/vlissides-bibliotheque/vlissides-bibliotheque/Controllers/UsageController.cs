@@ -69,7 +69,7 @@ namespace vlissides_bibliotheque.Controllers
                     Titre = livre.Titre,
                     Isbn = livre.Isbn,
                     Resume = livre.Resume,
-                    PhotoCouverture = livre.PhotoCouverture,
+                    Photo = livre.PhotoCouverture,
                     DatePublication = livre.DatePublication,
                     MaisonEdition = livre.MaisonEdition,
                     Auteur = livre.Auteur,
@@ -137,7 +137,7 @@ namespace vlissides_bibliotheque.Controllers
                     Titre = livreEtudiantVM.Titre,
                     Isbn = livreEtudiantVM.Isbn,
                     Resume = livreEtudiantVM.Resume,
-                    PhotoCouverture = livreEtudiantVM.PhotoCouverture,
+                    PhotoCouverture = livreEtudiantVM.Photo,
                     DatePublication = livreEtudiantVM.DatePublication,
                     MaisonEdition = livreEtudiantVM.MaisonEdition,
                     Auteur = livreEtudiantVM.Auteur,
@@ -188,7 +188,7 @@ namespace vlissides_bibliotheque.Controllers
                     Titre = livreEtudiantRechercher.Titre,
                     Isbn = livreEtudiantRechercher.Isbn,
                     Resume = livreEtudiantRechercher.Resume,
-                    PhotoCouverture = livreEtudiantRechercher.PhotoCouverture,
+                    Photo = livreEtudiantRechercher.PhotoCouverture,
                     DatePublication = livreEtudiantRechercher.DatePublication,
                     MaisonEdition = livreEtudiantRechercher.MaisonEdition,
                     Auteur = livreEtudiantRechercher.Auteur,
@@ -226,7 +226,7 @@ namespace vlissides_bibliotheque.Controllers
                     LivreEtudiantModifier.Titre = form.Titre;
                     LivreEtudiantModifier.Resume = form.Resume;
                     LivreEtudiantModifier.Auteur = form.Auteur;
-                    LivreEtudiantModifier.PhotoCouverture = form.PhotoCouverture;
+                    LivreEtudiantModifier.PhotoCouverture = form.Photo;
                     LivreEtudiantModifier.DatePublication = form.DatePublication;
                     LivreEtudiantModifier.Prix = form.Prix;
 

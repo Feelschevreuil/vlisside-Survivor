@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using vlissides_bibliotheque.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -10,15 +11,17 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int FactureEtudiantId { get; set; }
 
-        [Required]
-        public int TypePaiementId { get; set; }
-        public TypePaiement TypePaiement { get; set; }
+        [StringLength(32)]
+        public string? PaymentIntentId { get; set; }
 
+        [StringLength(64)]
+        public string? ClientSecret { get; set; }
+
+        [Required]
+        public string EtudiantId { get; set; }
         public Etudiant Etudiant { get; set; }
 
-        [Required]
-        public int AdresseLivraisonId { get; set; }
-        public string AdresseLivraison { get; set; }
+        public string? AdresseLivraison { get; set; }
 
         [Required]
         public DateTime DateFacturation { get; set; }
@@ -26,5 +29,8 @@ namespace vlissides_bibliotheque.Models
         public decimal Tps { get; set; }
 
         public decimal Tvq { get; set; }
+
+        [Required]
+        public StatusFacture Statut { get; set; }
     }
 }

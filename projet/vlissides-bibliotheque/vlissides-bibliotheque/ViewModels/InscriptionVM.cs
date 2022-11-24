@@ -13,14 +13,17 @@ namespace vlissides_bibliotheque.ViewModels
     public class InscriptionVM
     {
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]
         [RegularExpression(@"^[\w-\.]+@(cegep-connaissance-aleatoire\.qc\.ca)",
             ErrorMessage = "Le courriel doit correspondre au format : 123456@cegep-connaissance-aleatoire.qc.ca")]
         public string Courriel { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         public string Nom { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         [Display(Name = "Prénom")]
         public string Prenom { get; set; }
 
@@ -43,13 +46,16 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Display(Name = "Numéro civique")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         [Number]
         public string NoCivique { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         public string Rue { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         public string Ville { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
@@ -60,6 +66,7 @@ namespace vlissides_bibliotheque.ViewModels
         [RegularExpression(@"[A-Z][0-9][A-Z][0-9][A-Z][0-9]",
             ErrorMessage = "Le code postal doit correspondre au format : " +
             "A0A 0A0")]
+        [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
         public string CodePostal { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]

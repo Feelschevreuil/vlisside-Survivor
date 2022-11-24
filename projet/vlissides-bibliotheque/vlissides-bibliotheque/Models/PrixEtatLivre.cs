@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using vlissides_bibliotheque.Enums;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -12,8 +13,7 @@ namespace vlissides_bibliotheque.Models
         public int PrixEtatLivreId { get; set; }
 
         [Required]
-        public int EtatLivreId { get; set; }
-        public EtatLivre EtatLivre { get; set; }
+        public EtatLivreEnum EtatLivre { get; set; }
 
         [Required]
         public int LivreBibliothequeId { get; set; }

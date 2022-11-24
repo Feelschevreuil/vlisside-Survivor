@@ -2,6 +2,7 @@
 using FizzWare.NBuilder;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.Enums;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -50,9 +51,6 @@ namespace seeder
             _context.Commanditaires
                 .RemoveRange(_context.Commanditaires);
 
-            _context.EtatsLivres
-                .RemoveRange(_context.EtatsLivres);
-
             _context.Etudiants
                 .RemoveRange(_context.Etudiants);
 
@@ -80,9 +78,6 @@ namespace seeder
             _context.MaisonsEdition
                 .RemoveRange(_context.MaisonsEdition);
 
-            _context.TypesPaiement
-                .RemoveRange(_context.TypesPaiement);
-
             _context.Professeurs
 		.RemoveRange(_context.Professeurs);
 	}
@@ -102,8 +97,6 @@ namespace seeder
             _context.Adresses.AddRange(GetAdresses());
 
             _context.Auteurs.AddRange(GetAuteurs());
-
-            _context.EtatsLivres.AddRange(GetEtatsLivres());
 
             _context.ProgrammesEtudes.AddRange(GetProgrammesEtudes());
 
@@ -132,8 +125,6 @@ namespace seeder
             _context.SaveChanges();
 
             SetCoursParProfesseur();
-
-            _context.TypesPaiement.AddRange(GetTypesPaiement());
 
             _context.Commanditaires.AddRange(GetCommanditaires());
 
@@ -205,31 +196,6 @@ namespace seeder
 		.With(auteur => auteur.Nom = Faker.Name.Last())
 		.With(auteur => auteur.Prenom = Faker.Name.First())
 		.Build();
-        }
-
-        // TODO: mettre dans le db_context.
-        /// <summary>
-        /// Crée une liste des États des livres.
-        /// </summary>
-        /// <returns>Les États des livres en liste.</returns>
-        private static List<EtatLivre> GetEtatsLivres()
-        {
-
-            return new List<EtatLivre> {
-
-                new EtatLivre() {
-		    EtatLivreId = 0,
-                    Nom = "Neuf"
-                },
-                new EtatLivre() {
-		    EtatLivreId = 0,
-                    Nom = "Usagé"
-                },
-                new EtatLivre() {
-		    EtatLivreId = 0,
-                    Nom = "Digital"
-                }
-            };
         }
 
         // TODO: mettre dans le db_context.
@@ -502,19 +468,6 @@ namespace seeder
         private static void SetPrixEtatsLivres()
         {
 
-            EtatLivre etatUsage;
-            EtatLivre etatNeuf;
-            EtatLivre etatDigital;
-
-            etatUsage = _context.EtatsLivres
-                .Where(etatLivre => etatLivre.Nom == "Usagé").First();
-
-            etatNeuf = _context.EtatsLivres
-                .Where(etatLivre => etatLivre.Nom == "Neuf").First();
-
-            etatDigital = _context.EtatsLivres
-                .Where(etatLivre => etatLivre.Nom == "Digital").First();
-
             foreach (LivreBibliotheque livreBibliotheque in _context.LivresBibliotheque)
             {
 
@@ -526,7 +479,7 @@ namespace seeder
                     prixEtatLivreUsage = new()
                     {
                         PrixEtatLivreId = 0,
-                        EtatLivre = etatUsage,
+                        EtatLivre = EtatLivreEnum.USAGE,
                         LivreBibliotheque = livreBibliotheque,
                         Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                     };
@@ -540,7 +493,7 @@ namespace seeder
                 prixEtatLivreNeuf = new()
                 {
                     PrixEtatLivreId = 0,
-                    EtatLivre = etatNeuf,
+                    EtatLivre = EtatLivreEnum.NEUF,
                     LivreBibliotheque = livreBibliotheque,
                     Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                 };
@@ -548,7 +501,7 @@ namespace seeder
                 prixEtatLivreDigital = new()
                 {
                     PrixEtatLivreId = 0,
-                    EtatLivre = etatDigital,
+                    EtatLivre = EtatLivreEnum.NUMERIQUE,
                     LivreBibliotheque = livreBibliotheque,
                     Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
                 };
@@ -743,31 +696,6 @@ namespace seeder
             }
 
             _context.SaveChanges();
-        }
-
-        // TODO: Sera possiblement enlevé dépendament
-        // du système de paiement que l'on va utiliser.
-        /// <summary>
-        /// Crée une liste des types de paiement.
-        /// </summary>
-        /// <returns>Les types de paiement liste.</returns>
-        private static ICollection<TypePaiement> GetTypesPaiement()
-        {
-
-            return new List<TypePaiement>
-	    {
-
-		new TypePaiement()
-		{
-		    TypePaiementId = 0,
-		    Nom = "Débit"
-		},
-		new TypePaiement()
-		{
-		    TypePaiementId = 0,
-		    Nom = "Crédit"
-		}
-	    };
         }
 
         /// <summary>
@@ -995,11 +923,6 @@ namespace seeder
             factureEtudiant = new()
             {
                 FactureEtudiantId = 0,
-                TypePaiement = _context
-				.TypesPaiement
-				    .Skip(Faker.RandomNumber.Next(0, _context.TypesPaiement.Count() - 1))
-				    .Take(1)
-				    .First(),
                 Etudiant = etudiant,
                 // TODO: ne pas enregistrer l'id de l'objet, mais l'adresse au complete en texte.
                 AdresseLivraison = "adresse place holder",
@@ -1007,7 +930,9 @@ namespace seeder
 				    .Now
 				    .AddDays(Faker.RandomNumber.Next(-355, 0)),
                 Tps = 0.05M,
-                Tvq = 0.09975M
+                Tvq = 0.09975M,
+                PaymentIntentId = "N/A, SEEDER DATA",
+                Statut = 0
             };
 
             return factureEtudiant;
@@ -1021,15 +946,22 @@ namespace seeder
         {
 
             CommandeEtudiant commandeEtudiant;
+            PrixEtatLivre prixEtatLivre;
+
+            prixEtatLivre = _context
+				    .PrixEtatsLivres
+					.Skip(Faker.RandomNumber.Next(0, _context.PrixEtatsLivres.Count() - 1))
+					.Take(1)
+					.First();
 
             commandeEtudiant = new()
             {
                 FactureEtudiant = factureEtudiant,
-                PrixEtatLivre = _context
-				    .PrixEtatsLivres
-					.Skip(Faker.RandomNumber.Next(0, _context.PrixEtatsLivres.Count() - 1))
-					.Take(1)
-					.First(),
+                PrixEtatLivre = prixEtatLivre,
+                Isbn = prixEtatLivre.LivreBibliotheque.Isbn,
+                Titre = prixEtatLivre.LivreBibliotheque.Titre,
+                EtatLivre = prixEtatLivre.EtatLivre,
+                PrixUnitaireGele = prixEtatLivre.Prix,
                 Quantite = Faker.RandomNumber.Next(1, 2)
             };
 

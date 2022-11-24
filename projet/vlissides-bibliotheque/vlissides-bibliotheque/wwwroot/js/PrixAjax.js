@@ -63,7 +63,6 @@
 }
 
 function checkTheBox(LivreId,etat) {
-
     var baliseEtat = document.querySelector('#' + etat + "-" + LivreId);
     var parent = baliseEtat.parentElement;
     for (let input of parent.querySelectorAll("label")) {
