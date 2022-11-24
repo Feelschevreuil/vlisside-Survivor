@@ -27,7 +27,7 @@
                     <td>@cours.Description</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#cours-@cours.CoursId" onclick="getFormulaireModifierCours('@cours.CoursId')">
-                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="return confirm('Êtes-vous sur de vouloir supprimer @cours.Nom?'),supprimerCours('@cours.CoursId')">
+                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCours('@cours.CoursId')">
                     </td>
                
 

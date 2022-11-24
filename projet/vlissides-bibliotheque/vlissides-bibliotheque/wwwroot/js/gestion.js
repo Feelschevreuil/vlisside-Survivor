@@ -275,23 +275,26 @@ function creerEtudiant() {
 }
 
 function supprimerEtudiant(id) {
-    fetch(host + "TableauDeBord/SupprimerEtudiant/", {
-        method: 'POST',
-        body: JSON.stringify(id),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    }).then(function (res) {
-        if (res.ok) {
-            alert("Étudiant supprimé avec succès!");
-            let etudiant = document.querySelector(`#tr-${id}`);
-            let parent = etudiant.parentElement;
-            parent.removeChild(etudiant);
-        } else {
-            alert(`Impossible de supprimer l'étudiant selon le code d'identification ${id}`);
-        }
-    });
+    var confirmation = confirm("Êtes-vous sur de vouloir supprimer cette étudiant?");
+    if (confirmation) {
+        fetch(host + "TableauDeBord/SupprimerEtudiant/", {
+            method: 'POST',
+            body: JSON.stringify(id),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (res) {
+            if (res.ok) {
+                alert("Étudiant supprimé avec succès!");
+                let etudiant = document.querySelector(`#tr-${id}`);
+                let parent = etudiant.parentElement;
+                parent.removeChild(etudiant);
+            } else {
+                alert(`Impossible de supprimer l'étudiant selon le code d'identification ${id}`);
+            }
+        });
+    }
 }
 
 //--------------------------------------------
@@ -429,23 +432,27 @@ function creerLivre() {
 }
 
 function supprimerLivre(id) {
-    fetch(host + "TableauDeBord/SupprimerLivre/", {
-        method: 'POST',
-        body: JSON.stringify(id),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    }).then(function (res) {
-        if (res.ok) {
-            alert("Livre supprimé avec succès!");
-            let livre = document.querySelector(`#tr-${id}`);
-            let parent = livre.parentElement;
-            parent.removeChild(livre);
-        } else {
-            alert(`Impossible de supprimer le livre selon le code d'identification ${id}`);
-        }
-    });
+    var confirmation = confirm("Êtes-vous sur de vouloir supprimer cet livre?");
+    if (confirmation)
+    {
+        fetch(host + "TableauDeBord/SupprimerLivre/", {
+            method: 'POST',
+            body: JSON.stringify(id),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (res) {
+            if (res.ok) {
+                alert("Livre supprimé avec succès!");
+                let livre = document.querySelector(`#tr-${id}`);
+                let parent = livre.parentElement;
+                parent.removeChild(livre);
+            } else {
+                alert(`Impossible de supprimer le livre selon le code d'identification ${id}`);
+            }
+        });
+    }
 }
 
 //--------------------------------------------
@@ -575,23 +582,27 @@ function creerCours() {
 }
 
 function supprimerCours(id) {
-    fetch(host + "TableauDeBord/SupprimerCours/", {
-        method: 'POST',
-        body: JSON.stringify(id),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    }).then(function (res) {
-        if (res.ok) {
-            alert("Cours supprimé avec succès!");
-            let cours = document.querySelector(`#tr-${id}`);
-            let parent = cours.parentElement;
-            parent.removeChild(cours);
-        } else {
-            alert(`Impossible de supprimer le cours selon le code d'identification ${id}`);
-        }
-    });
+    var confirmation = confirm("Êtes-vous sur de vouloir supprimer ce cours?");
+    if (confirmation)
+    {
+        fetch(host + "TableauDeBord/SupprimerCours/", {
+            method: 'POST',
+            body: JSON.stringify(id),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (res) {
+            if (res.ok) {
+                alert("Cours supprimé avec succès!");
+                let cours = document.querySelector(`#tr-${id}`);
+                let parent = cours.parentElement;
+                parent.removeChild(cours);
+            } else {
+                alert(`Impossible de supprimer le cours selon le code d'identification ${id}`);
+            }
+        });
+    }
 }
 
 //--------------------------------------------
@@ -720,7 +731,7 @@ function creerProgrammeEtudes() {
 }
 
 function supprimerProgrammeEtudes(id) {
-    var confirmation = confirm("Êtes-vous sur de vouloir supprimer cette item?");
+    var confirmation = confirm("Êtes-vous sur de vouloir supprimer ce programme d'étude?");
     if (confirmation) {
         fetch(host + "TableauDeBord/SupprimerProgrammeEtudes/", {
             method: 'POST',
