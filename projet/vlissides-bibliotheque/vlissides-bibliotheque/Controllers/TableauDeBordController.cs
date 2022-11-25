@@ -49,21 +49,6 @@ namespace vlissides_bibliotheque.Controllers
             return View();
         }
 
-        //------------------Commandes------------------
-
-        [HttpGet]
-        public IActionResult Commandes()
-        {
-            List<CommandeEtudiant> commandes = _context.CommandesEtudiants
-                .Include(commande => commande.PrixEtatLivre)
-                .Include(commande => commande.PrixEtatLivre.LivreBibliotheque)
-                .Include(commande => commande.FactureEtudiant)
-                .Include(commande => commande.FactureEtudiant.Etudiant)
-                .ToList();
-
-            return View(commandes);
-        }
-
         //------------------Cours------------------
 
         [HttpGet]
@@ -826,5 +811,155 @@ namespace vlissides_bibliotheque.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
+
+        //------------------Commandes------------------
+
+        [HttpGet]
+        public IActionResult Commandes()
+        {
+            List<CommandeEtudiant> commandes = _context.CommandesEtudiants
+                .Include(commande => commande.PrixEtatLivre)
+                .Include(commande => commande.PrixEtatLivre.LivreBibliotheque)
+                .Include(commande => commande.FactureEtudiant)
+                .Include(commande => commande.FactureEtudiant.Etudiant)
+                .ToList();
+
+            return PartialView("~/Views/TableauDeBord/Commandes.cshtml", commandes);
+        }
+
+        [HttpGet]
+        public IActionResult CreerCommandes()
+        {
+            GestionCommandeVM vm = new();
+            return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult CreerCommandes([FromBody] GestionCommandeVM vm)
+        {
+            if (!DateEvenement.CompareDate(vm.Debut, vm.Fin))
+            {
+                ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
+            }
+            ModelState.Remove(nameof(vm.Id));
+            if (ModelState.IsValid)
+            {
+                Commanditaire commanditaire = new()
+                {
+                    CommanditaireId = 0,
+                    Nom = vm.CommanditaireNom,
+                    Courriel = vm.CommanditaireCourriel,
+                    Message = vm.CommanditaireMessage,
+                    Url = vm.Url
+                };
+                _context.Commanditaires.Add(commanditaire);
+                _context.SaveChanges();
+
+                Evenement nouveauEvenement = new()
+                {
+                    EvenementId = vm.EvenementId,
+                    Commanditaire = commanditaire,
+                    CommanditaireId = vm.CommanditaireId,
+                    Debut = vm.Debut,
+                    Fin = vm.Fin,
+                    Image = vm.Photo,
+                    Nom = vm.Nom,
+                    Description = vm.Description,
+                };
+                _context.Evenements.Add(nouveauEvenement);
+                _context.SaveChanges();
+                vm.Id = nouveauEvenement.EvenementId;
+                return Json(vm);
+
+            }
+            return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
+        }
+
+        [HttpGet]
+        public IActionResult ModifierCommandes(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Evenement evenement = _context.Evenements
+                .Include(x => x.Commanditaire)
+                .Where(x => x.EvenementId == id)
+                .FirstOrDefault();
+            if (evenement == null)
+            {
+                return NotFound();
+            }
+            GestionPromotionVM vm = new()
+            {
+                EvenementId = evenement.EvenementId,
+                Nom = evenement.Nom,
+                Debut = evenement.Debut,
+                Fin = evenement.Fin,
+                Description = evenement.Description,
+                Photo = evenement.Image,
+                CommanditaireId = evenement.CommanditaireId,
+                CommanditaireNom = evenement.Commanditaire.Nom,
+                CommanditaireCourriel = evenement.Commanditaire.Courriel,
+                Url = evenement.Commanditaire.Url,
+                CommanditaireMessage = evenement.Commanditaire.Message
+
+            };
+
+            return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult ModifierCommandes([FromBody] GestionCommandeVM vm)
+        {
+            ModelState.Remove(nameof(GestionPromotionVM.Id));
+            if (ModelState.IsValid)
+            {
+                Evenement modifierEvenement = _context.Evenements
+                    .Include(x => x.Commanditaire)
+                    .Where(x => x.EvenementId == vm.EvenementId)
+                    .FirstOrDefault();
+                if (modifierEvenement != null)
+                {
+                    modifierEvenement.EvenementId = vm.EvenementId;
+                    modifierEvenement.Nom = vm.Nom;
+                    modifierEvenement.Debut = vm.Debut;
+                    modifierEvenement.Fin = vm.Fin;
+                    modifierEvenement.Description = vm.Description;
+                    modifierEvenement.Image = vm.Photo;
+                    modifierEvenement.CommanditaireId = vm.CommanditaireId;
+                    modifierEvenement.Commanditaire.Nom = vm.CommanditaireNom;
+                    modifierEvenement.Commanditaire.Courriel = vm.CommanditaireCourriel;
+                    modifierEvenement.Commanditaire.Url = vm.Url;
+                    modifierEvenement.Commanditaire.Message = vm.CommanditaireMessage;
+                    _context.Evenements.Update(modifierEvenement);
+                    _context.SaveChanges();
+                    vm.Id = modifierEvenement.EvenementId;
+                    return Json(vm);
+                }
+            }
+            return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult supprimerCommande([FromBody] int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var commandeSupprimer = _context.CommandesEtudiants.Where(x => x.FactureEtudiantId == id).FirstOrDefault();
+            if (commandeSupprimer == null)
+            {
+                return NotFound();
+            };
+
+            _context.CommandesEtudiants.Remove(commandeSupprimer);
+            _context.SaveChanges();
+            return Ok();
+        }
+
     }
 }

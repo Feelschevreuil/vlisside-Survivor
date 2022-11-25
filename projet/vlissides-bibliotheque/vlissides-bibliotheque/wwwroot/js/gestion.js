@@ -153,8 +153,7 @@ function creerBtnModifSuppri(nouvelleLigne, id) {
     editImg = document.createElement("img")
     editImg.classList.add("btn-img-hover");
     editImg.setAttribute("data-bs-toggle", "modal");
-    editImg.setAttribute("data-bs-target", "#livre-" + id);
-    editImg.setAttribute("id", "#livre-" + id);
+    editImg.setAttribute("data-bs-target", "modal-modifier");
     editImg.setAttribute("onclick", "getFormulaireModifierLivre(" + id + ")");
     editImg.setAttribute("src", "/img/pencil.svg");
     trBtn.appendChild(editImg);
@@ -940,27 +939,40 @@ function supprimerPromotion(id) {
 //--------------------------------------------
 //              Commandes
 //--------------------------------------------
-function getFormulaireModifierCommandes(id) {
+function getPartialViewCommandes() {
+    fetch(host + "TableauDeBord/Commandes/", {
+        method: 'GET',
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Une erreur c'est produite")
+        }
+        res.text().then(function (res) {
+            document.querySelector("#partials").innerHTML = res;
+        });
+    });
+}
+
+function getFormulaireModifierCommande(id) {
 
     fetch(host + "TableauDeBord/ModifierCommandes/" + String(id), {
         method: 'GET',
     }).then(function (res) {
         if (!res.ok) {
-            alert("Le commandes est introuvable.")
+            alert("Le promotions est introuvable.")
         }
 
         res.text().then(function (res) {
-            document.querySelector("#commandes-" + String(id))
+            document.querySelector("#modal-modifier")
                 .querySelector(".modal-body").innerHTML = res;
         });
     });
 }
 
-function modifierCommandes(id) {
-    let parent = document.querySelector("#commandes-" + String(id)).querySelector(".modal-body");
+function modifierCommandes() {
+    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
-
+    data.Id = 0
     fetch(host + "TableauDeBord/ModifierCommandes/", {
         method: 'POST',
         body: JSON.stringify(data),
@@ -978,9 +990,8 @@ function modifierCommandes(id) {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(id, resetMajusculeJsonKey(res));
-                    document.querySelector(`#fermer-modal-${id}`).click();
-                    document.querySelector("#commandes-" + String(id)).querySelector(".modal-body").innerHTML = "";
+                    afficherModification(res.id, resetMajusculeJsonKey(res));
+                    document.querySelector("#fermer-modal-modifier").click();
                 }
             });
         } else {
@@ -992,7 +1003,7 @@ function modifierCommandes(id) {
     });
 }
 
-function getFormulaireCreerCommandes() {
+function getFormulaireCreerCommande() {
 
     fetch(host + "TableauDeBord/CreerCommandes/", {
         method: 'GET',
@@ -1005,7 +1016,7 @@ function getFormulaireCreerCommandes() {
     });
 }
 
-function creerCommandes() {
+function creerCommande() {
     let parent = document.querySelector("#creer").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
@@ -1031,13 +1042,14 @@ function creerCommandes() {
                     let thead = table.children[0];
                     let tbody = table.children[1];
                     let nouvelleLigne = document.createElement("tr");
-                    let id = res.PrixEtatLivreId;
+                    let id = res.id;
                     nouvelleLigne.id = "tr-" + id;
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
+                    nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherModification(id, resetMajusculeJsonKey(res));
+                    afficherCreation(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });
@@ -1050,22 +1062,25 @@ function creerCommandes() {
     });
 }
 
-function supprimerCommandes(id) {
-    fetch(host + "TableauDeBord/SupprimerCommandes/", {
-        method: 'POST',
-        body: JSON.stringify(id),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    }).then(function (res) {
-        if (res.ok) {
-            alert("Commandes supprimé avec succès!");
-            let commandes = document.querySelector(`#tr-${id}`);
-            let parent = commandes.parentElement;
-            parent.removeChild(commandes);
-        } else {
-            alert(`Impossible de supprimer le commandes selon le code d'identification ${id}`);
-        }
-    });
+function supprimerCommande(id) {
+    var confirmation = confirm("Êtes-vous sur de vouloir supprimer cet évênement?");
+    if (confirmation) {
+        fetch(host + "TableauDeBord/SupprimerCommande/", {
+            method: 'POST',
+            body: JSON.stringify(id),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (res) {
+            if (res.ok) {
+                alert("Promotions supprimé avec succès!");
+                let promotions = document.querySelector(`#tr-${id}`);
+                let parent = promotions.parentElement;
+                parent.removeChild(promotions);
+            } else {
+                alert(`Impossible de supprimer le promotions selon le code d'identification ${id}`);
+            }
+        });
+    }
 }
