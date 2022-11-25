@@ -807,5 +807,24 @@ namespace vlissides_bibliotheque.Controllers
             }
             return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
         }
+
+        [HttpPost]
+        public IActionResult supprimerPromotion([FromBody] int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var promotionSupprimer = _context.Evenements.Where(x => x.EvenementId == id).FirstOrDefault();
+            if (promotionSupprimer == null)
+            {
+                return NotFound();
+            };
+
+            _context.Evenements.Remove(promotionSupprimer);
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }

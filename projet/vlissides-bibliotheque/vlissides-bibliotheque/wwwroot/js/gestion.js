@@ -894,7 +894,7 @@ function creerPromotion() {
                     let thead = table.children[0];
                     let tbody = table.children[1];
                     let nouvelleLigne = document.createElement("tr");
-                    let id = res.promotionsId;
+                    let id = res.id;
                     nouvelleLigne.id = "tr-" + id;
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
@@ -914,24 +914,27 @@ function creerPromotion() {
     });
 }
 
-function supprimerPromotions(id) {
-    fetch(host + "TableauDeBord/SupprimerPromotions/", {
-        method: 'POST',
-        body: JSON.stringify(id),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    }).then(function (res) {
-        if (res.ok) {
-            alert("Promotions supprimé avec succès!");
-            let promotions = document.querySelector(`#tr-${id}`);
-            let parent = promotions.parentElement;
-            parent.removeChild(promotions);
-        } else {
-            alert(`Impossible de supprimer le promotions selon le code d'identification ${id}`);
-        }
-    });
+function supprimerPromotion(id) {
+    var confirmation = confirm("Êtes-vous sur de vouloir supprimer cet évênement?");
+    if (confirmation) {
+        fetch(host + "TableauDeBord/SupprimerPromotion/", {
+            method: 'POST',
+            body: JSON.stringify(id),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (res) {
+            if (res.ok) {
+                alert("Promotions supprimé avec succès!");
+                let promotions = document.querySelector(`#tr-${id}`);
+                let parent = promotions.parentElement;
+                parent.removeChild(promotions);
+            } else {
+                alert(`Impossible de supprimer le promotions selon le code d'identification ${id}`);
+            }
+        });
+    }
 }
 
 //--------------------------------------------
