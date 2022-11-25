@@ -14,17 +14,20 @@
                             localStorage.setItem('itemsPanier', JSON.stringify(livres));
                             quantite.value = "999999"
                             updatePrix()
+                            NbLivrePanier()
                         } else if (quantite.value < 1) {
                             livres.Neuf[j].Quantite = 1
                             localStorage.clear();
                             localStorage.setItem('itemsPanier', JSON.stringify(livres));
                             quantite.value = "1"
                             updatePrix()
+                            NbLivrePanier()
                         } else {
                             livres.Neuf[j].Quantite = quantite.value
                             localStorage.clear();
                             localStorage.setItem('itemsPanier', JSON.stringify(livres));
                             updatePrix()
+                            NbLivrePanier()
                         }
 
                     }
@@ -34,6 +37,7 @@
                         localStorage.setItem('itemsPanier', JSON.stringify(livres));
                         quantite.value = "1"
                         updatePrix()
+                        NbLivrePanier()
                     }
                 }
             }
@@ -50,6 +54,7 @@
                                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                                 quantite.value = "2"
                                 updatePrix()
+                                NbLivrePanier()
                             }
                             else if (quantite.value < 1) {
                                 livres.Usage[j].Quantite = 1
@@ -57,12 +62,14 @@
                                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                                 quantite.value = "1"
                                 updatePrix()
+                                NbLivrePanier()
                             }
                             else {
                                 livres.Usage[j].Quantite = quantite.value
                                 localStorage.clear();
                                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                                 updatePrix()
+                                NbLivrePanier()
                             }
                         }
                         else {
@@ -71,6 +78,7 @@
                             localStorage.setItem('itemsPanier', JSON.stringify(livres));
                             quantite.value = "1"
                             updatePrix()
+                            NbLivrePanier()
                         }
                     }
                 }
@@ -87,17 +95,20 @@
                             localStorage.setItem('itemsPanier', JSON.stringify(livres));
                             quantite.value = "999999"
                             updatePrix()
+                            NbLivrePanier()
                         } else if (quantite.value < 1) {
                             livres.Numerique[j].Quantite = 1
                             localStorage.clear();
                             localStorage.setItem('itemsPanier', JSON.stringify(livres));
                             quantite.value = "1"
                             updatePrix()
+                            NbLivrePanier()
                         } else {
                             livres.Numerique[j].Quantite = quantite.value
                             localStorage.clear();
                             localStorage.setItem('itemsPanier', JSON.stringify(livres));
                             updatePrix()
+                            NbLivrePanier()
                         }
 
                     }
@@ -107,6 +118,7 @@
                         localStorage.setItem('itemsPanier', JSON.stringify(livres));
                         quantite.value = "1";
                         updatePrix()
+                        NbLivrePanier()
                     }
                 }
             }
