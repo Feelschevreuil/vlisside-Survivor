@@ -1,5 +1,5 @@
-﻿NbLivrePanier()
-initDetail()
+﻿initDetail()
+NbLivrePanier()
 
 function BoxChecked(LivreId, etat) {
     var boutonPanierSupprimer = document.getElementById("supprimer")
@@ -212,6 +212,7 @@ function initDetail() {
     var ajouter = document.getElementById("ajouter");
     var idLivre = document.getElementById("idLivre");
     var id = idLivre.innerText;
+    var idTrouveModifie = false;
 
 
     if (livres != null || livres != undefined) {
@@ -246,6 +247,10 @@ function initDetail() {
     if (idTrouveModifie) {
         supprimer.hidden = false;
         ajouter.hidden = true;
+    }
+    else {
+        document.getElementById("ajouter").hidden = true
+        document.getElementById("supprimer").hidden=true
     }
 }
 
