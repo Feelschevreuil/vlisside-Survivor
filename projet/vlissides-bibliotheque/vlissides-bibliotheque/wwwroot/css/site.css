@@ -19,6 +19,18 @@ body {
 }
 
 .bg-back {
+    background: #004fac;
+}
+
+.btn-rounded {
+    border-radius: 45px;
+}
+
+.bg-back-original {
+    background: #004fac;
+}
+
+.bg-navbar {
     background: #1976D2;
 }
 

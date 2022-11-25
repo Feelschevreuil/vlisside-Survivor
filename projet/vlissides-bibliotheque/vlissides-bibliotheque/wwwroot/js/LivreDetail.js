@@ -1,5 +1,5 @@
-﻿NbLivrePanier()
-initDetail()
+﻿initDetail()
+NbLivrePanier()
 
 function BoxChecked(LivreId, etat) {
     var boutonPanierSupprimer = document.getElementById("supprimer")
@@ -40,7 +40,7 @@ function ajouterLivreLocalStorage(id) {
 
         if (livres.Neuf != null) {
             for (var j = 0; j < livres.Neuf.length; j++) {
-                if (livres.Neuf[j] == id) {
+                if (livres.Neuf[j].LivreId == id) {
                     if (etatLivre == "Neuf") {
                         idTrouveNonModifie = true;
                     }
@@ -52,7 +52,7 @@ function ajouterLivreLocalStorage(id) {
         }
         if (livres.Usage != null) {
             for (var j = 0; j < livres.Usage.length; j++) {
-                if (livres.Usage[j] == id) {
+                if (livres.Usage[j].LivreId == id) {
                     if (etatLivre == "Usagé") {
                         idTrouveNonModifie = true;
                     }
@@ -64,7 +64,7 @@ function ajouterLivreLocalStorage(id) {
         }
         if (livres.Numerique != null) {
             for (var j = 0; j < livres.Numerique.length; j++) {
-                if (livres.Numerique[j] == id) {
+                if (livres.Numerique[j].LivreId == id) {
                     if (etatLivre == "Numérique") {
                         idTrouveNonModifie = true;
                     }
@@ -80,7 +80,7 @@ function ajouterLivreLocalStorage(id) {
         switch (etatLivre) {
             case "Neuf":
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [id],
+                    "Neuf": [{ "LivreId": id, "Quantite": 1 }],
                     "Usage": [],
                     "Numerique": []
                 }))
@@ -88,7 +88,7 @@ function ajouterLivreLocalStorage(id) {
             case "Usagé":
                 localStorage.setItem('itemsPanier', JSON.stringify({
                     "Neuf": [],
-                    "Usage": [id],
+                    "Usage": [{ "LivreId": id, "Quantite": 1 }],
                     "Numerique": []
                 }))
                 break;
@@ -96,7 +96,7 @@ function ajouterLivreLocalStorage(id) {
                 localStorage.setItem('itemsPanier', JSON.stringify({
                     "Neuf": [],
                     "Usage": [],
-                    "Numerique": [id]
+                    "Numerique": [{ "LivreId": id, "Quantite": 1 }]
                 }))
                 break;
             default:
@@ -111,7 +111,8 @@ function ajouterLivreLocalStorage(id) {
     if (!idTrouveNonModifie) {
         switch (etatLivre) {
             case "Neuf":
-                livres.Neuf.push(id.toString());
+                var valeurLivre = { "LivreId": id, "Quantite": 1 }
+                livres.Neuf.push(valeurLivre);
                 localStorage.clear();
                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                 updateLocalStorage = true;
@@ -119,7 +120,8 @@ function ajouterLivreLocalStorage(id) {
                 supprimer.hidden = false;
                 break;
             case "Usagé":
-                livres.Usage.push(id.toString());
+                var valeurLivre = { "LivreId": id, "Quantite": 1 }
+                livres.Usage.push(valeurLivre);
                 localStorage.clear();
                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                 updateLocalStorage = true;
@@ -127,7 +129,8 @@ function ajouterLivreLocalStorage(id) {
                 supprimer.hidden = false;
                 break;
             case "Numérique":
-                livres.Numerique.push(id.toString());
+                var valeurLivre = { "LivreId": id, "Quantite": 1 }
+                livres.Numerique.push(valeurLivre);
                 localStorage.clear();
                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                 updateLocalStorage = true;
@@ -166,7 +169,7 @@ function supprimerLivreLocalStorage(id) {
 
         if (livres.Neuf != null) {
             for (var j = 0; j < livres.Neuf.length; j++) {
-                if (livres.Neuf[j] == id) {
+                if (livres.Neuf[j].LivreId == id) {
                     livres.Neuf.splice(j, 1);
                     idTrouveModifie = true;
                 }
@@ -174,7 +177,7 @@ function supprimerLivreLocalStorage(id) {
         }
         if (livres.Usage != null) {
             for (var j = 0; j < livres.Usage.length; j++) {
-                if (livres.Usage[j] == id) {
+                if (livres.Usage[j].LivreId == id) {
                     livres.Usage.splice(j, 1);
                     idTrouveModifie = true;
                 }
@@ -182,7 +185,7 @@ function supprimerLivreLocalStorage(id) {
         }
         if (livres.Numerique != null) {
             for (var j = 0; j < livres.Numerique.length; j++) {
-                if (livres.Numerique[j] == id) {
+                if (livres.Numerique[j].LivreId == id) {
                     livres.Numerique.splice(j, 1);
                     idTrouveModifie = true;
                 }
@@ -209,13 +212,14 @@ function initDetail() {
     var ajouter = document.getElementById("ajouter");
     var idLivre = document.getElementById("idLivre");
     var id = idLivre.innerText;
+    var idTrouveModifie = false;
 
 
     if (livres != null || livres != undefined) {
 
         if (livres.Neuf != null) {
             for (var j = 0; j < livres.Neuf.length; j++) {
-                if (livres.Neuf[j] == id) {
+                if (livres.Neuf[j].LivreId == id) {
                     idTrouveModifie = true;
                     BoxChecked(id, "Neuf");
                 }
@@ -223,7 +227,7 @@ function initDetail() {
         }
         if (livres.Usage != null) {
             for (var j = 0; j < livres.Usage.length; j++) {
-                if (livres.Usage[j] == id) {
+                if (livres.Usage[j].LivreId == id) {
                     idTrouveModifie = true;
                     BoxChecked(id, "Usager");
                 }
@@ -231,7 +235,7 @@ function initDetail() {
         }
         if (livres.Numerique != null) {
             for (var j = 0; j < livres.Numerique.length; j++) {
-                if (livres.Numerique[j] == id) {
+                if (livres.Numerique[j].LivreId == id) {
                     idTrouveModifie = true;
                     BoxChecked(id, "Numerique");
                 }
@@ -244,6 +248,10 @@ function initDetail() {
         supprimer.hidden = false;
         ajouter.hidden = true;
     }
+    else {
+        document.getElementById("ajouter").hidden = true
+        document.getElementById("supprimer").hidden=true
+    }
 }
 
 function supresionRapide(id) {
@@ -255,21 +263,21 @@ function supresionRapide(id) {
 
             if (livres.Neuf != null) {
                 for (var j = 0; j < livres.Neuf.length; j++) {
-                    if (livres.Neuf[j] == id) {
+                    if (livres.Neuf[j].LivreId == id) {
                         livres.Neuf.splice(j, 1);
                     }
                 }
             }
             if (livres.Usage != null) {
                 for (var j = 0; j < livres.Usage.length; j++) {
-                    if (livres.Usage[j] == id) {
+                    if (livres.Usage[j].LivreId == id) {
                         livres.Usage.splice(j, 1);
                     }
                 }
             }
             if (livres.Numerique != null) {
                 for (var j = 0; j < livres.Numerique.length; j++) {
-                    if (livres.Numerique[j] == id) {
+                    if (livres.Numerique[j].LivreId == id) {
                         livres.Numerique.splice(j, 1);
                     }
                 }
@@ -289,13 +297,19 @@ function NbLivrePanier() {
     if (livres != null || livres != undefined) {
 
         if (livres.Neuf != null) {
-            nbLivreDansPanier += livres.Neuf.length
+            for (var i = 0; i < livres.Neuf.length; i++) {
+                nbLivreDansPanier += parseInt(livres.Neuf[i].Quantite)
+            }
         }
         if (livres.Usage != null) {
-            nbLivreDansPanier += livres.Usage.length
+            for (var i = 0; i < livres.Usage.length; i++) {
+                nbLivreDansPanier += parseInt(livres.Usage[i].Quantite)
+            }
         }
         if (livres.Numerique != null) {
-            nbLivreDansPanier += livres.Numerique.length
+            for (var i = 0; i < livres.Numerique.length; i++) {
+                nbLivreDansPanier += parseInt(livres.Numerique[i].Quantite)
+            }
         }
         nbPanier.innerHTML = nbLivreDansPanier.toString();
     }

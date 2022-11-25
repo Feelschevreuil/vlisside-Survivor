@@ -23,6 +23,8 @@
         if (prixParDéfaut.EtatLivre == EtatLivreEnum.NUMERIQUE) { checkedNumerique = "bg-back"; }
         if (prixParDéfaut.EtatLivre == EtatLivreEnum.USAGE) { checkedUsagee = "bg-back"; }
     }
+
+    bool etatTrouve = false;
 }
 
 
@@ -61,23 +63,44 @@
             </div>
         </a>
     </div>
-    <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
+    <div class="o-switch btn-group w-100 px-3" data-toggle="buttons" role="group">
         @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NEUF) != null)
         {
-            <label class="btn @checkedNeuf text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
-                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(@etatLivreNeuf, @livreIdCourant);"> Neuf
+            etatTrouve = true;
+            <label class="btn btn-rounded @checkedNeuf text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NEUF" onclick="ChangerPrix(@etatLivreNeuf, @livreIdCourant);"> Neuf
             </label>
+            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
+            {
+                <label class="btn btn-rounded bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NUMERIQUE" onclick="ChangerPrix(@etatLivreNumerique, @livreIdCourant)"> Numérique
+                </label>
+            }
+            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
+            {
+                <label class="btn btn-rounded bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(@etatLivreUsage, @livreIdCourant)"> Usagé
+                </label>
+            }
         }
-        @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
+        else if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
         {
-            <label class="btn @checkedNumerique text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
-                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(@etatLivreNumerique, @livreIdCourant)"> Numérique
+            etatTrouve = true;
+            <label class="btn btn-rounded bg-back text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NUMERIQUE" onclick="ChangerPrix(@etatLivreNumerique, @livreIdCourant)"> Numérique
             </label>
+            @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
+            {
+                <label class="btn btn-rounded bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
+                    <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(@etatLivreUsage, @livreIdCourant)"> Usagé
+                </label>
+            }
         }
-        @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
+        else @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
         {
-            <label class="btn @checkedUsagee text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
-                <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(@etatLivreUsage, @livreIdCourant)"> Usagé
+            etatTrouve = true;
+            <label class="btn btn-rounded bg-back text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
+                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
             </label>
         }
     </div>
@@ -100,12 +123,20 @@
 
     </div>
 
-    @if(User!=null){
-        if (User.Identity.IsAuthenticated){
-        <div>
-            <p class="btn btn-primary shadow w-100 mt-2 mb-0">Ajouter au panier</p>
-        </div>
-        }       
+    @if (User != null)
+    {
+        if (User.Identity.IsAuthenticated)
+        {
+            if (etatTrouve)
+            {
+                <div id="ajoutRapide-@livreIdCourant">
+                    <p class="btn btn-primary shadow w-100 mt-2 mb-0" onclick="ajoutRapide(@livreIdCourant)">Ajouter au panier</p>
+                </div>
+                <div id="suppressionRapideBibli-@livreIdCourant" hidden>
+                    <p class="btn btn-danger shadow w-100 mt-2 mb-0" onclick="supresionRapideBibli(@livreIdCourant)">Supprimer du panier</p>
+                </div>
+            }
+        }
     }
 </div>
 

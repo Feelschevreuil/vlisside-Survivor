@@ -18,7 +18,55 @@ function getCards() {
     //        "Numerique": [ "65", "66"]
     //}
     //localStorage.setItem('itemsPanier', JSON.stringify(objetLocalStorage))
-
+    //var objetLocalStorage =
+    //{
+    //    "Neuf":
+    //    [
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        }
+    //    ],
+    //        "Numerique":
+    //    [
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        }
+    //    ],
+    //        "Usage":
+    //    [
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        },
+    //        {
+    //            "LivreId": "id",
+    //            "Quantite": "666"
+    //        }
+    //    ]
+    //}
+    
     var numeroEtudiant = "/"+window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
     var fetchEnLocal = "/../Panier/GetLivres";
     var fetchSurServeur = numeroEtudiant+"Panier/GetLivres";
@@ -67,6 +115,7 @@ function getCards() {
             }).then((data) => {
 
                 parentPartiel.innerHTML = data;
+                initQuantitePanier()
                 updatePrix();
             });
 
@@ -89,19 +138,21 @@ function updatePrix() {
        
     }
     var tousPrix = document.querySelectorAll('[id^="PrixLivreId"]');
+    var tousQuantite = document.querySelectorAll('[id^="Quantite"]');
     var prixTotal = 0.00;
     for (var e = 0; e < tousPrix.length; e++) {
         prixCourant = GetDecimal(tousPrix[e].innerHTML);
-        prixTotal = prixTotal + prixCourant;
+        prixTotal = prixTotal + prixCourant * tousQuantite[e].value;
     }
     //parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
     var pPrixSansTaxes = document.querySelector('#PrixAvantTaxes')
     var pPrixAvecTaxes = document.querySelector("#PrixAvecTaxes")
+    var pTaxes = document.querySelector('#Taxes')
     if (prixTotal.toString().match(",") == null && prixTotal.toString().match(".") == null) {
         prixTotal = prixTotal + "." + 0 + 0
     }
     
-
+    pTaxes.innerHTML=Taxes.GST*100+"%"
     pPrixSansTaxes.innerHTML = prixTotal.toFixed(2) + "$";
     pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.GST).toFixed(2) + "$";
 }
@@ -110,4 +161,36 @@ function GetDecimal(prix) {
     var prixAvecPoint = parseFloat(prix.toString().replace(",", "."));
     var prixEnDecimal = Number(prixAvecPoint.toString().match(/^\d+(?:\.\d{0,2})?/));
     return Number(prixEnDecimal);
+}
+
+function initQuantitePanier() {
+    var livres = JSON.parse(localStorage.getItem('itemsPanier'));
+
+    if (livres != null || livres != undefined) {
+
+        if (livres.Neuf != null) {
+            for (var i = 0; i < livres.Neuf.length; i++) {
+                var quantite = document.getElementById("Quantite-" + livres.Neuf[i].LivreId)
+                if (quantite != null) {
+                    quantite.value = livres.Neuf[i].Quantite
+                }
+            }
+        }
+        if (livres.Usage != null) {
+            for (var i = 0; i < livres.Usage.length; i++) {
+                var quantite = document.getElementById("Quantite-" + livres.Usage[i].LivreId)
+                if (quantite != null) {
+                    quantite.value = livres.Usage[i].Quantite
+                }
+            }
+        }
+        if (livres.Numerique != null) {
+            for (var i = 0; i < livres.Numerique.length; i++) {
+                var quantite = document.getElementById("Quantite-" + livres.Numerique[i].LivreId)
+                if (quantite != null) {
+                    quantite.value = livres.Numerique[i].Quantite
+                }
+            }
+        }
+    }
 }
