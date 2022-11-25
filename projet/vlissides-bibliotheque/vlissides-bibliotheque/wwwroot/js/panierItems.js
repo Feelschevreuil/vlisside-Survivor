@@ -1,141 +1,82 @@
 ﻿getCards()
 
 function getCards() {
-    var div = document.querySelector("#cardsIci")
-    const pImpossible = document.createElement("p");
-    const pVide = document.createElement("p");
-    pImpossible.innerHTML = 'Désolé, votre navigateur ne supporte pas le "localStorage". Essayez de changer de navigateur si ce problème persiste.'
-    pVide.innerHTML = 'Votre panier est vide!'
-    var tryStorage = true
-    var tryEmpty = true
-
-    //fausse valeurs tests
-    //var ids=[]
-    //var objetLocalStorage =
-    //{
-    //        "Neuf": ["51"],
-    //        "Usage": ["64", "67", "68"],
-    //        "Numerique": [ "65", "66"]
-    //}
-    //localStorage.setItem('itemsPanier', JSON.stringify(objetLocalStorage))
-    //var objetLocalStorage =
-    //{
-    //    "Neuf":
-    //    [
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        },
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        },
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        }
-    //    ],
-    //        "Numerique":
-    //    [
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        },
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        },
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        }
-    //    ],
-    //        "Usage":
-    //    [
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        },
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        },
-    //        {
-    //            "LivreId": "id",
-    //            "Quantite": "666"
-    //        }
-    //    ]
-    //}
-    
-    var numeroEtudiant = "/"+window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
-    var fetchEnLocal = "/../Panier/GetLivres";
-    var fetchSurServeur = numeroEtudiant+"Panier/GetLivres";
-    var stringFetch = "";
-    var url = location.host;
-    var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
-    var data = localStorage.getItem('itemsPanier');
     var parentPartiel = document.querySelector("#affichageLivre");
+    if (parentPartiel != null) {
+        var div = document.querySelector("#cardsIci")
+        const pImpossible = document.createElement("p");
+        const pVide = document.createElement("p");
+        pImpossible.innerHTML = 'Désolé, votre navigateur ne supporte pas le "localStorage". Essayez de changer de navigateur si ce problème persiste.'
+        pVide.innerHTML = 'Votre panier est vide!'
+        var tryStorage = true
+        var tryEmpty = true
+        var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+        var fetchEnLocal = "/../Panier/GetLivres";
+        var fetchSurServeur = numeroEtudiant + "Panier/GetLivres";
+        var stringFetch = "";
+        var url = location.host;
+        var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
+        var data = localStorage.getItem('itemsPanier');
 
-    if (url.match("localhost") == null) {
-        stringFetch = fetchSurServeur;
-    } else {
-        stringFetch = fetchEnLocal;
-    }
-;
-    try {
-        typeof (Storage) !== undefined
-    }
-    catch(e) {
-        tryStorage=false
-    }
+        if (url.match("localhost") == null) {
+            stringFetch = fetchSurServeur;
+        } else {
+            stringFetch = fetchEnLocal;
+        }
+        ;
+        try {
+            typeof (Storage) !== undefined
+        }
+        catch (e) {
+            tryStorage = false
+        }
 
-    try {
-        if (JSON.parse(localStorage.getItem('itemsPanier')).Neuf == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usage == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numerique == undefined)
+        try {
+            if (JSON.parse(localStorage.getItem('itemsPanier')).Neuf == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usage == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numerique == undefined)
+                tryEmpty = false
+        }
+        catch (e) {
             tryEmpty = false
-    }
-    catch (e) {
-        tryEmpty = false
-    }
+        }
 
-    if (tryStorage) {
-        if (tryEmpty) {
+        if (tryStorage) {
+            if (tryEmpty) {
 
-            fetch(stringFetch, {
-                method: 'Post',
-                body: data,
-                contentType: "application/json; charset=utf-8",
-                headers: {
-                    "Content-Type": "application/json",
-                    //"X-CSRF-TOKEN": csrfToken
-                },
+                fetch(stringFetch, {
+                    method: 'Post',
+                    body: data,
+                    contentType: "application/json; charset=utf-8",
+                    headers: {
+                        "Content-Type": "application/json",
+                        //"X-CSRF-TOKEN": csrfToken
+                    },
 
-            }).then(function (response) {
-                return response.text();
+                }).then(function (response) {
+                    return response.text();
 
-            }).then((data) => {
+                }).then((data) => {
 
-                parentPartiel.innerHTML = data;
-                initQuantitePanier()
-                updatePrix();
-            });
+                    parentPartiel.innerHTML = data;
+                    initQuantitePanier()
+                    updatePrix();
+                });
 
 
+            }
+            else {
+                div.appendChild(pVide);
+            }
         }
         else {
-            div.appendChild(pVide);
+            div.appendChild(pImpossible);
         }
     }
-    else {
-        div.appendChild(pImpossible);
-    }
-
-    
 }
 
 function updatePrix() {
     var Taxes = {
         "GST": 0.05,
-       
+
     }
     var tousPrix = document.querySelectorAll('[id^="PrixLivreId"]');
     var tousQuantite = document.querySelectorAll('[id^="Quantite"]');
@@ -151,8 +92,8 @@ function updatePrix() {
     if (prixTotal.toString().match(",") == null && prixTotal.toString().match(".") == null) {
         prixTotal = prixTotal + "." + 0 + 0
     }
-    
-    pTaxes.innerHTML=Taxes.GST*100+"%"
+
+    pTaxes.innerHTML = Taxes.GST * 100 + "%"
     pPrixSansTaxes.innerHTML = prixTotal.toFixed(2) + "$";
     pPrixAvecTaxes.innerHTML = (prixTotal + prixTotal * Taxes.GST).toFixed(2) + "$";
 }
@@ -192,5 +133,64 @@ function initQuantitePanier() {
                 }
             }
         }
+    }
+}
+
+function checkout() {
+    var data = localStorage.getItem('itemsPanier');
+
+    var stringFetch = "";
+    var url = location.host;
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+    var fetchEnLocal = "/../Achat/Creer";
+    var fetchSurServeur = numeroEtudiant + "Achat/Creer";
+    if (url.match("localhost") == null) {
+        stringFetch = fetchSurServeur;
+    } else {
+        stringFetch = fetchEnLocal;
+    }
+
+    var tryStorage = true
+    try {
+        typeof (Storage) !== undefined
+    }
+    catch (e) {
+        tryStorage = false
+    }
+
+    var tryEmpty = true
+    try {
+        if (JSON.parse(localStorage.getItem('itemsPanier')).Neuf == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usage == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numerique == undefined)
+            tryEmpty = false
+    }
+    catch (e) {
+        tryEmpty = false
+    }
+
+    if (tryStorage) {
+        if (tryEmpty) {
+            fetch(stringFetch, {
+                method: 'Post',
+                body: data,
+                contentType: "application/json; charset=utf-8",
+                headers: {
+                    "Content-Type": "application/json",
+                    //"X-CSRF-TOKEN": csrfToken
+                },
+            }).then(function (response) {
+                //todo
+
+            }).then((data) => {
+                //todo
+            });
+
+
+        }
+        else {
+            div.appendChild(pVide);
+        }
+    }
+    else {
+        div.appendChild(pImpossible);
     }
 }
