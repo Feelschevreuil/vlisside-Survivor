@@ -32,28 +32,28 @@
                     <td>@evenement.Commanditaire.Courriel</td>
                     <td>@evenement.Commanditaire.Message</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
-                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#evenement-@evenement.EvenementId" onclick="getFormulaireModifierPromotion('@evenement.EvenementId')">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierPromotion('@evenement.EvenementId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerPromotion('@evenement.EvenementId')">
                     </td>
                 </tr>
-                <div class="modal fade" id="evenement-@evenement.EvenementId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le evenement</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-
-                            </div>
-                            <div class="modal-footer">
-                                <button id="fermer-modal-@evenement.EvenementId" data-bs-dismiss="modal" hidden></button>
-                                <button type="button" class="btn btn-primary" onclick="modifierPromotion('@evenement.EvenementId')">Enregistrer</button>
-                            </div>
+            }
+            <div class="modal fade" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier la promotion</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="fermer-modal-modifier" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="modifierProgrammeEtudes()">Enregistrer</button>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
+
             <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">

@@ -5,6 +5,8 @@ namespace vlissides_bibliotheque.ViewModels
 {
     public class GestionPromotionVM
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public int EvenementId { get; set; }
 

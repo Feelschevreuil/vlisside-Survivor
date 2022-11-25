@@ -706,7 +706,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
             }
-
+            ModelState.Remove(nameof(vm.Id));
             if (ModelState.IsValid)
             {
                 Commanditaire commanditaire = new()
@@ -733,9 +733,44 @@ namespace vlissides_bibliotheque.Controllers
                 };
                 _context.Evenements.Add(nouveauEvenement);
                 _context.SaveChanges();
+                vm.Id = nouveauEvenement.EvenementId;
                 return Json(vm);
 
             }
+            return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
+        }
+
+        [HttpGet]
+        public IActionResult ModifierPromotions(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Evenement evenement = _context.Evenements
+                .Include(x=>x.Commanditaire)
+                .Where(x => x.EvenementId == id)
+                .FirstOrDefault();
+            if (evenement == null)
+            {
+                return NotFound();
+            }
+            GestionPromotionVM vm = new()
+            {
+                EvenementId= evenement.EvenementId,
+                Nom = evenement.Nom,
+                Debut = evenement.Debut,
+                Fin = evenement.Fin,
+                Description = evenement.Description,
+                Photo = evenement.Image,
+                CommanditaireId = evenement.CommanditaireId,
+                CommanditaireNom = evenement.Commanditaire.Nom,
+                CommanditaireCourriel = evenement.Commanditaire.Courriel,
+                Url = evenement.Commanditaire.Url,
+                CommanditaireMessage = evenement.Commanditaire.Message
+                
+            };
+
             return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
         }
     }
