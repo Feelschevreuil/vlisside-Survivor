@@ -148,6 +148,7 @@ function ajoutRapide(id) {
                     "Usage": [],
                     "Numerique": []
                 }))
+                idTrouveNonModifie = true;
                 break;
             case "Usagé":
                 localStorage.setItem('itemsPanier', JSON.stringify({
@@ -155,6 +156,7 @@ function ajoutRapide(id) {
                     "Usage": [{ "LivreId": id, "Quantite": 1 }],
                     "Numerique": []
                 }))
+                idTrouveNonModifie = true;
                 break;
             case "Numerique":
                 localStorage.setItem('itemsPanier', JSON.stringify({
@@ -162,6 +164,7 @@ function ajoutRapide(id) {
                     "Usage": [],
                     "Numerique": [{ "LivreId": id, "Quantite": 1 }]
                 }))
+                idTrouveNonModifie = true;
                 break;
             default:
                 localStorage.setItem('itemsPanier', JSON.stringify({
@@ -169,6 +172,7 @@ function ajoutRapide(id) {
                     "Usage": [],
                     "Numerique": []
                 }))
+                idTrouveNonModifie = true;
         }
     }
 
