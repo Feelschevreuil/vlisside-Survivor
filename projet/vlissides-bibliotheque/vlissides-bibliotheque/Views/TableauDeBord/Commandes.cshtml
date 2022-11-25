@@ -25,7 +25,7 @@
         </thead>
         <tbody>
             @foreach (CommandeEtudiant commande in Model) {
-                <tr>
+                <tr class="modif-suppr">
                     <td>@commande.PrixEtatLivre.EtatLivre</td>
                     <td>@commande.Quantite</td>
                     <td>@commande.PrixEtatLivre.QuantiteUsage</td>
