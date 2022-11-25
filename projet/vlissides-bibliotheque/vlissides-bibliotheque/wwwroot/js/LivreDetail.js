@@ -292,13 +292,19 @@ function NbLivrePanier() {
     if (livres != null || livres != undefined) {
 
         if (livres.Neuf != null) {
-            nbLivreDansPanier += livres.Neuf.length
+            for (var i = 0; i < livres.Neuf.length; i++) {
+                nbLivreDansPanier += parseInt(livres.Neuf[i].Quantite)
+            }
         }
         if (livres.Usage != null) {
-            nbLivreDansPanier += livres.Usage.length
+            for (var i = 0; i < livres.Usage.length; i++) {
+                nbLivreDansPanier += parseInt(livres.Usage[i].Quantite)
+            }
         }
         if (livres.Numerique != null) {
-            nbLivreDansPanier += livres.Numerique.length
+            for (var i = 0; i < livres.Numerique.length; i++) {
+                nbLivreDansPanier += parseInt(livres.Numerique[i].Quantite)
+            }
         }
         nbPanier.innerHTML = nbLivreDansPanier.toString();
     }
