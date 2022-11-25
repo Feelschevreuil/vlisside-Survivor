@@ -14,6 +14,8 @@ using vlissides_bibliotheque.Enums;
 using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 using static Humanizer.In;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Humanizer;
+using System.Diagnostics;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -771,6 +773,38 @@ namespace vlissides_bibliotheque.Controllers
                 
             };
 
+            return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
+        }
+
+        [HttpPost]
+        public IActionResult ModifierPromotions([FromBody] GestionPromotionVM vm)
+        {
+            ModelState.Remove(nameof(GestionPromotionVM.Id));
+            if (ModelState.IsValid)
+            {
+                Evenement modifierEvenement = _context.Evenements
+                    .Include(x=>x.Commanditaire)
+                    .Where(x => x.EvenementId == vm.EvenementId)
+                    .FirstOrDefault();
+                if (modifierEvenement != null)
+                {
+                    modifierEvenement.EvenementId = vm.EvenementId;
+                    modifierEvenement.Nom = vm.Nom;
+                    modifierEvenement.Debut = vm.Debut;
+                    modifierEvenement.Fin = vm.Fin;
+                    modifierEvenement.Description = vm.Description;
+                    modifierEvenement.Image = vm.Photo;
+                    modifierEvenement.CommanditaireId = vm.CommanditaireId;
+                    modifierEvenement.Commanditaire.Nom = vm.CommanditaireNom;
+                    modifierEvenement.Commanditaire.Courriel = vm.CommanditaireCourriel;
+                    modifierEvenement.Commanditaire.Url = vm.Url;
+                    modifierEvenement.Commanditaire.Message = vm.CommanditaireMessage;
+                    _context.Evenements.Update(modifierEvenement);
+                    _context.SaveChanges();
+                    vm.Id = modifierEvenement.EvenementId;
+                    return Json(vm);
+                }
+            }
             return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
         }
     }

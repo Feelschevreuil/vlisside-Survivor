@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
 {
@@ -26,6 +27,7 @@ namespace vlissides_bibliotheque.ViewModels
         [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Image]
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]

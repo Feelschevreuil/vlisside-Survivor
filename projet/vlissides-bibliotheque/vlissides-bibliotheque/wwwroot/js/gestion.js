@@ -824,7 +824,7 @@ function modifierPromotions() {
     let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
-
+    data.Id = 0
     fetch(host + "TableauDeBord/ModifierPromotions/", {
         method: 'POST',
         body: JSON.stringify(data),
@@ -842,7 +842,7 @@ function modifierPromotions() {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(id, resetMajusculeJsonKey(res));
+                    afficherModification(res.id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-modifier").click();
                 }
             });
