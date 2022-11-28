@@ -14,7 +14,7 @@ namespace vlissides_bibliotheque.ViewModels
         public Commanditaire Commanditaire { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [StringLength(64, ErrorMessage ="Votre {0} est trop longue")]
+        [MaxLength(64, ErrorMessage = "Votre {0} est ne peux pas dépasser 64 caractères")]
         public string Nom { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -26,7 +26,7 @@ namespace vlissides_bibliotheque.ViewModels
         public DateTime Fin { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [StringLength(512, ErrorMessage ="Votre {0} est trop longue")]
+        [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public string Image { get; set; }

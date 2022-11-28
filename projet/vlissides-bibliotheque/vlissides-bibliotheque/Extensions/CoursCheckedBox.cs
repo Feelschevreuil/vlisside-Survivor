@@ -45,7 +45,10 @@ namespace vlissides_bibliotheque
                 .Include(x => x.ProgrammeEtude)
                 .ToList();
 
-            List<CoursLivre> coursAssocierLivre = _context.CoursLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+            List<CoursLivre> coursAssocierLivre = _context.CoursLivres
+                .Include(x=>x.LivreBibliotheque)
+                .ToList()
+                .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
 
             foreach (Cours cours in coursBD)
             {

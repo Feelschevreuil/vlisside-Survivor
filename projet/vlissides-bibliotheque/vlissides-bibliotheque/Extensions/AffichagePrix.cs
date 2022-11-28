@@ -6,6 +6,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Enums;
+using System.Globalization;
 
 namespace vlissides_bibliotheque
 {
@@ -23,7 +24,7 @@ namespace vlissides_bibliotheque
                 prixInitial = Math.Floor(100 * prixInitial) / 100;
                 if (prixInitial == (int)prixInitial)
                 {
-                    Prixdecimal = ",00";
+                    Prixdecimal = ".00";
                 }
                 return prixInitial + Prixdecimal;
             }
@@ -42,7 +43,7 @@ namespace vlissides_bibliotheque
                 prixInitial = Math.Floor(100 * prixInitial) / 100;
                 if (prixInitial == (int)prixInitial)
                 {
-                    Prixdecimal = ",00";
+                    Prixdecimal = ".00";
                 }
                 return prixInitial + Prixdecimal;
             }
@@ -61,40 +62,74 @@ namespace vlissides_bibliotheque
                 prixInitial = Math.Floor(100 * prixInitial) / 100;
                 if (prixInitial == (int)prixInitial)
                 {
-                    Prixdecimal = ",00";
+                    Prixdecimal = ".00";
                 }
                 return prixInitial + Prixdecimal;
             }
             return "";
         }
 
-        public static string GetPremierPrix (TuileLivreBibliotequeVM Model)
+        public static PrixEtatLivre GetPremierPrix (TuileLivreBibliotequeVM Model)
         {
             double prixInitial = 0;
-            string Prixdecimal = "";
+            string prixAvecDecimal = "";
+            PrixEtatLivre prixEtat = new();
             List<PrixEtatLivre> prixEtatLivres = new();
 
             if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
             {
-                foreach(PrixEtatLivre etatLivre in Model.prixEtatLivre)
+                foreach (PrixEtatLivre etatLivre in Model.prixEtatLivre)
                 {
-                    if(etatLivre != null)
+                    if (etatLivre != null)
                     {
 
                         prixEtatLivres.Add(etatLivre);
                     }
                 }
 
-                prixInitial = prixEtatLivres.FirstOrDefault().Prix;
+                 if(prixEtatLivres.Find(x=>x.EtatLivre == EtatLivreEnum.NEUF) != null)
+                {
+                   prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NEUF).Prix;
+                    prixEtat.EtatLivre = EtatLivreEnum.NEUF;
+                }
+                else if(prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
+                {
+                    prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE).Prix;
+                    prixEtat.EtatLivre = EtatLivreEnum.NUMERIQUE;
+
+                }
+                else if(prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
+                {
+                    prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.USAGE).Prix;
+                    prixEtat.EtatLivre = EtatLivreEnum.USAGE;
+
+                }
+
                 prixInitial = Math.Floor(100 * prixInitial) / 100;
                 if (prixInitial == (int)prixInitial)
                 {
-                    Prixdecimal = ",00";
-                    return prixInitial + Prixdecimal;
+                    prixAvecDecimal = prixInitial.ToString() + ".00";
+                    prixEtat.Prix = float.Parse(prixAvecDecimal, CultureInfo.InvariantCulture);
+
+                    return prixEtat;
                 }
-                return prixInitial.ToString();
+                prixEtat.Prix = prixInitial;
+                prixEtat.EtatLivre = prixEtatLivres.FirstOrDefault().EtatLivre;
+                return prixEtat;
             }
-            return "";
+            return null;
+        }
+     
+        public static string AjouteDecimal(double prixInitial)
+        {
+            string prixAvecDecimal = "";
+            prixInitial = Math.Floor(100 * prixInitial) / 100;
+            if (prixInitial == (int)prixInitial)
+            {
+                prixAvecDecimal = prixInitial.ToString() + ".00";
+                return prixAvecDecimal;
+            }
+            return prixInitial.ToString()+".00"; 
         }
     }
 }

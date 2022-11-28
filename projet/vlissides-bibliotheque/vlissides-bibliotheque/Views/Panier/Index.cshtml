@@ -17,9 +17,8 @@
     <div class="col-md-3 rounded shadow p-3 m-2 mb-3 h-100 mt-3">
       
         <p>Prix avant taxes: <span id="PrixAvantTaxes"></span></p>   
-        <p>Prix avec taxes: <span id="PrixAvecTaxes"></span></p>
-        <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
-            <p class="btn btn-primary shadow">Proceder à la facture</p>
-        </a>
+        <p>Taxes: <span id="Taxes"></span></p>
+        <p>Total: <span id="PrixAvecTaxes"></span></p>
+        <p class="btn btn-primary shadow" onclick="checkout()">Proceder à la facture</p>
     </div>
 </div>

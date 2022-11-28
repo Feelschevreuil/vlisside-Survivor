@@ -63,7 +63,6 @@
 }
 
 function checkTheBox(LivreId,etat) {
-
     var baliseEtat = document.querySelector('#' + etat + "-" + LivreId);
     var parent = baliseEtat.parentElement;
     for (let input of parent.querySelectorAll("label")) {
@@ -78,4 +77,184 @@ function checkTheBox(LivreId,etat) {
 
 function getImage() {
     return "https://upload.wikimedia.org/wikipedia/commons/6/63/Elipsis.gif";
+}
+
+function ajoutRapide(id) {
+    var livres = JSON.parse(localStorage.getItem('itemsPanier'))
+    var idTrouveNonModifie = false;
+    var boutonNeuf = document.getElementById("Neuf-" + id);
+    var boutonUsager = document.getElementById("Usager-" + id);
+    var boutonNumerique = document.getElementById("Numerique-" + id);
+    var etatLivre = ""
+    var supprimer = document.getElementById("suppressionRapideBibli-"+id)
+    var ajouter = document.getElementById("ajoutRapide-"+id)
+
+    if(boutonNeuf!=null)
+        if (boutonNeuf.classList.contains("bg-back"))
+            etatLivre = "Neuf";
+    if (boutonNumerique != null)
+        if (boutonNumerique.classList.contains("bg-back"))
+            etatLivre = "Numérique";
+    if (boutonUsager != null)
+        if (boutonUsager.classList.contains("bg-back"))
+            etatLivre = "Usagé";
+
+
+    if (livres != null || livres != undefined) {
+
+        if (livres.Neuf != null) {
+            for (var j = 0; j < livres.Neuf.length; j++) {
+                if (livres.Neuf[j].LivreId == id) {
+                    if (etatLivre == "Neuf") {
+                        idTrouveNonModifie = true;
+                    }
+                    else {
+                        livres.Neuf.splice(j, 1);
+                    }
+                }
+            }
+        }
+        if (livres.Usage != null) {
+            for (var j = 0; j < livres.Usage.length; j++) {
+                if (livres.Usage[j].LivreId == id) {
+                    if (etatLivre == "Usagé") {
+                        idTrouveNonModifie = true;
+                    }
+                    else {
+                        livres.Usage.splice(j, 1);
+                    }
+                }
+            }
+        }
+        if (livres.Numerique != null) {
+            for (var j = 0; j < livres.Numerique.length; j++) {
+                if (livres.Numerique[j].LivreId == id) {
+                    if (etatLivre == "Numérique") {
+                        idTrouveNonModifie = true;
+                    }
+                    else {
+                        livres.Numerique.splice(j, 1);
+                    }
+                }
+            }
+        }
+
+    }
+    else {
+        switch (etatLivre) {
+            case "Neuf":
+                localStorage.setItem('itemsPanier', JSON.stringify({
+                    "Neuf": [{ "LivreId": id, "Quantite": 1 }],
+                    "Usage": [],
+                    "Numerique": []
+                }))
+                idTrouveNonModifie = true;
+                break;
+            case "Usagé":
+                localStorage.setItem('itemsPanier', JSON.stringify({
+                    "Neuf": [],
+                    "Usage": [{ "LivreId": id, "Quantite": 1 }],
+                    "Numerique": []
+                }))
+                idTrouveNonModifie = true;
+                break;
+            case "Numerique":
+                localStorage.setItem('itemsPanier', JSON.stringify({
+                    "Neuf": [],
+                    "Usage": [],
+                    "Numerique": [{ "LivreId": id, "Quantite": 1 }]
+                }))
+                idTrouveNonModifie = true;
+                break;
+            default:
+                localStorage.setItem('itemsPanier', JSON.stringify({
+                    "Neuf": [],
+                    "Usage": [],
+                    "Numerique": []
+                }))
+                idTrouveNonModifie = true;
+        }
+    }
+
+    if (!idTrouveNonModifie) {
+        switch (etatLivre) {
+            case "Neuf":
+                var valeurLivre = { "LivreId": id, "Quantite": 1 }
+                livres.Neuf.push(valeurLivre);
+                localStorage.clear();
+                localStorage.setItem('itemsPanier', JSON.stringify(livres));
+                ajouter.hidden = true;
+                supprimer.hidden = false;
+                break;
+            case "Usagé":
+                var valeurLivre = { "LivreId": id, "Quantite": 1 }
+                livres.Usage.push(valeurLivre);
+                localStorage.clear();
+                localStorage.setItem('itemsPanier', JSON.stringify(livres));
+                ajouter.hidden = true;
+                supprimer.hidden = false;
+                break;
+            case "Numérique":
+                var valeurLivre = { "LivreId": id, "Quantite": 1 }
+                livres.Numerique.push(valeurLivre);
+                localStorage.clear();
+                localStorage.setItem('itemsPanier', JSON.stringify(livres));
+                ajouter.hidden = true;
+                supprimer.hidden = false;
+                break;
+            default:
+                updateLocalStorage = false;
+        }
+    }
+    else {
+        ajouter.hidden = true;
+        supprimer.hidden = false;
+    }
+
+    NbLivrePanier()
+}
+
+function supresionRapideBibli(id) {
+    var supprimer = document.getElementById("suppressionRapideBibli-" + id)
+    var ajouter = document.getElementById("ajoutRapide-" + id)
+    var livres = JSON.parse(localStorage.getItem('itemsPanier'))
+    var idTrouveModifie = false;
+
+    if (livres != null || livres != undefined) {
+
+        if (livres.Neuf != null) {
+            for (var j = 0; j < livres.Neuf.length; j++) {
+                if (livres.Neuf[j].LivreId == id) {
+                    livres.Neuf.splice(j, 1);
+                    idTrouveModifie = true;
+                }
+            }
+        }
+        if (livres.Usage != null) {
+            for (var j = 0; j < livres.Usage.length; j++) {
+                if (livres.Usage[j].LivreId == id) {
+                    livres.Usage.splice(j, 1);
+                    idTrouveModifie = true;
+                }
+            }
+        }
+        if (livres.Numerique != null) {
+            for (var j = 0; j < livres.Numerique.length; j++) {
+                if (livres.Numerique[j].LivreId == id) {
+                    livres.Numerique.splice(j, 1);
+                    idTrouveModifie = true;
+                }
+            }
+        }
+
+    }
+
+    if (idTrouveModifie) {
+        localStorage.setItem('itemsPanier', JSON.stringify(livres))
+        ajouter.hidden = false;
+        supprimer.hidden = true;
+    
+    }
+
+    NbLivrePanier()
 }

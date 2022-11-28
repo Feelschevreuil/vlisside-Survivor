@@ -7,9 +7,8 @@ using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.DTO
 {
-    public class AssocierLivreCours : CreationLivreVM
+    public class ModifierLivreCours : ModificationLivreVM
     {
         public List<int> Cours { get; set; }
-        public int Id { get; set; }
     }
 }

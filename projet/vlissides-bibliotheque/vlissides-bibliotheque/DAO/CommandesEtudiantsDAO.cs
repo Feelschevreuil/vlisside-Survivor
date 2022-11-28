@@ -37,7 +37,8 @@ namespace vlissides_bibliotheque.DAO
         /// <summary>
         /// Cherche les commandeEtudiants correspondants à l'id du prix état livre désiré.
         /// </summary>
-        public IEnumerable<CommandeEtudiant> GetSelonDeuxiemeId(long prixEtatLivreId)
+        public IEnumerable<CommandeEtudiant> GetSelonDeuxiemeId(long prixEtatLivreId
+            )
         {
 
             IEnumerable<CommandeEtudiant> commandesEtudiants;
