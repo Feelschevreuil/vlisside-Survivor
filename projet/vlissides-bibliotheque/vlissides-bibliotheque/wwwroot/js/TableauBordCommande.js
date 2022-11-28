@@ -170,6 +170,15 @@ function getLivreId() {
     return livreId;
 }
 
+function getListeLivre() {
+    var listcheckBox = document.querySelector("#afficherListLivres");
+    if (listcheckBox.hidden == true) {
+        listcheckBox.hidden = false
+    } else {
+        listcheckBox.hidden = true
+    }
+}
+
 
 //--------------------------------------------
 //              Commandes
@@ -193,11 +202,27 @@ function getFormulaireModifierCommande(id) {
         method: 'GET',
     }).then(function (res) {
         if (!res.ok) {
-            alert("Le promotions est introuvable.")
+            alert("La commande est introuvable.")
         }
 
         res.text().then(function (res) {
             document.querySelector("#modal-modifier")
+                .querySelector(".modal-body").innerHTML = res;
+        });
+    });
+}
+
+function getFormulaireListeLivres(id) {
+
+    fetch(host + "TableauDeBord/ModifierListeLivres/" + String(id), {
+        method: 'GET',
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("La liste de livres associée est introuvable.")
+        }
+
+        res.text().then(function (res) {
+            document.querySelector("#modal-livres")
                 .querySelector(".modal-body").innerHTML = res;
         });
     });
@@ -309,12 +334,12 @@ function supprimerCommande(id) {
             }
         }).then(function (res) {
             if (res.ok) {
-                alert("Promotions supprimé avec succès!");
+                alert("La commande a supprimé avec succès!");
                 let promotions = document.querySelector(`#tr-${id}`);
                 let parent = promotions.parentElement;
                 parent.removeChild(promotions);
             } else {
-                alert(`Impossible de supprimer le promotions selon le code d'identification ${id}`);
+                alert(`Impossible de supprimer la commande selon le code d'identification ${id}`);
             }
         });
     }
