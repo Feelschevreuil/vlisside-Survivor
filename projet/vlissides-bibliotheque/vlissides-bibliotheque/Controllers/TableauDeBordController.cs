@@ -500,16 +500,16 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(form.Auteurs));
             ModelState.Remove(nameof(form.MaisonsDeditions));
             ModelState.Remove(nameof(form.checkBoxCours));
-            if(form == null) 
+            if (form == null)
             {
-                ModificationLivreVM Emptyform = new(); 
-                return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", Emptyform); 
+                ModificationLivreVM Emptyform = new();
+                return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", Emptyform);
             };
 
             LivreBibliotheque LivreBibliothèqueModifier = _livresBibliothequeDAO.Get(form.IdDuLivre);
             if (ModelState.IsValid)
             {
-              
+
                 LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
                 LivreBibliothèqueModifier.Isbn = form.ISBN;
                 LivreBibliothèqueModifier.Titre = form.Titre;
@@ -735,7 +735,7 @@ namespace vlissides_bibliotheque.Controllers
                 return NotFound();
             }
             Evenement evenement = _context.Evenements
-                .Include(x=>x.Commanditaire)
+                .Include(x => x.Commanditaire)
                 .Where(x => x.EvenementId == id)
                 .FirstOrDefault();
             if (evenement == null)
@@ -744,7 +744,7 @@ namespace vlissides_bibliotheque.Controllers
             }
             GestionPromotionVM vm = new()
             {
-                EvenementId= evenement.EvenementId,
+                EvenementId = evenement.EvenementId,
                 Nom = evenement.Nom,
                 Debut = evenement.Debut,
                 Fin = evenement.Fin,
@@ -755,7 +755,7 @@ namespace vlissides_bibliotheque.Controllers
                 CommanditaireCourriel = evenement.Commanditaire.Courriel,
                 Url = evenement.Commanditaire.Url,
                 CommanditaireMessage = evenement.Commanditaire.Message
-                
+
             };
 
             return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
@@ -768,7 +768,7 @@ namespace vlissides_bibliotheque.Controllers
             if (ModelState.IsValid)
             {
                 Evenement modifierEvenement = _context.Evenements
-                    .Include(x=>x.Commanditaire)
+                    .Include(x => x.Commanditaire)
                     .Where(x => x.EvenementId == vm.EvenementId)
                     .FirstOrDefault();
                 if (modifierEvenement != null)
@@ -818,63 +818,52 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult Commandes()
         {
-            List<CommandeEtudiant> commandes = _context.CommandesEtudiants
-                .Include(commande => commande.PrixEtatLivre)
-                .Include(commande => commande.PrixEtatLivre.LivreBibliotheque)
-                .Include(commande => commande.FactureEtudiant)
-                .Include(commande => commande.FactureEtudiant.Etudiant)
+            List<FactureEtudiant> commandes = _context.FacturesEtudiants
+                .Include(commande => commande.Etudiant)
                 .ToList();
 
             return PartialView("~/Views/TableauDeBord/Commandes.cshtml", commandes);
         }
 
-        //[HttpGet]
-        //public IActionResult CreerCommandes()
-        //{
-        //    GestionCommandeVM vm = new();
-        //    return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
-        //}
+        [HttpGet]
+        public IActionResult CreerCommandes()
+        {
+            GestionCommandeVM vm = new();
+            vm.listEtatLivre = ListDropDown.ListDropDownEtatsLivre();
+            return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
+        }
 
-        //[HttpPost]
-        //public IActionResult CreerCommandes([FromBody] GestionCommandeVM vm)
-        //{
-        //    if (!DateEvenement.CompareDate(vm.Debut, vm.Fin))
-        //    {
-        //        ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
-        //    }
-        //    ModelState.Remove(nameof(vm.Id));
-        //    if (ModelState.IsValid)
-        //    {
-        //        Commanditaire commanditaire = new()
-        //        {
-        //            CommanditaireId = 0,
-        //            Nom = vm.CommanditaireNom,
-        //            Courriel = vm.CommanditaireCourriel,
-        //            Message = vm.CommanditaireMessage,
-        //            Url = vm.Url
-        //        };
-        //        _context.Commanditaires.Add(commanditaire);
-        //        _context.SaveChanges();
+        [HttpPost]
+        public IActionResult CreerCommandes([FromBody] GestionCommandeVM vm)
+        {
+            ModelState.Remove(nameof(vm.Id));
+            ModelState.Remove(nameof(vm.FactureEtudiantId));
+            if (ModelState.IsValid)
+            {
+                Etudiant etudiant = _context.Etudiants.Where(x=>x.Id == vm.EtudiantId).FirstOrDefault();
+                FactureEtudiant facture = new()
+                {
+                    FactureEtudiantId = 0,
+                    PaymentIntentId = "Test-PaymentIntentId",
+                    ClientSecret = "Test-ClientSecret",
+                    EtudiantId = etudiant.Id,
+                    Etudiant = etudiant,
+                    AdresseLivraison = "123 balker",
+                    DateFacturation = DateTime.Now,
+                    Statut = StatusFacture.TRANSIT,
+                    Tps = (decimal)Taxes.TPS,
+                    Tvq = (decimal)Taxes.TVQ
+                };
+                _context.FacturesEtudiants.Add(facture);
+                _context.SaveChanges();
 
-        //        Evenement nouveauEvenement = new()
-        //        {
-        //            EvenementId = vm.EvenementId,
-        //            Commanditaire = commanditaire,
-        //            CommanditaireId = vm.CommanditaireId,
-        //            Debut = vm.Debut,
-        //            Fin = vm.Fin,
-        //            Image = vm.Photo,
-        //            Nom = vm.Nom,
-        //            Description = vm.Description,
-        //        };
-        //        _context.Evenements.Add(nouveauEvenement);
-        //        _context.SaveChanges();
-        //        vm.Id = nouveauEvenement.EvenementId;
-        //        return Json(vm);
+                vm.Id = facture.FactureEtudiantId;
+                return Json(vm);
 
-        //    }
-        //    return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
-        //}
+            }
+            vm.listEtatLivre = ListDropDown.ListDropDownEtatsLivre();
+            return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
+        }
 
         //[HttpGet]
         //public IActionResult ModifierCommandes(int id)

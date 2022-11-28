@@ -1,39 +1,32 @@
-﻿@model List<CommandeEtudiant>
+﻿@model List<FactureEtudiant>
 
-<div class="d-flex accordion-header">
-    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
-    </a>
-    <h2 class="p-3">Gestion des commandes</h2>
-</div>
+<h2 class="p-3">Gestion des commandes</h2>
 
 <img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerCommande()" />
 
-<div style="overflow-x: auto;">
+<div>
     <table class="table table-light">
         <thead>
             <tr>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().Quantite)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.QuantiteUsage)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.LivreBibliotheque.Titre)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.Etudiant.Email)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.AdresseLivraison)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.DateFacturation)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.Prix)</th>
+                <th id="@nameof(GestionCommandeVM.FactureEtudiantId)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiantId)</th>
+                <th id="@nameof(GestionCommandeVM.PaymentIntentId)">@Html.DisplayNameFor(commande => commande.First().PaymentIntentId)</th>
+                <th id="@nameof(GestionCommandeVM.EtudiantId)">@Html.DisplayNameFor(commande => commande.First().EtudiantId)</th>
+                <th id="@nameof(GestionCommandeVM.AdresseLivraison)">@Html.DisplayNameFor(commande => commande.First().AdresseLivraison)</th>
+                <th id="@nameof(GestionCommandeVM.DateFacturation)">@Html.DisplayNameFor(commande => commande.First().DateFacturation)</th>
+                <th id="@nameof(GestionCommandeVM.Statut)">@Html.DisplayNameFor(commande => commande.First().Statut)</th> 
+                <th id="@nameof(GestionCommandeVM.Total)">Total</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (CommandeEtudiant commande in Model) {
+            @foreach (FactureEtudiant commande in Model) {
                 <tr class="modif-suppr">
-                    <td>@commande.PrixEtatLivre.EtatLivre</td>
-                    <td>@commande.Quantite</td>
-                    <td>@commande.PrixEtatLivre.QuantiteUsage</td>
-                    <td>@commande.PrixEtatLivre.LivreBibliotheque.Titre</td>
-                    <td>@commande.FactureEtudiant.Etudiant.Email</td>
-                    <td>@commande.FactureEtudiant.AdresseLivraison</td>
-                    <td>@commande.FactureEtudiant.DateFacturation</td>
-                    <td>@commande.PrixEtatLivre.Prix</td>
+                    <td>@commande.FactureEtudiantId</td>
+                    <td>@commande.PaymentIntentId</td>
+                    <td>@commande.EtudiantId</td>
+                    <td>@commande.AdresseLivraison</td>
+                    <td>@commande.DateFacturation</td>
+                    <td>@commande.Statut</td>
+                    <td>TODO</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierCommande('@commande.FactureEtudiantId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCommande('@commande.FactureEtudiantId')">
