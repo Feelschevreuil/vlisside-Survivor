@@ -6,11 +6,13 @@
 <img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerLivre()" />
 
 <div>
-    <table class="table table-light">
+    <table id="maTable" class="table table-light">
         <thead>
             <tr>
-                <th id="@nameof(LivreEtudiantVM.Photo)">@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)</th>
-                <th id="@nameof(LivreEtudiantVM.Isbn)">@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
+                <th class="d-flex d-inline" id="@nameof(LivreEtudiantVM.Photo)">@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)
+                    <img onclick="sortTable(0)" class="filtre" src="~/img/BTN-sort.svg" />
+                </th>
+                <th onclick="sortTable(1)" id="@nameof(LivreEtudiantVM.Isbn)">@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
                 <th id="@nameof(LivreEtudiantVM.Titre)">@Html.DisplayNameFor(livre => livre.First().Titre)</th>
                 <th id="@nameof(LivreEtudiantVM.Resume)">@Html.DisplayNameFor(livre => livre.First().Resume)</th>
                 <th id="@nameof(LivreEtudiantVM.DatePublication)">@Html.DisplayNameFor(livre => livre.First().DatePublication)</th>
