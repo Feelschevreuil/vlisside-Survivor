@@ -192,7 +192,7 @@ function getFormulaireModifierPromotion(id) {
         method: 'GET',
     }).then(function (res) {
         if (!res.ok) {
-            alert("Le promotions est introuvable.")
+            alert("La promotion est introuvable.")
         }
 
         res.text().then(function (res) {
@@ -313,7 +313,7 @@ function supprimerPromotion(id) {
                 let parent = promotions.parentElement;
                 parent.removeChild(promotions);
             } else {
-                alert(`Impossible de supprimer le promotions selon le code d'identification ${id}`);
+                alert(`Impossible de supprimer la promotion selon le code d'identification ${id}`);
             }
         });
     }
