@@ -1,5 +1,6 @@
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Models.Achat;
 using vlissides_bibliotheque.Services;
 using vlissides_bibliotheque.Extentions;
 using vlissides_bibliotheque.Enums;
@@ -20,6 +21,41 @@ namespace vlissides_bibliotheque.DAO
         {
 
             _context = context;
+        }
+
+        /// <summary>
+        /// Cherche les <c>PrixEtatLivre</c> selon la liste d'id's de 
+        /// <c>LivreBibliotheque</c> et l'état désiré.
+        /// </summary>
+        /// <param name="livresDesires">Les livres désirés par le client.</param>
+        /// <param name="etatLivre">L'état du livre désiré.</param>
+        /// <returns><returns>
+        public List<PrixEtatLivre> GetBulkByLivreDesireEtEtat
+        (
+            List<LivreDesire> livresDesires,
+            EtatLivreEnum etatLivre
+        )
+        {
+
+            List<PrixEtatLivre> prixEtatsLivres;
+
+            prixEtatsLivres = _context
+                .PrixEtatsLivres
+                    .Where
+                    (
+                        prixEtatLivre =>
+                            livresDesires
+                                .Any
+                                (
+                                    livreDesire =>
+                                        livreDesire
+                                            .LivreId == prixEtatLivre.LivreBibliothequeId
+                                ) &&
+                            prixEtatLivre.EtatLivre == etatLivre
+                    )
+                .ToList();
+
+            return prixEtatsLivres;
         }
 
         /// <summary>
@@ -150,22 +186,17 @@ namespace vlissides_bibliotheque.DAO
         /// <summary>
         /// Enlève la quantité désirée à un prix état livre usagé.
         /// </summary>
-        /// <param name="prixEtatLivreId">PrixEtatLivre usagé à soustraire la quantité désiré.</param>
+        /// <param name="prixEtatLivre">PrixEtatLivre usagé à soustraire la quantité désiré.</param>
         /// <param name="quantite">Quantité en inventaire à soustraire.</param>
-        public bool SoustraireDuStock(long prixEtatLivreId, int quantite = 1)
+        public bool SoustraireDuStock(PrixEtatLivre prixEtatLivre, int quantite = 1)
         {
 
-            PrixEtatLivre prixEtatLivreSoustraire;
-
-            prixEtatLivreSoustraire = Get(prixEtatLivreId);
-
-            if(prixEtatLivreSoustraire != null && quantite > 0 && prixEtatLivreSoustraire.QuantiteUsage >= quantite)
+            if(prixEtatLivre != null && quantite > 0 && prixEtatLivre.QuantiteUsage >= quantite)
             {
 
-                prixEtatLivreSoustraire.QuantiteUsage -= quantite;
+                prixEtatLivre.QuantiteUsage -= quantite;
                 
-                //TODO: use Update() when implemented.
-                _context.PrixEtatsLivres.Update(prixEtatLivreSoustraire);
+                _context.PrixEtatsLivres.Update(prixEtatLivre);
                 _context.SaveChanges();
 
                 return true;
