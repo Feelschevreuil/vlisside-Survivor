@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.Models
@@ -14,6 +15,7 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         public int MaisonEditionId { get; set; }
+        [DisplayName("Maison d'éditions")]
         public MaisonEdition MaisonEdition { get; set; }
 
         [Required]
@@ -29,6 +31,7 @@ namespace vlissides_bibliotheque.Models
         public string Resume { get; set; }
 
         [Required]
+        [DisplayName("Photo de couverture")]
         public string PhotoCouverture { get; set; }
 
         [Required]
