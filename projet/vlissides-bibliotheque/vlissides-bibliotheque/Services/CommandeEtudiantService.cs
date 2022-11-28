@@ -1,7 +1,9 @@
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
-using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Enums;
+using vlissides_bibliotheque.Utils;
+using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Models.Achat;
 
 namespace vlissides_bibliotheque.Services
 {
@@ -83,59 +85,174 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
-        /// Crée les commandes selon une liste d'ids de PrixEtatLivres.
+        /// Construit les commandes partielles à partir de <c>LivreDesire</c>
         /// </summary>
-        /// <param name="factureEtudiant">Facture à associer les commandes.</param>
-        /// <param name="prixEtatLivresId">Liste des Id's PrixÉtatsLivres désirés.</param>
-        public List<CommandeEtudiant> CreerCommandesSelonListeIdsPrixEtatLivre
+        public List<CommandeEtudiant> GetCommandesEtudiantByLivreDesire
         (
-            FactureEtudiant factureEtudiant,
-            List<int> prixEtatLivresId
+            List<LivreDesire> livresDesires,
+            EtatLivreEnum etatLivre
         )
         {
 
-            List<CommandeEtudiant> commandesEtudiant;
+            List<CommandeEtudiant> commandesEtudiants;
+            List<PrixEtatLivre> prixEtatsLivres;
             PrixEtatLivreDAO prixEtatLivreDAO;
             PrixEtatLivre prixEtatLivre;
             CommandeEtudiant commandeEtudiant;
-            bool livreUsage;
 
             prixEtatLivreDAO = new(_context);
+            commandesEtudiants = new();
 
-            commandesEtudiant = new();
+            prixEtatsLivres = prixEtatLivreDAO
+                .GetBulkByLivreDesireEtEtat
+                (
+                    livresDesires,
+                    etatLivre
+                );
 
-            foreach(int idPrixEtatLivre in prixEtatLivresId)
+            if(!CollectionUtils.CollectionNulleOuVide(prixEtatsLivres))
             {
 
-                prixEtatLivre = prixEtatLivreDAO.Get(idPrixEtatLivre);
-
-                if(prixEtatLivre != null)
+                foreach(LivreDesire livreDesire in livresDesires)
                 {
 
-                    livreUsage = prixEtatLivre.EtatLivre == EtatLivreEnum.USAGE;
+                    commandeEtudiant = new();
 
-                    //TODO: something more effcient than re-finding the object
-                    if
-                    (
-                        (livreUsage && prixEtatLivreDAO.SoustraireDuStock(prixEtatLivre.PrixEtatLivreId)) || 
-                        !livreUsage
-                    )
+                    // TODO: valider s'il y a duplication (Ne pas assumer que Find va work)
+                    prixEtatLivre = prixEtatsLivres
+                        .Find
+                        (
+                            prixEtatLivre =>
+                                prixEtatLivre.LivreBibliothequeId == livreDesire.LivreId
+                        );
+
+                    if(prixEtatLivre != null)
                     {
 
-                        commandeEtudiant = new()
-                        {
-                            FactureEtudiant = factureEtudiant,
-                            PrixEtatLivre = prixEtatLivre,
-                            Quantite = 1,
-                            PrixUnitaireGele = prixEtatLivre.Prix
-                        };
+                        commandeEtudiant.PrixEtatLivreId = prixEtatLivre.PrixEtatLivreId;
 
-                        commandesEtudiant.Add(commandeEtudiant);
+                        if(etatLivre == EtatLivreEnum.USAGE)
+                        {
+
+                            commandeEtudiant.Isbn = prixEtatLivre
+                                .LivreBibliotheque
+                                    .Isbn;
+
+                            commandeEtudiant.Titre = prixEtatLivre
+                                .LivreBibliotheque
+                                    .Titre;
+
+                            commandeEtudiant.PrixEtatLivre = prixEtatLivre;
+
+                            commandeEtudiant.EtatLivre = prixEtatLivre.EtatLivre;
+
+                            commandeEtudiant.PrixUnitaireGele = prixEtatLivre.Prix;
+                            
+                            if(prixEtatLivre.QuantiteUsage >= livreDesire.Quantite)
+                            {
+
+                                commandeEtudiant
+                                    .StatutCommande = StatutCommandeEnum.CORRECT;
+
+                                commandeEtudiant.Quantite = livreDesire.Quantite;
+
+                                prixEtatLivreDAO
+                                    .SoustraireDuStock
+                                    (
+                                        prixEtatLivre,
+                                        commandeEtudiant.Quantite
+                                    );
+                            }
+                            else if(prixEtatLivre.QuantiteUsage == 0)
+                            {
+
+                                commandeEtudiant
+                                    .StatutCommande = StatutCommandeEnum.MANQUE_INVENTAIRE;
+                            }
+                            else if
+                            (
+                                prixEtatLivre.QuantiteUsage < commandeEtudiant.Quantite
+                            )
+                            {
+
+                                commandeEtudiant
+                                    .StatutCommande = StatutCommandeEnum
+                                        .QUANTITEE_CORRIGE_SELON_DISPONIBILITE;
+                                commandeEtudiant.Quantite = prixEtatLivre.QuantiteUsage;
+
+                                prixEtatLivreDAO
+                                    .SoustraireDuStock
+                                    (
+                                        prixEtatLivre,
+                                        commandeEtudiant.Quantite
+                                    );
+                            }
+                        }
+                        else
+                        {
+
+                            commandeEtudiant.StatutCommande = StatutCommandeEnum.CORRECT;
+                            commandeEtudiant.Quantite = livreDesire.Quantite;
+                        }
                     }
+                    else
+                    {
+
+                        commandeEtudiant.StatutCommande = StatutCommandeEnum.INEXISTANT;
+                    }
+
+                    commandesEtudiants.Add(commandeEtudiant);
+                }
+            }
+            else
+            {
+
+                foreach(LivreDesire livreDesire in livresDesires)
+                {
+
+                    commandeEtudiant = new()
+                    {
+                        StatutCommande = StatutCommandeEnum.INEXISTANT
+                    };
+
+                    commandesEtudiants.Add(commandeEtudiant);
                 }
             }
 
-            return commandesEtudiant;
+            return commandesEtudiants;
+        }
+
+        /// <summary>
+        /// Valide si au moins une commande est valide dans une liste de commandes.
+        /// </summary>
+        /// <param name="commandesEtudiants">Commandes étudiants à valider.</param>
+        /// <returns>
+        /// true si au moins une commande est valide ou false si aucune des commandes est valide.
+        /// </returns>
+        public bool CommandesValides(List<CommandeEtudiant> commandesEtudiants)
+        {
+
+            int countCommandesEtudiants;
+            int countCommandesEtudiantsInvalides;
+
+            countCommandesEtudiants = commandesEtudiants.Count();
+
+            countCommandesEtudiantsInvalides = commandesEtudiants
+                .Where
+                (
+                    commandeEtudiant => 
+                        commandeEtudiant.StatutCommande == StatutCommandeEnum.INEXISTANT ||
+                        commandeEtudiant.StatutCommande == StatutCommandeEnum.MANQUE_INVENTAIRE
+                )
+                .Count();
+
+            if(countCommandesEtudiants == countCommandesEtudiantsInvalides)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -146,14 +263,14 @@ namespace vlissides_bibliotheque.Services
         /// Commandes contenant les informations désirés
         /// </param>
         /// <returns>Une liste de <c>CommandePartielleVM</c>.</returns>
-        public List<CommandePartielleVM> GetCommandesPartiellesFromCommandes
+        public List<CommandePartielle> GetCommandesPartiellesFromCommandes
         (
             List<CommandeEtudiant> commandesEtudiantes
         )
         {
 
-            List<CommandePartielleVM> commandesPartielles;
-            CommandePartielleVM commandePartielle;
+            List<CommandePartielle> commandesPartielles;
+            CommandePartielle commandePartielle;
 
             commandesPartielles = new();
 
@@ -165,8 +282,9 @@ namespace vlissides_bibliotheque.Services
                     Isbn = commandeEtudiant.Isbn,
                     Titre = commandeEtudiant.Titre,
                     EtatLivre = commandeEtudiant.EtatLivre,
-                    PrixUnitaireGele = commandeEtudiant.PrixUnitaireGele,
-                    Quantite = commandeEtudiant.Quantite
+                    Prix = commandeEtudiant.PrixUnitaireGele,
+                    Quantite = commandeEtudiant.Quantite,
+                    StatutCommande = commandeEtudiant.StatutCommande
                 };
 
                 commandesPartielles.Add(commandePartielle);
