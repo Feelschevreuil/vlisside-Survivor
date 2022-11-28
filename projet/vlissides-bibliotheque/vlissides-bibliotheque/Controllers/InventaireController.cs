@@ -71,7 +71,7 @@ namespace vlissides_bibliotheque.Controllers
             AssocierLivreCours nouveauLivre = new AssocierLivreCours { 
                 Auteurs =ListDropDown.ListDropDownAuteurs(_context), 
                 MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
-            checkBoxCours = CoursCheckedBox.GetCours(_context)};
+            checkBoxCours = CheckedBox.GetCours(_context)};
             return View(nouveauLivre);
         }
 
@@ -135,7 +135,7 @@ namespace vlissides_bibliotheque.Controllers
 
             form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             form.MaisonsDeditions =ListDropDown.ListDropDownMaisonDedition(_context);
-            form.checkBoxCours = CoursCheckedBox.GetCours(_context);
+            form.checkBoxCours = CheckedBox.GetCours(_context);
             return View(form);
 
         }
@@ -169,7 +169,7 @@ namespace vlissides_bibliotheque.Controllers
                 Photo = livreBibliothequeRechercher.PhotoCouverture,
                 PossedeNeuf = true,
                 PossedeNumerique = true,
-                checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
+                checkBoxCours = CheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
 
             };
 
@@ -246,7 +246,7 @@ namespace vlissides_bibliotheque.Controllers
 
             form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             form.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
-            form.checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
+            form.checkBoxCours = CheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
             return View(form);
         }
 
