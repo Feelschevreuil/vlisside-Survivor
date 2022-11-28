@@ -11,7 +11,6 @@ function initiationCards() {
                 if (!(ajouter == null || supprimer == null)) {
                     ajouter.hidden = true;
                     supprimer.hidden = false;
-
                 }
             }
         }
@@ -33,11 +32,13 @@ function initiationCards() {
                             neuf.classList.add("bg-top")
                             usage.classList.add("bg-back")
                             usage.classList.remove("bg-top")
+                            ChangerPrix(2, livres.Usage[j].LivreId)
                         } else if (neuf == null && numerique != null) {
                             numerique.classList.remove("bg-back")
                             numerique.classList.add("bg-top")
                             usage.classList.add("bg-back")
                             usage.classList.remove("bg-top")
+                            ChangerPrix(2, livres.Usage[j].LivreId)
                         }
                     }
                 }
@@ -61,6 +62,7 @@ function initiationCards() {
                             neuf.classList.add("bg-top")
                             numerique.classList.add("bg-back")
                             numerique.classList.remove("bg-top")
+                            ChangerPrix(1, livres.Numerique[j].LivreId)
                         }
                     }
 
