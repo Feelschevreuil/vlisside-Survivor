@@ -1,0 +1,30 @@
+@model AchatInformationsLivraisonVM
+
+<div class="row">
+    <div class="mb-3 col-6">
+        <label class="form-label">Numéro civique</label>
+        <input class="form-control" value="@Model.AdresseLivraison.NumeroCivique">
+    </div>
+
+    <div class="mb-3 col-6">
+          <label class="form-label">Numéro d'appartement</label>
+            <input class="form-control" value="@Model.AdresseLivraison.App">
+    </div>
+</div>
+
+<div class="row">
+    <div class="mb-3 col-4">
+          <label class="form-label">Code postal</label>
+            <input class="form-control" value="@Model.AdresseLivraison.CodePostal">
+    </div>
+
+    <div class="mb-3 col-8">
+          <label class="form-label">Ville</label>
+            <input class="form-control" value="@Model.AdresseLivraison.Ville">
+    </div>
+</div>
+
+<div class="mb-3">
+      <label class="form-label">Numéro de téléphone</label>
+      <input type="tel" pattern="([0-9]{3}) [0-9]{3}-[0-9]{4}" class="form-control" value="@Model.NumeroTelephone">
+</div>

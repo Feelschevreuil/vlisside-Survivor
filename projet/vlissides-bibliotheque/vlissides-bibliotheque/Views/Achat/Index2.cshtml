@@ -1,5 +1,6 @@
-@model PaiementVM
+@model AchatVM 
 
+<!--
 <script src="https://js.stripe.com/v3/"></script>
 
 <script>
@@ -18,6 +19,7 @@ const options = {
 const elements = stripe.elements(options);
 
 </script>
+-->
 
 <p class="fs-2">Achat</p>
 
@@ -43,36 +45,11 @@ const elements = stripe.elements(options);
                             
                             <p>Veuillez noter que nous ne livrons qu'au Québec uniquement et que les délais de livraisons sont de <strong>3 jours ouvrables</strong> suite au paiement de la commande.</p>
 
-                            <div class="row">
-                                <div class="mb-3 col-6">
-                                      <label class="form-label">Numéro civique</label>
-                                        <input class="form-control">
-                                </div>
+                            @Html.Partial("_AdresseCommande", @Model.AchatInformationsLivraison)
 
-                                <div class="mb-3 col-6">
-                                      <label class="form-label">Numéro d'appartement</label>
-                                        <input class="form-control">
-                                </div>
-                            </div>
+                            <p class="mb-0">En continuant à payer la commande, vous confirmez que vous avez entré une adresse de livraison <strong>valide</strong>.</p>
 
-                            <div class="row">
-                                <div class="mb-3 col-4">
-                                      <label class="form-label">Code postal</label>
-                                        <input class="form-control">
-                                </div>
-
-                                <div class="mb-3 col-8">
-                                      <label class="form-label">Ville</label>
-                                        <input class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                  <label class="form-label">Numéro de téléphone</label>
-                                    <input class="form-control">
-                            </div>
-
-                            <p>En continuant à payer la commande, vous confirmez que vous avez entré une adresse de livraison <strong>valide</strong>.</p>
+                            <button id="btnconfirmerAdresse" class="btn btn-primary mt-3">Confirmer l'adresse</button>
                         </div>
                     </div>
                 </div>
@@ -191,6 +168,18 @@ const elements = stripe.elements(options);
 </div>
 
 <script>
+    
+    let btnConfirmerAdresse = document.querySelector("btnConfirmerAdresse");
+    btnConfirmerAdresse.onclick = confirmerAdresse;
+
+    function confirmerAdresse() {
+    }
+    
+
+</script>
+
+<!--
+<script>
 
 /** TODO: à sortir dans son propre fichier**/
 
@@ -225,3 +214,4 @@ form.addEventListener('submit', async (event) => {
 });
 
 </script>
+-->
