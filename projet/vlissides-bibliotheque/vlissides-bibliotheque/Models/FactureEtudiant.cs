@@ -1,5 +1,6 @@
-﻿using vlissides_bibliotheque.Enums;
+using vlissides_bibliotheque.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -31,6 +32,6 @@ namespace vlissides_bibliotheque.Models
         public decimal Tvq { get; set; }
 
         [Required]
-        public StatusFacture Statut { get; set; }
+        public StatutFactureEnum Statut { get; set; }
     }
 }
