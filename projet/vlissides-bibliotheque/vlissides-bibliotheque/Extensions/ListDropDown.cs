@@ -62,5 +62,32 @@ namespace vlissides_bibliotheque
             }
             return Liste;
         }
+
+        public static List<SelectListItem> ListDropDownStatutCommande()
+        {
+            List<SelectListItem> Liste = new List<SelectListItem>();
+            List<StatusFacture> listEnum = Enum.GetValues(typeof(StatusFacture)).Cast<StatusFacture>().ToList();
+
+            for (int e = 0; e < Enum.GetNames(typeof(StatusFacture)).Length; e++)
+            {
+                string valeurAffichage = listEnum[e].ToString().ToLower();
+                valeurAffichage = char.ToUpper(valeurAffichage[0]) + valeurAffichage.Substring(1);
+                Liste.Add(new SelectListItem { Value = e.ToString(), Text = valeurAffichage });
+            }
+            return Liste;
+        }
+
+        public static List<SelectListItem> ListDropDownEtudiant(ApplicationDbContext _context)
+        {
+
+            List<SelectListItem> Liste = new List<SelectListItem>();
+
+            Liste.Add(new SelectListItem { Value = "", Text = "Choisissez un étudiant" });
+
+            foreach (var e in _context.Etudiants)
+                Liste.Add(new SelectListItem { Value = e.Id.ToString(), Text = e.Nom + ", " + e.Prenom });
+
+            return Liste;
+        }
     }
 }
