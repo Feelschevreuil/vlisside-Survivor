@@ -57,8 +57,6 @@
                             <span asp-validation-for="ValeurEnumStatut" class="text-danger"></span>
                         </div>
 
-                        @if (Model.EtudiantId == "" || Model.EtudiantId == null)
-                        {
                             <fieldset>
                                 <div class="form-group">
                                     <label asp-for="EtudiantId" class="form-label"></label>
@@ -67,7 +65,7 @@
                                     <span asp-validation-for="EtudiantId" class="text-danger"></span>
                                 </div>
                             </fieldset>
-                        }
+                        
                     </div>
                 </div>
             </div>
