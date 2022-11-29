@@ -827,7 +827,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreerCommandes()
+        public IActionResult CreerCommande()
         {
             GestionCommandeVM vm = new();
             vm.listStatut = ListDropDown.ListDropDownStatutCommande();
@@ -836,7 +836,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreerCommandes([FromBody] GestionCommandeVM vm)
+        public IActionResult CreerCommande([FromBody] GestionCommandeVM vm)
         {
             ModelState.Remove(nameof(vm.FactureEtudiantId));
             ModelState.Remove(nameof(vm.listEtudiant));
@@ -854,7 +854,7 @@ namespace vlissides_bibliotheque.Controllers
                     Etudiant = etudiant,
                     AdresseLivraison = vm.AdresseLivraison,
                     DateFacturation = vm.DateFacturation,
-                    Statut = vm.Statut,
+                    Statut = (StatusFacture)vm.ValeurEnumStatut,
                     Tps = (decimal)Taxes.TPS,
                     Tvq = (decimal)Taxes.TVQ
                 };
@@ -871,7 +871,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
-        public IActionResult ModifierCommandes(int id)
+        public IActionResult ModifierCommande(int id)
         {
             if (id == null)
             {
@@ -891,7 +891,7 @@ namespace vlissides_bibliotheque.Controllers
                 PaymentIntentId = facture.PaymentIntentId,
                 EtudiantId = facture.EtudiantId,
                 AdresseLivraison = facture.AdresseLivraison,
-                Statut = facture.Statut,
+                ValeurEnumStatut = (int)facture.Statut
             };
 
             vm.listStatut = ListDropDown.ListDropDownStatutCommande();
@@ -899,37 +899,40 @@ namespace vlissides_bibliotheque.Controllers
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
         }
 
-        //[HttpPost]
-        //public IActionResult ModifierCommandes([FromBody] GestionCommandeVM vm)
-        //{
-        //    ModelState.Remove(nameof(GestionPromotionVM.Id));
-        //    if (ModelState.IsValid)
-        //    {
-        //        Evenement modifierEvenement = _context.Evenements
-        //            .Include(x => x.Commanditaire)
-        //            .Where(x => x.EvenementId == vm.EvenementId)
-        //            .FirstOrDefault();
-        //        if (modifierEvenement != null)
-        //        {
-        //            modifierEvenement.EvenementId = vm.EvenementId;
-        //            modifierEvenement.Nom = vm.Nom;
-        //            modifierEvenement.Debut = vm.Debut;
-        //            modifierEvenement.Fin = vm.Fin;
-        //            modifierEvenement.Description = vm.Description;
-        //            modifierEvenement.Image = vm.Photo;
-        //            modifierEvenement.CommanditaireId = vm.CommanditaireId;
-        //            modifierEvenement.Commanditaire.Nom = vm.CommanditaireNom;
-        //            modifierEvenement.Commanditaire.Courriel = vm.CommanditaireCourriel;
-        //            modifierEvenement.Commanditaire.Url = vm.Url;
-        //            modifierEvenement.Commanditaire.Message = vm.CommanditaireMessage;
-        //            _context.Evenements.Update(modifierEvenement);
-        //            _context.SaveChanges();
-        //            vm.Id = modifierEvenement.EvenementId;
-        //            return Json(vm);
-        //        }
-        //    }
-        //    return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
-        //}
+        [HttpPost]
+        public IActionResult ModifierCommande([FromBody] GestionCommandeVM vm)
+        {
+            ModelState.Remove(nameof(vm.FactureEtudiantId));
+            ModelState.Remove(nameof(vm.listEtudiant));
+            ModelState.Remove(nameof(vm.listStatut));
+            ModelState.Remove(nameof(vm.NomStatut));
+            if (ModelState.IsValid)
+            {
+                FactureEtudiant facture = _context.FacturesEtudiants
+                    .Include(x => x.Etudiant)
+                    .Where(x => x.FactureEtudiantId == vm.FactureEtudiantId).FirstOrDefault();
+                Etudiant etudiant = _context.Etudiants
+                    .Where(x => x.Id == vm.EtudiantId)
+                    .FirstOrDefault();
+
+                facture.PaymentIntentId = vm.PaymentIntentId;
+                facture.EtudiantId = etudiant.Id;
+                facture.Etudiant = etudiant;
+                facture.AdresseLivraison = vm.AdresseLivraison;
+                facture.DateFacturation = vm.DateFacturation;
+                facture.Statut = (StatusFacture)vm.ValeurEnumStatut;
+
+                _context.FacturesEtudiants.Update(facture);
+                _context.SaveChanges();
+                vm.FactureEtudiantId = facture.FactureEtudiantId;
+                vm.NomStatut = Enum.GetName(typeof(StatusFacture), vm.ValeurEnumStatut);
+                return Json(vm);
+
+            }
+            vm.listStatut = ListDropDown.ListDropDownStatutCommande();
+            vm.listEtudiant = ListDropDown.ListDropDownEtudiant(_context);
+            return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
+        }
 
         public IActionResult ModifierListeLivres(int id)
         {
