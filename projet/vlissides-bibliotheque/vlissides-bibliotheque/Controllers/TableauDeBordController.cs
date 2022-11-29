@@ -47,7 +47,11 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            List<Etudiant> etudiants = _userManagerEtudiant.Users
+               .Include(etudiant => etudiant.ProgrammeEtude)
+               .Include(etudiant => etudiant.Adresse.Province)
+               .ToList();
+            return View(etudiants);
         }
 
         //------------------Étudiants------------------
