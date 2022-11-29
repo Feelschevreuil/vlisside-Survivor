@@ -9,7 +9,7 @@
             <div class="row text-start">
                 <div class="col-md-6">
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
-                  
+
                         <div class="form-group">
                             <label asp-for="Titre" class="form-label"></label>
                             <input asp-for="Titre" class="form-control" aria-required="true" />
@@ -51,22 +51,22 @@
                                 <span asp-validation-for="Total" class="text-danger"></span>
                             </div>
                         </fieldset>
-                        <fieldset>
-                        <div class="form-group">
-                            <label asp-for="ValeurEnumStatut" class="form-label"></label>
-                            <select asp-for="ValeurEnumStatut" asp-items="Model.listStatut" class="form-control" aria-required="true"></select>
-                            <span asp-validation-for="ValeurEnumStatut" class="text-danger"></span>
-                        </div>
+                        <fieldset class="rounded shadow p-3 m-2 mb-4">
+                            <div class="form-group">
+                                <label asp-for="ValeurEnumStatut" class="form-label"></label>
+                                <select asp-for="ValeurEnumStatut" asp-items="Model.listStatut" class="form-control" aria-required="true"></select>
+                                <span asp-validation-for="ValeurEnumStatut" class="text-danger"></span>
+                            </div>
 
-                          
-                                <div class="form-group">
-                                    <label asp-for="EtudiantId" class="form-label"></label>
-                                    <select asp-for="EtudiantId" asp-items="Model.listEtudiant" class="form-control" aria-required="true">
-                                    </select>
-                                    <span asp-validation-for="EtudiantId" class="text-danger"></span>
-                                </div>
-                            </fieldset>
-                        
+
+                            <div class="form-group">
+                                <label asp-for="EtudiantId" class="form-label"></label>
+                                <select asp-for="EtudiantId" asp-items="Model.listEtudiant" class="form-control" aria-required="true">
+                                </select>
+                                <span asp-validation-for="EtudiantId" class="text-danger"></span>
+                            </div>
+                        </fieldset>
+
                     </div>
                 </div>
             </div>
