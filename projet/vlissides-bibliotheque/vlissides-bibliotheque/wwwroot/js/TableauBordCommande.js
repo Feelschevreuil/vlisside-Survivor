@@ -63,25 +63,13 @@ function afficherCreation(id, data) {
         let baliseInfo = ligneCourante.children[index];
 
         if (baliseInfo != undefined) {
-            if (key == "Photo") {
-                var img = document.createElement('img');
-                img.src = data.Photo
-                img.classList.add('tableauDeBord-image');
-                baliseInfo.appendChild(img);
-                baliseInfo.classList.add('text-center');
-            } else if (key == "ProgrammeEtude") {
-                baliseInfo = ligneCourante.children[3];
-                index = document.querySelector('#ProgrammesEtudeId').selectedIndex
-                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
+            if (key == "Statut") {
+                baliseInfo.innerHTML = data.NomStatut
+
             } else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
         }
-        if (key == "MaisonsDeditions") {
-            baliseInfo = ligneCourante.children[5];
-            baliseInfo.innerHTML = document.querySelector("#MaisonDeditionId")[data.MaisonDeditionId].innerHTML
-        }
-
     }
 }
 
@@ -147,17 +135,24 @@ function creerBtnModifSuppri(nouvelleLigne, id) {
     trBtn = document.createElement("td");
     trBtn.classList.add("options-ligne", "position-absolute", "text-center", "vw-100", "start-0", "bg-transparent", "border-0")
     nouvelleLigne.appendChild(trBtn);
+
+    livreImg = document.createElement("img");
+    livreImg.classList.add("btn-img-hover");
+    livreImg.setAttribute("onclick", "getFormulaireListeLivres(" + id + ")");
+    livreImg.setAttribute("src", "/img/book-view.svg");
+    trBtn.appendChild(livreImg);
+
     editImg = document.createElement("img")
     editImg.classList.add("btn-img-hover");
     editImg.setAttribute("data-bs-toggle", "modal");
     editImg.setAttribute("data-bs-target", "modal-modifier");
-    editImg.setAttribute("onclick", "getFormulaireModifierLivre(" + id + ")");
+    editImg.setAttribute("onclick", "getFormulaireModifierCommande(" + id + ")");
     editImg.setAttribute("src", "/img/pencil.svg");
     trBtn.appendChild(editImg);
 
     deleteImg = document.createElement("img");
     deleteImg.classList.add("btn-img-hover");
-    deleteImg.setAttribute("onclick", "supprimerLivre(" + id + ")");
+    deleteImg.setAttribute("onclick", "supprimerCommande(" + id + ")");
     deleteImg.setAttribute("src", "/img/delete.svg");
     trBtn.appendChild(deleteImg);
     return nouvelleLigne;
@@ -295,14 +290,13 @@ function creerCommande() {
         // valider si le contenu reçu est du json ou du text
         const contentType = res.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
-
             res.json().then(function (res) {
                 if (res != "") {
                     let table = document.querySelectorAll("table")[0];
                     let thead = table.children[0];
                     let tbody = table.children[1];
                     let nouvelleLigne = document.createElement("tr");
-                    let id = res.id;
+                    let id = res.factureEtudiantId;
                     nouvelleLigne.id = "tr-" + id;
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
@@ -323,7 +317,7 @@ function creerCommande() {
 }
 
 function supprimerCommande(id) {
-    var confirmation = confirm("Êtes-vous sur de vouloir supprimer cet évênement?");
+    var confirmation = confirm("Êtes-vous sur de vouloir supprimer cette commande?");
     if (confirmation) {
         fetch(host + "TableauDeBord/SupprimerCommande/", {
             method: 'POST',
@@ -335,9 +329,9 @@ function supprimerCommande(id) {
         }).then(function (res) {
             if (res.ok) {
                 alert("La commande a supprimé avec succès!");
-                let promotions = document.querySelector(`#tr-${id}`);
-                let parent = promotions.parentElement;
-                parent.removeChild(promotions);
+                let commade = document.querySelector(`#tr-${id}`);
+                let parent = commade.parentElement;
+                parent.removeChild(commade);
             } else {
                 alert(`Impossible de supprimer la commande selon le code d'identification ${id}`);
             }
