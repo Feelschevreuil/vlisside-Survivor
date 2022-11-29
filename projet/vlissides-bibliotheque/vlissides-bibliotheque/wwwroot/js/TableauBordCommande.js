@@ -36,12 +36,9 @@ function afficherModification(id, data) {
         let baliseInfo = ligneCourante.children[index];
 
         if (baliseInfo != undefined) {
-            if (key == "Photo") {
-                baliseInfo.children[0].src = data.Photo;
-            } else if (key == "ProgrammeEtude") {
-                baliseInfo = ligneCourante.children[3];
-                index = document.querySelector('#ProgrammesEtudeId').selectedIndex
-                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
+            if (key == "Statut") {
+                baliseInfo.innerHTML = data.NomStatut
+            
             } else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
@@ -138,7 +135,7 @@ function getPartialViewCommandes() {
 
 function getFormulaireModifierCommande(id) {
 
-    fetch(host + "TableauDeBord/ModifierCommandes/" + String(id), {
+    fetch(host + "TableauDeBord/ModifierCommande/" + String(id), {
         method: 'GET',
     }).then(function (res) {
         if (!res.ok) {
@@ -168,12 +165,12 @@ function getFormulaireListeLivres(id) {
     });
 }
 
-function modifierCommandes() {
+function ModifierCommande() {
     let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
     data.Id = 0
-    fetch(host + "TableauDeBord/ModifierCommandes/", {
+    fetch(host + "TableauDeBord/ModifierCommande/", {
         method: 'POST',
         body: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
@@ -190,7 +187,7 @@ function modifierCommandes() {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(res.id, resetMajusculeJsonKey(res));
+                    afficherModification(res.factureEtudiantId, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-modifier").click();
                 }
             });
@@ -205,7 +202,7 @@ function modifierCommandes() {
 
 function getFormulaireCreerCommande() {
 
-    fetch(host + "TableauDeBord/CreerCommandes/", {
+    fetch(host + "TableauDeBord/CreerCommande/", {
         method: 'GET',
     }).then(function (res) {
         if (res.ok) {
@@ -221,7 +218,7 @@ function creerCommande() {
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
 
-    fetch(host + "TableauDeBord/CreerCommandes/", {
+    fetch(host + "TableauDeBord/CreerCommande/", {
         method: 'POST',
         body: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
