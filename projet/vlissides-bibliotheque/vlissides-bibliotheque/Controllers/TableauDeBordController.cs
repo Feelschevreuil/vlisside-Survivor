@@ -61,7 +61,6 @@ namespace vlissides_bibliotheque.Controllers
         {
             List<Etudiant> etudiants = _userManagerEtudiant.Users
                 .Include(etudiant => etudiant.ProgrammeEtude)
-                .Include(etudiant => etudiant.Adresse)
                 .Include(etudiant => etudiant.Adresse.Province)
                 .ToList();
 
