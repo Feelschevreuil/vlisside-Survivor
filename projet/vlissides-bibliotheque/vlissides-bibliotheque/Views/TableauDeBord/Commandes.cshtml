@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             @foreach (FactureEtudiant commande in Model) {
-                <tr class="modif-suppr">
+                <tr id="tr-@commande.FactureEtudiantId" class="modif-suppr">
                     <td>@commande.FactureEtudiantId</td>
                     <td>@commande.PaymentIntentId</td>
                     <td>@commande.EtudiantId</td>
