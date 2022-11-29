@@ -829,39 +829,43 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult CreerCommandes()
         {
             GestionCommandeVM vm = new();
-            vm.listEtatLivre = ListDropDown.ListDropDownEtatsLivre();
+            vm.listStatut = ListDropDown.ListDropDownStatutCommande();
+            vm.listEtudiant = ListDropDown.ListDropDownEtudiant(_context);
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
         }
 
         [HttpPost]
         public IActionResult CreerCommandes([FromBody] GestionCommandeVM vm)
         {
-            ModelState.Remove(nameof(vm.Id));
             ModelState.Remove(nameof(vm.FactureEtudiantId));
+            ModelState.Remove(nameof(vm.listEtudiant));
+            ModelState.Remove(nameof(vm.listStatut));
+            ModelState.Remove(nameof(vm.NomStatut));
             if (ModelState.IsValid)
             {
                 Etudiant etudiant = _context.Etudiants.Where(x => x.Id == vm.EtudiantId).FirstOrDefault();
                 FactureEtudiant facture = new()
                 {
                     FactureEtudiantId = 0,
-                    PaymentIntentId = "Test-PaymentIntentId",
+                    PaymentIntentId = vm.PaymentIntentId,
                     ClientSecret = "Test-ClientSecret",
                     EtudiantId = etudiant.Id,
                     Etudiant = etudiant,
-                    AdresseLivraison = "123 balker",
-                    DateFacturation = DateTime.Now,
-                    Statut = StatusFacture.TRANSIT,
+                    AdresseLivraison = vm.AdresseLivraison,
+                    DateFacturation = vm.DateFacturation,
+                    Statut = vm.Statut,
                     Tps = (decimal)Taxes.TPS,
                     Tvq = (decimal)Taxes.TVQ
                 };
                 _context.FacturesEtudiants.Add(facture);
                 _context.SaveChanges();
-
-                vm.Id = facture.FactureEtudiantId;
+                vm.FactureEtudiantId = facture.FactureEtudiantId;
+                vm.NomStatut = Enum.GetName(typeof(StatusFacture), vm.Statut);
                 return Json(vm);
 
             }
-            vm.listEtatLivre = ListDropDown.ListDropDownEtatsLivre();
+            vm.listStatut = ListDropDown.ListDropDownStatutCommande();
+            vm.listEtudiant = ListDropDown.ListDropDownEtudiant(_context);
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
         }
 
@@ -967,13 +971,13 @@ namespace vlissides_bibliotheque.Controllers
                 return NotFound();
             }
 
-            var commandeSupprimer = _context.CommandesEtudiants.Where(x => x.FactureEtudiantId == id).FirstOrDefault();
+            var commandeSupprimer = _context.FacturesEtudiants.Where(x => x.FactureEtudiantId == id).FirstOrDefault();
             if (commandeSupprimer == null)
             {
                 return NotFound();
             };
 
-            _context.CommandesEtudiants.Remove(commandeSupprimer);
+            _context.FacturesEtudiants.Remove(commandeSupprimer);
             _context.SaveChanges();
             return Ok();
         }
