@@ -50,122 +50,6 @@ namespace vlissides_bibliotheque.Controllers
             return View();
         }
 
-        //------------------Cours------------------
-
-        [HttpGet]
-        public IActionResult Cours()
-        {
-            List<Cours> cours = _context.Cours
-                .Include(cours => cours.ProgrammeEtude)
-                .ToList();
-
-            return PartialView("~/Views/TableauDeBord/Cours.cshtml", cours);
-        }
-
-        [HttpGet]
-        public IActionResult CreerCours()
-        {
-            GestionCoursVM cours = new();
-            cours.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
-            return PartialView("Views/Shared/_CoursPartial.cshtml", cours);
-        }
-        [HttpPost]
-        public IActionResult CreerCours([FromBody] GestionCoursVM vm)
-        {
-            ModelState.Remove(nameof(vm.ProgrammeEtude));
-            ModelState.Remove(nameof(vm.ProgrammesEtude));
-            ModelState.Remove(nameof(vm.Id));
-
-            if (ModelState.IsValid)
-            {
-                Cours nouveauCours = new()
-                {
-                    CoursId = 0,
-                    ProgrammeEtudeId = vm.ProgrammesEtudeId,
-                    Nom = vm.Nom,
-                    Code = vm.Code,
-                    AnneeParcours = vm.AnneeParcours,
-                    Description = vm.Description,
-                };
-                _context.Cours.Add(nouveauCours);
-                _context.SaveChanges();
-                vm.Id = nouveauCours.CoursId;
-                return Json(vm);
-            }
-
-            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
-            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
-        }
-        [HttpGet]
-        public IActionResult ModifierCours(int id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            Cours coursRechercher = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
-            if (coursRechercher == null)
-            {
-                return NotFound();
-            }
-
-            GestionCoursVM vm = new()
-            {
-                CoursId = coursRechercher.CoursId,
-                Nom = coursRechercher.Nom,
-                Code = coursRechercher.Code,
-                AnneeParcours = coursRechercher.AnneeParcours,
-                Description = coursRechercher.Description,
-                ProgrammesEtudeId = coursRechercher.ProgrammeEtudeId,
-            };
-            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
-            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
-
-        }
-        [HttpPost]
-        public IActionResult ModifierCours([FromBody] GestionCoursVM vm)
-        {
-            ModelState.Remove(nameof(vm.ProgrammeEtude));
-            ModelState.Remove(nameof(vm.ProgrammesEtude));
-            ModelState.Remove(nameof(vm.Id));
-
-            if (ModelState.IsValid)
-            {
-                Cours coursRechercher = _context.Cours.Where(x => x.CoursId == vm.CoursId).FirstOrDefault();
-
-                coursRechercher.ProgrammeEtudeId = vm.ProgrammesEtudeId;
-                coursRechercher.Nom = vm.Nom;
-                coursRechercher.Code = vm.Code;
-                coursRechercher.AnneeParcours = vm.AnneeParcours;
-                coursRechercher.Description = vm.Description;
-
-                _context.Cours.Update(coursRechercher);
-                _context.SaveChanges();
-                vm.Id = coursRechercher.CoursId;
-                return Json(vm);
-            }
-
-            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
-            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
-
-        }
-        [HttpPost]
-        public IActionResult SupprimerCours([FromBody] int id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Cours supprimerCours = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
-            if (supprimerCours == null)
-            {
-                return NotFound();
-            }
-            _context.Cours.Remove(supprimerCours);
-            _context.SaveChanges();
-            return Ok();
-        }
-
         //------------------Étudiants------------------
 
         [HttpGet]
@@ -567,6 +451,123 @@ namespace vlissides_bibliotheque.Controllers
 
             return Ok();
         }
+
+        //------------------Cours------------------
+
+        [HttpGet]
+        public IActionResult Cours()
+        {
+            List<Cours> cours = _context.Cours
+                .Include(cours => cours.ProgrammeEtude)
+                .ToList();
+
+            return PartialView("~/Views/TableauDeBord/Cours.cshtml", cours);
+        }
+
+        [HttpGet]
+        public IActionResult CreerCours()
+        {
+            GestionCoursVM cours = new();
+            cours.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            return PartialView("Views/Shared/_CoursPartial.cshtml", cours);
+        }
+        [HttpPost]
+        public IActionResult CreerCours([FromBody] GestionCoursVM vm)
+        {
+            ModelState.Remove(nameof(vm.ProgrammeEtude));
+            ModelState.Remove(nameof(vm.ProgrammesEtude));
+            ModelState.Remove(nameof(vm.Id));
+
+            if (ModelState.IsValid)
+            {
+                Cours nouveauCours = new()
+                {
+                    CoursId = 0,
+                    ProgrammeEtudeId = vm.ProgrammesEtudeId,
+                    Nom = vm.Nom,
+                    Code = vm.Code,
+                    AnneeParcours = vm.AnneeParcours,
+                    Description = vm.Description,
+                };
+                _context.Cours.Add(nouveauCours);
+                _context.SaveChanges();
+                vm.Id = nouveauCours.CoursId;
+                return Json(vm);
+            }
+
+            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
+        }
+        [HttpGet]
+        public IActionResult ModifierCours(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Cours coursRechercher = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
+            if (coursRechercher == null)
+            {
+                return NotFound();
+            }
+
+            GestionCoursVM vm = new()
+            {
+                CoursId = coursRechercher.CoursId,
+                Nom = coursRechercher.Nom,
+                Code = coursRechercher.Code,
+                AnneeParcours = coursRechercher.AnneeParcours,
+                Description = coursRechercher.Description,
+                ProgrammesEtudeId = coursRechercher.ProgrammeEtudeId,
+            };
+            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
+
+        }
+        [HttpPost]
+        public IActionResult ModifierCours([FromBody] GestionCoursVM vm)
+        {
+            ModelState.Remove(nameof(vm.ProgrammeEtude));
+            ModelState.Remove(nameof(vm.ProgrammesEtude));
+            ModelState.Remove(nameof(vm.Id));
+
+            if (ModelState.IsValid)
+            {
+                Cours coursRechercher = _context.Cours.Where(x => x.CoursId == vm.CoursId).FirstOrDefault();
+
+                coursRechercher.ProgrammeEtudeId = vm.ProgrammesEtudeId;
+                coursRechercher.Nom = vm.Nom;
+                coursRechercher.Code = vm.Code;
+                coursRechercher.AnneeParcours = vm.AnneeParcours;
+                coursRechercher.Description = vm.Description;
+
+                _context.Cours.Update(coursRechercher);
+                _context.SaveChanges();
+                vm.Id = coursRechercher.CoursId;
+                return Json(vm);
+            }
+
+            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
+
+        }
+        [HttpPost]
+        public IActionResult SupprimerCours([FromBody] int id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            Cours supprimerCours = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
+            if (supprimerCours == null)
+            {
+                return NotFound();
+            }
+            _context.Cours.Remove(supprimerCours);
+            _context.SaveChanges();
+            return Ok();
+        }
+
 
         //------------------Programmes d'études------------------
 
