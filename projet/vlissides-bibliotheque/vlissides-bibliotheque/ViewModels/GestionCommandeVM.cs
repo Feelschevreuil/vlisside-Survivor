@@ -8,9 +8,7 @@ namespace vlissides_bibliotheque.ViewModels
 {
     public class GestionCommandeVM
     {
-        public int Id { get; set; }
-
-        public List<SelectListItem> listEtatLivre { get; set; }
+        public List<SelectListItem> listStatut { get; set; }
         public List<SelectListItem> listEtudiant { get; set; }
 
         public int FactureEtudiantId { get; set; }
@@ -18,18 +16,25 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis")]
         [MaxLength(32, ErrorMessage = "Le champ {0} ne peux pas dépasser 32 caractères")]
 
-        public string? PaymentIntentId { get; set; }
+        public string? PaymentIntentId { get; set; } = "TODO";
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
-
+        [DisplayName("Étudiants")]
         public string EtudiantId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
         public StatusFacture Statut { get; set; }
 
+        public string NomStatut { get; set; }
+
+
         [Required(ErrorMessage = "Le champ {0} est requis")]
-        [DisplayName("État")]
+        [DisplayName("Statue")]
         public EtatLivreEnum EtatLivre { get; set; }
+
+        [Required(ErrorMessage = "Le champ {0} est requis")]
+        [DisplayName("Statue")]
+        public int ValeurEnumStatut { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
         [DisplayName("Quantité")]
@@ -54,6 +59,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string AdresseLivraison { get; set; } = "123 barker";
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
+        [DataType(DataType.Date)]
         [DisplayName("Date de facturation")]
         public DateTime DateFacturation { get; set; } = DateTime.Now;
 
