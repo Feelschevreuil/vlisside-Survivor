@@ -83,53 +83,6 @@ function setInputsFormat() {
     }
 }
 
-function getCoursCheckBox() {
-    var divListCours = document.querySelector("#listDeCours");
-    var coursCocher = divListCours.querySelectorAll("input");
-    var listCoursCocher = new Array();
-
-    coursCocher.forEach((cours) => {
-        if (cours.checked) {
-            listCoursCocher.push(cours.id);
-        }
-    });
-    return listCoursCocher;
-}
-
-function livreGestionErreur(data) {
-    if (data.AuteurId == "") { data.AuteurId = 0 }
-    if (data.MaisonDeditionId == "") { data.MaisonDeditionId = 0 }
-    data.PossedeNeuf = document.querySelector("#PossedeNeuf").checked;
-    data.PossedeNumerique = document.querySelector("#PossedeNumerique").checked;
-    data.PossedeUsagee = document.querySelector("#PossedeUsagee").checked;
-    data.PrixNeuf = possedeDesLettres(data.PrixNeuf);
-    data.PrixNumerique = possedeDesLettres(data.PrixNumerique);
-    data.PrixUsage = possedeDesLettres(data.PrixUsage);
-    data.QuantiteUsagee = possedeDesLettres(data.QuantiteUsagee);
-    return data
-}
-
-function EtudiantGestionErreur(data) {
-    if (data.App == "") { data.App = 0 }
-    return data;
-}
-
-function CoursGestionErreur(data) {
-    if (data.programmeEtudesId == "") { data.programmeEtudesId = 0 }
-    if (data.ProgrammesEtudeId == "") { data.ProgrammesEtudeId = 0 }
-
-    return data
-}
-
-function possedeDesLettres(nombre) {
-    if (isNaN(parseFloat(nombre)) || nombre == "") {
-        return nombre = 0;
-    }
-    else {
-        return parseFloat(nombre.replace(",", "."));
-    }
-}
-
 function creerBtnModifSuppri(nouvelleLigne, id) {
     nouvelleLigne.classList.add("modif-suppr");
     trBtn = document.createElement("td");
@@ -158,13 +111,6 @@ function creerBtnModifSuppri(nouvelleLigne, id) {
     return nouvelleLigne;
 }
 
-function getLivreId() {
-    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
-    let formulaire = parent.querySelector("form");
-    let livreId = formulaire.IdDuLivre;
-    return livreId;
-}
-
 function getListeLivre() {
     var listcheckBox = document.querySelector("#afficherListLivres");
     if (listcheckBox.hidden == true) {
@@ -173,7 +119,6 @@ function getListeLivre() {
         listcheckBox.hidden = true
     }
 }
-
 
 //--------------------------------------------
 //              Commandes
