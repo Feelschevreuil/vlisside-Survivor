@@ -276,6 +276,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.MaisonsDeditions));
             ModelState.Remove(nameof(vm.checkBoxCours));
             ModelState.Remove(nameof(vm.Id));
+            ModelState.Remove(nameof(vm.DateFormater));
 
             if (ModelState.IsValid)
             {
@@ -320,6 +321,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.PrixEtatsLivres.AddRange(GestionPrix.AssocierPrixEtat(nouveauLivreBibliothèque, vm, _context));
                 _context.SaveChanges();
                 vm.Id = nouveauLivreBibliothèque.LivreId;
+                vm.DateFormater = vm.DatePublication.ToString("dd MMMM yyyy");
                 return Json(vm);
             }
             vm.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
