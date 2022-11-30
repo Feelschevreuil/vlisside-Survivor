@@ -857,6 +857,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.listEtudiant));
             ModelState.Remove(nameof(vm.listStatut));
             ModelState.Remove(nameof(vm.NomStatut));
+            ModelState.Remove(nameof(vm.formaterDateFacturation));
             if (ModelState.IsValid)
             {
                 Etudiant etudiant = _context.Etudiants.Where(x => x.Id == vm.EtudiantId).FirstOrDefault();
@@ -877,6 +878,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
                 vm.FactureEtudiantId = facture.FactureEtudiantId;
                 vm.NomStatut = Enum.GetName(typeof(StatusFacture), vm.Statut);
+                vm.formaterDateFacturation = vm.DateFacturation.ToString("dd MMMM yyyy");
                 return Json(vm);
 
             }

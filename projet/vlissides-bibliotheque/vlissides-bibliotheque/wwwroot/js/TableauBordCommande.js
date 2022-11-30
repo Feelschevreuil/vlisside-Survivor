@@ -65,7 +65,9 @@ function afficherCreationCommande(id, data) {
             if (key == "Statut") {
                 baliseInfo.innerHTML = data.NomStatut
 
-            } else {
+            } else if (key == "DateFacturation") {
+                baliseInfo.innerHTML = data.FormaterDateFacturation
+            }else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
         }
