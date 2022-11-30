@@ -131,22 +131,22 @@ namespace vlissides_bibliotheque.Services
 
                         commandeEtudiant.PrixEtatLivreId = prixEtatLivre.PrixEtatLivreId;
 
+                        commandeEtudiant.Isbn = prixEtatLivre
+                            .LivreBibliotheque
+                                .Isbn;
+
+                        commandeEtudiant.Titre = prixEtatLivre
+                            .LivreBibliotheque
+                                .Titre;
+
+                        commandeEtudiant.PrixEtatLivre = prixEtatLivre;
+
+                        commandeEtudiant.EtatLivre = prixEtatLivre.EtatLivre;
+
+                        commandeEtudiant.PrixUnitaireGele = prixEtatLivre.Prix;
+
                         if(etatLivre == EtatLivreEnum.USAGE)
                         {
-
-                            commandeEtudiant.Isbn = prixEtatLivre
-                                .LivreBibliotheque
-                                    .Isbn;
-
-                            commandeEtudiant.Titre = prixEtatLivre
-                                .LivreBibliotheque
-                                    .Titre;
-
-                            commandeEtudiant.PrixEtatLivre = prixEtatLivre;
-
-                            commandeEtudiant.EtatLivre = prixEtatLivre.EtatLivre;
-
-                            commandeEtudiant.PrixUnitaireGele = prixEtatLivre.Prix;
                             
                             if(prixEtatLivre.QuantiteUsage >= livreDesire.Quantite)
                             {
@@ -291,6 +291,30 @@ namespace vlissides_bibliotheque.Services
             }
 
             return commandesPartielles;
+        }
+
+        /// <summary>
+        /// Calcule le total d'une liste de <c>CommandePartielle</c>
+        /// </summary>
+        /// <param name="commandesPartielles">Liste de <c>CommandePartielle</c></param>
+        /// <returns>Le total des <c></c></returns>
+        public static double GetTotalCommandesPartielles
+        (
+            List<CommandePartielle> commandesPartielles
+        )
+        {
+
+            double totalFacture;
+
+            totalFacture = 0.0;
+
+            foreach(CommandePartielle commandePartielle in commandesPartielles)
+            {
+
+                totalFacture += commandePartielle.Prix * commandePartielle.Quantite;
+            }
+
+            return totalFacture;
         }
     }
 }
