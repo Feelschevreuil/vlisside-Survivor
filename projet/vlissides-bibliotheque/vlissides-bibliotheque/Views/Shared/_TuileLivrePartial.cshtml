@@ -123,7 +123,7 @@
         <p class="card-text"><strong>ISBN:</strong> @Model.livreBibliotheque.Isbn</p>
         @if (Model.coursLivre != null)
         {
-            <p class="card-text"><strong>Programme d'étude:</strong> @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+            <p class="card-text"><strong>Programme d'étude:</strong><br>@Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
             <p class="card-text"><strong>Auteur(s):</strong> @auteurs</p>
         }
         else
