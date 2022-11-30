@@ -32,7 +32,7 @@ namespace vlissides_bibliotheque
             {
                 if (coursLivreAssocier != null)
                 {
-                    tuileVM.coursLivre = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                    tuileVM.coursLivre = coursLivreAssocier;
                     
                 }
                 if (bdPrixLivre != null)
