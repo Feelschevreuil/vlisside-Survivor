@@ -38,8 +38,10 @@ function afficherModificationCommande(id, data) {
         if (baliseInfo != undefined) {
             if (key == "Statut") {
                 baliseInfo.innerHTML = data.NomStatut
-            
-            } else {
+
+            } else if (key == "DateFacturation") {
+                baliseInfo.innerHTML = data.FormaterDateFacturation
+            }else{
                 baliseInfo.innerHTML = data[`${key}`];
             }
         }
@@ -108,7 +110,7 @@ function creerBtnModifSuppriCommande(nouvelleLigne, id) {
     return nouvelleLigne;
 }
 
-function getListeLivre() {
+function getListeCommandes() {
     var listcheckBox = document.querySelector("#afficherListLivres");
     if (listcheckBox.hidden == true) {
         listcheckBox.hidden = false
@@ -149,17 +151,17 @@ function getFormulaireModifierCommande(id) {
     });
 }
 
-function getFormulaireListeLivres(id) {
+function getFormulaireListeCommandes(id) {
 
-    fetch(host + "TableauDeBord/ModifierListeLivres/" + String(id), {
+    fetch(host + "TableauDeBord/AfficherListeCommandes/" + String(id), {
         method: 'GET',
     }).then(function (res) {
         if (!res.ok) {
-            alert("La liste de livres associée est introuvable.")
+            alert("La liste de commandes associée est introuvable.")
         }
 
         res.text().then(function (res) {
-            document.querySelector("#modal-livres")
+            document.querySelector("#modal-commande")
                 .querySelector(".modal-body").innerHTML = res;
         });
     });

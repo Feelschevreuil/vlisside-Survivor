@@ -28,7 +28,7 @@
                     <td>@commande.Statut</td>
                     <td>TODO</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
-                        <img src="~/img/book-view.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-livres" onclick="getFormulaireListeLivres('@commande.FactureEtudiantId')">
+                        <img src="~/img/recus.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-commande" onclick="getFormulaireListeCommandes('@commande.FactureEtudiantId')">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierCommande('@commande.FactureEtudiantId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCommande('@commande.FactureEtudiantId')">
                     </td>
@@ -67,20 +67,16 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="modal-livres" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="modal-commande" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Liste des livres associés</h1>
-                            <img class="ps-2 btn-img-hover" src="~/img/plus-circle.svg" onclick="getListeLivre()" />
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Commandes associés à cette facture</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                         </div>
                         <div class="modal-footer">
-                            <button id="fermer-modal-livres" data-bs-dismiss="modal" hidden></button>
-                            <button type="button" class="btn btn-primary" onclick="modifierLivreLier()">Enregistrer</button>
-                        </div>
                     </div>
                 </div>
             </div>
