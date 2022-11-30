@@ -23,7 +23,7 @@ function setPremiereLettreEnMajuscule(string) {
     return string[0].toUpperCase() + string.slice(1);
 }
 
-function afficherModification(id, data) {
+function afficherModificationProgrameEtude(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -50,7 +50,7 @@ function afficherModification(id, data) {
     }
 }
 
-function afficherCreation(id, data) {
+function afficherCreationProgrameEtude(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -179,7 +179,7 @@ function modifierProgrammeEtudes() {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(res.id, resetMajusculeJsonKey(res));
+                    afficherModificationProgrameEtude(res.id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-modifier").click();
                 }
             });
@@ -238,7 +238,7 @@ function creerProgrammeEtudes() {
                     }
                     nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherCreation(id, resetMajusculeJsonKey(res));
+                    afficherCreationProgrameEtude(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });

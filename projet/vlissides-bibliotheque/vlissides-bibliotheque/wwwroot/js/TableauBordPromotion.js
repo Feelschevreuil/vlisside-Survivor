@@ -23,7 +23,7 @@ function setPremiereLettreEnMajuscule(string) {
     return string[0].toUpperCase() + string.slice(1);
 }
 
-function afficherModification(id, data) {
+function afficherModificationPromotion(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -38,10 +38,6 @@ function afficherModification(id, data) {
         if (baliseInfo != undefined) {
             if (key == "Photo") {
                 baliseInfo.children[0].src = data.Photo;
-            } else if (key == "ProgrammeEtude") {
-                baliseInfo = ligneCourante.children[3];
-                index = document.querySelector('#ProgrammesEtudeId').selectedIndex
-                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
             } else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
@@ -50,7 +46,7 @@ function afficherModification(id, data) {
     }
 }
 
-function afficherCreation(id, data) {
+function afficherCreationPromotion(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -179,7 +175,7 @@ function modifierPromotions() {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(res.id, resetMajusculeJsonKey(res));
+                    afficherModificationPromotion(res.id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-modifier").click();
                 }
             });
@@ -238,7 +234,7 @@ function creerPromotion() {
                     }
                     nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherCreation(id, resetMajusculeJsonKey(res));
+                    afficherCreationPromotion(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });
