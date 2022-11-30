@@ -36,13 +36,13 @@ namespace vlissides_bibliotheque.ViewModels
         [DisplayName("Statue")]
         public int ValeurEnumStatut { get; set; }
 
-        [Required(ErrorMessage = "Le champ {0} est requis")]
-        [DisplayName("Quantité")]
-        public int Quantite { get; set; } = 10;
+        //[Required(ErrorMessage = "Le champ {0} est requis")]
+        //[DisplayName("Quantité")]
+        //public int Quantite { get; set; } = 10;
 
-        [Required(ErrorMessage = "Le champ {0} est requis")]
-        [DisplayName("Quantité usagée")]
-        public int QuantiteUsage { get; set; } = 10;
+        //[Required(ErrorMessage = "Le champ {0} est requis")]
+        //[DisplayName("Quantité usagée")]
+        //public int QuantiteUsage { get; set; } = 10;
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
         [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
@@ -62,6 +62,8 @@ namespace vlissides_bibliotheque.ViewModels
         [DataType(DataType.Date)]
         [DisplayName("Date de facturation")]
         public DateTime DateFacturation { get; set; } = DateTime.Now;
+
+        public string formaterDateFacturation { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
         public double Total { get; set; }

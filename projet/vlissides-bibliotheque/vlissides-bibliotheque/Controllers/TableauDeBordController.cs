@@ -921,6 +921,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.listEtudiant));
             ModelState.Remove(nameof(vm.listStatut));
             ModelState.Remove(nameof(vm.NomStatut));
+            ModelState.Remove(nameof(vm.formaterDateFacturation));
             if (ModelState.IsValid)
             {
                 FactureEtudiant facture = _context.FacturesEtudiants
@@ -941,6 +942,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
                 vm.FactureEtudiantId = facture.FactureEtudiantId;
                 vm.NomStatut = Enum.GetName(typeof(StatusFacture), vm.ValeurEnumStatut);
+                vm.formaterDateFacturation = vm.DateFacturation.ToString("dd MMMM yyyy");
                 return Json(vm);
 
             }
@@ -949,32 +951,20 @@ namespace vlissides_bibliotheque.Controllers
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
         }
 
-        public IActionResult ModifierListeLivres(int id)
+        public IActionResult AfficherListeCommandes(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            CommandeEtudiant commande = _context.CommandesEtudiants
-                .Include(x => x.PrixEtatLivre.LivreBibliotheque)
+            FactureCommandeVM vm = new()
+            {
+                CommandesEtudiant = _context.CommandesEtudiants
+                .Include(x=>x.PrixEtatLivre.LivreBibliotheque)
                 .Where(x => x.FactureEtudiantId == id)
-                .FirstOrDefault();
-            if (commande == null)
-            {
-                return NotFound();
-            }
-
-            List<LivreBibliotheque> list = new()
-            {
-                _context.LivresBibliotheque.Include(x => x.MaisonEdition).ToList().FirstOrDefault()
+                .ToList()
             };
-            FactureLivreVM factureLivreVM = new()
-            {
-                Livres = list,
-                checkBoxLivres = CheckedBox.GetLivres(_livresBibliothequeDAO)
-            };
-            return PartialView("Views/Shared/_LivresFactureEtudiantPartial.cshtml", factureLivreVM);
-
+            return PartialView("Views/Shared/_CommandeFactureEtudiantPartial.cshtml", vm);
         }
 
         [HttpPost]
