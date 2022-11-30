@@ -4,6 +4,7 @@ using vlissides_bibliotheque.Models.Achat;
 using vlissides_bibliotheque.Services;
 using vlissides_bibliotheque.Extentions;
 using vlissides_bibliotheque.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace vlissides_bibliotheque.DAO
@@ -39,21 +40,30 @@ namespace vlissides_bibliotheque.DAO
 
             List<PrixEtatLivre> prixEtatsLivres;
 
-            prixEtatsLivres = _context
-                .PrixEtatsLivres
+            prixEtatsLivres = new();
+
+            foreach(LivreDesire livreDesire in livresDesires)
+            {
+
+                PrixEtatLivre prixEtatLivre;
+
+                prixEtatLivre = _context
+                    .PrixEtatsLivres
+                    .Include(prixEtatLivre => prixEtatLivre.LivreBibliotheque)
                     .Where
                     (
                         prixEtatLivre =>
-                            livresDesires
-                                .Any
-                                (
-                                    livreDesire =>
-                                        livreDesire
-                                            .LivreId == prixEtatLivre.LivreBibliothequeId
-                                ) &&
+                            prixEtatLivre.LivreBibliothequeId == livreDesire.LivreId &&
                             prixEtatLivre.EtatLivre == etatLivre
                     )
-                .ToList();
+                    .FirstOrDefault();
+
+                if(prixEtatLivre != null)
+                {
+
+                    prixEtatsLivres.Add(prixEtatLivre);
+                }
+            }
 
             return prixEtatsLivres;
         }
