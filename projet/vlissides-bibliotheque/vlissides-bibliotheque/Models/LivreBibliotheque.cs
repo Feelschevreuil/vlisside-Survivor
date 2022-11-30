@@ -28,14 +28,16 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         [StringLength(512)]
+        [DisplayName("Résumer")]
         public string Resume { get; set; }
 
         [Required]
-        [DisplayName("Photo de couverture")]
+        [DisplayName("Photo")]
         public string PhotoCouverture { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
+        [DisplayName("Date de publication")]
         public DateTime DatePublication { get; set; }
     }
 }
