@@ -1,42 +1,51 @@
 ﻿@model RecommendationPromotionsVM
 @{
-	ViewData["Title"] = "Accueil";
-	
+    ViewData["Title"] = "Accueil";
+
 }
 
 
 <h3>Recommandations</h3>
 <div class="container-fluid">
-	
-	<div class="row">
-		@foreach(var card in Model.tuileLivreBibliotequeVMs)
-		{
-			<div class="col-12 col-md-3 col-sm-3">
-				<partial name="_TuileLivrePartial" model="card"></partial>
-			</div>
-		}
-	</div>
+
+    <div class="row">
+        @foreach (var card in Model.tuileLivreBibliotequeVMs)
+        {
+            <div class="col-12 col-md-3 col-sm-3">
+                <partial name="_TuileLivrePartial" model="card"></partial>
+            </div>
+        }
+    </div>
 </div>
 
-<div class="navbar">
-	
-	<h3 class="p-2 flex-grow-1">Actualités</h3>
-	<a class="btn btn-outline-primary border-0" asp-area="" asp-controller="Evenement" asp-action="Evenements">
-		Voir toutes les actualités
-		<img class="tableau" src="~/img/tableau.svg"/>
-	</a>
 
-</div>
-<div class="container-fluid">
+    <div class="navbar">
 
-	<div class="row">
-		@foreach (var card in Model.evenements)
-		{
-			<div class="col-auto col-md-3 col-sm-3">
-				<partial name="_TuileActualiterPartial" model="card"></partial>
-			</div>
-		}
-	</div>
-</div>
+        <h3 class="p-2 flex-grow-1">Actualités</h3>
+        <a class="btn btn-outline-primary border-0" asp-area="" asp-controller="Evenement" asp-action="Evenements">
+            Voir toutes les actualités
+            <img class="tableau" src="~/img/tableau.svg" />
+        </a>
 
+    </div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="container-fluid">
+
+        <div class="row">
+            @foreach (var card in Model.evenements)
+            {
+                <div class="col-auto col-md-3 col-sm-3">
+                    <partial name="_TuileActualiterPartial" model="card"></partial>
+                </div>
+            }
+        </div>
+    </div>
+}
+else{
+    <div class="container-fluid">
+        <p>Connectez-vous pour voir les actualités!</p>
+    </div>
+}
 <script src="~/js/updateBoutonAjoutPanier.js"></script>
