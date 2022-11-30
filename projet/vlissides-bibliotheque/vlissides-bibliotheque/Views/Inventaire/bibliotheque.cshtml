@@ -12,11 +12,12 @@
 
 <div class="container-fluid">
 
-    <div class="row">
+    <div class="row" id="conteneurBibli">
         <partial name="_ConteneurAffichageLivresRecherche" model="Model.tuileLivreBiblioteques"></partial>
     </div>
 </div>
 <div class="row align-content-center">
-    <p><span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span></p>
+    <p><span onclick="changerPage(1)">1</span> <span onclick="changerPage(2)">2</span> <span onclick="changerPage(3)">3</span> <span onclick="changerPage(4)">4</span> <span onclick="changerPage(5)">5</span></p>
 </div>
 <script src="~/js/updateBoutonAjoutPanier.js"></script>
+<script src="~/js/changerDePage.js"></script>
