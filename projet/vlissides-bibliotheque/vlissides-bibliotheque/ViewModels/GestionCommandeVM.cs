@@ -36,14 +36,6 @@ namespace vlissides_bibliotheque.ViewModels
         [DisplayName("Statue")]
         public int ValeurEnumStatut { get; set; }
 
-        //[Required(ErrorMessage = "Le champ {0} est requis")]
-        //[DisplayName("Quantité")]
-        //public int Quantite { get; set; } = 10;
-
-        //[Required(ErrorMessage = "Le champ {0} est requis")]
-        //[DisplayName("Quantité usagée")]
-        //public int QuantiteUsage { get; set; } = 10;
-
         [Required(ErrorMessage = "Le champ {0} est requis")]
         [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
         public string Titre { get; set; } = "Test";
