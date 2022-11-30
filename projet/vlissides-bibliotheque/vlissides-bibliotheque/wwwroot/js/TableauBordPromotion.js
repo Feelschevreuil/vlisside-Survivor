@@ -113,13 +113,13 @@ function creerBtnModifSuppri(nouvelleLigne, id) {
     editImg.classList.add("btn-img-hover");
     editImg.setAttribute("data-bs-toggle", "modal");
     editImg.setAttribute("data-bs-target", "modal-modifier");
-    editImg.setAttribute("onclick", "getFormulaireModifierLivre(" + id + ")");
+    editImg.setAttribute("onclick", "getFormulaireModifierPromotion(" + id + ")");
     editImg.setAttribute("src", "/img/pencil.svg");
     trBtn.appendChild(editImg);
 
     deleteImg = document.createElement("img");
     deleteImg.classList.add("btn-img-hover");
-    deleteImg.setAttribute("onclick", "supprimerLivre(" + id + ")");
+    deleteImg.setAttribute("onclick", "supprimerPromotion(" + id + ")");
     deleteImg.setAttribute("src", "/img/delete.svg");
     trBtn.appendChild(deleteImg);
     return nouvelleLigne;
