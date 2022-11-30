@@ -120,47 +120,69 @@ const elements = stripe.elements(options);
 
                 @{
 
-                    for(int i = 0; i < 3; i++)
+                    foreach(CommandePartielle commandePartielle in Model.CommandesPartielles)
                     {
 
-                <div class="row@(i < (3-1) ? " mb-3" : "")">
+                <div class="row mb-3">
 
                     <div class="col-6">
                         <span class="align-middle">
-                            <h6 class="mb-0 text-truncate">Titre du livre</h6>
-                            <p class="mb-0 small fw-light">Numérique</p>
+                            <h6 class="mb-0 text-truncate">@commandePartielle.Titre</h6>
+                            <p class="mb-0 small fw-light">@commandePartielle.EtatLivre</p>
                         </span>
                     </div>
                     <div class="col-2">
-                        <span class="badge alert-info align-middle">22</span>
+                        <span class="badge alert-info align-middle">@commandePartielle.Quantite</span>
                     </div>
                     <div class="col-4">
                         <span class="align-middle text-end">
-                            <strong>999.99 $</strong>
+                            <strong>@CashUtils.FormatToCurrency(commandePartielle.Prix)</strong>
                         </span>
                     </div>
                 </div>
 
-
                     }
-
                 }
 
                 <hr>
 
+                @{
+                    double totalCommandes;
+                    string totalCommandesFormate;
+                    double totalCommandesAvecTaxes;
+                    string totalCommandesAvecTaxesFormate;
+                    double taxes;
+                    string taxesFormate;
+
+                    totalCommandes = CommandeEtudiantService
+                        .GetTotalCommandesPartielles(Model.CommandesPartielles);
+
+                    totalCommandesFormate = CashUtils.FormatToCurrency(totalCommandes);
+
+                    totalCommandesAvecTaxes = CashUtils
+                        .CalculerTaxes(totalCommandes, Model.Tps, Model.Tvq);
+
+                    totalCommandesAvecTaxesFormate = CashUtils
+                        .FormatToCurrency(totalCommandesAvecTaxes);
+
+                    taxes = totalCommandesAvecTaxes - totalCommandes;
+
+                    taxesFormate = CashUtils.FormatToCurrency(taxes);
+                }
+
                 <div class="row">
-                    <p class="col-8 text-end">Sous total</p>
-                    <p class="col-4 text-end">999.99$</p>
+                    <p class="col-7 text-end">Total avant taxes</p>
+                    <p class="col-5 text-end">@totalCommandesFormate</p>
                 </div>
 
                 <div class="row">
-                    <p class="col-8 text-end">Taxes</p>
-                    <p class="col-4 text-end">999.99$</p>
+                    <p class="col-7 text-end">Taxes</p>
+                    <p class="col-5 text-end">@taxesFormate</p>
                 </div>
 
                 <div class="row">
-                    <p class="col-8 mb-0 text-end"><strong>Total</strong></p>
-                    <p class="col-4 mb-0 text-end"><strong>999.99$</strong></p>
+                    <p class="col-7 mb-0 text-end"><strong>Total</strong></p>
+                    <p class="col-5 mb-0 text-end"><strong>@totalCommandesAvecTaxesFormate</strong></p>
                 </div>
             </div>
         </div>

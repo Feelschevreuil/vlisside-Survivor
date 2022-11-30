@@ -140,7 +140,7 @@ namespace vlissides_bibliotheque.Controllers
                             commandesEtudiants
                         );
 
-                        return View("Index2", achatVM);
+                        return View(achatVM);
                     }
 
                     return Content("Commandes invalides!");
