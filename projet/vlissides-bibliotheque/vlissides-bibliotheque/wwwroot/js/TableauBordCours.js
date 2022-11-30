@@ -117,7 +117,7 @@ function creerBtnModifSuppri(nouvelleLigne, id) {
     editImg = document.createElement("img")
     editImg.classList.add("btn-img-hover");
     editImg.setAttribute("data-bs-toggle", "modal");
-    editImg.setAttribute("data-bs-target", "modal-modifier");
+    editImg.setAttribute("data-bs-target", "#modal-modifier");
     editImg.setAttribute("onclick", "getFormulaireModifierCours(" + id + ")");
     editImg.setAttribute("src", "/img/pencil.svg");
     trBtn.appendChild(editImg);

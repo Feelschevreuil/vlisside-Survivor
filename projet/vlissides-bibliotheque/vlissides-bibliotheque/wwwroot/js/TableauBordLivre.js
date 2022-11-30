@@ -74,7 +74,7 @@ function afficherCreationLivre(id, data) {
             }
         }
         if (key == "MaisonsDeditions") {
-            baliseInfo = ligneCourante.children[5];
+            baliseInfo = ligneCourante.children[4];
             baliseInfo.innerHTML = document.querySelector("#MaisonDeditionId")[data.MaisonDeditionId].innerHTML
         }
 
@@ -126,7 +126,7 @@ function possedeDesLettres(nombre) {
     }
 }
 
-function creerBtnModifSuppri(nouvelleLigne, id) {
+function creerBtnModifSuppriLivre(nouvelleLigne, id) {
     nouvelleLigne.classList.add("modif-suppr");
     trBtn = document.createElement("td");
     trBtn.classList.add("options-ligne", "position-absolute", "text-center", "vw-100", "start-0", "bg-transparent", "border-0")
@@ -134,7 +134,7 @@ function creerBtnModifSuppri(nouvelleLigne, id) {
     editImg = document.createElement("img")
     editImg.classList.add("btn-img-hover");
     editImg.setAttribute("data-bs-toggle", "modal");
-    editImg.setAttribute("data-bs-target", "modal-modifier");
+    editImg.setAttribute("data-bs-target", "#modal-modifier");
     editImg.setAttribute("onclick", "getFormulaireModifierLivre(" + id + ")");
     editImg.setAttribute("src", "/img/pencil.svg");
     trBtn.appendChild(editImg);
@@ -268,7 +268,7 @@ function creerLivre() {
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
-                    nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
+                    nouvelleLigne = creerBtnModifSuppriLivre(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
                     afficherCreationLivre(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
