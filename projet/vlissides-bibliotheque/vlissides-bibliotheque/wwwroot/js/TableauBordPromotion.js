@@ -121,18 +121,6 @@ function livreGestionErreur(data) {
     return data
 }
 
-function EtudiantGestionErreur(data) {
-    if (data.App == "") { data.App = 0 }
-    return data;
-}
-
-function CoursGestionErreur(data) {
-    if (data.programmeEtudesId == "") { data.programmeEtudesId = 0 }
-    if (data.ProgrammesEtudeId == "") { data.ProgrammesEtudeId = 0 }
-
-    return data
-}
-
 function possedeDesLettres(nombre) {
     if (isNaN(parseFloat(nombre)) || nombre == "") {
         return nombre = 0;
@@ -161,13 +149,6 @@ function creerBtnModifSuppri(nouvelleLigne, id) {
     deleteImg.setAttribute("src", "/img/delete.svg");
     trBtn.appendChild(deleteImg);
     return nouvelleLigne;
-}
-
-function getLivreId() {
-    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
-    let formulaire = parent.querySelector("form");
-    let livreId = formulaire.IdDuLivre;
-    return livreId;
 }
 
 //--------------------------------------------
