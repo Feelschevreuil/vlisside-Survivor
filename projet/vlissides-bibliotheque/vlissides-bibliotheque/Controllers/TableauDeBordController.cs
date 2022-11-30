@@ -702,6 +702,8 @@ namespace vlissides_bibliotheque.Controllers
                 ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
             }
             ModelState.Remove(nameof(vm.Id));
+            ModelState.Remove(nameof(vm.dateDebutFormatter));
+            ModelState.Remove(nameof(vm.dateFinFormatter));
             if (ModelState.IsValid)
             {
                 Commanditaire commanditaire = new()
@@ -729,6 +731,8 @@ namespace vlissides_bibliotheque.Controllers
                 _context.Evenements.Add(nouveauEvenement);
                 _context.SaveChanges();
                 vm.Id = nouveauEvenement.EvenementId;
+                vm.dateDebutFormatter = vm.Debut.ToString("dd MMMM yyyy");
+                vm.dateFinFormatter = vm.Fin.ToString("dd MMMM yyyy");
                 return Json(vm);
 
             }
@@ -773,6 +777,8 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult ModifierPromotions([FromBody] GestionPromotionVM vm)
         {
             ModelState.Remove(nameof(GestionPromotionVM.Id));
+            ModelState.Remove(nameof(GestionPromotionVM.dateDebutFormatter));
+            ModelState.Remove(nameof(GestionPromotionVM.dateFinFormatter));
             if (ModelState.IsValid)
             {
                 Evenement modifierEvenement = _context.Evenements
@@ -795,6 +801,8 @@ namespace vlissides_bibliotheque.Controllers
                     _context.Evenements.Update(modifierEvenement);
                     _context.SaveChanges();
                     vm.Id = modifierEvenement.EvenementId;
+                    vm.dateDebutFormatter = vm.Debut.ToString("dd MMMM yyyy");
+                    vm.dateFinFormatter = vm.Fin.ToString("dd MMMM yyyy");
                     return Json(vm);
                 }
             }

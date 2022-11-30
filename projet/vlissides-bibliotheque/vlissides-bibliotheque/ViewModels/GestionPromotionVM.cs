@@ -19,6 +19,9 @@ namespace vlissides_bibliotheque.ViewModels
         [DataType(DataType.Date)]
         public DateTime Debut { get; set; } = DateTime.Now;
 
+        public string dateDebutFormatter { get; set; }
+        public string dateFinFormatter { get; set; }
+
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DataType(DataType.Date)]
         public DateTime Fin { get; set; } = DateTime.Now;
