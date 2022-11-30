@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
@@ -26,17 +27,20 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         //[ValidateAntiForgeryToken]
-        [HttpPost]   
-        public IActionResult RechercheRapide([FromBody]string titre, int? page)
+        [HttpPost]
+        public IActionResult RechercheRapide([FromBody] RechercheSimple rechercheSimple)
         {
-            List<LivreBibliotheque> livreBibliotheques;
+            List<LivreBibliotheque> livreBibliotheques=new();
             LivresBibliothequeDAO livresBibliothequeDAO = new LivresBibliothequeDAO(_context);
-            if (page != null) { 
-                livreBibliotheques= livresBibliothequeDAO.GetSelonPropriete(titre,20,(int)page).ToList();
+            if (rechercheSimple.numPage != null)
+            {
+                if(rechercheSimple.numPage>=0){ 
+                    livreBibliotheques= livresBibliothequeDAO.GetSelonPropriete(rechercheSimple.texteRecherche, 20,(int)rechercheSimple.numPage).ToList();
+                }
             }
             else
             {
-                livreBibliotheques = livresBibliothequeDAO.GetSelonPropriete(titre, 20, 0).ToList();
+                livreBibliotheques = livresBibliothequeDAO.GetSelonPropriete(rechercheSimple.texteRecherche, 20, 0).ToList();
             }
 
             return PartialView("_ConteneurAffichageLivresRecherche", FaireLivresPourVue(livreBibliotheques));
