@@ -32,7 +32,7 @@ function getCards() {
         }
 
         try {
-            if (JSON.parse(localStorage.getItem('itemsPanier')).Neuf == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usage == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numerique == undefined)
+            if (JSON.parse(localStorage.getItem('itemsPanier')).Neufs == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usages == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numeriques == undefined)
                 tryEmpty = false
         }
         catch (e) {
@@ -142,7 +142,7 @@ function checkout() {
     var stringFetch = "";
     var url = location.host;
     var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
-    var fetchEnLocal = "/Achat/Creer";
+    var fetchEnLocal = "../Achat/Creer";
     var fetchSurServeur = numeroEtudiant + "/Achat/Creer";
     if (url.match("localhost") == null) {
         stringFetch = fetchSurServeur;
