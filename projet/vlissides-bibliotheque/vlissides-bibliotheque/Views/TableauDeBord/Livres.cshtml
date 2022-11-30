@@ -25,7 +25,7 @@
                     </td>
                     <td>@livre.Isbn</td>
                     <td>@livre.Titre</td>
-                    <td>@livre.DatePublication</td>
+                    <td>@livre.DatePublication.ToString("dd MMMM yyyy")</td>
                     <td>@livre.MaisonEdition.Nom</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierLivre('@livre.LivreId')">

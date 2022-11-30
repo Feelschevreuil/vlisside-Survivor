@@ -24,8 +24,8 @@
                         <img class="tableauDeBord-image" src="@evenement.Image">
                     </td>
                     <td>@evenement.Nom</td>
-                    <td>@evenement.Debut</td>
-                    <td>@evenement.Fin</td>
+                    <td>@evenement.Debut.ToString("dd MMMM yyyy")</td>
+                    <td>@evenement.Fin.ToString("dd MMMM yyyy")</td>
                     <td>@evenement.Commanditaire.Nom</td>
                     <td>@evenement.Commanditaire.Courriel</td>
                     <td>@evenement.Commanditaire.Message</td>
