@@ -5,12 +5,11 @@
 <img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerPromotion()" />
 
 <div>
-    <table class="table table-light">
+    <table class="table table-light ms-5">
         <thead>
             <tr>
                 <th id="@nameof(GestionPromotionVM.Photo)">@Html.DisplayNameFor(evenement => evenement.First().Image)</th>
                 <th id="@nameof(GestionPromotionVM.Nom)">@Html.DisplayNameFor(evenement => evenement.First().Nom)</th>
-                <th id="@nameof(GestionPromotionVM.Description)">@Html.DisplayNameFor(evenement => evenement.First().Description)</th>
                 <th id="@nameof(GestionPromotionVM.Debut)">@Html.DisplayNameFor(evenement => evenement.First().Debut)</th>
                 <th id="@nameof(GestionPromotionVM.Fin)">@Html.DisplayNameFor(evenement => evenement.First().Fin)</th>
                 <th id="@nameof(GestionPromotionVM.CommanditaireNom)">@Html.DisplayNameFor(evenement => evenement.First().Commanditaire.Nom)</th>
@@ -25,7 +24,6 @@
                         <img class="tableauDeBord-image" src="@evenement.Image">
                     </td>
                     <td>@evenement.Nom</td>
-                    <td>@evenement.Description</td>
                     <td>@evenement.Debut</td>
                     <td>@evenement.Fin</td>
                     <td>@evenement.Commanditaire.Nom</td>
