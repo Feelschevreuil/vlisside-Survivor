@@ -6,14 +6,13 @@
 <img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerCours()" />
 
 <div>
-    <table class="table table-light">
+    <table class="table table-light ms-5">
         <thead>
             <tr>
                 <th id="@nameof(GestionCoursVM.Code)">@Html.DisplayNameFor(cours => cours.First().Code)</th>
                 <th id="@nameof(GestionCoursVM.Nom)">@Html.DisplayNameFor(cours => cours.First().Nom)</th>
                 <th id="@nameof(GestionCoursVM.AnneeParcours)">@Html.DisplayNameFor(cours => cours.First().AnneeParcours)</th>
                 <th id="@nameof(GestionCoursVM.ProgrammeEtude)">@Html.DisplayNameFor(cours => cours.First().ProgrammeEtude)</th>
-                <th id="@nameof(GestionCoursVM.Description)">@Html.DisplayNameFor(cours => cours.First().Description)</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +23,6 @@
                     <td>@cours.Nom</td>
                     <td>@cours.AnneeParcours</td>
                     <td>@cours.ProgrammeEtude.Nom</td>
-                    <td>@cours.Description</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierCours('@cours.CoursId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCours('@cours.CoursId')">
