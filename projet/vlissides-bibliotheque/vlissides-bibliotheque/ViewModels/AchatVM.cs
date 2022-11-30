@@ -16,7 +16,6 @@ namespace vlissides_bibliotheque.ViewModels
         public decimal Tvq { get; set; }
         public decimal Tps { get; set; }
         public double Total { get; set; }
-        // TODO: rename objet
         public StatutFactureEnum StatutFacture { get; set; }
     }
 }
