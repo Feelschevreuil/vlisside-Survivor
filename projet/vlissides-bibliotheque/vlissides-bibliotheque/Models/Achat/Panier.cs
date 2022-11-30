@@ -10,13 +10,10 @@ namespace vlissides_bibliotheque.Models.Achat
     public class Panier
     {
 
-        [Required]
         public List<LivreDesire> Neufs { get; set; }
 
-        [Required]
         public List<LivreDesire> Numeriques { get; set; }
 
-        [Required]
         public List<LivreDesire> Usages { get; set; }
 
         /// <summary>
