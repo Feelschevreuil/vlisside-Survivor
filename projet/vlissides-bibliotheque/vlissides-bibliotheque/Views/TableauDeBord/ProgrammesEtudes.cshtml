@@ -4,8 +4,8 @@
 <h2 class="p-3">Gestion des programmes d'études</h2>
 <img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-5 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerProgrammeEtudes()" />
 
-<div class="ms-5">
-    <table class="table table-light">
+<div>
+    <table class="table table-light ms-5">
         <thead>
             <tr>
                 <th id="@nameof(GestionProgrammeEtudesVM.Code)">@Html.DisplayNameFor(programme => programme.First().Code)</th>
