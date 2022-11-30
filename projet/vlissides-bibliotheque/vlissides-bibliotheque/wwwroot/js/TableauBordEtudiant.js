@@ -109,7 +109,7 @@ function possedeDesLettres(nombre) {
     }
 }
 
-function creerBtnModifSuppri(nouvelleLigne, id) {
+function creerBtnModifSuppriEtudiant(nouvelleLigne, id) {
     nouvelleLigne.classList.add("modif-suppr");
     trBtn = document.createElement("td");
     trBtn.classList.add("options-ligne", "position-absolute", "text-center", "vw-100", "start-0", "bg-transparent", "border-0")

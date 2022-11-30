@@ -80,7 +80,7 @@ function setInputsFormat() {
     }
 }
 
-function creerBtnModifSuppri(nouvelleLigne, id) {
+function creerBtnModifSuppriCommande(nouvelleLigne, id) {
     nouvelleLigne.classList.add("modif-suppr");
     trBtn = document.createElement("td");
     trBtn.classList.add("options-ligne", "position-absolute", "text-center", "vw-100", "start-0", "bg-transparent", "border-0")
@@ -243,7 +243,7 @@ function creerCommande() {
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
-                    nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
+                    nouvelleLigne = creerBtnModifSuppriCommande(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
                     afficherCreationCommande(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();

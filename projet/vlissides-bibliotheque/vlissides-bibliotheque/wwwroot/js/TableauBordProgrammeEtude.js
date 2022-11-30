@@ -23,7 +23,7 @@ function setPremiereLettreEnMajuscule(string) {
     return string[0].toUpperCase() + string.slice(1);
 }
 
-function afficherModificationProgrameEtude(id, data) {
+function afficherModificationProgrammeEtude(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -50,7 +50,7 @@ function afficherModificationProgrameEtude(id, data) {
     }
 }
 
-function afficherCreationProgrameEtude(id, data) {
+function afficherCreationProgrammeEtude(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -104,7 +104,7 @@ function possedeDesLettres(nombre) {
     }
 }
 
-function creerBtnModifSuppri(nouvelleLigne, id) {
+function creerBtnModifSuppriProgrammeEtude(nouvelleLigne, id) {
     nouvelleLigne.classList.add("modif-suppr");
     trBtn = document.createElement("td");
     trBtn.classList.add("options-ligne", "position-absolute", "text-center", "vw-100", "start-0", "bg-transparent", "border-0")
@@ -179,7 +179,7 @@ function modifierProgrammeEtudes() {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModificationProgrameEtude(res.id, resetMajusculeJsonKey(res));
+                    afficherModificationProgrammeEtude(res.id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-modifier").click();
                 }
             });
@@ -236,9 +236,9 @@ function creerProgrammeEtudes() {
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
-                    nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
+                    nouvelleLigne = creerBtnModifSuppriProgrammeEtude(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherCreationProgrameEtude(id, resetMajusculeJsonKey(res));
+                    afficherCreationProgrammeEtude(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });

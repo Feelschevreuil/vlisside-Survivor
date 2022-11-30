@@ -38,6 +38,10 @@ function afficherModificationPromotion(id, data) {
         if (baliseInfo != undefined) {
             if (key == "Photo") {
                 baliseInfo.children[0].src = data.Photo;
+            } else if (key == "Debut") {
+                baliseInfo.innerHTML = data.DateDebutFormatter;
+            } else if (key == "Fin") {
+                baliseInfo.innerHTML = data.DateFinFormatter;
             } else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
@@ -65,10 +69,10 @@ function afficherCreationPromotion(id, data) {
                 img.classList.add('tableauDeBord-image');
                 baliseInfo.appendChild(img);
                 baliseInfo.classList.add('text-center');
-            } else if (key == "ProgrammeEtude") {
-                baliseInfo = ligneCourante.children[3];
-                index = document.querySelector('#ProgrammesEtudeId').selectedIndex
-                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
+            } else if (key == "Debut") {
+                baliseInfo.innerHTML = data.DateDebutFormatter;
+            } else if (key == "Fin") {
+                baliseInfo.innerHTML = data.DateFinFormatter;
             } else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
@@ -100,7 +104,7 @@ function possedeDesLettres(nombre) {
     }
 }
 
-function creerBtnModifSuppri(nouvelleLigne, id) {
+function creerBtnModifSuppriPromotion(nouvelleLigne, id) {
     nouvelleLigne.classList.add("modif-suppr");
     trBtn = document.createElement("td");
     trBtn.classList.add("options-ligne", "position-absolute", "text-center", "vw-100", "start-0", "bg-transparent", "border-0")
@@ -232,7 +236,7 @@ function creerPromotion() {
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
-                    nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
+                    nouvelleLigne = creerBtnModifSuppriPromotion(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
                     afficherCreationPromotion(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
