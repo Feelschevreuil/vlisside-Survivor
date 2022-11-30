@@ -23,7 +23,7 @@ function setPremiereLettreEnMajuscule(string) {
     return string[0].toUpperCase() + string.slice(1);
 }
 
-function afficherModification(id, data) {
+function afficherModificationCours(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -36,9 +36,7 @@ function afficherModification(id, data) {
         let baliseInfo = ligneCourante.children[index];
 
         if (baliseInfo != undefined) {
-            if (key == "Photo") {
-                baliseInfo.children[0].src = data.Photo;
-            } else if (key == "ProgrammeEtude") {
+            if (key == "Nom") {
                 baliseInfo = ligneCourante.children[3];
                 index = document.querySelector('#ProgrammesEtudeId').selectedIndex
                 baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
@@ -50,7 +48,7 @@ function afficherModification(id, data) {
     }
 }
 
-function afficherCreation(id, data) {
+function afficherCreationCours(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -224,7 +222,7 @@ function modifierCours() {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(res.id, resetMajusculeJsonKey(res));
+                    afficherModificationCours(res.id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-modifier").click();
                 }
             });
@@ -285,7 +283,7 @@ function creerCours() {
                     }
                     nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherCreation(id, resetMajusculeJsonKey(res));
+                    afficherCreationCours(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });
