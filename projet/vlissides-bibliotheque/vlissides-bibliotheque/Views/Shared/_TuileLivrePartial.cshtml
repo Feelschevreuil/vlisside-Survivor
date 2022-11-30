@@ -25,6 +25,14 @@
     }
 
     bool etatTrouve = false;
+    string auteurs = "";
+    @if (Model.auteurLivre != null && Model.auteurLivre.Count() > 0)
+    {
+        foreach (AuteurLivre auteur in Model.auteurLivre)
+        {
+            auteurs += auteur.Auteur.Prenom + " " + auteur.Auteur.Nom + ", ";
+        }
+    }
 }
 
 
@@ -115,14 +123,13 @@
         <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
         @if (Model.coursLivre != null)
         {
-
             <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
-            <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
+            <p class="card-text">Auteur(s): @auteurs</p>
         }
         else
         {
             <p class="card-text">Programme d'étude: N/A</p>
-            <p class="card-text">Année de parcours: N/A</p>
+            <p class="card-text">Auteur(s): @auteurs</p>
         }
         <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
 

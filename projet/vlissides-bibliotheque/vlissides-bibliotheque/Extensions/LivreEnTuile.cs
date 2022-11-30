@@ -17,6 +17,11 @@ namespace vlissides_bibliotheque
                 .Include(x=>x.LivreBibliotheque)
                 .Include(x=>x.Cours.ProgrammeEtude)
                 .ToList();
+            List<AuteurLivre> auteurLivres = _context.AuteursLivres
+                .Include(x=>x.Auteur)
+                .Include(x=>x.LivreBibliotheque)
+                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).ToList();
+
             CoursLivre coursLivreAssocier = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
             
             List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
@@ -44,6 +49,11 @@ namespace vlissides_bibliotheque
                 {
                     tuileVM.livreBibliotheque.PhotoCouverture = GetImageParDefaut();
                 }
+                if(auteurLivres.Count() > 0 && auteurLivres != null)
+                {
+                    tuileVM.auteurLivre = auteurLivres;
+                }
+
             }
             catch (Exception e)
             {

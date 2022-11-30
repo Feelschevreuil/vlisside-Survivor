@@ -14,6 +14,8 @@ namespace vlissides_bibliotheque.ViewModels
 
         public CoursLivre coursLivre;
 
+        public List<AuteurLivre> auteurLivre;
+
         public List<PrixEtatLivre> prixEtatLivre;
         [DisplayName("Quantité")]
         public int quantite { get; set; }
