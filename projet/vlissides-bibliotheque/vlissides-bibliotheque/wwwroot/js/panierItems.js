@@ -160,7 +160,7 @@ function checkout() {
 
     var tryEmpty = true
     try {
-        if (JSON.parse(localStorage.getItem('itemsPanier')).Neuf == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usage == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numerique == undefined)
+        if (JSON.parse(localStorage.getItem('itemsPanier')).Neufs == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usages == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numeriques == undefined)
             tryEmpty = false
     }
     catch (e) {
