@@ -82,8 +82,8 @@ function updatePrix() {
     var tousQuantite = document.querySelectorAll('[id^="Quantite"]');
     var prixTotal = 0.00;
     for (var e = 0; e < tousPrix.length; e++) {
-        prixCourant = GetDecimal(tousPrix[e].innerHTML);
-        prixTotal = prixTotal + prixCourant * tousQuantite[e].value;
+        prixCourant = GetDecimal(tousPrix[e].innerHTML.replace("&nbsp;","").replace("$","").replace(".",""))/100;
+        prixTotal = (prixTotal + prixCourant * tousQuantite[e].value);
     }
     //parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
     var pPrixSansTaxes = document.querySelector('#PrixAvantTaxes')
