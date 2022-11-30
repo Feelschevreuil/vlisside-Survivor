@@ -95,42 +95,9 @@ function setInputsFormat() {
     }
 }
 
-function getCoursCheckBox() {
-    var divListCours = document.querySelector("#listDeCours");
-    var coursCocher = divListCours.querySelectorAll("input");
-    var listCoursCocher = new Array();
-
-    coursCocher.forEach((cours) => {
-        if (cours.checked) {
-            listCoursCocher.push(cours.id);
-        }
-    });
-    return listCoursCocher;
-}
-
-function livreGestionErreur(data) {
-    if (data.AuteurId == "") { data.AuteurId = 0 }
-    if (data.MaisonDeditionId == "") { data.MaisonDeditionId = 0 }
-    data.PossedeNeuf = document.querySelector("#PossedeNeuf").checked;
-    data.PossedeNumerique = document.querySelector("#PossedeNumerique").checked;
-    data.PossedeUsagee = document.querySelector("#PossedeUsagee").checked;
-    data.PrixNeuf = possedeDesLettres(data.PrixNeuf);
-    data.PrixNumerique = possedeDesLettres(data.PrixNumerique);
-    data.PrixUsage = possedeDesLettres(data.PrixUsage);
-    data.QuantiteUsagee = possedeDesLettres(data.QuantiteUsagee);
-    return data
-}
-
 function EtudiantGestionErreur(data) {
     if (data.App == "") { data.App = 0 }
     return data;
-}
-
-function CoursGestionErreur(data) {
-    if (data.programmeEtudesId == "") { data.programmeEtudesId = 0 }
-    if (data.ProgrammesEtudeId == "") { data.ProgrammesEtudeId = 0 }
-
-    return data
 }
 
 function possedeDesLettres(nombre) {
@@ -151,23 +118,16 @@ function creerBtnModifSuppri(nouvelleLigne, id) {
     editImg.classList.add("btn-img-hover");
     editImg.setAttribute("data-bs-toggle", "modal");
     editImg.setAttribute("data-bs-target", "modal-modifier");
-    editImg.setAttribute("onclick", "getFormulaireModifierLivre(" + id + ")");
+    editImg.setAttribute("onclick", "getFormulaireModifierEtudiant(" + id + ")");
     editImg.setAttribute("src", "/img/pencil.svg");
     trBtn.appendChild(editImg);
 
     deleteImg = document.createElement("img");
     deleteImg.classList.add("btn-img-hover");
-    deleteImg.setAttribute("onclick", "supprimerLivre(" + id + ")");
+    deleteImg.setAttribute("onclick", "supprimerEtudiant(" + id + ")");
     deleteImg.setAttribute("src", "/img/delete.svg");
     trBtn.appendChild(deleteImg);
     return nouvelleLigne;
-}
-
-function getLivreId() {
-    let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
-    let formulaire = parent.querySelector("form");
-    let livreId = formulaire.IdDuLivre;
-    return livreId;
 }
 
 
@@ -186,7 +146,6 @@ function getPartialViewEtudiant() {
         });
     });
 }
-
 
 function getFormulaireModifierEtudiant(id) {
 
