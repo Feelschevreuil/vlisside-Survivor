@@ -8,17 +8,16 @@
     <table class="table table-light">
         <thead>
             <tr>
-                <th id="@nameof(GestionProfilVM.Nom)">@Html.DisplayNameFor(etudiant => etudiant.First().Nom)</th>
-                <th id="@nameof(GestionProfilVM.Prenom)">@Html.DisplayNameFor(etudiant => etudiant.First().Prenom)</th>
-                <th id="@nameof(GestionProfilVM.Courriel)">@Html.DisplayNameFor(etudiant => etudiant.First().Email)</th>
-                <th id="@nameof(GestionProfilVM.NomProgrammeEtude)">@Html.DisplayNameFor(etudiant => etudiant.First().ProgrammeEtude.Nom)</th>
-                <th id="@nameof(GestionProfilVM.NoTelephone)">@Html.DisplayNameFor(etudiant => etudiant.First().PhoneNumber)</th>
-                <th id="@nameof(GestionProfilVM.NoCivique)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.NumeroCivique)</th>
-                <th id="@nameof(GestionProfilVM.App)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.App)</th>
-                <th id="@nameof(GestionProfilVM.Rue)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Rue)</th>
-                <th id="@nameof(GestionProfilVM.Ville)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Ville)</th>
-                <th id="@nameof(GestionProfilVM.NomProvince)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.Province.Nom)</th>
-                <th id="@nameof(GestionProfilVM.CodePostal)">@Html.DisplayNameFor(etudiant => etudiant.First().Adresse.CodePostal)</th>
+                <th id="@nameof(GestionProfilVM.Nom)">Nom</th>
+                <th id="@nameof(GestionProfilVM.Prenom)">Prenom</th>
+                <th id="@nameof(GestionProfilVM.Courriel)">Courriel</th>
+                <th id="@nameof(GestionProfilVM.NomProgrammeEtude)">Programme d'étude</th>
+                <th id="@nameof(GestionProfilVM.NoTelephone)">Téléphone</th>
+                <th id="@nameof(GestionProfilVM.NoCivique)">Numéro civique</th>
+                <th id="@nameof(GestionProfilVM.Rue)">Rue</th>
+                <th id="@nameof(GestionProfilVM.Ville)">Ville</th>
+                <th id="@nameof(GestionProfilVM.NomProvince)">Province</th>
+                <th id="@nameof(GestionProfilVM.CodePostal)">Code Postal</th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +29,6 @@
                     <td>@etudiant.ProgrammeEtude.Nom</td>
                     <td>@etudiant.PhoneNumber</td>
                     <td>@etudiant.Adresse.NumeroCivique</td>
-                    <td>@etudiant.Adresse.App</td>
                     <td>@etudiant.Adresse.Rue</td>
                     <td>@etudiant.Adresse.Ville</td>
                     <td>@etudiant.Adresse.Province.Nom</td>
