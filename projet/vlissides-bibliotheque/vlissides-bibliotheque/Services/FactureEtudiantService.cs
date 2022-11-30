@@ -76,28 +76,53 @@ namespace vlissides_bibliotheque.Services
             double totalFacture;
             long totalFactureAdapte;
 
-            totalFacture = CalculerTotalCommandes();
-            totalFactureAdapte = AdapterPrixAStripe(totalFacture);
+            _commandesEtudiantsAjouter = commandesEtudiants;
 
+            // TODO: fix this garbage
             _factureEtudiant = new()
             {
-                Etudiant = _etudiant,
-                // TODO: merge develop to get formated ToString()
-                AdresseLivraison = _etudiant.Adresse.ToString(),
-                DateFacturation = DateTime.Now,
                 Tvq = 0.0M,
-                Tps = 0.05M,
-                Statut = StatutFactureEnum.ATTENTE_PAIEMENT
+                Tps = 0.05M
             };
 
-            _factureEtudiant = TraiterFactureAvecStripe
-            (
-                totalFactureAdapte
-            );
+            totalFacture = CalculerTotalCommandes();
 
-            facturesEtudiantsDAO.Save(_factureEtudiant);
-            
-            return _factureEtudiant;
+            if(totalFacture != 0)
+            {
+
+
+                totalFactureAdapte = AdapterPrixAStripe(totalFacture);
+
+                //TODO: fix this garbage
+                _factureEtudiant.Etudiant = _etudiant;
+                _factureEtudiant.AdresseLivraison = _etudiant.Adresse.ToString();
+                _factureEtudiant.DateFacturation = DateTime.Now;
+                _factureEtudiant.Statut = StatutFactureEnum.ATTENTE_PAIEMENT;
+                
+                /*
+                _factureEtudiant = new()
+                {
+                    Etudiant = _etudiant,
+                    // TODO: merge develop to get formated ToString()
+                    AdresseLivraison = _etudiant.Adresse.ToString(),
+                    DateFacturation = DateTime.Now,
+                    Tvq = 0.0M,
+                    Tps = 0.05M,
+                    Statut = StatutFactureEnum.ATTENTE_PAIEMENT
+                };
+                */
+
+                _factureEtudiant = TraiterFactureAvecStripe
+                (
+                    totalFactureAdapte
+                );
+
+                facturesEtudiantsDAO.Save(_factureEtudiant);
+                
+                return _factureEtudiant;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -126,6 +151,9 @@ namespace vlissides_bibliotheque.Services
 
             commandesPartielles = _commandeEtudiantService
                 .GetCommandesPartiellesFromCommandes(commandesEtudiants);
+
+            // TODO: fix this redneck shit
+            _commandesEtudiantsAjouter = commandesEtudiants;
 
             achatVM = new()
             {
@@ -382,20 +410,20 @@ namespace vlissides_bibliotheque.Services
             foreach(CommandeEtudiant commandeEtudiant in _commandesEtudiantsAjouter)
             {
 
-                totalFacture += commandeEtudiant.PrixUnitaireGele;
+                if
+                (
+                    commandeEtudiant.StatutCommande != StatutCommandeEnum.INEXISTANT &&
+                    commandeEtudiant.StatutCommande != StatutCommandeEnum.MANQUE_INVENTAIRE
+                )
+                {
+
+                    totalFacture += 
+                        (commandeEtudiant.PrixUnitaireGele * commandeEtudiant.Quantite);
+                }
             }
 
-            if(_factureEtudiant.Tvq > 0)
-            {
-
-                totalFacture = totalFacture * decimal.ToDouble(1 + _factureEtudiant.Tvq);
-            }
-
-            if(_factureEtudiant.Tps > 0)
-            {
-
-                totalFacture = totalFacture * decimal.ToDouble(1 + _factureEtudiant.Tps);
-            }
+            totalFacture = CashUtils
+                .CalculerTaxes(totalFacture, _factureEtudiant.Tps, _factureEtudiant.Tvq);
 
             return totalFacture;
         }
@@ -456,7 +484,7 @@ namespace vlissides_bibliotheque.Services
             _factureEtudiant.PaymentIntentId = paymentIntent.Id;
             _factureEtudiant.ClientSecret = paymentIntent.ClientSecret;
 
-            Task.Run(async () => await ReserverLivres(_factureEtudiant));
+            // Task.Run(async () => await ReserverLivres(_factureEtudiant));
 
             return _factureEtudiant;
         }
