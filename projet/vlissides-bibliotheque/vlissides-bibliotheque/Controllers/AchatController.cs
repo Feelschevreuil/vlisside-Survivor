@@ -43,12 +43,11 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         // POST: /achat/creer
-        // GET pour le moment, pour tester
         [HttpPost]
         public async Task<IActionResult> Creer([FromBody] Panier panier)
         {
 
-            if(ModelState.IsValid && panier.QuantitesLivresPositives())
+            if(panier != null && panier.QuantitesLivresPositives())
             {
 
                 //TODO: sortir dans un service
@@ -69,6 +68,15 @@ namespace vlissides_bibliotheque.Controllers
                 );
 
                 commandeEtudiantService = new(_context);
+
+                // TODO: sortir d'ici
+                etudiant = _context
+                    .Etudiants
+                        .Include(etudiant => etudiant.Adresse)
+                        .FirstOrDefault
+                        (
+                            etudiant => etudiant.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)
+                        );
 
                 etudiant = await _userManagerEtudiant
                     .GetUserAsync(HttpContext.User);
@@ -110,14 +118,11 @@ namespace vlissides_bibliotheque.Controllers
                     );
                 }
 
-                if(!CollectionUtils.CollectionNulleOuVide(commandesEtudiants))
-                {
-
-                    factureEtudiant = factureEtudiantService
-                        .Creer(commandesEtudiants, facturesEtudiantsDAO);
-                }
-
-                if(commandeEtudiantService.CommandesValides(commandesEtudiants))
+                if
+                (
+                    !CollectionUtils.CollectionNulleOuVide(commandesEtudiants) && 
+                        commandeEtudiantService.CommandesValides(commandesEtudiants)
+                )
                 {
 
                     factureEtudiant = factureEtudiantService.Creer
@@ -126,97 +131,25 @@ namespace vlissides_bibliotheque.Controllers
                         facturesEtudiantsDAO
                     );
 
-                    achatVM = factureEtudiantService.CreerAchatVM
-                    (
-                        factureEtudiant,
-                        commandesEtudiants
-                    );
+                    if(factureEtudiant != null)
+                    {
 
-                    return View("Index2", achatVM);
+                        achatVM = factureEtudiantService.CreerAchatVM
+                        (
+                            factureEtudiant,
+                            commandesEtudiants
+                        );
+
+                        return View("Index2", achatVM);
+                    }
+
+                    return Content("Commandes invalides!");
                 }
 
                 return Content("Commandes invalides!");
             }
 
             return Content("What did you do?");
-        }
-
-        // GET: /paiement/test/
-        // TODO: enlever! route uniquement pour le design!
-        public async Task<IActionResult> Index2()
-        {
-
-            List<CommandePartielle> commandesPartielles;
-            AchatVM paiementVM;
-
-            Etudiant etudiant;
-
-            etudiant = _context
-                        .Etudiants
-                            .Where
-                            (
-                                etudiant =>
-                                    etudiant.Id == User
-                                                    .FindFirstValue
-                                                    (
-                                                        ClaimTypes.NameIdentifier
-                                                    )
-                            )
-                            .Include
-                            (
-                                etudiant => etudiant.Adresse
-                            )
-                            .FirstOrDefault();
-
-            commandesPartielles = new()
-            {
-                new CommandePartielle() 
-                {
-                    EtatLivre = EtatLivreEnum.NEUF,
-                    Isbn = "6666666669",
-                    Prix = 69.99,
-                    Quantite = 1,
-                    Titre = "foobar 0"
-                },
-                new CommandePartielle() 
-                {
-                    EtatLivre = EtatLivreEnum.NUMERIQUE,
-                    Isbn = "6666666669",
-                    Prix = 69.99,
-                    Quantite = 1,
-                    Titre = "foobar 1"
-                },
-                new CommandePartielle() 
-                {
-                    EtatLivre = EtatLivreEnum.USAGE,
-                    Isbn = "6666666669",
-                    Prix = 69.99,
-                    Quantite = 1,
-                    Titre = "foobar 2"
-                }
-            };
-            
-            AchatInformationsLivraisonVM paiementInformationsLivraison;
-
-            paiementInformationsLivraison = new()
-            {
-                AdresseLivraison = etudiant.Adresse,
-                NumeroTelephone = etudiant.PhoneNumber
-            };
-
-            paiementVM = new()
-            {
-                PublicApiKey = "pk_test_51M59yHIKN7Q7tR49S3LZio0cmMAIwrANCcJ0SbvSQlfyslPoKR3GTHJmApQzoxlYKwqjNrDN3sfOFx7FS71o5i1T008GU1VoRg",
-                ClientSecret = "pi_3M6LUeIKN7Q7tR491FXtOGwz_secret_IhEOrxoyxMFQOv63zlWpNEEKS",
-                AchatInformationsLivraison = paiementInformationsLivraison,
-                CommandesPartielles = commandesPartielles,
-                Tvq = 0.0M,
-                Tps = 0.05M,
-                Total = 999.99,
-                StatutFacture = StatutFactureEnum.ATTENTE_PAIEMENT
-            };
-
-            return View(paiementVM);
         }
 
         /*
