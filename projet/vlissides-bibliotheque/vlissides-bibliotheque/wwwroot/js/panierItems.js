@@ -142,8 +142,8 @@ function checkout() {
     var stringFetch = "";
     var url = location.host;
     var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
-    var fetchEnLocal = "/../Achat/Creer";
-    var fetchSurServeur = numeroEtudiant + "Achat/Creer";
+    var fetchEnLocal = "/Achat/Creer";
+    var fetchSurServeur = numeroEtudiant + "/Achat/Creer";
     if (url.match("localhost") == null) {
         stringFetch = fetchSurServeur;
     } else {
