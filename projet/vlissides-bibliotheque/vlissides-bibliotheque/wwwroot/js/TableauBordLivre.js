@@ -23,7 +23,7 @@ function setPremiereLettreEnMajuscule(string) {
     return string[0].toUpperCase() + string.slice(1);
 }
 
-function afficherModification(id, data) {
+function afficherModificationLivre(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -38,11 +38,9 @@ function afficherModification(id, data) {
         if (baliseInfo != undefined) {
             if (key == "Photo") {
                 baliseInfo.children[0].src = data.Photo;
-            } else if (key == "ProgrammeEtude") {
-                baliseInfo = ligneCourante.children[3];
-                index = document.querySelector('#ProgrammesEtudeId').selectedIndex
-                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
-            } else {
+            } else if (key == "DatePublication") {
+                baliseInfo.innerHTML = data.DateFormater;
+            }else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
         }
@@ -50,7 +48,7 @@ function afficherModification(id, data) {
     }
 }
 
-function afficherCreation(id, data) {
+function afficherCreationLivre(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -69,10 +67,8 @@ function afficherCreation(id, data) {
                 img.classList.add('tableauDeBord-image');
                 baliseInfo.appendChild(img);
                 baliseInfo.classList.add('text-center');
-            } else if (key == "ProgrammeEtude") {
-                baliseInfo = ligneCourante.children[3];
-                index = document.querySelector('#ProgrammesEtudeId').selectedIndex
-                baliseInfo.innerHTML = document.querySelector('#ProgrammesEtudeId')[index].innerHTML
+            } else if (key == "DatePublication") {
+                baliseInfo.innerHTML = data.DateFormater;
             } else {
                 baliseInfo.innerHTML = data[`${key}`];
             }
@@ -210,7 +206,7 @@ function modifierLivre() {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModification(res.idDuLivre, resetMajusculeJsonKey(res));
+                    afficherModificationLivre(res.idDuLivre, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-modifier").click();
                 }
             });
@@ -274,7 +270,7 @@ function creerLivre() {
                     }
                     nouvelleLigne = creerBtnModifSuppri(nouvelleLigne, id);
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
-                    afficherCreation(id, resetMajusculeJsonKey(res));
+                    afficherCreationLivre(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
             });

@@ -388,6 +388,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(form.Auteurs));
             ModelState.Remove(nameof(form.MaisonsDeditions));
             ModelState.Remove(nameof(form.checkBoxCours));
+            ModelState.Remove(nameof(form.DateFormater));
             if (form == null)
             {
                 ModificationLivreVM Emptyform = new();
@@ -422,8 +423,8 @@ namespace vlissides_bibliotheque.Controllers
                     _context.AuteursLivres.Add(nouveauAuteurLivre);
                     _context.SaveChanges();
                 }
-
                 GestionPrix.UpdateLesPrix(LivreBibliothèqueModifier, form, _context);
+                form.DateFormater = form.DatePublication.ToString("dd MMMM yyyy");
                 return Json(form);
             }
 
