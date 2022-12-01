@@ -80,30 +80,30 @@ function ajouterLivreLocalStorage(id) {
         switch (etatLivre) {
             case "Neuf":
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [{ "LivreId": id, "Quantite": 1 }],
-                    "Usage": [],
-                    "Numerique": []
+                    "Neufs": [{ "LivreId": id, "Quantite": 1 }],
+                    "Usages": [],
+                    "Numeriques": []
                 }))
                 break;
             case "Usagé":
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [],
-                    "Usage": [{ "LivreId": id, "Quantite": 1 }],
-                    "Numerique": []
+                    "Neufs": [],
+                    "Usages": [{ "LivreId": id, "Quantite": 1 }],
+                    "Numeriques": []
                 }))
                 break;
             case "Numerique":
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [],
-                    "Usage": [],
-                    "Numerique": [{ "LivreId": id, "Quantite": 1 }]
+                    "Neufs": [],
+                    "Usages": [],
+                    "Numeriques": [{ "LivreId": id, "Quantite": 1 }]
                 }))
                 break;
             default:
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [],
-                    "Usage": [],
-                    "Numerique": []
+                    "Neufs": [],
+                    "Usages": [],
+                    "Numeriques": []
                 }))
         }
     }
