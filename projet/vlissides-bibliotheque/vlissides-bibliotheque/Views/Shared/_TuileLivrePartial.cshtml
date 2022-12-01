@@ -27,7 +27,7 @@
     bool etatTrouve = false;
 }
 
-
+@if(Model.prixEtatLivre != null && Model.prixEtatLivre.Count() >0){
 <div class="col-12 col-md-3 col-sm-3 mb-3">
     <div class="card shadow border-0 h-100 tuile-livre p-2">
         <div class="position-relative text-center">
@@ -200,5 +200,7 @@
         }
     </div>
 </div>
+}
+
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
 <script src="~/js/PrixAjax.js"></script>
