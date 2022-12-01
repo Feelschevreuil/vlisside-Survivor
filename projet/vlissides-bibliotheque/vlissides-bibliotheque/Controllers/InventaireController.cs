@@ -46,6 +46,27 @@ namespace vlissides_bibliotheque.Controllers
             };
 
             InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
+
+            List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
+            for (int i = 0; i < inventaireLivreBibliotheque.tuileLivreBiblioteques.Count; i++)
+            {
+                List<AuteurLivre> auteursLivresTrouve = auteursLivres.FindAll(e => e.LivreBibliothequeId == inventaireLivreBibliotheque.tuileLivreBiblioteques[i].livreBibliotheque.LivreId);
+
+                if (auteursLivresTrouve != null)
+                {
+                    if (auteursLivres.Count > 0)
+                    {
+                        List<Auteur> auteurs = new List<Auteur>();
+                        foreach (AuteurLivre auteurLivre in auteursLivresTrouve)
+                        {
+                            auteurs.Add(auteurLivre.Auteur);
+                        }
+                        inventaireLivreBibliotheque.tuileLivreBiblioteques[i].auteurs = auteurs;
+                    }
+                }
+
+            }
+
             return View(inventaireLivreBibliotheque);
 
         }
