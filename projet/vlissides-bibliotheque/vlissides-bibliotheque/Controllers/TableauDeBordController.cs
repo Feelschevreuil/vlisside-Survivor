@@ -917,6 +917,7 @@ namespace vlissides_bibliotheque.Controllers
                 FactureEtudiantId = facture.FactureEtudiantId,
                 PaymentIntentId = facture.PaymentIntentId,
                 EtudiantId = facture.EtudiantId,
+                DateFacturation = facture.DateFacturation,
                 AdresseLivraison = facture.AdresseLivraison,
                 ValeurEnumStatut = (int)facture.Statut
             };
