@@ -70,6 +70,7 @@ namespace vlissides_bibliotheque
             List<CoursLivre> listQuatreLivre = _context.CoursLivres
                 .Include(x=>x.LivreBibliotheque)
                 .Include(x=>x.Cours)
+                .Include(x=>x.LivreBibliotheque.MaisonEdition)
                 .Take(4)
                 .ToList();
 

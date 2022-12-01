@@ -23,8 +23,11 @@
         <img class="tableau" src="~/img/tableau.svg" />
     </a>
 
-</div>
-<div class="container-fluid">
+    </div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="container-fluid">
 
     <div class="row">
         @foreach (var card in Model.evenements)

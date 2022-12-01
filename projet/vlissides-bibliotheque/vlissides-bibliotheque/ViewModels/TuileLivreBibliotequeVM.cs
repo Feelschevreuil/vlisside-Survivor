@@ -19,5 +19,6 @@ namespace vlissides_bibliotheque.ViewModels
         public List<PrixEtatLivre> prixEtatLivre;
         [DisplayName("Quantité")]
         public int quantite { get; set; }
+        public List<Auteur> auteurs;
     }
 }
