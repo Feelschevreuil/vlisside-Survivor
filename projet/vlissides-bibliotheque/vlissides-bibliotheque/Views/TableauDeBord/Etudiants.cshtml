@@ -38,24 +38,24 @@
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerEtudiant('@etudiant.Id')">
                     </td>
                 </tr>
-                <div class="modal fade" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier l'étudiant</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-
-                            </div>
-                            <div class="modal-footer">
-                                <button id="fermer-modal-@etudiant.Id" data-bs-dismiss="modal" hidden></button>
-                                <button type="button" class="btn btn-primary" onclick="modifierEtudiant('@etudiant.Id')">Enregistrer</button>
-                            </div>
+            }
+            <div class="modal fade" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier l'étudiant</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="fermer-modal-@etudiant.Id" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="modifierEtudiant('@etudiant.Id')">Enregistrer</button>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
+
             <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
