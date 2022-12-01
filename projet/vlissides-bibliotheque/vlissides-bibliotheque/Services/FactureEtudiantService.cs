@@ -85,7 +85,7 @@ namespace vlissides_bibliotheque.Services
                 Tps = 0.05M
             };
 
-            totalFacture = CalculerTotalCommandes();
+            totalFacture = CalculerTotalCommandes(_factureEtudiant);
 
             if(totalFacture != 0)
             {
@@ -118,6 +118,16 @@ namespace vlissides_bibliotheque.Services
                 );
 
                 facturesEtudiantsDAO.Save(_factureEtudiant);
+                
+                foreach(CommandeEtudiant commandeEtudiant in commandesEtudiants)
+                {
+
+                    commandeEtudiant.FactureEtudiantId = _factureEtudiant.FactureEtudiantId;
+                }
+
+                _context.CommandesEtudiants.AddRange(commandesEtudiants);
+
+                _context.SaveChanges();
                 
                 return _factureEtudiant;
             }
@@ -161,7 +171,7 @@ namespace vlissides_bibliotheque.Services
                 CommandesPartielles = commandesPartielles,
                 Tvq = factureEtudiant.Tvq,
                 Tps = factureEtudiant.Tps,
-                Total = CalculerTotalCommandes(),
+                Total = CalculerTotalCommandes(factureEtudiant),
                 StatutFacture = factureEtudiant.Statut
             };
 
@@ -400,7 +410,7 @@ namespace vlissides_bibliotheque.Services
         /// <param name="commandesEtudiantes">Commandes à chercher le prix.</param>
         /// <param name="factureEtudiant">Factue contenant le taux d'impôts.</param>
         /// <returns>Le total en format double des commandes.</returns>
-        private double CalculerTotalCommandes()
+        private double CalculerTotalCommandes(FactureEtudiant factureEtudiant)
         {
 
             double totalFacture;
@@ -423,7 +433,7 @@ namespace vlissides_bibliotheque.Services
             }
 
             totalFacture = CashUtils
-                .CalculerTaxes(totalFacture, _factureEtudiant.Tps, _factureEtudiant.Tvq);
+                .CalculerTaxes(totalFacture, factureEtudiant.Tps, factureEtudiant.Tvq);
 
             return totalFacture;
         }

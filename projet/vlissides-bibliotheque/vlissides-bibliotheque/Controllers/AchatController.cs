@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Stripe;
 
 //TODO: delete DAO ref
 using vlissides_bibliotheque.DAO;
@@ -22,7 +23,6 @@ using vlissides_bibliotheque.DAO;
 namespace vlissides_bibliotheque.Controllers
 {
 
-    [Authorize(Roles = RolesName.Etudiant)]
     public class AchatController: Controller
     {
         private readonly ILogger<AccueilController> _logger;
@@ -42,6 +42,7 @@ namespace vlissides_bibliotheque.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = RolesName.Etudiant)]
         public IActionResult Index(int id)
         {
 
@@ -70,7 +71,8 @@ namespace vlissides_bibliotheque.Controllers
                         .Include(etudiant => etudiant.Adresse)
                         .FirstOrDefault
                         (
-                            etudiant => etudiant.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)
+                            etudiant => etudiant.Id == 
+                                User.FindFirstValue(ClaimTypes.NameIdentifier)
                         );
 
                 factureEtudiant = facturesEtudiantsDAO.Get(id);
@@ -84,19 +86,16 @@ namespace vlissides_bibliotheque.Controllers
                         _context, configurationService, commandeEtudiantService, etudiant
                     );
 
-                    Console.WriteLine("before");
-
                     //TODO: enlever red neck
                     commandesEtudiants = _context
                         .CommandesEtudiants
                         .Where
                         (
                             commandeEtudiant => 
-                                commandeEtudiant.FactureEtudiantId == factureEtudiant.FactureEtudiantId
+                                commandeEtudiant.FactureEtudiantId == 
+                                    factureEtudiant.FactureEtudiantId
                         )
                         .ToList();
-
-                    Console.WriteLine("here");
 
                     achatVM = factureEtudiantService.CreerAchatVM
                     (
@@ -117,6 +116,7 @@ namespace vlissides_bibliotheque.Controllers
 
         // POST: /achat/creer
         [HttpPost]
+        [Authorize(Roles = RolesName.Etudiant)]
         public async Task<IActionResult> Creer([FromBody] Panier panier)
         {
 
@@ -207,6 +207,64 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             return StatusCode(401);
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmerPaiement()
+        {
+
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+            try
+            {
+                var stripeEvent = EventUtility.ParseEvent(json);
+
+                // Handle the event
+                if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+                {
+
+                    FactureEtudiant factureEtudiant;
+                    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+
+                    // TODO: sortir dans service + DAO
+                    factureEtudiant = _context
+                        .FacturesEtudiants
+                        .Where
+                        (
+                            factureEtudiant =>
+                                factureEtudiant.PaymentIntentId == paymentIntent.Id
+                        )
+                        .FirstOrDefault();
+
+                    if(factureEtudiant != null)
+                    {
+
+                        factureEtudiant.Statut == StatutFactureEnum.TRANSIT;
+                        _context.SaveChanges();
+                    }
+
+                    // Then define and call a method to handle the successful payment intent.
+                    // handlePaymentIntentSucceeded(paymentIntent);
+                }
+                else if (stripeEvent.Type == Events.PaymentMethodAttached)
+                {
+                    var paymentMethod = stripeEvent.Data.Object as PaymentMethod;
+                    // Then define and call a method to handle the successful attachment of a PaymentMethod.
+                    // handlePaymentMethodAttached(paymentMethod);
+                }
+                // ... handle other event types
+                else
+                {
+                    // Unexpected event type
+                    Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
+                }
+
+                return Ok();
+            }
+            catch (StripeException e)
+            {
+                return BadRequest();
+            }
         }
 
         /*
