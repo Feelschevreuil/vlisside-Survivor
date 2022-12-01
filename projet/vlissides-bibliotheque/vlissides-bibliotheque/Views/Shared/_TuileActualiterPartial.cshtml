@@ -4,8 +4,8 @@
 
 }
 
-<div class="col-auto col-md-3 col-sm-3">
-<div class="card tuile-evenement mt-3">
+<div class="col-auto col-md-3 col-sm-3 mt-3 mb-3">
+    <div class="card shadow border-0 h-100 tuile-evenement p-2">
     @if (User.IsInRole(RolesName.Admin))
     {
         <div>
@@ -28,21 +28,21 @@
 
             <div class="card-body">
                 <h5 class="fw-bold card-title">@Model.Nom</h5>
-                <p class="card-text">@Model.Description</p>
+                    <p class="card-text d-inline-block text-truncate col-8 mb-0">@Model.Description</p>
+                    <div>
+                        <p class="d-inline-block">
+                            <img class="evenement-horloge-debut" src="~/img/horloge.svg">
+                            Début le: @Model.Debut.Day @Model.Debut.ToString("MMMM") @Model.Debut.Year
+                        </p>
+
+                        <p>
+                            <img class="evenement-horloge-fin" src="~/img/horloge.svg">
+                            Termine le: @Model.Fin.Day @Model.Debut.ToString("MMMM") @Model.Fin.Year
+                        </p>
+                    </div>
 
             </div>
-            <footer>
-
-                <p class="d-inline-block">
-                    <img class="evenement-horloge-debut" src="~/img/horloge.svg">
-                    Début le: @Model.Debut.Day @Model.Debut.ToString("MMMM") @Model.Debut.Year
-                </p>
-
-                <p class="">
-                    <img class="evenement-horloge-fin" src="~/img/horloge.svg">
-                    Termine le: @Model.Fin.Day @Model.Debut.ToString("MMMM") @Model.Fin.Year
-                </p>
-            </footer>
+            
         </a>
     </div>
   
