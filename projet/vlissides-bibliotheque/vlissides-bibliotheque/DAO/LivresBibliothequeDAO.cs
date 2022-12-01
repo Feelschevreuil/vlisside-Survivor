@@ -5,6 +5,7 @@ using vlissides_bibliotheque.Extentions;
 using vlissides_bibliotheque.Enums;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace vlissides_bibliotheque.DAO
 {
@@ -158,12 +159,18 @@ namespace vlissides_bibliotheque.DAO
 
             livresBibliotheque = _context
             .LivresBibliotheque
+            .Include
+            (
+                livreBibliotheque => 
+                    livreBibliotheque.MaisonEdition
+            )
             .Where
             (
                 livre => 
                 livre
                     .Titre
-                    .ContainsCaseInsensitive(propriete)
+                    .ToLower()
+                    .Contains(propriete.ToLower())
             )
             .If
             (
