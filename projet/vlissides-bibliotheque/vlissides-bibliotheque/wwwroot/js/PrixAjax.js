@@ -102,38 +102,38 @@ function ajoutRapide(id) {
 
     if (livres != null || livres != undefined) {
 
-        if (livres.Neuf != null) {
-            for (var j = 0; j < livres.Neuf.length; j++) {
-                if (livres.Neuf[j].LivreId == id) {
+        if (livres.Neufs != null) {
+            for (var j = 0; j < livres.Neufs.length; j++) {
+                if (livres.Neufs[j].LivreId == id) {
                     if (etatLivre == "Neuf") {
                         idTrouveNonModifie = true;
                     }
                     else {
-                        livres.Neuf.splice(j, 1);
+                        livres.Neufs.splice(j, 1);
                     }
                 }
             }
         }
-        if (livres.Usage != null) {
-            for (var j = 0; j < livres.Usage.length; j++) {
-                if (livres.Usage[j].LivreId == id) {
+        if (livres.Usages != null) {
+            for (var j = 0; j < livres.Usages.length; j++) {
+                if (livres.Usages[j].LivreId == id) {
                     if (etatLivre == "Usagé") {
                         idTrouveNonModifie = true;
                     }
                     else {
-                        livres.Usage.splice(j, 1);
+                        livres.Usages.splice(j, 1);
                     }
                 }
             }
         }
-        if (livres.Numerique != null) {
-            for (var j = 0; j < livres.Numerique.length; j++) {
-                if (livres.Numerique[j].LivreId == id) {
+        if (livres.Numeriques != null) {
+            for (var j = 0; j < livres.Numeriques.length; j++) {
+                if (livres.Numeriques[j].LivreId == id) {
                     if (etatLivre == "Numérique") {
                         idTrouveNonModifie = true;
                     }
                     else {
-                        livres.Numerique.splice(j, 1);
+                        livres.Numeriques.splice(j, 1);
                     }
                 }
             }
@@ -144,33 +144,33 @@ function ajoutRapide(id) {
         switch (etatLivre) {
             case "Neuf":
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [{ "LivreId": id, "Quantite": 1 }],
-                    "Usage": [],
-                    "Numerique": []
+                    "Neufs": [{ "LivreId": id, "Quantite": 1 }],
+                    "Usages": [],
+                    "Numeriques": []
                 }))
                 idTrouveNonModifie = true;
                 break;
             case "Usagé":
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [],
-                    "Usage": [{ "LivreId": id, "Quantite": 1 }],
-                    "Numerique": []
+                    "Neufs": [],
+                    "Usages": [{ "LivreId": id, "Quantite": 1 }],
+                    "Numeriques": []
                 }))
                 idTrouveNonModifie = true;
                 break;
             case "Numerique":
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [],
-                    "Usage": [],
-                    "Numerique": [{ "LivreId": id, "Quantite": 1 }]
+                    "Neufs": [],
+                    "Usages": [],
+                    "Numeriques": [{ "LivreId": id, "Quantite": 1 }]
                 }))
                 idTrouveNonModifie = true;
                 break;
             default:
                 localStorage.setItem('itemsPanier', JSON.stringify({
-                    "Neuf": [],
-                    "Usage": [],
-                    "Numerique": []
+                    "Neufs": [],
+                    "Usages": [],
+                    "Numeriques": []
                 }))
                 idTrouveNonModifie = true;
         }
@@ -180,7 +180,7 @@ function ajoutRapide(id) {
         switch (etatLivre) {
             case "Neuf":
                 var valeurLivre = { "LivreId": id, "Quantite": 1 }
-                livres.Neuf.push(valeurLivre);
+                livres.Neufs.push(valeurLivre);
                 localStorage.clear();
                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                 ajouter.hidden = true;
@@ -188,7 +188,7 @@ function ajoutRapide(id) {
                 break;
             case "Usagé":
                 var valeurLivre = { "LivreId": id, "Quantite": 1 }
-                livres.Usage.push(valeurLivre);
+                livres.Usages.push(valeurLivre);
                 localStorage.clear();
                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                 ajouter.hidden = true;
@@ -196,7 +196,7 @@ function ajoutRapide(id) {
                 break;
             case "Numérique":
                 var valeurLivre = { "LivreId": id, "Quantite": 1 }
-                livres.Numerique.push(valeurLivre);
+                livres.Numeriques.push(valeurLivre);
                 localStorage.clear();
                 localStorage.setItem('itemsPanier', JSON.stringify(livres));
                 ajouter.hidden = true;
@@ -222,26 +222,26 @@ function supresionRapideBibli(id) {
 
     if (livres != null || livres != undefined) {
 
-        if (livres.Neuf != null) {
-            for (var j = 0; j < livres.Neuf.length; j++) {
-                if (livres.Neuf[j].LivreId == id) {
-                    livres.Neuf.splice(j, 1);
+        if (livres.Neufs != null) {
+            for (var j = 0; j < livres.Neufs.length; j++) {
+                if (livres.Neufs[j].LivreId == id) {
+                    livres.Neufs.splice(j, 1);
                     idTrouveModifie = true;
                 }
             }
         }
-        if (livres.Usage != null) {
-            for (var j = 0; j < livres.Usage.length; j++) {
-                if (livres.Usage[j].LivreId == id) {
-                    livres.Usage.splice(j, 1);
+        if (livres.Usages != null) {
+            for (var j = 0; j < livres.Usages.length; j++) {
+                if (livres.Usages[j].LivreId == id) {
+                    livres.Usages.splice(j, 1);
                     idTrouveModifie = true;
                 }
             }
         }
-        if (livres.Numerique != null) {
-            for (var j = 0; j < livres.Numerique.length; j++) {
-                if (livres.Numerique[j].LivreId == id) {
-                    livres.Numerique.splice(j, 1);
+        if (livres.Numeriques != null) {
+            for (var j = 0; j < livres.Numeriques.length; j++) {
+                if (livres.Numeriques[j].LivreId == id) {
+                    livres.Numeriques.splice(j, 1);
                     idTrouveModifie = true;
                 }
             }

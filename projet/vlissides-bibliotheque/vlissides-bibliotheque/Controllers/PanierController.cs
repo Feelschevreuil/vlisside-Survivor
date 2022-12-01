@@ -52,7 +52,7 @@ namespace vlissides_bibliotheque.Controllers
             if (coursLivres != null)
             {
 
-                foreach (Neuf id in livres.Neuf)
+                foreach (Neufs id in livres.Neufs)
                 {
                     coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
 
@@ -69,7 +69,7 @@ namespace vlissides_bibliotheque.Controllers
                     }
                 }
 
-                foreach (Usage id in livres.Usage)
+                foreach (Usages id in livres.Usages)
                 {
                     coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
                     if (coursLivresTrouves != null)
@@ -84,7 +84,7 @@ namespace vlissides_bibliotheque.Controllers
                         });
                     }
                 }
-                foreach (Numerique id in livres.Numerique)
+                foreach (Numeriques id in livres.Numeriques)
                 {
                     coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
                     if (coursLivresTrouves != null)
