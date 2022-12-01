@@ -32,7 +32,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             List<LivreBibliotheque> livreBibliotheques=new();
             LivresBibliothequeDAO livresBibliothequeDAO = new LivresBibliothequeDAO(_context);
-            if (rechercheSimple.numPage != null)
+            if (rechercheSimple.numPage != null && rechercheSimple.texteRecherche!="")
             {
                 if(rechercheSimple.numPage>=0){ 
                     livreBibliotheques= livresBibliothequeDAO.GetSelonPropriete(rechercheSimple.texteRecherche, 20,(int)rechercheSimple.numPage).ToList();
@@ -40,7 +40,19 @@ namespace vlissides_bibliotheque.Controllers
             }
             else
             {
-                livreBibliotheques = livresBibliothequeDAO.GetSelonPropriete(rechercheSimple.texteRecherche, 20, 0).ToList();
+                List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
+                List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
+                    .Include(x => x.MaisonEdition)
+                    .OrderByDescending(i => i.DatePublication)
+                    .Skip(15*rechercheSimple.numPage).Take(15)
+                    .ToList();
+                foreach (LivreBibliotheque livre in BDlivreBibliotheques)
+                {
+                    var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
+                    inventaireBibliotheque.Add(livreConvertie);
+                };
+;
+                return PartialView("_ConteneurAffichageLivresRecherche", inventaireBibliotheque);
             }
 
             return PartialView("_ConteneurAffichageLivresRecherche", FaireLivresPourVue(livreBibliotheques));

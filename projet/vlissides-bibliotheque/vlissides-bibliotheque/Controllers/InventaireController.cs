@@ -45,7 +45,7 @@ namespace vlissides_bibliotheque.Controllers
                 inventaireBibliotheque.Add(livreConvertie);
             };
 
-            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
+            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque.GetRange(0,15) };
             return View(inventaireLivreBibliotheque);
 
         }
