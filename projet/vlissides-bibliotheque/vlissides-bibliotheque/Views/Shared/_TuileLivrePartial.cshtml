@@ -25,18 +25,11 @@
     }
 
     bool etatTrouve = false;
-    string auteurs = "";
-    @if (Model.auteurLivre != null && Model.auteurLivre.Count() > 0)
-    {
-        foreach (AuteurLivre auteur in Model.auteurLivre)
-        {
-            auteurs += auteur.Auteur.Prenom + " " + auteur.Auteur.Nom + ", ";
-        }
-    }
 }
 
+
 <div class="col-12 col-md-3 col-sm-3">
-    <div class="card shadow border-0 h-100 tuile-livre mb-3 p-2">
+    <div class="card shadow border-0 h-100 tuile-livre">
         <div class="position-relative text-center">
             <div>
                 @if (User.IsInRole(RolesName.Admin))
@@ -119,18 +112,72 @@
 
             <div class="card border-0 livre-info">
                 <h5 class="card-title "><strong>@Model.livreBibliotheque.Titre</strong></h5>
-                <p class="card-text"><strong>ISBN:</strong> @Model.livreBibliotheque.Isbn</p>
+                <p class="card-text">@Model.livreBibliotheque.Isbn</p>
                 @if (Model.coursLivre != null)
                 {
-                    <p class="card-text"><strong>Programme d'étude:</strong><br>@Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
-                    <p class="card-text"><strong>Auteur(s):</strong> @auteurs</p>
+                    <p class="card-text">@Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+                    <p class="card-text">
+                        <span>De </span>
+                        @if (Model.auteurs != null)
+                            @for (int i = 0; i < Model.auteurs.Count; i++)
+                            {
+                                if (i == Model.auteurs.Count - 1)
+                                {
+                                    if (i == 0)
+                                    {
+                                        <span>@Model.auteurs[i].GetNomComplet()</span>
+                                    }
+                                    else
+                                    {
+                                        <span>et @Model.auteurs[i].GetNomComplet()</span>
+                                    }
+                                }
+                                else if (i == Model.auteurs.Count - 2)
+                                {
+                                    <span>@Model.auteurs[i].GetNomComplet()</span>
+                                }
+                                else
+                                {
+                                    <span>@Model.auteurs[i].GetNomComplet(),</span>
+                                }
+
+                            }
+
+                    </p>
                 }
                 else
                 {
-                    <p class="card-text"><strong>Programme d'étude:</strong> N/A</p>
-                    <p class="card-text"><strong>Auteur(s):</strong> @auteurs</p>
+                    <p class="card-text">Programme d'étude non disponible</p>
+                    <p class="card-text">
+                        <span>De </span>
+                        @if (Model.auteurs != null)
+                            @for (int i = 0; i < Model.auteurs.Count; i++)
+                            {
+                                if (i == Model.auteurs.Count - 1)
+                                {
+                                    if (i == 0)
+                                    {
+                                        <span>@Model.auteurs[i].GetNomComplet()</span>
+                                    }
+                                    else
+                                    {
+                                        <span>et @Model.auteurs[i].GetNomComplet()</span>
+                                    }
+                                }
+                                else if (i == Model.auteurs.Count - 2)
+                                {
+                                    <span>@Model.auteurs[i].GetNomComplet()</span>
+                                }
+                                else
+                                {
+                                    <span>@Model.auteurs[i].GetNomComplet(),</span>
+                                }
+
+                            }
+
+                    </p>
                 }
-                <p class="card-text"><strong>Année de publication:</strong> @Model.livreBibliotheque.DatePublication.Year</p>
+                <p class="card-text">@Model.livreBibliotheque.DatePublication.Year</p>
 
             </div>
         </div>
