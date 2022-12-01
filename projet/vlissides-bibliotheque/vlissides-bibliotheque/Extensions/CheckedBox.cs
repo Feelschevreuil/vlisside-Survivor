@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
+using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque
 {
-    public static class CoursCheckedBox
+    public static class CheckedBox
     {
         public static List<checkBoxCours> GetCoursCheckedBox(ApplicationDbContext _context, string etudiantId)
         {
@@ -87,6 +88,28 @@ namespace vlissides_bibliotheque
                 };
 
                 listCheckedBox.Add(boxCours);
+            }
+
+            return listCheckedBox;
+        }
+
+        public static List<checkBoxLivre> GetLivres(LivresBibliothequeDAO _livreDAO)
+        {
+            List<checkBoxLivre> listCheckedBox = new();
+            List<LivreBibliotheque> livreBD = _livreDAO.GetAll()
+                .OrderBy(x => x.Titre)
+                .ToList();
+                
+
+            foreach (LivreBibliotheque livre in livreBD)
+            {
+                checkBoxLivre checkBox = new()
+                {
+                    livre = livre,
+                    Cocher = false
+                };
+
+                listCheckedBox.Add(checkBox);
             }
 
             return listCheckedBox;

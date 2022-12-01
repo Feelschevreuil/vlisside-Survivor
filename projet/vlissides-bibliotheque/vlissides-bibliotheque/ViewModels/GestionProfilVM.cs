@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 using vlissides_bibliotheque.Models;
@@ -21,33 +22,33 @@ namespace vlissides_bibliotheque.ViewModels
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
-        [Display(Name = "Prénom")]
+        [DisplayName("Prénom")]
         public string Prenom { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Programme d'étude")]
+        [DisplayName("Programme d'étude")]
         public int ProgrammeEtudeId { get; set; }
         public SelectList ProgrammeEtudes { get; set; }
         public string? NomProgrammeEtude { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Numéro de téléphone")]
+        [DisplayName("Numéro de téléphone")]
         [MinLength(10, ErrorMessage = "Le numéro de téléphone doit être composé de 10 chiffres.")]
         [MaxLength(10, ErrorMessage = "Le numéro de téléphone doit être composé de 10 chiffres.")]
         public string NoTelephone { get; set; }
 
         // adresse de facturation
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Numéro civique")]
+        [DisplayName("Numéro civique")]
         [Number]
         public string NoCivique { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Rue")]
+        [DisplayName("Rue")]
         public string Rue { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Ville")]
+        [DisplayName("Ville")]
         public string Ville { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
@@ -55,19 +56,19 @@ namespace vlissides_bibliotheque.ViewModels
         public int App { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Code postal")]
+        [DisplayName("Code postal")]
         [RegularExpression(@"[A-Z][0-9][A-Z][0-9][A-Z][0-9]",
             ErrorMessage = "Le code postal doit correspondre au format : " +
             "A0A 0A0")]
         public string CodePostal { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Display(Name = "Province")]
+        [DisplayName("Province")]
         public int ProvinceId { get; set; }
 
         // liste des provinces
         public SelectList Provinces { get; set; }
-
+        [DisplayName("Province")]
         public string? NomProvince { get; set; }
 
         public int CoursId { get; set; }

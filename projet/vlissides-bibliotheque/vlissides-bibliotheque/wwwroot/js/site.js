@@ -2,7 +2,8 @@
 if (host.split("localhost").length == 2) {
     host = "/";
 } else {
-    host = "/2036516/";
+    host = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+;
 }
 
 let formGroups = document.querySelectorAll(".form-group");

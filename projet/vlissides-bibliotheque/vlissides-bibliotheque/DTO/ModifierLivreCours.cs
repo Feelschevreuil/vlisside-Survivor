@@ -10,5 +10,7 @@ namespace vlissides_bibliotheque.DTO
     public class ModifierLivreCours : ModificationLivreVM
     {
         public List<int> Cours { get; set; }
+
+        public string DateFormater { get; set; }
     }
 }

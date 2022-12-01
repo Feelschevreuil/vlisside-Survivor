@@ -3,16 +3,16 @@
 <h2 class="p-3">Gestion des livres de bibliothèque</h2>
 
 
-<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerLivre()" />
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-5 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerLivre()" />
 
 <div>
-    <table class="table table-light">
+    <table id="maTable" class="table table-light ms-5">
         <thead>
             <tr>
-                <th id="@nameof(LivreEtudiantVM.Photo)">@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)</th>
+                <th class="d-flex d-inline" id="@nameof(LivreEtudiantVM.Photo)">@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)
+                </th>
                 <th id="@nameof(LivreEtudiantVM.Isbn)">@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
                 <th id="@nameof(LivreEtudiantVM.Titre)">@Html.DisplayNameFor(livre => livre.First().Titre)</th>
-                <th id="@nameof(LivreEtudiantVM.Resume)">@Html.DisplayNameFor(livre => livre.First().Resume)</th>
                 <th id="@nameof(LivreEtudiantVM.DatePublication)">@Html.DisplayNameFor(livre => livre.First().DatePublication)</th>
                 <th id="@nameof(LivreEtudiantVM.MaisonEdition)">@Html.DisplayNameFor(livre => livre.First().MaisonEdition)</th>
             </tr>
@@ -25,8 +25,7 @@
                     </td>
                     <td>@livre.Isbn</td>
                     <td>@livre.Titre</td>
-                    <td>@livre.Resume</td>
-                    <td>@livre.DatePublication</td>
+                    <td>@livre.DatePublication.ToString("dd MMMM yyyy")</td>
                     <td>@livre.MaisonEdition.Nom</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierLivre('@livre.LivreId')">

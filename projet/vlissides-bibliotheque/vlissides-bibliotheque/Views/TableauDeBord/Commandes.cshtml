@@ -1,62 +1,56 @@
-﻿@model List<CommandeEtudiant>
+﻿@model List<FactureEtudiant>
 
-<div class="d-flex accordion-header">
-    <a asp-area="" asp-controller="TableauDeBord" asp-action="Index">
-        <img class="btn-img-hover" src="~/img/fleche-de-retour.svg" />
-    </a>
-    <h2 class="p-3">Gestion des commandes</h2>
-</div>
+<h2 class="p-3">Gestion des commandes</h2>
 
-<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerCommande()" />
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-5 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerCommande()" />
 
-<div style="overflow-x: auto;">
+<div>
     <table class="table table-light">
         <thead>
             <tr>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.EtatLivre)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().Quantite)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.QuantiteUsage)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.LivreBibliotheque.Titre)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.Etudiant.Email)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.AdresseLivraison)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiant.DateFacturation)</th>
-                <th id="@nameof(GestionCommandeVM)">@Html.DisplayNameFor(commande => commande.First().PrixEtatLivre.Prix)</th>
+                <th id="@nameof(GestionCommandeVM.FactureEtudiantId)">@Html.DisplayNameFor(commande => commande.First().FactureEtudiantId)</th>
+                <th id="@nameof(GestionCommandeVM.PaymentIntentId)">@Html.DisplayNameFor(commande => commande.First().PaymentIntentId)</th>
+                <th id="@nameof(GestionCommandeVM.EtudiantId)">@Html.DisplayNameFor(commande => commande.First().EtudiantId)</th>
+                <th id="@nameof(GestionCommandeVM.AdresseLivraison)">@Html.DisplayNameFor(commande => commande.First().AdresseLivraison)</th>
+                <th id="@nameof(GestionCommandeVM.DateFacturation)">@Html.DisplayNameFor(commande => commande.First().DateFacturation)</th>
+                <th id="@nameof(GestionCommandeVM.Statut)">@Html.DisplayNameFor(commande => commande.First().Statut)</th> 
+                <th id="@nameof(GestionCommandeVM.Total)">Total</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (CommandeEtudiant commande in Model) {
-                <tr>
-                    <td>@commande.PrixEtatLivre.EtatLivre</td>
-                    <td>@commande.Quantite</td>
-                    <td>@commande.PrixEtatLivre.QuantiteUsage</td>
-                    <td>@commande.PrixEtatLivre.LivreBibliotheque.Titre</td>
-                    <td>@commande.FactureEtudiant.Etudiant.Email</td>
-                    <td>@commande.FactureEtudiant.AdresseLivraison</td>
-                    <td>@commande.FactureEtudiant.DateFacturation</td>
-                    <td>@commande.PrixEtatLivre.Prix</td>
+            @foreach (FactureEtudiant commande in Model) {
+                <tr id="tr-@commande.FactureEtudiantId" class="modif-suppr">
+                    <td>@commande.FactureEtudiantId</td>
+                    <td>@commande.PaymentIntentId</td>
+                    <td>@commande.EtudiantId</td>
+                    <td>@commande.AdresseLivraison</td>
+                    <td>@commande.DateFacturation.ToString("dd MMMM yyyy")</td>
+                    <td>@commande.Statut</td>
+                    <td>TODO</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
-                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#commande-@commande.PrixEtatLivreId" onclick="getFormulaireModifierCommande('@commande.PrixEtatLivreId')">
-                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCommande('@commande.PrixEtatLivreId')">
+                        <img src="~/img/recus.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-commande" onclick="getFormulaireListeCommandes('@commande.FactureEtudiantId')">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierCommande('@commande.FactureEtudiantId')">
+                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCommande('@commande.FactureEtudiantId')">
                     </td>
                 </tr>
-                <div class="modal fade" id="commande-@commande.PrixEtatLivreId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le commande</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-
-                            </div>
-                            <div class="modal-footer">
-                                <button id="fermer-modal-@commande.PrixEtatLivreId" data-bs-dismiss="modal" hidden></button>
-                                <button type="button" class="btn btn-primary" onclick="modifierCommande('@commande.PrixEtatLivreId')">Enregistrer</button>
-                            </div>
+            }
+            <div class="modal fade" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier la commande</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="fermer-modal-modifier" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="ModifierCommande()">Enregistrer</button>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
+
             <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -73,6 +67,20 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modal-commande" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Commandes associés à cette facture</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+
         </tbody>
     </table>
 </div>
