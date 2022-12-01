@@ -34,7 +34,7 @@
     {
         <div>
             <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
-                <input class="btn btn-primary shadow" type="button" value="Modifier" />
+                <img class="mx-auto tableau" src="~/img/pencil.svg" alt="Modifier">
             </a>
 
             <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
