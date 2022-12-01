@@ -1,6 +1,5 @@
 @model AchatVM 
 
-<!--
 <script src="https://js.stripe.com/v3/"></script>
 
 <script>
@@ -19,7 +18,6 @@ const options = {
 const elements = stripe.elements(options);
 
 </script>
--->
 
 <p class="fs-2">Achat</p>
 
@@ -200,7 +198,6 @@ const elements = stripe.elements(options);
 
 </script>
 
-<!--
 <script>
 
 /** TODO: à sortir dans son propre fichier**/
@@ -220,6 +217,7 @@ form.addEventListener('submit', async (event) => {
         confirmParams: {
                     return_url: 'https://example.com/order/123/complete',
                   },
+                    redirect: 'if_required'
         });
 
     if (error) {
@@ -229,6 +227,8 @@ form.addEventListener('submit', async (event) => {
       const messageContainer = document.querySelector('#error-message');
       messageContainer.textContent = error.message;
     } else {
+
+        alert("Paiement confirmé, merci beaucoup!");
                 // Your customer will be redirected to your `return_url`. For some payment
                 // methods like iDEAL, your customer will be redirected to an intermediate
                 // site first to authorize the payment, then redirected to the `return_url`.
@@ -236,4 +236,3 @@ form.addEventListener('submit', async (event) => {
 });
 
 </script>
--->
