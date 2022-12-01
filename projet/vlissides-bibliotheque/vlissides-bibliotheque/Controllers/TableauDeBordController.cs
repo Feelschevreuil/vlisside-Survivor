@@ -167,15 +167,17 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult ModifierEtudiant(string Id)
         {
-            Etudiant? etudiant = _userManagerEtudiant.Users
+            Etudiant? etudiant = _context.Etudiants
                 .Where(etudiant => etudiant.Id == Id)
                 .Include(etudiant => etudiant.ProgrammeEtude)
                 .Include(etudiant => etudiant.Adresse.Province)
                 .FirstOrDefault();
 
             // retourner un erreur si l'étudiant n'existe pas
-            if (etudiant == null) return NotFound();
-
+            if (etudiant == null)
+            {
+                return NotFound();
+            }
             GestionProfilVM vm = etudiant.GetEtudiantProfilVM(_context);
 
             vm.EtudiantId = Id;
