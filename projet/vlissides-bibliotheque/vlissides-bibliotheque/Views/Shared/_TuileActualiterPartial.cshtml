@@ -30,12 +30,12 @@
                 <h5 class="fw-bold card-title">@Model.Nom</h5>
                     <p class="card-text d-inline-block text-truncate col-8 mb-0">@Model.Description</p>
                     <div>
-                        <p class="d-inline-block">
+                        <p class="d-inline-block mb-0">
                             <img class="evenement-horloge-debut" src="~/img/horloge.svg">
                             Début le: @Model.Debut.Day @Model.Debut.ToString("MMMM") @Model.Debut.Year
                         </p>
 
-                        <p>
+                        <p class="mb-0">
                             <img class="evenement-horloge-fin" src="~/img/horloge.svg">
                             Termine le: @Model.Fin.Day @Model.Debut.ToString("MMMM") @Model.Fin.Year
                         </p>
