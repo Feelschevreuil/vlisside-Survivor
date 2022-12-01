@@ -6,6 +6,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Enums;
+using System.Globalization;
 
 namespace vlissides_bibliotheque
 {
@@ -23,7 +24,7 @@ namespace vlissides_bibliotheque
                 prixInitial = Math.Floor(100 * prixInitial) / 100;
                 if (prixInitial == (int)prixInitial)
                 {
-                    Prixdecimal = ",00";
+                    Prixdecimal = ".00";
                 }
                 return prixInitial + Prixdecimal;
             }
@@ -42,7 +43,7 @@ namespace vlissides_bibliotheque
                 prixInitial = Math.Floor(100 * prixInitial) / 100;
                 if (prixInitial == (int)prixInitial)
                 {
-                    Prixdecimal = ",00";
+                    Prixdecimal = ".00";
                 }
                 return prixInitial + Prixdecimal;
             }
@@ -61,7 +62,7 @@ namespace vlissides_bibliotheque
                 prixInitial = Math.Floor(100 * prixInitial) / 100;
                 if (prixInitial == (int)prixInitial)
                 {
-                    Prixdecimal = ",00";
+                    Prixdecimal = ".00";
                 }
                 return prixInitial + Prixdecimal;
             }
@@ -107,8 +108,9 @@ namespace vlissides_bibliotheque
                 prixInitial = Math.Floor(100 * prixInitial) / 100;
                 if (prixInitial == (int)prixInitial)
                 {
-                    prixAvecDecimal = prixInitial.ToString() + ",00";
-                    prixEtat.Prix = float.Parse(prixAvecDecimal);
+                    prixAvecDecimal = prixInitial.ToString() + ".00";
+                    prixEtat.Prix = float.Parse(prixAvecDecimal, CultureInfo.InvariantCulture);
+
                     return prixEtat;
                 }
                 prixEtat.Prix = prixInitial;
@@ -124,10 +126,10 @@ namespace vlissides_bibliotheque
             prixInitial = Math.Floor(100 * prixInitial) / 100;
             if (prixInitial == (int)prixInitial)
             {
-                prixAvecDecimal = prixInitial.ToString() + ",00";
+                prixAvecDecimal = prixInitial.ToString() + ".00";
                 return prixAvecDecimal;
             }
-            return prixInitial.ToString(); 
+            return prixInitial.ToString()+".00"; 
         }
     }
 }

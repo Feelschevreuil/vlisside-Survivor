@@ -11,13 +11,15 @@
     }
 
 <div class="container-fluid">
-
     <div class="row">
         @foreach (var card in Model.tuileLivreBiblioteques)
         {
-            <div class="col-12 col-sm-3 col-md-3">
-                <partial name="_TuileLivrePartial" model="card"></partial>
-            </div>
+            <partial name="_TuileLivrePartial" model="card"></partial>
         }
     </div>
 </div>
+
+
+<link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
+<script src="~/js/updateBoutonAjoutPanier.js"></script>
+<script src="~/js/PrixAjax.js"></script>

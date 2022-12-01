@@ -46,15 +46,15 @@ namespace vlissides_bibliotheque.Controllers
 
             List<PrixEtatLivre> listPrixEtat = _context.PrixEtatsLivres
                 .Include(x => x.LivreBibliotheque)
-                .Include(x => x.EtatLivre)
+                .Include(x=>x.LivreBibliotheque.MaisonEdition)
                 .ToList();
 
             if (coursLivres != null)
             {
 
-                foreach (int id in livres.Neuf)
+                foreach (Neuf id in livres.Neuf)
                 {
-                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id);
+                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
 
                     if (coursLivresTrouves != null)
                     {
@@ -69,9 +69,9 @@ namespace vlissides_bibliotheque.Controllers
                     }
                 }
 
-                foreach (int id in livres.Usage)
+                foreach (Usage id in livres.Usage)
                 {
-                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id);
+                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
                     if (coursLivresTrouves != null)
                     {
                         PrixEtatLivre prixUsage = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre == EtatLivreEnum.USAGE);
@@ -84,9 +84,9 @@ namespace vlissides_bibliotheque.Controllers
                         });
                     }
                 }
-                foreach (int id in livres.Numerique)
+                foreach (Numerique id in livres.Numerique)
                 {
-                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id);
+                    coursLivresTrouves = coursLivres.Find(element => element.LivreBibliotheque.LivreId == id.LivreId);
                     if (coursLivresTrouves != null)
                     {
                         PrixEtatLivre prixNumerique = listPrixEtat.Find(x => x.LivreBibliotheque == coursLivresTrouves.LivreBibliotheque && x.EtatLivre == EtatLivreEnum.NUMERIQUE);
@@ -99,6 +99,26 @@ namespace vlissides_bibliotheque.Controllers
                         });
                     }
                 }
+            }
+
+            List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
+            for (int i = 0; i < livresModifie.Count; i++)
+            {
+                List<AuteurLivre> auteursLivresTrouve = auteursLivres.FindAll(e => e.LivreBibliothequeId == livresModifie[i].livreBibliotheque.LivreId);
+
+                if (auteursLivresTrouve != null)
+                {
+                    if (auteursLivres.Count > 0)
+                    {
+                        List<Auteur> auteurs = new List<Auteur>();
+                        foreach (AuteurLivre auteurLivre in auteursLivresTrouve)
+                        {
+                            auteurs.Add(auteurLivre.Auteur);
+                        }
+                        livresModifie[i].auteurs = auteurs;
+                    }
+                }
+
             }
 
             return PartialView("_ConteneurPanier", livresModifie);

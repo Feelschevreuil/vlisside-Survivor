@@ -17,12 +17,12 @@
     {
         <div>
             <a class="float-start" asp-area="" asp-controller="usage" asp-action="modifier" asp-route-id="@Model.LivreId">
-                <input class="btn btn-primary shadow" type="button" value="Modifier" />
+                <img class="mx-auto tableau" src="~/img/pencil.svg" alt="Suppression" value="Modifier">
             </a>
 
             <form method="post" class="float-end" asp-controller="usage" asp-action="effacer" asp-route-id="@Model.LivreId">
                 <a>
-                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Titre')" type="submit" value="Supprimer" />
+                    <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Titre')" type="image" src="~/img/delete-rouge.svg" />
                 </a>
             </form>
         </div>
@@ -38,12 +38,11 @@
             </div>
 
             <div class="card border-0 tuile-livre">
-                <h5 class="card-title ">Titre: @Model.Titre</h5>
-                <p class="card-text"><strong>ISBN:</strong> @Model.Isbn</p>
-                <p class="card-text"><strong>Auteur:</strong> @Model.Auteur</p>
-                <p class="card-text"><strong>Vendeur:</strong> @Model.Etudiant.Prenom @Model.Etudiant.Nom</p>
-                <p class="card-text"><strong>MaisonEdition:</strong> @Model.MaisonEdition</p>
-                <p class="card-text"><strong>Année de publication:</strong> @Model.DatePublication.Year</p>
+                <h5 class="card-title "><strong>@Model.Titre</strong></h5>
+                <p class="card-text">De @Model.Auteur</p>
+                <p class="card-text">Maison @Model.MaisonEdition</p>
+                <p class="card-text">@Model.DatePublication.Year</p>
+                <p class="card-text">Vendu par @Model.Etudiant.Prenom @Model.Etudiant.Nom</p>
 
             </div>
         </a>

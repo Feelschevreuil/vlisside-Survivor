@@ -22,37 +22,37 @@
                 <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
                     @if (Model.prixEtatLivre[0] != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model)$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model).Prix.ToString("N2").Replace(",",".")$</p>
                     }
                     @if (Model.prixEtatLivre[1] != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model)$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model).Prix.ToString("N2").Replace(",",".")$</p>
                     }
                     @if (Model.prixEtatLivre[2] != null && Model.prixEtatLivre.Count() > 0)
                     {
-                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model)$</p>
+                        <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model).Prix.ToString("N2").Replace(",",".")$</p>
                     }
                 </div>
             </div>
         </a>
     </div>
-    <div class="o-switch btn-group w-100" data-toggle="buttons" role="group">
+    <div class="o-switch btn-group w-100 px-3" data-toggle="buttons" role="group">
         
         @if (Model.prixEtatLivre[0] != null)
             {
-                <label class="btn bg-back text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
+                <label class="btn btn-rounded bg-top text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
                     <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.NEUF" onclick="ChangerPrix(this.value, @livreIdCourant);" checked> Neuf
                 </label>
             }
         @if (Model.prixEtatLivre[2] != null)
             {
-                <label class="btn bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
+            <label class="btn btn-rounded bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
                     <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.DIGITAL" onclick="ChangerPrix(this.value, @livreIdCourant)"> Numérique
                 </label>
             }
         @if (Model.prixEtatLivre[1] != null)
             {
-                <label class="btn bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
+            <label class="btn btn-rounded bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
                     <input hidden type="radio" name="options+@livreIdCourant" value="@NomEtatLivre.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
                 </label>
             }
@@ -60,21 +60,44 @@
 
 
     <div class="card border-0 livre-info">
-        <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
-        <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
+        <h5 class="card-title "><stong>@Model.livreBibliotheque.Titre</stong></h5>
+        <p class="card-text">
+            <span>De </span>
+            @if (Model.auteurs != null)
+                @for (int i = 0; i < Model.auteurs.Count; i++)
+                {
+                    if (i == Model.auteurs.Count - 1)
+                    {
+                        if (i == 0)
+                        {
+                            <span>@Model.auteurs[i].GetNomComplet()</span>
+                        }
+                        else
+                        {
+                            <span>et @Model.auteurs[i].GetNomComplet()</span>
+                        }
+                    }
+                    else if (i == Model.auteurs.Count - 2)
+                    {
+                        <span>@Model.auteurs[i].GetNomComplet()</span>
+                    }
+                    else
+                    {
+                        <span>@Model.auteurs[i].GetNomComplet(),</span>
+                    }
+
+                }
+        
+        </p>
+        <p class="card-text">Maison @Model.livreBibliotheque.MaisonEdition.Nom</p>
+        <p class="card-text">@Model.livreBibliotheque.DatePublication.Year</p>
         @if (Model.coursLivre != null)
         {
-
-            <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
-            <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
+            <p class="card-text">@Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
         }
-        else
-        {
-            <p class="card-text">Programme d'étude: N/A</p>
-            <p class="card-text">Année de parcours: N/A</p>
-        }
-        <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
-
+    </div>
+    <div>
+        <input type="number" id="Quantite-@livreIdCourant" min="1" max="999999" value="1" onchange="quantiteChange(@livreIdCourant)" />
     </div>
 </div>
 
