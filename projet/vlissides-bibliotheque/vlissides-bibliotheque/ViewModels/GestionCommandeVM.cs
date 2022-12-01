@@ -33,7 +33,7 @@ namespace vlissides_bibliotheque.ViewModels
         public EtatLivreEnum EtatLivre { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
-        [DisplayName("Statue")]
+        [DisplayName("Statut")]
         public int ValeurEnumStatut { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
