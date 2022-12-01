@@ -19,7 +19,7 @@ namespace vlissides_bibliotheque.Utils
 
             montantTronque = (int)(montant * 100);
             montantFormate = montantTronque.ToString();
-            montantFormate = montantFormate.Insert(montantFormate.Count() - 2, ".");
+            montantFormate = montantTronque != 0 ? montantFormate.Insert(montantFormate.Count() - 2, ".") : "0.00";
 
             return montantFormate + " $";
         }
