@@ -45,7 +45,7 @@ namespace vlissides_bibliotheque.Controllers
                 inventaireBibliotheque.Add(livreConvertie);
             };
 
-            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
+            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque.GetRange(0, 15) };
 
             List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
             for (int i = 0; i < inventaireLivreBibliotheque.tuileLivreBiblioteques.Count; i++)
@@ -67,7 +67,6 @@ namespace vlissides_bibliotheque.Controllers
 
             }
 
-            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque.GetRange(0,15) };
             return View(inventaireLivreBibliotheque);
 
         }
