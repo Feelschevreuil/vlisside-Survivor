@@ -180,7 +180,7 @@ function checkout() {
             }).then(response => response.text())
             .then((data) => {
 
-                window.location = numeroEtudiant + "Achat/" + "?id=" + data;
+                window.location = numeroEtudiant + "/Achat/" + "?id=" + data;
             });
         }
         else {

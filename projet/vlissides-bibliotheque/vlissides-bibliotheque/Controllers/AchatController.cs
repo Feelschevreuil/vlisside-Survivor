@@ -84,6 +84,8 @@ namespace vlissides_bibliotheque.Controllers
                         _context, configurationService, commandeEtudiantService, etudiant
                     );
 
+                    Console.WriteLine("before");
+
                     //TODO: enlever red neck
                     commandesEtudiants = _context
                         .CommandesEtudiants
@@ -93,6 +95,8 @@ namespace vlissides_bibliotheque.Controllers
                                 commandeEtudiant.FactureEtudiantId == factureEtudiant.FactureEtudiantId
                         )
                         .ToList();
+
+                    Console.WriteLine("here");
 
                     achatVM = factureEtudiantService.CreerAchatVM
                     (
