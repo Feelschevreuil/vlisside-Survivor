@@ -30,7 +30,7 @@ cleanup	: du lundi au mecredi AM
 ## Style
 
 ### Desktop
-- ~~Corriger la faute d'orthographe dans Bonjour~~
+- Corriger la faute d'orthographe dans Bonjour
 - Bonjour NOM_ÉTUDIANT à la place du courriel
 
 ### Mobile (sam)
