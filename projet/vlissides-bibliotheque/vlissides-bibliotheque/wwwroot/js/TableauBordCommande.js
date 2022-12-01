@@ -92,7 +92,7 @@ function creerBtnModifSuppriCommande(nouvelleLigne, id) {
 
     livreImg = document.createElement("img");
     livreImg.classList.add("btn-img-hover");
-    livreImg.setAttribute("onclick", "getFormulaireListeLivres(" + id + ")");
+    livreImg.setAttribute("onclick", 'getFormulaireListeLivres("'+ id +'")');
     livreImg.setAttribute("src", "/img/book-view.svg");
     trBtn.appendChild(livreImg);
 
@@ -100,7 +100,7 @@ function creerBtnModifSuppriCommande(nouvelleLigne, id) {
     editImg.classList.add("btn-img-hover");
     editImg.setAttribute("data-bs-toggle", "modal");
     editImg.setAttribute("data-bs-target", "modal-modifier");
-    editImg.setAttribute("onclick", "getFormulaireModifierCommande(" + id + ")");
+    editImg.setAttribute("onclick", 'getFormulaireModifierCommande("'+ id +'")');
     editImg.setAttribute("src", "/img/pencil.svg");
     trBtn.appendChild(editImg);
 
