@@ -10,19 +10,14 @@ namespace vlissides_bibliotheque
 {
     public static class LivreEnTuile
     {
-        public static TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(this LivreBibliotheque livreBibliotheque, ApplicationDbContext _context)
+        public static TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(this LivreBibliotheque livreBibliotheque, List<CoursLivre> bdCoursLivre, List<PrixEtatLivre> bdPrixLivre, List<AuteurLivre> auteurLivres)
         {
-            List<CoursLivre> bdCoursLivre = _context.CoursLivres
-                .Include(x=>x.Cours)
-                .Include(x=>x.LivreBibliotheque)
-                .Include(x=>x.Cours.ProgrammeEtude)
-                .ToList();
-            CoursLivre coursLivreAssocier = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-            
-            List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
-                .ToList()
+            auteurLivres = auteurLivres
                 .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-            
+            bdPrixLivre = bdPrixLivre
+                .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+             CoursLivre coursLivreAssocier = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+
             TuileLivreBibliotequeVM tuileVM = new()
             {
                 livreBibliotheque = livreBibliotheque
@@ -32,7 +27,7 @@ namespace vlissides_bibliotheque
             {
                 if (coursLivreAssocier != null)
                 {
-                    tuileVM.coursLivre = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                    tuileVM.coursLivre = coursLivreAssocier;
                     
                 }
                 if (bdPrixLivre != null)
@@ -44,6 +39,11 @@ namespace vlissides_bibliotheque
                 {
                     tuileVM.livreBibliotheque.PhotoCouverture = GetImageParDefaut();
                 }
+                if(auteurLivres.Count() > 0 && auteurLivres != null)
+                {
+                    tuileVM.auteurLivre = auteurLivres;
+                }
+
             }
             catch (Exception e)
             {
@@ -63,10 +63,21 @@ namespace vlissides_bibliotheque
                 .Include(x=>x.LivreBibliotheque.MaisonEdition)
                 .Take(4)
                 .ToList();
+            List<CoursLivre> bdCoursLivre = _context.CoursLivres
+               .Include(x => x.Cours)
+               .Include(x => x.LivreBibliotheque)
+               .Include(x => x.Cours.ProgrammeEtude)
+               .ToList();
+            List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
+                .Include(x => x.Auteur)
+                .Include(x => x.LivreBibliotheque)
+                .ToList();
+            List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
+                .ToList();
 
             foreach (CoursLivre CoursLivre in listQuatreLivre)
             {
-                var livreConvertie = CoursLivre.LivreBibliotheque.GetTuileLivreBibliotequeVMs(_context);
+                var livreConvertie = CoursLivre.LivreBibliotheque.GetTuileLivreBibliotequeVMs(bdCoursLivre,bdPrixLivre,bdAuteurLivres);
                 listTuileLivreBibliotequeVMs.Add(livreConvertie);
             };
 

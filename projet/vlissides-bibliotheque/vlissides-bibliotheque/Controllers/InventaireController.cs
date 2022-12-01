@@ -39,9 +39,22 @@ namespace vlissides_bibliotheque.Controllers
                 .Include(x => x.MaisonEdition)
                 .OrderByDescending(i => i.DatePublication)
                 .ToList();
+            List<CoursLivre> bdCoursLivre = _context.CoursLivres
+               .Include(x => x.Cours)
+               .Include(x => x.LivreBibliotheque)
+               .Include(x => x.Cours.ProgrammeEtude)
+               .ToList();
+            List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
+                .Include(x => x.Auteur)
+                .Include(x => x.LivreBibliotheque)
+                .ToList();
+            List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
+                .ToList();
+                
+
             foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
-                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
+                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre,bdPrixLivre, bdAuteurLivres);
                 inventaireBibliotheque.Add(livreConvertie);
             };
 
@@ -68,7 +81,6 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             return View(inventaireLivreBibliotheque);
-
         }
 
         public IActionResult Detail(int id)
@@ -77,7 +89,18 @@ namespace vlissides_bibliotheque.Controllers
             LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == id);
             if (livreBibliotheque != null)
             {
-                return View(LivreEnTuile.GetTuileLivreBibliotequeVMs(livreBibliotheque, _context));
+                List<CoursLivre> bdCoursLivre = _context.CoursLivres
+                   .Include(x => x.Cours)
+                   .Include(x => x.LivreBibliotheque)
+                   .Include(x => x.Cours.ProgrammeEtude)
+                   .ToList();
+                List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
+                    .Include(x => x.Auteur)
+                    .Include(x => x.LivreBibliotheque)
+                    .ToList();
+                List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
+                    .ToList();
+                return View(LivreEnTuile.GetTuileLivreBibliotequeVMs(livreBibliotheque, bdCoursLivre,bdPrixLivre,bdAuteurLivres));
             }
 
 
