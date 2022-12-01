@@ -6,7 +6,8 @@ Fonctionnalités à régler
 end	: dimanche soir
 cleanup	: du lundi au mecredi AM
 ```
-# Achat
+# Achat (rob)
+- ~~paiement avec script~~
 - webhook
 - page de confirmation d'achat
 - afficher l'historique des achats
@@ -15,10 +16,11 @@ cleanup	: du lundi au mecredi AM
 - clear le localstorage if success
 
 # Recherche bibliothèque
-- simple
-- avancée
+- simple (samory)
+- avancée (samory/rob)
 
-# Gestion (Admin)
+# Gestion par admin (vincent)
+- lors de l'ajout d'un livre, pouvoir l'associer aux cours, aux professeur, aux maision d'édition et aux auteurs
 - importation des étudiants à partir du fichier .CSV
 - s'assurer que tout fonctionne
 - prix pour les factures (calculer le total)
@@ -28,10 +30,10 @@ cleanup	: du lundi au mecredi AM
 ## Style
 
 ### Desktop
-- Corriger la faute d'orthographe dans Bonjour
+- ~~Corriger la faute d'orthographe dans Bonjour~~
 - Bonjour NOM_ÉTUDIANT à la place du courriel
 
-### Mobile
+### Mobile (sam)
 - Liens sur la nav bar et la bottom bar (S'assurer qu'ils fonctionnent)
 
 # Cartes (Acceuil)
