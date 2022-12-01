@@ -2,15 +2,14 @@
 
 <h2 class="p-3">Gestion des événements</h2>
 
-<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-4 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerPromotion()" />
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-5 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerPromotion()" />
 
 <div>
-    <table class="table table-light">
+    <table class="table table-light ms-5">
         <thead>
             <tr>
                 <th id="@nameof(GestionPromotionVM.Photo)">@Html.DisplayNameFor(evenement => evenement.First().Image)</th>
                 <th id="@nameof(GestionPromotionVM.Nom)">@Html.DisplayNameFor(evenement => evenement.First().Nom)</th>
-                <th id="@nameof(GestionPromotionVM.Description)">@Html.DisplayNameFor(evenement => evenement.First().Description)</th>
                 <th id="@nameof(GestionPromotionVM.Debut)">@Html.DisplayNameFor(evenement => evenement.First().Debut)</th>
                 <th id="@nameof(GestionPromotionVM.Fin)">@Html.DisplayNameFor(evenement => evenement.First().Fin)</th>
                 <th id="@nameof(GestionPromotionVM.CommanditaireNom)">@Html.DisplayNameFor(evenement => evenement.First().Commanditaire.Nom)</th>
@@ -25,35 +24,34 @@
                         <img class="tableauDeBord-image" src="@evenement.Image">
                     </td>
                     <td>@evenement.Nom</td>
-                    <td>@evenement.Description</td>
-                    <td>@evenement.Debut</td>
-                    <td>@evenement.Fin</td>
+                    <td>@evenement.Debut.ToString("dd MMMM yyyy")</td>
+                    <td>@evenement.Fin.ToString("dd MMMM yyyy")</td>
                     <td>@evenement.Commanditaire.Nom</td>
                     <td>@evenement.Commanditaire.Courriel</td>
                     <td>@evenement.Commanditaire.Message</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
-                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#evenement-@evenement.EvenementId" onclick="getFormulaireModifierPromotion('@evenement.EvenementId')">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierPromotion('@evenement.EvenementId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerPromotion('@evenement.EvenementId')">
                     </td>
                 </tr>
-                <div class="modal fade" id="evenement-@evenement.EvenementId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le evenement</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-
-                            </div>
-                            <div class="modal-footer">
-                                <button id="fermer-modal-@evenement.EvenementId" data-bs-dismiss="modal" hidden></button>
-                                <button type="button" class="btn btn-primary" onclick="modifierPromotion('@evenement.EvenementId')">Enregistrer</button>
-                            </div>
+            }
+            <div class="modal fade" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier l'événements</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="fermer-modal-modifier" data-bs-dismiss="modal" hidden></button>
+                            <button type="button" class="btn btn-primary" onclick="modifierPromotions()">Enregistrer</button>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
+
             <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">

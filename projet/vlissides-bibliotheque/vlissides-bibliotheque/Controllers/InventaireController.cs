@@ -39,9 +39,22 @@ namespace vlissides_bibliotheque.Controllers
                 .Include(x => x.MaisonEdition)
                 .OrderByDescending(i => i.DatePublication)
                 .ToList();
+            List<CoursLivre> bdCoursLivre = _context.CoursLivres
+               .Include(x => x.Cours)
+               .Include(x => x.LivreBibliotheque)
+               .Include(x => x.Cours.ProgrammeEtude)
+               .ToList();
+            List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
+                .Include(x => x.Auteur)
+                .Include(x => x.LivreBibliotheque)
+                .ToList();
+            List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
+                .ToList();
+                
+
             foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
-                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
+                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre,bdPrixLivre, bdAuteurLivres);
                 inventaireBibliotheque.Add(livreConvertie);
             };
 
@@ -68,7 +81,6 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             return View(inventaireLivreBibliotheque);
-
         }
 
         public IActionResult Detail(int id)
@@ -77,7 +89,18 @@ namespace vlissides_bibliotheque.Controllers
             LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == id);
             if (livreBibliotheque != null)
             {
-                return View(LivreEnTuile.GetTuileLivreBibliotequeVMs(livreBibliotheque, _context));
+                List<CoursLivre> bdCoursLivre = _context.CoursLivres
+                   .Include(x => x.Cours)
+                   .Include(x => x.LivreBibliotheque)
+                   .Include(x => x.Cours.ProgrammeEtude)
+                   .ToList();
+                List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
+                    .Include(x => x.Auteur)
+                    .Include(x => x.LivreBibliotheque)
+                    .ToList();
+                List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
+                    .ToList();
+                return View(LivreEnTuile.GetTuileLivreBibliotequeVMs(livreBibliotheque, bdCoursLivre,bdPrixLivre,bdAuteurLivres));
             }
 
 
@@ -92,7 +115,7 @@ namespace vlissides_bibliotheque.Controllers
             AssocierLivreCours nouveauLivre = new AssocierLivreCours { 
                 Auteurs =ListDropDown.ListDropDownAuteurs(_context), 
                 MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
-            checkBoxCours = CoursCheckedBox.GetCours(_context)};
+            checkBoxCours = CheckedBox.GetCours(_context)};
             return View(nouveauLivre);
         }
 
@@ -156,7 +179,7 @@ namespace vlissides_bibliotheque.Controllers
 
             form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             form.MaisonsDeditions =ListDropDown.ListDropDownMaisonDedition(_context);
-            form.checkBoxCours = CoursCheckedBox.GetCours(_context);
+            form.checkBoxCours = CheckedBox.GetCours(_context);
             return View(form);
 
         }
@@ -190,7 +213,7 @@ namespace vlissides_bibliotheque.Controllers
                 Photo = livreBibliothequeRechercher.PhotoCouverture,
                 PossedeNeuf = true,
                 PossedeNumerique = true,
-                checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
+                checkBoxCours = CheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
 
             };
 
@@ -267,7 +290,7 @@ namespace vlissides_bibliotheque.Controllers
 
             form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             form.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
-            form.checkBoxCours = CoursCheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
+            form.checkBoxCours = CheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
             return View(form);
         }
 

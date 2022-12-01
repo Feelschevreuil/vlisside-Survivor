@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
 {
     public class GestionPromotionVM
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public int EvenementId { get; set; }
 
@@ -16,6 +19,9 @@ namespace vlissides_bibliotheque.ViewModels
         [DataType(DataType.Date)]
         public DateTime Debut { get; set; } = DateTime.Now;
 
+        public string dateDebutFormatter { get; set; }
+        public string dateFinFormatter { get; set; }
+
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DataType(DataType.Date)]
         public DateTime Fin { get; set; } = DateTime.Now;
@@ -24,6 +30,7 @@ namespace vlissides_bibliotheque.ViewModels
         [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Le champ {0} est requis.")]
+        [Image]
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]

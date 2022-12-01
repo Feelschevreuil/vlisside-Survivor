@@ -9,5 +9,7 @@ namespace vlissides_bibliotheque.ViewModels
         public List<SelectListItem> ProgrammesEtude { get; set; }
         [DisplayName("Programmes d'étude")]
         public int ProgrammesEtudeId { get; set; }
+
+        public int Id { get; set; }
     }
 }

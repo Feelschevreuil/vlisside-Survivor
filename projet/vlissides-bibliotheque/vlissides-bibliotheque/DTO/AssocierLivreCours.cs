@@ -11,5 +11,7 @@ namespace vlissides_bibliotheque.DTO
     {
         public List<int> Cours { get; set; }
         public int Id { get; set; }
+
+        public string DateFormater { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -19,6 +20,7 @@ namespace vlissides_bibliotheque.Models
         public string Nom { get; set; }
 
         [Required]
+        [DisplayName("Début")]
         public DateTime Debut { get; set; }
 
         [Required]
