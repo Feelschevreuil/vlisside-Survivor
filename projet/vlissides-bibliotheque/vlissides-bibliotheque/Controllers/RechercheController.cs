@@ -30,13 +30,45 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public IActionResult RechercheRapide([FromBody] RechercheSimple rechercheSimple)
         {
-            List<LivreBibliotheque> livreBibliotheques=new();
+            List<TuileLivreBibliotequeVM> livreBibliotheques=new();
             LivresBibliothequeDAO livresBibliothequeDAO = new LivresBibliothequeDAO(_context);
-            if (rechercheSimple.numPage != null && rechercheSimple.texteRecherche!="")
+            if (rechercheSimple.numPage != null)
             {
-                if(rechercheSimple.numPage>=0){ 
-                    livreBibliotheques= livresBibliothequeDAO.GetSelonPropriete(rechercheSimple.texteRecherche, 20,(int)rechercheSimple.numPage).ToList();
+                List<LivreBibliotheque> livres = new();
+                if (rechercheSimple.numPage>=0){
+                    livres = livresBibliothequeDAO.GetSelonPropriete(rechercheSimple.texteRecherche, 20,(int)rechercheSimple.numPage).ToList();
                 }
+
+                List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList();
+                List<CoursLivre> coursLivres = _context.CoursLivres.Include(x => x.Cours).Include(x => x.Cours.ProgrammeEtude).Include(x => x.LivreBibliotheque).ToList();
+                foreach (LivreBibliotheque livre in livres)
+                {
+                    prixEtatLivre.FindAll(x => x.LivreBibliothequeId == livre.LivreId);
+                    coursLivres.Find(element => element.LivreBibliothequeId== livre.LivreId);
+
+                    livreBibliotheques.Add(new TuileLivreBibliotequeVM { livreBibliotheque=new LivreBibliotheque { DatePublication=livre.DatePublication,LivreId=livre.LivreId,MaisonEdition=livre.MaisonEdition,PhotoCouverture=livre.PhotoCouverture,Titre=livre.Titre },prixEtatLivre= prixEtatLivre , coursLivre= coursLivres[0] });
+                }
+
+                List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
+                for (int i = 0; i < livreBibliotheques.Count; i++)
+                {
+                    List<AuteurLivre> auteursLivresTrouve = auteursLivres.FindAll(e => e.LivreBibliothequeId == livreBibliotheques[i].livreBibliotheque.LivreId);
+
+                    if (auteursLivresTrouve != null)
+                    {
+                        if (auteursLivres.Count > 0)
+                        {
+                            List<Auteur> auteurs = new List<Auteur>();
+                            foreach (AuteurLivre auteurLivre in auteursLivresTrouve)
+                            {
+                                auteurs.Add(auteurLivre.Auteur);
+                            }
+                            livreBibliotheques[i].auteurs = auteurs;
+                        }
+                    }
+
+                }
+
             }
             else
             {
@@ -55,7 +87,7 @@ namespace vlissides_bibliotheque.Controllers
                 return PartialView("_ConteneurAffichageLivresRecherche", inventaireBibliotheque);
             }
 
-            return PartialView("_ConteneurAffichageLivresRecherche", FaireLivresPourVue(livreBibliotheques));
+            return PartialView("_ConteneurAffichageLivresRecherche", (livreBibliotheques));
         }
 
         //[ValidateAntiForgeryToken]
