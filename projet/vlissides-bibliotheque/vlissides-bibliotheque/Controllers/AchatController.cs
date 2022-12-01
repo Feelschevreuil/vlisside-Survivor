@@ -42,6 +42,75 @@ namespace vlissides_bibliotheque.Controllers
             _context = context;
         }
 
+        public IActionResult Index(int id)
+        {
+
+            if(id > 0)
+            {
+
+                Etudiant etudiant;
+                FacturesEtudiantsDAO facturesEtudiantsDAO;
+                FactureEtudiantService factureEtudiantService;
+                CommandeEtudiantService commandeEtudiantService;
+                ConfigurationService configurationService;
+                FactureEtudiant factureEtudiant;
+                List<CommandeEtudiant> commandesEtudiants;
+                AchatVM achatVM;
+
+                facturesEtudiantsDAO = new(_context);
+
+                configurationService = new
+                (
+                    ConstantesConfiguration.FICHIER_CONFIGURATION_PRINCIPAL
+                );
+
+                // TODO: sortir d'ici
+                etudiant = _context
+                    .Etudiants
+                        .Include(etudiant => etudiant.Adresse)
+                        .FirstOrDefault
+                        (
+                            etudiant => etudiant.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)
+                        );
+
+                factureEtudiant = facturesEtudiantsDAO.Get(id);
+
+                if(factureEtudiant != null && factureEtudiant.Etudiant == etudiant)
+                {
+                    commandeEtudiantService = new(_context);
+
+                    factureEtudiantService = new
+                    (
+                        _context, configurationService, commandeEtudiantService, etudiant
+                    );
+
+                    //TODO: enlever red neck
+                    commandesEtudiants = _context
+                        .CommandesEtudiants
+                        .Where
+                        (
+                            commandeEtudiant => 
+                                commandeEtudiant.FactureEtudiantId == factureEtudiant.FactureEtudiantId
+                        )
+                        .ToList();
+
+                    achatVM = factureEtudiantService.CreerAchatVM
+                    (
+                        factureEtudiant,
+                        commandesEtudiants
+                    );
+
+                    return View(achatVM);
+                }
+                else
+                {
+                    return Content("1");
+                }
+            }
+
+            return StatusCode(401);
+        }
+
         // POST: /achat/creer
         [HttpPost]
         public async Task<IActionResult> Creer([FromBody] Panier panier)
@@ -77,9 +146,6 @@ namespace vlissides_bibliotheque.Controllers
                         (
                             etudiant => etudiant.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)
                         );
-
-                etudiant = await _userManagerEtudiant
-                    .GetUserAsync(HttpContext.User);
 
                 factureEtudiantService = new
                 (
@@ -131,25 +197,12 @@ namespace vlissides_bibliotheque.Controllers
                         facturesEtudiantsDAO
                     );
 
-                    if(factureEtudiant != null)
-                    {
-
-                        achatVM = factureEtudiantService.CreerAchatVM
-                        (
-                            factureEtudiant,
-                            commandesEtudiants
-                        );
-
-                        return View(achatVM);
-                    }
-
-                    return Content("Commandes invalides!");
+                    // TODO: enum
+                    return Content(factureEtudiant.FactureEtudiantId.ToString());
                 }
-
-                return Content("Commandes invalides!");
             }
 
-            return Content("What did you do?");
+            return StatusCode(401);
         }
 
         /*

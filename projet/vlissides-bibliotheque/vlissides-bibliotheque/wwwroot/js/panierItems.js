@@ -141,7 +141,7 @@ function checkout() {
 
     var stringFetch = "";
     var url = location.host;
-    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+    var numeroEtudiant = window.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
     var fetchEnLocal = "../Achat/Creer";
     var fetchSurServeur = numeroEtudiant + "/Achat/Creer";
     if (url.match("localhost") == null) {
@@ -177,15 +177,10 @@ function checkout() {
                     "Content-Type": "application/json",
                     //"X-CSRF-TOKEN": csrfToken
                 },
-            }).then(function (response) {
+            }).then(response => response.text())
+            .then((data) => {
 
-                response.text();
-
-            }).then((data) => {
-
-                let pageCourante = document.querySelector("#PageCourante");
-
-                pageCourante.innerHTML = data;
+                window.location = numeroEtudiant + "Achat/" + "?id=" + data;
             });
         }
         else {
