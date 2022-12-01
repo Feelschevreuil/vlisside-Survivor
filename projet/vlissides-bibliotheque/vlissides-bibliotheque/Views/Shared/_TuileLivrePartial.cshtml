@@ -39,7 +39,7 @@
 
             <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
                 <a>
-                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="submit" value="Supprimer" />
+                    <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="image" src="~/img/delete-rouge.svg" />
                 </a>
             </form>
         </div>
@@ -111,20 +111,41 @@
     </div>
 
     <div class="card border-0 livre-info">
-        <h5 class="card-title ">Titre: @Model.livreBibliotheque.Titre</h5>
-        <p class="card-text">ISBN: @Model.livreBibliotheque.Isbn</p>
+        <h5 class="card-title "><stong>@Model.livreBibliotheque.Titre</stong></h5>
+        <p class="card-text">
+            <span>De </span>
+            @if (Model.auteurs != null)
+                @for (int i = 0; i < Model.auteurs.Count; i++)
+                {
+                    if (i == Model.auteurs.Count - 1)
+                    {
+                        if (i == 0)
+                        {
+                            <span>@Model.auteurs[i].GetNomComplet()</span>
+                        }
+                        else
+                        {
+                            <span>et @Model.auteurs[i].GetNomComplet()</span>
+                        }
+                    }
+                    else if (i == Model.auteurs.Count - 2)
+                    {
+                        <span>@Model.auteurs[i].GetNomComplet()</span>
+                    }
+                    else
+                    {
+                        <span>@Model.auteurs[i].GetNomComplet(),</span>
+                    }
+
+                }
+        
+        </p>
+        <p class="card-text">Maison @Model.livreBibliotheque.MaisonEdition.Nom</p>
+        <p class="card-text">@Model.livreBibliotheque.DatePublication.Year</p>
         @if (Model.coursLivre != null)
         {
-
-            <p class="card-text">Programme d'étude: @Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
-            <p class="card-text">Année de parcours: @Model.coursLivre.Cours.AnneeParcours</p>
+            <p class="card-text">@Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
         }
-        else
-        {
-            <p class="card-text">Programme d'étude: N/A</p>
-            <p class="card-text">Année de parcours: N/A</p>
-        }
-        <p class="card-text">Année de publication: @Model.livreBibliotheque.DatePublication.Year</p>
 
     </div>
 
