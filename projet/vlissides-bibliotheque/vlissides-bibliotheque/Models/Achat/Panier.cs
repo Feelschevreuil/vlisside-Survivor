@@ -24,8 +24,8 @@ namespace vlissides_bibliotheque.Models.Achat
 
             bool panierVide;
 
-            panierVide = CollectionUtils.CollectionNulleOuVide(Neufs) ||
-                CollectionUtils.CollectionNulleOuVide(Neufs) ||
+            panierVide = CollectionUtils.CollectionNulleOuVide(Neufs) &&
+                CollectionUtils.CollectionNulleOuVide(Neufs) &&
                 CollectionUtils.CollectionNulleOuVide(Usages);
 
             return panierVide;
