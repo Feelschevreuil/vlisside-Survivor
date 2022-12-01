@@ -34,11 +34,11 @@
                     <td>@etudiant.Adresse.Province.Nom</td>
                     <td>@etudiant.Adresse.CodePostal</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
-                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#etudiant-@etudiant.Id" onclick="getFormulaireModifierEtudiant('@etudiant.Id')">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierEtudiant('@etudiant.Id')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerEtudiant('@etudiant.Id')">
                     </td>
                 </tr>
-                <div class="modal fade" id="etudiant-@etudiant.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal fade" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">

@@ -118,13 +118,13 @@ function creerBtnModifSuppriEtudiant(nouvelleLigne, id) {
     editImg.classList.add("btn-img-hover");
     editImg.setAttribute("data-bs-toggle", "modal");
     editImg.setAttribute("data-bs-target", "#modal-modifier");
-    editImg.setAttribute("onclick", "getFormulaireModifierEtudiant(" + id + ")");
+    editImg.setAttribute("onclick", "getFormulaireModifierEtudiant(" + id.toString() + ")");
     editImg.setAttribute("src", "/img/pencil.svg");
     trBtn.appendChild(editImg);
 
     deleteImg = document.createElement("img");
     deleteImg.classList.add("btn-img-hover");
-    deleteImg.setAttribute("onclick", "supprimerEtudiant(" + id + ")");
+    deleteImg.setAttribute("onclick", "supprimerEtudiant(" + id.toString() + ")");
     deleteImg.setAttribute("src", "/img/delete.svg");
     trBtn.appendChild(deleteImg);
     return nouvelleLigne;
@@ -157,7 +157,7 @@ function getFormulaireModifierEtudiant(id) {
         }
 
         res.text().then(function (res) {
-            document.querySelector("#etudiant-" + String(id))
+            document.querySelector("#modal-modifier")
                 .querySelector(".modal-body").innerHTML = res;
             setInputsFormat();
         });
@@ -242,12 +242,13 @@ function creerEtudiant() {
                     let thead = table.children[0];
                     let tbody = table.children[1];
                     let nouvelleLigne = document.createElement("tr");
-                    let id = res.etudiantId;
+                    let id = res.etudiantId.toString();
                     nouvelleLigne.id = "tr-" + id;
                     for (let i = 0; i < thead.children[0].childElementCount; i++) {
                         nouvelleLigne.appendChild(document.createElement("td"));
                     }
                     tbody.insertBefore(nouvelleLigne, tbody.children[0]);
+                    creerBtnModifSuppriEtudiant(nouvelleLigne, id);
                     afficherModificationEtudiant(id, resetMajusculeJsonKey(res));
                     document.querySelector("#fermer-modal-creer").click();
                 }
