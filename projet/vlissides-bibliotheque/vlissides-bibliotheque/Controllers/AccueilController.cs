@@ -35,6 +35,26 @@ namespace vlissides_bibliotheque.Controllers
 
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = LivreEnTuile.GetQuatreLivresVM(_context), evenements = GetEvenement.GetEvenements(listEvenements) };
 
+            List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
+            for (int i = 0; i < recommendationPromotions.tuileLivreBibliotequeVMs.Count; i++)
+            {
+                List<AuteurLivre> auteursLivresTrouve = auteursLivres.FindAll(e => e.LivreBibliothequeId == recommendationPromotions.tuileLivreBibliotequeVMs[i].livreBibliotheque.LivreId);
+
+                if (auteursLivresTrouve != null)
+                {
+                    if (auteursLivres.Count > 0)
+                    {
+                        List<Auteur> auteurs = new List<Auteur>();
+                        foreach (AuteurLivre auteurLivre in auteursLivresTrouve)
+                        {
+                            auteurs.Add(auteurLivre.Auteur);
+                        }
+                        recommendationPromotions.tuileLivreBibliotequeVMs[i].auteurs = auteurs;
+                    }
+                }
+
+            }
+
             return View(recommendationPromotions);
         }
 
@@ -49,19 +69,21 @@ namespace vlissides_bibliotheque.Controllers
 
             LivreBibliotheque livre = _context.LivresBibliotheque.Where(livre => livre.LivreId == prixAfficher.Id).FirstOrDefault();
             List<PrixEtatLivre> etat = _context.PrixEtatsLivres
-                .Include(x=>x.LivreBibliotheque)
+                .Include(x => x.LivreBibliotheque)
                 .ToList()
                 .FindAll(x => x.LivreBibliotheque.LivreId == livre.LivreId);
 
             // TODO: check if this thing even works x)
-            PrixEtatLivre etatLivreRechercher = etat.Find(x=>(int)x.EtatLivre == prixAfficher.Etat);
+            PrixEtatLivre etatLivreRechercher = etat.Find(x => (int)x.EtatLivre == prixAfficher.Etat);
 
             string prix;
             if (etatLivreRechercher != null)
-            { 
-                prix = etatLivreRechercher.Prix.ToString(); 
-            }else{ 
-                prix = "À venir"; 
+            {
+                prix = etatLivreRechercher.Prix.ToString();
+            }
+            else
+            {
+                prix = "À venir";
             };
 
             PrixJson prixJson = new PrixJson() { Id = prixAfficher.Id, prix = prix };
