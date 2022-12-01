@@ -178,13 +178,15 @@ function checkout() {
                     //"X-CSRF-TOKEN": csrfToken
                 },
             }).then(function (response) {
-                //todo
+
+                response.text();
 
             }).then((data) => {
-                //todo
+
+                let pageCourante = document.querySelector("#PageCourante");
+
+                pageCourante.innerHTML = data;
             });
-
-
         }
         else {
             div.appendChild(pVide);
