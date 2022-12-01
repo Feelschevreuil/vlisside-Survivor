@@ -78,9 +78,12 @@ namespace vlissides_bibliotheque.Controllers
                     .OrderByDescending(i => i.DatePublication)
                     .Skip(15*rechercheSimple.numPage).Take(15)
                     .ToList();
+                List<CoursLivre> bdCoursLivre = _context.CoursLivres.ToList();
+                List< PrixEtatLivre > bdPrixLivre=_context.PrixEtatsLivres.ToList();
+                List<AuteurLivre> auteurLivres = _context.AuteursLivres.ToList();
                 foreach (LivreBibliotheque livre in BDlivreBibliotheques)
                 {
-                    var livreConvertie = livre.GetTuileLivreBibliotequeVMs(_context);
+                    var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre,bdPrixLivre, auteurLivres);
                     inventaireBibliotheque.Add(livreConvertie);
                 };
 ;
