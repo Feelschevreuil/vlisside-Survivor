@@ -669,7 +669,17 @@ namespace vlissides_bibliotheque.Controllers
             {
                 return NotFound();
             };
+            List<Etudiant> bdListEtudiant = _context.Etudiants
+                .Where(x => x.ProgrammeEtudeId == programmeEtudeSupprimer.ProgrammeEtudeId)
+                .ToList();
+            var programmeEtudeRandom = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId != id).FirstOrDefault();
+            foreach (Etudiant etudiant in bdListEtudiant)
+            {
+                etudiant.ProgrammeEtudeId= programmeEtudeRandom.ProgrammeEtudeId;
+                _context.Etudiants.Update(etudiant);
+                _context.SaveChanges();
 
+            }
             _context.ProgrammesEtudes.Remove(programmeEtudeSupprimer);
             _context.SaveChanges();
             return Ok();
