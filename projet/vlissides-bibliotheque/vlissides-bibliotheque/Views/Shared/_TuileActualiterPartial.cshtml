@@ -11,12 +11,12 @@
     {
         <div>
             <a class="float-start" asp-area="" asp-controller="Evenement" asp-action="modifier" asp-route-id="@Model.EvenementId">
-                <input class="btn btn-primary shadow" type="button" value="Modifier" />
+                <img class="mx-auto tableau" src="~/img/pencil.svg" alt="Modifier" value="Modifier">
             </a>
 
             <form method="post" class="float-end" asp-controller="Evenement" asp-action="effacer" asp-route-id="@Model.EvenementId">
                 <a>
-                    <input class="btn btn-danger shadow" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Nom')" type="submit" value="Supprimer" />
+                    <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Nom')" type="image" src="~/img/delete-rouge.svg" />
                 </a>
             </form>
         </div>
