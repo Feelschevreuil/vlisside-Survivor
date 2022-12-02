@@ -1,0 +1,11 @@
+﻿@model InventaireLaBlunVM
+
+@if (Model.inventaireLivreEtudiantVMs.Count != 0)
+{
+    @foreach (var card in Model.inventaireLivreEtudiantVMs)
+    {
+        <div class="col-4 col-md-4 col-sm-12">
+            <partial name="_TuileLivrePartial" model="card"></partial>
+        </div>
+    }
+}
