@@ -21,11 +21,11 @@ cleanup	: du lundi au mecredi AM
 
 # Gestion par admin (vincent)
 - lors de l'ajout d'un livre, pouvoir l'associer aux cours, aux professeur, aux maision d'édition et aux auteurs
-- importation des étudiants à partir du fichier .CSV
+- importation des étudiants à partir du fichier .CSV (sam)
 - s'assurer que tout fonctionne
 - prix pour les factures (calculer le total)
 
-# Navbar
+# Navbar (sam)
 
 ## Style
 
