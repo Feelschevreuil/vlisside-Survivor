@@ -1,5 +1,6 @@
-﻿@*@model List<vlissides_bibliotheque.Models.>  TODO: Rajouter le model "programme d'étude" come model de cette vue*@
-
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<Utilisateur> UserManager
+@*@model List<vlissides_bibliotheque.Models.>  TODO: Rajouter le model "programme d'étude" come model de cette vue*@
 @*Données test*@
 @{
 
@@ -34,10 +35,12 @@
 
             </ul>
             <ul class="navbar-nav ms-auto">
+                
                 @if (User.Identity != null) {
                     if (User.Identity.IsAuthenticated) {
+                        Utilisateur utilisateurCourant = await UserManager.GetUserAsync(User);
                         <li class="nav-item text-white">
-                            <a class="nav-link text-white">Bonjour @User.Identity.Name</a>
+                            <a class="nav-link text-white">Bonjour <strong>@utilisateurCourant.Prenom @utilisateurCourant.Nom</strong></a>
                         </li>
                     }
                 }
