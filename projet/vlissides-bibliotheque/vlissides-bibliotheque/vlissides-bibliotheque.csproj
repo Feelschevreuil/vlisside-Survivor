@@ -23,4 +23,8 @@
     <PackageReference Include="stripe.net" Version="41.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\csv\" />
+  </ItemGroup>
+
 </Project>
