@@ -12,6 +12,12 @@
                 <img src="~/img/handshake-light.svg" width="25px" class="d-block m-auto" />
                 Boutique étudiante
             </a>
+            @if (User.IsInRole(RolesName.Admin)) {
+                <a class="btn btn-outline-primary text-light border-0" asp-controller="TableauDeBord" asp-action="Index">
+                    <img src="~/img/cog-light.svg" width="25px" class="d-block m-auto" />
+                    Tableau de bord
+                </a>
+            }
         </div>
     </div>
 </footer>
