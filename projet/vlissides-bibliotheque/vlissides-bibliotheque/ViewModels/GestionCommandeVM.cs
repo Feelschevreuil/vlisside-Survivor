@@ -23,7 +23,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string EtudiantId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
-        public StatusFacture Statut { get; set; }
+        public StatutFactureEnum Statut { get; set; }
 
         public string NomStatut { get; set; }
 
