@@ -52,7 +52,6 @@ namespace vlissides_bibliotheque.ViewModels
         public string Ville { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
-        [Range(1,9999999999, ErrorMessage ="Le numéro d'appartement ne peux pas être null ou égal à zéro")]
         public string App { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
