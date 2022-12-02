@@ -10,18 +10,18 @@
     <h2 class="p-3">Tableau de bord</h2>
 </div>
 
-<div class="dropdown float-end col">
-    <div class="bg-middle text-white nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<div class="dropdown float-end d-flex col">
+    <div class="bg-middle text-white nav-link" data-bs-toggle="dropdown" aria-expanded="false">
         Tableau de bord
     </div>
 
     <ul class="dropdown-tableau dropdown-menu dropdown-tableauDeBord bg-middle" aria-labelledby="dropdownMenuLink">
-        <li> <a class="nav-link btn text-start text-white" onclick="getPartialViewEtudiant()">Etudiants</a></li>
-        <li> <a class="nav-link btn text-start text-white" onclick="getPartialViewLivre()">Livres</a></li>
-        <li> <a class="nav-link btn text-start text-white" onclick="getPartialViewCours()">Cours</a></li>
-        <li> <a class="nav-link btn text-start text-white" onclick="getPartialViewProgrammesEtude()">Programmes d'études</a></li>
-        <li> <a class="nav-link btn text-start text-white" onclick="getPartialViewPromotions()">Promotions</a></li>
-        <li> <a class="nav-link btn text-start text-white" onclick="getPartialViewEtudiant()">Commandes</a></li>
+        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewEtudiant()">Étudiants</a></li>
+        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewLivre()">Livres</a></li>
+        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewCours()">Cours</a></li>
+        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewProgrammesEtude()">Programmes d'études</a></li>
+        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewPromotions()">Promotions</a></li>
+        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewCommandes()">Commandes</a></li>
     </ul>
 </div>
 
@@ -29,6 +29,54 @@
 
     <div class="row">
             <div id="partials">
+            <partial name="Etudiants.cshtml" model="Model" />
             </div>
     </div>
 </div>
+
+<script src="~/js/TableauBordEtudiant.js" asp-append-version="true"></script>
+<script src="~/js/TableauBordLivre.js" asp-append-version="true"></script>
+<script src="~/js/TableauBordCours.js" asp-append-version="true"></script>
+<script src="~/js/TableauBordProgrammeEtude.js" asp-append-version="true"></script>
+<script src="~/js/TableauBordPromotion.js" asp-append-version="true"></script>
+<script src="~/js/TableauBordCommande.js" asp-append-version="true"></script>
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.querySelector("#maTable");
+        switching = true;
+        dir = "asc";
+    
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+</script>

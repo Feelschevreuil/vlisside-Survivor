@@ -32,7 +32,7 @@ function getCards() {
         }
 
         try {
-            if (JSON.parse(localStorage.getItem('itemsPanier')).Neuf == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usage == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numerique == undefined)
+            if (JSON.parse(localStorage.getItem('itemsPanier')).Neufs == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usages == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numeriques == undefined)
                 tryEmpty = false
         }
         catch (e) {
@@ -109,27 +109,27 @@ function initQuantitePanier() {
 
     if (livres != null || livres != undefined) {
 
-        if (livres.Neuf != null) {
-            for (var i = 0; i < livres.Neuf.length; i++) {
-                var quantite = document.getElementById("Quantite-" + livres.Neuf[i].LivreId)
+        if (livres.Neufs != null) {
+            for (var i = 0; i < livres.Neufs.length; i++) {
+                var quantite = document.getElementById("Quantite-" + livres.Neufs[i].LivreId)
                 if (quantite != null) {
-                    quantite.value = livres.Neuf[i].Quantite
+                    quantite.value = livres.Neufs[i].Quantite
                 }
             }
         }
-        if (livres.Usage != null) {
-            for (var i = 0; i < livres.Usage.length; i++) {
-                var quantite = document.getElementById("Quantite-" + livres.Usage[i].LivreId)
+        if (livres.Usages != null) {
+            for (var i = 0; i < livres.Usages.length; i++) {
+                var quantite = document.getElementById("Quantite-" + livres.Usages[i].LivreId)
                 if (quantite != null) {
-                    quantite.value = livres.Usage[i].Quantite
+                    quantite.value = livres.Usages[i].Quantite
                 }
             }
         }
-        if (livres.Numerique != null) {
-            for (var i = 0; i < livres.Numerique.length; i++) {
-                var quantite = document.getElementById("Quantite-" + livres.Numerique[i].LivreId)
+        if (livres.Numeriques != null) {
+            for (var i = 0; i < livres.Numeriques.length; i++) {
+                var quantite = document.getElementById("Quantite-" + livres.Numeriques[i].LivreId)
                 if (quantite != null) {
-                    quantite.value = livres.Numerique[i].Quantite
+                    quantite.value = livres.Numeriques[i].Quantite
                 }
             }
         }
@@ -141,9 +141,9 @@ function checkout() {
 
     var stringFetch = "";
     var url = location.host;
-    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
-    var fetchEnLocal = "/../Achat/Creer";
-    var fetchSurServeur = numeroEtudiant + "Achat/Creer";
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
+    var fetchEnLocal = "/Achat/Creer";
+    var fetchSurServeur = numeroEtudiant + fetchEnLocal;
     if (url.match("localhost") == null) {
         stringFetch = fetchSurServeur;
     } else {
@@ -160,7 +160,7 @@ function checkout() {
 
     var tryEmpty = true
     try {
-        if (JSON.parse(localStorage.getItem('itemsPanier')).Neuf == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usage == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numerique == undefined)
+        if (JSON.parse(localStorage.getItem('itemsPanier')).Neufs == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Usages == undefined && JSON.parse(localStorage.getItem('itemsPanier')).Numeriques == undefined)
             tryEmpty = false
     }
     catch (e) {
