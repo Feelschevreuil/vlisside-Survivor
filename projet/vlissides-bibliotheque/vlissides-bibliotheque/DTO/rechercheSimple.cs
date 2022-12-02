@@ -4,5 +4,6 @@
     {
         public int numPage { get; set; }
         public string? texteRecherche { get; set; }
+        public int ouRecherche { get; set; }
     }
 }
