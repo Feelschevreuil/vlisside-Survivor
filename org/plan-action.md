@@ -21,20 +21,20 @@ cleanup	: du lundi au mecredi AM
 
 # Gestion par admin (vincent)
 - lors de l'ajout d'un livre, pouvoir l'associer aux cours, aux professeur, aux maision d'édition et aux auteurs
-- importation des étudiants à partir du fichier .CSV (sam)
+- importation des étudiants à partir du fichier .CSV
 - s'assurer que tout fonctionne
 - prix pour les factures (calculer le total)
 
-# Navbar (sam)
+# ~~Navbar (sam)~~
 
-## Style
+## ~~Style~~
 
-### Desktop
-- Corriger la faute d'orthographe dans Bonjour
-- Bonjour NOM_ÉTUDIANT à la place du courriel
+### ~~Desktop~~
+- ~~Corriger la faute d'orthographe dans Bonjour~~
+- ~~Bonjour NOM_ÉTUDIANT à la place du courriel~~
 
-### Mobile (sam)
-- Liens sur la nav bar et la bottom bar (S'assurer qu'ils fonctionnent)
+### ~~Mobile (sam)~~
+- ~~Liens sur la nav bar et la bottom bar (S'assurer qu'ils fonctionnent)~~
 
 # Cartes (Acceuil)
 Afficher les propriétés suivantes en ordre
