@@ -210,10 +210,13 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult ConfirmerPaiement()
+        [AllowAnonymous]
+        public async Task<IActionResult> Confirmer()
         {
 
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+            Console.WriteLine("paiement ici");
 
             try
             {
@@ -222,6 +225,8 @@ namespace vlissides_bibliotheque.Controllers
                 // Handle the event
                 if (stripeEvent.Type == Events.PaymentIntentSucceeded)
                 {
+
+                    Console.WriteLine("paiement succès");
 
                     FactureEtudiant factureEtudiant;
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
@@ -239,8 +244,16 @@ namespace vlissides_bibliotheque.Controllers
                     if(factureEtudiant != null)
                     {
 
-                        factureEtudiant.Statut == StatutFactureEnum.TRANSIT;
+                        Console.WriteLine("facture payée");
+
+                        factureEtudiant.Statut = StatutFactureEnum.TRANSIT;
                         _context.SaveChanges();
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("facture non payée");
+                        return BadRequest();
                     }
 
                     // Then define and call a method to handle the successful payment intent.
