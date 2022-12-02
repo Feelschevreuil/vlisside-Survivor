@@ -7,6 +7,7 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Services;
 using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
@@ -30,68 +31,91 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public IActionResult RechercheRapide([FromBody] RechercheSimple rechercheSimple)
         {
-            List<TuileLivreBibliotequeVM> livreBibliotheques=new();
-            LivresBibliothequeDAO livresBibliothequeDAO = new LivresBibliothequeDAO(_context);
+
             if (rechercheSimple.numPage != null)
             {
-                List<LivreBibliotheque> livres = new();
-                if (rechercheSimple.numPage>=0){
-                    livres = livresBibliothequeDAO.GetSelonPropriete(rechercheSimple.texteRecherche, 20,(int)rechercheSimple.numPage).ToList();
-                }
-
-                List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList();
-                List<CoursLivre> coursLivres = _context.CoursLivres.Include(x => x.Cours).Include(x => x.Cours.ProgrammeEtude).Include(x => x.LivreBibliotheque).ToList();
-                foreach (LivreBibliotheque livre in livres)
+                if (rechercheSimple.ouRecherche == 1)//biblio
                 {
-                    prixEtatLivre.FindAll(x => x.LivreBibliothequeId == livre.LivreId);
-                    coursLivres.Find(element => element.LivreBibliothequeId== livre.LivreId);
+                    List<TuileLivreBibliotequeVM> livreBibliotheques = new();
+                    LivresBibliothequeDAO livresBibliothequeDAO = new LivresBibliothequeDAO(_context);
+                    List<LivreBibliotheque> livres = new();
+                    List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList();
+                    List<CoursLivre> coursLivres = _context.CoursLivres.Include(x => x.Cours).Include(x => x.Cours.ProgrammeEtude).Include(x => x.LivreBibliotheque).ToList();
+                    List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
 
-                    livreBibliotheques.Add(new TuileLivreBibliotequeVM { livreBibliotheque=new LivreBibliotheque { DatePublication=livre.DatePublication,LivreId=livre.LivreId,MaisonEdition=livre.MaisonEdition,PhotoCouverture=livre.PhotoCouverture,Titre=livre.Titre },prixEtatLivre= prixEtatLivre , coursLivre= coursLivres[0] });
+                    livreBibliotheques = RechercheService.TrouverLivreCreerTuile(livreBibliotheques, livresBibliothequeDAO, livres, prixEtatLivre, coursLivres, auteursLivres, rechercheSimple);
+
+                    return PartialView("_ConteneurAffichageLivresRechercheBibliPartial", (livreBibliotheques));
                 }
-
-                List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
-                for (int i = 0; i < livreBibliotheques.Count; i++)
+                else
                 {
-                    List<AuteurLivre> auteursLivresTrouve = auteursLivres.FindAll(e => e.LivreBibliothequeId == livreBibliotheques[i].livreBibliotheque.LivreId);
-
-                    if (auteursLivresTrouve != null)
+                    InventaireLaBlunVM inventaireLivreEtudiant = new()
                     {
-                        if (auteursLivres.Count > 0)
-                        {
-                            List<Auteur> auteurs = new List<Auteur>();
-                            foreach (AuteurLivre auteurLivre in auteursLivresTrouve)
-                            {
-                                auteurs.Add(auteurLivre.Auteur);
-                            }
-                            livreBibliotheques[i].auteurs = auteurs;
-                        }
-                    }
+                        inventaireLivreEtudiantVMs = new()
+                    };
+                    List<LivreEtudiant> livresEtudiants = _context.LivresEtudiants
+                            .Include(x => x.Etudiant)
+                            .Where(x => x.Titre == rechercheSimple.texteRecherche)
+                            .Skip(15 * rechercheSimple.numPage)
+                            .Take(15)
+                            .ToList();
 
+
+                    inventaireLivreEtudiant.inventaireLivreEtudiantVMs = livresEtudiants;
+                    return PartialView("_ConteneurAffichageLivresRechercheEtuPartial", inventaireLivreEtudiant);
                 }
+
 
             }
-            else
+            return BadRequest();
+        }
+
+        //[ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult RechercheRapideAutrePage([FromBody] RechercheSimple rechercheSimple)
+        {
+
+            if (rechercheSimple.ouRecherche == 1)//biblio
             {
-                List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
+                InventaireLivreBibliotheque inventaireBibliotheque = new();
+                inventaireBibliotheque.tuileLivreBiblioteques = new List<TuileLivreBibliotequeVM>();
                 List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
                     .Include(x => x.MaisonEdition)
                     .OrderByDescending(i => i.DatePublication)
-                    .Skip(15*rechercheSimple.numPage).Take(15)
+                    .Skip(15 * rechercheSimple.numPage).Take(15)
                     .ToList();
                 List<CoursLivre> bdCoursLivre = _context.CoursLivres.ToList();
-                List< PrixEtatLivre > bdPrixLivre=_context.PrixEtatsLivres.ToList();
+                List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres.ToList();
                 List<AuteurLivre> auteurLivres = _context.AuteursLivres.ToList();
                 foreach (LivreBibliotheque livre in BDlivreBibliotheques)
                 {
-                    var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre,bdPrixLivre, auteurLivres);
-                    inventaireBibliotheque.Add(livreConvertie);
+                    var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre, bdPrixLivre, auteurLivres);
+                    inventaireBibliotheque.tuileLivreBiblioteques.Add(livreConvertie);
                 };
-;
-                return PartialView("_ConteneurAffichageLivresRecherche", inventaireBibliotheque);
-            }
 
-            return PartialView("_ConteneurAffichageLivresRecherche", (livreBibliotheques));
+                List<CoursLivre> coursLivres = _context.CoursLivres.Include(x => x.Cours).Include(x => x.Cours.ProgrammeEtude).Include(x => x.LivreBibliotheque).ToList();
+
+                return View("~/Views/Inventaire/bibliotheque.cshtml", inventaireBibliotheque);
+            }
+            else
+            {
+                InventaireLaBlunVM inventaireLivreEtudiant = new()
+                {
+                    inventaireLivreEtudiantVMs = new()
+                };
+                List<LivreEtudiant> livresEtudiants = _context.LivresEtudiants
+                        .Include(x => x.Etudiant)
+                        .Where(x => x.Titre == rechercheSimple.texteRecherche)
+                        .Take(15)
+                        .ToList();
+
+
+                inventaireLivreEtudiant.inventaireLivreEtudiantVMs = livresEtudiants;
+                return View("~/Views/Usage/usage.cshtml", inventaireLivreEtudiant);
+            }
         }
+
+
 
         //[ValidateAntiForgeryToken]
         [HttpPost]
@@ -101,14 +125,14 @@ namespace vlissides_bibliotheque.Controllers
             LivresBibliothequeDAO livresBibliothequeDAO = new LivresBibliothequeDAO(_context);
             if (page != null)
             {
-                livreBibliotheques = livresBibliothequeDAO.GetSelonProprietes(recherche, 20, (int)page).ToList();
+                livreBibliotheques = livresBibliothequeDAO.GetSelonProprietes(recherche, 15, (int)page).ToList();
             }
             else
             {
-                livreBibliotheques = livresBibliothequeDAO.GetSelonProprietes(recherche, 20, 0).ToList();
+                livreBibliotheques = livresBibliothequeDAO.GetSelonProprietes(recherche, 15, 0).ToList();
             }
 
-            return PartialView("_ConteneurAffichageLivresRecherche", FaireLivresPourVue(livreBibliotheques));
+            return PartialView("_ConteneurAffichageLivresRechercheBibliPartial", FaireLivresPourVue(livreBibliotheques));
         }
 
         //[ValidateAntiForgeryToken]
