@@ -115,16 +115,10 @@ namespace vlissides_bibliotheque.Controllers
                     EmailConfirmed = true
                 };
 
-                // Obj pour HASHER un mot de passe
-                PasswordHasher<Etudiant> passwordHasher = new();
-
-                // création
-                var result = await _userManagerEtudiant.CreateAsync(etudiant, passwordHasher.HashPassword(null, "Jaimelaprog1!"));
+                var result = await _userManagerEtudiant.CreateAsync(etudiant, "Jaimelaprog1!");
 
                 if (result.Succeeded)
                 {
-
-                    // ajouter rôle
                     await _userManagerEtudiant.AddToRoleAsync(etudiant, "Etudiant");
                     vm.EtudiantId = etudiant.Id;
                     vm.NomProgrammeEtude = _context.ProgrammesEtudes.Find(vm.ProgrammeEtudeId).Nom;
