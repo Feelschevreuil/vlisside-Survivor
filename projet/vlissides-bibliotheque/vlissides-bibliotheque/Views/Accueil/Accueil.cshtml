@@ -16,17 +16,20 @@
 </div>
 
 <div class="navbar">
-
     <h3 class="p-2 flex-grow-1">Événements</h3>
-    <a class="btn btn-outline-primary border-0" asp-area="" asp-controller="Evenement" asp-action="Evenements">
-        Voir toutes les événements
-        <img class="tableau" src="~/img/tableau.svg" />
-    </a>
-
     </div>
 
 @if (User.Identity.IsAuthenticated)
 {
+    <div class="navbar">
+        <h3 class="p-2 flex-grow-1">Événements</h3>
+        <a class="btn btn-outline-primary border-0" asp-area="" asp-controller="Evenement" asp-action="Evenements">
+            Voir toutes les événements
+            <img class="tableau" src="~/img/tableau.svg" />
+        </a>
+
+    </div>
+
     <div class="container-fluid">
         <div class="row">
             @foreach (var card in Model.evenements)
@@ -34,6 +37,12 @@
                 <partial name="_TuileEvenementPartial" model="card"></partial>
             }
         </div>
+    </div>
+}
+else
+{
+    <div class="ms-auto">
+        <p>Connectez-vous pour voir les événements</p>
     </div>
 }
 
