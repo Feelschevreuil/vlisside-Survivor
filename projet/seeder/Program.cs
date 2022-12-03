@@ -220,7 +220,7 @@ namespace seeder
                 },
                 new ProgrammeEtude() {
 		    ProgrammeEtudeId = 0,
-                    Nom = "Techniques d'éducatoin spécialisée",
+                    Nom = "Techniques d'éducation spécialisée",
                     Code = "351"
                 },
                 new ProgrammeEtude() {
