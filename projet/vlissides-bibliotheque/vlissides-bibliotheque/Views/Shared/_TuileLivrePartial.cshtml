@@ -35,7 +35,7 @@
                 <div>
                     @if (User.IsInRole(RolesName.Admin))
                     {
-                        <div>
+                        <div class="mt-3">
                             <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
                                 <img class="tableau" src="~/img/pencil.svg" alt="Modifier">
                             </a>
@@ -57,6 +57,7 @@
                         <div class="prix rounded-circle" id="cercleJauneN-@livreIdCourant">
                             <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixAvecDecimal$</p>
                         </div>
+                            
                     </div>
 
                 </div>
@@ -102,9 +103,9 @@
                     }
                 </div>
 
-                <div class="card border-0 pt-3 livre-info">
-                    <h5 class="card-title "><strong>@Model.livreBibliotheque.Titre</strong></h5>
-                    <p class="card-text mb-2">
+                <div class="card border-0 mt-3">
+                    <h5 class="card-title mt-3"><strong>@Model.livreBibliotheque.Titre</strong></h5>
+                    <p class="card-text mb-1">
                         <span>De </span>
                         @if (Model.auteurs != null)
                             @for (int i = 0; i < Model.auteurs.Count; i++)
@@ -132,9 +133,9 @@
                             }
 
                     </p>
-                    <p class="card-text mb-2">Maison @Model.livreBibliotheque.MaisonEdition.Nom</p>
-                    <p class="card-text mb-2">@Model.livreBibliotheque.Isbn</p>
-                    <p class="card-text">@Model.livreBibliotheque.DatePublication.Year</p>
+                    <p class="card-text mb-1">Maison @Model.livreBibliotheque.MaisonEdition.Nom</p>
+                    <p class="card-text mb-1">@Model.livreBibliotheque.Isbn</p>
+                    <p class="card-text mb-1">@Model.livreBibliotheque.DatePublication.Year</p>
                 </div>
 
             </div>
