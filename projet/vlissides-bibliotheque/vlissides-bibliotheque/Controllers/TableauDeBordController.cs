@@ -1013,7 +1013,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
-        public IActionResult csvToListEtudiant()
+        public async Task<IActionResult> csvToListEtudiant()
         {
             string path = Path.Combine(_hostingEnvironment.WebRootPath, "csv", "liste-etudiants.csv");
             string[] readText = System.IO.File.ReadAllLines(path);
@@ -1032,6 +1032,15 @@ namespace vlissides_bibliotheque.Controllers
 
             List<Etudiant> csvEnEtudiants = GetEtudiantsFromCSV(csvEnVm);
 
+            foreach (Etudiant etudiant in csvEnEtudiants)
+            {
+                var result = await _userManagerEtudiant.CreateAsync(etudiant, etudiant.PasswordHash));
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(etudiant, RolesName.Etudiant);
+                }
+            }
+
             return View();
         }
 
@@ -1041,6 +1050,7 @@ namespace vlissides_bibliotheque.Controllers
             string rue = "";
             string ville = "";
             string nomDeRue = "";
+            int provinceIdParDefaut = _context.Provinces.FirstOrDefault().ProvinceId;
             List <ProgrammeEtude> programmes = _context.ProgrammesEtudes.ToList();
             List<Etudiant> etudiants = new();
 
@@ -1070,12 +1080,16 @@ namespace vlissides_bibliotheque.Controllers
 
                 Adresse adresse = new()
                 {
+                    AdresseId = 0,
                     App = app,
+                    CodePostal = "",
                     NumeroCivique = Convert.ToInt32(numeroCivique),
                     Rue = rue,
                     Ville = ville,
-                    ProvinceId = 1,
+                    ProvinceId = provinceIdParDefaut,
                 };
+                _context.Adresses.Add(adresse);
+                _context.SaveChanges();
 
                 Etudiant etudiant = new()
                 {
@@ -1086,14 +1100,11 @@ namespace vlissides_bibliotheque.Controllers
                     ProgrammeEtudeId = programmeEtude.ProgrammeEtudeId,
                     AdresseId = adresse.AdresseId,
                     Adresse = adresse,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PasswordHash = vm.MotDePasse
                 };
                 etudiants.Add(etudiant);
-                //var result = await _userManager.CreateAsync(etudiant, vm);
-                //if (result.Succeeded)
-                //{
-                //    await _userManager.AddToRoleAsync(etudiant, "Etudiant");
-                //}
+            
             }
             return etudiants;
         }
