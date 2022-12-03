@@ -19,7 +19,7 @@ namespace vlissides_bibliotheque.Models
         public int NumeroCivique { get; set; }
 
 
-        public int App { get; set; }
+        public string? App { get; set; }
 
         [Required]
         [StringLength(64)]

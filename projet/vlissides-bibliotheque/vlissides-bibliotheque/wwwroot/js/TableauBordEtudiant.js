@@ -96,7 +96,7 @@ function setInputsFormat() {
 }
 
 function EtudiantGestionErreur(data) {
-    if (data.App == "") { data.App = 0 }
+    if (data.App == null) { data.App = "" }
     return data;
 }
 
@@ -187,9 +187,8 @@ function modifierEtudiant() {
 
             res.json().then(function (res) {
                 if (res != "") {
-                    afficherModificationEtudiant(id, resetMajusculeJsonKey(res));
-                    document.querySelector(`#fermer-modal-${id}`).click();
-                    document.querySelector("#etudiant-" + String(id)).querySelector(".modal-body").innerHTML = "";
+                    afficherModificationEtudiant(res.etudiantId, resetMajusculeJsonKey(res));
+                    document.querySelector("#fermer-modal").click();
                 }
             });
         } else {
