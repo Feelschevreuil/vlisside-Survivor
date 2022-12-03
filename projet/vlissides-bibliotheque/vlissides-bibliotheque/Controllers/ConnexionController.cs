@@ -54,7 +54,7 @@ namespace vlissides_bibliotheque.Controllers
         /// <br></br>
         /// Erreurs : Page de connexion avec messages d'erreur.
         /// </returns>
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> IndexAsync(ConnexionVM vm)
         {
