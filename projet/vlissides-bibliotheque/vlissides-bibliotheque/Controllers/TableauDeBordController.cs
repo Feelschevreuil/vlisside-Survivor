@@ -1020,7 +1020,7 @@ namespace vlissides_bibliotheque.Controllers
             List<string> csvSansCharaSpecial = new();
             foreach (string line in readText)
             {
-                string newline = Regex.Replace(line, "[�]+", "e");
+                string newline = Regex.Replace(line, "[�]+", "é");
                 newline = newline.Replace(",", "");
                 csvSansCharaSpecial.Add(newline);
             }
@@ -1035,34 +1035,42 @@ namespace vlissides_bibliotheque.Controllers
             return View();
         }
 
-        public async List<Etudiant> GetEtudiantsFromCSV(List<CsvEtudiantVM> list)
+        public List<Etudiant> GetEtudiantsFromCSV(List<CsvEtudiantVM> list)
         {
-            string app= "";
             string numeroCivique = "";
             string rue = "";
             string ville = "";
+            string nomDeRue = "";
+            List <ProgrammeEtude> programmes = _context.ProgrammesEtudes.ToList();
             List<Etudiant> etudiants = new();
 
             foreach (CsvEtudiantVM vm in list)
-            {
+            {  
+                string app= "";
+                ProgrammeEtude programmeEtude = programmes.Find(x => x.Nom.ToLower() == vm.ProgrammeEtude.ToLower());
                 List<string> contenuAdresse = vm.Adresse.Split(" ").ToList();
                 numeroCivique = contenuAdresse[0];
                 contenuAdresse.RemoveAt(0);
                 ville = contenuAdresse[contenuAdresse.Count() - 1];
                 contenuAdresse.RemoveAt(contenuAdresse.Count() - 1);
+                 
                 
-                if (contenuAdresse.Contains("#"))
+                if (contenuAdresse[contenuAdresse.Count()-1].Contains("#"))
                 {
                     app = contenuAdresse[contenuAdresse.Count() - 1];
                     contenuAdresse.RemoveAt(contenuAdresse.Count() - 1);
-                    rue = contenuAdresse[0];
-                    rue += contenuAdresse[1];
-                    rue += contenuAdresse[2];
+                    nomDeRue = string.Join(" ", contenuAdresse);
+                    rue = nomDeRue;
+                }
+                else
+                {
+                    nomDeRue = string.Join(" ", contenuAdresse);
+                    rue = nomDeRue;
                 }
 
                 Adresse adresse = new()
                 {
-                    //App = app,
+                    App = app,
                     NumeroCivique = Convert.ToInt32(numeroCivique),
                     Rue = rue,
                     Ville = ville,
@@ -1075,7 +1083,7 @@ namespace vlissides_bibliotheque.Controllers
                     UserName = vm.Matricule,
                     Nom = vm.Nom,
                     Prenom = vm.Prenom,
-                    //ProgrammeEtudeId = (int)vm.ProgrammeEtudeId,
+                    ProgrammeEtudeId = programmeEtude.ProgrammeEtudeId,
                     AdresseId = adresse.AdresseId,
                     Adresse = adresse,
                     EmailConfirmed = true
