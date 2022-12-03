@@ -52,7 +52,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string Ville { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
-        public string App { get; set; }
+        public string? App { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DisplayName("Code postal")]
