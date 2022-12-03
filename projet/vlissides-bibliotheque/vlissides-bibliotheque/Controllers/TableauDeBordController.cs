@@ -1034,7 +1034,7 @@ namespace vlissides_bibliotheque.Controllers
 
             foreach (Etudiant etudiant in csvEnEtudiants)
             {
-                var result = await _userManagerEtudiant.CreateAsync(etudiant, etudiant.PasswordHash));
+                var result = await _userManagerEtudiant.CreateAsync(etudiant, etudiant.PasswordHash);
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(etudiant, RolesName.Etudiant);
