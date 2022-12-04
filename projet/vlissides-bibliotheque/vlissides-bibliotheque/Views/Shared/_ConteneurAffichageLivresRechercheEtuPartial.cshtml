@@ -2,10 +2,15 @@
 
 @if (Model.inventaireLivreEtudiantVMs.Count != 0)
 {
-    @foreach (var card in Model.inventaireLivreEtudiantVMs)
-    {
-        <div class="col-4 col-md-4 col-sm-12">
-            <partial name="_TuileLivrePartial" model="card"></partial>
-        </div>
-    }
+        @foreach (var card in Model.inventaireLivreEtudiantVMs)
+        {
+            <div class="col-12 col-sm-3 col-md-3">
+                <partial name="_TuileLivreEtudiantPartial" model="card"></partial>
+            </div>
+        }
 }
+else
+{
+    <p>Aucun livre n'a été trouvé</p>
+}
+<partial name="_PaginationPartial"></partial>
