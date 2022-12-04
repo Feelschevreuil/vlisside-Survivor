@@ -125,6 +125,7 @@ namespace vlissides_bibliotheque.Services
                     commandeEtudiant.FactureEtudiantId = _factureEtudiant.FactureEtudiantId;
                 }
 
+                // TODO: sortir dans le DAO
                 _context.CommandesEtudiants.AddRange(commandesEtudiants);
 
                 _context.SaveChanges();
@@ -167,6 +168,7 @@ namespace vlissides_bibliotheque.Services
 
             achatVM = new()
             {
+                FactureEtudiantId = factureEtudiant.FactureEtudiantId,
                 AchatInformationsLivraison = achatInformationsLivraison,
                 CommandesPartielles = commandesPartielles,
                 Tvq = factureEtudiant.Tvq,
@@ -180,11 +182,7 @@ namespace vlissides_bibliotheque.Services
 
                 string apiKeyPublique;
 
-                apiKeyPublique = _configurationService.GetProprieteDeSection
-                (
-                    ConstantesConfiguration.PROPRIETE_STRIPE,
-                    ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PUBLIQUE
-                );
+                apiKeyPublique = _configurationService.GetPaiementClePublique();
 
                 achatVM.PublicApiKey = apiKeyPublique;
                 achatVM.ClientSecret = factureEtudiant.ClientSecret;
@@ -471,12 +469,7 @@ namespace vlissides_bibliotheque.Services
             string apiKeyPrivee;
             string apiKeyPublique;
 
-            apiKeyPrivee = _configurationService
-                .GetProprieteDeSection
-                (
-                    ConstantesConfiguration.PROPRIETE_STRIPE, 
-                    ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PRIVEE
-                );
+            apiKeyPrivee = _configurationService.GetPaiementClePrivee();
 
             StripeConfiguration.ApiKey = apiKeyPrivee;
 
@@ -518,8 +511,10 @@ namespace vlissides_bibliotheque.Services
             if(factureEtudiant.Statut == StatutFactureEnum.ATTENTE_PAIEMENT)
             {
 
+                /*
                 AnnulerFacture(factureEtudiant);
                 factureEtudiant.Statut = StatutFactureEnum.ANNULEE_NON_PAYE_DELAIS;
+                */
 
                 // TODO: utiliser le DAO des factures.
                 _context.SaveChanges();
@@ -527,13 +522,73 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
+        /// Annule un paiement de Stripe.
+        /// </summary>
+        /// <param name="factureEtudiant">
+        /// La facture contenant l'identifiant du <c>PaiementIntent</c> à annuler.
+        /// </param>
+        public void AnnulerPaiement(FactureEtudiant factureEtudiant)
+        {
+
+            ConfigurationService configurationService;
+            string apiKeyPrivee;
+
+            configurationService = new
+            (
+                ConstantesConfiguration.FICHIER_CONFIGURATION_PRINCIPAL
+            );
+
+            apiKeyPrivee = configurationService.GetPaiementClePrivee();
+
+            StripeConfiguration.ApiKey = apiKeyPrivee;
+
+            var service = new PaymentIntentService();
+            service.Cancel(factureEtudiant.PaymentIntentId);
+        }
+
+        /// <summary>
         /// Annule une facture et remet les lives en inventiare.
         /// </summary>
         /// <param name="factureEtudiant"><c>FactureEtudiant</c> à annuler.</param>
-        private void AnnulerFacture(FactureEtudiant factureEtudiant)
+        public bool AnnulerFacture
+        ( 
+            FactureEtudiant factureEtudiant
+        )
         {
 
-            // TODO: implement
+            FacturesEtudiantsDAO facturesEtudiantsDAO;
+            CommandesEtudiantsDAO commandesEtudiantsDAO;
+            CommandeEtudiantService commandeEtudiantService;
+            PrixEtatLivreDAO prixEtatLivreDAO;
+            FactureEtudiantService factureEtudiantService;
+            string apiKeyPrivee;
+
+
+            facturesEtudiantsDAO = new(_context);
+            commandesEtudiantsDAO = new(_context);
+            prixEtatLivreDAO = new(_context);
+            commandeEtudiantService = new(_context);
+            prixEtatLivreDAO = new(_context);
+            factureEtudiantService = new(_context);
+
+            if
+            (
+                factureEtudiant != null
+            )
+            {
+
+                commandeEtudiantService
+                    .AnnulerCommandesFromFacture
+                    (
+                        factureEtudiant, 
+                        commandesEtudiantsDAO,
+                        prixEtatLivreDAO
+                    );
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
