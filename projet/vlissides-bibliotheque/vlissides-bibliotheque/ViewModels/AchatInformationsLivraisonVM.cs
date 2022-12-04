@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
 {
@@ -12,10 +13,9 @@ namespace vlissides_bibliotheque.ViewModels
     public class AchatInformationsLivraisonVM
     {
 
-        [Required]
-        public Adresse AdresseLivraison { get; set; }
+        public bool AdresseModifiee = false;
 
         [Required]
-        public string NumeroTelephone { get; set; }
+        public Adresse AdresseLivraison { get; set; }
     }
 }
