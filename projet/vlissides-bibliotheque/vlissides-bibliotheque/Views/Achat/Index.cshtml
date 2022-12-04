@@ -70,7 +70,7 @@
 
                                     </script>
                                 
-                                    <p>Veuillez noter que nous ne livrons qu'au Québec uniquement et que les délais de livraisons sont de <strong>3 jours ouvrables</strong> suite au paiement de la commande.</p>
+                                    <p>Veuillez noter que nous ne livrons qu'au Québec uniquement et que les délais de livraisons sont de <strong>48 heures</strong> suite au paiement de la commande.</p>
 
                                     @Html.Partial("_AdresseCommande", @Model.AchatInformationsLivraison)
 
@@ -255,7 +255,7 @@
 
                                     <div class="row">
                                         <img class="col-1" width="24px" src="~/img/truck-fast.svg" />
-                                        <span class="col-11 align-middle">En transit. Prévoyez <strong>3 jours ouvrables</strong>.</span>
+                                        <span class="col-11 align-middle">En transit. Prévoyez <strong>48 heures</strong>.</span>
                                     </div>
                                 }
                                 else if(Model.StatutFacture == StatutFactureEnum.LIVREE)
