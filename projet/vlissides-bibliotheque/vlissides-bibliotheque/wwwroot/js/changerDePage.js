@@ -1,7 +1,10 @@
 ﻿function changerPage(numPage) {
     var conteneurBibli = document.getElementById("conteneurBibli");
+    var conteneurEtu = document.getElementById("conteneurEtu");
     var inputRecherche = document.getElementById("inputRecherche");
     var RechercheSelection = document.getElementsByClassName("RechercheBiblio");
+    var titreBibli = document.getElementById("titreBibli");
+    var titreEtu = document.getElementById("titreEtu");
     var texteRecherche;
     var ouRecherche;
     var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
@@ -49,7 +52,7 @@
 
     data = JSON.stringify(data);
 
-    if (conteneurBibli != null) { // présentement ans la page
+    if (conteneurBibli != null || conteneurEtu!=null) { // présentement ans la page
         fetch(stringFetch, {
             method: 'Post',
             body: data,
@@ -64,8 +67,30 @@
 
         }).then((data) => {
 
-            conteneurBibli.innerHTML = data;
-            NbLivrePanier()
+            if (conteneurBibli != null) {
+                if (titreBibli != null) {
+                    titreBibli.innerText = "Inventaire de la boutique étudiante"
+
+                }
+                conteneurBibli.innerHTML = data;
+                RechercheSelection = document.getElementsByClassName("RechercheBiblio");
+                RechercheSelection[1].selected = true;
+                RechercheSelection[0].selected = false;
+                conteneurBibli.id = "conteneurEtu"
+                titreBibli.id = "titreEtu"
+                NbLivrePanier()
+            } else {
+                if (titreEtu != null) {
+                    titreEtu.innerText = "Inventaire de la bibliothèque"
+                }
+                conteneurEtu.innerHTML = data;
+                RechercheSelection = document.getElementsByClassName("RechercheBiblio");
+                RechercheSelection[0].selected = true;
+                RechercheSelection[1].selected = false;
+                conteneurEtu.id = "conteneurBibli"
+                titreEtu.id = "titreBibli"
+                NbLivrePanier()
+            }
         });
     }
     else {
