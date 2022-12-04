@@ -95,22 +95,9 @@ namespace vlissides_bibliotheque.Services
 
                 //TODO: fix this garbage
                 _factureEtudiant.Etudiant = _etudiant;
-                _factureEtudiant.AdresseLivraison = _etudiant.Adresse.ToString();
+                _factureEtudiant.AdresseLivraison = _etudiant.Adresse.CopierDonnees();
                 _factureEtudiant.DateFacturation = DateTime.Now;
                 _factureEtudiant.Statut = StatutFactureEnum.ATTENTE_PAIEMENT;
-                
-                /*
-                _factureEtudiant = new()
-                {
-                    Etudiant = _etudiant,
-                    // TODO: merge develop to get formated ToString()
-                    AdresseLivraison = _etudiant.Adresse.ToString(),
-                    DateFacturation = DateTime.Now,
-                    Tvq = 0.0M,
-                    Tps = 0.05M,
-                    Statut = StatutFactureEnum.ATTENTE_PAIEMENT
-                };
-                */
 
                 _factureEtudiant = TraiterFactureAvecStripe
                 (
@@ -156,8 +143,7 @@ namespace vlissides_bibliotheque.Services
 
             achatInformationsLivraison = new()
             {
-                AdresseLivraison = factureEtudiant.Etudiant.Adresse,
-                NumeroTelephone = factureEtudiant.Etudiant.PhoneNumber
+                AdresseLivraison = factureEtudiant.Etudiant.Adresse
             };
 
             commandesPartielles = _commandeEtudiantService
@@ -206,12 +192,11 @@ namespace vlissides_bibliotheque.Services
             
             if
             (
-                !string
-                    .Equals
+                AdresseService
+                    .EstDifferentDe
                     (
                         factureEtudiantReference.AdresseLivraison, 
-                        factureEtudiantModifie.AdresseLivraison, 
-                        StringComparison.OrdinalIgnoreCase
+                        factureEtudiantModifie.AdresseLivraison
                     )
             )
             {
@@ -301,13 +286,11 @@ namespace vlissides_bibliotheque.Services
             
             if
             (
-                !string
-                    .Equals
-                    (
-                        factureEtudiantAMettreAJour.AdresseLivraison, 
-                        factureEtudiantModifie.AdresseLivraison, 
-                        StringComparison.OrdinalIgnoreCase
-                    )
+                AdresseService.EstDifferentDe
+                (
+                    factureEtudiantAMettreAJour.AdresseLivraison,
+                    factureEtudiantModifie.AdresseLivraison
+                )
             )
             {
 
@@ -589,6 +572,33 @@ namespace vlissides_bibliotheque.Services
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Met à jour l'<c>Adresse</c> d'une facture.
+        /// </summary>
+        /// <param name="adresse"></param>
+        /// <param name="factureEtudiant"></param>
+        /// <returns>
+        /// L'<c>Adresse</c> mise à jour ou null si elle n'a pas été mis à jour si non,
+        /// null.
+        /// </returns>
+        public Adresse ModifierAdresse(FactureEtudiant factureEtudiant, Adresse adresse)
+        {
+
+            if(AdresseService.EstDifferentDe(factureEtudiant.AdresseLivraison, adresse))
+            {
+                
+                Adresse adresseModifie;
+                AdresseDAO adresseDAO;
+
+                adresseDAO = new(_context);
+                adresseDAO.Update(factureEtudiant.AdresseLivraisonId, adresse);
+
+                return factureEtudiant.AdresseLivraison;
+            }
+
+            return null;
         }
     }
 }
