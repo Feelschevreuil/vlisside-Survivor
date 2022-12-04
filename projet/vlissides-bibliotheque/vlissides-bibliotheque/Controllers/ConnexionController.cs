@@ -189,7 +189,7 @@ namespace vlissides_bibliotheque.Controllers
         public async Task<IActionResult> LogoutAsync()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Accueil", "Accueil");
+            return RedirectToAction("", "Accueil");
         }
     }
 }
