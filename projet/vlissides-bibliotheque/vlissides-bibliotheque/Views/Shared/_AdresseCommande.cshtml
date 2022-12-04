@@ -1,30 +1,45 @@
 @model AchatInformationsLivraisonVM
 
+@{
+    if(Model.AdresseModifiee)
+    {
+
+        <div class="alert alert-success" role="alert">
+            Adresse modifiée avec <b>succès</b>!
+        </div>
+    }
+}
+
 <div class="row">
     <div class="mb-3 col-6">
-        <label class="form-label">Numéro civique</label>
-        <input class="form-control" value="@Model.AdresseLivraison.NumeroCivique">
+        <label class="form-label" asp-for="AdresseLivraison.NumeroCivique"></label>
+        <input class="form-control" asp-for="AdresseLivraison.NumeroCivique">
+        <span asp-validation-for="AdresseLivraison.NumeroCivique" class="text-danger"></span>
     </div>
 
     <div class="mb-3 col-6">
-          <label class="form-label">Numéro d'appartement</label>
-            <input class="form-control" value="@Model.AdresseLivraison.App">
+        <label class="form-label" asp-for="AdresseLivraison.App"></label>
+        <input class="form-control" asp-for="AdresseLivraison.App">
+        <span asp-validation-for="AdresseLivraison.App" class="text-danger"></span>
     </div>
 </div>
 
 <div class="row">
     <div class="mb-3 col-4">
-          <label class="form-label">Code postal</label>
-            <input class="form-control" value="@Model.AdresseLivraison.CodePostal">
+        <label class="form-label" asp-for="AdresseLivraison.CodePostal"></label>
+        <input class="form-control" asp-for="AdresseLivraison.CodePostal">
+        <span asp-validation-for="AdresseLivraison.CodePostal" class="text-danger"></span>
     </div>
 
     <div class="mb-3 col-8">
-          <label class="form-label">Ville</label>
-            <input class="form-control" value="@Model.AdresseLivraison.Ville">
+        <label class="form-label" asp-for="AdresseLivraison.Ville"></label>
+        <input class="form-control" asp-for="AdresseLivraison.Ville">
+        <span asp-validation-for="AdresseLivraison.Ville" class="text-danger"></span>
     </div>
-</div>
 
-<div class="mb-3">
-      <label class="form-label">Numéro de téléphone</label>
-      <input type="tel" pattern="([0-9]{3}) [0-9]{3}-[0-9]{4}" class="form-control" value="@Model.NumeroTelephone">
+    <div class="mb-3 col-12">
+        <label class="form-label" asp-for="AdresseLivraison.Rue"></label>
+        <input class="form-control" asp-for="AdresseLivraison.Rue">
+        <span asp-validation-for="AdresseLivraison.Rue" class="text-danger"></span>
+    </div>
 </div>
