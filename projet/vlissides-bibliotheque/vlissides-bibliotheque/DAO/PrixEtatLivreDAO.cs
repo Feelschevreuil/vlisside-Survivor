@@ -196,7 +196,7 @@ namespace vlissides_bibliotheque.DAO
         /// <summary>
         /// Enlève la quantité désirée à un prix état livre usagé.
         /// </summary>
-        /// <param name="prixEtatLivre">PrixEtatLivre usagé à soustraire la quantité désiré.</param>
+        /// <param name="prixEtatLivre">PrixEtatLivre usagé à soustraire la quantité désirée.</param>
         /// <param name="quantite">Quantité en inventaire à soustraire.</param>
         public bool SoustraireDuStock(PrixEtatLivre prixEtatLivre, int quantite = 1)
         {
@@ -205,6 +205,28 @@ namespace vlissides_bibliotheque.DAO
             {
 
                 prixEtatLivre.QuantiteUsage -= quantite;
+                
+                _context.PrixEtatsLivres.Update(prixEtatLivre);
+                _context.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Ajoute la quantité désirée à un prix état livre usagé.
+        /// </summary>
+        /// <param name="prixEtatLivre">PrixEtatLivre usagé à ajouter la quantité désirée.</param>
+        /// <param name="quantite">Quantité en inventaire à ajouter.</param>
+        public bool AjouterDuStock(PrixEtatLivre prixEtatLivre, int quantite = 1)
+        {
+
+            if(prixEtatLivre != null && quantite > 0)
+            {
+
+                prixEtatLivre.QuantiteUsage += quantite;
                 
                 _context.PrixEtatsLivres.Update(prixEtatLivre);
                 _context.SaveChanges();
