@@ -9,6 +9,7 @@ namespace vlissides_bibliotheque.ViewModels
     public class AchatVM
     {
 
+        public int FactureEtudiantId { get; set; }
         public string NomEtudiant { get; set; }
         public string PublicApiKey { get; set; }
         public string ClientSecret { get; set; }
