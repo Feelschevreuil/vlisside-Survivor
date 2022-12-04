@@ -22,8 +22,11 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public string EtudiantId { get; set; }
         public Etudiant Etudiant { get; set; }
+
+        [Required]
         [DisplayName("Adresse de livraison")]
-        public string? AdresseLivraison { get; set; }
+        public int AdresseLivraisonId { get; set; }
+        public Adresse AdresseLivraison { get; set; }
 
         [Required]
         [DisplayName("Date de facturation")]
