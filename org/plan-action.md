@@ -58,9 +58,9 @@ Ce qui doit être présent sur les cartes (en ordre)
 - Corriger les fautes d'orthographes
 - Régler le taille des cartes (doit être uniforme)
 
-# Recherche boutique étudiants
-- implémentation
-- simple
+# Recherche boutique étudiants 
+- implémentation (Samory)
+- simple (Samory)
 - avancée
 
 # pagination
