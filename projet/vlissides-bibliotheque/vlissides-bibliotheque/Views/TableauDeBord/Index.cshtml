@@ -8,8 +8,13 @@
         <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
     </a>
     <h2 class="p-3">Tableau de bord</h2>
-</div>
 
+</div>
+<div>
+    <a asp-controller ="TableauDeBord" asp-action="csvToListEtudiant">
+    <p class="btn bg-middle text-white">Ajouter les étudiants du csv liste-etudiant</p>
+    </a>
+</div>
 <div class="dropdown float-end d-flex col">
     <div class="bg-middle text-white nav-link" data-bs-toggle="dropdown" aria-expanded="false">
         Tableau de bord
@@ -28,9 +33,9 @@
 <div class="container-fluid">
 
     <div class="row">
-            <div id="partials">
+        <div id="partials">
             <partial name="Etudiants.cshtml" model="Model" />
-            </div>
+        </div>
     </div>
 </div>
 
@@ -47,7 +52,7 @@
         table = document.querySelector("#maTable");
         switching = true;
         dir = "asc";
-    
+
         while (switching) {
             switching = false;
             rows = table.rows;

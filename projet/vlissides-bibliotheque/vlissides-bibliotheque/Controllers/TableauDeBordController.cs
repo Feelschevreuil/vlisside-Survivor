@@ -1012,7 +1012,6 @@ namespace vlissides_bibliotheque.Controllers
             return Ok();
         }
 
-        [HttpGet]
         public async Task<IActionResult> csvToListEtudiant()
         {
             string path = Path.Combine(_hostingEnvironment.WebRootPath, "csv", "liste-etudiants.csv");
@@ -1029,19 +1028,23 @@ namespace vlissides_bibliotheque.Controllers
                .Where(l => l.Length > 1)
                .CsvEnVm()
                .ToList();
-
             List<Etudiant> csvEnEtudiants = GetEtudiantsFromCSV(csvEnVm);
+            List<Etudiant> etudiantsBD = _context.Etudiants.ToList();
+            List<Etudiant> etudiantsAjoutes = new();
 
             foreach (Etudiant etudiant in csvEnEtudiants)
             {
-                var result = await _userManagerEtudiant.CreateAsync(etudiant, etudiant.PasswordHash);
-                if (result.Succeeded)
+                if (etudiantsBD.Find(x => x.Id == etudiant.Id) == null)
                 {
-                    await _userManager.AddToRoleAsync(etudiant, RolesName.Etudiant);
+                    var result = await _userManagerEtudiant.CreateAsync(etudiant, etudiant.PasswordHash);
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(etudiant, RolesName.Etudiant);
+                        etudiantsAjoutes.Add(etudiant);
+                    }
                 }
             }
-
-            return View();
+            return View("SuccesEtudiantCsv", etudiantsAjoutes);
         }
 
         public List<Etudiant> GetEtudiantsFromCSV(List<CsvEtudiantVM> list)
