@@ -18,5 +18,24 @@ namespace vlissides_bibliotheque.ViewModels
         public decimal Tps { get; set; }
         public double Total { get; set; }
         public StatutFactureEnum StatutFacture { get; set; }
+
+        /// <summary>
+        /// Calcule le nombre total de commandes.
+        /// </summary>
+        public int GetNombreCommandesPartielles()
+        {
+
+            int nombreCommandesPartielles;
+
+            nombreCommandesPartielles = 0;
+
+            foreach(CommandePartielle commandePartielle in CommandesPartielles)
+            {
+
+                nombreCommandesPartielles = nombreCommandesPartielles + commandePartielle.Quantite;
+            }
+
+            return nombreCommandesPartielles;
+        }
     }
 }
