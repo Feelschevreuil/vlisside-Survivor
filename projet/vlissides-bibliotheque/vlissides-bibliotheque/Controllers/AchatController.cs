@@ -103,6 +103,8 @@ namespace vlissides_bibliotheque.Controllers
                         commandesEtudiants
                     );
 
+                    achatVM.NomEtudiant = etudiant.Nom;
+
                     return View(achatVM);
                 }
                 else
