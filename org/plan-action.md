@@ -64,7 +64,7 @@ Ce qui doit être présent sur les cartes (en ordre)
 - avancée
 
 # pagination
-- bibliothèque
+-~~bibliothèque~~
 - livres étudiants
 
 ---
