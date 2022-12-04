@@ -196,40 +196,87 @@
         </div>
         <div class="col-4">
 
+        @{
+            int nombreLivres;
+
+            nombreLivres = Model.GetNombreCommandesPartielles();
+        }
+
         <div class="card">
-            <div class="card-body">
-                <div class="row mb-3">
+            <div class="card-body p-0">
+                <div class="row p-3">
                     <img class="col-2" width="24px" src="~/img/book-open.svg" />
-                    <h5 class="card-title col-8 ps-0">Commande</h5>
+                    <h5 class="card-title col-8 ps-0">Livre@(nombreLivres > 1 ? "s" : "")</h5>
+                    <div class="col-2">
+                        <span class="badge alert-info align-middle">@nombreLivres</span>
+                    </div>
                 </div>
 
-                @{
+                <!-- TODO: sortir dans son propre fichier CSS -->
+                <div class="border-top border-bottom mb-3 p-3" style="max-height: 200px; overflow-y: auto; overflow-x: hidden;">
+                    @{
+                        bool besoinInitialiserTooltip;
 
-                    foreach(CommandePartielle commandePartielle in Model.CommandesPartielles)
-                    {
+                        besoinInitialiserTooltip = false;
 
-                        <div class="row mb-3">
+                        foreach(CommandePartielle commandePartielle in Model.CommandesPartielles)
+                        {
 
-                            <div class="col-6">
-                                <span class="align-middle">
-                                    <h6 class="mb-0 text-truncate">@commandePartielle.Titre</h6>
-                                    <p class="mb-0 small fw-light">@commandePartielle.EtatLivre</p>
-                                </span>
-                            </div>
-                            <div class="col-2">
-                                <span class="badge alert-info align-middle">@commandePartielle.Quantite</span>
-                            </div>
-                            <div class="col-4">
-                                <span class="align-middle text-end">
-                                    <strong>@CashUtils.FormatToCurrency(commandePartielle.Prix)</strong>
-                                </span>
-                            </div>
-                        </div>
+                            if(commandePartielle.StatutCommande != StatutCommandeEnum.INEXISTANT)
+                            {
+                                <div class="row mb-3">
 
+                                    <div class="col-6">
+                                        <span class="align-middle">
+                                            <h6 class="mb-0 text-truncate">@commandePartielle.Titre</h6>
+                                            
+                                            @{
+                                                @if(commandePartielle.StatutCommande == StatutCommandeEnum.CORRECT)
+                                                {
+
+                                                    <p class="badge alert-info mb-0 col-9">@EtatLivreEnumUtils.GetNomCompletEtatLivre(commandePartielle.EtatLivre).ToUpper()</p>
+                                                }
+                                                else if(commandePartielle.StatutCommande == StatutCommandeEnum.MANQUE_INVENTAIRE)
+                                                {
+
+                                                    if(!besoinInitialiserTooltip)
+                                                        besoinInitialiserTooltip = true;
+
+                                                    <p class="badge alert-danger mb-0 col-10" data-bs-toggle="tooltip" data-bs-title="Ce livre n'est plus disponible à l'état désiré, il ne sera pas chargé.">STOCK ÉCOULÉ</p>
+                                                }
+                                                else if(commandePartielle.StatutCommande == StatutCommandeEnum.QUANTITEE_CORRIGE_SELON_DISPONIBILITE)
+                                                {
+
+                                                    if(!besoinInitialiserTooltip)
+                                                        besoinInitialiserTooltip = true;
+
+                                                    <p class="badge alert-warning mb-0 col-10" data-bs-toggle="tooltip" data-bs-title="Ce livre n'est pas disponible à la quantité désirée, la quantité à alors été corrigée selon les disponibilitées.">STOCK LIMITÉ</p>
+                                                }
+                                            }
+                                        </span>
+                                    </div>
+                                    <div class="col-2">
+                                        <span class="badge alert-info align-middle">@commandePartielle.Quantite</span>
+                                    </div>
+                                    <div class="col-4">
+                                        <span class="align-middle text-end">
+                                            <strong>@CashUtils.FormatToCurrency(commandePartielle.Prix)</strong>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            }
+                        }
+
+                        if(besoinInitialiserTooltip)
+                        {
+                            <script>
+                                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+                            </script>
+                        }
                     }
-                }
-
-                <hr>
+                </div>
 
                 @{
                     double totalCommandes;
@@ -255,17 +302,17 @@
                     taxesFormate = CashUtils.FormatToCurrency(taxes);
                 }
 
-                <div class="row">
+                <div class="row pe-3 ps-3">
                     <p class="col-7 text-end">Total avant taxes</p>
                     <p class="col-5 text-end">@totalCommandesFormate</p>
                 </div>
 
-                <div class="row">
+                <div class="row pe-3 ps-3">
                     <p class="col-7 text-end">Taxes</p>
                     <p class="col-5 text-end">@taxesFormate</p>
                 </div>
 
-                <div class="row">
+                <div class="row pe-3 ps-3 pb-3">
                     <p class="col-7 mb-0 text-end"><strong>Total</strong></p>
                     <p class="col-5 mb-0 text-end"><strong>@totalCommandesAvecTaxesFormate</strong></p>
                 </div>
