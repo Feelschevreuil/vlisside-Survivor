@@ -2,9 +2,47 @@
 
 <p class="fs-2">Achat</p>
 
-<div class="alert alert-primary" role="alert">
-    Cher <strong>@Model.NomEtudiant</strong>, vos articles sont réservés pour 15 minutes. Veuillez procéder au paiement.
-</div>
+@{
+    string classesAlerteAdaptes;
+    string messageAlerte;
+
+    if(Model.StatutFacture ==  StatutFactureEnum.ATTENTE_PAIEMENT)
+    {
+
+        <div class="alert alert-primary" role="alert">
+            Cher <strong>@Model.NomEtudiant</strong>, vos articles sont réservés pour 15 minutes. Veuillez procéder au paiement.
+        </div>
+    }
+    else if(Model.StatutFacture == StatutFactureEnum.TRANSIT)
+    {
+
+        <div class="alert alert-info" role="alert">
+            Merci, cher <strong>@Model.NomEtudiant</strong>, votre commande est en transit. Prévoyez un délai maximum de 48 heures.
+        </div>
+    }
+    else if(Model.StatutFacture == StatutFactureEnum.LIVREE)
+    {
+
+        <div class="alert alert-success" role="alert">
+            Merci, cher <strong>@Model.NomEtudiant</strong> pour nous avoir choisi et bonne lecture!
+        </div>
+    }
+    else if(Model.StatutFacture == StatutFactureEnum.ANNULEE_NON_PAYE_DELAIS)
+    {
+
+        <div class="alert alert-danger" role="alert">
+            Annulée dû au non paiement après 15 minutes de réservation.
+        </div>
+    }
+    else
+    {
+
+        <div class="alert alert-danger" role="alert">
+            Commande annulée.
+        </div>
+    }
+}
+
 <br>
 
 <div class="container">
@@ -21,14 +59,32 @@
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionInformationsPaiement">
                         <div class="accordion-body">
-                            
-                            <p>Veuillez noter que nous ne livrons qu'au Québec uniquement et que les délais de livraisons sont de <strong>3 jours ouvrables</strong> suite au paiement de la commande.</p>
 
-                            @Html.Partial("_AdresseCommande", @Model.AchatInformationsLivraison)
+                            @{
+                                if(Model.StatutFacture ==  StatutFactureEnum.ATTENTE_PAIEMENT)
+                                {
+                                    <p>Veuillez noter que nous ne livrons qu'au Québec uniquement et que les délais de livraisons sont de <strong>3 jours ouvrables</strong> suite au paiement de la commande.</p>
 
-                            <p class="mb-0">En continuant à payer la commande, vous confirmez que vous avez entré une adresse de livraison <strong>valide</strong>.</p>
+                                    @Html.Partial("_AdresseCommande", @Model.AchatInformationsLivraison)
 
-                            <button id="btnconfirmerAdresse" class="btn btn-primary mt-3">Confirmer l'adresse</button>
+                                    <p class="mb-0">En continuant à payer la commande, vous confirmez que vous avez entré une adresse de livraison <strong>valide</strong>.</p>
+
+                                    <button id="btnconfirmerAdresse" class="btn btn-primary mt-3">Confirmer l'adresse</button>
+                                }
+                                else if(Model.StatutFacture == StatutFactureEnum.TRANSIT || Model.StatutFacture == StatutFactureEnum.LIVREE)
+                                {
+                                    <p class="mb-0"><strong>Votre commande @(Model.StatutFacture == StatutFactureEnum.TRANSIT ? "sera" : "a été") livrée au</strong></p>
+                                    <p class="mb-0">@Model.AchatInformationsLivraison.AdresseLivraison.NumeroCivique @Model.AchatInformationsLivraison.AdresseLivraison.App @Model.AchatInformationsLivraison.AdresseLivraison.Rue<br>@Model.AchatInformationsLivraison.AdresseLivraison.Ville QC @Model.AchatInformationsLivraison.AdresseLivraison.CodePostal</p>
+                                }
+                                else
+                                {
+
+                                    <div class="row">
+                                        <img class="col-1" width="24px" src="~/img/not-paid.svg" />
+                                        <span class="col-11 align-middle">Aucune information de livraison.</span>
+                                    </div>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -43,17 +99,36 @@
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionInformationsPaiement">
                         <div class="accordion-body">
 
-                            <p>Paiement <strong>sécurisé</strong> en ligne.</p>
+                            @{
+                                if(Model.StatutFacture ==  StatutFactureEnum.ATTENTE_PAIEMENT)
+                                {
+                                    <p>Paiement <strong>sécurisé</strong> en ligne.</p>
 
-                            <form id="payment-form">
-                                  <div id="payment-element">
-                                        <!-- Elements will create form elements here -->
-                                        </div>
-                                            <button id="submit" class="btn btn-primary mt-3">Payer</button>
-                                        <div id="error-message">
-                                        <!-- Display error message to your customers here -->
-                                  </div>
-                            </form>
+                                    <form id="payment-form">
+                                          <div id="payment-element">
+                                                <!-- Elements will create form elements here -->
+                                                </div>
+                                                    <button id="submit" class="btn btn-primary mt-3">Payer</button>
+                                                <div id="error-message">
+                                                <!-- Display error message to your customers here -->
+                                          </div>
+                                    </form>                                }
+                                else if(Model.StatutFacture == StatutFactureEnum.TRANSIT || Model.StatutFacture == StatutFactureEnum.LIVREE)
+                                {
+
+                                    <div class="row">
+                                        <img class="col-1" width="24px" src="~/img/check-circle.svg" />
+                                        <span class="col-11 align-middle">Commande payée avec succès! <strong>Merci!</strong></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <img class="col-1" width="24px" src="~/img/not-paid.svg" />
+                                        <span class="col-11 align-middle">Aucune information de paiement.</span>
+                                    </div>
+                                }
+                            }
 
                         </div>
                     </div>
@@ -69,20 +144,51 @@
 
                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionInformationsPaiement">
                         <div class="accordion-body">
-                            <div class="row">
-                                <img class="col-1" width="24px" src="~/img/clock.svg" />
-                                <span class="col-11 align-middle">En attente de paiement. Réservée pour <strong>15 minutes</strong>.</span>
-                            </div>
 
-                            <div class="row">
-                                <img class="col-1" width="24px" src="~/img/truck-fast.svg" />
-                                <span class="col-11 align-middle">En transit. Prévoyez <strong>3 jours ouvrables</strong>.</span>
-                            </div>
+                            @{
+                                if(Model.StatutFacture ==  StatutFactureEnum.ATTENTE_PAIEMENT)
+                                {
 
-                            <div class="row">
-                                <img class="col-1" width="24px" src="~/img/check-circle.svg" />
-                                <span class="col-11 align-middle">Commande livrée avec succès! <strong>Merc!</strong>.</span>
-                            </div>
+                                    <div class="row">
+                                        <img class="col-1" width="24px" src="~/img/clock.svg" />
+                                        <span class="col-11 align-middle">En attente de paiement. Réservée pour <strong>15 minutes</strong>.</span>
+                                    </div>
+                                }
+                                else if(Model.StatutFacture == StatutFactureEnum.TRANSIT)
+                                {
+
+                                    <div class="row">
+                                        <img class="col-1" width="24px" src="~/img/truck-fast.svg" />
+                                        <span class="col-11 align-middle">En transit. Prévoyez <strong>3 jours ouvrables</strong>.</span>
+                                    </div>
+                                }
+                                else if(Model.StatutFacture == StatutFactureEnum.LIVREE)
+                                {
+
+                                    <div class="row">
+                                        <img class="col-1" width="24px" src="~/img/check-circle.svg" />
+                                        <span class="col-11 align-middle">Commande livrée avec succès! <strong>Merci!</strong>.</span>
+                                    </div>
+                                }
+                                else if(Model.StatutFacture == StatutFactureEnum.ANNULEE_NON_PAYE_DELAIS)
+                                {
+
+                                    <div class="row">
+                                        <img class="col-1" width="24px" src="~/img/not-paid.svg" />
+                                        <span class="col-11 align-middle">Commande non payée dans un délai de <strong>15 minutes</strong>. Réservation annulée.</span>
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="row">
+                                        <img class="col-1" width="24px" src="~/img/close-circle.svg" />
+                                        <span class="col-11 align-middle">Commande annulée.</span>
+                                    </div>
+
+                                }
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -102,23 +208,23 @@
                     foreach(CommandePartielle commandePartielle in Model.CommandesPartielles)
                     {
 
-                <div class="row mb-3">
+                        <div class="row mb-3">
 
-                    <div class="col-6">
-                        <span class="align-middle">
-                            <h6 class="mb-0 text-truncate">@commandePartielle.Titre</h6>
-                            <p class="mb-0 small fw-light">@commandePartielle.EtatLivre</p>
-                        </span>
-                    </div>
-                    <div class="col-2">
-                        <span class="badge alert-info align-middle">@commandePartielle.Quantite</span>
-                    </div>
-                    <div class="col-4">
-                        <span class="align-middle text-end">
-                            <strong>@CashUtils.FormatToCurrency(commandePartielle.Prix)</strong>
-                        </span>
-                    </div>
-                </div>
+                            <div class="col-6">
+                                <span class="align-middle">
+                                    <h6 class="mb-0 text-truncate">@commandePartielle.Titre</h6>
+                                    <p class="mb-0 small fw-light">@commandePartielle.EtatLivre</p>
+                                </span>
+                            </div>
+                            <div class="col-2">
+                                <span class="badge alert-info align-middle">@commandePartielle.Quantite</span>
+                            </div>
+                            <div class="col-4">
+                                <span class="align-middle text-end">
+                                    <strong>@CashUtils.FormatToCurrency(commandePartielle.Prix)</strong>
+                                </span>
+                            </div>
+                        </div>
 
                     }
                 }
@@ -225,20 +331,39 @@
                   messageContainer.textContent = error.message;
                 } else {
 
-                    alert("Paiement confirmé, merci beaucoup!");
+                    const modalPaiementConfirmation = new bootstrap.Modal('#paiementConfirmation', {
+                        keyboard: false
+                    });
 
-                    window.location.href = "/";
+                    modalPaiementConfirmation.show();
                 }
             });
 
-        </script>
+            function rechargerPage() {
+                window.location.reload();
+                return false;
+            }
 
+        </script>
     }
 }
 
-<script>
-
-/** TODO: à sortir dans son propre fichier**/
-
-
-</script>
+<div class="modal fade" id="paiementConfirmation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paiementConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="paiementConfirmationLabel">Confirmation de paiement</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="rechargerPage()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-md-center">
+                    <img class="col-4 mb-3" width="24px" src="~/img/check-circle.svg" />
+                    <p>Commande payée avec succès! Merci <strong>@Model.NomEtudiant</strong>!</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="rechargerPage()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
