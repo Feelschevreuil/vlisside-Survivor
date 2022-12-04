@@ -108,11 +108,30 @@
                                           <div id="payment-element">
                                                 <!-- Elements will create form elements here -->
                                                 </div>
-                                                    <button id="submit" class="btn btn-primary mt-3">Payer</button>
+                                                    <button id="submit" class="btn btn-primary mt-3 col-12">Payer</button>
+                                                    <button onclick="annulerPaiement(@Model.FactureEtudiantId)" class="btn btn-outline-danger mt-1 col-12">Annuler</button>
                                                 <div id="error-message">
                                                 <!-- Display error message to your customers here -->
                                           </div>
-                                    </form>                                }
+                                    </form>
+                                    <script>
+
+                                        function annulerPaiement(factureEtudiantID){
+
+                                            /* TODO: chercher le bon URL! */
+                                            fetch("/Achat/Annuler?id=" + factureEtudiantID, {
+                                                method: 'GET'
+                                            }).then(response => {
+                                                
+                                                if(response.ok){
+                                                    window.location.reload();
+                                                } else {
+                                                    alert("Une erreur est survenue!");
+                                                }
+                                            });
+                                        }
+                                    </script>
+                                }
                                 else if(Model.StatutFacture == StatutFactureEnum.TRANSIT || Model.StatutFacture == StatutFactureEnum.LIVREE)
                                 {
 
@@ -167,7 +186,7 @@
 
                                     <div class="row">
                                         <img class="col-1" width="24px" src="~/img/check-circle.svg" />
-                                        <span class="col-11 align-middle">Commande livrée avec succès! <strong>Merci!</strong>.</span>
+                                        <span class="col-11 align-middle">Commande livrée avec succès! <strong>Merci!</strong></span>
                                     </div>
                                 }
                                 else if(Model.StatutFacture == StatutFactureEnum.ANNULEE_NON_PAYE_DELAIS)
@@ -224,7 +243,7 @@
 
                             if(commandePartielle.StatutCommande != StatutCommandeEnum.INEXISTANT)
                             {
-                                <div class="row mb-3">
+                                <div class="row mb-3@(commandePartielle.StatutCommande == StatutCommandeEnum.MANQUE_INVENTAIRE ? " text-decoration-line-through" : "")">
 
                                     <div class="col-6">
                                         <span class="align-middle">
@@ -256,7 +275,27 @@
                                         </span>
                                     </div>
                                     <div class="col-2">
-                                        <span class="badge alert-info align-middle">@commandePartielle.Quantite</span>
+                                        @{
+                                            string classeQuantite;
+
+                                            if(commandePartielle.StatutCommande == StatutCommandeEnum.MANQUE_INVENTAIRE)
+                                            {
+
+                                                classeQuantite = "danger";
+                                            }
+                                            else if(commandePartielle.StatutCommande == StatutCommandeEnum.QUANTITEE_CORRIGE_SELON_DISPONIBILITE)
+                                            {
+
+                                                classeQuantite = "warning";
+                                            }
+                                            else
+                                            {
+
+                                                classeQuantite = "info";
+                                            }
+                                        }
+
+                                        <span class="badge alert-@classeQuantite align-middle">@commandePartielle.Quantite</span>
                                     </div>
                                     <div class="col-4">
                                         <span class="align-middle text-end">
