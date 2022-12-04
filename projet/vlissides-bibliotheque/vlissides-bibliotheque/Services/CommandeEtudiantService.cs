@@ -316,5 +316,72 @@ namespace vlissides_bibliotheque.Services
 
             return totalFacture;
         }
+
+        /// <summary>
+        /// Annule les commandes appartenant à une facture.
+        /// </summary>
+        /// <param name="factureEtudiant">
+        /// La <c>FactureEtudiant</c> à annuler.
+        /// </param>
+        /// <param name="commandesEtudiantsDAO">
+        /// Le DAO des commandes étudiants.
+        /// </param>
+        /// <param name="prixEtatLivreDAO">
+        /// Le DAO des <c>PrixEtatLivre</c> pour restaurer le stock réservé.
+        /// </param>
+        public void AnnulerCommandesFromFacture
+        (
+            FactureEtudiant factureEtudiant,
+            CommandesEtudiantsDAO commandesEtudiantsDAO,
+            PrixEtatLivreDAO prixEtatLivreDAO
+        )
+        {
+
+            List<CommandeEtudiant> commandesEtudiant;
+
+            commandesEtudiant = commandesEtudiantsDAO
+                .GetSelonPremierId(factureEtudiant.FactureEtudiantId).ToList();
+
+            AnnulerCommandes(commandesEtudiant, prixEtatLivreDAO);
+
+            factureEtudiant.Statut = StatutFactureEnum.ANNULEE;
+            _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Annule les commandes désirées.
+        /// </summary>
+        /// <param name="commandesEtudiants">Les <c>CommandeEtudiant</c> à annuler.</param>
+        /// <param name="prixEtatLivreDAO">
+        /// Le DAO des <c>PrixEtatLivre</c> pour restaurer le stock réservé.
+        /// </param>
+        private void AnnulerCommandes
+        (
+            List<CommandeEtudiant> commandesEtudiants, 
+            PrixEtatLivreDAO prixEtatLivreDAO
+        )
+        {
+
+            foreach(CommandeEtudiant commandeEtudiant in commandesEtudiants)
+            {
+
+                // TODO: test when used book, it crashed to null pointer
+                if
+                (
+                    commandeEtudiant.StatutCommande != StatutCommandeEnum.INEXISTANT || 
+                    commandeEtudiant.StatutCommande != StatutCommandeEnum.MANQUE_INVENTAIRE &&
+                    commandeEtudiant.PrixEtatLivre.EtatLivre == EtatLivreEnum.USAGE
+                )
+                {
+
+                    prixEtatLivreDAO
+                        .AjouterDuStock
+                        (
+                            commandeEtudiant.PrixEtatLivre,
+                            commandeEtudiant.Quantite
+                        );
+                }
+            }
+        }
     }
 }
