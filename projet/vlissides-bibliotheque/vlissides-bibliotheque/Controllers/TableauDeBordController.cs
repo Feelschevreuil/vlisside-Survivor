@@ -28,7 +28,7 @@ using System.Text.RegularExpressions;
 
 namespace vlissides_bibliotheque.Controllers
 {
-    //[Authorize(Roles = RolesName.Admin)]
+    [Authorize(Roles = RolesName.Admin)]
     public class TableauDeBordController : Controller
     {
         private readonly SignInManager<Etudiant> _signInManager;
