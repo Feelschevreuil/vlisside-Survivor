@@ -1094,14 +1094,15 @@ namespace vlissides_bibliotheque.Controllers
                 Etudiant etudiant = new()
                 {
                     Email = vm.Courriel,
-                    UserName = vm.Matricule,
+                    UserName = vm.Courriel,
                     Nom = vm.Nom,
                     Prenom = vm.Prenom,
                     ProgrammeEtudeId = programmeEtude.ProgrammeEtudeId,
                     AdresseId = adresse.AdresseId,
                     Adresse = adresse,
                     EmailConfirmed = true,
-                    PasswordHash = vm.MotDePasse
+                    PasswordHash = vm.MotDePasse,
+                    NumeroEtudiant = Convert.ToInt32(vm.Matricule)
                 };
                 etudiants.Add(etudiant);
             
