@@ -213,22 +213,18 @@ namespace vlissides_bibliotheque.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Confirmer()
+        public async Task<IActionResult> Annuler()
         {
 
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-
-            Console.WriteLine("paiement ici");
 
             try
             {
                 var stripeEvent = EventUtility.ParseEvent(json);
 
                 // Handle the event
-                if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+                if (stripeEvent.Type == Events.PaymentIntentCanceled)
                 {
-
-                    Console.WriteLine("paiement succès");
 
                     FactureEtudiant factureEtudiant;
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
@@ -246,7 +242,53 @@ namespace vlissides_bibliotheque.Controllers
                     if(factureEtudiant != null)
                     {
 
-                        Console.WriteLine("facture payée");
+                        FactureEtudiantService factureEtudiantService;
+                        factureEtudiantService = new(_context);
+
+                        factureEtudiantService.AnnulerFacture(factureEtudiant);
+
+                        return Ok();
+                    }
+                }
+
+                return BadRequest();
+            }
+            catch (StripeException e)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Confirmer()
+        {
+
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+            try
+            {
+                var stripeEvent = EventUtility.ParseEvent(json);
+
+                // Handle the event
+                if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+                {
+
+                    FactureEtudiant factureEtudiant;
+                    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+
+                    // TODO: sortir dans service + DAO
+                    factureEtudiant = _context
+                        .FacturesEtudiants
+                        .Where
+                        (
+                            factureEtudiant =>
+                                factureEtudiant.PaymentIntentId == paymentIntent.Id
+                        )
+                        .FirstOrDefault();
+
+                    if(factureEtudiant != null)
+                    {
 
                         factureEtudiant.Statut = StatutFactureEnum.TRANSIT;
                         _context.SaveChanges();
@@ -254,7 +296,6 @@ namespace vlissides_bibliotheque.Controllers
                     else
                     {
 
-                        Console.WriteLine("facture non payée");
                         return BadRequest();
                     }
 
@@ -280,6 +321,55 @@ namespace vlissides_bibliotheque.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        /// <summary>
+        /// Annule le paiement d'une commande si elle est encore en attente.
+        /// </summary>
+        /// <param name="id">Id de la <c>FactureEtudiant</c> à annuler.</param>
+        public IActionResult Annuler(int id)
+        {
+
+            if(id > 0)
+            {
+
+                Etudiant etudiant;
+                FactureEtudiant factureEtudiant;
+                FacturesEtudiantsDAO factureEtudiantDAO;
+                FactureEtudiantService factureEtudiantService;
+
+                factureEtudiantService = new(_context);
+                factureEtudiantDAO = new(_context);
+
+                // TODO: sortir d'ici
+                etudiant = _context
+                    .Etudiants
+                        .Include(etudiant => etudiant.Adresse)
+                        .FirstOrDefault
+                        (
+                            etudiant => etudiant.Id == 
+                                User.FindFirstValue(ClaimTypes.NameIdentifier)
+                        );
+
+                factureEtudiant = factureEtudiantDAO.Get(id);
+
+                if
+                (
+                    factureEtudiant != null &&
+                    factureEtudiant.Etudiant == etudiant
+                )
+                {
+
+                    factureEtudiantService.AnnulerPaiement
+                    (
+                        factureEtudiant
+                    );
+
+                    return Ok();
+                }
+            }
+
+            return BadRequest();
         }
 
         /*
