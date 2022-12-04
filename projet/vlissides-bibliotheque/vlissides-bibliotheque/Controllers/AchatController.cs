@@ -65,15 +65,7 @@ namespace vlissides_bibliotheque.Controllers
                     ConstantesConfiguration.FICHIER_CONFIGURATION_PRINCIPAL
                 );
 
-                // TODO: sortir d'ici
-                etudiant = _context
-                    .Etudiants
-                        .Include(etudiant => etudiant.Adresse)
-                        .FirstOrDefault
-                        (
-                            etudiant => etudiant.Id == 
-                                User.FindFirstValue(ClaimTypes.NameIdentifier)
-                        );
+                etudiant = GetLoggedInEtudiant();
 
                 factureEtudiant = facturesEtudiantsDAO.Get(id);
 
@@ -372,37 +364,101 @@ namespace vlissides_bibliotheque.Controllers
             return BadRequest();
         }
 
-        /*
+        [Authorize(Roles = RolesName.Etudiant)]
         [HttpPost]
-        public IActionResult ModifierAdresseFacture(ConfirmerCommandeDTO confirmerCommandeDTO)
+        public IActionResult ModifierAdresse(AchatInformationsLivraisonDTO achatInformationsLivraisonDTO)
         {
 
             if(ModelState.IsValid)
             {
                 
+                Etudiant etudiant;
+                FacturesEtudiantsDAO facturesEtudiantsDAO;
                 FactureEtudiant factureEtudiant;
-                
 
-                factureEtudiant = 
-                 
-                return StatusCode(ConstantesStatusCodeHTTP.CORRECT);
-            }
-            else
-            {
+                facturesEtudiantsDAO = new(_context);
 
-                PaiementInformationsLivraisonVM paiementInformationsLivraison;
+                etudiant = GetLoggedInEtudiant();
 
-                paiementInformationsLivraison = new()
+                factureEtudiant = facturesEtudiantsDAO
+                    .Get(achatInformationsLivraisonDTO.FactureEtudiantId);
+
+                if
+                (
+                    factureEtudiant.Etudiant == etudiant &&
+                    factureEtudiant.Statut == StatutFactureEnum.ATTENTE_PAIEMENT
+                )
                 {
-                    AdresseLivraison = confirmerCommandeDTO.AdresseLivraison,
-                    NumeroTelephone = confirmerCommandeDTO.NumeroTelephone
+
+                    FactureEtudiantService factureEtudiantService;
+                    AchatInformationsLivraisonVM achatInformationsLivraisonVM;
+                    Adresse adresseModifiee;
+
+                    factureEtudiantService = new(_context);
+
+                    adresseModifiee = factureEtudiantService
+                        .ModifierAdresse
+                        (
+                            factureEtudiant, 
+                            achatInformationsLivraisonDTO.AdresseLivraison
+                        );
+
+                    if(adresseModifiee != null)
+                    {
+
+                        achatInformationsLivraisonVM = new()
+                        {
+                            AdresseModifiee = true,
+                            AdresseLivraison = adresseModifiee
+                        };
+                    }
+                    else
+                    {
+
+                        achatInformationsLivraisonVM = new()
+                        {
+                            AdresseModifiee = false,
+                            AdresseLivraison = factureEtudiant.AdresseLivraison
+                        };
+                    }
+
+                    return View("_AdresseCommande", achatInformationsLivraisonVM);
                 }
 
-                Response.StatusCode = ConstantesStatusCodeHTTP.ERREURS_CHAMPS;
-
-                return View("", paiementInformationsLivraison);
+                return Unauthorized();
             }
+            else if(achatInformationsLivraisonDTO != null);
+            {
+
+                AchatInformationsLivraisonVM achatInformationsLivraisonVM;
+
+                achatInformationsLivraisonVM = new()
+                {
+                    AdresseLivraison = achatInformationsLivraisonDTO.AdresseLivraison
+                };
+
+                return View("_AdresseCommande", achatInformationsLivraisonVM);
+            }
+
+            return BadRequest();
         }
-        */
+
+        // TODO: sortir dans le DAO!
+        private Etudiant GetLoggedInEtudiant()
+        {
+
+            Etudiant etudiant;
+
+            etudiant = _context
+                    .Etudiants
+                        .Include(etudiant => etudiant.Adresse)
+                        .FirstOrDefault
+                        (
+                            etudiant => etudiant.Id == 
+                                User.FindFirstValue(ClaimTypes.NameIdentifier)
+                        );
+
+            return etudiant;
+        }
     }
 }
