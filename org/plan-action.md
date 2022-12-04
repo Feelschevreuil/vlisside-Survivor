@@ -65,7 +65,7 @@ Ce qui doit être présent sur les cartes (en ordre)
 
 # pagination
 -~~bibliothèque~~
-- livres étudiants
+- livres étudiants (Samory)
 
 ---
 
