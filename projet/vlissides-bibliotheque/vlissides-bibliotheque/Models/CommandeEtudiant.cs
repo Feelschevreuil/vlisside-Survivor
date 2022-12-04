@@ -35,7 +35,7 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public int Quantite { get; set; }
 
-        [NotMapped]
+        [Required]
         public StatutCommandeEnum StatutCommande { get; set; }
     }
 }

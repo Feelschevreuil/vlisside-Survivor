@@ -962,7 +962,8 @@ namespace seeder
                 Titre = prixEtatLivre.LivreBibliotheque.Titre,
                 EtatLivre = prixEtatLivre.EtatLivre,
                 PrixUnitaireGele = prixEtatLivre.Prix,
-                Quantite = Faker.RandomNumber.Next(1, 2)
+                Quantite = Faker.RandomNumber.Next(1, 2),
+                StatutCommande = Faker.Boolean.Random() ? StatutCommandeEnum.CORRECT : StatutCommandeEnum.QUANTITEE_CORRIGE_SELON_DISPONIBILITE
             };
 
             return commandeEtudiant;
