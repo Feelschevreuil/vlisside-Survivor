@@ -29,7 +29,7 @@
 
 @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
 {
-    <div class="col-12 col-md-3 col-sm-3 mb-3">
+    <div class="col-12 col-md-3 col-sm-3 mb-3 mt-3">
         <div class="card shadow border-0 h-100 tuile-livre mt-2 p-2">
             <div class="position-relative text-center">
                 <div>
@@ -133,7 +133,7 @@
 
                     </p>
                     <p class="card-text mb-1">Maison @Model.livreBibliotheque.MaisonEdition.Nom</p>
-                    <p class="card-text mb-1">@Model.livreBibliotheque.Isbn</p>
+                    <p class="card-text mb-1">ISBN: @Model.livreBibliotheque.Isbn</p>
                     <p class="card-text mb-1">@Model.livreBibliotheque.DatePublication.Year</p>
                 </div>
 
