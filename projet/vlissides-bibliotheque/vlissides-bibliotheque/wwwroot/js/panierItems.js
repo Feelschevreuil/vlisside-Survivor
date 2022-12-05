@@ -169,7 +169,7 @@ function checkout() {
 
     if (tryStorage) {
         if (tryEmpty) {
-            fetch(stringFetch, {
+            fetch(host + "Achat/Creer/", {
                 method: 'Post',
                 body: data,
                 contentType: "application/json; charset=utf-8",
@@ -180,7 +180,7 @@ function checkout() {
             }).then(response => response.text())
             .then((data) => {
 
-                window.location = numeroEtudiant + "/Achat/" + "?id=" + data;
+                window.location = host + "Achat/" + "?id=" + data;
             });
         }
         else {
