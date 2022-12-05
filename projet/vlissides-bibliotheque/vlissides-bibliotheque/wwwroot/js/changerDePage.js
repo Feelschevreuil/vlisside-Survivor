@@ -17,7 +17,6 @@
     var url = location.host;
     //var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
 
-
     if (inputRecherche != null) {
         texteRecherche = inputRecherche.value
     }
@@ -71,6 +70,7 @@
                 conteneurBibli.innerHTML = data;
                 RechercheSelection = document.getElementsByClassName("RechercheBiblio");
                 if (ouRecherche == 2) {
+
                     if (titreBibli != null) {
                         titreBibli.innerText = "Inventaire de la boutique étudiante"
                     }
@@ -79,11 +79,13 @@
                     conteneurBibli.id = "conteneurEtu"
                     titreBibli.id = "titreEtu"
                 }
+
                 updatePagination(numPage)
                 NbLivrePanier()
             } else {
                 conteneurEtu.innerHTML = data;
                 RechercheSelection = document.getElementsByClassName("RechercheBiblio");
+
                 if (ouRecherche == 1) {
                     if (titreEtu != null) {
                         titreEtu.innerText = "Inventaire de la bibliothèque"
@@ -93,6 +95,7 @@
                     conteneurEtu.id = "conteneurBibli"
                     titreEtu.id = "titreBibli"
                 }
+
                 updatePagination(numPage)
                 NbLivrePanier()
             }
