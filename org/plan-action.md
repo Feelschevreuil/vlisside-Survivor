@@ -59,13 +59,13 @@ Ce qui doit être présent sur les cartes (en ordre)
 - Régler le taille des cartes (doit être uniforme)
 
 # Recherche boutique étudiants 
-- implémentation (Samory)
-- simple (Samory)
+-~~implémentation~~
+-~~simple~~
 - avancée
 
 # pagination
 -~~bibliothèque~~
-- livres étudiants (Samory)
+-~~livres étudiants~~
 
 ---
 
