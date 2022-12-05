@@ -53,12 +53,25 @@ namespace vlissides_bibliotheque.Controllers
                     {
                         inventaireLivreEtudiantVMs = new()
                     };
-                    List<LivreEtudiant> livresEtudiants = _context.LivresEtudiants
+                    List<LivreEtudiant> livresEtudiants;
+
+                    if (rechercheSimple.texteRecherche == "")
+                    {
+                        livresEtudiants = _context.LivresEtudiants
                             .Include(x => x.Etudiant)
-                            .Where(x => x.Titre == rechercheSimple.texteRecherche)
                             .Skip(15 * rechercheSimple.numPage)
                             .Take(15)
                             .ToList();
+                    }
+                    else
+                    {
+                        livresEtudiants = _context.LivresEtudiants
+                                .Include(x => x.Etudiant)
+                                .Where(x => x.Titre == rechercheSimple.texteRecherche)
+                                .Skip(15 * rechercheSimple.numPage)
+                                .Take(15)
+                                .ToList();
+                    }
 
 
                     inventaireLivreEtudiant.inventaireLivreEtudiantVMs = livresEtudiants;
