@@ -216,7 +216,7 @@ namespace vlissides_bibliotheque.Controllers
                 PossedeNeuf = true,
                 PossedeNumerique = true,
                 checkBoxCours = CheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
-                checkBoxAuteurs = CheckedBox.GetAuteurs(_context),
+                checkBoxAuteurs = CheckedBox.GetAuteursLivre(_context, livreBibliothequeRechercher),
             };
 
             var prixNeuf = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NEUF);
