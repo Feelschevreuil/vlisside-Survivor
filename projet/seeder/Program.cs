@@ -925,7 +925,7 @@ namespace seeder
                 FactureEtudiantId = 0,
                 Etudiant = etudiant,
                 // TODO: ne pas enregistrer l'id de l'objet, mais l'adresse au complete en texte.
-                AdresseLivraison = "adresse place holder",
+                AdresseLivraison = etudiant.Adresse,
                 DateFacturation = DateTime
 				    .Now
 				    .AddDays(Faker.RandomNumber.Next(-355, 0)),
@@ -962,7 +962,8 @@ namespace seeder
                 Titre = prixEtatLivre.LivreBibliotheque.Titre,
                 EtatLivre = prixEtatLivre.EtatLivre,
                 PrixUnitaireGele = prixEtatLivre.Prix,
-                Quantite = Faker.RandomNumber.Next(1, 2)
+                Quantite = Faker.RandomNumber.Next(1, 2),
+                StatutCommande = Faker.Boolean.Random() ? StatutCommandeEnum.CORRECT : StatutCommandeEnum.QUANTITEE_CORRIGE_SELON_DISPONIBILITE
             };
 
             return commandeEtudiant;
