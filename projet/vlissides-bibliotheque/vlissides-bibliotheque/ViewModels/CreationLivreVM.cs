@@ -2,12 +2,13 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
 {
-	public class CreationLivreVM
+    public class CreationLivreVM
 	{
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
@@ -58,13 +59,6 @@ namespace vlissides_bibliotheque.ViewModels
 		[MaxLength(13)]
 		public string ISBN { get; set; } //= "4545854745";
 
-		[Required(ErrorMessage = "Le champ {0} est requis.")]
-		[DisplayName("Auteur")]
-        [Range(1, 99999999, ErrorMessage = "Le champ {0} est requis")]
-        public int? AuteurId { get; set; }
-
-		public List<SelectListItem> Auteurs { get; set; }
-
 		[DisplayName("Maison d'édition")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[Range(1,99999999,ErrorMessage ="Le champ {0} est requis")]
@@ -73,6 +67,8 @@ namespace vlissides_bibliotheque.ViewModels
 		public List<SelectListItem> MaisonsDeditions { get; set; }
 		[DisplayName("Liste des cours")]
 		public List<checkBoxCours> checkBoxCours { get; set; }
+        [DisplayName("Liste des auteurs")]
+        public List<checkBoxAuteurs> checkBoxAuteurs { get; set; }
 	} 
 
 }
