@@ -59,13 +59,13 @@ Ce qui doit être présent sur les cartes (en ordre)
 - Régler le taille des cartes (doit être uniforme)
 
 # Recherche boutique étudiants 
--~~implémentation~~
--~~simple~~
+- ~~implémentation~~
+- ~~simple~~
 - avancée
 
 # pagination
--~~bibliothèque~~
--~~livres étudiants~~
+- ~~bibliothèque~~
+- ~~livres étudiants~~
 
 ---
 
