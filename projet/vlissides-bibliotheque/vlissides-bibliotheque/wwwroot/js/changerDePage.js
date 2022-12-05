@@ -133,8 +133,11 @@ function updatePagination(numPage) {
         var e = affichagePagination - 1 + i
         pagination[i].innerText = e;
         pagination[i].setAttribute('onclick', 'changerPage(' + (e - 1) + ')');
-        if (numPage+1 == e) {
+        if (numPage + 1 == e) {
             pagination[i].style.fontWeight = 'bold';
+        }
+        else {
+            pagination[i].style.fontWeight = "normal";
         }
     }
 }
