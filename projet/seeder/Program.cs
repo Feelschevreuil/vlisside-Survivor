@@ -175,7 +175,7 @@ namespace seeder
 		.With(adresse => adresse.AdresseId = 0)
 		.With(adresse => adresse.Ville = Faker.Address.City())
 		.With(adresse => adresse.NumeroCivique = Faker.RandomNumber.Next(1000))
-		.With(adresse => adresse.App = Faker.RandomNumber.Next(100))
+		.With(adresse => adresse.App = Faker.RandomNumber.Next(100).ToString())
 		.With(adresse => adresse.Rue = Faker.Address.StreetName())
 		.With(adresse => adresse.CodePostal = "X6X6X6")
 		.With(adresse => adresse.Province = _context.Provinces.First())
@@ -789,7 +789,7 @@ namespace seeder
 	    return new Adresse()
             {
 		AdresseId = 0,
-		App = Faker.RandomNumber.Next(1, 55),
+		App = Faker.RandomNumber.Next(1, 55).ToString(),
 		CodePostal = "6X6X6X",
 		NumeroCivique = Faker.RandomNumber.Next(1, 666),
 		Province = _context

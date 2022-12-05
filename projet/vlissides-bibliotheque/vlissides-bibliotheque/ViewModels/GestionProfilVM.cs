@@ -12,8 +12,8 @@ namespace vlissides_bibliotheque.ViewModels
         public string EtudiantId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [RegularExpression(@"^[\w-\.]+@(cegep-connaissance-aleatoire\.qc\.ca)",
-            ErrorMessage = "Le courriel doit correspondre au format : 123456@cegep-connaissance-aleatoire.qc.ca")]
+        //[RegularExpression(@"^[\w-\.]+@(cegep-connaissance-aleatoire\.qc\.ca)",
+        //    ErrorMessage = "Le courriel doit correspondre au format : 123456@cegep-connaissance-aleatoire.qc.ca")]
         public string Courriel { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
@@ -52,8 +52,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string Ville { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
-        [Range(1,9999999999, ErrorMessage ="Le numéro d'appartement ne peux pas être null ou égal à zéro")]
-        public int App { get; set; }
+        public string? App { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DisplayName("Code postal")]
