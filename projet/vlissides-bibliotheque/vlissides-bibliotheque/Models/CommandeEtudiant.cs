@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using vlissides_bibliotheque.Validation;
+﻿using vlissides_bibliotheque.Validation;
 using vlissides_bibliotheque.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -23,7 +24,7 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         [StringLength(64)]
-        public string Titre;
+        public string Titre { get; set; }
 
         [Required]
         public EtatLivreEnum EtatLivre { get; set; }
@@ -33,5 +34,8 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         public int Quantite { get; set; }
+
+        [Required]
+        public StatutCommandeEnum StatutCommande { get; set; }
     }
 }

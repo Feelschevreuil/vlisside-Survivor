@@ -23,7 +23,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string EtudiantId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
-        public StatusFacture Statut { get; set; }
+        public StatutFactureEnum Statut { get; set; }
 
         public string NomStatut { get; set; }
 
@@ -48,7 +48,7 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis")]
         [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
         [DisplayName("Adresse de livraison")]
-        public string AdresseLivraison { get; set; } //="123 barker";
+        public Adresse AdresseLivraison { get; set; } //="123 barker";
 
         [Required(ErrorMessage = "Le champ {0} est requis")]
         [DataType(DataType.Date)]
