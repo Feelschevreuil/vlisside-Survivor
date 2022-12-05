@@ -163,6 +163,45 @@ namespace vlissides_bibliotheque
 
         }
 
+        public static List<ProgrammeEtude> CreerProgrammeEtude()
+        {
+            List<ProgrammeEtude> listProgrammeEtude = new();
+
+            ProgrammeEtude programmeEtude = new()
+            {
+                ProgrammeEtudeId = 0,
+                Code = "414",
+                Nom = "Techniques de tourisme"
+            };
+            listProgrammeEtude.Add(programmeEtude);
+
+            ProgrammeEtude programmeEtude1 = new()
+            {
+                ProgrammeEtudeId = 0,
+                Code = "201",
+                Nom = "Sciences de la Nature"
+            };
+            listProgrammeEtude.Add(programmeEtude1);
+
+            ProgrammeEtude programmeEtude2 = new()
+            {
+                ProgrammeEtudeId= 0,
+                Code = "351",
+                Nom = "Techniques d’éducation spécialisée"
+
+            };
+            listProgrammeEtude.Add(programmeEtude2);
+
+            ProgrammeEtude programmeEtude3 = new() 
+            {
+                ProgrammeEtudeId = 0,
+                Code = "241",
+                Nom= "Techniques de génie mécanique"
+            };
+            listProgrammeEtude.Add(programmeEtude3);
+
+            return listProgrammeEtude;
+        }
     }
 }
 
