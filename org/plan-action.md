@@ -16,7 +16,7 @@ cleanup	: du lundi au mecredi AM
 - clear le localstorage if success
 
 # Recherche bibliothèque
-- simple (samory)
+- ~~simple~~
 - avancée (samory/rob)
 
 # Gestion par admin (vincent)
