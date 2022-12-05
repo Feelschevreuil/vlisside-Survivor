@@ -275,7 +275,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             AssocierLivreCours vm = new AssocierLivreCours
             {
-                Auteurs = ListDropDown.ListDropDownAuteurs(_context),
+              //  Auteurs = ListDropDown.ListDropDownAuteurs(_context),
                 MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
                 checkBoxCours = CheckedBox.GetCours(_context)
             };
@@ -308,6 +308,7 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
 
                 List<Cours> coursBD = _context.Cours.ToList();
+                List<Auteur> auteursBD = _context.Auteurs.ToList();
                 foreach (int coursId in vm.Cours)
                 {
                     Cours idCoursRechercher = coursBD.Find(x => x.CoursId == coursId);
@@ -323,13 +324,19 @@ namespace vlissides_bibliotheque.Controllers
                     _context.SaveChanges();
                 }
 
-                AuteurLivre auteurLivre = new AuteurLivre()
+                foreach (int auteurId in vm.Auteurs)
                 {
-                    AuteurId = (int)vm.AuteurId,
-                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                };
-                _context.AuteursLivres.Add(auteurLivre);
-                _context.SaveChanges();
+                    Auteur idAuteursRechercher = auteursBD.Find(x => x.AuteurId == auteurId);
+
+                    AuteurLivre nouvelleAssociation = new()
+                    {
+                        AuteurId = idAuteursRechercher.AuteurId,
+                        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                    };
+
+                    _context.AuteursLivres.Add(nouvelleAssociation);
+                    _context.SaveChanges();
+                }
 
                 _context.PrixEtatsLivres.AddRange(GestionPrix.AssocierPrixEtat(nouveauLivreBibliothèque, vm, _context));
                 _context.SaveChanges();
@@ -337,7 +344,7 @@ namespace vlissides_bibliotheque.Controllers
                 vm.DateFormater = vm.DatePublication.ToString("dd MMMM yyyy");
                 return Json(vm);
             }
-            vm.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
+            vm.checkBoxAuteurs = CheckedBox.GetAuteurs(_context);
             vm.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
             vm.checkBoxCours = CheckedBox.GetCours(_context);
             return PartialView("Views/Shared/_AjouterLivrePartial.cshtml", vm);
@@ -369,9 +376,7 @@ namespace vlissides_bibliotheque.Controllers
             ModificationLivreVM vm = new()
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
-                AuteurId = auteurLivre.AuteurId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
-                Auteurs = ListDropDown.ListDropDownAuteurs(_context),
                 MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
                 DatePublication = livreBibliothequeRechercher.DatePublication,
                 ISBN = livreBibliothequeRechercher.Isbn,
@@ -382,6 +387,7 @@ namespace vlissides_bibliotheque.Controllers
                 PossedeNumerique = true,
                 PossedeUsagee = true,
                 checkBoxCours = CheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
+                checkBoxAuteurs = CheckedBox.GetAuteursLivre(_context, livreBibliothequeRechercher)
 
             };
 
@@ -400,7 +406,6 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifierLivre([FromBody] ModifierLivreCours form)
         {
-            ModelState.Remove(nameof(form.Auteurs));
             ModelState.Remove(nameof(form.MaisonsDeditions));
             ModelState.Remove(nameof(form.checkBoxCours));
             ModelState.Remove(nameof(form.DateFormater));
@@ -423,29 +428,16 @@ namespace vlissides_bibliotheque.Controllers
 
                 _context.LivresBibliotheque.Update(LivreBibliothèqueModifier);
                 _context.SaveChanges();
-
-                AuteurLivre auteurLivre = _context.AuteursLivres.Where(x => x.LivreBibliothequeId == form.IdDuLivre).FirstOrDefault();
-                if (auteurLivre != null && auteurLivre.AuteurId != form.AuteurId)
-                {
-                    _context.AuteursLivres.Remove(auteurLivre);
-                    _context.SaveChanges();
-
-                    AuteurLivre nouveauAuteurLivre = new()
-                    {
-                        AuteurId = (int)form.AuteurId,
-                        LivreBibliothequeId = LivreBibliothèqueModifier.LivreId
-                    };
-                    _context.AuteursLivres.Add(nouveauAuteurLivre);
-                    _context.SaveChanges();
-                }
+               
+                
                 GestionPrix.UpdateLesPrix(LivreBibliothèqueModifier, form, _context);
                 form.DateFormater = form.DatePublication.ToString("dd MMMM yyyy");
                 return Json(form);
             }
 
-            form.Auteurs = ListDropDown.ListDropDownAuteurs(_context);
             form.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
             form.checkBoxCours = CheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
+            form.checkBoxAuteurs = CheckedBox.GetAuteursLivre(_context, LivreBibliothèqueModifier);
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", form);
         }
 
