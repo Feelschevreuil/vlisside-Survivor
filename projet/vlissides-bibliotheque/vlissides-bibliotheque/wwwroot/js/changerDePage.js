@@ -68,27 +68,32 @@
         }).then((data) => {
 
             if (conteneurBibli != null) {
-                if (titreBibli != null) {
-                    titreBibli.innerText = "Inventaire de la boutique étudiante"
-
-                }
                 conteneurBibli.innerHTML = data;
                 RechercheSelection = document.getElementsByClassName("RechercheBiblio");
-                RechercheSelection[1].selected = true;
-                RechercheSelection[0].selected = false;
-                conteneurBibli.id = "conteneurEtu"
-                titreBibli.id = "titreEtu"
+                if (ouRecherche == 2) {
+                    if (titreBibli != null) {
+                        titreBibli.innerText = "Inventaire de la boutique étudiante"
+                    }
+                    RechercheSelection[1].selected = true;
+                    RechercheSelection[0].selected = false;
+                    conteneurBibli.id = "conteneurEtu"
+                    titreBibli.id = "titreEtu"
+                }
+                updatePagination(numPage)
                 NbLivrePanier()
             } else {
-                if (titreEtu != null) {
-                    titreEtu.innerText = "Inventaire de la bibliothèque"
-                }
                 conteneurEtu.innerHTML = data;
                 RechercheSelection = document.getElementsByClassName("RechercheBiblio");
-                RechercheSelection[0].selected = true;
-                RechercheSelection[1].selected = false;
-                conteneurEtu.id = "conteneurBibli"
-                titreEtu.id = "titreBibli"
+                if (ouRecherche == 1) {
+                    if (titreEtu != null) {
+                        titreEtu.innerText = "Inventaire de la bibliothèque"
+                    }
+                    RechercheSelection[0].selected = true;
+                    RechercheSelection[1].selected = false;
+                    conteneurEtu.id = "conteneurBibli"
+                    titreEtu.id = "titreBibli"
+                }
+                updatePagination(numPage)
                 NbLivrePanier()
             }
         });
@@ -109,7 +114,24 @@
         }).then((data) => {
 
             document.body.innerHTML = data;
+            updatePagination(numPage)
             NbLivrePanier()
         });
+    }
+}
+
+function updatePagination(numPage) {
+    var pagination = document.getElementsByClassName("page")
+    var affichagePagination = 2;
+    if (numPage > 2) {
+        affichagePagination = numPage;
+    }
+    for (var i = 0; i < pagination.length; i++) {
+        var e = affichagePagination - 1 + i
+        pagination[i].innerText = e;
+        pagination[i].setAttribute('onclick', 'changerPage(' + (e - 1) + ')');
+        if (numPage+1 == e) {
+            pagination[i].style.fontWeight = 'bold';
+        }
     }
 }
