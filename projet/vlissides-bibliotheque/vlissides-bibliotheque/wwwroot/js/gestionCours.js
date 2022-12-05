@@ -9,9 +9,7 @@
     return data;
 }
 
-//-----------------------------------------------------
-function assignerCoursEtudiant() {
-
+function getListCoursCocher() {
     var divListCours = document.querySelector("#listDeCours");
     var coursCocher = divListCours.querySelectorAll("input");
     var listCoursCocher = new Array();
@@ -21,31 +19,60 @@ function assignerCoursEtudiant() {
             listCoursCocher.push(cours.id);
         }
     });
+    return listCoursCocher;
+}
+
+function getListAuteursCocher() {
+    var divListAuteurs = document.querySelector("#listAuteurs");
+    var auteursCocher = divListAuteurs.querySelectorAll("input");
+    var listAuteursCocher = new Array();
+
+    auteursCocher.forEach((auteurs) => {
+        if (auteurs.checked) {
+            listAuteursCocher.push(auteurs.id);
+        }
+    });
+    return listAuteursCocher;
+}
+
+function gestionErreurLivre(DonnerRecus) {
+
+    if (DonnerRecus.MaisonDeditionId == "") {
+        DonnerRecus.MaisonDeditionId = 0
+    }
+    if (DonnerRecus.PrixNeuf == null || DonnerRecus.PrixNeuf == undefined) {
+        DonnerRecus.PrixNeuf = document.querySelector("#inputPrixNeuf").value;
+    }
+    if (DonnerRecus.PrixNumerique == null || DonnerRecus.PrixNumerique == undefined) {
+        DonnerRecus.PrixNumerique = document.querySelector("#inputPrixNumerique").value;
+    }
+    if (DonnerRecus.PrixUsage == null || DonnerRecus.PrixUsage == undefined) {
+        DonnerRecus.PrixUsage = document.querySelector("#inputPrixUsage").value
+    }
+    DonnerRecus.PrixNeuf = possedeDesLettres(DonnerRecus.PrixNeuf);
+    DonnerRecus.PrixNumerique = possedeDesLettres(DonnerRecus.PrixNumerique);
+    DonnerRecus.PrixUsage = possedeDesLettres(DonnerRecus.PrixUsage);
+    DonnerRecus.QuantiteUsagee = possedeDesLettres(DonnerRecus.QuantiteUsagee);
+    DonnerRecus.PossedeNeuf = PossedeNeuf.checked;
+    DonnerRecus.PossedeNumerique = PossedeNumerique.checked;
+    DonnerRecus.PossedeUsagee = PossedeUsagee.checked;
+
+    return DonnerRecus;
+}
+
+//-----------------------------------------------------
+function assignerCoursEtudiant() {
 
     var DonnerRecus =
     {
-        CoursId: listCoursCocher
+        CoursId: getListCoursCocher(),
+        AuteursId
     }; 
 
     var data = JSON.stringify(DonnerRecus);
 
-    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
-    var fetchEnLocal = "/GestionProfil/AssignerCoursEtudiant";
-    var fetchSurServeur = numeroEtudiant + "GestionProfil/AssignerCoursEtudiant";
-    var stringFetch = "";
-    var url = location.host;
 
-
-    if (url.match("localhost") == null) {
-        stringFetch = fetchSurServeur;
-    } else {
-        stringFetch = fetchEnLocal;
-    }
-
-
-
-
-    fetch(stringFetch, {
+    fetch(host + "GestionProfil/AssignerCoursEtudiant", {
         method: 'Post',
         body: data,
         contentType: "application/json; charset=utf-8",
@@ -112,70 +139,45 @@ function modifierCoursLivre(id) {
 }
 
 
-function assignerCoursLivre() {
+function modifierAuteursLivre(id) {
 
-    var divListCours = document.querySelector("#listDeCours");
-    var coursCocher = divListCours.querySelectorAll("input");
-    var listCoursCocher = new Array();
-
-    //TODO Peux remplacer ce qui a en dessous
-    var form = document.querySelector('#formLivre');
-    var DonnerRecus = getFormData(form);
-
-    if (DonnerRecus.AuteurId.value == "") {
-        DonnerRecus.AuteurId.value = 0;
-    }
-    if (DonnerRecus.MaisonDeditionId.value == "")
+    var DonnerRecus =
     {
-        DonnerRecus.MaisonDeditionId.value = 0
-    }
-    if (DonnerRecus.PrixNeuf == null || DonnerRecus.PrixNeuf == undefined)
-    {
-        DonnerRecus.PrixNeuf = document.querySelector("#inputPrixNeuf").value;
-    }
-    if (DonnerRecus.PrixNumerique == null || DonnerRecus.PrixNumerique == undefined)
-    {
-        DonnerRecus.PrixNumerique = document.querySelector("#inputPrixNumerique").value;
-    }
-    if (DonnerRecus.PrixUsage == null || DonnerRecus.PrixUsage == undefined)
-    {
-        DonnerRecus.PrixUsage = document.querySelector("#inputPrixUsage").value
-    }
-
-
-    coursCocher.forEach((cours) => {
-        if (cours.checked) {
-            listCoursCocher.push(cours.id);
-        }
-    });
-
-    DonnerRecus.CoursId = listCoursCocher;
-    DonnerRecus.PrixNeuf = possedeDesLettres(DonnerRecus.PrixNeuf);
-    DonnerRecus.PrixNumerique = possedeDesLettres(DonnerRecus.PrixNumerique);
-    DonnerRecus.PrixUsage = possedeDesLettres(DonnerRecus.PrixUsage);
-    DonnerRecus.QuantiteUsagee = possedeDesLettres(DonnerRecus.QuantiteUsagee);
-    DonnerRecus.PossedeNeuf = PossedeNeuf.checked;
-    DonnerRecus.PossedeNumerique= PossedeNumerique.checked;
-    DonnerRecus.PossedeUsagee = PossedeUsagee.checked;
+        AuteursId: getListAuteursCocher(),
+        livreId: id
+    };
 
     var data = JSON.stringify(DonnerRecus);
 
-    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
-    var fetchEnLocal = "/Inventaire/Creer";
-    var fetchSurServeur = numeroEtudiant + "Inventaire/Creer";
-    var stringFetch = "";
-    var url = location.host;
+    fetch(host + "Inventaire/AssignerAuteursLivre", {
+        method: 'Post',
+        body: data,
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Content-Type": "application/json",
+        },
+
+    }).then(function (response) {
+        if (response.ok) {
+            alert("Vos auteurs ont été modifiés avec succès");
+        }
+        return response;
+
+    });
+}
 
 
-    if (url.match("localhost") == null) {
-        stringFetch = fetchSurServeur;
-    } else {
-        stringFetch = fetchEnLocal;
-    }
+function assignerCoursLivre() {
+    var form = document.querySelector('#formLivre');
+    var DonnerRecus = getFormData(form);
 
+    DonnerRecus = gestionErreurLivre(DonnerRecus);
+    DonnerRecus.Cours = getListCoursCocher();
+    DonnerRecus.Auteurs = getListAuteursCocher();
 
+    var data = JSON.stringify(DonnerRecus);
 
-    fetch(stringFetch, {
+    fetch(host + "Inventaire/Creer", {
         method: 'Post',
         body: data,
         contentType: "application/json; charset=utf-8",
