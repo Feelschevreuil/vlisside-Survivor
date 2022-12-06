@@ -97,8 +97,8 @@
 
                 <div class="col-md-6">
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
+                            <img src="~/img/plus-circle.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#creer-cours" onclick="getFormulaireCreerCours()" />
                         <div class="form-group" id="listDeCours">
-
                             <label asp-for="checkBoxCours" class="form-label"></label>
                             <div class="cours">
                                 @foreach (var Cours in Model.checkBoxCours)
@@ -145,5 +145,26 @@
             </div>
         </form>
     </div>
+        <div class="modal" id="creer-cours" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajouter un cours</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        contenu
+                    </div>
+                    <div class="modal-footer">
+                        <button id="fermer-modal-creer" data-bs-dismiss="modal" hidden></button>
+                        <button id="btnEnregistrer" onclick="creerCoursLivre()" type="button" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
 </div>
 </body>

@@ -60,6 +60,13 @@ function gestionErreurLivre(DonnerRecus) {
     return DonnerRecus;
 }
 
+function CoursGestionErreur(data) {
+    if (data.programmeEtudesId == "") { data.programmeEtudesId = 0 }
+    if (data.ProgrammesEtudeId == "") { data.ProgrammesEtudeId = 0 }
+
+    return data
+}
+
 //-----------------------------------------------------
 function assignerCoursEtudiant() {
 
@@ -67,7 +74,7 @@ function assignerCoursEtudiant() {
     {
         CoursId: getListCoursCocher(),
         AuteursId
-    }; 
+    };
 
     var data = JSON.stringify(DonnerRecus);
 
@@ -196,16 +203,70 @@ function assignerCoursLivre() {
     });
 }
 
+function getFormulaireCreerCours() {
+
+    fetch(host + "TableauDeBord/CreerCours/", {
+        method: 'GET',
+    }).then(function (res) {
+        if (res.ok) {
+            res.text().then(function (res) {
+                document.querySelector("#creer-cours").querySelector(".modal-body").innerHTML = res;
+            });
+        }
+    });
+}
+
+function creerCoursLivre() {
+    let parent = document.querySelector("#creer-cours").querySelector(".modal-body");
+    let formulaire = parent.querySelector("form");
+    let data = getFormData(formulaire);
+    data = CoursGestionErreur(data);
+    data.Id = 0;
+
+    fetch(host + "TableauDeBord/CreerCours/", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Aucune modification n'a pu être effectuée.")
+        }
+        // valider si le contenu reçu est du json ou du text
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+
+            res.json().then(function (res) {
+                if (res != "") {
+                    var checkBoxRow = document.querySelector("#listDeCours").children[1].children[1];
+                    var divCours = document.querySelector("#listDeCours").children[1];
+                    var nouveauCheckBox = checkBoxRow.cloneNode(true);
+
+                    nouveauCheckBox.children[0].id = res.id;
+                    nouveauCheckBox.children[0].checked = true;
+                    nouveauCheckBox.children[1].innerHTML = res.nom;
+                    divCours.insertBefore(nouveauCheckBox, divCours.children[0]);
+                    document.querySelector("#fermer-modal-creer").click();
+                }
+            });
+        } else {
+
+            res.text().then(function (res) {
+                parent.innerHTML = res;
+            });
+        }
+    });
+}
 
 function possedeDesLettres(nombre) {
 
-    
-    if (isNaN(parseFloat(nombre)) || nombre == "")
-    {
+
+    if (isNaN(parseFloat(nombre)) || nombre == "") {
         return nombre = 0;
     }
-    else
-    {
-        return parseFloat(nombre.replace(",", ".")); 
+    else {
+        return parseFloat(nombre.replace(",", "."));
     }
 }
