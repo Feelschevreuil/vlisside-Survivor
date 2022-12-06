@@ -269,9 +269,9 @@ namespace vlissides_bibliotheque.Controllers
         {
             AssocierLivreCours vm = new AssocierLivreCours
             {
-              //  Auteurs = ListDropDown.ListDropDownAuteurs(_context),
                 MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
-                checkBoxCours = CheckedBox.GetCours(_context)
+                checkBoxCours = CheckedBox.GetCours(_context),
+                checkBoxAuteurs = CheckedBox.GetAuteurs(_context)
             };
             return PartialView("Views/Shared/_AjouterLivrePartial.cshtml", vm);
         }
@@ -279,9 +279,9 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public IActionResult CreerLivre([FromBody] AssocierLivreCours vm)
         {
-            ModelState.Remove(nameof(vm.Auteurs));
             ModelState.Remove(nameof(vm.MaisonsDeditions));
             ModelState.Remove(nameof(vm.checkBoxCours));
+            ModelState.Remove(nameof(vm.checkBoxAuteurs));
             ModelState.Remove(nameof(vm.Id));
             ModelState.Remove(nameof(vm.DateFormater));
 
