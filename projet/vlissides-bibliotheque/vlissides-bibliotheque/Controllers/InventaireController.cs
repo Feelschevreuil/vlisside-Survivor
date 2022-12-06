@@ -308,6 +308,36 @@ namespace vlissides_bibliotheque.Controllers
             return RedirectToAction("Bibliotheque");
         }
 
+        [HttpGet]
+        public IActionResult CreerAuteurs()
+        {
+            AuteursVM auteurs = new();
+            return PartialView("Views/Shared/_AuteursPartial.cshtml", auteurs);
+        }
+
+        [HttpPost]
+        public IActionResult CreerAuteurs([FromBody] AuteursVM vm)
+        {
+            ModelState.Remove(nameof(vm.AuteurId));
+            ModelState.Remove(nameof(vm.Id));
+
+            if (ModelState.IsValid)
+            {
+                Auteur nouvelleAuteurs = new()
+                {
+                    AuteurId = 0,
+                    Prenom = vm.Prenom,
+                    Nom = vm.Nom,
+                };
+                _context.Auteurs.Add(nouvelleAuteurs);
+                _context.SaveChanges();
+                vm.Id = nouvelleAuteurs.AuteurId;
+                return Json(vm);
+            }
+
+            return PartialView("Views/Shared/_AuteursPartial.cshtml", vm);
+        }
+
         [HttpPost]
         public string AssignerCoursLivre([FromBody] CoursAssocier coursAssocier)
         {

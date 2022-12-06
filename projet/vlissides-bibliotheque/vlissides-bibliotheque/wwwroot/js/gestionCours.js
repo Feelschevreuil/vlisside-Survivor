@@ -156,7 +156,6 @@ function modifierCoursLivre(id) {
     });
 }
 
-
 function modifierAuteursLivre(id) {
 
     var DonnerRecus =
@@ -183,7 +182,6 @@ function modifierAuteursLivre(id) {
 
     });
 }
-
 
 function assignerCoursLivre() {
     var form = document.querySelector('#formLivre');
@@ -271,3 +269,58 @@ function creerCoursLivre() {
     });
 }
 
+function getFormulaireCreerAuteurs() {
+
+    fetch(host + "Inventaire/CreerAuteurs/", {
+        method: 'GET',
+    }).then(function (res) {
+        if (res.ok) {
+            res.text().then(function (res) {
+                document.querySelector("#creer-auteurs").querySelector(".modal-body").innerHTML = res;
+            });
+        }
+    });
+}
+
+function creerAuteursLivre() {
+    let parent = document.querySelector("#creer-auteurs").querySelector(".modal-body");
+    let formulaire = parent.querySelector("form");
+    let data = getFormData(formulaire);
+    data.Id = 0;
+
+    fetch(host + "Inventaire/CreerAuteurs/", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then(function (res) {
+        if (!res.ok) {
+            alert("Aucune modification n'a pu être effectuée.")
+        }
+        // valider si le contenu reçu est du json ou du text
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+
+            res.json().then(function (res) {
+                if (res != "") {
+                    var checkBoxRow = document.querySelector("#listAuteurs").children[1].children[1];
+                    var divCours = document.querySelector("#listAuteurs").children[1];
+                    var nouveauCheckBox = checkBoxRow.cloneNode(true);
+
+                    nouveauCheckBox.children[0].id = res.id;
+                    nouveauCheckBox.children[0].checked = true;
+                    nouveauCheckBox.children[1].innerHTML = res.nom;
+                    divCours.insertBefore(nouveauCheckBox, divCours.children[0]);
+                    document.querySelector("#fermer-modal-creer").click();
+                }
+            });
+        } else {
+
+            res.text().then(function (res) {
+                parent.innerHTML = res;
+            });
+        }
+    });
+}
