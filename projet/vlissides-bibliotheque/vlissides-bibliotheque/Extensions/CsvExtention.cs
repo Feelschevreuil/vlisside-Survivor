@@ -23,12 +23,12 @@ namespace vlissides_bibliotheque.Extentions
                 };
             }
         }
-        public static IEnumerable<CsvLivre> CsvEnLivreVm(this IEnumerable<string> source)
+        public static IEnumerable<CsvLivreVM> CsvEnLivreVm(this IEnumerable<string> source)
         {
             foreach (var line in source)
             {
                 var columns = line.Split(',');
-                yield return new CsvLivre
+                yield return new CsvLivreVM
                 {
                     Titre = columns[0],
                     Auteur = columns[1],
