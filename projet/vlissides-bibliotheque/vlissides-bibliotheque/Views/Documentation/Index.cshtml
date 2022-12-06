@@ -1,5 +1,45 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<DocumentationVM>
+
 @{
+    int indexFonctionnalite = 0;
+    int indexSection = 0;
 }
+
+<nav id="navbar-documentation" class="navbar navbar-light bg-light flex-column align-items-stretch p-3">
+    <a class="navbar-brand" href="#">Documentation</a>
+    <nav class="nav nav-pills flex-column">
+        @foreach (DocumentationVM doc in Model) {
+            <a class="nav-link" href="#section-@indexFonctionnalite">@doc.Titre</a>
+            indexSection = 0;
+            <nav class="nav nav-pills flex-column">
+                @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
+                    <a class="nav-link ms-3 my-1" href="#section-@indexFonctionnalite-@indexSection">@sectionDoc.Titre</a>
+                    indexSection++;
+                }
+            </nav>
+            indexFonctionnalite++;
+        }
+    </nav>
+</nav>
+
+<div data-bs-spy="scroll" data-bs-target="#navbar-documentation" data-bs-offset="0" tabindex="0">
+    @{
+        indexFonctionnalite = 0;
+    }
+    @foreach (DocumentationVM doc in Model) {
+        <div class="shadow" id="section-@indexFonctionnalite">
+            <h2>@doc.Titre</h2>
+            <p>@doc.Description</p>
+        </div>
+        indexSection = 0;
+        @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
+            <div class="shadow" id="section-@indexFonctionnalite-@indexSection">
+                <h4>@sectionDoc.Titre</h4>
+                <p>@sectionDoc.Description</p>
+            </div>
+            indexSection++;
+        }
+
+        indexFonctionnalite++;
+    }
+</div>
