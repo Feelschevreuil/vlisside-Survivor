@@ -126,16 +126,10 @@ namespace vlissides_bibliotheque.Controllers
                     EmailConfirmed = true
                 };
 
-                // Obj pour HASHER un mot de passe
-                PasswordHasher<Etudiant> passwordHasher = new();
-
-                // création
-                var result = await _userManagerEtudiant.CreateAsync(etudiant, passwordHasher.HashPassword(null, "Jaimelaprog1!"));
+                var result = await _userManagerEtudiant.CreateAsync(etudiant, "Jaimelaprog1!");
 
                 if (result.Succeeded)
                 {
-
-                    // ajouter rôle
                     await _userManagerEtudiant.AddToRoleAsync(etudiant, "Etudiant");
                     vm.EtudiantId = etudiant.Id;
                     vm.NomProgrammeEtude = _context.ProgrammesEtudes.Find(vm.ProgrammeEtudeId).Nom;
@@ -885,14 +879,14 @@ namespace vlissides_bibliotheque.Controllers
                     Etudiant = etudiant,
                     AdresseLivraison = vm.AdresseLivraison,
                     DateFacturation = vm.DateFacturation,
-                    Statut = (StatusFacture)vm.ValeurEnumStatut,
+                    Statut = (StatutFactureEnum)vm.ValeurEnumStatut,
                     Tps = (decimal)Taxes.TPS,
                     Tvq = (decimal)Taxes.TVQ
                 };
                 _context.FacturesEtudiants.Add(facture);
                 _context.SaveChanges();
                 vm.FactureEtudiantId = facture.FactureEtudiantId;
-                vm.NomStatut = Enum.GetName(typeof(StatusFacture), vm.Statut);
+                vm.NomStatut = Enum.GetName(typeof(StatutFactureEnum), vm.Statut);
                 vm.formaterDateFacturation = vm.DateFacturation.ToString("dd MMMM yyyy");
                 return Json(vm);
 
@@ -954,12 +948,12 @@ namespace vlissides_bibliotheque.Controllers
                 facture.Etudiant = etudiant;
                 facture.AdresseLivraison = vm.AdresseLivraison;
                 facture.DateFacturation = vm.DateFacturation;
-                facture.Statut = (StatusFacture)vm.ValeurEnumStatut;
+                facture.Statut = (StatutFactureEnum)vm.ValeurEnumStatut;
 
                 _context.FacturesEtudiants.Update(facture);
                 _context.SaveChanges();
                 vm.FactureEtudiantId = facture.FactureEtudiantId;
-                vm.NomStatut = Enum.GetName(typeof(StatusFacture), vm.ValeurEnumStatut);
+                vm.NomStatut = Enum.GetName(typeof(StatutFactureEnum), vm.ValeurEnumStatut);
                 vm.formaterDateFacturation = vm.DateFacturation.ToString("dd MMMM yyyy");
                 return Json(vm);
 

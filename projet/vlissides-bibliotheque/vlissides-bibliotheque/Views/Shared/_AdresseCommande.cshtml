@@ -1,0 +1,45 @@
+@model AchatInformationsLivraisonVM
+
+@{
+    if(Model.AdresseModifiee)
+    {
+
+        <div class="alert alert-success" role="alert">
+            Adresse modifiée avec <b>succès</b>!
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="mb-3 col-6">
+        <label class="form-label" asp-for="AdresseLivraison.NumeroCivique"></label>
+        <input class="form-control" asp-for="AdresseLivraison.NumeroCivique">
+        <span asp-validation-for="AdresseLivraison.NumeroCivique" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 col-6">
+        <label class="form-label" asp-for="AdresseLivraison.App"></label>
+        <input class="form-control" asp-for="AdresseLivraison.App">
+        <span asp-validation-for="AdresseLivraison.App" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="mb-3 col-4">
+        <label class="form-label" asp-for="AdresseLivraison.CodePostal"></label>
+        <input class="form-control" asp-for="AdresseLivraison.CodePostal">
+        <span asp-validation-for="AdresseLivraison.CodePostal" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 col-8">
+        <label class="form-label" asp-for="AdresseLivraison.Ville"></label>
+        <input class="form-control" asp-for="AdresseLivraison.Ville">
+        <span asp-validation-for="AdresseLivraison.Ville" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 col-12">
+        <label class="form-label" asp-for="AdresseLivraison.Rue"></label>
+        <input class="form-control" asp-for="AdresseLivraison.Rue">
+        <span asp-validation-for="AdresseLivraison.Rue" class="text-danger"></span>
+    </div>
+</div>

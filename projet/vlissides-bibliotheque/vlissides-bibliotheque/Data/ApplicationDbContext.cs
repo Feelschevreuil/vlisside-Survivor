@@ -176,6 +176,11 @@ namespace vlissides_bibliotheque.Data
 				.HasOne(m => m.LivreBibliotheque)
 				.WithMany()
 				.OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<FactureEtudiant>()
+				.HasOne(m => m.AdresseLivraison)
+				.WithMany()
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

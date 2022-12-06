@@ -1,5 +1,6 @@
-﻿using vlissides_bibliotheque.Enums;
+using vlissides_bibliotheque.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 
 namespace vlissides_bibliotheque.Models
@@ -21,8 +22,11 @@ namespace vlissides_bibliotheque.Models
         [Required]
         public string EtudiantId { get; set; }
         public Etudiant Etudiant { get; set; }
+
+        [Required]
         [DisplayName("Adresse de livraison")]
-        public string? AdresseLivraison { get; set; }
+        public int AdresseLivraisonId { get; set; }
+        public Adresse AdresseLivraison { get; set; }
 
         [Required]
         [DisplayName("Date de facturation")]
@@ -33,6 +37,6 @@ namespace vlissides_bibliotheque.Models
         public decimal Tvq { get; set; }
 
         [Required]
-        public StatusFacture Statut { get; set; }
+        public StatutFactureEnum Statut { get; set; }
     }
 }

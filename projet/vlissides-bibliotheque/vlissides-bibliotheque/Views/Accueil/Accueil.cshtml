@@ -16,27 +16,33 @@
 </div>
 
 <div class="navbar">
-
-    <h3 class="p-2 flex-grow-1">Actualités</h3>
-    <a class="btn btn-outline-primary border-0" asp-area="" asp-controller="Evenement" asp-action="Evenements">
-        Voir toutes les actualités
-        <img class="tableau" src="~/img/tableau.svg" />
-    </a>
-
+    <h3 class="p-2 flex-grow-1">Événements</h3>
     </div>
 
 @if (User.Identity.IsAuthenticated)
 {
-    <div class="container-fluid">
+    <div class="navbar">
+        <h3 class="p-2 flex-grow-1">Événements</h3>
+        <a class="btn btn-outline-primary border-0" asp-area="" asp-controller="Evenement" asp-action="Evenements">
+            Voir toutes les événements
+            <img class="tableau" src="~/img/tableau.svg" />
+        </a>
 
+    </div>
+
+    <div class="container-fluid">
         <div class="row">
             @foreach (var card in Model.evenements)
             {
-                <div class="col-auto col-md-3 col-sm-3">
-                        <partial name="_TuileActualiterPartial" model="card"></partial>
-                </div>
+                <partial name="_TuileEvenementPartial" model="card"></partial>
             }
         </div>
+    </div>
+}
+else
+{
+    <div class="ms-2">
+        <p>Connectez-vous pour voir les événements</p>
     </div>
 }
 

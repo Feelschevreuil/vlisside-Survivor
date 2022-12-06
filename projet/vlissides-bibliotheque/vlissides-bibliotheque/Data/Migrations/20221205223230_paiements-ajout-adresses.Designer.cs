@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using vlissides_bibliotheque.Data;
 
@@ -11,9 +12,10 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221205223230_paiements-ajout-adresses")]
+    partial class paiementsajoutadresses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -262,8 +264,8 @@ namespace vlissides_bibliotheque.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdresseId"), 1L, 1);
 
-                    b.Property<string>("App")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("App")
+                        .HasColumnType("int");
 
                     b.Property<string>("CodePostal")
                         .IsRequired()
@@ -842,9 +844,9 @@ namespace vlissides_bibliotheque.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
                             NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA9XptPjnTXqm390tIf/tCcR+fmIWc9Dw6IFmaxPk04Ag6YyoACj82njChYaz+oVAw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENAUureAglN1KyCbispHtBvi7I2QwLw3A74mOpzqG3dc7UbH4BnmbYgKYSjCkxJ1Yw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a6f3d6cb-c508-4c15-a825-80e9cad8dba7",
+                            SecurityStamp = "07e44151-5f93-48a5-a778-cdefe28c1000",
                             TwoFactorEnabled = false,
                             UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
                             Nom = "John",
@@ -860,9 +862,6 @@ namespace vlissides_bibliotheque.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("AnneeParcours")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumeroEtudiant")
                         .HasColumnType("int");
 
                     b.Property<int>("ProgrammeEtudeId")

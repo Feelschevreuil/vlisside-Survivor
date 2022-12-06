@@ -66,9 +66,9 @@ namespace vlissides_bibliotheque
         public static List<SelectListItem> ListDropDownStatutCommande()
         {
             List<SelectListItem> Liste = new List<SelectListItem>();
-            List<StatusFacture> listEnum = Enum.GetValues(typeof(StatusFacture)).Cast<StatusFacture>().ToList();
+            List<StatutFactureEnum> listEnum = Enum.GetValues(typeof(StatutFactureEnum)).Cast<StatutFactureEnum>().ToList();
 
-            for (int e = 0; e < Enum.GetNames(typeof(StatusFacture)).Length; e++)
+            for (int e = 0; e < Enum.GetNames(typeof(StatutFactureEnum)).Length; e++)
             {
                 string valeurAffichage = listEnum[e].ToString().ToLower();
                 valeurAffichage = char.ToUpper(valeurAffichage[0]) + valeurAffichage.Substring(1);
