@@ -177,10 +177,17 @@ function checkout() {
                     "Content-Type": "application/json",
                     //"X-CSRF-TOKEN": csrfToken
                 },
-            }).then(response => response.text())
-            .then((data) => {
+            }).then(async response => {
 
-                window.location = host + "Achat/" + "?id=" + data;
+                if(response.ok) {
+
+                    window.location = host + "Achat/" + "?id=" + await response.text();
+                }
+                else {
+
+                    Alert("Une erreur est survenue!");
+                }
+
             });
         }
         else {
