@@ -101,11 +101,11 @@ namespace vlissides_bibliotheque.Controllers
                 }
                 else
                 {
-                    return Content("1");
+                    return BadRequest();
                 }
             }
 
-            return StatusCode(401);
+            return BadRequest();
         }
 
         // POST: /achat/creer
@@ -200,7 +200,7 @@ namespace vlissides_bibliotheque.Controllers
                 }
             }
 
-            return StatusCode(401);
+            return BadRequest();
         }
 
         [HttpPost]
