@@ -450,7 +450,9 @@ namespace vlissides_bibliotheque.Controllers
             };
 
             List<CoursLivre> ListCoursRelier = _context.CoursLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreSupprimer.LivreId);
+            List<AuteurLivre> ListAuteursRelier = _context.AuteursLivres.ToList().FindAll(x => x.LivreBibliothequeId == livreSupprimer.LivreId);
             _context.CoursLivres.RemoveRange(ListCoursRelier);
+            _context.AuteursLivres.RemoveRange(ListAuteursRelier);
             _context.LivresBibliotheque.Remove(livreSupprimer);
             _context.SaveChanges();
 
