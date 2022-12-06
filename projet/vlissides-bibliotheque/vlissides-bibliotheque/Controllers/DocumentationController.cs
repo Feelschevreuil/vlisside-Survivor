@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -12,6 +13,8 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de documentation pour un utilisateur.
         /// </summary>
         /// <returns>Page de documentation.</returns>
+        [AllowAnonymous]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
