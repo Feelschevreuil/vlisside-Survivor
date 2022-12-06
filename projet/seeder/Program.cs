@@ -146,6 +146,21 @@ namespace seeder
             SetLivresEtudiants();
 
             SetEvaluations();
+
+            CreerProfesseurs();
+
+            CreerProgrammeEtude();
+
+            CoursEnTourisme();
+
+            CoursEnScienceNature();
+
+            CoursEnEducationSpecialisee();
+
+            CoursEnGenieMecanique();
+
+            LesEvenements();
+
         }
 
         /// <summary>
@@ -1374,7 +1389,8 @@ namespace seeder
                 CoursId = 0,
                 ProgrammeEtudeId = programmeEtudeTourisme,
                 Nom = "Communication et supervision",
-                Code = "414323CA"
+                Code = "414323CA",
+                
             };
             listCours.Add(cours4);
 
@@ -1395,6 +1411,8 @@ namespace seeder
                 Code = "601102MQ"
             };
             listCours.Add(cours6);
+
+            listCours = DonnerDefautCours(listCours);
 
             _context.Cours.AddRange(listCours);
             _context.SaveChanges();
@@ -1459,6 +1477,7 @@ namespace seeder
                 Code = "601102MQ"
             };
             listCours.Add(cours5);
+            listCours = DonnerDefautCours(listCours);
 
             _context.Cours.AddRange(listCours);
             _context.SaveChanges();
@@ -1487,6 +1506,7 @@ namespace seeder
                 Code = "351124CA"
             };
             listCours.Add(cours1);
+            listCours = DonnerDefautCours(listCours);
 
             _context.Cours.AddRange(listCours);
             _context.SaveChanges();
@@ -1569,6 +1589,7 @@ namespace seeder
                 Code = "241225CA"
             };
             listCours.Add(cours7);
+            listCours = DonnerDefautCours(listCours);
 
             _context.Cours.AddRange(listCours);
             _context.SaveChanges();
@@ -1632,6 +1653,18 @@ namespace seeder
             _context.Evenements.AddRange(listEvenements);
             _context.SaveChanges();
             return true;
+        }
+
+        public static List<Cours> DonnerDefautCours(List<Cours> listCours)
+        {
+            List<Cours> list = new();
+            foreach (Cours coursCourrant in listCours)
+            {
+                coursCourrant.Description = "";
+                coursCourrant.AnneeParcours = 1;
+                list.Add(coursCourrant);
+            }
+            return list;
         }
 
     }
