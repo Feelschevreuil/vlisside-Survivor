@@ -67,6 +67,17 @@ function CoursGestionErreur(data) {
     return data
 }
 
+function possedeDesLettres(nombre) {
+
+
+    if (isNaN(parseFloat(nombre)) || nombre == "") {
+        return nombre = 0;
+    }
+    else {
+        return parseFloat(nombre.replace(",", "."));
+    }
+}
+
 //-----------------------------------------------------
 function assignerCoursEtudiant() {
 
@@ -260,13 +271,3 @@ function creerCoursLivre() {
     });
 }
 
-function possedeDesLettres(nombre) {
-
-
-    if (isNaN(parseFloat(nombre)) || nombre == "") {
-        return nombre = 0;
-    }
-    else {
-        return parseFloat(nombre.replace(",", "."));
-    }
-}
