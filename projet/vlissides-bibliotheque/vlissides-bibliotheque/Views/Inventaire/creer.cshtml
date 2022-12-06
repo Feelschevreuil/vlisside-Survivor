@@ -125,7 +125,7 @@
                                     {
                                         <div class="row ms-2 mt-2">
                                             <input class="col-2 mt-1 checkBoxCours" id="@auteurs.Auteur.AuteurId" type="checkbox" name="Auteurs" value="@auteurs.Auteur.AuteurId" checked="@auteurs.Cocher" />
-                                            <label class="col-8 text-break" for="@auteurs.Auteur.Nom">@auteurs.Auteur.Nom</label>
+                                            <label class="col-8 text-break" for="@auteurs.Auteur.Nom">@auteurs.Auteur.GetNomComplet()</label>
                                         </div>
                                     }
                                 </div>
