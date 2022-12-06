@@ -1,6 +1,7 @@
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace vlissides_bibliotheque.DAO
 {
@@ -35,6 +36,10 @@ namespace vlissides_bibliotheque.DAO
                     (
                         factureEtudiant => 
                             factureEtudiant.FactureEtudiantId == id
+                    )
+                    .Include
+                    (
+                        factureEtudiant => factureEtudiant.AdresseLivraison
                     )
                     .FirstOrDefault();
 
