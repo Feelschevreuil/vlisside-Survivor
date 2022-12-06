@@ -1,6 +1,6 @@
 ﻿namespace vlissides_bibliotheque.ViewModels
 {
-    public class CsvLivre
+    public class CsvLivreVM
     {
         public string Titre { get; set; }
         public string Auteur { get; set; }
