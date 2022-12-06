@@ -422,8 +422,8 @@ namespace vlissides_bibliotheque.Controllers
 
                 _context.LivresBibliotheque.Update(LivreBibliothèqueModifier);
                 _context.SaveChanges();
-               
-                
+
+
                 GestionPrix.UpdateLesPrix(LivreBibliothèqueModifier, form, _context);
                 form.DateFormater = form.DatePublication.ToString("dd MMMM yyyy");
                 return Json(form);
@@ -1042,21 +1042,21 @@ namespace vlissides_bibliotheque.Controllers
             string ville = "";
             string nomDeRue = "";
             int provinceIdParDefaut = _context.Provinces.FirstOrDefault().ProvinceId;
-            List <ProgrammeEtude> programmes = _context.ProgrammesEtudes.ToList();
+            List<ProgrammeEtude> programmes = _context.ProgrammesEtudes.ToList();
             List<Etudiant> etudiants = new();
 
             foreach (CsvEtudiantVM vm in list)
-            {  
-                string app= "";
+            {
+                string app = "";
                 ProgrammeEtude programmeEtude = programmes.Find(x => x.Nom.ToLower() == vm.ProgrammeEtude.ToLower());
                 List<string> contenuAdresse = vm.Adresse.Split(" ").ToList();
                 numeroCivique = contenuAdresse[0];
                 contenuAdresse.RemoveAt(0);
                 ville = contenuAdresse[contenuAdresse.Count() - 1];
                 contenuAdresse.RemoveAt(contenuAdresse.Count() - 1);
-                 
-                
-                if (contenuAdresse[contenuAdresse.Count()-1].Contains("#"))
+
+
+                if (contenuAdresse[contenuAdresse.Count() - 1].Contains("#"))
                 {
                     app = contenuAdresse[contenuAdresse.Count() - 1];
                     contenuAdresse.RemoveAt(contenuAdresse.Count() - 1);
@@ -1096,9 +1096,185 @@ namespace vlissides_bibliotheque.Controllers
                     NumeroEtudiant = Convert.ToInt32(vm.Matricule)
                 };
                 etudiants.Add(etudiant);
-            
+
             }
             return etudiants;
+        }
+
+        public async Task<IActionResult> csvToListLivre()
+        {
+            string path = Path.Combine(_hostingEnvironment.WebRootPath, "csv", "livres-ajouter.csv");
+            string[] readText = System.IO.File.ReadAllLines(path);
+            List<CsvLivreVM> csvEnVm = readText
+               .Skip(1)
+               .Where(l => l.Length > 1)
+               .CsvEnLivreVm()
+               .ToList();
+            InventaireLivreBibliothequeVM csvEnlivre = GetLivreFromCSV(csvEnVm);
+
+            return View("SuccesLivreCsv", csvEnlivre);
+        }
+
+        public InventaireLivreBibliothequeVM GetLivreFromCSV(List<CsvLivreVM> list)
+        {
+            List<LivreBibliotheque> livreBibliotheques = new();
+            foreach (CsvLivreVM vm in list)
+            {
+                MaisonEdition maison = new()
+                {
+                    MaisonEditionId = 0,
+                    Nom = vm.Edition
+                };
+                _context.MaisonsEdition.Add(maison);
+                _context.SaveChanges();
+
+
+                LivreBibliotheque livre = new()
+                {
+                    LivreId = 0,
+                    MaisonEditionId = maison.MaisonEditionId,
+                    Titre = vm.Titre,
+                    Isbn = vm.ISBN,
+                    DatePublication = DateTime.Now,
+                    Resume = "À venir",
+                    PhotoCouverture = "",
+                    MaisonEdition = maison
+                };
+                _context.LivresBibliotheque.Add(livre);
+                _context.SaveChanges();
+
+                if (vm.Auteur.Contains("&"))
+                {
+                    List<string> deuxAuteurs = vm.Auteur.Trim().Split(" ").ToList();
+                    Auteur auteur1 = new()
+                    {
+                        AuteurId = 0,
+                        Prenom = "",
+                        Nom = deuxAuteurs[0]
+                    };
+                    Auteur auteur2 = new()
+                    {
+                        AuteurId = 0,
+                        Prenom = "",
+                        Nom = deuxAuteurs[2]
+                    };
+                    _context.Auteurs.Add(auteur1);
+                    _context.Auteurs.Add(auteur2);
+                    _context.SaveChanges();
+
+                    AuteurLivre auteurLivre = new()
+                    {
+                        AuteurId = auteur1.AuteurId,
+                        LivreBibliothequeId = livre.LivreId
+                    };
+                    AuteurLivre auteurLivre2 = new()
+                    {
+                        AuteurId = auteur2.AuteurId,
+                        LivreBibliothequeId = livre.LivreId
+                    };
+                    _context.AuteursLivres.Add(auteurLivre);
+                    _context.AuteursLivres.Add(auteurLivre2);
+                    _context.SaveChanges();
+
+                }
+                else if (vm.Auteur.Contains(" "))
+                {
+                    List<string> NomAuteurs = vm.Auteur.Split(" ").ToList();
+
+                    Auteur auteur = new()
+                    {
+                        AuteurId = 0,
+                        Prenom = NomAuteurs[0],
+                        Nom = string.Join(" ", NomAuteurs)
+                    };
+                    _context.Auteurs.Add(auteur); 
+                    _context.SaveChanges();
+
+                    AuteurLivre auteurLivre = new()
+                    {
+                        AuteurId = auteur.AuteurId,
+                        LivreBibliothequeId = livre.LivreId
+                    };
+                    _context.AuteursLivres.Add(auteurLivre);
+                    _context.SaveChanges();
+                }
+
+                PrixEtatLivre prixNeuf = new()
+                {
+                    PrixEtatLivreId = 0,
+                    LivreBibliothequeId = livre.LivreId,
+                    Prix = AffichagePrix.GetPrixEnDouble(vm.Prix_Neuf),
+                    EtatLivre = EtatLivreEnum.NEUF,
+                };
+                PrixEtatLivre prixNumerique = new()
+                {
+                    PrixEtatLivreId = 0,
+                    LivreBibliothequeId = livre.LivreId,
+                    Prix = AffichagePrix.GetPrixEnDouble(vm.Prix_Numerique),
+                    EtatLivre = EtatLivreEnum.NUMERIQUE,
+                };
+                PrixEtatLivre prixUsage = new()
+                {
+                    PrixEtatLivreId = 0,
+                    LivreBibliothequeId = livre.LivreId,
+                    Prix = AffichagePrix.GetPrixEnDouble(vm.Prix_Usage),
+                    EtatLivre = EtatLivreEnum.USAGE,
+                };
+                _context.PrixEtatsLivres.Add(prixNeuf);
+                _context.PrixEtatsLivres.Add(prixNumerique);
+                _context.PrixEtatsLivres.Add(prixUsage);
+                _context.SaveChanges();
+
+                livreBibliotheques.Add(livre);
+            }
+
+
+
+            List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
+            List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
+                .Include(x => x.MaisonEdition)
+                .OrderByDescending(i => i.DatePublication)
+                .ToList();
+            List<CoursLivre> bdCoursLivre = _context.CoursLivres
+               .Include(x => x.Cours)
+               .Include(x => x.LivreBibliotheque)
+               .Include(x => x.Cours.ProgrammeEtude)
+               .ToList();
+            List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
+                .Include(x => x.Auteur)
+                .Include(x => x.LivreBibliotheque)
+                .ToList();
+            List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
+                .ToList();
+
+            foreach (LivreBibliotheque livre in livreBibliotheques)
+            {
+                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre, bdPrixLivre, bdAuteurLivres);
+                inventaireBibliotheque.Add(livreConvertie);
+            };
+
+            InventaireLivreBibliothequeVM inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
+
+            for (int i = 0; i < inventaireLivreBibliotheque.tuileLivreBiblioteques.Count; i++)
+            {
+                List<AuteurLivre> auteursLivresTrouve = bdAuteurLivres.FindAll(e => e.LivreBibliothequeId == inventaireLivreBibliotheque.tuileLivreBiblioteques[i].livreBibliotheque.LivreId);
+
+                if (auteursLivresTrouve != null)
+                {
+                    if (bdAuteurLivres.Count > 0)
+                    {
+                        List<Auteur> auteurs = new List<Auteur>();
+                        foreach (AuteurLivre auteurLivre in auteursLivresTrouve)
+                        {
+                            auteurs.Add(auteurLivre.Auteur);
+                        }
+                        inventaireLivreBibliotheque.tuileLivreBiblioteques[i].auteurs = auteurs;
+                    }
+                }
+
+            }
+
+            return inventaireLivreBibliotheque;
         }
 
     }
