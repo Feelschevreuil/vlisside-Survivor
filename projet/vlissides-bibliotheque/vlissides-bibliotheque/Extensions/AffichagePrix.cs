@@ -12,6 +12,13 @@ namespace vlissides_bibliotheque
 {
     public static class AffichagePrix
     {
+        public static double GetPrixEnDouble (string prix)
+        {
+            prix = prix.Replace(".", ",");
+            double prixEnDouble = Convert.ToDouble(prix);
+            return prixEnDouble;
+        }
+
         public static string GetPrixNeufEnDecimal( TuileLivreBibliotequeVM Model)
         {
             double prixInitial = 0;
