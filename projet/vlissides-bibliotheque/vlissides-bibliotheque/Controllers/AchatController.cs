@@ -366,7 +366,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [Authorize(Roles = RolesName.Etudiant)]
         [HttpPost]
-        public IActionResult ModifierAdresse(AchatInformationsLivraisonDTO achatInformationsLivraisonDTO)
+        public IActionResult ModifierAdresse([FromBody] AchatInformationsLivraisonDTO achatInformationsLivraisonDTO)
         {
 
             if(ModelState.IsValid)
@@ -385,6 +385,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 if
                 (
+                    factureEtudiant != null &&
                     factureEtudiant.Etudiant == etudiant &&
                     factureEtudiant.Statut == StatutFactureEnum.ATTENTE_PAIEMENT
                 )
@@ -392,15 +393,19 @@ namespace vlissides_bibliotheque.Controllers
 
                     FactureEtudiantService factureEtudiantService;
                     AchatInformationsLivraisonVM achatInformationsLivraisonVM;
+                    Adresse adresseInformationsModifications;
                     Adresse adresseModifiee;
 
                     factureEtudiantService = new(_context);
 
+                    adresseInformationsModifications = AdresseService
+                        .GetFromInformationsLivraison(achatInformationsLivraisonDTO);
+
                     adresseModifiee = factureEtudiantService
                         .ModifierAdresse
                         (
-                            factureEtudiant, 
-                            achatInformationsLivraisonDTO.AdresseLivraison
+                            factureEtudiant,
+                            adresseInformationsModifications
                         );
 
                     if(adresseModifiee != null)
@@ -409,7 +414,11 @@ namespace vlissides_bibliotheque.Controllers
                         achatInformationsLivraisonVM = new()
                         {
                             AdresseModifiee = true,
-                            AdresseLivraison = adresseModifiee
+                            Ville = adresseModifiee.Ville,
+                            NumeroCivique = adresseModifiee.NumeroCivique,
+                            App = adresseModifiee.App,
+                            Rue = adresseModifiee.Rue,
+                            CodePostal = adresseModifiee.CodePostal
                         };
                     }
                     else
@@ -417,12 +426,15 @@ namespace vlissides_bibliotheque.Controllers
 
                         achatInformationsLivraisonVM = new()
                         {
-                            AdresseModifiee = false,
-                            AdresseLivraison = factureEtudiant.AdresseLivraison
+                            Ville = achatInformationsLivraisonDTO.Ville,
+                            NumeroCivique = achatInformationsLivraisonDTO.NumeroCivique,
+                            App = achatInformationsLivraisonDTO.App,
+                            Rue = achatInformationsLivraisonDTO.Rue,
+                            CodePostal = achatInformationsLivraisonDTO.CodePostal
                         };
                     }
 
-                    return View("_AdresseCommande", achatInformationsLivraisonVM);
+                    return PartialView("_AdresseCommande", achatInformationsLivraisonVM);
                 }
 
                 return Unauthorized();
@@ -434,10 +446,14 @@ namespace vlissides_bibliotheque.Controllers
 
                 achatInformationsLivraisonVM = new()
                 {
-                    AdresseLivraison = achatInformationsLivraisonDTO.AdresseLivraison
+                    Ville = achatInformationsLivraisonDTO.Ville,
+                    NumeroCivique = achatInformationsLivraisonDTO.NumeroCivique,
+                    App = achatInformationsLivraisonDTO.App,
+                    Rue = achatInformationsLivraisonDTO.Rue,
+                    CodePostal = achatInformationsLivraisonDTO.CodePostal
                 };
 
-                return View("_AdresseCommande", achatInformationsLivraisonVM);
+                return PartialView("_AdresseCommande", achatInformationsLivraisonVM);
             }
 
             return BadRequest();

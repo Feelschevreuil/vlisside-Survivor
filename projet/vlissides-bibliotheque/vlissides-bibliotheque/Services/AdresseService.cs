@@ -1,4 +1,6 @@
+using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.DTO;
 
 namespace vlissides_bibliotheque.Services
 {
@@ -36,6 +38,11 @@ namespace vlissides_bibliotheque.Services
                 return true;
             }
             else if(adresseDeReference.NumeroCivique != adresseModifiee.NumeroCivique)
+            {
+
+                return true;
+            }
+            else if(adresseDeReference.App != adresseModifiee.App)
             {
 
                 return true;
@@ -108,6 +115,11 @@ namespace vlissides_bibliotheque.Services
 
                 adresseAMettreAJour.NumeroCivique = adresseModifiee.NumeroCivique;
             }
+            else if(adresseAMettreAJour.App != adresseModifiee.App)
+            {
+
+                adresseAMettreAJour.App = adresseModifiee.App;
+            }
             else if
             (
                 !string
@@ -143,6 +155,33 @@ namespace vlissides_bibliotheque.Services
             }
 
             return adresseAMettreAJour;
+        }
+
+        /// <summary>
+        /// Mappe les données d'un modèle de vue contenant des informations d'adresse 
+        /// à un objet adresse.
+        /// </summary>
+        /// <param name="achatInformationsLivraisonVM">
+        /// Modèle de vue contenant les informations de l'adresse.
+        /// </param>
+        /// <returns>L'adresse avec les informatoins de la vue partielle.</returns>
+        public static Adresse GetFromInformationsLivraison
+        (
+            AchatInformationsLivraisonDTO achatInformationsLivraisonDTO)
+        {
+
+            Adresse adresse;
+
+            adresse = new()
+            {
+                Ville = achatInformationsLivraisonDTO.Ville,
+                NumeroCivique = achatInformationsLivraisonDTO.NumeroCivique,
+                App = achatInformationsLivraisonDTO.App,
+                Rue = achatInformationsLivraisonDTO.Rue,
+                CodePostal = achatInformationsLivraisonDTO.CodePostal
+            };
+
+            return adresse;
         }
     }
 }

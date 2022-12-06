@@ -72,7 +72,9 @@
                                 
                                     <p>Veuillez noter que nous ne livrons qu'au Québec uniquement et que les délais de livraisons sont de <strong>48 heures</strong> suite au paiement de la commande.</p>
 
-                                    @Html.Partial("_AdresseCommande", @Model.AchatInformationsLivraison)
+                                    <div id="conteneurAdresse">
+                                        @Html.Partial("_AdresseCommande", @Model.AchatInformationsLivraison)
+                                    </div>
 
                                     <p class="mb-0">En continuant à payer la commande, vous confirmez que vous avez entré une adresse de livraison <strong>valide</strong>.</p>
 
@@ -87,32 +89,31 @@
                                             var toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option))
                                        */
 
+                                            let conteneurAdresse = document.querySelector("#conteneurAdresse");
                                             var factureEtudiantId = window.location.search.split("=")[1];
-                                            var ville = document.querySelector('#AdresseLivraison_Ville').value;
-                                            var numeroCivique = document.querySelector('#AdresseLivraison_NumeroCivique').value;
-                                            var app = document.querySelector('#AdresseLivraison_App').value;
-                                            var rue = document.querySelector('#AdresseLivraison_Rue').value;
-                                            var codePostal = document.querySelector('#AdresseLivraison_CodePostal').value;
+                                            var ville = document.querySelector('#Ville').value;
+                                            var numeroCivique = document.querySelector('#NumeroCivique').value;
+                                            var app = document.querySelector('#App').value;
+                                            var rue = document.querySelector('#Rue').value;
+                                            var codePostal = document.querySelector('#CodePostal').value;
 
                                             var adresse = {
                                                 FactureEtudiantId : factureEtudiantId,
-                                                AdresseLivraison : {
-                                                    Ville : ville,
-                                                    NumeroCivique : numeroCivique,
-                                                    App : app,
-                                                    Rue : rue,
-                                                    CodePostal : codePostal
-                                                }
+                                                Ville : ville,
+                                                NumeroCivique : numeroCivique,
+                                                App : app,
+                                                Rue : rue,
+                                                CodePostal : codePostal
                                             };
 
                                             fetch(host + "Achat/ModifierAdresse/", {
                                                 method: 'Post',
-                                                body: adresse,
+                                                body: JSON.stringify(adresse),
                                                 contentType: "application/json; charset=utf-8",
                                                 headers: {
                                                     "Content-Type": "application/json"
                                                 }
-                                            }).then(response => {
+                                            }).then(async response => {
 
                                                 var toastLiveExample = document.querySelector('#liveToast');
                                                 var toast = new bootstrap.Toast(toastLiveExample)
@@ -127,6 +128,8 @@
                                                     toastBody.innerHTML = "Adresse non modifiée";
                                                 }
 
+                                                conteneurAdresse.innerHTML = await response.text();
+
                                                 toast.show()
                                             });
                                         }
@@ -137,7 +140,7 @@
                                 else if(Model.StatutFacture == StatutFactureEnum.TRANSIT || Model.StatutFacture == StatutFactureEnum.LIVREE)
                                 {
                                     <p class="mb-0"><strong>Votre commande @(Model.StatutFacture == StatutFactureEnum.TRANSIT ? "sera" : "a été") livrée au</strong></p>
-                                    <p class="mb-0">@Model.AchatInformationsLivraison.AdresseLivraison.NumeroCivique @Model.AchatInformationsLivraison.AdresseLivraison.App @Model.AchatInformationsLivraison.AdresseLivraison.Rue<br>@Model.AchatInformationsLivraison.AdresseLivraison.Ville QC @Model.AchatInformationsLivraison.AdresseLivraison.CodePostal</p>
+                                    <p class="mb-0">@Model.AchatInformationsLivraison.NumeroCivique @Model.AchatInformationsLivraison.App @Model.AchatInformationsLivraison.Rue<br>@Model.AchatInformationsLivraison.Ville QC @Model.AchatInformationsLivraison.CodePostal</p>
                                 }
                                 else
                                 {
