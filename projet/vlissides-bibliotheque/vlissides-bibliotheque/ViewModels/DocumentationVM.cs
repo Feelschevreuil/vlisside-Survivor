@@ -8,6 +8,7 @@
     {
         public string Titre { get; set; }
         public string Description { get; set; }
+        public string Url { get; set; }
         public List<SectionDocumentationVM> Sections { get; set; }
     }
 }
