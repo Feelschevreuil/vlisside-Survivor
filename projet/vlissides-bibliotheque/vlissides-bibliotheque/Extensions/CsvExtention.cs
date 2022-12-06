@@ -6,7 +6,7 @@ namespace vlissides_bibliotheque.Extentions
 {
     public static class CsvExtention
     {
-        public static IEnumerable<CsvEtudiantVM> CsvEnVm(this IEnumerable<string> source)
+        public static IEnumerable<CsvEtudiantVM> CsvEnEtudiantVm(this IEnumerable<string> source)
         {
             foreach (var line in source)
             {
@@ -23,7 +23,24 @@ namespace vlissides_bibliotheque.Extentions
                 };
             }
         }
+        public static IEnumerable<CsvLivre> CsvEnLivreVm(this IEnumerable<string> source)
+        {
+            foreach (var line in source)
+            {
+                var columns = line.Split(',');
+                yield return new CsvLivre
+                {
+                    Titre = columns[0],
+                    Auteur = columns[1],
+                    Edition= columns[2],
+                    ISBN = columns[3],
+                    Pages= columns[4],
+                    Prix_Neuf= columns[5],
+                    Prix_Numerique= columns[6],
+                    Prix_Usage= columns[7],
+                };
+            }
+        }
 
-        
     }
 }

@@ -1014,7 +1014,7 @@ namespace vlissides_bibliotheque.Controllers
             List<CsvEtudiantVM> csvEnVm = csvSansCharaSpecial
                .Skip(1)
                .Where(l => l.Length > 1)
-               .CsvEnVm()
+               .CsvEnEtudiantVm()
                .ToList();
             List<Etudiant> csvEnEtudiants = GetEtudiantsFromCSV(csvEnVm);
             List<Etudiant> etudiantsBD = _context.Etudiants.ToList();
