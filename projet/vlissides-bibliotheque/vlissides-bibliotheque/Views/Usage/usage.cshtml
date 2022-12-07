@@ -1,15 +1,11 @@
 ﻿@model InventaireLaBlunVM
 
-<h1>Inventaire de la boutique étudiante</h1>
+<h1 id="titreEtu">Inventaire de la boutique étudiante</h1>
 
 <div class="container-fluid">
 
-    <div class="row">
-        @foreach (var card in Model.inventaireLivreEtudiantVMs)
-        {
-            <div class="col-12 col-sm-3 col-md-3">
-                <partial name="_TuileLivreEtudiantPartial" model="card"></partial>
-            </div>
-        }
+    <div class="row" id="conteneurEtu">
+        <partial name="_ConteneurAffichageLivresRechercheEtuPartial" model="Model"></partial>
     </div>
 </div>
+<script src="~/js/recherche.js"></script>

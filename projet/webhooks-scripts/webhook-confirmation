@@ -1,0 +1,3 @@
+#!/bin/sh
+ip_adress_port="$(cat ip-port)"
+stripe listen --events=payment_intent.succeeded --forward-to https://"$ip_adress_port"/Achat/Confirmer --skip-verify

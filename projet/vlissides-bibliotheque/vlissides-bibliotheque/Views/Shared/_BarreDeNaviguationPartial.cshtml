@@ -1,16 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<Utilisateur> UserManager
-@*@model List<vlissides_bibliotheque.Models.>  TODO: Rajouter le model "programme d'étude" come model de cette vue*@
-@*Données test*@
-@{
-
-    var ListProgramme = new List<string>();
-    ListProgramme.Add("A");
-    ListProgramme.Add("B");
-    ListProgramme.Add("C");
-
-    SelectList sl = new SelectList(ListProgramme);
-}
 
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow bg-middle">
@@ -67,20 +56,17 @@
     <div class="container-fluid">
         <div class="row w-100 m-none m-auto">
             <div class="col-md-4 p-0 text-end">
-                <select id="livreLink" name="MovieType" class="btn btn-outline-primary text-light border-0 d-inline-flex">
-                    <option selected="selected" value="1">Bibliothèque</option>
-                    <option value="2">Blun</option>
+                <select name="MovieType" class="btn btn-outline-primary text-light border-0 d-inline-flex">
+                    <option selected="selected" value="1" class="RechercheBiblio">Bibliothèque</option>
+                    <option value="2" class="RechercheBiblio">Boutique étudiante</option>
                 </select>
 
-                <select class="btn btn-outline-primary text-light border-0" asp-items="@sl" id="livreLink">
-                    <option value="">Programme d'études</option>
-                </select>
             </div>
 
             <div class="col-md-4">
                 <div class="input-group m-none">
-                    <input name="searchString" type="text" class="form-control bg-light border-light" placeholder="Chercher un livre">
-                    <button class="input-group-text btn btn-light border-light" type="submit">
+                    <input name="searchString" type="text" class="form-control bg-light border-light" placeholder="Chercher un livre" id="inputRecherche">
+                    <button class="input-group-text btn btn-light border-light" type="submit" onclick="changerPage(0)">
                         <img src="~/img/loupe-de-recherche.svg">
                     </button>
                 </div>

@@ -1,7 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using vlissides_bibliotheque.Enums;
-using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.Validation;
+using System.ComponentModel;
 
 namespace vlissides_bibliotheque.ViewModels
 {
@@ -16,6 +14,27 @@ namespace vlissides_bibliotheque.ViewModels
         public bool AdresseModifiee = false;
 
         [Required]
-        public Adresse AdresseLivraison { get; set; }
+        [StringLength(64)]
+        [DisplayName("Nom de ville")]
+        public string Ville { get; set; }
+
+
+        [Required]
+        [DisplayName("Numéro civique")]
+        public int NumeroCivique { get; set; }
+
+
+        [DisplayName("Numéro d'appartement")]
+        public string? App { get; set; }
+
+        [Required]
+        [StringLength(64)]
+        [DisplayName("Nom de rue")]
+        public string Rue { get; set; }
+
+        [Required]
+        [StringLength(6)]
+        [DisplayName("Code postal")]
+        public string CodePostal { get; set; }
     }
 }

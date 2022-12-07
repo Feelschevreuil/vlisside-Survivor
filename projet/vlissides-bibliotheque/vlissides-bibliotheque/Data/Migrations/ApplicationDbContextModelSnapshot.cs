@@ -766,6 +766,9 @@ namespace vlissides_bibliotheque.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NumeroProfesseur")
+                        .HasColumnType("int");
+
                     b.Property<string>("Prenom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -837,16 +840,16 @@ namespace vlissides_bibliotheque.Migrations
                             Id = "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d67bb86f-d158-4f17-8142-49f7c65c082c",
-                            Email = "admin@cegep-connaissance-aleatoire.qc.ca",
+                            Email = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA9XptPjnTXqm390tIf/tCcR+fmIWc9Dw6IFmaxPk04Ag6YyoACj82njChYaz+oVAw==",
+                            NormalizedEmail = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.QC.CA",
+                            NormalizedUserName = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.QC.CA",
+                            PasswordHash = "AQAAAAEAACcQAAAAENK03rTy5x2Em5cW2CItxByjaGaP4TK8yv8OzSPXaN09s5axZiKR/IPKMNF9vcaxiw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a6f3d6cb-c508-4c15-a825-80e9cad8dba7",
+                            SecurityStamp = "363e9e18-e74e-4454-9ebd-bdf1ef2b4b65",
                             TwoFactorEnabled = false,
-                            UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
+                            UserName = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca",
                             Nom = "John",
                             Prenom = "Gordon"
                         });

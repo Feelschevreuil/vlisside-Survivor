@@ -17,6 +17,22 @@ namespace vlissides_bibliotheque.DTO
         public int FactureEtudiantId { get; set; }
 
         [Required]
-        public Adresse AdresseLivraison { get; set; }
+        [StringLength(64)]
+        public string Ville { get; set; }
+
+
+        [Required]
+        public int NumeroCivique { get; set; }
+
+        public string? App { get; set; }
+
+        [Required]
+        [StringLength(64)]
+        public string Rue { get; set; }
+
+        [Required]
+        [StringLength(6)]
+        public string CodePostal { get; set; }
+
     }
 }

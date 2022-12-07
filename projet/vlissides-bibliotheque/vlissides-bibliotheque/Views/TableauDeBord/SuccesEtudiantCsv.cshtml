@@ -1,0 +1,17 @@
+﻿@model List<Etudiant>
+
+
+<h1>Les étudiants suivant ont été ajouter</h1>
+@if (Model.Count() > 0)
+{
+    <div>
+        @foreach (Etudiant etudiant in Model)
+        {
+            <p>@etudiant.Prenom @etudiant.Nom</p>
+        }
+    </div>
+}
+else
+{
+    <h1>Aucun étudiant à été ajouté</h1>
+}
