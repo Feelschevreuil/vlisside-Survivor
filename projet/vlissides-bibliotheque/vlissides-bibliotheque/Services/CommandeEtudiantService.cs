@@ -318,6 +318,58 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
+        /// Calcule le total de <c>ICommande</c>.
+        /// </summary>
+        /// <param name="commandes"><c>ICollection</c> de <c>ICommande</c></param>
+        /// <returns></returns>
+        public static double GetTotalCommandes
+        (
+            ICollection<Commande> commandes
+        )
+        {
+
+            double total;
+
+            total = 0.0;
+
+            foreach(Commande commande in commandes)
+            {
+
+                total += commande.Prix * commande.Quantite;
+            }
+
+            return total;
+        }
+
+        /// <summary>
+        /// Compte le total de livres d'une liste d'<c>ICommande</c>.
+        /// </summary>
+        /// <param name="commandesEtudiant">
+        /// Les <c>CommandeEtudiant</c> appartenant à la <c>FactureEtudiant</c>
+        /// </param>
+        /// <returns>
+        /// Le nombre de total de livres d'une commande.
+        /// </returns>
+        public static int GetNombreLivres
+        (
+            ICollection<Commande> commandes
+        )
+        {
+
+            int nombreLivres;
+
+            nombreLivres = 0;
+
+            foreach(Commande commande in commandes)
+            {
+
+                nombreLivres += commande.Quantite;
+            }
+
+            return nombreLivres;
+        }
+
+        /// <summary>
         /// Annule les commandes appartenant à une facture.
         /// </summary>
         /// <param name="factureEtudiant">
