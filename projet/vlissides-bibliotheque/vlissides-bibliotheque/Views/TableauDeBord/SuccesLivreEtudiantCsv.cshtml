@@ -1,13 +1,14 @@
-﻿@model List<LivreBibliotheque>
+﻿@model List<LivreEtudiant>
 
 
 <div class="container-fluid">
     <div class="row">
         @if (Model.Count() > 0 && Model != null)
         {
-            <h1>Les livres suivants ont été ajouter</h1>
+            <h1>Les livres suivants ont été associer à un étudiant</h1>
             @foreach (var livre in Model)
             {
+                <p><strong>@livre.Etudiant.Nom</strong></p>
                 <p>@livre.Titre</p>
             }
         }
