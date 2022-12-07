@@ -4,11 +4,10 @@
 {
     @foreach (var card in Model)
     {
-        <div class="col-4 col-md-4 col-sm-12">
-            <partial name="_TuileLivrePartial" model="card"></partial>
-        </div>
+        <partial name="_TuileLivrePartial" model="card"></partial>
     }
 }else{
     <p>Aucun livre n'a été trouvé</p>
 }
 <partial name="_PaginationPartial"></partial>
+<script src="~/js/PrixAjax.js"></script>

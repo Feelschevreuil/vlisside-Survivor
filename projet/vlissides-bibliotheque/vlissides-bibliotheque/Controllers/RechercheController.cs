@@ -59,8 +59,8 @@ namespace vlissides_bibliotheque.Controllers
                     {
                         livresEtudiants = _context.LivresEtudiants
                             .Include(x => x.Etudiant)
-                            .Skip(15 * rechercheSimple.numPage)
-                            .Take(15)
+                            .Skip(12 * rechercheSimple.numPage)
+                            .Take(12)
                             .ToList();
                     }
                     else
@@ -68,8 +68,8 @@ namespace vlissides_bibliotheque.Controllers
                         livresEtudiants = _context.LivresEtudiants
                                 .Include(x => x.Etudiant)
                                 .Where(x => x.Titre == rechercheSimple.texteRecherche)
-                                .Skip(15 * rechercheSimple.numPage)
-                                .Take(15)
+                                .Skip(12 * rechercheSimple.numPage)
+                                .Take(12)
                                 .ToList();
                     }
 
@@ -119,7 +119,7 @@ namespace vlissides_bibliotheque.Controllers
                 List<LivreEtudiant> livresEtudiants = _context.LivresEtudiants
                         .Include(x => x.Etudiant)
                         .Where(x => x.Titre == rechercheSimple.texteRecherche)
-                        .Take(15)
+                        .Take(12)
                         .ToList();
 
 

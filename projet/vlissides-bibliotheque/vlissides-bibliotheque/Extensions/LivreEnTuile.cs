@@ -16,39 +16,32 @@ namespace vlissides_bibliotheque
                 .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
             bdPrixLivre = bdPrixLivre
                 .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
-             CoursLivre coursLivreAssocier = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+            CoursLivre coursLivreAssocier = bdCoursLivre.Find(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
 
             TuileLivreBibliotequeVM tuileVM = new()
             {
                 livreBibliotheque = livreBibliotheque
             };
 
-            try
+            if (coursLivreAssocier != null)
             {
-                if (coursLivreAssocier != null)
-                {
-                    tuileVM.coursLivre = coursLivreAssocier;
-                    
-                }
-                if (bdPrixLivre != null)
-                {
-                    tuileVM.prixEtatLivre = bdPrixLivre;
-                }
-
-                if (tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "")
-                {
-                    tuileVM.livreBibliotheque.PhotoCouverture = GetImageParDefaut();
-                }
-                if(auteurLivres.Count() > 0 && auteurLivres != null)
-                {
-                    tuileVM.auteurLivre = auteurLivres;
-                }
+                tuileVM.coursLivre = coursLivreAssocier;
 
             }
-            catch (Exception e)
+            if (bdPrixLivre != null)
             {
-                Console.WriteLine("{0} Error", e);
+                tuileVM.prixEtatLivre = bdPrixLivre;
             }
+
+            if (tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "")
+            {
+                tuileVM.livreBibliotheque.PhotoCouverture = GetImageParDefaut();
+            }
+            if (auteurLivres.Count() > 0 && auteurLivres != null)
+            {
+                tuileVM.auteurLivre = auteurLivres;
+            }
+
 
             return tuileVM;
         }
@@ -58,9 +51,9 @@ namespace vlissides_bibliotheque
         {
             List<TuileLivreBibliotequeVM> listTuileLivreBibliotequeVMs = new();
             List<CoursLivre> listQuatreLivre = _context.CoursLivres
-                .Include(x=>x.LivreBibliotheque)
-                .Include(x=>x.Cours)
-                .Include(x=>x.LivreBibliotheque.MaisonEdition)
+                .Include(x => x.LivreBibliotheque)
+                .Include(x => x.Cours)
+                .Include(x => x.LivreBibliotheque.MaisonEdition)
                 .Take(4)
                 .ToList();
             List<CoursLivre> bdCoursLivre = _context.CoursLivres
@@ -77,7 +70,7 @@ namespace vlissides_bibliotheque
 
             foreach (CoursLivre CoursLivre in listQuatreLivre)
             {
-                var livreConvertie = CoursLivre.LivreBibliotheque.GetTuileLivreBibliotequeVMs(bdCoursLivre,bdPrixLivre,bdAuteurLivres);
+                var livreConvertie = CoursLivre.LivreBibliotheque.GetTuileLivreBibliotequeVMs(bdCoursLivre, bdPrixLivre, bdAuteurLivres);
                 listTuileLivreBibliotequeVMs.Add(livreConvertie);
             };
 
