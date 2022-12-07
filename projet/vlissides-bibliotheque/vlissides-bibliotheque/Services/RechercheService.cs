@@ -19,9 +19,8 @@ namespace vlissides_bibliotheque.Services
 
             foreach (LivreBibliotheque livre in livres)
             {
-                prixEtatLivre.FindAll(x => x.LivreBibliothequeId == livre.LivreId);
-                coursLivres.FindAll(element => element.LivreBibliothequeId == livre.LivreId);
-                livreBibliotheques.Add(new TuileLivreBibliotequeVM { livreBibliotheque = new LivreBibliotheque { DatePublication = livre.DatePublication, LivreId = livre.LivreId, MaisonEdition = livre.MaisonEdition, PhotoCouverture = livre.PhotoCouverture, Titre = livre.Titre }, prixEtatLivre = prixEtatLivre, coursLivre = coursLivres[0] });
+                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(coursLivres, prixEtatLivre, auteursLivres);
+                livreBibliotheques.Add(livreConvertie);
             }
             livreBibliotheques = TuileLivreBibliothequeVMService.TrouverAuteursLivres(auteursLivres, livreBibliotheques);
 
