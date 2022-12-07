@@ -13,7 +13,7 @@
 
     PrixEtatLivre prixParDéfaut = AffichagePrix.GetPremierPrix(Model);
 
-    if (Model.livreBibliotheque.PhotoCouverture == "N/A")
+    if (Model.livreBibliotheque.PhotoCouverture == "")
     {
         Model.livreBibliotheque.PhotoCouverture = LivreEnTuile.GetImageParDefaut();
     }
