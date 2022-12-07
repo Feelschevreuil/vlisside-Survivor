@@ -1118,14 +1118,13 @@ namespace vlissides_bibliotheque.Controllers
         public List<LivreBibliotheque> CreerLivreFromCSV(List<CsvLivreVM> list)
         {
             List<LivreBibliotheque> livreBibliotheques = new();
-            List<LivreBibliotheque> livreBibliothequesBD = _context.LivresBibliotheque
-                .Include(x => x.MaisonEdition)
-                .ToList();
-
+            IEnumerable<LivreBibliotheque> livreBibliothequesBD = _context.LivresBibliotheque
+                .Include(x => x.MaisonEdition);
+                
 
             foreach (CsvLivreVM vm in list)
             {
-                if (livreBibliothequesBD.Find(x => x.Isbn == vm.ISBN) == null)
+                if (livreBibliothequesBD.Where(x => x.Isbn.Trim() == vm.ISBN.Trim()).FirstOrDefault() == null)
                 {
                     MaisonEdition maison = new()
                     {
