@@ -14,7 +14,7 @@ namespace vlissides_bibliotheque.Controllers
         /// Retourne la page de documentation pour un utilisateur.
         /// </summary>
         /// <returns>Page de documentation.</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IActionResult Index()
         {

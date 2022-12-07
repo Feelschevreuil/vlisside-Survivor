@@ -6,6 +6,7 @@
     /// </summary>
     public class DocumentationVM
     {
+        public bool IsAdminReserved { get; set; } = false;
         public string Titre { get; set; }
         public string Description { get; set; }
         public string Url { get; set; }
