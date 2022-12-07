@@ -472,7 +472,7 @@ namespace seeder
         .With(livre => livre.Isbn = 666 + Faker.Identification.UkNhsNumber())
         .With(livre => livre.Titre = string.Join(" ", Faker.Lorem.Words(3)))
         .With(livre => livre.Resume = Faker.Lorem.Sentence())
-        .With(livre => livre.PhotoCouverture = "N/A")
+        .With(livre => livre.PhotoCouverture = "")
         .With(livre => livre.DatePublication = Faker.Identification.DateOfBirth())
         .With(livre => livre.MaisonEditionId = _context.MaisonsEdition.First().MaisonEditionId)
         .Build();
@@ -757,7 +757,7 @@ namespace seeder
                     Description = Faker.Lorem.Paragraph(Faker.RandomNumber.Next(2, 5)),
                     Debut = DateTime.Now.AddDays(Faker.RandomNumber.Next(-10, 5)),
                     Fin = DateTime.Now.AddDays(Faker.RandomNumber.Next(6, 15)),
-                    Image = "N/A",
+                    Image = "",
                 };
 
                 evenements.Add(evenement);
