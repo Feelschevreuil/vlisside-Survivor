@@ -25,12 +25,22 @@ namespace vlissides_bibliotheque.Controllers
                     Url = "/",
                     Sections = new() {
                         new SectionDocumentationVM() {
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
+                            Description = "Un étudiant ou toute autre personne ne faisant pas partie du Collège de la connaissance aléatoire ne peut malheureusment pas se créer un compte."
+                        },
+                        new SectionDocumentationVM() {
                             Titre = "Recommandations",
-                            Description = "Cette section offre un mince aperçu des livres disponibles en fonction de l'utilisateur connecté et des informations récoltés à son sujet selon ses activités sur la plateforme."
+                            Description = "Cette section offre un mince aperçu des livres disponibles en fonction de l'utilisateur connecté et des informations récoltés à son sujet selon ses activités sur la plateforme.",
+                            LienImage = "/img/doc/accueil-recommandations.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Événements",
-                            Description = "Cette section montre sommairement les événements disponibles, soient des activités, des commanditaires ou encore des compétitions peuvent s'y retrouver."
+                            Description = "Cette section montre sommairement les événements disponibles : des activités, des commanditaires ou encore des compétitions peuvent s'y retrouver.",
+                            LienImage = "/img/doc/accueil-evenements.png"
                         }
                     }
                 },
@@ -39,7 +49,14 @@ namespace vlissides_bibliotheque.Controllers
                     Description = "Permet à un utilisateur déjà inscrit de se connecter à son compte.",
                     Url = "/Connexion",
                     Sections = new() {
-
+                        new SectionDocumentationVM() {
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
+                            Description = "Un étudiant ou toute autre personne ne faisant pas partie du Collège de la connaissance aléatoire ne peut malheureusment pas se créer un compte."
+                        },
                     }
                 },
                 new DocumentationVM() {
@@ -48,7 +65,11 @@ namespace vlissides_bibliotheque.Controllers
                     Url = "/Connexion/Inscription",
                     Sections = new() {
                         new SectionDocumentationVM() {
-                            Titre = "Accès restreint",
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
                             Description = "Un étudiant ou toute autre personne ne faisant pas partie du Collège de la connaissance aléatoire ne peut malheureusment pas se créer un compte."
                         },
                         new SectionDocumentationVM() {
@@ -75,6 +96,14 @@ namespace vlissides_bibliotheque.Controllers
                     Url = "/GestionProfil",
                     Sections = new() {
                         new SectionDocumentationVM() {
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
+                            Description = ""
+                        },
+                        new SectionDocumentationVM() {
                             Titre = "Identification",
                             Description = ""
                         },
@@ -93,6 +122,14 @@ namespace vlissides_bibliotheque.Controllers
                     Description = "",
                     Url = "/Inventaire/Bibliotheque",
                     Sections = new() {
+                        new SectionDocumentationVM() {
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
+                            Description = ""
+                        },
                         new SectionDocumentationVM() {
                             Titre = "Format",
                             Description = "Les livres sont offerts sous 3 formats différents au maximum, soient usagé, neuf ou numérique. Il est possible qu'un livre ne présente pas tous les formats selon les disponibilités en inventaire."
@@ -114,6 +151,14 @@ namespace vlissides_bibliotheque.Controllers
                     Url = "/Usage/Usage",
                     Sections = new() {
                         new SectionDocumentationVM() {
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
+                            Description = ""
+                        },
+                        new SectionDocumentationVM() {
                             Titre = "Achat",
                             Description = "L'achat des livres des boutiques étudiantes ne dépend pas du système de la plateforme. Ainsi, la responsabilité revient aux étudiants de spécifier les modalités pour les moyens de transaction."
                         }
@@ -124,15 +169,29 @@ namespace vlissides_bibliotheque.Controllers
                     Description = "Contient tous les livres désirés par l'utilisateur afin de lui permettre de les acheter.",
                     Url = "/Achat",
                     Sections = new() {
-
+                        new SectionDocumentationVM() {
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
+                            Description = ""
+                        },
                     }
                 },
                 new DocumentationVM() {
                     Titre = "Événements",
                     Description = "Présente des actualités, des activités, des commanditaires ou encore des compétitions.",
-                    Url = "/Evenement/Evenements",
+                    Url = "/Evenement/Index",
                     Sections = new() {
-
+                        new SectionDocumentationVM() {
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
+                            Description = ""
+                        },
                     }
                 },
                 new DocumentationVM() {
@@ -140,6 +199,14 @@ namespace vlissides_bibliotheque.Controllers
                     Description = "Permet de chercher des livres de manière plus spécifique.",
                     Url = "/",
                     Sections = new() {
+                        new SectionDocumentationVM() {
+                            Titre = "Vue d'ensemble",
+                            LienImage = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Comment y accéder ?",
+                            Description = ""
+                        },
                         new SectionDocumentationVM() {
                             Titre = "Recherche simple",
                             Description = ""
