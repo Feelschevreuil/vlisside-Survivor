@@ -25,7 +25,7 @@ namespace vlissides_bibliotheque.ViewModels
 
 
         [DisplayName("Numéro d'appartement")]
-        public int App { get; set; }
+        public string? App { get; set; }
 
         [Required]
         [StringLength(64)]

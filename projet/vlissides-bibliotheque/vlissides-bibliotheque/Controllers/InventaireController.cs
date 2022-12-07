@@ -12,6 +12,7 @@ using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Enums;
+using vlissides_bibliotheque.Services;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -58,26 +59,12 @@ namespace vlissides_bibliotheque.Controllers
                 inventaireBibliotheque.Add(livreConvertie);
             };
 
-            InventaireLivreBibliothequeVM inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
+            InventaireLivreBibliothequeVM inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque.GetRange(0, 15) };
 
-            for (int i = 0; i < inventaireLivreBibliotheque.tuileLivreBiblioteques.Count; i++)
-            {
-                List<AuteurLivre> auteursLivresTrouve = bdAuteurLivres.FindAll(e => e.LivreBibliothequeId == inventaireLivreBibliotheque.tuileLivreBiblioteques[i].livreBibliotheque.LivreId);
+            List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
+            inventaireLivreBibliotheque= TuileLivreBibliothequeVMService.TrouverAuteursLivres(auteursLivres, inventaireLivreBibliotheque);
 
-                if (auteursLivresTrouve != null)
-                {
-                    if (bdAuteurLivres.Count > 0)
-                    {
-                        List<Auteur> auteurs = new List<Auteur>();
-                        foreach (AuteurLivre auteurLivre in auteursLivresTrouve)
-                        {
-                            auteurs.Add(auteurLivre.Auteur);
-                        }
-                        inventaireLivreBibliotheque.tuileLivreBiblioteques[i].auteurs = auteurs;
-                    }
-                }
-
-            }
+            
             return View(inventaireLivreBibliotheque);
         }
 

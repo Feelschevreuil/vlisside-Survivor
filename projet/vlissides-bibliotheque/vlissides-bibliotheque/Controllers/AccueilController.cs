@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Exercice_Ajax.DTO;
 using Newtonsoft.Json;
+using vlissides_bibliotheque.Services;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -36,25 +37,8 @@ namespace vlissides_bibliotheque.Controllers
             RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = LivreEnTuile.GetQuatreLivresVM(_context), evenements = GetEvenement.GetEvenements(listEvenements) };
 
             List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
-            for (int i = 0; i < recommendationPromotions.tuileLivreBibliotequeVMs.Count; i++)
-            {
-                List<AuteurLivre> auteursLivresTrouve = auteursLivres.FindAll(e => e.LivreBibliothequeId == recommendationPromotions.tuileLivreBibliotequeVMs[i].livreBibliotheque.LivreId);
-
-                if (auteursLivresTrouve != null)
-                {
-                    if (auteursLivres.Count > 0)
-                    {
-                        List<Auteur> auteurs = new List<Auteur>();
-                        foreach (AuteurLivre auteurLivre in auteursLivresTrouve)
-                        {
-                            auteurs.Add(auteurLivre.Auteur);
-                        }
-                        recommendationPromotions.tuileLivreBibliotequeVMs[i].auteurs = auteurs;
-                    }
-                }
-
-            }
-
+            recommendationPromotions = TuileLivreBibliothequeVMService.TrouverAuteursLivres(auteursLivres, recommendationPromotions);
+            
             return View(recommendationPromotions);
         }
 
