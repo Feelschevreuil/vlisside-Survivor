@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
@@ -12,8 +13,8 @@ namespace vlissides_bibliotheque.ViewModels
         public string EtudiantId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        //[RegularExpression(@"^[\w-\.]+@(cegep-connaissance-aleatoire\.qc\.ca)",
-        //    ErrorMessage = "Le courriel doit correspondre au format : 123456@cegep-connaissance-aleatoire.qc.ca")]
+        [RegularExpression(@"^[\w-\.]+@(CollegeConnaissanceAleatoire\.qc\.ca)",
+            ErrorMessage = "Le courriel doit correspondre au format : 123456@CollegeConnaissanceAleatoire.qc.ca")]
         public string Courriel { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]

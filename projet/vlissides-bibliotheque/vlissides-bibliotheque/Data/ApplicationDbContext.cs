@@ -126,7 +126,7 @@ namespace vlissides_bibliotheque.Data
 				Nom = "John",
 				Prenom = "Gordon",
 				ConcurrencyStamp = USER_ADMIN_CONCURRENCYSTAMP,
-				PasswordHash = passwordHasher.HashPassword(null, "Jaimelaprog1!")
+				PasswordHash = passwordHasher.HashPassword(null, "Aleatoire1!")
 			});
 
 			// Lier utilisateur et rôle

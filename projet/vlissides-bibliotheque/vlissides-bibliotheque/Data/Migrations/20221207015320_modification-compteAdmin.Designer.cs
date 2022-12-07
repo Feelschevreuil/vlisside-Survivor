@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using vlissides_bibliotheque.Data;
 
@@ -11,9 +12,10 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207015320_modification-compteAdmin")]
+    partial class modificationcompteAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -840,16 +842,16 @@ namespace vlissides_bibliotheque.Migrations
                             Id = "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d67bb86f-d158-4f17-8142-49f7c65c082c",
-                            Email = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca",
+                            Email = "AdminAleatoire@collegeConnaissanceAleatoire.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.QC.CA",
-                            NormalizedUserName = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAENK03rTy5x2Em5cW2CItxByjaGaP4TK8yv8OzSPXaN09s5axZiKR/IPKMNF9vcaxiw==",
+                            NormalizedEmail = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.COM",
+                            NormalizedUserName = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEkWo6ikjRAnHTmKs1ZpS0nyE2bp3IjnF+ekmaFpcAV3qaHXhV3nAnS2zYcrSeUdfw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "363e9e18-e74e-4454-9ebd-bdf1ef2b4b65",
+                            SecurityStamp = "438052f4-d34b-4cdc-ae36-6bd13d6dc8b6",
                             TwoFactorEnabled = false,
-                            UserName = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca",
+                            UserName = "AdminAleatoire@collegeConnaissanceAleatoire.com",
                             Nom = "John",
                             Prenom = "Gordon"
                         });

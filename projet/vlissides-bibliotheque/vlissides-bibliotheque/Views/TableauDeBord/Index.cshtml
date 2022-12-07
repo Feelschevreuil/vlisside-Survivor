@@ -2,19 +2,33 @@
 @{
     ViewData["Title"] = "Tableau de bord";
 }
+<div class="row">
+    <div class="d-flex accordion-header">
+        <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
+            <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+        </a>
+        <h2 class="p-3">Tableau de bord</h2>
 
-<div class="d-flex accordion-header">
-    <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
-        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
-    </a>
-    <h2 class="p-3">Tableau de bord</h2>
+    </div>
 
+    <div class ="col-2">
+        <a asp-controller="TableauDeBord" asp-action="csvToListEtudiant">
+            <p class="btn bg-middle text-white">Créer étudiant du csv</p>
+        </a>
+    </div>
+    <div class="col-2">
+        <a asp-controller="TableauDeBord" asp-action="csvToListLivre">
+            <p class="btn bg-middle text-white">Créer livre du csv</p>
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a asp-controller="TableauDeBord" asp-action="AssocierLivreEtudiantCSV">
+            <p class="btn bg-middle text-white">Créer livreÉtudiant du document</p>
+        </a>
+    </div>
 </div>
-<div>
-    <a asp-controller ="TableauDeBord" asp-action="csvToListEtudiant">
-    <p class="btn bg-middle text-white">Ajouter les étudiants du csv liste-etudiant</p>
-    </a>
-</div>
+
 <div class="dropdown float-end d-flex col">
     <div class="bg-middle text-white nav-link" data-bs-toggle="dropdown" aria-expanded="false">
         Tableau de bord

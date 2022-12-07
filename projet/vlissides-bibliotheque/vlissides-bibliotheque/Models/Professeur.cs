@@ -11,6 +11,9 @@ namespace vlissides_bibliotheque.Models
         public int ProfesseurId { get; set; }
 
         [Required]
+        public int NumeroProfesseur { get; set; }
+
+        [Required]
         public string Nom { get; set; }
 
         [Required]
