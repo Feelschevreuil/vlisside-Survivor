@@ -1,16 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<Utilisateur> UserManager
-@*@model List<vlissides_bibliotheque.Models.>  TODO: Rajouter le model "programme d'étude" come model de cette vue*@
-@*Données test*@
-@{
-
-    var ListProgramme = new List<string>();
-    ListProgramme.Add("A");
-    ListProgramme.Add("B");
-    ListProgramme.Add("C");
-
-    SelectList sl = new SelectList(ListProgramme);
-}
 
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow bg-middle">
@@ -72,9 +61,6 @@
                     <option value="2" class="RechercheBiblio">Boutique étudiante</option>
                 </select>
 
-                <select class="btn btn-outline-primary text-light border-0" asp-items="@sl" id="livreLink">
-                    <option value="">Programme d'études</option>
-                </select>
             </div>
 
             <div class="col-md-4">
