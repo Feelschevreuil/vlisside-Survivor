@@ -12,7 +12,7 @@
         <nav id="documentation" class="h-100 flex-column align-items-stretch pe-4 border-end">
             <nav class="nav nav-pills flex-column">
                 @foreach (DocumentationVM doc in Model) {
-                    <a class="nav-link" href="#section-@indexFonctionnalite">@doc.Titre</a>
+                    <a class="nav-link fw-bold" href="#section-@indexFonctionnalite">@doc.Titre</a>
 
                     <nav class="nav nav-pills flex-column">
                         @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
@@ -41,10 +41,10 @@
                 @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
                     <div class="shadow rounded mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
                         <h4 class="text-primary">@sectionDoc.Titre</h4>
-                        @if(sectionDoc.LienImage != null) {
-                            <img src="@sectionDoc.LienImage" width="100px">
-                        }
                         <p>@sectionDoc.Description</p>
+                        @if (sectionDoc.LienImage != null) {
+                            <img src="@sectionDoc.LienImage" class="w-100 rounded">
+                        }
                     </div>
                     indexSection++;
                 }
