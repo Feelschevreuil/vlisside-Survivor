@@ -1040,7 +1040,7 @@ namespace seeder
                 Titre = string.Join(" ", Faker.Lorem.Words(3)),
                 Auteur = Faker.Name.First() + " " + Faker.Name.Last(),
                 Resume = Faker.Lorem.Paragraph(),
-                PhotoCouverture = "N/A",
+                PhotoCouverture = "",
                 DatePublication = Faker.Identification.DateOfBirth().AddDays(Faker.RandomNumber.Next(-3000, 0)),
                 MaisonEdition = Faker.Company.Name(),
                 Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
