@@ -10,9 +10,20 @@ function getCards() {
         pVide.innerHTML = 'Votre panier est vide!'
         var tryStorage = true
         var tryEmpty = true
+        var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+        var fetchEnLocal = "/../Panier/GetLivres";
+        var fetchSurServeur = numeroEtudiant + "Panier/GetLivres";
+        var stringFetch = "";
+        var url = location.host;
         var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
         var data = localStorage.getItem('itemsPanier');
 
+        if (url.match("localhost") == null) {
+            stringFetch = fetchSurServeur;
+        } else {
+            stringFetch = fetchEnLocal;
+        }
+        ;
         try {
             typeof (Storage) !== undefined
         }
@@ -31,7 +42,7 @@ function getCards() {
         if (tryStorage) {
             if (tryEmpty) {
 
-                fetch(host + "Panier/GetLivres", {
+                fetch(stringFetch, {
                     method: 'Post',
                     body: data,
                     contentType: "application/json; charset=utf-8",
@@ -71,7 +82,7 @@ function updatePrix() {
     var tousQuantite = document.querySelectorAll('[id^="Quantite"]');
     var prixTotal = 0.00;
     for (var e = 0; e < tousPrix.length; e++) {
-        prixCourant = GetDecimal(tousPrix[e].innerHTML.replace("&nbsp;","").replace("$","").replace(".",""))/100;
+        prixCourant = GetDecimal(tousPrix[e].innerHTML.replace("&nbsp;", "").replace("$", "").replace(".", "")) / 100;
         prixTotal = (prixTotal + prixCourant * tousQuantite[e].value);
     }
     //parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
@@ -128,6 +139,17 @@ function initQuantitePanier() {
 function checkout() {
     var data = localStorage.getItem('itemsPanier');
 
+    var stringFetch = "";
+    var url = location.host;
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
+    var fetchEnLocal = "/Achat/Creer";
+    var fetchSurServeur = numeroEtudiant + fetchEnLocal;
+    if (url.match("localhost") == null) {
+        stringFetch = fetchSurServeur;
+    } else {
+        stringFetch = fetchEnLocal;
+    }
+
     var tryStorage = true
     try {
         typeof (Storage) !== undefined
@@ -157,7 +179,7 @@ function checkout() {
                 },
             }).then(async response => {
 
-                if(response.ok) {
+                if (response.ok) {
 
                     window.location = host + "Achat/" + "?id=" + await response.text();
                 }
