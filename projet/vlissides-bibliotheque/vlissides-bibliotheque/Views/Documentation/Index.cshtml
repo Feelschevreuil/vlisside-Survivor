@@ -1,46 +1,55 @@
 ﻿@model List<DocumentationVM>
 
 @{
-    int indexFonctionnalite = 0;
-    int indexSection = 0;
+    int indexFonctionnalite = 1;
+    int indexSection = 1;
 }
 
-<nav id="navbar-documentation" class="navbar navbar-light bg-light flex-column align-items-stretch p-3">
-    <a class="navbar-brand" href="#">Documentation</a>
-    <nav class="nav nav-pills flex-column">
-        @foreach (DocumentationVM doc in Model) {
-            <a class="nav-link" href="#section-@indexFonctionnalite">@doc.Titre</a>
-            indexSection = 0;
+<h2 class="text-primary">Documentation</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <nav id="documentation" class="h-100 flex-column align-items-stretch pe-4 border-end">
             <nav class="nav nav-pills flex-column">
-                @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
-                    <a class="nav-link ms-3 my-1" href="#section-@indexFonctionnalite-@indexSection">@sectionDoc.Titre</a>
-                    indexSection++;
+                @foreach (DocumentationVM doc in Model) {
+                    <a class="nav-link" href="#section-@indexFonctionnalite">@doc.Titre</a>
+
+                    <nav class="nav nav-pills flex-column">
+                        @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
+                            <a class="nav-link ms-3 my-1" href="#section-@indexFonctionnalite-@indexSection">@sectionDoc.Titre</a>
+                            indexSection++;
+                        }
+                    </nav>
+                    indexFonctionnalite++;
                 }
             </nav>
-            indexFonctionnalite++;
-        }
-    </nav>
-</nav>
+        </nav>
+    </div>
 
-<div data-bs-spy="scroll" data-bs-target="#navbar-documentation" data-bs-offset="0" tabindex="0">
-    @{
-        indexFonctionnalite = 0;
-    }
-    @foreach (DocumentationVM doc in Model) {
-        <div class="shadow" id="section-@indexFonctionnalite">
-            <h2>@doc.Titre</h2>
-            <p>@doc.Description</p>
-            <a class="btn btn-primary" href="@doc.Url">Accéder à la page</a>
+    <div class="col-md-8">
+        <div style="height: 500px; overflow: auto; position: relative;" data-bs-spy="scroll" data-bs-target="#documentation" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+            @{
+                indexFonctionnalite = 1;
+            }
+            @foreach (DocumentationVM doc in Model) {
+                <div class="shadow rounded m-3 mb-5 p-4" id="section-@indexFonctionnalite">
+                    <h2 class="text-primary">@doc.Titre</h2>
+                    <p>@doc.Description</p>
+                    <a class="btn btn-primary" href="@doc.Url">Accéder à la page</a>
+                
+                @{ 
+                    indexSection = 1;
+                }
+                @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
+                    <div class="shadow rounded mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
+                        <h4 class="text-primary">@sectionDoc.Titre</h4>
+                        <p>@sectionDoc.Description</p>
+                    </div>
+                    indexSection++;
+                }
+                </div>
+                indexFonctionnalite++;
+            }
         </div>
-        indexSection = 0;
-        @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
-            <div class="shadow" id="section-@indexFonctionnalite-@indexSection">
-                <h4>@sectionDoc.Titre</h4>
-                <p>@sectionDoc.Description</p>
-            </div>
-            indexSection++;
-        }
-
-        indexFonctionnalite++;
-    }
+    </div>
 </div>
