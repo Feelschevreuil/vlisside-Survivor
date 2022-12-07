@@ -5,7 +5,7 @@
     var UserEmail = UserClaims[2].Value.ToString();
     var EmailEnLiensAuLivre = Model.Etudiant.Email;
 
-    if(Model.PhotoCouverture == "N/A"){
+    if(Model.PhotoCouverture == ""){
         Model.PhotoCouverture = LivreEnTuile.GetImageParDefaut();
     };
 }
