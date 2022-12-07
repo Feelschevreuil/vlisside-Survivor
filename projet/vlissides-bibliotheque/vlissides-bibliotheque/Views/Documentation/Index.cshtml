@@ -37,13 +37,21 @@
                     <h2 class="text-primary">@doc.Titre</h2>
                     <p>@doc.Description</p>
                     <a class="btn btn-primary" href="@doc.Url">Accéder à la page</a>
+                    <hr>
 
                 @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
-                    <div class="shadow rounded mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
-                        <h4 class="text-primary">@sectionDoc.Titre</h4>
-                        <p>@sectionDoc.Description</p>
-                        @if (sectionDoc.LienImage != null) {
-                            <img src="@sectionDoc.LienImage" class="w-100 rounded border">
+                    <div class="mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
+                        <h5 class="text-primary">@sectionDoc.Titre</h5>
+                        @if (sectionDoc.NB != null && sectionDoc.NB != "") {
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Noter bien :</strong> @sectionDoc.NB
+                            </div>
+                        }
+                        @if (sectionDoc.Description != null && sectionDoc.Description != "") {
+                            <p>@sectionDoc.Description</p>
+                        }
+                        @if (sectionDoc.LienImage != null && sectionDoc.LienImage != "") {
+                            <img src="/img/doc/@sectionDoc.LienImage" class="w-100 rounded border">
                         }
                     </div>
                     indexSection++;
