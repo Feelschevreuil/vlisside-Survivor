@@ -28,7 +28,7 @@ namespace vlissides_bibliotheque
                     Description = evenement.Description,
                     
                 };
-                if (evenement.Image == "N/A" || evenement.Image == null)
+                if (evenement.Image == "" || evenement.Image == null)
                 {
                     evenementVM.Image = "/img/photo-evenement.jpg";
                 }
