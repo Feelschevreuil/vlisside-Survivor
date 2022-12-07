@@ -15,11 +15,11 @@
     </div>
 </div>
 
-<h3 class="p-2 flex-grow-1">Événements</h3>
 @if (User.Identity.IsAuthenticated)
 {
     <div class="navbar">
-        <a class="btn btn-outline-primary border-0" asp-area="" asp-controller="Evenement" asp-action="Evenements">
+        <h3 class="p-2 flex-grow-1">Événements</h3>
+        <a class="btn btn-outline-primary border-0 me-0" asp-area="" asp-controller="Evenement" asp-action="Evenements">
             Voir tous les événements
             <img class="tableau" src="~/img/tableau.svg" />
         </a>
@@ -37,6 +37,7 @@
 }
 else
 {
+    <h3 class="p-2 flex-grow-1">Événements</h3>
     <div class="ms-2">
         <p>Connectez-vous pour voir les événements</p>
     </div>
