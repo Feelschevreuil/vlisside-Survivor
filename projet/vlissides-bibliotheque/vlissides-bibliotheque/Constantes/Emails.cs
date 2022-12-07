@@ -2,6 +2,6 @@
 {
     public class Emails
     {
-        public const string EMAIL_ADMIN = "AdminAleatoire@collegeConnaissanceAleatoire.com";
+        public const string EMAIL_ADMIN = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca";
     }
 }
