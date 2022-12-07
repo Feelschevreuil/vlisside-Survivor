@@ -604,5 +604,55 @@ namespace vlissides_bibliotheque.Services
 
             return null;
         }
+
+        /// <summary>
+        /// Crée les <c>FacturePartielle</c> à partir d'une liste de <c>FactureEtudiant</c>.
+        /// </summary>
+        /// <param name="facturesEtudiant">Une liste de <c>FactureEtudiant</c></param>
+        /// <returns>Une liste de <c>FacturePartielle</c></returns>
+        public List<FacturePartielle> GetFacturesPartiellesFromFactures
+        (
+            List<FactureEtudiant> facturesEtudiant
+        )
+        {
+
+            CommandesEtudiantsDAO commandesEtudiantsDAO;
+            List<FacturePartielle> facturesPartielles;
+            List<CommandeEtudiant> commandesEtudiant;
+            FacturePartielle facturePartielle;
+            double prixTotal;
+            int nombreLivres;
+
+            commandesEtudiantsDAO = new(_context);
+            facturesPartielles = new();
+
+            foreach(FactureEtudiant factureEtudiant in facturesEtudiant)
+            {
+
+                commandesEtudiant = commandesEtudiantsDAO
+                    .GetSelonPremierId(factureEtudiant.FactureEtudiantId)
+                    .ToList();
+
+                nombreLivres = CommandeEtudiantService
+                    .GetNombreLivres(commandesEtudiant);
+
+                prixTotal = CommandeEtudiantService
+                    .GetTotalCommandes(commandesEtudiant);
+
+                facturePartielle = new()
+                {
+                    FactureEtudiantId = factureEtudiant.FactureEtudiantId,
+                    NombreCommandes = nombreLivres,
+                    // TODO: merge develop to get it
+                    AdresseLivraison = factureEtudiant.AdresseLivraison.ToString(),
+                    StatutFacture = factureEtudiant.Statut,
+                    PrixTotal = prixTotal
+                };
+
+                facturesPartielles.Add(facturePartielle);
+            }
+
+            return facturesPartielles;
+        }
     }
 }
