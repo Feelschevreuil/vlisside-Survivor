@@ -7,12 +7,29 @@
     var titreEtu = document.getElementById("titreEtu");
     var texteRecherche;
     var ouRecherche;
+    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
+    var fetchEnLocal = "/../Recherche/RechercheRapide";
+    var fetchEnLocalDuneAutrePage = "/../Recherche/RechercheRapideAutrePage"
+    var fetchSurServeur = numeroEtudiant + "Recherche/RechercheRapide";
+    var fetchSurServeurDuneAutrePage = fetchEnLocalDuneAutrePage + "Recherche/RechercheRapide";
+    var stringFetch = "";
+    var stringFetchAutrePage = "";
+    var url = location.host;
+    //var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
 
     if (inputRecherche != null) {
         texteRecherche = inputRecherche.value
     }
     if (numPage == null) {
         numPage = 0;
+    }
+
+    if (url.match("localhost") == null) {
+        stringFetch = fetchSurServeur;
+        stringFetchAutrePage = fetchSurServeurDuneAutrePage;
+    } else {
+        stringFetch = fetchEnLocal;
+        stringFetchAutrePage = fetchEnLocalDuneAutrePage;
     }
 
     if (RechercheSelection == null) {
@@ -35,7 +52,7 @@
     data = JSON.stringify(data);
 
     if (conteneurBibli != null || conteneurEtu!=null) { // présentement ans la page
-        fetch(host + "Recherche/RechercheRapide", {
+        fetch(stringFetch, {
             method: 'Post',
             body: data,
             contentType: "application/json; charset=utf-8",
@@ -85,7 +102,7 @@
         });
     }
     else {
-        fetch(host + "Recherche/RechercheRapide", { // pas ans la page
+        fetch(stringFetchAutrePage, { // pas ans la page
             method: 'Post',
             body: data,
             contentType: "application/json; charset=utf-8",
