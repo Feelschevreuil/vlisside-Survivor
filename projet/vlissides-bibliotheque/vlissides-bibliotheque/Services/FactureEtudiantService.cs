@@ -143,7 +143,11 @@ namespace vlissides_bibliotheque.Services
 
             achatInformationsLivraison = new()
             {
-                AdresseLivraison = factureEtudiant.Etudiant.Adresse
+                Ville = factureEtudiant.AdresseLivraison.Ville,
+                NumeroCivique = factureEtudiant.AdresseLivraison.NumeroCivique,
+                App = factureEtudiant.AdresseLivraison.App,
+                Rue = factureEtudiant.AdresseLivraison.Rue,
+                CodePostal = factureEtudiant.AdresseLivraison.CodePostal
             };
 
             commandesPartielles = _commandeEtudiantService
@@ -593,7 +597,7 @@ namespace vlissides_bibliotheque.Services
                 AdresseDAO adresseDAO;
 
                 adresseDAO = new(_context);
-                adresseDAO.Update(factureEtudiant.AdresseLivraisonId, adresse);
+                adresseModifie = adresseDAO.Update(factureEtudiant.AdresseLivraisonId, adresse);
 
                 return factureEtudiant.AdresseLivraison;
             }

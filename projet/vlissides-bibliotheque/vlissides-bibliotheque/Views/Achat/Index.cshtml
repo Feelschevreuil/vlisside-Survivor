@@ -72,7 +72,9 @@
                                 
                                     <p>Veuillez noter que nous ne livrons qu'au Québec uniquement et que les délais de livraisons sont de <strong>48 heures</strong> suite au paiement de la commande.</p>
 
-                                    @Html.Partial("_AdresseCommande", @Model.AchatInformationsLivraison)
+                                    <div id="conteneurAdresse">
+                                        @Html.Partial("_AdresseCommande", @Model.AchatInformationsLivraison)
+                                    </div>
 
                                     <p class="mb-0">En continuant à payer la commande, vous confirmez que vous avez entré une adresse de livraison <strong>valide</strong>.</p>
 
@@ -87,32 +89,31 @@
                                             var toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option))
                                        */
 
+                                            let conteneurAdresse = document.querySelector("#conteneurAdresse");
                                             var factureEtudiantId = window.location.search.split("=")[1];
-                                            var ville = document.querySelector('#AdresseLivraison_Ville').value;
-                                            var numeroCivique = document.querySelector('#AdresseLivraison_NumeroCivique').value;
-                                            var app = document.querySelector('#AdresseLivraison_App').value;
-                                            var rue = document.querySelector('#AdresseLivraison_Rue').value;
-                                            var codePostal = document.querySelector('#AdresseLivraison_CodePostal').value;
+                                            var ville = document.querySelector('#Ville').value;
+                                            var numeroCivique = document.querySelector('#NumeroCivique').value;
+                                            var app = document.querySelector('#App').value;
+                                            var rue = document.querySelector('#Rue').value;
+                                            var codePostal = document.querySelector('#CodePostal').value;
 
                                             var adresse = {
                                                 FactureEtudiantId : factureEtudiantId,
-                                                AdresseLivraison : {
-                                                    Ville : ville,
-                                                    NumeroCivique : numeroCivique,
-                                                    App : app,
-                                                    Rue : rue,
-                                                    CodePostal : codePostal
-                                                }
+                                                Ville : ville,
+                                                NumeroCivique : numeroCivique,
+                                                App : app,
+                                                Rue : rue,
+                                                CodePostal : codePostal
                                             };
 
                                             fetch(host + "Achat/ModifierAdresse/", {
                                                 method: 'Post',
-                                                body: adresse,
+                                                body: JSON.stringify(adresse),
                                                 contentType: "application/json; charset=utf-8",
                                                 headers: {
                                                     "Content-Type": "application/json"
                                                 }
-                                            }).then(response => {
+                                            }).then(async response => {
 
                                                 var toastLiveExample = document.querySelector('#liveToast');
                                                 var toast = new bootstrap.Toast(toastLiveExample)
@@ -127,6 +128,8 @@
                                                     toastBody.innerHTML = "Adresse non modifiée";
                                                 }
 
+                                                conteneurAdresse.innerHTML = await response.text();
+
                                                 toast.show()
                                             });
                                         }
@@ -137,7 +140,7 @@
                                 else if(Model.StatutFacture == StatutFactureEnum.TRANSIT || Model.StatutFacture == StatutFactureEnum.LIVREE)
                                 {
                                     <p class="mb-0"><strong>Votre commande @(Model.StatutFacture == StatutFactureEnum.TRANSIT ? "sera" : "a été") livrée au</strong></p>
-                                    <p class="mb-0">@Model.AchatInformationsLivraison.AdresseLivraison.NumeroCivique @Model.AchatInformationsLivraison.AdresseLivraison.App @Model.AchatInformationsLivraison.AdresseLivraison.Rue<br>@Model.AchatInformationsLivraison.AdresseLivraison.Ville QC @Model.AchatInformationsLivraison.AdresseLivraison.CodePostal</p>
+                                    <p class="mb-0">@Model.AchatInformationsLivraison.NumeroCivique @Model.AchatInformationsLivraison.App @Model.AchatInformationsLivraison.Rue<br>@Model.AchatInformationsLivraison.Ville QC @Model.AchatInformationsLivraison.CodePostal</p>
                                 }
                                 else
                                 {
@@ -179,7 +182,20 @@
                                     <button onclick="annulerPaiement(@Model.FactureEtudiantId)" class="btn btn-outline-danger mt-1 col-12">Annuler</button>
                                     <script>
 
+                                        let modalPaiementChargement;
+
+                                        function chargementPaiement() {
+
+                                            modalPaiementChargement = new bootstrap.Modal('#paiementChargement', {
+                                                keyboard: false
+                                            });
+
+                                            modalPaiementChargement.show();
+                                        }
+
                                         function annulerPaiement(factureEtudiantID){
+
+                                            chargementPaiement();
 
                                             /* TODO: chercher le bon URL! */
                                             fetch(host + "Achat/Annuler?id=" + factureEtudiantID, {
@@ -187,7 +203,15 @@
                                             }).then(response => {
                                                 
                                                 if(response.ok){
-                                                    window.location.reload();
+
+                                                    modalPaiementChargement.hide();
+
+                                                    const modalPaiementAnnulation = new bootstrap.Modal('#paiementAnnulation', {
+                                                        keyboard: false
+                                                    });
+
+                                                    modalPaiementAnnulation.show();
+
                                                 } else {
                                                     alert("Une erreur est survenue!");
                                                 }
@@ -466,6 +490,8 @@
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
 
+                chargementPaiement();
+
                 const {error} = await stripe.confirmPayment({
                     //`Elements` instance that was used to create the Payment Element
                     elements,
@@ -481,7 +507,12 @@
                               // details incomplete)
                   const messageContainer = document.querySelector('#error-message');
                   messageContainer.textContent = error.message;
+
+                    modalPaiementChargement.hide();
+
                 } else {
+
+                    modalPaiementChargement.hide();
 
                     const modalPaiementConfirmation = new bootstrap.Modal('#paiementConfirmation', {
                         keyboard: false
@@ -500,6 +531,22 @@
     }
 }
 
+<div class="modal fade" id="paiementChargement" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paiementChargementLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row justify-content-md-center">
+                    <div class="spinner-border text-primary mt-2" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                    <br>
+                    <p class="mt-3 mb-0">Veuillez patienter quelques instants...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="paiementConfirmation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paiementConfirmationLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -511,6 +558,26 @@
                 <div class="row justify-content-md-center">
                     <img class="col-4 mb-3" width="24px" src="~/img/check-circle.svg" />
                     <p>Commande payée avec succès! Merci <strong>@Model.NomEtudiant</strong>!</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="rechargerPage()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="paiementAnnulation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paiementAnnulationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="paiementAnnulationLabel">Annulation de paiement</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="rechargerPage()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-md-center">
+                    <img class="col-4 mb-3" width="24px" src="~/img/not-paid.svg" />
+                    <p>Commande annulée avec succès.</p>
                 </div>
             </div>
             <div class="modal-footer">
