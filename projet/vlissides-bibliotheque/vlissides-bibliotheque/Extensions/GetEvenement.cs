@@ -30,7 +30,7 @@ namespace vlissides_bibliotheque
                 };
                 if (evenement.Image == "" || evenement.Image == null)
                 {
-                    evenementVM.Image = "/img/photo-evenement.jpg";
+                    evenementVM.Image = "~/img/photo-evenement.jpg";
                 }
 
                 listEvenementsVM.Add(evenementVM);

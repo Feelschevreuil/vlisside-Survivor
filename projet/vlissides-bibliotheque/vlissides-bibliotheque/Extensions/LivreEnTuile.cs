@@ -79,7 +79,7 @@ namespace vlissides_bibliotheque
 
         public static string GetImageParDefaut()
         {
-            return "/img/photo-livre.jpg";
+            return "~/img/photo-livre.jpg";
         }
 
     }
