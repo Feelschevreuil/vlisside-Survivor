@@ -185,7 +185,7 @@ function checkout() {
                 }
                 else {
 
-                    Alert("Une erreur est survenue!");
+                    alert("Une erreur est survenue!");
                 }
 
             });
