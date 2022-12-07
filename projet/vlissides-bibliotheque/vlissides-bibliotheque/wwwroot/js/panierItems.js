@@ -82,7 +82,7 @@ function updatePrix() {
     var tousQuantite = document.querySelectorAll('[id^="Quantite"]');
     var prixTotal = 0.00;
     for (var e = 0; e < tousPrix.length; e++) {
-        prixCourant = GetDecimal(tousPrix[e].innerHTML.replace("&nbsp;","").replace("$","").replace(".",""))/100;
+        prixCourant = GetDecimal(tousPrix[e].innerHTML.replace("&nbsp;", "").replace("$", "").replace(".", "")) / 100;
         prixTotal = (prixTotal + prixCourant * tousQuantite[e].value);
     }
     //parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
@@ -179,7 +179,7 @@ function checkout() {
                 },
             }).then(async response => {
 
-                if(response.ok) {
+                if (response.ok) {
 
                     window.location = host + "Achat/" + "?id=" + await response.text();
                 }

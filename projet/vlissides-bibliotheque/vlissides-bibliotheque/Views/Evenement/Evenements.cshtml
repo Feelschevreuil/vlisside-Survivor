@@ -9,7 +9,7 @@
 	<a asp-area="" asp-controller="Accueil" asp-action="Accueil">
 		<img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
 	</a>
-	<h1 class="p-2 flex-grow-1">Toutes les événements courants</h1>
+	<h1 class="p-2 flex-grow-1">Tous les événements courants</h1>
 
 	@if(User.IsInRole(RolesName.Admin)){
 	<a class="d-flex justify-content-end" asp-controller="Evenement" asp-action="creer">
