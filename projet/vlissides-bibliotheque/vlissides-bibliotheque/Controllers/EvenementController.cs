@@ -72,7 +72,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
             {
-                ModelState.AddModelError(string.Empty, "La date de début doit être avant ou égal la date de fin");
+                ModelState.AddModelError(string.Empty, "La date de début doit être avant ou égale la date de fin");
             }
 
 
