@@ -79,7 +79,7 @@ namespace vlissides_bibliotheque
 
         public static string GetImageParDefaut()
         {
-            return "~/img/photo-livre.jpg";
+            return "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/photo-livre.jpg";
         }
 
     }
