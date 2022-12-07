@@ -1,7 +1,10 @@
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Services;
+using vlissides_bibliotheque.Constantes;
 using Microsoft.EntityFrameworkCore;
+using vlissides_bibliotheque.Extentions;
+using System.Linq;
 
 namespace vlissides_bibliotheque.DAO
 {
@@ -58,6 +61,39 @@ namespace vlissides_bibliotheque.DAO
             facturesEtudiants = _context.FacturesEtudiants;
 
             return facturesEtudiants;
+        }
+
+        /// <summary>
+        /// Retourne les factures correspondantes à un élève.
+        /// </summary>
+        /// <param name="etudiant">Étudiant à qui appartient les factures.</param>
+        /// <returns>Les factures correspondantes à l'étudiant.</returns>
+        public IEnumerable<FactureEtudiant> GetAllByEtudiant
+        (
+            Etudiant etudiant,
+            int quantiteParPage = ConstantesDAO.QUANTITE_PAR_PAGE,
+            int page = ConstantesDAO.PAGE_PAR_DEFAULT
+        )
+        {
+
+            IEnumerable<FactureEtudiant> facturesEtudiant;
+            int quantiteASauter;
+
+            quantiteASauter = DAOUtils.GetQuantityOfElementsToSkip(quantiteParPage, page); 
+
+            facturesEtudiant = GetAll()
+                .Where
+                (
+                    factureEtudiant => factureEtudiant.Etudiant == etudiant
+                )
+                .If
+                (
+                    quantiteASauter > 0,
+                    livres => livres.Skip(quantiteASauter)
+                )
+                .Take(quantiteParPage);;
+
+            return facturesEtudiant;
         }
 
         /// <summary>
