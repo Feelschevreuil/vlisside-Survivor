@@ -427,7 +427,7 @@
                     string taxesFormate;
 
                     totalCommandes = CommandeEtudiantService
-                        .GetTotalCommandesPartielles(Model.CommandesPartielles);
+                        .GetTotalCommandes<CommandePartielle>(Model.CommandesPartielles);
 
                     totalCommandesFormate = CashUtils.FormatToCurrency(totalCommandes);
 

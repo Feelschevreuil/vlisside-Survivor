@@ -294,30 +294,6 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
-        /// Calcule le total d'une liste de <c>CommandePartielle</c>
-        /// </summary>
-        /// <param name="commandesPartielles">Liste de <c>CommandePartielle</c></param>
-        /// <returns>Le total des <c></c></returns>
-        public static double GetTotalCommandesPartielles
-        (
-            List<CommandePartielle> commandesPartielles
-        )
-        {
-
-            double totalFacture;
-
-            totalFacture = 0.0;
-
-            foreach(CommandePartielle commandePartielle in commandesPartielles)
-            {
-
-                totalFacture += commandePartielle.Prix * commandePartielle.Quantite;
-            }
-
-            return totalFacture;
-        }
-
-        /// <summary>
         /// Calcule le total de <c>ICommande</c>.
         /// </summary>
         /// <param name="commandes"><c>ICollection</c> de <c>ICommande</c></param>
