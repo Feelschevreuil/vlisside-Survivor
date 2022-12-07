@@ -1,4 +1,4 @@
-using vlissides_bibliotheque.DAO;
+﻿using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Utils;
@@ -143,7 +143,7 @@ namespace vlissides_bibliotheque.Services
 
                         commandeEtudiant.EtatLivre = prixEtatLivre.EtatLivre;
 
-                        commandeEtudiant.PrixUnitaireGele = prixEtatLivre.Prix;
+                        commandeEtudiant.Prix = prixEtatLivre.Prix;
 
                         if(etatLivre == EtatLivreEnum.USAGE)
                         {
@@ -282,7 +282,7 @@ namespace vlissides_bibliotheque.Services
                     Isbn = commandeEtudiant.Isbn,
                     Titre = commandeEtudiant.Titre,
                     EtatLivre = commandeEtudiant.EtatLivre,
-                    Prix = commandeEtudiant.PrixUnitaireGele,
+                    Prix = commandeEtudiant.Prix,
                     Quantite = commandeEtudiant.Quantite,
                     StatutCommande = commandeEtudiant.StatutCommande
                 };
@@ -322,14 +322,16 @@ namespace vlissides_bibliotheque.Services
         /// </summary>
         /// <param name="commandes"><c>ICollection</c> de <c>ICommande</c></param>
         /// <returns></returns>
-        public static double GetTotalCommandes
+        public static double GetTotalCommandes<T>
         (
-            ICollection<Commande> commandes
+            ICollection<T> commandesTraiter
         )
         {
 
+            ICollection<Commande> commandes;
             double total;
 
+            commandes = (ICollection<Commande>)commandesTraiter;
             total = 0.0;
 
             foreach(Commande commande in commandes)
@@ -350,14 +352,16 @@ namespace vlissides_bibliotheque.Services
         /// <returns>
         /// Le nombre de total de livres d'une commande.
         /// </returns>
-        public static int GetNombreLivres
+        public static int GetNombreLivres<T>
         (
-            ICollection<Commande> commandes
+            ICollection<T> commandesTraiter
         )
         {
 
+            ICollection<Commande> commandes;
             int nombreLivres;
 
+            commandes = (ICollection<Commande>)commandesTraiter;
             nombreLivres = 0;
 
             foreach(Commande commande in commandes)

@@ -1,4 +1,4 @@
-using vlissides_bibliotheque.Enums;
+﻿using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
@@ -413,7 +413,7 @@ namespace vlissides_bibliotheque.Services
                 {
 
                     totalFacture += 
-                        (commandeEtudiant.PrixUnitaireGele * commandeEtudiant.Quantite);
+                        (commandeEtudiant.Prix * commandeEtudiant.Quantite);
                 }
             }
 
@@ -634,10 +634,10 @@ namespace vlissides_bibliotheque.Services
                     .ToList();
 
                 nombreLivres = CommandeEtudiantService
-                    .GetNombreLivres(commandesEtudiant);
+                    .GetNombreLivres<CommandeEtudiant>(commandesEtudiant);
 
                 prixTotal = CommandeEtudiantService
-                    .GetTotalCommandes(commandesEtudiant);
+                    .GetTotalCommandes<CommandeEtudiant>(commandesEtudiant);
 
                 facturePartielle = new()
                 {

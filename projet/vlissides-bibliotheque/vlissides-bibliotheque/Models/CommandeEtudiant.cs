@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models
     /// <summary>
     /// Classe <c>CommandeEtudiant</c> définit la table de liaison commandeEtudiant dans la base de données.
     /// </summary>
-    public class CommandeEtudiant
+    public class CommandeEtudiant: Commande
     {
         [Required]
         public int FactureEtudiantId { get; set; }
@@ -30,7 +30,7 @@ namespace vlissides_bibliotheque.Models
         public EtatLivreEnum EtatLivre { get; set; }
 
         [Required]
-        public double PrixUnitaireGele { get; set; }
+        public double Prix { get; set; }
 
         [Required]
         public int Quantite { get; set; }
