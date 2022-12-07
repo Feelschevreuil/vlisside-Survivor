@@ -30,17 +30,18 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = "Un étudiant ou toute autre personne ne faisant pas partie du Collège de la connaissance aléatoire ne peut malheureusment pas se créer un compte."
+                            Description = "",
+                            LienImage = "acces-accueil.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Recommandations",
                             Description = "Cette section offre un mince aperçu des livres disponibles en fonction de l'utilisateur connecté et des informations récoltés à son sujet selon ses activités sur la plateforme.",
-                            LienImage = "/img/doc/accueil-recommandations.png"
+                            LienImage = "accueil-recommandations.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Événements",
                             Description = "Cette section montre sommairement les événements disponibles : des activités, des commanditaires ou encore des compétitions peuvent s'y retrouver.",
-                            LienImage = "/img/doc/accueil-evenements.png"
+                            LienImage = "accueil-evenements.png"
                         }
                     }
                 },
@@ -51,11 +52,13 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "connexion.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = "Un étudiant ou toute autre personne ne faisant pas partie du Collège de la connaissance aléatoire ne peut malheureusment pas se créer un compte."
+                            Description = "Appuyer sur l'icône de connexion à l'extrême droite de la barre de navigation, puis sélectionner l'option \"Se connecter\".",
+                            NB = "Un étudiant ou toute autre personne ne faisant pas partie du Collège de la connaissance aléatoire ne peuvent malheureusment pas se connecter, car il leur est impossible de se créer un compte.",
+                            LienImage = "acces-connexion.png"
                         },
                     }
                 },
@@ -66,11 +69,13 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "inscription.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = "Un étudiant ou toute autre personne ne faisant pas partie du Collège de la connaissance aléatoire ne peut malheureusment pas se créer un compte."
+                            Description = "Appuyer sur l'icône de connexion à l'extrême droite de la barre de navigation, puis sélectionner l'option \"S'inscrire\".",
+                            NB = "Un étudiant ou toute autre personne ne faisant pas partie du Collège de la connaissance aléatoire ne peuvent malheureusment pas se créer un compte.",
+                            LienImage = "acces-connexion.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Identification",
@@ -101,7 +106,8 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = ""
+                            Description = "Appuyer sur l'icône de profil à l'extrême droite de la barre de navigation, puis sélectionner l'option \"Profil\".",
+                            LienImage = "acces-deconnexion.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Identification",
@@ -114,6 +120,11 @@ namespace vlissides_bibliotheque.Controllers
                         new SectionDocumentationVM() {
                             Titre = "Adresse",
                             Description = ""
+                        },
+                        new SectionDocumentationVM() {
+                            Titre = "Se déconnecter",
+                            Description = "Appuyer sur l'icône de profil à l'extrême droite de la barre de navigation, puis sélectionner l'option \"Déconnexion\".",
+                            LienImage = "acces-deconnexion.png"
                         }
                     }
                 },
@@ -128,11 +139,13 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = ""
+                            Description = "",
+                            LienImage = "acces-bibliotheque.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Format",
-                            Description = "Les livres sont offerts sous 3 formats différents au maximum, soient usagé, neuf ou numérique. Il est possible qu'un livre ne présente pas tous les formats selon les disponibilités en inventaire."
+                            Description = "Les livres sont offerts sous 3 formats différents au maximum, soient usagé, neuf ou numérique.",
+                            NB = "Il est possible qu'un livre ne présente pas tous les formats selon les disponibilités en inventaire."
                         },
                         new SectionDocumentationVM() {
                             Titre = "Ajouter",
@@ -156,7 +169,8 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = ""
+                            Description = "",
+                            LienImage = "acces-boutique.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Achat",
@@ -190,7 +204,8 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = ""
+                            Description = "",
+                            LienImage = "acces-evenements.png"
                         },
                     }
                 },
