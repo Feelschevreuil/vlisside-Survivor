@@ -459,6 +459,23 @@ namespace vlissides_bibliotheque.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = RolesName.Etudiant)]       
+        public IActionResult Historique(int page)
+        {
+
+            FacturesEtudiantsDAO facturesEtudiantsDAO;
+            List<FactureEtudiant> facturesEtudiant;
+            Etudiant etudiant;
+
+            facturesEtudiantsDAO = new(_context);
+            etudiant = GetLoggedInEtudiant();
+
+            facturesEtudiant = facturesEtudiantsDAO
+                .GetAllByEtudiant(etudiant).ToList();
+
+            return View();
+        }
+
         // TODO: sortir dans le DAO!
         private Etudiant GetLoggedInEtudiant()
         {

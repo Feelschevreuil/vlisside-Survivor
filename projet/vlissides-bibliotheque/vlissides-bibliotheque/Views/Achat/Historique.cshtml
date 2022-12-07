@@ -1,0 +1,44 @@
+@model AchatHistoriqueVM
+
+<p class="fs-2">Historique d'achats</p>
+
+<div class="container">
+    @{
+        if(Model.facturesPartielles.Count() > 0)
+        {
+            foreach(FacturePartielle factureEtudiantPartielle in Model.facturesPartielles)
+            {
+                
+                <div>
+                    <div>
+                        <div class="col-7">
+                            <p>Commande de 10 livres</p>
+                            <p>Adresse: </p>
+                        </div>
+                        <span class="col-5">
+                            <strong>999.99 $$</strong>
+                        </span>
+                    </div>
+                    <div>
+                        <div class="col-11">
+                            <div class="row">
+                                <img class="col-1" width="24px" src="~/img/check-circle.svg" />
+                                <span class="col-11 align-middle">Commande payée avec succès! <strong>Merci!</strong></span>
+                            </div>
+                        </div>
+                        <img class="col-1" src="~/img/check-circle.svg" />
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <img class="col-4" src="~/img/no-books.svg" />
+                    <p>Aucun historique d'achat.</p>
+                </div>
+            </div>
+        }
+    }
+</div>
