@@ -6,7 +6,7 @@
         {
             int result = DateTime.Compare(debut, fin);
 
-            if (result < 0)
+            if (result <= 0)
             {
                 return true;
             }
