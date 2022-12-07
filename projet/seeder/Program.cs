@@ -1043,7 +1043,7 @@ namespace seeder
                 PhotoCouverture = "N/A",
                 DatePublication = Faker.Identification.DateOfBirth().AddDays(Faker.RandomNumber.Next(-3000, 0)),
                 MaisonEdition = Faker.Company.Name(),
-                Prix = 0
+                Prix = Convert.ToDouble(Faker.RandomNumber.Next(3, 500))
             };
 
             return livreEtudiant;
