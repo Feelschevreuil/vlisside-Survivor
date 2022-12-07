@@ -42,15 +42,15 @@
                 @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
                     <div class="mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
                         <h5 class="text-primary">@sectionDoc.Titre</h5>
-                        @if (sectionDoc.NB != null && sectionDoc.NB != "") {
+                        @if (!string.IsNullOrEmpty(sectionDoc.NB)) {
                             <div class="alert alert-warning" role="alert">
                                 <strong>Noter bien :</strong> @sectionDoc.NB
                             </div>
                         }
-                        @if (sectionDoc.Description != null && sectionDoc.Description != "") {
+                        @if (!string.IsNullOrEmpty(sectionDoc.Description)) {
                             <p>@sectionDoc.Description</p>
                         }
-                        @if (sectionDoc.LienImage != null && sectionDoc.LienImage != "") {
+                        @if (!string.IsNullOrEmpty(sectionDoc.LienImage)) {
                             <img src="/img/doc/@sectionDoc.LienImage" class="w-100 rounded border">
                         }
                     </div>
