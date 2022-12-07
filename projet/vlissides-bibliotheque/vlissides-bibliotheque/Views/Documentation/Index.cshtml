@@ -41,6 +41,9 @@
                 @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
                     <div class="shadow rounded mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
                         <h4 class="text-primary">@sectionDoc.Titre</h4>
+                        @if(sectionDoc.LienImage != null) {
+                            <img src="@sectionDoc.LienImage" width="100px">
+                        }
                         <p>@sectionDoc.Description</p>
                     </div>
                     indexSection++;
