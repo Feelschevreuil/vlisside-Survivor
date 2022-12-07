@@ -5,8 +5,7 @@
     <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
         <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
     </a>
-    <h1 class="p-2 flex-grow-1">Inventaire de la bibliothèque</h1>
-<h1 id="titreBibli">Inventaire de la bibliothèque</h1>
+    <h1 class="p-2 flex-grow-1" id="titreBibli">Inventaire de la bibliothèque</h1>
 
     @if (User.IsInRole(RolesName.Admin))
     {
