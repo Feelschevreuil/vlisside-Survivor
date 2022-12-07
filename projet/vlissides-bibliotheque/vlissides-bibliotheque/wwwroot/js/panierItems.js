@@ -10,20 +10,9 @@ function getCards() {
         pVide.innerHTML = 'Votre panier est vide!'
         var tryStorage = true
         var tryEmpty = true
-        var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
-        var fetchEnLocal = "/../Panier/GetLivres";
-        var fetchSurServeur = numeroEtudiant + "Panier/GetLivres";
-        var stringFetch = "";
-        var url = location.host;
         var csrfToken = document.getElementsByName("__RequestVerificationToken")[0].value
         var data = localStorage.getItem('itemsPanier');
 
-        if (url.match("localhost") == null) {
-            stringFetch = fetchSurServeur;
-        } else {
-            stringFetch = fetchEnLocal;
-        }
-        ;
         try {
             typeof (Storage) !== undefined
         }
@@ -42,7 +31,7 @@ function getCards() {
         if (tryStorage) {
             if (tryEmpty) {
 
-                fetch(stringFetch, {
+                fetch(host + "Panier/GetLivres", {
                     method: 'Post',
                     body: data,
                     contentType: "application/json; charset=utf-8",
@@ -138,17 +127,6 @@ function initQuantitePanier() {
 
 function checkout() {
     var data = localStorage.getItem('itemsPanier');
-
-    var stringFetch = "";
-    var url = location.host;
-    var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
-    var fetchEnLocal = "/Achat/Creer";
-    var fetchSurServeur = numeroEtudiant + fetchEnLocal;
-    if (url.match("localhost") == null) {
-        stringFetch = fetchSurServeur;
-    } else {
-        stringFetch = fetchEnLocal;
-    }
 
     var tryStorage = true
     try {
