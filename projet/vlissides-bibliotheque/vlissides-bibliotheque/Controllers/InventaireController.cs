@@ -59,7 +59,7 @@ namespace vlissides_bibliotheque.Controllers
                 inventaireBibliotheque.Add(livreConvertie);
             };
 
-            InventaireLivreBibliotheque inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque.GetRange(0, 15) };
+            InventaireLivreBibliothequeVM inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque.GetRange(0, 15) };
 
             List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
             inventaireLivreBibliotheque= TuileLivreBibliothequeVMService.TrouverAuteursLivres(auteursLivres, inventaireLivreBibliotheque);

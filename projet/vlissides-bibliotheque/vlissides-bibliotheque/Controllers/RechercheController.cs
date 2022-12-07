@@ -90,7 +90,7 @@ namespace vlissides_bibliotheque.Controllers
 
             if (rechercheSimple.ouRecherche == 1)//biblio
             {
-                InventaireLivreBibliotheque inventaireBibliotheque = new();
+                InventaireLivreBibliothequeVM inventaireBibliotheque = new();
                 inventaireBibliotheque.tuileLivreBiblioteques = new List<TuileLivreBibliotequeVM>();
                 List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
                     .Include(x => x.MaisonEdition)
