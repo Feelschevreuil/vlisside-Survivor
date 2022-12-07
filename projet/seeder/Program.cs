@@ -1610,7 +1610,7 @@ namespace seeder
                 Debut = new DateTime(2022, 12, 1),
                 Fin = new DateTime(2022, 12, 31),
                 Description = "En décembre, 25% sur les articles de planches à neige\r\nVenez nous voir\r\nCarrefour champêtre de Bromont\r\n",
-                Image = "/img/plancheNeige.jpg"
+                Image = "~/img/plancheNeige.jpg"
             };
             listEvenements.Add(evenement);
 
@@ -1622,7 +1622,7 @@ namespace seeder
                 Debut = new DateTime(2022, 11, 1),
                 Fin = new DateTime(2023, 1, 15),
                 Description = "Auberge Le SUNSHINE\r\n123 rue Principale, Stanstead\r\nÀ l’achat d’un certificat-cadeau, 25% sur les patisseries et les délices de saison",
-                Image = "/img/sunshine.jpg"
+                Image = "~/img/sunshine.jpg"
             };
             listEvenements.Add(evenement1);
 
@@ -1634,7 +1634,7 @@ namespace seeder
                 Debut = new DateTime(2022, 11, 1),
                 Fin = new DateTime(2022, 11, 30),
                 Description = "23 des Saules, Stanstead\r\n\r\nBière à volonté tous les jeudis soirs à l’achat d’un souper de plus de 30$",
-                Image = "/img/souper.jpg"
+                Image = "~/img/souper.jpg"
             };
             listEvenements.Add(evenement2);
 
@@ -1646,7 +1646,7 @@ namespace seeder
                 Debut = new DateTime(2022, 11, 1),
                 Fin = new DateTime(2023, 2, 14),
                 Description = "52 Monarque, Stanstead\r\n\r\nSamedi - les retrouvailles\r\n2 pour 1 sur les consommations alcoolisées\r\n15% sur les repas pour 2\r\n\r\nMusique, ambiance et festivités à l’anglaise",
-                Image = "/img/anglais.jpg"
+                Image = "~/img/anglais.jpg"
             };
             listEvenements.Add(evenement3);
 
