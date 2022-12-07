@@ -36,6 +36,7 @@ namespace vlissides_bibliotheque.Controllers
             };
             List<LivreEtudiant> livreEtudiants = _context.LivresEtudiants
                     .Include(x => x.Etudiant)
+                    .Take(12)
                     .ToList();
 
             if (id == null)
