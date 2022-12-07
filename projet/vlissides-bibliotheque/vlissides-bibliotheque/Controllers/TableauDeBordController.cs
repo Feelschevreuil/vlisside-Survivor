@@ -1125,7 +1125,7 @@ namespace vlissides_bibliotheque.Controllers
 
             foreach (CsvLivreVM vm in list)
             {
-                if (livreBibliothequesBD.Find(x => x.Titre == vm.Titre) == null)
+                if (livreBibliothequesBD.Find(x => x.Isbn == vm.ISBN) == null)
                 {
                     MaisonEdition maison = new()
                     {
