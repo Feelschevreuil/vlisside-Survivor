@@ -29,7 +29,7 @@ namespace vlissides_bibliotheque.Services
             return livreBibliotheques;
         }
 
-        public static InventaireLivreBibliotheque TrouverAuteursLivres(List<AuteurLivre> auteursLivres, InventaireLivreBibliotheque livreBibliotheques)
+        public static InventaireLivreBibliothequeVM TrouverAuteursLivres(List<AuteurLivre> auteursLivres, InventaireLivreBibliothequeVM livreBibliotheques)
         {
 
             for (int i = 0; i < livreBibliotheques.tuileLivreBiblioteques.Count; i++)

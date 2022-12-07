@@ -24,7 +24,7 @@ namespace vlissides_bibliotheque.DTO
         [Required]
         public int NumeroCivique { get; set; }
 
-        public int App { get; set; }
+        public string? App { get; set; }
 
         [Required]
         [StringLength(64)]
