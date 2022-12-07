@@ -17,6 +17,14 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Humanizer;
 using System.Diagnostics;
 using Stripe;
+using System.Formats.Asn1;
+using CsvHelper;
+using Microsoft.AspNetCore.Hosting;
+using System.Globalization;
+using Microsoft.Extensions.Hosting.Internal;
+using vlissides_bibliotheque.Extentions;
+using Microsoft.Extensions.Hosting;
+using System.Text.RegularExpressions;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -28,13 +36,15 @@ namespace vlissides_bibliotheque.Controllers
         private readonly UserManager<Etudiant> _userManagerEtudiant;
         private readonly ApplicationDbContext _context;
         private readonly LivresBibliothequeDAO _livresBibliothequeDAO;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         public TableauDeBordController(
             SignInManager<Etudiant> signInManager,
             UserManager<Utilisateur> userManager,
             UserManager<Etudiant> userManagerEtudiant,
             ApplicationDbContext context,
-            LivresBibliothequeDAO livresBibliothequeDAO
+            LivresBibliothequeDAO livresBibliothequeDAO,
+            IWebHostEnvironment hostingEnvironment
         )
         {
             _signInManager = signInManager;
@@ -42,6 +52,7 @@ namespace vlissides_bibliotheque.Controllers
             _userManagerEtudiant = userManagerEtudiant;
             _context = context;
             _livresBibliothequeDAO = livresBibliothequeDAO;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
@@ -671,7 +682,7 @@ namespace vlissides_bibliotheque.Controllers
             var programmeEtudeRandom = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId != id).FirstOrDefault();
             foreach (Etudiant etudiant in bdListEtudiant)
             {
-                etudiant.ProgrammeEtudeId= programmeEtudeRandom.ProgrammeEtudeId;
+                etudiant.ProgrammeEtudeId = programmeEtudeRandom.ProgrammeEtudeId;
                 _context.Etudiants.Update(etudiant);
                 _context.SaveChanges();
 
@@ -969,7 +980,7 @@ namespace vlissides_bibliotheque.Controllers
             FactureCommandeVM vm = new()
             {
                 CommandesEtudiant = _context.CommandesEtudiants
-                .Include(x=>x.PrixEtatLivre.LivreBibliotheque)
+                .Include(x => x.PrixEtatLivre.LivreBibliotheque)
                 .Where(x => x.FactureEtudiantId == id)
                 .ToList()
             };
@@ -993,6 +1004,107 @@ namespace vlissides_bibliotheque.Controllers
             _context.FacturesEtudiants.Remove(commandeSupprimer);
             _context.SaveChanges();
             return Ok();
+        }
+
+        public async Task<IActionResult> csvToListEtudiant()
+        {
+            string path = Path.Combine(_hostingEnvironment.WebRootPath, "csv", "liste-etudiants.csv");
+            string[] readText = System.IO.File.ReadAllLines(path);
+            List<string> csvSansCharaSpecial = new();
+            foreach (string line in readText)
+            {
+                string newline = Regex.Replace(line, "[�]+", "é");
+                newline = newline.Replace(",", "");
+                csvSansCharaSpecial.Add(newline);
+            }
+            List<CsvEtudiantVM> csvEnVm = csvSansCharaSpecial
+               .Skip(1)
+               .Where(l => l.Length > 1)
+               .CsvEnVm()
+               .ToList();
+            List<Etudiant> csvEnEtudiants = GetEtudiantsFromCSV(csvEnVm);
+            List<Etudiant> etudiantsBD = _context.Etudiants.ToList();
+            List<Etudiant> etudiantsAjoutes = new();
+
+            foreach (Etudiant etudiant in csvEnEtudiants)
+            {
+                if (etudiantsBD.Find(x => x.Id == etudiant.Id) == null)
+                {
+                    var result = await _userManagerEtudiant.CreateAsync(etudiant, etudiant.PasswordHash);
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(etudiant, RolesName.Etudiant);
+                        etudiantsAjoutes.Add(etudiant);
+                    }
+                }
+            }
+            return View("SuccesEtudiantCsv", etudiantsAjoutes);
+        }
+
+        public List<Etudiant> GetEtudiantsFromCSV(List<CsvEtudiantVM> list)
+        {
+            string numeroCivique = "";
+            string rue = "";
+            string ville = "";
+            string nomDeRue = "";
+            int provinceIdParDefaut = _context.Provinces.FirstOrDefault().ProvinceId;
+            List <ProgrammeEtude> programmes = _context.ProgrammesEtudes.ToList();
+            List<Etudiant> etudiants = new();
+
+            foreach (CsvEtudiantVM vm in list)
+            {  
+                string app= "";
+                ProgrammeEtude programmeEtude = programmes.Find(x => x.Nom.ToLower() == vm.ProgrammeEtude.ToLower());
+                List<string> contenuAdresse = vm.Adresse.Split(" ").ToList();
+                numeroCivique = contenuAdresse[0];
+                contenuAdresse.RemoveAt(0);
+                ville = contenuAdresse[contenuAdresse.Count() - 1];
+                contenuAdresse.RemoveAt(contenuAdresse.Count() - 1);
+                 
+                
+                if (contenuAdresse[contenuAdresse.Count()-1].Contains("#"))
+                {
+                    app = contenuAdresse[contenuAdresse.Count() - 1];
+                    contenuAdresse.RemoveAt(contenuAdresse.Count() - 1);
+                    nomDeRue = string.Join(" ", contenuAdresse);
+                    rue = nomDeRue;
+                }
+                else
+                {
+                    nomDeRue = string.Join(" ", contenuAdresse);
+                    rue = nomDeRue;
+                }
+
+                Adresse adresse = new()
+                {
+                    AdresseId = 0,
+                    App = app,
+                    CodePostal = "",
+                    NumeroCivique = Convert.ToInt32(numeroCivique),
+                    Rue = rue,
+                    Ville = ville,
+                    ProvinceId = provinceIdParDefaut,
+                };
+                _context.Adresses.Add(adresse);
+                _context.SaveChanges();
+
+                Etudiant etudiant = new()
+                {
+                    Email = vm.Courriel,
+                    UserName = vm.Courriel,
+                    Nom = vm.Nom,
+                    Prenom = vm.Prenom,
+                    ProgrammeEtudeId = programmeEtude.ProgrammeEtudeId,
+                    AdresseId = adresse.AdresseId,
+                    Adresse = adresse,
+                    EmailConfirmed = true,
+                    PasswordHash = vm.MotDePasse,
+                    NumeroEtudiant = Convert.ToInt32(vm.Matricule)
+                };
+                etudiants.Add(etudiant);
+            
+            }
+            return etudiants;
         }
 
     }
