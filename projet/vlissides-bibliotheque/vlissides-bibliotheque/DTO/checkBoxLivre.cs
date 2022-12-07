@@ -1,6 +1,6 @@
 ﻿using vlissides_bibliotheque.Models;
 
-namespace vlissides_bibliotheque.ViewModels
+namespace vlissides_bibliotheque.DTO
 {
     public class checkBoxLivre
     {

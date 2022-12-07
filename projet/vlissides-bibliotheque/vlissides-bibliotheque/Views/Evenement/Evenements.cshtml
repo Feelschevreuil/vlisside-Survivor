@@ -9,23 +9,21 @@
 	<a asp-area="" asp-controller="Accueil" asp-action="Accueil">
 		<img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
 	</a>
-	<h1 class="p-2 flex-grow-1">Toutes les actualités courantes</h1>
+	<h1 class="p-2 flex-grow-1">Toutes les événements courants</h1>
 
 	@if(User.IsInRole(RolesName.Admin)){
 	<a class="d-flex justify-content-end" asp-controller="Evenement" asp-action="creer">
-		<input class="btn btn-primary shadow" type="button" value="Ajouter un événement" />
+			<img src="~/img/plus-circle.svg" class="me-3 btn-img-hover devant" />
     </a>
 	}
 </div>
 
-<div class="container-fluid">
 
+<div class="container-fluid">
 	<div class="row">
 		@foreach (var card in Model)
 		{
-			<div class="col-auto col-md-3 col-sm-3">
-				<partial name="_TuileActualiterPartial" model="card"></partial>
-			</div>
+			<partial name="_TuileEvenementPartial" model="card"></partial>
 		}
 	</div>
 </div>

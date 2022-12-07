@@ -262,8 +262,8 @@ namespace vlissides_bibliotheque.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdresseId"), 1L, 1);
 
-                    b.Property<int>("App")
-                        .HasColumnType("int");
+                    b.Property<string>("App")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CodePostal")
                         .IsRequired()
@@ -352,6 +352,14 @@ namespace vlissides_bibliotheque.Migrations
                     b.Property<int>("Quantite")
                         .HasColumnType("int");
 
+                    b.Property<int>("StatutCommande")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titre")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
                     b.HasKey("FactureEtudiantId", "PrixEtatLivreId");
 
                     b.HasIndex("PrixEtatLivreId");
@@ -407,11 +415,13 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<int>("ProgrammeEtudeId")
                         .HasColumnType("int");
@@ -574,8 +584,8 @@ namespace vlissides_bibliotheque.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FactureEtudiantId"), 1L, 1);
 
-                    b.Property<string>("AdresseLivraison")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AdresseLivraisonId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ClientSecret")
                         .HasMaxLength(64)
@@ -602,6 +612,8 @@ namespace vlissides_bibliotheque.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("FactureEtudiantId");
+
+                    b.HasIndex("AdresseLivraisonId");
 
                     b.HasIndex("EtudiantId");
 
@@ -754,6 +766,9 @@ namespace vlissides_bibliotheque.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NumeroProfesseur")
+                        .HasColumnType("int");
+
                     b.Property<string>("Prenom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -778,7 +793,8 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("ProgrammeEtudeId");
 
@@ -824,16 +840,16 @@ namespace vlissides_bibliotheque.Migrations
                             Id = "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d67bb86f-d158-4f17-8142-49f7c65c082c",
-                            Email = "admin@cegep-connaissance-aleatoire.qc.ca",
+                            Email = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMULLh300qyfsTBd6dET3I4gKcskIv3VID3gAJ+S5CvIqwxcwoTyUxYwnFmI6dzIGA==",
+                            NormalizedEmail = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.QC.CA",
+                            NormalizedUserName = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.QC.CA",
+                            PasswordHash = "AQAAAAEAACcQAAAAENK03rTy5x2Em5cW2CItxByjaGaP4TK8yv8OzSPXaN09s5axZiKR/IPKMNF9vcaxiw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d0c6315c-aa62-460f-8f59-09ecfcb4f70d",
+                            SecurityStamp = "363e9e18-e74e-4454-9ebd-bdf1ef2b4b65",
                             TwoFactorEnabled = false,
-                            UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
+                            UserName = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca",
                             Nom = "John",
                             Prenom = "Gordon"
                         });
@@ -847,6 +863,9 @@ namespace vlissides_bibliotheque.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("AnneeParcours")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumeroEtudiant")
                         .HasColumnType("int");
 
                     b.Property<int>("ProgrammeEtudeId")
@@ -1070,11 +1089,19 @@ namespace vlissides_bibliotheque.Migrations
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.FactureEtudiant", b =>
                 {
+                    b.HasOne("vlissides_bibliotheque.Models.Adresse", "AdresseLivraison")
+                        .WithMany()
+                        .HasForeignKey("AdresseLivraisonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("vlissides_bibliotheque.Models.Etudiant", "Etudiant")
                         .WithMany()
                         .HasForeignKey("EtudiantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AdresseLivraison");
 
                     b.Navigation("Etudiant");
                 });

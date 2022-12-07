@@ -1,5 +1,6 @@
-﻿@*@model List<vlissides_bibliotheque.Models.>  TODO: Rajouter le model "programme d'étude" come model de cette vue*@
-
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<Utilisateur> UserManager
+@*@model List<vlissides_bibliotheque.Models.>  TODO: Rajouter le model "programme d'étude" come model de cette vue*@
 @*Données test*@
 @{
 
@@ -34,13 +35,21 @@
 
             </ul>
             <ul class="navbar-nav ms-auto">
-                @if (User.Identity != null)
-                {
-                    if (User.Identity.IsAuthenticated)
-                    {
+                
+                @if (User.Identity != null) {
+                    if (User.Identity.IsAuthenticated) {
+                        Utilisateur utilisateurCourant = await UserManager.GetUserAsync(User);
                         <li class="nav-item text-white">
-                            <a class="nav-link text-white">Bonjours @User.Identity.Name</a>
+                            <a class="nav-link text-white">Bonjour <strong>@utilisateurCourant.Prenom @utilisateurCourant.Nom</strong></a>
                         </li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="d-flex">
+            <ul class="navbar-nav ms-auto flex-row">
+                @if (User.Identity != null) {
+                    if (User.Identity.IsAuthenticated) {
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Panier" asp-action="Index">
                                 <img src="~/img/cart-variant.svg" width=" 25px">
@@ -52,6 +61,7 @@
                 <partial name="_LoginPartial" />
             </ul>
         </div>
+    </div>
 </nav>
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom shadow bg-top">
     <div class="container-fluid">
@@ -63,7 +73,7 @@
                 </select>
 
                 <select class="btn btn-outline-primary text-light border-0" asp-items="@sl" id="livreLink">
-                    <option value="">Programme d'étude</option>
+                    <option value="">Programme d'études</option>
                 </select>
             </div>
 

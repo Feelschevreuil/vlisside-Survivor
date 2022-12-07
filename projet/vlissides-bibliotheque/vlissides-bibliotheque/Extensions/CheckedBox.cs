@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque
 {
@@ -72,6 +72,36 @@ namespace vlissides_bibliotheque
             return listCheckedBox;
         }
 
+        public static List<checkBoxAuteurs> GetAuteursLivre(ApplicationDbContext _context, LivreBibliotheque livreBibliotheque)
+        {
+            List<checkBoxAuteurs> listCheckedBox = new();
+            List<Auteur> auteursBD = _context.Auteurs
+                .ToList();
+
+            List<AuteurLivre> auteursAssocierLivre = _context.AuteursLivres
+                .Include(x => x.LivreBibliotheque)
+                .ToList()
+                .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+
+            foreach (Auteur auteur in auteursBD)
+            {
+                checkBoxAuteurs boxAuteur = new()
+                {
+                    Auteur = auteur,
+                    Cocher = false
+                };
+
+                listCheckedBox.Add(boxAuteur);
+            }
+
+            foreach (AuteurLivre auteurLivre in auteursAssocierLivre)
+            {
+                listCheckedBox.Find(x => x.Auteur.AuteurId == auteurLivre.AuteurId).Cocher = true;
+
+            }
+            return listCheckedBox;
+        }
+
         public static List<checkBoxCours> GetCours(ApplicationDbContext _context)
         {
             List<checkBoxCours> listCheckedBox = new();
@@ -90,6 +120,25 @@ namespace vlissides_bibliotheque
                 listCheckedBox.Add(boxCours);
             }
 
+            return listCheckedBox;
+        }
+
+        public static List<checkBoxAuteurs> GetAuteurs (ApplicationDbContext _context)
+        {
+            List<checkBoxAuteurs> listCheckedBox = new();
+            List<Auteur> auteursBD = _context.Auteurs
+                .ToList();
+
+            foreach (Auteur auteur in auteursBD)
+            {
+                checkBoxAuteurs boxAuteurs = new()
+                {
+                    Auteur = auteur,
+                    Cocher = false
+                };
+
+                listCheckedBox.Add(boxAuteurs);
+            }
             return listCheckedBox;
         }
 

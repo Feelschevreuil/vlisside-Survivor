@@ -66,10 +66,10 @@ namespace vlissides_bibliotheque.Controllers
         {
             if (User.IsInRole(RolesName.Etudiant))
             {
-
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
                 ModelState.Remove(nameof(vm.Provinces));
                 ModelState.Remove(nameof(vm.checkBoxCours));
+                ModelState.Remove(nameof(vm.EtudiantId));
 
                 vm = SetEtudiantProfilVM(vm);
 
