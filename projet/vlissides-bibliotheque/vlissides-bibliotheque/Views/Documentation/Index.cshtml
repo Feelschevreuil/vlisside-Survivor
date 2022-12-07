@@ -1,14 +1,14 @@
 ﻿@model List<DocumentationVM>
 
 @{
-    int indexFonctionnalite = 1;
-    int indexSection = 1;
+    int indexFonctionnalite = 0;
+    int indexSection = 0;
 }
 
 <h2 class="text-primary">Documentation</h2>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" style="height: 500px; overflow: auto; position: relative;">
         <nav id="documentation" class="h-100 flex-column align-items-stretch pe-4 border-end">
             <nav class="nav nav-pills flex-column">
                 @foreach (DocumentationVM doc in Model) {
@@ -29,17 +29,15 @@
     <div class="col-md-8">
         <div style="height: 500px; overflow: auto; position: relative;" data-bs-spy="scroll" data-bs-target="#documentation" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
             @{
-                indexFonctionnalite = 1;
+                indexFonctionnalite = 0;
+                indexSection = 0;
             }
             @foreach (DocumentationVM doc in Model) {
                 <div class="shadow rounded m-3 mb-5 p-4" id="section-@indexFonctionnalite">
                     <h2 class="text-primary">@doc.Titre</h2>
                     <p>@doc.Description</p>
                     <a class="btn btn-primary" href="@doc.Url">Accéder à la page</a>
-                
-                @{ 
-                    indexSection = 1;
-                }
+
                 @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
                     <div class="shadow rounded mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
                         <h4 class="text-primary">@sectionDoc.Titre</h4>
