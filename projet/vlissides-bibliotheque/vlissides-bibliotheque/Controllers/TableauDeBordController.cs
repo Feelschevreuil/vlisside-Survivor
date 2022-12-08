@@ -879,7 +879,6 @@ namespace vlissides_bibliotheque.Controllers
                     ClientSecret = "Test-ClientSecret",
                     EtudiantId = etudiant.Id,
                     Etudiant = etudiant,
-                    AdresseLivraison = vm.AdresseLivraison,
                     DateFacturation = vm.DateFacturation,
                     Statut = (StatutFactureEnum)vm.ValeurEnumStatut,
                     Tps = (decimal)Taxes.TPS,
@@ -919,7 +918,6 @@ namespace vlissides_bibliotheque.Controllers
                 PaymentIntentId = facture.PaymentIntentId,
                 EtudiantId = facture.EtudiantId,
                 DateFacturation = facture.DateFacturation,
-                AdresseLivraison = facture.AdresseLivraison,
                 ValeurEnumStatut = (int)facture.Statut
             };
 
@@ -948,7 +946,6 @@ namespace vlissides_bibliotheque.Controllers
                 facture.PaymentIntentId = vm.PaymentIntentId;
                 facture.EtudiantId = etudiant.Id;
                 facture.Etudiant = etudiant;
-                facture.AdresseLivraison = vm.AdresseLivraison;
                 facture.DateFacturation = vm.DateFacturation;
                 facture.Statut = (StatutFactureEnum)vm.ValeurEnumStatut;
 
