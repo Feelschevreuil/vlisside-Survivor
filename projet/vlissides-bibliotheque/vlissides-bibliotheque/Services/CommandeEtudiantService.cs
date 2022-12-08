@@ -298,22 +298,27 @@ namespace vlissides_bibliotheque.Services
         /// </summary>
         /// <param name="commandes"><c>ICollection</c> de <c>ICommande</c></param>
         /// <returns></returns>
-        public static double GetTotalCommandes<T>
+        public static double GetTotalCommandes
         (
-            ICollection<T> commandesTraiter
+            List<CommandeEtudiant> commandes
         )
         {
 
-            ICollection<Commande> commandes;
             double total;
 
-            commandes = (ICollection<Commande>)commandesTraiter;
             total = 0.0;
 
-            foreach(Commande commande in commandes)
+            foreach(CommandeEtudiant commande in commandes)
             {
 
-                total += commande.Prix * commande.Quantite;
+                if
+                (
+                    commande.StatutCommande != StatutCommandeEnum.INEXISTANT &&
+                    commande.StatutCommande != StatutCommandeEnum.MANQUE_INVENTAIRE
+                )
+                {
+                    total += (commande.Prix * commande.Quantite);
+                }
             }
 
             return total;
@@ -328,22 +333,27 @@ namespace vlissides_bibliotheque.Services
         /// <returns>
         /// Le nombre de total de livres d'une commande.
         /// </returns>
-        public static int GetNombreLivres<T>
+        public static int GetNombreLivres
         (
-            ICollection<T> commandesTraiter
+            List<CommandeEtudiant> commandes
         )
         {
 
-            ICollection<Commande> commandes;
             int nombreLivres;
 
-            commandes = (ICollection<Commande>)commandesTraiter;
             nombreLivres = 0;
 
-            foreach(Commande commande in commandes)
+            foreach(CommandeEtudiant commande in commandes)
             {
 
-                nombreLivres += commande.Quantite;
+                if
+                (
+                    commande.StatutCommande != StatutCommandeEnum.INEXISTANT &&
+                    commande.StatutCommande != StatutCommandeEnum.MANQUE_INVENTAIRE
+                )
+                {
+                    nombreLivres += commande.Quantite;
+                }
             }
 
             return nombreLivres;

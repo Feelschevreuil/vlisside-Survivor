@@ -316,19 +316,13 @@
         </div>
         <div class="col-4">
 
-        @{
-            int nombreLivres;
-
-            nombreLivres = Model.GetNombreCommandesPartielles();
-        }
-
         <div class="card">
             <div class="card-body p-0">
                 <div class="row p-3">
                     <img class="col-2" width="24px" src="~/img/book-open.svg" />
-                    <h5 class="card-title col-8 ps-0">Livre@(nombreLivres > 1 ? "s" : "")</h5>
+                    <h5 class="card-title col-8 ps-0">Livre@(Model.NombreLivres > 1 ? "s" : "")</h5>
                     <div class="col-2">
-                        <span class="badge alert-info align-middle">@nombreLivres</span>
+                        <span class="badge alert-info align-middle">@Model.NombreLivres</span>
                     </div>
                 </div>
 
@@ -426,18 +420,15 @@
                     double taxes;
                     string taxesFormate;
 
-                    totalCommandes = CommandeEtudiantService
-                        .GetTotalCommandes<CommandePartielle>(Model.CommandesPartielles);
-
-                    totalCommandesFormate = CashUtils.FormatToCurrency(totalCommandes);
+                    totalCommandesFormate = CashUtils.FormatToCurrency(Model.Total);
 
                     totalCommandesAvecTaxes = CashUtils
-                        .CalculerTaxes(totalCommandes, Model.Tps, Model.Tvq);
+                        .CalculerTaxes(Model.Total, Model.Tps, Model.Tvq);
 
                     totalCommandesAvecTaxesFormate = CashUtils
                         .FormatToCurrency(totalCommandesAvecTaxes);
 
-                    taxes = totalCommandesAvecTaxes - totalCommandes;
+                    taxes = totalCommandesAvecTaxes - Model.Total;
 
                     taxesFormate = CashUtils.FormatToCurrency(taxes);
                 }
@@ -523,7 +514,7 @@
             });
 
             function rechargerPage() {
-                window.location.href = "/";
+                window.location.href = host + "Achat/Historique/";
                 return false;
             }
 
