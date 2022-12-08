@@ -69,6 +69,9 @@
                     <button class="input-group-text btn btn-light border-light" type="submit" onclick="changerPage(0)">
                         <img src="~/img/loupe-de-recherche.svg">
                     </button>
+                    <button class="input-group-text btn btn-light border-light" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"  >
+                        <img src="~/img/plus-circle.svg" width="24px">
+                    </button>
                 </div>
             </div>
 
@@ -84,3 +87,83 @@
         </div>
     </div>
 </nav>
+
+@if (User.Identity != null) {
+    if (User.Identity.IsAuthenticated) {
+
+        <script>
+
+            function chercher() {
+
+                "Inventaire/ChercherBibliotheque/"
+
+                var titre = document.querySelector('#Titre').value;
+                var maisonEdition  = document.querySelector('#MaisonEdition').value;
+                var auteur  = document.querySelector('#Auteur').value;
+                var isbn = document.querySelector('#ISBN').value;
+
+                var champsRecherche = {
+                    Titre: titre,
+                    MaisonEdition: maisonEdition,
+                    Auteur: auteur,
+                    Isbn: isbn,
+                    Neuf: true,
+                    Numerique: true,
+                    Usage: true
+                };
+
+                fetch(host + "Inventaire/ChercherBibliotheque/", {
+                    method: 'Post',
+                    body: JSON.stringify(champsRecherche),
+                    contentType: "application/json; charset=utf-8",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(async response => {
+
+                    if(response.ok){
+
+                        document.body.innerHTML = await response.text();
+
+                    } else {
+
+                        alert("Une erreur est survenue!");
+                    }
+                });
+
+            }
+
+        </script>
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Recherche avancée</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                
+                <label for="Titre" class="form-label">Titre</label>
+                <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="Titre">
+                </div>
+                
+                <label for="MaisonEdition" class="form-label">Maison d'édition</label>
+                <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="MaisonEdition">
+                </div>
+                
+                <label for="Auteur" class="form-label">Auteur</label>
+                <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="Auteur">
+                </div>
+                
+                <label for="ISBN" class="form-label">ISBN</label>
+                <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="ISBN">
+                </div>
+
+                <button class="btn btn-primary" onclick="chercher()">Chercher</button>
+            </div>
+        </div>
+    }
+}
