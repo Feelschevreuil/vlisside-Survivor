@@ -22,7 +22,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Documentation",
                     Description = "Ici, vous trouverez toutes les informations nécessaires pour votre bonne compréhension de l'utilisation du site.",
-                    Url = "/Documentation",
+                    Url = "Documentation",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Images",
@@ -33,7 +33,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Accueil",
                     Description = "Présente une vue d'ensemble des services de la plateforme.",
-                    Url = "/",
+                    Url = "",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
@@ -59,7 +59,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Connexion",
                     Description = "Permet à un utilisateur déjà inscrit de se connecter à son compte.",
-                    Url = "/Connexion",
+                    Url = "Connexion",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
@@ -76,7 +76,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Inscription",
                     Description = "Permet à un utilisateur qui n'est pas déjà inscrit de se créer un compte pour ensuite s'y connecter.",
-                    Url = "/Connexion/Inscription",
+                    Url = "Connexion/Inscription",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
@@ -114,7 +114,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Gestion du profil",
                     Description = "Offre une vue d'ensemble sur les paramètres de l'utilisateur connecté. Permet aussi de mdifier ces paramètres.",
-                    Url = "/GestionProfil",
+                    Url = "GestionProfil",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
@@ -151,7 +151,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Bibliothèque",
                     Description = "",
-                    Url = "/Inventaire/Bibliotheque",
+                    Url = "Inventaire/Bibliotheque",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
@@ -181,7 +181,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Boutique étudiante",
                     Description = "Offre la possibilité aux étudiants d'acheter des livres vendus par d'autres étudiants. Il est donc possible pour tous les étudiants de vendre ses propres livres.",
-                    Url = "/Usage/Usage",
+                    Url = "Usage/Usage",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
@@ -201,7 +201,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Panier",
                     Description = "Contient tous les livres désirés par l'utilisateur afin de lui permettre de les acheter.",
-                    Url = "/Achat",
+                    Url = "Achat",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
@@ -217,7 +217,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Événements",
                     Description = "Présente des actualités, des activités, des commanditaires ou encore des compétitions.",
-                    Url = "/Evenement/Index",
+                    Url = "Evenement/Index",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
@@ -233,7 +233,7 @@ namespace vlissides_bibliotheque.Controllers
                 new DocumentationVM() {
                     Titre = "Recherche de livres",
                     Description = "Permet de chercher des livres de manière plus spécifique.",
-                    Url = "/",
+                    Url = "",
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
