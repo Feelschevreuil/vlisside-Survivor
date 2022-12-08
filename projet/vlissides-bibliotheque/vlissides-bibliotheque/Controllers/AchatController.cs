@@ -459,6 +459,44 @@ namespace vlissides_bibliotheque.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = RolesName.Etudiant)]       
+        public IActionResult Historique(int page)
+        {
+
+            FacturesEtudiantsDAO facturesEtudiantsDAO;
+            FactureEtudiantService factureEtudiantService;
+            List<FactureEtudiant> facturesEtudiant;
+            List<FacturePartielle> facturesPartielles;
+            Etudiant etudiant;
+            AchatHistoriqueVM achatHistoriqueVM;
+
+            facturesEtudiantsDAO = new(_context);
+            factureEtudiantService = new(_context);
+            etudiant = GetLoggedInEtudiant();
+
+            facturesEtudiant = facturesEtudiantsDAO
+                .GetAllByEtudiant(etudiant).ToList();
+
+            if(facturesEtudiant.Count() > 0)
+            {
+
+                facturesPartielles = factureEtudiantService
+                    .GetFacturesPartiellesFromFactures(facturesEtudiant);
+            }
+            else
+            {
+
+                facturesPartielles = new();
+            }
+
+            achatHistoriqueVM = new()
+            {
+                facturesPartielles = facturesPartielles
+            };
+
+            return View(achatHistoriqueVM);
+        }
+
         // TODO: sortir dans le DAO!
         private Etudiant GetLoggedInEtudiant()
         {

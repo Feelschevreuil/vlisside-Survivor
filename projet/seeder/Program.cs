@@ -6,6 +6,7 @@ using vlissides_bibliotheque.Enums;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using vlissides_bibliotheque.DTO;
 
 namespace seeder
 {
@@ -169,13 +170,18 @@ namespace seeder
         /// <returns>Les provinces en liste.</returns>
         private static ICollection<Province> GetProvinces()
         {
-
-            return Builder<Province>
-        .CreateListOfSize(10)
-        .All()
-        .With(province => province.ProvinceId = 0)
-        .With(province => province.Nom = Faker.Address.UsState())
-        .Build();
+            ICollection<Province> provinces = new List<Province>();
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Québec" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Alberta" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Colombie-Britannique" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Île-du-Prince-Édouard" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Manitoba" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Nouveau-Brunswick" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Nouvelle-Écosse" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Saskatchewan" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Terre-Neuve" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Labrador" });
+            return provinces;
         }
 
         /// <summary>
@@ -977,7 +983,7 @@ namespace seeder
                 Isbn = prixEtatLivre.LivreBibliotheque.Isbn,
                 Titre = prixEtatLivre.LivreBibliotheque.Titre,
                 EtatLivre = prixEtatLivre.EtatLivre,
-                PrixUnitaireGele = prixEtatLivre.Prix,
+                Prix = prixEtatLivre.Prix,
                 Quantite = Faker.RandomNumber.Next(1, 2),
                 StatutCommande = Faker.Boolean.Random() ? StatutCommandeEnum.CORRECT : StatutCommandeEnum.QUANTITEE_CORRIGE_SELON_DISPONIBILITE
             };
@@ -1610,7 +1616,7 @@ namespace seeder
                 Debut = new DateTime(2022, 12, 1),
                 Fin = new DateTime(2022, 12, 31),
                 Description = "En décembre, 25% sur les articles de planches à neige\r\nVenez nous voir\r\nCarrefour champêtre de Bromont\r\n",
-                Image = "/img/plancheNeige.jpg"
+                Image = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/plancheNeige.jpg"
             };
             listEvenements.Add(evenement);
 
@@ -1622,7 +1628,7 @@ namespace seeder
                 Debut = new DateTime(2022, 11, 1),
                 Fin = new DateTime(2023, 1, 15),
                 Description = "Auberge Le SUNSHINE\r\n123 rue Principale, Stanstead\r\nÀ l’achat d’un certificat-cadeau, 25% sur les patisseries et les délices de saison",
-                Image = "/img/sunshine.jpg"
+                Image = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/sunshine.jpg"
             };
             listEvenements.Add(evenement1);
 
@@ -1634,7 +1640,7 @@ namespace seeder
                 Debut = new DateTime(2022, 11, 1),
                 Fin = new DateTime(2022, 11, 30),
                 Description = "23 des Saules, Stanstead\r\n\r\nBière à volonté tous les jeudis soirs à l’achat d’un souper de plus de 30$",
-                Image = "/img/souper.jpg"
+                Image = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/souper.jpg"
             };
             listEvenements.Add(evenement2);
 
@@ -1646,7 +1652,7 @@ namespace seeder
                 Debut = new DateTime(2022, 11, 1),
                 Fin = new DateTime(2023, 2, 14),
                 Description = "52 Monarque, Stanstead\r\n\r\nSamedi - les retrouvailles\r\n2 pour 1 sur les consommations alcoolisées\r\n15% sur les repas pour 2\r\n\r\nMusique, ambiance et festivités à l’anglaise",
-                Image = "/img/anglais.jpg"
+                Image = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/anglais.jpg"
             };
             listEvenements.Add(evenement3);
 

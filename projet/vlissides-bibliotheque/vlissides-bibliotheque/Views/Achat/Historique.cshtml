@@ -1,0 +1,85 @@
+@model AchatHistoriqueVM
+
+<p class="fs-2">Historique d'achats</p>
+
+<script>
+
+    function detailsFacture(id) {
+        window.location.href = host + "Achat/?id=" + id;
+    }
+</script>
+
+<div class="container">
+    @{
+        if(Model.facturesPartielles.Count() > 0)
+        {
+            foreach(FacturePartielle factureEtudiantPartielle in Model.facturesPartielles)
+            {
+
+                <div class="container">
+                    <div class="border-bottom p-3">
+                        <div class="row">
+                            <div class="col-10 pe-10 ps-0">
+                                <p class="mb-0"><strong>Commande de @factureEtudiantPartielle.NombreCommandes livre@(factureEtudiantPartielle.NombreCommandes > 1 ? "s" : "")</strong></p>
+                                <p class="mb-3">Adresse: @factureEtudiantPartielle.ToString()</p>
+                            </div>
+                            <span class="col-2 text-end">
+                                <strong>@factureEtudiantPartielle.PrixTotal</strong>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="row">
+                                    @{
+                                        if(factureEtudiantPartielle.StatutFacture ==  StatutFactureEnum.ATTENTE_PAIEMENT)
+                                        {
+
+                                            <img src="/img/clock.svg" style="height:24px; width:24px;" class="col-1 p-0">
+                                            <span class="col-11 align-middle">En attente de paiement. Réservée pour <strong>15 minutes</strong>.</span>
+                                        }
+                                        else if(factureEtudiantPartielle.StatutFacture ==  StatutFactureEnum.TRANSIT)
+                                        {
+
+                                            <img src="/img/truck-fast.svg" style="height:24px; width:24px;" class="col-1 p-0">
+                                            <span class="col-11 align-middle">En transit. Prévoyez <strong>48 heures</strong>.</span>
+                                        }
+                                        else if(factureEtudiantPartielle.StatutFacture ==  StatutFactureEnum.LIVREE)
+                                        {
+
+                                            <img src="/img/check-circle.svg" style="height:24px; width:24px;" class="col-1 p-0">
+                                            <span class="col-11 align-middle">Commande payée avec succès! <strong>Merci!</strong></span>
+                                        }
+                                        else if(factureEtudiantPartielle.StatutFacture ==  StatutFactureEnum.ANNULEE_NON_PAYE_DELAIS)
+                                        {
+
+                                            <img src="/img/not-paid.svg" style="height:24px; width:24px;" class="col-1 p-0">
+                                            <span class="col-11 align-middle">Commande non payée dans un délai de <strong>15 minutes</strong>. Réservation annulée.</span>
+                                        }
+                                        else
+                                        {
+
+                                            <img src="/img/close-circle.svg" style="height:24px; width:24px;" class="col-1 p-0">
+                                            <span class="col-11 align-middle">Commande annulée.</span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        <div class="text-end col-2">
+                            <button class="btn btn-primary" onclick="detailsFacture(@factureEtudiantPartielle.FactureEtudiantId)">Détails</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <img class="col-4" src="~/img/no-books.svg" />
+                    <p>Aucun historique d'achat.</p>
+                </div>
+            </div>
+        }
+    }
+</div>
