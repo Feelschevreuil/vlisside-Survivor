@@ -91,6 +91,11 @@ namespace vlissides_bibliotheque.DAO
                     (
                         factureEtudiant => factureEtudiant.AdresseLivraison
                     )
+                    .OrderBy
+                    (
+                        facturesEtudiant => facturesEtudiant.FactureEtudiantId
+                    )
+                    .Reverse()
                     .If
                     (
                         quantiteASauter > 0,
