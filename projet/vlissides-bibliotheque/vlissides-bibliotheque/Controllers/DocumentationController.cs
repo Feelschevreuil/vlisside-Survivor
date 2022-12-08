@@ -20,6 +20,17 @@ namespace vlissides_bibliotheque.Controllers
         {
             List<DocumentationVM> Fonctionnalites = new() {
                 new DocumentationVM() {
+                    Titre = "Documentation",
+                    Description = "Ici, vous trouverez toutes les informations nécessaires pour votre bonne compréhension de l'utilisation du site.",
+                    Url = "/Documentation",
+                    Sections = new() {
+                        new SectionDocumentationVM() {
+                            Titre = "Images",
+                            Description = "Toutes les images présentes dans la documentation s'agrandissent lorsqu'elles sont sélectionnée par un clic gauche de souris."
+                        }
+                    }
+                },
+                new DocumentationVM() {
                     Titre = "Accueil",
                     Description = "Présente une vue d'ensemble des services de la plateforme.",
                     Url = "/",
@@ -79,23 +90,23 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Identification",
-                            Description = "",
+                            Description = "Cette section présente les informations d'identification de base : Courriel, nom et prénom.",
                             LienImage = "inscription-identification.png"
 
                         },
                         new SectionDocumentationVM() {
                             Titre = "Sécurité",
-                            Description = "",
+                            Description = "Pour se créer un mot de passe il faut respecter certaines restrictions de sécurité : avoir des lettres (minuscules et majuscules), avoir 1 ou plusieurs chiffres, avoir au moins 1 caractère spécial et respecter la taille minimal de 6 caractères.",
                             LienImage = "inscription-securite.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Scolarité",
-                            Description = "",
+                            Description = "Cette section présente les informations relatives à la scolarité : programme d'études.",
                             LienImage = "inscription-scolarite.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Adresse",
-                            Description = "",
+                            Description = "Cette section présente les informations relatives à la localité de l'utilisateur : Numéro civique, numéro d'appartement, rue, ville, code postal, province et numéro de téléphone.",
                             LienImage = "inscription-adresse.png"
                         }
                     }
@@ -116,18 +127,18 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Identification",
-                            Description = "",
+                            Description = "Cette section présente les informations d'identification de base : Courriel, nom et prénom.",
                             LienImage = "inscription-identification.png"
 
                         },
                         new SectionDocumentationVM() {
                             Titre = "Scolarité",
-                            Description = "",
-                            LienImage = "inscription-scolarite.png"
+                            Description = "Cette section présente les informations relatives à la scolarité : programme d'études et liste de cours suivis.",
+                            LienImage = "profil-scolarite.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Adresse",
-                            Description = "",
+                            Description = "Cette section présente les informations relatives à la localité de l'utilisateur : Numéro civique, numéro d'appartement, rue, ville, code postal, province et numéro de téléphone.",
                             LienImage = "inscription-adresse.png"
                         },
                         new SectionDocumentationVM() {
@@ -158,11 +169,11 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Ajouter",
-                            Description = "Possibilité d'ajouter un livre sous un format spécifique au panier."
+                            Description = "Possibilité d'ajouter un livre sous un format spécifique au panier (bouton bleu)."
                         },
                         new SectionDocumentationVM() {
                             Titre = "Supprimer",
-                            Description = "Possibilité d'enlever un livre sous un format spécifique du panier."
+                            Description = "Possibilité d'enlever un livre sous un format spécifique du panier (bouton rouge)."
                         }
                         
                     }
@@ -198,7 +209,7 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = "",
+                            Description = "Appuyer sur l'icône de panier dans la partie droite de la barre de navigation.",
                             LienImage = "acces-panier.png"
                         },
                     }
@@ -214,7 +225,7 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = "",
+                            Description = "Dans la page d'accueil, appuyer sur le bouton \"Voir tous les événements\" de la section événement.",
                             LienImage = "acces-evenements.png"
                         },
                     }
