@@ -10,8 +10,8 @@
     var numeroEtudiant = "/" + window.location.pathname.replace(/^\/([^\/]*).*$/, '$1') + "/";
     var fetchEnLocal = "/../Recherche/RechercheRapide";
     var fetchEnLocalDuneAutrePage = "/../Recherche/RechercheRapideAutrePage"
-    var fetchSurServeur = numeroEtudiant + "Recherche/RechercheRapide";
-    var fetchSurServeurDuneAutrePage = fetchEnLocalDuneAutrePage + "Recherche/RechercheRapide";
+    var fetchSurServeur = "Recherche/RechercheRapide";
+    var fetchSurServeurDuneAutrePage = "Recherche/RechercheRapideAutrePage";
     var stringFetch = "";
     var stringFetchAutrePage = "";
     var url = location.host;
@@ -24,13 +24,9 @@
         numPage = 0;
     }
 
-    if (url.match("localhost") == null) {
-        stringFetch = fetchSurServeur;
-        stringFetchAutrePage = fetchSurServeurDuneAutrePage;
-    } else {
-        stringFetch = fetchEnLocal;
-        stringFetchAutrePage = fetchEnLocalDuneAutrePage;
-    }
+    stringFetch = host+fetchSurServeur;
+    stringFetchAutrePage = host+fetchSurServeurDuneAutrePage;
+
 
     if (RechercheSelection == null) {
         ouRecherche = 1; //bibli
