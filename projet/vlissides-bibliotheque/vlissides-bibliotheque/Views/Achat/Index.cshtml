@@ -9,35 +9,35 @@
     if(Model.StatutFacture ==  StatutFactureEnum.ATTENTE_PAIEMENT)
     {
 
-        <div class="alert alert-primary" role="alert">
+        <div class="alert alert-primary mb-0" role="alert">
             Cher <strong>@Model.NomEtudiant</strong>, vos articles sont réservés pour 15 minutes. Veuillez procéder au paiement.
         </div>
     }
     else if(Model.StatutFacture == StatutFactureEnum.TRANSIT)
     {
 
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info mb-0" role="alert">
             Merci, cher <strong>@Model.NomEtudiant</strong>, votre commande est en transit. Prévoyez un délai maximum de 48 heures.
         </div>
     }
     else if(Model.StatutFacture == StatutFactureEnum.LIVREE)
     {
 
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-success mb-0" role="alert">
             Merci, cher <strong>@Model.NomEtudiant</strong> pour nous avoir choisi et bonne lecture!
         </div>
     }
     else if(Model.StatutFacture == StatutFactureEnum.ANNULEE_NON_PAYE_DELAIS)
     {
 
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mb-0" role="alert">
             Annulée dû au non paiement après 15 minutes de réservation.
         </div>
     }
     else
     {
 
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mb-0" role="alert">
             Commande annulée.
         </div>
     }
@@ -47,7 +47,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-8">
+        <div class="col-lg-8 col-sm-12 mt-3">
 
             <div class="accordion" id="accordionInformationsPaiement">
                 <div class="accordion-item">
@@ -314,7 +314,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-sm-12 mt-3">
 
         <div class="card">
             <div class="card-body p-0">
