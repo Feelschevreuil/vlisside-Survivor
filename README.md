@@ -1,23 +1,23 @@
 
-Projet d'intégration
-====================
+![BiblioX logo](logo/bibliox.png)
 
-Équipe: vlisside
+Équipe: Vlissides
 
-# Guidelines
-Voici les règles de base à suivre pour le projet vlisside. **À lire avant de travailler sur le projet**.
+Bienvenue au repértoire git du projet de bibliothèque Vlissides!
 
-## Organisaiton
-Guidelines de bases sur l'organisation de l'équipe.
+# Lignes de conduite
+Dans la section de lignes de conduite, vous allez trouver de l'information concernant comment configurer les outils pour le projet, les standards de git du projet ainsi que le standard de code du projet.
+
+Svp, bien lire avant de commencer à participer au projet. L'index des lignes de conduite ce trouve [ici](org/lignes-conduite/README.md).
 
 ### Gestion du temps
 Assurez-vous de toujours confirmer le temps que vous passez sur une fonctionnalité/bug fix dans le projet sur azure.
 
 ### Communications
-Utiliser le groupe matrix fait pour le projet.
+Utiliser le groupe [matrix](https://matrix.org) fait pour le projet. Demander plus de clarifications à l'équipe au besoin.
 
 ### Notes
-Ajouter vos notes dans le répertoire de notes sur ce répertoire git.
+Au beosin, ajouter vos notes dans le répertoire de notes sur ce répertoire git.
 
 #### Fichiers de notes
 Afin de partager nos notes facilement à travers git et accessibles avec
@@ -28,73 +28,82 @@ notre éditeur de texte préféré, on les téléverse dans le repo. git.
   - Sans accents
   - Séparé par des tirets
 - Format
-  - markdown
+  - markdown [documentation pour Azure](https://docs.microsoft.com/en-us/azure/devops/project/wiki/markdown-guidance?view=azure-devops)
 
-# Code
-Lorsque vous travaillez sur le code du projet, suivre les règles suivantes. **À lire avant de programmer**.
+# Légal
+Section dédiée aux informations concernant les licences et les déclarations légales.
 
-## Branches
-Guide sur les branches que l'on utilise dans le projet.
+## Licence du projet
+Le projet est licencié sous la licence [WTFPL](www.wtfpl.net).
 
-### master (production)
-Branche de production. Elle doit toujours être fonctionnelle, même s'il
-manque des fonctionnalités.
+![logo de la licence](LICENSES/wtfpl-badge.png)
 
-**On livre toujours un produit fonctionnel**.
+Il est important de bien lire la licence avant de regarder, d'exécuter et de modifier le code du projet. [lire la licence et plus d'informations](LICENSES/README.md)
 
-### develop
-On pousse les changements à chaque deux semaines (une fois le sprint
-terminé.
+## Tiers
+Voici une liste des ressources tierces utilisée par le projet.
 
-## Pull request
-Lorsque vous effectuez un **pull request**, assurez-vous d'effectuer les étapes suivantes.
+### Dépendances communes
+Dépendances générales s'appliquant à tout le projet. Autant au seeder qu'à la bibliothèque.
 
-- Assurez-vous que vous avez appliqué le standard de code demandé. (Voir **Standard de code**)
-- Assurez-vous que vous avez écrit vos commentaires avec un français de qualité.
-- Assurez-vous d'inclure une documentation sur comment votre modification peut être testée et fournissez des données *bidon* au besoin. (Voir **Tests de fonctionnalité/bug fix**
-- Assurez-vous d'avoir documenté votre nouvelle fonctionnalité. (Si applicable). (Voir **Documenter**)
-- Assurez-vous d'avoir suivi le standard de commit. (Voir **Standard de commit**)
+| Licence | Dépendance |
+|-----------|-----------:|
+| [MIT](LICENSES/MIT) | dotnet |
 
-## Code review (Valider un pull request)
-Lorsqu'un code review vous est assigné (Suite à un pull request), 
-assurez-vous de faire les vérification suivantes:
 
-- Confirmer que le code respecte le standard de code. (Voir **Standard de code**)
-- Confirmer que les commentaires sont écris en un français de qualité.
-- Confirmer qu'une documentation sur comment tester la modification est présente.
-- Confirmer que la fonctionnalité est documentée (Si applicable). (Voir **Documenter**)
-- Confirmer que les commits suivent le standard de commit. (Voir **Standard de commit**)
-- Tester le code
+### Dépendances du système de bibliothèque
+Dépendances nécessaires pour le projet du système de la bibliothèque.
 
-Si un des points ci-haut est manquant, rejeter le pull request et expliquer pourquoi.
+#### Paquets nuget
+| Licence | Dépendance | 
+|-----------|-----------:|
+| [MIT](LICENSES/MIT) | Faker.Net |
+| [MIT](LICENSES/MIT) | Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore |
+| [MIT](LICENSES/MIT) | Microsoft.AspNetCore.Identity.EntityFrameworkCore |
+| [MIT](LICENSES/MIT) | Microsoft.AspNetCore.Identity.UI |
+| [MIT](LICENSES/MIT) | Microsoft.EntityFrameworkCore.Tools |
 
-## Tests de fonctionnalité/bug fix
-(À définir)
+#### Esthétique
+Dépendances concernant l'esthétique du projet.
 
-## Standard de commit
-Utiliser le bon préfix.
-Écrire un titre court.
-Écrire une bonne description.
+| Licence | Dépendance | 
+|-----------|-----------:|
+| [MIT](LICENSES/MIT) | bootstrap |
+| [PFL](LICENSES/PFL) [WTFPL](LICENSES/WTFPL) [MIT](LICENSES/MIT) [Apache 2.0](LICENSES/Apache2_0) [](LICENSES/) | materialdesignicons |
 
-(À définir)
+### Dépendances du seeder
+Dépendances nécessaires pour le projet seeder.
 
-## Standard de code
+| Licence | Dépendance |
+|-----------|-----------:|
+| [MIT](LICENSES/MIT) | dotnet |
+| [MIT](LICENSES/MIT) | NBuilder |
+| [MIT](LICENSES/MIT) | Microsoft.EntityFrameworkCore |
+| [MIT](LICENSES/MIT) | Microsoft.EntityFrameworkCore.Design |
+| [MIT](LICENSES/MIT) | Microsoft.Extensions.Configuration |
+| [Apache 2.0](LICENSES/APACHE2_0) | Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore |
+*(Paquets nuget)*
 
-### Brackets
-(À définir)
+### Dépendances de la base de données
+Selon la base de données vous voulez utiliser, les dépendances changent d'une technologie de base de donnée à une autre.
 
-```
-public void GetFeature()
-{
+#### Paquets nuget
+Technologies utilisées pour se conecter à une base de données.
 
-}
-```
+| Licence | Dépendance | Système d'exploitation du serveur | Branche |
+|-----------|:----------:|:----------:|-----------:|
+| [MIT](LICENSES/MIT) | Microsoft.Data.Sqlite.Core | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| [MIT](LICENSES/MIT) | Pomelo.EntityFrameworkCore.MySql | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| [MIT](LICENSES/MIT) | Microsoft.EntityFrameworkCore.SqlServer | Linux, Windows | `main`, `develop` |
 
-(À définir)
+#### Base de données
+Technologies utilisées pour servir la base de données.
 
-## Documenter
-(À définir)
+**NB**: du à des limitations de `dotnet`, vous ne pouvez pas utiliser le seeder sur un autre système d'exploitation BSD que FreeBSD, mais vous pouvez servir la base de donnée sur n'importe quel système BSD.
 
-# Frameworks
-- Front end: bootstrap
-- Back end: asp dotnet 6
+| Licence | Technologie | Système d'exploitation du serveur | Branche |
+|-----------|:----------:|:----------:|-----------:|
+| Domaine public | sqlite3 | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| [GPLv3](LICENSES/GPLv3) [LGPLv2.1](LICENSES/LGPLv2_1) | mariadb | \*BSD, Linux, Windows | `main-freebsd`, `develop-freebsd` |
+| [Propriétaire](https://www.microsoft.com/en-us/Licensing/product-licensing/sql-server) | mssql | Linux, Windows | `main`, `develop` |
+
