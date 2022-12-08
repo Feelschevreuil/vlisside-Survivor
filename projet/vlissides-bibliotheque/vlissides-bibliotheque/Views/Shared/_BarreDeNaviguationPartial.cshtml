@@ -69,9 +69,13 @@
                     <button class="input-group-text btn btn-light border-light" type="submit" onclick="changerPage(0)">
                         <img src="~/img/loupe-de-recherche.svg">
                     </button>
-                    <button class="input-group-text btn btn-light border-light" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"  >
-                        <img src="~/img/plus-circle.svg" width="24px">
-                    </button>
+                    @if (User.Identity != null) {
+                        if (User.Identity.IsAuthenticated) {
+                            <button class="input-group-text btn btn-light border-light" data-bs-toggle="offcanvas" href="#offcanvasRechercheAvancee" role="button" aria-controls="offcanvasRechercheAvancee"  >
+                                <img src="~/img/plus-circle.svg" width="24px">
+                            </button>
+                        }
+                    }
                 </div>
             </div>
 
@@ -135,9 +139,9 @@
 
         </script>
 
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRechercheAvancee" aria-labelledby="offcanvasRechercheAvanceeLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Recherche avancée</h5>
+                <h5 class="offcanvas-title" id="offcanvasRechercheAvanceeLabel">Recherche avancée</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
