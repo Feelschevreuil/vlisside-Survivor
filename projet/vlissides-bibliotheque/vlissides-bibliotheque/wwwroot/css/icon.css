@@ -13,3 +13,8 @@
     height: 20px;
     width: 20px;
 }
+
+#iconeInformation:hover {
+    transition: 0.5s;
+    filter: drop-shadow(2px 4px 1px grey);
+}

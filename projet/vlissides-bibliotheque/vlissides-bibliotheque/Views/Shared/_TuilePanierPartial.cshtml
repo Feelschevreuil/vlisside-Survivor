@@ -5,7 +5,7 @@
 }
 
 
-<div class="card border-2 tuile-livre mt-3">
+<div class="card border-2 tuile-livre mt-3 p-2">
 
     
     <div>
@@ -18,8 +18,12 @@
         <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.livreBibliotheque.LivreId">
 
             <div class="position-relative text-center">
-                <img class="mx-auto image-livre" src="@Model.livreBibliotheque.PhotoCouverture" alt="PhotoLivre">
-                <div class="prix rounded-circle text-center shadow" id="cercleJauneN-@livreIdCourant">
+                @if (Model.livreBibliotheque.PhotoCouverture == "") {
+                    <img class="mx-auto image-livre" src="~/img/photo-livre.jpg" alt="PhotoLivre">
+                } else {
+                    <img class="mx-auto image-livre" src="@Model.livreBibliotheque.PhotoCouverture" alt="PhotoLivre">
+                }
+                <div class="prix rounded-circle" id="cercleJauneN-@livreIdCourant">
                     @if (Model.prixEtatLivre[0] != null && Model.prixEtatLivre.Count() > 0)
                     {
                         <p id="PrixLivreId-@livreIdCourant" class="pt-3">@AffichagePrix.GetPremierPrix(Model).Prix.ToString("N2").Replace(",",".")$</p>
