@@ -190,7 +190,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             await _signInManager.SignOutAsync();
 
-            return RedirectToAction("Index", "Home");
+            return Redirect(@"~/");
         }
     }
 }
