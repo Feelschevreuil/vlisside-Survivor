@@ -22,20 +22,3 @@ function zoomImage(img) {
     // ajout de la source de l'image
     imageAffichageZoom.src = String(img.src);
 }
-
-function creerIconeInformation() {
-    let icone = document.createElement("img");
-    icone.id = "iconeInformation";
-    icone.src = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/doc/information-outline.svg";
-    icone.title = "Documentation";
-    icone.style.width = "25px";
-    icone.style.position = "absolute";
-    icone.style.top = "140px";
-    icone.style.right = "20px";
-    icone.addEventListener("click", () => {
-        window.location.href = host + "Documentation";
-    });
-    document.body.appendChild(icone);
-}
-
-creerIconeInformation();

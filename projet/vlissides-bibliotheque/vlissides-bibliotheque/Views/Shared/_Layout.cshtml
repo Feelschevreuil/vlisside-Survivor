@@ -40,6 +40,9 @@
     <script src="~/js/changerDePage.js" asp-append-version="true"></script>
     @if (SignInManager.IsSignedIn(User)) {
         <script src="~/js/documentation.js" asp-append-version="true"></script>
+        <a asp-action="Index" asp-controller="Documentation">
+            <img src="~/img/doc/information-outline.svg" id="iconeInformation" title="Documentation" />
+        </a>
     }
     @await RenderSectionAsync("Scripts", required: false)
 </body>
