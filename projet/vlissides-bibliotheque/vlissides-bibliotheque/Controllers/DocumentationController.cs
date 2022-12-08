@@ -26,11 +26,11 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "accueil.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = "",
+                            Description = "Sélectionner le logo de la plateforme, lequel se décrit par un cube rubique bleu suivi du nom de la plateforme, soit \"Bibliox\". Il est positionné à l'extrême gauche de la barre de navigation.",
                             LienImage = "acces-accueil.png"
                         },
                         new SectionDocumentationVM() {
@@ -79,19 +79,24 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Identification",
-                            Description = ""
+                            Description = "",
+                            LienImage = "inscription-identification.png"
+
                         },
                         new SectionDocumentationVM() {
                             Titre = "Sécurité",
-                            Description = ""
+                            Description = "",
+                            LienImage = "inscription-securite.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Scolarité",
-                            Description = ""
+                            Description = "",
+                            LienImage = "inscription-scolarite.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Adresse",
-                            Description = ""
+                            Description = "",
+                            LienImage = "inscription-adresse.png"
                         }
                     }
                 },
@@ -102,7 +107,7 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "profil.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
@@ -111,15 +116,19 @@ namespace vlissides_bibliotheque.Controllers
                         },
                         new SectionDocumentationVM() {
                             Titre = "Identification",
-                            Description = ""
+                            Description = "",
+                            LienImage = "inscription-identification.png"
+
                         },
                         new SectionDocumentationVM() {
                             Titre = "Scolarité",
-                            Description = ""
+                            Description = "",
+                            LienImage = "inscription-scolarite.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Adresse",
-                            Description = ""
+                            Description = "",
+                            LienImage = "inscription-adresse.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Se déconnecter",
@@ -135,11 +144,11 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "bibliotheque.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = "",
+                            Description = "Appuyer sur l'option \"Bibliothèque\" dans la partie gauche de la barre de navigation.",
                             LienImage = "acces-bibliotheque.png"
                         },
                         new SectionDocumentationVM() {
@@ -165,11 +174,11 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "boutique.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = "",
+                            Description = "Appuyer sur l'option \"Boutique étudiante\" dans la partie gauche de la barre de navigation.",
                             LienImage = "acces-boutique.png"
                         },
                         new SectionDocumentationVM() {
@@ -185,11 +194,12 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "panier.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = ""
+                            Description = "",
+                            LienImage = "acces-panier.png"
                         },
                     }
                 },
@@ -200,7 +210,7 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "evenements.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
@@ -216,19 +226,15 @@ namespace vlissides_bibliotheque.Controllers
                     Sections = new() {
                         new SectionDocumentationVM() {
                             Titre = "Vue d'ensemble",
-                            LienImage = ""
+                            LienImage = "recherche.png"
                         },
                         new SectionDocumentationVM() {
                             Titre = "Comment y accéder ?",
-                            Description = ""
+                            Description = "La barre de navigation est composée de 2 parties : pour naviguer sur le site (partie du haut) et pour effectuer des recherches (partie du bas). Il suffit donc d'utiliser la partie du bas en appuyant sur le champ de recherche."
                         },
                         new SectionDocumentationVM() {
-                            Titre = "Recherche simple",
-                            Description = ""
-                        },
-                        new SectionDocumentationVM() {
-                            Titre = "Recherche avancée",
-                            Description = ""
+                            Titre = "Accès à quelles informations ?",
+                            Description = "Le système de recherche permet de trouver des livres d'après leur titre. Il y a 2 sources de données contenant des livres sur la plateforme : la bibliothèque et la boutique étudiante. Ainsi, il est important de spécifier dans quelle source de données vous souhaitez effectuer votre rechreche."
                         }
                     }
                 }

@@ -12,15 +12,21 @@
         <nav id="documentation" class="h-100 flex-column align-items-stretch pe-4 border-end">
             <nav class="nav nav-pills flex-column">
                 @foreach (DocumentationVM doc in Model) {
-                    <a class="nav-link fw-bold" href="#section-@indexFonctionnalite">@doc.Titre</a>
+                    @if (!doc.IsAdminReserved || User.IsInRole(RolesName.Admin))
+                    {
+                        <a class="nav-link fw-bold" href="#section-@indexFonctionnalite">@doc.Titre</a>
 
-                    <nav class="nav nav-pills flex-column">
-                        @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
-                            <a class="nav-link ms-3 my-1" href="#section-@indexFonctionnalite-@indexSection">@sectionDoc.Titre</a>
-                            indexSection++;
-                        }
-                    </nav>
-                    indexFonctionnalite++;
+                        <nav class="nav nav-pills flex-column">
+                            @foreach (SectionDocumentationVM sectionDoc in doc.Sections)
+                            {
+                                @if (!sectionDoc.IsAdminReserved || User.IsInRole(RolesName.Admin)) {
+                                    <a class="nav-link ms-3 my-1" href="#section-@indexFonctionnalite-@indexSection">@sectionDoc.Titre</a>
+                                    indexSection++;
+                                }
+                            }
+                        </nav>
+                        indexFonctionnalite++;
+                    }
                 }
             </nav>
         </nav>
@@ -56,7 +62,9 @@
                                     }
                                     @if (!string.IsNullOrEmpty(sectionDoc.LienImage))
                                     {
-                                        <img src="/img/doc/@sectionDoc.LienImage" class="w-100 rounded border">
+                                        <div class="text-center">
+                                            <img src="/img/doc/@sectionDoc.LienImage" class="rounded border" id="img-documentation">
+                                        </div>
                                     }
                                 </div>
                                 indexSection++;
