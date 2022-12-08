@@ -6,6 +6,7 @@ using vlissides_bibliotheque.Enums;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using vlissides_bibliotheque.DTO;
 
 namespace seeder
 {
@@ -169,13 +170,18 @@ namespace seeder
         /// <returns>Les provinces en liste.</returns>
         private static ICollection<Province> GetProvinces()
         {
-
-            return Builder<Province>
-        .CreateListOfSize(10)
-        .All()
-        .With(province => province.ProvinceId = 0)
-        .With(province => province.Nom = Faker.Address.UsState())
-        .Build();
+            ICollection<Province> provinces = new List<Province>();
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Québec" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Alberta" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Colombie-Britannique" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Île-du-Prince-Édouard" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Manitoba" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Nouveau-Brunswick" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Nouvelle-Écosse" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Saskatchewan" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Terre-Neuve" });
+            provinces.Add(new Province { ProvinceId = 0, Nom = "Labrador" });
+            return provinces;
         }
 
         /// <summary>
