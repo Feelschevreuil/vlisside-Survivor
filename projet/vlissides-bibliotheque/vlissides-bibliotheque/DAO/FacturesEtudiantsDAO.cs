@@ -81,17 +81,27 @@ namespace vlissides_bibliotheque.DAO
 
             quantiteASauter = DAOUtils.GetQuantityOfElementsToSkip(quantiteParPage, page); 
 
-            facturesEtudiant = GetAll()
-                .Where
-                (
-                    factureEtudiant => factureEtudiant.Etudiant == etudiant
-                )
-                .If
-                (
-                    quantiteASauter > 0,
-                    livres => livres.Skip(quantiteASauter)
-                )
-                .Take(quantiteParPage);;
+            facturesEtudiant = _context
+                .FacturesEtudiants
+                    .Where
+                    (
+                        factureEtudiant => factureEtudiant.Etudiant == etudiant
+                    )
+                    .Include
+                    (
+                        factureEtudiant => factureEtudiant.AdresseLivraison
+                    )
+                    .OrderBy
+                    (
+                        facturesEtudiant => facturesEtudiant.FactureEtudiantId
+                    )
+                    .Reverse()
+                    .If
+                    (
+                        quantiteASauter > 0,
+                        livres => livres.Skip(quantiteASauter)
+                    )
+                    .Take(quantiteParPage);
 
             return facturesEtudiant;
         }

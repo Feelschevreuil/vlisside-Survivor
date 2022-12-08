@@ -8,7 +8,7 @@ namespace vlissides_bibliotheque.Models.Achat
     /// Class <c>CommandePartielle</c> définit ce que l'on veut envoyer au client lors de 
     /// la visualisation d'une facture.
     /// </summary>
-    public class CommandePartielle
+    public class CommandePartielle: Commande
     {
 
         [Required]

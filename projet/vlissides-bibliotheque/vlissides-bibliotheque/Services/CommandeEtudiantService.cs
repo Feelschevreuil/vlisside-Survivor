@@ -1,4 +1,4 @@
-using vlissides_bibliotheque.DAO;
+﻿using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Utils;
@@ -143,7 +143,7 @@ namespace vlissides_bibliotheque.Services
 
                         commandeEtudiant.EtatLivre = prixEtatLivre.EtatLivre;
 
-                        commandeEtudiant.PrixUnitaireGele = prixEtatLivre.Prix;
+                        commandeEtudiant.Prix = prixEtatLivre.Prix;
 
                         if(etatLivre == EtatLivreEnum.USAGE)
                         {
@@ -282,7 +282,7 @@ namespace vlissides_bibliotheque.Services
                     Isbn = commandeEtudiant.Isbn,
                     Titre = commandeEtudiant.Titre,
                     EtatLivre = commandeEtudiant.EtatLivre,
-                    Prix = commandeEtudiant.PrixUnitaireGele,
+                    Prix = commandeEtudiant.Prix,
                     Quantite = commandeEtudiant.Quantite,
                     StatutCommande = commandeEtudiant.StatutCommande
                 };
@@ -294,27 +294,69 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
-        /// Calcule le total d'une liste de <c>CommandePartielle</c>
+        /// Calcule le total de <c>ICommande</c>.
         /// </summary>
-        /// <param name="commandesPartielles">Liste de <c>CommandePartielle</c></param>
-        /// <returns>Le total des <c></c></returns>
-        public static double GetTotalCommandesPartielles
+        /// <param name="commandes"><c>ICollection</c> de <c>ICommande</c></param>
+        /// <returns></returns>
+        public static double GetTotalCommandes
         (
-            List<CommandePartielle> commandesPartielles
+            List<CommandeEtudiant> commandes
         )
         {
 
-            double totalFacture;
+            double total;
 
-            totalFacture = 0.0;
+            total = 0.0;
 
-            foreach(CommandePartielle commandePartielle in commandesPartielles)
+            foreach(CommandeEtudiant commande in commandes)
             {
 
-                totalFacture += commandePartielle.Prix * commandePartielle.Quantite;
+                if
+                (
+                    commande.StatutCommande != StatutCommandeEnum.INEXISTANT &&
+                    commande.StatutCommande != StatutCommandeEnum.MANQUE_INVENTAIRE
+                )
+                {
+                    total += (commande.Prix * commande.Quantite);
+                }
             }
 
-            return totalFacture;
+            return total;
+        }
+
+        /// <summary>
+        /// Compte le total de livres d'une liste d'<c>ICommande</c>.
+        /// </summary>
+        /// <param name="commandesEtudiant">
+        /// Les <c>CommandeEtudiant</c> appartenant à la <c>FactureEtudiant</c>
+        /// </param>
+        /// <returns>
+        /// Le nombre de total de livres d'une commande.
+        /// </returns>
+        public static int GetNombreLivres
+        (
+            List<CommandeEtudiant> commandes
+        )
+        {
+
+            int nombreLivres;
+
+            nombreLivres = 0;
+
+            foreach(CommandeEtudiant commande in commandes)
+            {
+
+                if
+                (
+                    commande.StatutCommande != StatutCommandeEnum.INEXISTANT &&
+                    commande.StatutCommande != StatutCommandeEnum.MANQUE_INVENTAIRE
+                )
+                {
+                    nombreLivres += commande.Quantite;
+                }
+            }
+
+            return nombreLivres;
         }
 
         /// <summary>
