@@ -33,6 +33,73 @@ namespace vlissides_bibliotheque.Controllers
             _livresBibliothequeDAO = livresBibliothequeDAO;
         }
 
+        [HttpPost]
+        // TODO:
+        /// désolé, le code est super RED NECK, j'ai ré-utilisé ce qu'il y avait présent
+        /// et il est le 7 décembre 21h25, je suis encore au cégep et je dois retourner
+        /// chez moi. Je dois laisser le tout tel quel... 
+        ///
+        /// sorry Chalres!!
+        public IActionResult ChercherBibliotheque([FromBody] LivreChampsRecherche livreChampsRecherche, int page = 0)
+        {
+
+
+            if(livreChampsRecherche != null)
+            {
+
+                List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
+                List<LivreBibliotheque> BDlivreBibliotheques;
+                LivresBibliothequeDAO livresBibliothequeDAO;
+                List<CoursLivre> bdCoursLivre = _context.CoursLivres
+                   .Include(x => x.Cours)
+                   .Include(x => x.LivreBibliotheque)
+                   .Include(x => x.Cours.ProgrammeEtude)
+                   .ToList();
+                List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
+                    .Include(x => x.Auteur)
+                    .Include(x => x.LivreBibliotheque)
+                    .ToList();
+                List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
+                    .ToList();
+
+                // TODO: RED NECK!!
+                if(!livreChampsRecherche.Neuf)
+                    livreChampsRecherche.Neuf = true;
+
+                if(!livreChampsRecherche.Usage)
+                    livreChampsRecherche.Usage = true;
+
+                if(!livreChampsRecherche.Digital)
+                    livreChampsRecherche.Digital = true;
+
+                livresBibliothequeDAO = new(_context);
+
+                BDlivreBibliotheques = livresBibliothequeDAO
+                    .GetSelonProprietes
+                    (
+                        livreChampsRecherche, 
+                        20, 
+                        (page > 0 ? page : 0)
+                    )
+                    .ToList();
+
+                foreach (LivreBibliotheque livre in BDlivreBibliotheques)
+                {
+                    var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre, bdPrixLivre, bdAuteurLivres);
+                    inventaireBibliotheque.Add(livreConvertie);
+                };
+
+                InventaireLivreBibliothequeVM inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
+
+                List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
+                inventaireLivreBibliotheque= TuileLivreBibliothequeVMService.TrouverAuteursLivres(auteursLivres, inventaireLivreBibliotheque);
+
+                return View("bibliotheque", inventaireLivreBibliotheque);
+            }
+
+            return BadRequest();
+        }
+
         public IActionResult Bibliotheque()
         {
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
