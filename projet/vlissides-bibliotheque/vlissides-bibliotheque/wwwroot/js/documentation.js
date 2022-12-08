@@ -26,7 +26,7 @@ function zoomImage(img) {
 function creerIconeInformation() {
     let icone = document.createElement("img");
     icone.id = "iconeInformation";
-    icone.src = "/img/doc/information-outline.svg";
+    icone.src = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/doc/information-outline.svg";
     icone.title = "Documentation";
     icone.style.width = "25px";
     icone.style.position = "absolute";
