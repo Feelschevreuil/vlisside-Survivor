@@ -1,0 +1,45 @@
+@model AchatInformationsLivraisonVM
+
+@{
+    if(Model.AdresseModifiee)
+    {
+
+        <div class="alert alert-success" role="alert">
+            Adresse modifiée avec <b>succès</b>!
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="mb-3 col-6">
+        <label class="form-label" asp-for="NumeroCivique"></label>
+        <input class="form-control" asp-for="NumeroCivique">
+        <span asp-validation-for="NumeroCivique" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 col-6">
+        <label class="form-label" asp-for="App"></label>
+        <input class="form-control" asp-for="App">
+        <span asp-validation-for="App" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="mb-3 col-4">
+        <label class="form-label" asp-for="CodePostal"></label>
+        <input class="form-control" asp-for="CodePostal">
+        <span asp-validation-for="CodePostal" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 col-8">
+        <label class="form-label" asp-for="Ville"></label>
+        <input class="form-control" asp-for="Ville">
+        <span asp-validation-for="Ville" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 col-12">
+        <label class="form-label" asp-for="Rue"></label>
+        <input class="form-control" asp-for="Rue">
+        <span asp-validation-for="Rue" class="text-danger"></span>
+    </div>
+</div>

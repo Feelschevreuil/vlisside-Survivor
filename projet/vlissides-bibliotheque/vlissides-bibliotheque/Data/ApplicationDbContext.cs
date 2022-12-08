@@ -126,7 +126,7 @@ namespace vlissides_bibliotheque.Data
 				Nom = "John",
 				Prenom = "Gordon",
 				ConcurrencyStamp = USER_ADMIN_CONCURRENCYSTAMP,
-				PasswordHash = passwordHasher.HashPassword(null, "Jaimelaprog1!")
+				PasswordHash = passwordHasher.HashPassword(null, "Aleatoire1!")
 			});
 
 			// Lier utilisateur et rôle
@@ -176,6 +176,11 @@ namespace vlissides_bibliotheque.Data
 				.HasOne(m => m.LivreBibliotheque)
 				.WithMany()
 				.OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<FactureEtudiant>()
+				.HasOne(m => m.AdresseLivraison)
+				.WithMany()
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

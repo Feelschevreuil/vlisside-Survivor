@@ -1,0 +1,92 @@
+﻿@model List<DocumentationVM>
+
+@{
+    int indexFonctionnalite = 0;
+    int indexSection = 0;
+}
+
+<h2 class="text-primary">Documentation</h2>
+
+<div class="row">
+    <div class="col-md-4" style="height: 500px; overflow: auto; position: relative;">
+        <nav id="documentation" class="h-100 flex-column align-items-stretch pe-4 border-end">
+            <nav class="nav nav-pills flex-column">
+                @foreach (DocumentationVM doc in Model) {
+                    @if (!doc.IsAdminReserved || User.IsInRole(RolesName.Admin))
+                    {
+                        <a class="nav-link fw-bold" href="#section-@indexFonctionnalite">@doc.Titre</a>
+
+                        <nav class="nav nav-pills flex-column">
+                            @foreach (SectionDocumentationVM sectionDoc in doc.Sections)
+                            {
+                                @if (!sectionDoc.IsAdminReserved || User.IsInRole(RolesName.Admin)) {
+                                    <a class="nav-link ms-3 my-1" href="#section-@indexFonctionnalite-@indexSection">@sectionDoc.Titre</a>
+                                    indexSection++;
+                                }
+                            }
+                        </nav>
+                        indexFonctionnalite++;
+                    }
+                }
+            </nav>
+        </nav>
+    </div>
+
+    <div class="col-md-8">
+        <div style="height: 500px; overflow: auto; position: relative;" data-bs-spy="scroll" data-bs-target="#documentation" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+            @{
+                indexFonctionnalite = 0;
+                indexSection = 0;
+            }
+            @foreach (DocumentationVM doc in Model) {
+                @if (!doc.IsAdminReserved || User.IsInRole(RolesName.Admin)) {
+                    <div class="shadow rounded m-3 mb-5 p-4" id="section-@indexFonctionnalite">
+                        <h2 class="text-primary">@doc.Titre</h2>
+                        <p>@doc.Description</p>
+                        <a class="btn btn-primary" href="@doc.Url">Accéder à la page</a>
+                        <hr>
+
+                        @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
+                            @if (!sectionDoc.IsAdminReserved || User.IsInRole(RolesName.Admin)) {
+                                <div class="mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
+                                    <h5 class="text-primary">@sectionDoc.Titre</h5>
+                                    @if (!string.IsNullOrEmpty(sectionDoc.NB))
+                                    {
+                                        <div class="alert alert-warning" role="alert">
+                                            <strong>Noter bien :</strong> @sectionDoc.NB
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(sectionDoc.Description))
+                                    {
+                                        <p>@sectionDoc.Description</p>
+                                    }
+                                    @if (!string.IsNullOrEmpty(sectionDoc.LienImage))
+                                    {
+                                        <div class="text-center">
+                                            <img src="~/img/doc/@sectionDoc.LienImage" class="rounded border" id="img-documentation" data-bs-toggle="modal" data-bs-target="#show-img" onclick="zoomImage(this)">
+                                        </div>
+                                    }
+                                </div>
+                                indexSection++;
+                            }
+                        }
+                    </div>
+                    indexFonctionnalite++;
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="show-img">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img class="h-100" src="" id="zoom-image" />
+            </div>
+        </div>
+    </div>
+</div>

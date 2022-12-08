@@ -17,5 +17,7 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         public int AnneeParcours { get; set; }
+
+        public int NumeroEtudiant { get; set; }
     }
 }

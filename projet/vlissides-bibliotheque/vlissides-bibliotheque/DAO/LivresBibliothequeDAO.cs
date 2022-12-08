@@ -5,6 +5,7 @@ using vlissides_bibliotheque.Extentions;
 using vlissides_bibliotheque.Enums;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace vlissides_bibliotheque.DAO
 {
@@ -158,12 +159,18 @@ namespace vlissides_bibliotheque.DAO
 
             livresBibliotheque = _context
             .LivresBibliotheque
+            .Include
+            (
+                livreBibliotheque => 
+                    livreBibliotheque.MaisonEdition
+            )
             .Where
             (
                 livre => 
                 livre
                     .Titre
-                    .ContainsCaseInsensitive(propriete)
+                    .ToLower()
+                    .Contains(propriete.ToLower())
             )
             .If
             (
@@ -222,6 +229,11 @@ namespace vlissides_bibliotheque.DAO
 
                 livresBibliotheque = _context
                     .LivresBibliotheque
+                    .Include
+                    (
+                        livreBibliotheque =>
+                            livreBibliotheque.MaisonEdition
+                    )
                     .If
                     (
                         !string.IsNullOrEmpty(livreChampsRecherche.Isbn) && livreChampsRecherche.IsbnQueryValid(),
@@ -229,8 +241,10 @@ namespace vlissides_bibliotheque.DAO
                             .Where
                             (
                                 livre =>
-                                livre.Isbn
-                                    .ContainsCaseInsensitive(livreChampsRecherche.Isbn)
+                                livre
+                                    .Isbn
+                                        .ToLower()
+                                        .Contains(livreChampsRecherche.Isbn.ToLower())
                             )
                     )
                     .If
@@ -242,7 +256,8 @@ namespace vlissides_bibliotheque.DAO
                                 livre =>
                                 livre
                                     .Titre
-                                    .ContainsCaseInsensitive(livreChampsRecherche.Titre)
+                                        .ToLower()
+                                        .Contains(livreChampsRecherche.Titre.ToLower())
                             )
                     )
                     .If
@@ -255,7 +270,8 @@ namespace vlissides_bibliotheque.DAO
                                     livre
                                     .MaisonEdition
                                         .Nom
-                                        .ContainsCaseInsensitive(livreChampsRecherche.MaisonEdition)
+                                            .ToLower()
+                                            .Contains(livreChampsRecherche.MaisonEdition.ToLower())
                             )
                     )
                     .If
@@ -273,7 +289,8 @@ namespace vlissides_bibliotheque.DAO
                                                     auteurLivre
                                                         .Auteur
                                                             .Nom
-                                                            .ContainsCaseInsensitive(livreChampsRecherche.Auteur)
+                                                                .ToLower()
+                                                                .Contains(livreChampsRecherche.Auteur.ToLower())
                                             )
                                             .Select
                                             (

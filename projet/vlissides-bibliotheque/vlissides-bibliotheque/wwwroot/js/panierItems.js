@@ -82,7 +82,7 @@ function updatePrix() {
     var tousQuantite = document.querySelectorAll('[id^="Quantite"]');
     var prixTotal = 0.00;
     for (var e = 0; e < tousPrix.length; e++) {
-        prixCourant = GetDecimal(tousPrix[e].innerHTML.replace("&nbsp;","").replace("$","").replace(".",""))/100;
+        prixCourant = GetDecimal(tousPrix[e].innerHTML.replace("&nbsp;", "").replace("$", "").replace(".", "")) / 100;
         prixTotal = (prixTotal + prixCourant * tousQuantite[e].value);
     }
     //parseFloat(tousPrix[e].innerHTML.replaceAll("$", ""));
@@ -169,7 +169,7 @@ function checkout() {
 
     if (tryStorage) {
         if (tryEmpty) {
-            fetch(stringFetch, {
+            fetch(host + "Achat/Creer/", {
                 method: 'Post',
                 body: data,
                 contentType: "application/json; charset=utf-8",
@@ -177,14 +177,18 @@ function checkout() {
                     "Content-Type": "application/json",
                     //"X-CSRF-TOKEN": csrfToken
                 },
-            }).then(function (response) {
-                //todo
+            }).then(async response => {
 
-            }).then((data) => {
-                //todo
+                if (response.ok) {
+
+                    window.location = host + "Achat/" + "?id=" + await response.text();
+                }
+                else {
+
+                    alert("Une erreur est survenue!");
+                }
+
             });
-
-
         }
         else {
             div.appendChild(pVide);

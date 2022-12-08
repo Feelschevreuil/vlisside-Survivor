@@ -17,6 +17,12 @@
                     <li class="dropdown-item">
                         <a class="dropdown-item" asp-controller="usage" asp-action="MaBoutique">Ma boutique</a>
                     </li>
+                    @if (User.IsInRole(RolesName.Etudiant))
+                    {
+                        <li class="dropdown-item">
+                            <a class="dropdown-item" asp-area="" asp-controller="Achat" asp-action="Historique">Historique d'achats</a>
+                        </li>
+                    }
                     <li class="dropdown-item">
                         <a class="dropdown-item" asp-controller="Connexion" asp-action="Logout">Déconnexion</a>
                     </li>

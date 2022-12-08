@@ -1,9 +1,12 @@
-using vlissides_bibliotheque.Enums;
+﻿using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Models.Achat;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.ViewModels;
+using vlissides_bibliotheque.Enums;
+using vlissides_bibliotheque.Utils;
 using Stripe;
 
 namespace vlissides_bibliotheque.Services
@@ -18,6 +21,7 @@ namespace vlissides_bibliotheque.Services
         private ApplicationDbContext _context;
         private ConfigurationService _configurationService;
 
+        // TODO: clean up le code
         private Etudiant _etudiant;
         private FactureEtudiant _factureEtudiant;
         private List<CommandeEtudiant> _commandesEtudiantsAjouter;
@@ -34,11 +38,11 @@ namespace vlissides_bibliotheque.Services
             _context = context;
         }
 
+        // TODO: fix double constructor (Will break)
         /// <summary>
         /// Constructeur surchagé lorsque l'on abesoin du configuration service.
         /// </summary>
         /// <param name="context">Représente la base de données.</param>
-        /// <param name="configurationService">ConfigurationService.</param>
         /// <param name="etudiant">Étudiant effectuant la commande.</param>
         public FactureEtudiantService
         (
@@ -56,6 +60,129 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
+        /// Crée la facture de l'étudiant selon l'étudiant et ses commandes.
+        /// </summary>
+        /// <param name="etudiant">Étudiant désirant les livres.</param>
+        /// <param name="commandesEtudiants">Commandes que l'étudiant demande.</param>
+        /// <returns></returns>
+        public FactureEtudiant Creer
+        (
+            List<CommandeEtudiant> commandesEtudiants,
+            // TODO: sortir d'ici!!
+            FacturesEtudiantsDAO facturesEtudiantsDAO
+        )
+        {
+
+            double totalFacture;
+            long totalFactureAdapte;
+
+            _commandesEtudiantsAjouter = commandesEtudiants;
+
+            // TODO: fix this garbage
+            _factureEtudiant = new()
+            {
+                Tvq = 0.0M,
+                Tps = 0.05M
+            };
+
+            totalFacture = CalculerTotalCommandes(_factureEtudiant);
+
+            if(totalFacture != 0)
+            {
+
+
+                totalFactureAdapte = AdapterPrixAStripe(totalFacture);
+
+                //TODO: fix this garbage
+                _factureEtudiant.Etudiant = _etudiant;
+                _factureEtudiant.AdresseLivraison = _etudiant.Adresse.CopierDonnees();
+                _factureEtudiant.DateFacturation = DateTime.Now;
+                _factureEtudiant.Statut = StatutFactureEnum.ATTENTE_PAIEMENT;
+
+                _factureEtudiant = TraiterFactureAvecStripe
+                (
+                    totalFactureAdapte
+                );
+
+                facturesEtudiantsDAO.Save(_factureEtudiant);
+                
+                foreach(CommandeEtudiant commandeEtudiant in commandesEtudiants)
+                {
+
+                    commandeEtudiant.FactureEtudiantId = _factureEtudiant.FactureEtudiantId;
+                }
+
+                // TODO: sortir dans le DAO
+                _context.CommandesEtudiants.AddRange(commandesEtudiants);
+
+                _context.SaveChanges();
+                
+                return _factureEtudiant;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Crée le modèle de vue pour afficher les informations d'une commande étudiante.
+        /// </summary>
+        /// <param name="commandesEtudiants"></param>
+        /// <param name="facture"></param>
+        /// <returns></returns>
+        public AchatVM CreerAchatVM
+        (
+            FactureEtudiant factureEtudiant, 
+            List<CommandeEtudiant> commandesEtudiants
+        )
+        {
+
+            AchatVM achatVM;
+            AchatInformationsLivraisonVM achatInformationsLivraison;
+            List<CommandePartielle> commandesPartielles;
+            AchatInformationsLivraisonVM achat;
+
+            achatInformationsLivraison = new()
+            {
+                Ville = factureEtudiant.AdresseLivraison.Ville,
+                NumeroCivique = factureEtudiant.AdresseLivraison.NumeroCivique,
+                App = factureEtudiant.AdresseLivraison.App,
+                Rue = factureEtudiant.AdresseLivraison.Rue,
+                CodePostal = factureEtudiant.AdresseLivraison.CodePostal
+            };
+
+            commandesPartielles = _commandeEtudiantService
+                .GetCommandesPartiellesFromCommandes(commandesEtudiants);
+
+            // TODO: fix this redneck shit
+            _commandesEtudiantsAjouter = commandesEtudiants;
+
+            achatVM = new()
+            {
+                FactureEtudiantId = factureEtudiant.FactureEtudiantId,
+                AchatInformationsLivraison = achatInformationsLivraison,
+                CommandesPartielles = commandesPartielles,
+                Tvq = factureEtudiant.Tvq,
+                Tps = factureEtudiant.Tps,
+                Total = CommandeEtudiantService.GetTotalCommandes(commandesEtudiants),
+                NombreLivres = CommandeEtudiantService.GetNombreLivres(commandesEtudiants),
+                StatutFacture = factureEtudiant.Statut
+            };
+
+            if(factureEtudiant.Statut == StatutFactureEnum.ATTENTE_PAIEMENT)
+            {
+
+                string apiKeyPublique;
+
+                apiKeyPublique = _configurationService.GetPaiementClePublique();
+
+                achatVM.PublicApiKey = apiKeyPublique;
+                achatVM.ClientSecret = factureEtudiant.ClientSecret;
+            }
+
+            return achatVM;
+        }
+
+        /// <summary>
         /// Compare deux factures etudiants et regarde si les propriétés diffèrent.
         /// Tenir en compte que ni l'id ni l'étudiant sont comparés.
         /// </summary>
@@ -70,12 +197,11 @@ namespace vlissides_bibliotheque.Services
             
             if
             (
-                !string
-                    .Equals
+                AdresseService
+                    .EstDifferentDe
                     (
                         factureEtudiantReference.AdresseLivraison, 
-                        factureEtudiantModifie.AdresseLivraison, 
-                        StringComparison.OrdinalIgnoreCase
+                        factureEtudiantModifie.AdresseLivraison
                     )
             )
             {
@@ -165,13 +291,11 @@ namespace vlissides_bibliotheque.Services
             
             if
             (
-                !string
-                    .Equals
-                    (
-                        factureEtudiantAMettreAJour.AdresseLivraison, 
-                        factureEtudiantModifie.AdresseLivraison, 
-                        StringComparison.OrdinalIgnoreCase
-                    )
+                AdresseService.EstDifferentDe
+                (
+                    factureEtudiantAMettreAJour.AdresseLivraison,
+                    factureEtudiantModifie.AdresseLivraison
+                )
             )
             {
 
@@ -267,132 +391,12 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
-        /// Crée une facture et retourne le bon modèle de vue à afficher.
-        /// </summary>
-        /// <param name="prixEtatLivresId">Livres à ajouter à la facture.</param>
-        /// <returns>
-        /// Le modèle de vue <c>PaiementVM</c> avec les informations du paiement.
-        /// </returns>
-        public PaiementVM CreateViewModel
-        (
-            List<int> prixEtatLivresId
-        )
-        {
-
-            if(Create(prixEtatLivresId) != null)
-            {
-
-                PaiementVM paiementVM;
-                string apiKeyPublique;
-                List<CommandePartielleVM> commandesPartielles;
-
-                apiKeyPublique = _configurationService
-                    .GetProprieteDeSection
-                    (
-                        ConstantesConfiguration.PROPRIETE_STRIPE,
-                        ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PUBLIQUE
-                    );
-
-                commandesPartielles = _commandeEtudiantService
-                    .GetCommandesPartiellesFromCommandes(_commandesEtudiantsAjouter);
-
-                paiementVM = new()
-                {
-                    PublicApiKey = apiKeyPublique,
-                    PaymentIntentId = _factureEtudiant.PaymentIntentId,
-                    ClientSecret = _factureEtudiant.ClientSecret,
-                    AdresseLivraison = _etudiant.Adresse,
-                    CommandesPartielles = commandesPartielles,
-                    Tvq = _factureEtudiant.Tvq,
-                    Tps = _factureEtudiant.Tps,
-                    Total = _totalFacture,
-                    StatutFacture = _factureEtudiant.Statut
-                };
-
-                return paiementVM;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Crée une <c>FactureEtudiant</c> avec les commandes désirées.
-        /// </summary>
-        /// <param name="etudiantId">
-        /// Id de l'étudiant à associer à la commande.
-        /// </param>
-        /// <param name="prixEtatLivresId">
-        /// Liste de <c>PrixEtatLivre</c> à ajouter à la facture.
-        /// </param>
-        /// <returns>Le <c>PrixEtatLivre</c> avec les commandes désirés ou null si les
-        /// livres à commander ne sont pas valides.
-        /// </returns>
-        private FactureEtudiant Create
-        (
-            List<int> prixEtatLivresId
-        )
-        {
-
-            List<CommandeEtudiant> commandesEtudiantsAjouter;
-            PrixEtatLivreDAO prixEtatLivreDAO;
-            FacturesEtudiantsDAO facturesEtudiantsDAO;
-            long prixFactureFinal;
-
-            prixEtatLivreDAO = new(_context);
-
-            if(prixEtatLivreDAO.GetBulk(prixEtatLivresId).Count() > 0)
-            {
-
-                facturesEtudiantsDAO = new(_context);
-                
-                // TODO: outsource tax from config!!
-                _factureEtudiant = new()
-                {
-                    Etudiant = _etudiant,
-                    DateFacturation = DateTime.Now,
-                    Statut = StatusFacture.ATTENTE_PAIEMENT,
-                    Tvq = 0.0M,
-                    Tps = 0.05M
-                };
-                
-                facturesEtudiantsDAO.Save(_factureEtudiant);
-
-                _commandesEtudiantsAjouter = _commandeEtudiantService
-                    .CreerCommandesSelonListeIdsPrixEtatLivre
-                    (
-                        _factureEtudiant,
-                        prixEtatLivresId
-                    );
-
-                _totalFacture = CalculerTotalCommandes();
-
-                prixFactureFinal = AdapterPrixAStripe(_totalFacture);
-
-                _factureEtudiant = TraiterFactureAvecStripe
-                (
-                    prixFactureFinal
-                );
-
-                facturesEtudiantsDAO
-                    .Update
-                    (
-                        _factureEtudiant.FactureEtudiantId, 
-                        _factureEtudiant
-                    );
-                
-                return _factureEtudiant;
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Calcule le total d'une liste de commandes.
         /// </summary>
         /// <param name="commandesEtudiantes">Commandes à chercher le prix.</param>
         /// <param name="factureEtudiant">Factue contenant le taux d'impôts.</param>
         /// <returns>Le total en format double des commandes.</returns>
-        private double CalculerTotalCommandes()
+        private double CalculerTotalCommandes(FactureEtudiant factureEtudiant)
         {
 
             double totalFacture;
@@ -402,20 +406,20 @@ namespace vlissides_bibliotheque.Services
             foreach(CommandeEtudiant commandeEtudiant in _commandesEtudiantsAjouter)
             {
 
-                totalFacture += commandeEtudiant.PrixUnitaireGele;
+                if
+                (
+                    commandeEtudiant.StatutCommande != StatutCommandeEnum.INEXISTANT &&
+                    commandeEtudiant.StatutCommande != StatutCommandeEnum.MANQUE_INVENTAIRE
+                )
+                {
+
+                    totalFacture += 
+                        (commandeEtudiant.Prix * commandeEtudiant.Quantite);
+                }
             }
 
-            if(_factureEtudiant.Tvq > 0)
-            {
-
-                totalFacture = totalFacture * decimal.ToDouble(1 + _factureEtudiant.Tvq);
-            }
-
-            if(_factureEtudiant.Tps > 0)
-            {
-
-                totalFacture = totalFacture * decimal.ToDouble(1 + _factureEtudiant.Tps);
-            }
+            totalFacture = CashUtils
+                .CalculerTaxes(totalFacture, factureEtudiant.Tps, factureEtudiant.Tvq);
 
             return totalFacture;
         }
@@ -437,7 +441,12 @@ namespace vlissides_bibliotheque.Services
         }
 
         /// <summary>
+        /// Traite la facture avec Stripe.
         /// </summary>
+        /// <param name="totalFacture">Le total de la facture à facturer au client.</param>
+        /// <returns>
+        /// La facture mis à jour avec les informations de Stripe.
+        /// </returns>
         private FactureEtudiant TraiterFactureAvecStripe
         (
             long totalFacture
@@ -448,12 +457,7 @@ namespace vlissides_bibliotheque.Services
             string apiKeyPrivee;
             string apiKeyPublique;
 
-            apiKeyPrivee = _configurationService
-                .GetProprieteDeSection
-                (
-                    ConstantesConfiguration.PROPRIETE_STRIPE, 
-                    ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PRIVEE
-                );
+            apiKeyPrivee = _configurationService.GetPaiementClePrivee();
 
             StripeConfiguration.ApiKey = apiKeyPrivee;
 
@@ -471,7 +475,191 @@ namespace vlissides_bibliotheque.Services
             _factureEtudiant.PaymentIntentId = paymentIntent.Id;
             _factureEtudiant.ClientSecret = paymentIntent.ClientSecret;
 
+            // Task.Run(async () => await ReserverLivres(_factureEtudiant));
+
             return _factureEtudiant;
+        }
+
+        /// <summary>
+        /// Réserver les livres d'une facture pendant 15 minutes. Le paiement
+        /// est annulé si la facture n'est pas payée après 15 minutes.
+        /// </summary>
+        /// <param name="commandesEtudiants"></param>
+        /// <param name="factureEtudiant"></param>
+        /// <returns></returns>
+        private async Task ReserverLivres
+        (
+            FactureEtudiant factureEtudiant,
+            int minutes = 15
+        )
+        {
+
+            Thread.Sleep(TimeUtils.MinutesEnMilisecondes(minutes));
+
+            if(factureEtudiant.Statut == StatutFactureEnum.ATTENTE_PAIEMENT)
+            {
+
+                /*
+                AnnulerFacture(factureEtudiant);
+                factureEtudiant.Statut = StatutFactureEnum.ANNULEE_NON_PAYE_DELAIS;
+                */
+
+                // TODO: utiliser le DAO des factures.
+                _context.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Annule un paiement de Stripe.
+        /// </summary>
+        /// <param name="factureEtudiant">
+        /// La facture contenant l'identifiant du <c>PaiementIntent</c> à annuler.
+        /// </param>
+        public void AnnulerPaiement(FactureEtudiant factureEtudiant)
+        {
+
+            ConfigurationService configurationService;
+            string apiKeyPrivee;
+
+            configurationService = new
+            (
+                ConstantesConfiguration.FICHIER_CONFIGURATION_PRINCIPAL
+            );
+
+            apiKeyPrivee = configurationService.GetPaiementClePrivee();
+
+            StripeConfiguration.ApiKey = apiKeyPrivee;
+
+            var service = new PaymentIntentService();
+            service.Cancel(factureEtudiant.PaymentIntentId);
+        }
+
+        /// <summary>
+        /// Annule une facture et remet les lives en inventiare.
+        /// </summary>
+        /// <param name="factureEtudiant"><c>FactureEtudiant</c> à annuler.</param>
+        public bool AnnulerFacture
+        ( 
+            FactureEtudiant factureEtudiant
+        )
+        {
+
+            FacturesEtudiantsDAO facturesEtudiantsDAO;
+            CommandesEtudiantsDAO commandesEtudiantsDAO;
+            CommandeEtudiantService commandeEtudiantService;
+            PrixEtatLivreDAO prixEtatLivreDAO;
+            FactureEtudiantService factureEtudiantService;
+            string apiKeyPrivee;
+
+
+            facturesEtudiantsDAO = new(_context);
+            commandesEtudiantsDAO = new(_context);
+            prixEtatLivreDAO = new(_context);
+            commandeEtudiantService = new(_context);
+            prixEtatLivreDAO = new(_context);
+            factureEtudiantService = new(_context);
+
+            if
+            (
+                factureEtudiant != null
+            )
+            {
+
+                commandeEtudiantService
+                    .AnnulerCommandesFromFacture
+                    (
+                        factureEtudiant, 
+                        commandesEtudiantsDAO,
+                        prixEtatLivreDAO
+                    );
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Met à jour l'<c>Adresse</c> d'une facture.
+        /// </summary>
+        /// <param name="adresse"></param>
+        /// <param name="factureEtudiant"></param>
+        /// <returns>
+        /// L'<c>Adresse</c> mise à jour ou null si elle n'a pas été mis à jour si non,
+        /// null.
+        /// </returns>
+        public Adresse ModifierAdresse(FactureEtudiant factureEtudiant, Adresse adresse)
+        {
+
+            if(AdresseService.EstDifferentDe(factureEtudiant.AdresseLivraison, adresse))
+            {
+                
+                Adresse adresseModifie;
+                AdresseDAO adresseDAO;
+
+                adresseDAO = new(_context);
+                adresseModifie = adresseDAO.Update(factureEtudiant.AdresseLivraisonId, adresse);
+
+                return factureEtudiant.AdresseLivraison;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Crée les <c>FacturePartielle</c> à partir d'une liste de <c>FactureEtudiant</c>.
+        /// </summary>
+        /// <param name="facturesEtudiant">Une liste de <c>FactureEtudiant</c></param>
+        /// <returns>Une liste de <c>FacturePartielle</c></returns>
+        public List<FacturePartielle> GetFacturesPartiellesFromFactures
+        (
+            List<FactureEtudiant> facturesEtudiant
+        )
+        {
+
+            CommandesEtudiantsDAO commandesEtudiantsDAO;
+            List<FacturePartielle> facturesPartielles;
+            List<CommandeEtudiant> commandesEtudiant;
+            FacturePartielle facturePartielle;
+            double prixTotal;
+            string prixTotalFormate;
+            int nombreLivres;
+
+            commandesEtudiantsDAO = new(_context);
+            facturesPartielles = new();
+
+            foreach(FactureEtudiant factureEtudiant in facturesEtudiant)
+            {
+
+                commandesEtudiant = commandesEtudiantsDAO
+                    .GetSelonPremierId(factureEtudiant.FactureEtudiantId)
+                    .ToList();
+
+                nombreLivres = CommandeEtudiantService
+                    .GetNombreLivres(commandesEtudiant);
+
+                prixTotal = CommandeEtudiantService
+                    .GetTotalCommandes(commandesEtudiant);
+
+                prixTotal = CashUtils
+                        .CalculerTaxes(prixTotal, factureEtudiant.Tps, factureEtudiant.Tvq);
+
+                prixTotalFormate = CashUtils.FormatToCurrency(prixTotal);
+
+                facturePartielle = new()
+                {
+                    FactureEtudiantId = factureEtudiant.FactureEtudiantId,
+                    NombreCommandes = nombreLivres,
+                    // TODO: merge develop to get it
+                    AdresseLivraison = factureEtudiant.AdresseLivraison.ToString(),
+                    StatutFacture = factureEtudiant.Statut,
+                    PrixTotal = prixTotalFormate
+                };
+
+                facturesPartielles.Add(facturePartielle);
+            }
+
+            return facturesPartielles;
         }
     }
 }

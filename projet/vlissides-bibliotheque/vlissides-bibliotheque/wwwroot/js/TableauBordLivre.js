@@ -104,6 +104,19 @@ function getCoursCheckBox() {
     return listCoursCocher;
 }
 
+function getAuteursCheckBox() {
+    var divListAuteurs = document.querySelector("#listAuteurs");
+    var auteursCocher = divListAuteurs.querySelectorAll("input");
+    var listAuteursCocher = new Array();
+
+    auteursCocher.forEach((auteurs) => {
+        if (auteurs.checked) {
+            listAuteursCocher.push(auteurs.id);
+        }
+    });
+    return listAuteursCocher;
+}
+
 function livreGestionErreur(data) {
     if (data.AuteurId == "") { data.AuteurId = 0 }
     if (data.MaisonDeditionId == "") { data.MaisonDeditionId = 0 }
@@ -185,6 +198,7 @@ function modifierLivre() {
 
     data = livreGestionErreur(data);
     data.Cours = getCoursCheckBox();
+    data.Auteurs = getAuteursCheckBox();
 
     fetch(host + "TableauDeBord/ModifierLivre/", {
         method: 'POST',
@@ -239,6 +253,7 @@ function creerLivre() {
 
     data = livreGestionErreur(data);
     data.Cours = getCoursCheckBox();
+    data.Auteurs = getAuteursCheckBox();
     data.id = 0;
 
     fetch(host + "TableauDeBord/CreerLivre/", {

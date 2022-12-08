@@ -1,25 +1,26 @@
-﻿@model InventaireLivreBibliotheque
+﻿@model InventaireLivreBibliothequeVM
 
+<div class="d-flex accordion-header">
 
-<h1>Inventaire de la bibliothèque</h1>
+    <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
+        <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
+    </a>
+    <h1 class="p-2 flex-grow-1" id="titreBibli">Inventaire de la bibliothèque</h1>
 
     @if (User.IsInRole(RolesName.Admin))
     {
         <a class="d-flex justify-content-end" asp-controller="inventaire" asp-action="creer">
-            <input class="btn btn-primary shadow" type="button" value="Ajouter un livre" />
+            <img src="~/img/plus-circle.svg" class="me-3 btn-img-hover devant" />
         </a>
     }
-
-<div class="container-fluid">
-    <div class="row">
-        @foreach (var card in Model.tuileLivreBiblioteques)
-        {
-            <partial name="_TuileLivrePartial" model="card"></partial>
-        }
-    </div>
 </div>
 
+<div class="container-fluid">
 
+    <div class="row" id="conteneurBibli">
+        <partial name="_ConteneurAffichageLivresRechercheBibliPartial" model="Model.tuileLivreBiblioteques"></partial>
+    </div>
+</div>
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
 <script src="~/js/updateBoutonAjoutPanier.js"></script>
 <script src="~/js/PrixAjax.js"></script>

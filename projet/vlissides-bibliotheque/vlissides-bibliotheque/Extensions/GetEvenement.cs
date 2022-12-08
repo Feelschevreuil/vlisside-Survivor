@@ -28,9 +28,9 @@ namespace vlissides_bibliotheque
                     Description = evenement.Description,
                     
                 };
-                if (evenement.Image == "N/A" || evenement.Image == null)
+                if (evenement.Image == "" || evenement.Image == null)
                 {
-                    evenementVM.Image = LivreEnTuile.GetImageParDefaut();
+                    evenementVM.Image = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/photo-evenement.jpg";
                 }
 
                 listEvenementsVM.Add(evenementVM);

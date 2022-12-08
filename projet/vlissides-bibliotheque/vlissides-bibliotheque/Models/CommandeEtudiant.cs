@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using vlissides_bibliotheque.Validation;
+﻿using vlissides_bibliotheque.Validation;
 using vlissides_bibliotheque.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vlissides_bibliotheque.Models
 {
     /// <summary>
     /// Classe <c>CommandeEtudiant</c> définit la table de liaison commandeEtudiant dans la base de données.
     /// </summary>
-    public class CommandeEtudiant
+    public class CommandeEtudiant: Commande
     {
         [Required]
         public int FactureEtudiantId { get; set; }
@@ -23,15 +24,18 @@ namespace vlissides_bibliotheque.Models
 
         [Required]
         [StringLength(64)]
-        public string Titre;
+        public string Titre { get; set; }
 
         [Required]
         public EtatLivreEnum EtatLivre { get; set; }
 
         [Required]
-        public double PrixUnitaireGele { get; set; }
+        public double Prix { get; set; }
 
         [Required]
         public int Quantite { get; set; }
+
+        [Required]
+        public StatutCommandeEnum StatutCommande { get; set; }
     }
 }
