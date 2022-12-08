@@ -163,7 +163,8 @@ namespace vlissides_bibliotheque.Services
                 CommandesPartielles = commandesPartielles,
                 Tvq = factureEtudiant.Tvq,
                 Tps = factureEtudiant.Tps,
-                Total = CalculerTotalCommandes(factureEtudiant),
+                Total = CommandeEtudiantService.GetTotalCommandes(commandesEtudiants),
+                NombreLivres = CommandeEtudiantService.GetNombreLivres(commandesEtudiants),
                 StatutFacture = factureEtudiant.Statut
             };
 
@@ -621,6 +622,7 @@ namespace vlissides_bibliotheque.Services
             List<CommandeEtudiant> commandesEtudiant;
             FacturePartielle facturePartielle;
             double prixTotal;
+            string prixTotalFormate;
             int nombreLivres;
 
             commandesEtudiantsDAO = new(_context);
@@ -634,10 +636,15 @@ namespace vlissides_bibliotheque.Services
                     .ToList();
 
                 nombreLivres = CommandeEtudiantService
-                    .GetNombreLivres<CommandeEtudiant>(commandesEtudiant);
+                    .GetNombreLivres(commandesEtudiant);
 
                 prixTotal = CommandeEtudiantService
-                    .GetTotalCommandes<CommandeEtudiant>(commandesEtudiant);
+                    .GetTotalCommandes(commandesEtudiant);
+
+                prixTotal = CashUtils
+                        .CalculerTaxes(prixTotal, factureEtudiant.Tps, factureEtudiant.Tvq);
+
+                prixTotalFormate = CashUtils.FormatToCurrency(prixTotal);
 
                 facturePartielle = new()
                 {
@@ -646,7 +653,7 @@ namespace vlissides_bibliotheque.Services
                     // TODO: merge develop to get it
                     AdresseLivraison = factureEtudiant.AdresseLivraison.ToString(),
                     StatutFacture = factureEtudiant.Statut,
-                    PrixTotal = prixTotal
+                    PrixTotal = prixTotalFormate
                 };
 
                 facturesPartielles.Add(facturePartielle);

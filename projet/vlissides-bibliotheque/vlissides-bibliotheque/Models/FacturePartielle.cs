@@ -10,6 +10,6 @@ namespace vlissides_bibliotheque.Models
         public int NombreCommandes { get; set; }
         public string AdresseLivraison { get; set; }
         public StatutFactureEnum StatutFacture { get; set; }
-        public double PrixTotal { get; set; }
+        public string PrixTotal { get; set; }
     }
 }
