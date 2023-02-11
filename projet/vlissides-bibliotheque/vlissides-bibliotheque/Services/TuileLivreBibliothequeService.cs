@@ -15,7 +15,7 @@ namespace vlissides_bibliotheque.Services
         {
             _context = context;
         }
-        public TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(LivreBibliotheque livreBibliotheque)
+        public async Task<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs(LivreBibliotheque livreBibliotheque)
         {
             var auteurLivres = _context.AuteursLivres.Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
 
@@ -38,7 +38,7 @@ namespace vlissides_bibliotheque.Services
             return tuileVM;
         }
 
-        public List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeAccueil()
+        public  async Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeAccueil()
         {
             List<TuileLivreBibliotequeVM> tuileLivreBiblioteques = new();
             List<LivreBibliotheque> list = _context.LivresBibliotheque

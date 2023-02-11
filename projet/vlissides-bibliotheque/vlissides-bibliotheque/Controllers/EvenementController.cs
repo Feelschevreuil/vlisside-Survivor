@@ -27,10 +27,11 @@ namespace vlissides_bibliotheque.Controllers
         private readonly IEvenementVM _evenement;
 
 
-        public EvenementController(ILogger<AccueilController> logger, ApplicationDbContext context)
+        public EvenementController(ILogger<AccueilController> logger, ApplicationDbContext context, IEvenementVM evenement)
         {
             _logger = logger;
             _context = context;
+            _evenement = evenement;
         }
         [AllowAnonymous]
         [Route("Evenement/Index")]

@@ -7,7 +7,7 @@ namespace vlissides_bibliotheque.Interface
     {
         EvenementVM GetEvenementVM(Evenement evenementRecus);
 
-        List<EvenementVM> GetEvenementAccueil();
+        Task<List<EvenementVM>> GetEvenementAccueil();
 
         List<EvenementVM> GetEvenementInventaire();
     }

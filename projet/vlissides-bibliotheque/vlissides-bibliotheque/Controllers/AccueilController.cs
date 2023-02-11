@@ -29,12 +29,12 @@ namespace vlissides_bibliotheque.Controllers
             _evenement = evenement;
         }
         [Route("")]
-        public IActionResult Accueil()
+        public async Task<IActionResult> Accueil()
         {
             AccueilVM recommendationPromotions = new()
             {
-                tuileLivreBibliotequeVMs = _livre.GetTuileLivreBibliotequeAccueil(),
-                evenements = _evenement.GetEvenementAccueil(),
+                tuileLivreBibliotequeVMs = await _livre.GetTuileLivreBibliotequeAccueil(),
+                evenements = await _evenement.GetEvenementAccueil(),
             };
             return View(recommendationPromotions);
         }

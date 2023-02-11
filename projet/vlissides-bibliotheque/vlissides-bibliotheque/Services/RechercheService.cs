@@ -11,7 +11,7 @@ namespace vlissides_bibliotheque.Services
     {
         private readonly ILivreEnTuile _livre;
 
-        public List<TuileLivreBibliotequeVM> TrouverLivreCreerTuile(List<TuileLivreBibliotequeVM> livreBibliotheques, LivresBibliothequeDAO livresBibliothequeDAO,  RechercheSimple rechercheSimple) {
+        public async Task<List<TuileLivreBibliotequeVM>> TrouverLivreCreerTuile(List<TuileLivreBibliotequeVM> livreBibliotheques, LivresBibliothequeDAO livresBibliothequeDAO,  RechercheSimple rechercheSimple) {
 
             List<LivreBibliotheque> livres = new();
 
@@ -26,7 +26,7 @@ namespace vlissides_bibliotheque.Services
 
             foreach (LivreBibliotheque livre in livres)
             {
-                var livreConvertie = _livre.GetTuileLivreBibliotequeVMs(livre);
+                var livreConvertie = await _livre.GetTuileLivreBibliotequeVMs(livre);
                 livreBibliotheques.Add(livreConvertie);
             }
 

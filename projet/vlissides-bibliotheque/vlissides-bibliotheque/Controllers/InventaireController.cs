@@ -38,7 +38,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChercherBibliotheque([FromBody] LivreChampsRecherche livreChampsRecherche, int page = 0)
+        public async Task<IActionResult> ChercherBibliotheque([FromBody] LivreChampsRecherche livreChampsRecherche, int page = 0)
         {
             if(livreChampsRecherche != null)
             {
@@ -70,7 +70,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 foreach (LivreBibliotheque livre in BDlivreBibliotheques)
                 {
-                    var livreConvertie = _livre.GetTuileLivreBibliotequeVMs(livre);
+                    var livreConvertie = await _livre.GetTuileLivreBibliotequeVMs(livre);
                     inventaireBibliotheque.Add(livreConvertie);
                 };
 
@@ -79,7 +79,7 @@ namespace vlissides_bibliotheque.Controllers
             return BadRequest();
         }
 
-        public IActionResult Bibliotheque()
+        public async Task<IActionResult> Bibliotheque()
         {
             List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
             List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
@@ -89,7 +89,7 @@ namespace vlissides_bibliotheque.Controllers
 
             foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
-                var livreConvertie = _livre.GetTuileLivreBibliotequeVMs(livre);
+                var livreConvertie = await _livre.GetTuileLivreBibliotequeVMs(livre);
                 inventaireBibliotheque.Add(livreConvertie);
             };
 

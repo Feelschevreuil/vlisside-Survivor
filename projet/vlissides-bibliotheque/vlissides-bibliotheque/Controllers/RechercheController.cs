@@ -32,7 +32,7 @@ namespace vlissides_bibliotheque.Controllers
 
         //[ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult RechercheRapide([FromBody] RechercheSimple rechercheSimple)
+        public async Task<IActionResult> RechercheRapide([FromBody] RechercheSimple rechercheSimple)
         {
 
             if (rechercheSimple.numPage != null)
@@ -43,7 +43,7 @@ namespace vlissides_bibliotheque.Controllers
                     LivresBibliothequeDAO livresBibliothequeDAO = new LivresBibliothequeDAO(_context);
                     List<LivreBibliotheque> livres = new();
 
-                    livreBibliotheques = _RechercheService.TrouverLivreCreerTuile(livreBibliotheques, livresBibliothequeDAO, rechercheSimple);
+                    livreBibliotheques = await _RechercheService.TrouverLivreCreerTuile(livreBibliotheques, livresBibliothequeDAO, rechercheSimple);
 
                     return PartialView("_ConteneurAffichageLivresRechercheBibliPartial", (livreBibliotheques));
                 }
@@ -78,7 +78,7 @@ namespace vlissides_bibliotheque.Controllers
 
         //[ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult RechercheRapideAutrePage([FromBody] RechercheSimple rechercheSimple)
+        public async Task<IActionResult> RechercheRapideAutrePage([FromBody] RechercheSimple rechercheSimple)
         {
 
             if (rechercheSimple.ouRecherche == 1)//biblio
@@ -92,7 +92,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 foreach (LivreBibliotheque livre in BDlivreBibliotheques)
                 {
-                    var livreConvertie = _livre.GetTuileLivreBibliotequeVMs(livre);
+                    var livreConvertie = await _livre.GetTuileLivreBibliotequeVMs(livre);
                     inventaireBibliotheque.Add(livreConvertie);
                 };
 

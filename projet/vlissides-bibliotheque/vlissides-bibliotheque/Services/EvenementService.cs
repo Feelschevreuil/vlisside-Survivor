@@ -34,7 +34,7 @@ namespace vlissides_bibliotheque.Services
             return evenementVM;
         }
 
-        public List<EvenementVM> GetEvenementAccueil()
+        public async Task<List<EvenementVM>> GetEvenementAccueil()
         {
             IEnumerable<Evenement> listQuatreEvenement = _context.Evenements.Take(4);
             List<EvenementVM> listEvenementsVM = new();

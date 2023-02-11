@@ -6,9 +6,9 @@ namespace vlissides_bibliotheque.Interface
 {
     public interface ILivreEnTuile
     {
-        TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(LivreBibliotheque livreBibliotheque);
+        Task<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs(LivreBibliotheque livreBibliotheque);
 
-        List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeAccueil();
+        Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeAccueil();
 
         string GetImageParDefaut();
     }
