@@ -6,6 +6,7 @@ using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Enums;
+using vlissides_bibliotheque.Interface;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Services;
 using vlissides_bibliotheque.ViewModels;
@@ -16,6 +17,8 @@ namespace vlissides_bibliotheque.Controllers
     public class RechercheController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILivreEnTuile _livre;
+        private readonly RechercheService _RechercheService;
 
         public RechercheController(ApplicationDbContext context)
         {
@@ -39,20 +42,13 @@ namespace vlissides_bibliotheque.Controllers
                     List<TuileLivreBibliotequeVM> livreBibliotheques = new();
                     LivresBibliothequeDAO livresBibliothequeDAO = new LivresBibliothequeDAO(_context);
                     List<LivreBibliotheque> livres = new();
-                    List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.ToList();
-                    List<CoursLivre> coursLivres = _context.CoursLivres.Include(x => x.Cours).Include(x => x.Cours.ProgrammeEtude).Include(x => x.LivreBibliotheque).ToList();
-                    List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
 
-                    livreBibliotheques = RechercheService.TrouverLivreCreerTuile(livreBibliotheques, livresBibliothequeDAO, livres, prixEtatLivre, coursLivres, auteursLivres, rechercheSimple);
+                    livreBibliotheques = _RechercheService.TrouverLivreCreerTuile(livreBibliotheques, livresBibliothequeDAO, rechercheSimple);
 
                     return PartialView("_ConteneurAffichageLivresRechercheBibliPartial", (livreBibliotheques));
                 }
                 else
                 {
-                    InventaireLaBlunVM inventaireLivreEtudiant = new()
-                    {
-                        inventaireLivreEtudiantVMs = new()
-                    };
                     List<LivreEtudiant> livresEtudiants;
 
                     if (rechercheSimple.texteRecherche == "")
@@ -72,10 +68,7 @@ namespace vlissides_bibliotheque.Controllers
                                 .Take(12)
                                 .ToList();
                     }
-
-
-                    inventaireLivreEtudiant.inventaireLivreEtudiantVMs = livresEtudiants;
-                    return PartialView("_ConteneurAffichageLivresRechercheEtuPartial", inventaireLivreEtudiant);
+                    return PartialView("_ConteneurAffichageLivresRechercheEtuPartial", livresEtudiants);
                 }
 
 
@@ -90,32 +83,24 @@ namespace vlissides_bibliotheque.Controllers
 
             if (rechercheSimple.ouRecherche == 1)//biblio
             {
-                InventaireLivreBibliothequeVM inventaireBibliotheque = new();
-                inventaireBibliotheque.tuileLivreBiblioteques = new List<TuileLivreBibliotequeVM>();
+                List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
                 List<LivreBibliotheque> BDlivreBibliotheques = _context.LivresBibliotheque
                     .Include(x => x.MaisonEdition)
                     .OrderByDescending(i => i.DatePublication)
                     .Skip(15 * rechercheSimple.numPage).Take(15)
                     .ToList();
-                List<CoursLivre> bdCoursLivre = _context.CoursLivres.ToList();
-                List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres.ToList();
-                List<AuteurLivre> auteurLivres = _context.AuteursLivres.ToList();
+
                 foreach (LivreBibliotheque livre in BDlivreBibliotheques)
                 {
-                    var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre, bdPrixLivre, auteurLivres);
-                    inventaireBibliotheque.tuileLivreBiblioteques.Add(livreConvertie);
+                    var livreConvertie = _livre.GetTuileLivreBibliotequeVMs(livre);
+                    inventaireBibliotheque.Add(livreConvertie);
                 };
 
-                List<CoursLivre> coursLivres = _context.CoursLivres.Include(x => x.Cours).Include(x => x.Cours.ProgrammeEtude).Include(x => x.LivreBibliotheque).ToList();
 
                 return View("~/Views/Inventaire/bibliotheque.cshtml", inventaireBibliotheque);
             }
             else
             {
-                InventaireLaBlunVM inventaireLivreEtudiant = new()
-                {
-                    inventaireLivreEtudiantVMs = new()
-                };
                 List<LivreEtudiant> livresEtudiants = _context.LivresEtudiants
                         .Include(x => x.Etudiant)
                         .Where(x => x.Titre == rechercheSimple.texteRecherche)
@@ -123,8 +108,7 @@ namespace vlissides_bibliotheque.Controllers
                         .ToList();
 
 
-                inventaireLivreEtudiant.inventaireLivreEtudiantVMs = livresEtudiants;
-                return View("~/Views/Usage/usage.cshtml", inventaireLivreEtudiant);
+                return View("~/Views/Usage/usage.cshtml", livresEtudiants);
             }
         }
 

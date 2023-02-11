@@ -1,20 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System;
-using System.Diagnostics;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
-using vlissides_bibliotheque.Enums;
-using System.Collections;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Exercice_Ajax.DTO;
 using Newtonsoft.Json;
 using vlissides_bibliotheque.Services;
+using vlissides_bibliotheque.Interface;
+using vlissides_bibliotheque.Extensions;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -23,41 +17,35 @@ namespace vlissides_bibliotheque.Controllers
     {
         private readonly ILogger<AccueilController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly ILivreEnTuile _livre;
+        private readonly IEvenementVM _evenement;
 
-        public AccueilController(ILogger<AccueilController> logger, ApplicationDbContext context)
+
+        public AccueilController(ILogger<AccueilController> logger, ApplicationDbContext context, ILivreEnTuile livre, IEvenementVM evenement)
         {
             _logger = logger;
             _context = context;
+            _livre = livre;
+            _evenement = evenement;
         }
         [Route("")]
         public IActionResult Accueil()
         {
-            List<Evenement> listEvenements = _context.Evenements.OrderByDescending(i => i.Debut).Take(4).ToList();
-
-            RecommendationPromotionsVM recommendationPromotions = new() { tuileLivreBibliotequeVMs = LivreEnTuile.GetQuatreLivresVM(_context), evenements = GetEvenement.GetEvenements(listEvenements) };
-
-            List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
-            recommendationPromotions = TuileLivreBibliothequeVMService.TrouverAuteursLivres(auteursLivres, recommendationPromotions);
-            
+            AccueilVM recommendationPromotions = new()
+            {
+                tuileLivreBibliotequeVMs = _livre.GetTuileLivreBibliotequeAccueil(),
+                evenements = _evenement.GetEvenementAccueil(),
+            };
             return View(recommendationPromotions);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public string ChangerPrix([FromBody] PrixAfficher prixAfficher)
         {
-
             LivreBibliotheque livre = _context.LivresBibliotheque.Where(livre => livre.LivreId == prixAfficher.Id).FirstOrDefault();
             List<PrixEtatLivre> etat = _context.PrixEtatsLivres
                 .Include(x => x.LivreBibliotheque)
-                .ToList()
-                .FindAll(x => x.LivreBibliotheque.LivreId == livre.LivreId);
-
-            // TODO: check if this thing even works x)
+                .Where(x => x.LivreBibliotheque.LivreId == livre.LivreId)
+                .ToList();
             PrixEtatLivre etatLivreRechercher = etat.Find(x => (int)x.EtatLivre == prixAfficher.Etat);
 
             string prix;

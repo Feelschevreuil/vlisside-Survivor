@@ -30,10 +30,6 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult Usage(int? id)
         {
-            InventaireLaBlunVM inventaireLivreEtudiant = new()
-            {
-                inventaireLivreEtudiantVMs = new()
-            };
             List<LivreEtudiant> livreEtudiants = _context.LivresEtudiants
                     .Include(x => x.Etudiant)
                     .Take(12)
@@ -41,16 +37,14 @@ namespace vlissides_bibliotheque.Controllers
 
             if (id == null)
             {
-                inventaireLivreEtudiant.inventaireLivreEtudiantVMs = livreEtudiants;
-                return View(inventaireLivreEtudiant);
+                return View(livreEtudiants);
             }
             var livreRecherche = livreEtudiants.Find(x => x.LivreId == id);
             if (livreRecherche == null)
             {
                 return Content("Cette identifiant n'appartient à aucun livre");
             }
-            inventaireLivreEtudiant.inventaireLivreEtudiantVMs.Add(livreRecherche);
-            return View(inventaireLivreEtudiant);
+            return View(livreRecherche);
 
         }
         [HttpGet]
@@ -89,10 +83,9 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult MaBoutique()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            InventaireLaBlunVM inventaireUnEtudiant = new()
-            {
-                inventaireLivreEtudiantVMs = new()
-            };
+            List<LivreEtudiant> inventaireUnEtudiant = new();
+
+
             List<LivreEtudiant> livreEtudiants = _context.LivresEtudiants
                     .Include(x => x.Etudiant)
                     .ToList();
@@ -102,7 +95,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 return View(inventaireUnEtudiant);
             }
-            inventaireUnEtudiant.inventaireLivreEtudiantVMs.AddRange(livres);
+            inventaireUnEtudiant.AddRange(livres);
             return View(inventaireUnEtudiant);
 
         }
@@ -280,12 +273,10 @@ namespace vlissides_bibliotheque.Controllers
                 _context.LivresEtudiants.Remove(livreSupprimer);
                 _context.SaveChanges();
 
-                InventaireLaBlunVM inventaireLivreEtudiant = new()
-                {
-                    inventaireLivreEtudiantVMs = _context.LivresEtudiants
+                List<LivreEtudiant> inventaireLivreEtudiant = _context.LivresEtudiants
                   .Include(x => x.Etudiant)
-                  .ToList()
-                };
+                  .ToList();
+
                 return RedirectToAction("MaBoutique");
             }
             return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas l'effacer");

@@ -1,4 +1,4 @@
-﻿@model InventaireLivreBibliothequeVM
+﻿@model List<TuileLivreBibliotequeVM>
 
 <div class="d-flex accordion-header">
 
@@ -18,7 +18,7 @@
 <div class="container-fluid">
 
     <div class="row" id="conteneurBibli">
-        <partial name="_ConteneurAffichageLivresRechercheBibliPartial" model="Model.tuileLivreBiblioteques"></partial>
+        <partial name="_ConteneurAffichageLivresRechercheBibliPartial" model="Model"></partial>
     </div>
 </div>
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />

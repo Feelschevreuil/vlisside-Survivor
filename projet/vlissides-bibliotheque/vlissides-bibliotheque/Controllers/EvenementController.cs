@@ -15,6 +15,7 @@ using Exercice_Ajax.DTO;
 using Newtonsoft.Json;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Extensions;
+using vlissides_bibliotheque.Interface;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -23,6 +24,8 @@ namespace vlissides_bibliotheque.Controllers
     {
         private readonly ILogger<AccueilController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IEvenementVM _evenement;
+
 
         public EvenementController(ILogger<AccueilController> logger, ApplicationDbContext context)
         {
@@ -33,11 +36,7 @@ namespace vlissides_bibliotheque.Controllers
         [Route("Evenement/Index")]
         public IActionResult Evenements()
         {
-
-            List<EvenementVM> listEvenementsVM = new();
-            List<Evenement> listEvenements = _context.Evenements.OrderByDescending(x => x.Debut).ToList();
-            listEvenementsVM = GetEvenement.GetEvenements(listEvenements);
-
+            List<EvenementVM> listEvenementsVM = _evenement.GetEvenementInventaire();
 
             return View(listEvenementsVM);
         }
@@ -108,12 +107,12 @@ namespace vlissides_bibliotheque.Controllers
             }
             Evenement evenement = _context.Evenements
                .Include(x => x.Commanditaire)
-               .ToList()
-               .Find(x => x.EvenementId == id);
+               .Where(x => x.EvenementId == id)
+               .Single();
 
             if (evenement != null)
             {
-                return View(GetEvenement.GetUnEvenement(evenement));
+                return View(_evenement.GetEvenementVM(evenement));
             }
             return Content("L'événement recherche n'a pas été trouvé dans la base de données");
 

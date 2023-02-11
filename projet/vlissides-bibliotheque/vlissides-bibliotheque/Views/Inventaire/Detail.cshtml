@@ -18,10 +18,6 @@
         prixDigital = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
         prixUsager = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE);
     }
-
-    if(Model.livreBibliotheque.PhotoCouverture == "N/A"){
-        Model.livreBibliotheque.PhotoCouverture = LivreEnTuile.GetImageParDefaut();
-    }
 }
 
 

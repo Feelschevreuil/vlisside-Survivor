@@ -1,4 +1,4 @@
-﻿@model InventaireLaBlunVM
+﻿@model List<LivreEtudiant>
 
 
 <h1>Ma boutique</h1>
@@ -10,7 +10,7 @@
 <div class="container-fluid">
 
     <div class="row">
-        @foreach (var card in Model.inventaireLivreEtudiantVMs)
+        @foreach (var card in Model)
         {
             <div class="col-12 col-sm-3 col-md-3">
                 <partial name="_TuileLivreEtudiantPartial" model="card"></partial>

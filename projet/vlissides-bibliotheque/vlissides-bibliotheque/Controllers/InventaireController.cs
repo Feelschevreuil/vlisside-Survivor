@@ -13,6 +13,7 @@ using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Services;
+using vlissides_bibliotheque.Interface;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -23,44 +24,28 @@ namespace vlissides_bibliotheque.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly LivresBibliothequeDAO _livresBibliothequeDAO;
+        private readonly ILivreEnTuile _livre;
 
 
-        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, LivresBibliothequeDAO livresBibliothequeDAO)
+
+        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, LivresBibliothequeDAO livresBibliothequeDAO, ILivreEnTuile livre)
         {
             _logger = logger;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _livresBibliothequeDAO = livresBibliothequeDAO;
+            _livre = livre;
         }
 
         [HttpPost]
-        // TODO:
-        /// désolé, le code est super RED NECK, j'ai ré-utilisé ce qu'il y avait présent
-        /// et il est le 7 décembre 21h25, je suis encore au cégep et je dois retourner
-        /// chez moi. Je dois laisser le tout tel quel... 
-        ///
-        /// sorry Chalres!!
         public IActionResult ChercherBibliotheque([FromBody] LivreChampsRecherche livreChampsRecherche, int page = 0)
         {
-
-
             if(livreChampsRecherche != null)
             {
 
                 List<TuileLivreBibliotequeVM> inventaireBibliotheque = new();
                 List<LivreBibliotheque> BDlivreBibliotheques;
                 LivresBibliothequeDAO livresBibliothequeDAO;
-                List<CoursLivre> bdCoursLivre = _context.CoursLivres
-                   .Include(x => x.Cours)
-                   .Include(x => x.LivreBibliotheque)
-                   .Include(x => x.Cours.ProgrammeEtude)
-                   .ToList();
-                List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
-                    .Include(x => x.Auteur)
-                    .Include(x => x.LivreBibliotheque)
-                    .ToList();
-                List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
-                    .ToList();
 
                 // TODO: RED NECK!!
                 if(!livreChampsRecherche.Neuf)
@@ -85,18 +70,12 @@ namespace vlissides_bibliotheque.Controllers
 
                 foreach (LivreBibliotheque livre in BDlivreBibliotheques)
                 {
-                    var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre, bdPrixLivre, bdAuteurLivres);
+                    var livreConvertie = _livre.GetTuileLivreBibliotequeVMs(livre);
                     inventaireBibliotheque.Add(livreConvertie);
                 };
 
-                InventaireLivreBibliothequeVM inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque };
-
-                List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
-                inventaireLivreBibliotheque= TuileLivreBibliothequeVMService.TrouverAuteursLivres(auteursLivres, inventaireLivreBibliotheque);
-
-                return View("bibliotheque", inventaireLivreBibliotheque);
+                return View("bibliotheque", inventaireBibliotheque);
             }
-
             return BadRequest();
         }
 
@@ -107,55 +86,26 @@ namespace vlissides_bibliotheque.Controllers
                 .Include(x => x.MaisonEdition)
                 .OrderByDescending(i => i.DatePublication)
                 .ToList();
-            List<CoursLivre> bdCoursLivre = _context.CoursLivres
-               .Include(x => x.Cours)
-               .Include(x => x.LivreBibliotheque)
-               .Include(x => x.Cours.ProgrammeEtude)
-               .ToList();
-            List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
-                .Include(x => x.Auteur)
-                .Include(x => x.LivreBibliotheque)
-                .ToList();
-            List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
-                .ToList();
-
 
             foreach (LivreBibliotheque livre in BDlivreBibliotheques)
             {
-                var livreConvertie = livre.GetTuileLivreBibliotequeVMs(bdCoursLivre, bdPrixLivre, bdAuteurLivres);
+                var livreConvertie = _livre.GetTuileLivreBibliotequeVMs(livre);
                 inventaireBibliotheque.Add(livreConvertie);
             };
 
-            InventaireLivreBibliothequeVM inventaireLivreBibliotheque = new() { tuileLivreBiblioteques = inventaireBibliotheque.GetRange(0, 15) };
-
-            List<AuteurLivre> auteursLivres = _context.AuteursLivres.Include(x => x.Auteur).ToList();
-            inventaireLivreBibliotheque= TuileLivreBibliothequeVMService.TrouverAuteursLivres(auteursLivres, inventaireLivreBibliotheque);
-
             
-            return View(inventaireLivreBibliotheque);
+            return View(inventaireBibliotheque.GetRange(0, 15));
         }
 
         public IActionResult Detail(int id)
         {
-
-            LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.ToList().Find(x => x.LivreId == id);
+            LivreBibliotheque livreBibliotheque = _context.LivresBibliotheque.Where(x => x.LivreId == id).Single();
+           
             if (livreBibliotheque != null)
             {
-                List<CoursLivre> bdCoursLivre = _context.CoursLivres
-                   .Include(x => x.Cours)
-                   .Include(x => x.LivreBibliotheque)
-                   .Include(x => x.Cours.ProgrammeEtude)
-                   .ToList();
-                List<AuteurLivre> bdAuteurLivres = _context.AuteursLivres
-                    .Include(x => x.Auteur)
-                    .Include(x => x.LivreBibliotheque)
-                    .ToList();
-                List<PrixEtatLivre> bdPrixLivre = _context.PrixEtatsLivres
-                    .ToList();
-                return View(LivreEnTuile.GetTuileLivreBibliotequeVMs(livreBibliotheque, bdCoursLivre, bdPrixLivre, bdAuteurLivres));
+                return View(_livre.GetTuileLivreBibliotequeVMs(livreBibliotheque));
             }
-
-
+           
             return Content("Ce livre n'existe pas dans la base de données.");
         }
 

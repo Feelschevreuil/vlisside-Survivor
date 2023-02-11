@@ -8,13 +8,9 @@ namespace vlissides_bibliotheque.ViewModels
     /// </summary>
     public class TuileLivreBibliotequeVM
     {
-        public List<EvaluationLivre> livreEvaluation;
-
         public LivreBibliotheque livreBibliotheque;
 
         public CoursLivre coursLivre;
-
-        public List<AuteurLivre> auteurLivre;
 
         public List<PrixEtatLivre> prixEtatLivre;
         [DisplayName("Quantité")]

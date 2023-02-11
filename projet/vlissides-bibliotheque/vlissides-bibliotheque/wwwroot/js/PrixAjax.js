@@ -1,5 +1,4 @@
 ﻿function ChangerPrix(Etat, Id) {
-  
 
     var DonnerRecus =
     {
