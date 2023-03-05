@@ -1,15 +1,19 @@
-﻿using Exercice_Ajax.DTO;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
-using vlissides_bibliotheque.DTO;
+using vlissides_bibliotheque.DTO.Ajax;
+using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Services;
+using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.ViewModels;
 using static Humanizer.In;
 
@@ -22,18 +26,34 @@ namespace vlissides_bibliotheque.Controllers
         private readonly UserManager<Etudiant> _userManagerEtudiant;
         private readonly UserManager<Utilisateur> _userManagerAdmin;
         private readonly ApplicationDbContext _context;
+        private readonly ICheckedBox _checkedBox;
+        private readonly IUtilisateur _utilisateur;
+        private readonly IDAO<ProgrammeEtude> _programmeEtudeDAO;
+        private readonly IDAOEtudiant<Etudiant> _EtudiantDAO;
+        private readonly IDAO<Cours> _coursDAO;
 
         public GestionProfilController(
             SignInManager<Etudiant> signInManager,
             UserManager<Etudiant> userManagerEtudiant,
             UserManager<Utilisateur> userManagerAdmin,
-            ApplicationDbContext context
+            ApplicationDbContext context,
+            ICheckedBox checkedBox,
+            IUtilisateur utilisateur,
+            IDAO<ProgrammeEtude> programmeEtudeDAO,
+            IDAOEtudiant<Etudiant> EtudiantDAO,
+            IDAO<Cours> coursDAO
             )
         {
             _signInManager = signInManager;
             _userManagerEtudiant = userManagerEtudiant;
             _userManagerAdmin = userManagerAdmin;
             _context = context;
+            _checkedBox = checkedBox;
+            _utilisateur = utilisateur;
+            _programmeEtudeDAO = programmeEtudeDAO;
+            _EtudiantDAO = EtudiantDAO;
+            _coursDAO = coursDAO;
+
         }
 
         /// <summary>
@@ -45,16 +65,12 @@ namespace vlissides_bibliotheque.Controllers
         {
             if (User.IsInRole(RolesName.Etudiant))
             {
-                Etudiant etudiant = await GetEtudiantCourantAsync();
+                return View(_utilisateur.GetEtudiantProfilVM(await GetEtudiantCourantAsync()));
+            }
 
-                return View(etudiant.GetEtudiantProfilVM(_context));
-            } 
-            
-            if (User.IsInRole(RolesName.Admin)) 
+            if (User.IsInRole(RolesName.Admin))
             {
-                Utilisateur admin = await GetAdminCourantAsync();
-
-                return View(admin.GetAdminProfilVM());
+                return View(_utilisateur.GetAdminProfilVM(await GetAdminCourantAsync()));
             }
 
             return Content("Accès interdit");
@@ -76,19 +92,16 @@ namespace vlissides_bibliotheque.Controllers
                 if (ModelState.IsValid)
                 {
                     Etudiant etudiant = await GetEtudiantCourantAsync();
+                    Adresse adresse = _utilisateur.GetAdresse(etudiant);
 
-                    Adresse adresse = etudiant.GetAdresse(_context);
-
-                    etudiant.ModelBinding(adresse, vm);
-                   
-
+                    _utilisateur.ModelBinding(etudiant, adresse, vm);
                     _context.SaveChanges();
                 }
-
                 return View(vm);
             }
-            
-            if (User.IsInRole(RolesName.Admin)) {
+
+            if (User.IsInRole(RolesName.Admin))
+            {
                 ModelState.Remove(nameof(vm.ProgrammeEtudeId));
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
                 ModelState.Remove(nameof(vm.ProvinceId));
@@ -101,28 +114,26 @@ namespace vlissides_bibliotheque.Controllers
                 ModelState.Remove(nameof(vm.Ville));
                 ModelState.Remove(nameof(vm.CodePostal));
 
-                if (ModelState.IsValid) {
-                    Utilisateur admin = await GetAdminCourantAsync();
+                if (ModelState.IsValid)
+                {
 
-                    admin.ModelBinding(vm);
-
+                    _utilisateur.ModelBinding(await GetAdminCourantAsync(), vm);
                     _context.SaveChanges();
                 }
-
                 return View(vm);
             }
-
             return Content("Action interdite");
         }
 
         private GestionProfilVM SetEtudiantProfilVM(GestionProfilVM vm)
         {
-            if (vm.CodePostal != null) {
+            if (vm.CodePostal != null)
+            {
                 vm.CodePostal = vm.CodePostal.ToUpper();
             }
 
-            vm.ProgrammeEtudes = new SelectList(_context.ProgrammesEtudes.ToList(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
-            vm.checkBoxCours = CheckedBox.GetCoursCheckedBox(_context,vm.EtudiantId);
+            vm.ProgrammeEtudes = new SelectList(_programmeEtudeDAO.GetAll(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
+            vm.checkBoxCours = _checkedBox.GetCoursCheckedBox(vm.EtudiantId);
             vm.Provinces = new SelectList(_context.Provinces.ToList(), nameof(Province.ProvinceId), nameof(Province.Nom));
 
             return vm;
@@ -140,53 +151,19 @@ namespace vlissides_bibliotheque.Controllers
             return await _userManagerAdmin.GetUserAsync(HttpContext.User);
         }
         [HttpPost]
-        public string AssignerCoursEtudiant([FromBody] CoursAssocier coursAssocier)
+        public string AssignerCoursEtudiant([FromBody] CoursEtudiantDTO coursAssocier)
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant? utilisateurEtudiant = _context.Etudiants.ToList().Find(x => x.Id == id);
-            List<Cours> listCours = _context.Cours.ToList();
-            List<CoursEtudiant> listCoursEtudiant = _context.CoursEtudiants.ToList();
-            List<CoursEtudiant> coursAssocierEtudiant = listCoursEtudiant.FindAll(x=>x.EtudiantId == id);
-            List<Cours> listCoursCocher = new(); 
-            List<Cours> listCoursDecocher = new(); 
 
-            foreach(Cours cour in listCours)
-            {
-                Cours coursCocher = listCours.Find(x => x.CoursId == coursAssocier.CoursId.Find(x=>x.Equals(cour.CoursId)));
-                if(coursCocher != null)
-                {
-                    listCoursCocher.Add(coursCocher);
-                }
-                else
-                {
-                    listCoursDecocher.Add(cour);
-                }
-            }
-                 
+            List<CoursEtudiant> resetCoursAssocier = _context.CoursEtudiants.Where(x => x.EtudiantId == id).ToList();
+            _context.CoursEtudiants.RemoveRange(resetCoursAssocier);
+            _context.SaveChanges();
 
-            foreach(Cours cours in listCoursCocher)
-            {
-                if (coursAssocierEtudiant.Find(x=>x.CoursId == cours.CoursId && x.EtudiantId == id) == null)
-                {
-                    CoursEtudiant nouveauCoursEtudiant = new()
-                    {
-                        CoursId = cours.CoursId,
-                        EtudiantId =id
-                    };
-                    _context.CoursEtudiants.Add(nouveauCoursEtudiant);
-                    _context.SaveChanges();
-                }
-            }
+            List<CoursEtudiant> updateCoursAssocier = new(); 
+            coursAssocier.CoursId.ForEach(c=> updateCoursAssocier.Add( new CoursEtudiant { CoursId = c, EtudiantId = id}));
+            _context.CoursEtudiants.AddRange(updateCoursAssocier);
+            _context.SaveChanges();
 
-            foreach(Cours cours1 in listCoursDecocher)
-            {
-              CoursEtudiant coursEtudiant = coursAssocierEtudiant.Find(x => x.CoursId == cours1.CoursId && x.EtudiantId == id);
-                if (coursEtudiant != null)
-                {
-                    _context.CoursEtudiants.Remove(coursEtudiant);
-                    _context.SaveChanges();
-                }
-            }
             return null;
         }
     }

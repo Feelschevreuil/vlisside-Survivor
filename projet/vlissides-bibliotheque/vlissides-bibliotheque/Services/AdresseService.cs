@@ -1,6 +1,6 @@
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.DTO;
+using vlissides_bibliotheque.DTO.Ajax;
 
 namespace vlissides_bibliotheque.Services
 {

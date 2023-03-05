@@ -83,8 +83,7 @@ function assignerCoursEtudiant() {
 
     var DonnerRecus =
     {
-        CoursId: getListCoursCocher(),
-        AuteursId
+        CoursId: getListCoursCocher()
     };
 
     var data = JSON.stringify(DonnerRecus);

@@ -1,4 +1,4 @@
-﻿@model List<Etudiant>
+﻿@model List<EtudiantDto>
 
 <h2 class="p-2">Gestion des étudiants</h2>
 
@@ -21,18 +21,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(Etudiant etudiant in Model) {
+            @foreach(EtudiantDto etudiant in Model) {
                 <tr id="tr-@etudiant.Id" class="modif-suppr">
                     <td>@etudiant.Nom</td>
                     <td>@etudiant.Prenom</td>
-                    <td>@etudiant.Email</td>
-                    <td>@etudiant.ProgrammeEtude.Nom</td>
-                    <td>@etudiant.PhoneNumber</td>
-                    <td>@etudiant.Adresse.NumeroCivique</td>
-                    <td>@etudiant.Adresse.Rue</td>
-                    <td>@etudiant.Adresse.Ville</td>
-                    <td>@etudiant.Adresse.Province.Nom</td>
-                    <td>@etudiant.Adresse.CodePostal</td>
+                    <td>@etudiant.Courriel</td>
+                    <td>@etudiant.ProgrammeEtude</td>
+                    <td>@etudiant.Telephone</td>
+                    <td>@etudiant.NumeroCivique</td>
+                    <td>@etudiant.Rue</td>
+                    <td>@etudiant.Ville</td>
+                    <td>@etudiant.Province</td>
+                    <td>@etudiant.CodePostal</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierEtudiant('@etudiant.Id')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerEtudiant('@etudiant.Id')">

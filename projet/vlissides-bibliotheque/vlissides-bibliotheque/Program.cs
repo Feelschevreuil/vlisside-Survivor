@@ -6,10 +6,13 @@ using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Stripe;
 using vlissides_bibliotheque.DAO;
-using vlissides_bibliotheque.MethodeGlobal;
-using vlissides_bibliotheque.Interface;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Services;
+using AutoMapper;
+using vlissides_bibliotheque.Mapper;
+using vlissides_bibliotheque.Extensions.Interface;
+using vlissides_bibliotheque.Services.Interface;
+using vlissides_bibliotheque.DAO.Interface;
 
 namespace vlissides_bibliotheque
 {
@@ -42,14 +45,28 @@ namespace vlissides_bibliotheque
             #region "addScopeService"
 
             builder.Services.AddScoped<LivresBibliothequeDAO>();
-            builder.Services.AddScoped<MethodeGlobal.Mapping>();
-            builder.Services.AddScoped<ILivreEnTuile, TuileLivreBibliothequeService>();
+            builder.Services.AddScoped<ILivreBibliotheque, LivreBibliothequeService>();
             builder.Services.AddScoped<IEvenementVM, EvenementService>();
-
-           // < IMyDependency, MyDependency > ();
-
+            builder.Services.AddScoped<ICheckedBox,CheckedBox>();
+            builder.Services.AddScoped<IDropDownList,ListDropDown>();
+            builder.Services.AddScoped<IPrix,PrixService>();
+            builder.Services.AddScoped<IUtilisateur,UtilisateurService>();
 
             #endregion
+
+            #region addScopeDAO
+            
+            builder.Services.AddScoped<IDAO<LivreBibliotheque>, LivresBibliothequeDAO>();
+            builder.Services.AddScoped<IDAO<Evenement>, EvenementDAO>();
+            builder.Services.AddScoped<IDAO<PrixEtatLivre>, PrixEtatLivreDAO>();
+            builder.Services.AddScoped<IDAO<ProgrammeEtude>, ProgrammeEtudeDAO>();
+            builder.Services.AddScoped<IDAO<Cours>, CoursDAO>();
+            builder.Services.AddScoped<IDAOEtudiant<Etudiant>, EtudiantDAO>();
+            builder.Services.AddScoped<IDAO<Auteur>, AuteurDAO>();
+            
+            #endregion
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

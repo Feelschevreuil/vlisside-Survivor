@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using vlissides_bibliotheque.DTO;
+using vlissides_bibliotheque.DTO.Ajax;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 

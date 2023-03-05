@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.ViewModels
@@ -8,13 +9,13 @@ namespace vlissides_bibliotheque.ViewModels
     /// </summary>
     public class TuileLivreBibliotequeVM
     {
-        public LivreBibliotheque livreBibliotheque;
+        public LivreBibliothequeDto livreBibliotheque;
 
-        public CoursLivre coursLivre;
+        public string? programmeEtudeNom;
 
         public List<PrixEtatLivre> prixEtatLivre;
         [DisplayName("Quantité")]
         public int quantite { get; set; }
-        public List<Auteur> auteurs;
+        public List<string>? auteurs;
     }
 }

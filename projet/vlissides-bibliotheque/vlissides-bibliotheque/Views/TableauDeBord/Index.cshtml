@@ -1,4 +1,4 @@
-﻿@model List<Etudiant>
+﻿@model List<EtudiantDto>
 @{
     ViewData["Title"] = "Tableau de bord";
 }
@@ -11,22 +11,6 @@
 
     </div>
 
-    <div class ="col-2">
-        <a asp-controller="TableauDeBord" asp-action="csvToListEtudiant">
-            <p class="btn bg-middle text-white">Créer étudiant du csv</p>
-        </a>
-    </div>
-    <div class="col-2">
-        <a asp-controller="TableauDeBord" asp-action="csvToListLivre">
-            <p class="btn bg-middle text-white">Créer livre du csv</p>
-        </a>
-    </div>
-
-    <div class="col-3">
-        <a asp-controller="TableauDeBord" asp-action="AssocierLivreEtudiantCSV">
-            <p class="btn bg-middle text-white">Créer livreÉtudiant du document</p>
-        </a>
-    </div>
 </div>
 
 <div class="dropdown float-end d-flex col">

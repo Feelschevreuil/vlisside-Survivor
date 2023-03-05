@@ -1,7 +1,7 @@
 ﻿@model TuileLivreBibliotequeVM
 
 @{
-    int livreIdCourant = @Model.livreBibliotheque.LivreId;
+    int? livreIdCourant = @Model.livreBibliotheque.LivreId;
 }
 
 
@@ -74,30 +74,30 @@
                     {
                         if (i == 0)
                         {
-                            <span>@Model.auteurs[i].GetNomComplet()</span>
+                            <span>@Model.auteurs[i]</span>
                         }
                         else
                         {
-                            <span>et @Model.auteurs[i].GetNomComplet()</span>
+                            <span>et @Model.auteurs[i]</span>
                         }
                     }
                     else if (i == Model.auteurs.Count - 2)
                     {
-                        <span>@Model.auteurs[i].GetNomComplet()</span>
+                        <span>@Model.auteurs[i]</span>
                     }
                     else
                     {
-                        <span>@Model.auteurs[i].GetNomComplet(),</span>
+                        <span>@Model.auteurs[i],</span>
                     }
 
                 }
         
         </p>
-        <p class="card-text">Maison @Model.livreBibliotheque.MaisonEdition.Nom</p>
-        <p class="card-text">@Model.livreBibliotheque.DatePublication.Year</p>
-        @if (Model.coursLivre != null)
+        <p class="card-text">Maison @Model.livreBibliotheque.MaisonEditionNom</p>
+        <p class="card-text">@Model.livreBibliotheque.AnneePublication</p>
+        @if (Model.programmeEtudeNom != null)
         {
-            <p class="card-text">@Model.coursLivre.Cours.ProgrammeEtude.Nom</p>
+            <p class="card-text">@Model.programmeEtudeNom</p>
         }
     </div>
     <div>

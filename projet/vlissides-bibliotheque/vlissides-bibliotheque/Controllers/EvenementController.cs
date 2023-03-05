@@ -11,11 +11,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
-using Exercice_Ajax.DTO;
+using vlissides_bibliotheque.DTO.Ajax;
 using Newtonsoft.Json;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Extensions;
-using vlissides_bibliotheque.Interface;
+using AutoMapper;
+using vlissides_bibliotheque.Services.Interface;
+using vlissides_bibliotheque.DAO.Interface;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -23,40 +25,39 @@ namespace vlissides_bibliotheque.Controllers
     public class EvenementController : Controller
     {
         private readonly ILogger<AccueilController> _logger;
-        private readonly ApplicationDbContext _context;
-        private readonly IEvenementVM _evenement;
+        private readonly IEvenementVM _evenementService;
+        private readonly IDAO<Evenement> _evenementDAO;
 
 
-        public EvenementController(ILogger<AccueilController> logger, ApplicationDbContext context, IEvenementVM evenement)
+        public EvenementController(ILogger<AccueilController> logger, IEvenementVM evenementService,
+           IDAO<Evenement> evenementDAO)
         {
             _logger = logger;
-            _context = context;
-            _evenement = evenement;
+            _evenementService = evenementService;
+            _evenementDAO = evenementDAO;
         }
         [AllowAnonymous]
         [Route("Evenement/Index")]
-        public IActionResult Evenements()
+        public async Task<IActionResult> Evenements()
         {
-            List<EvenementVM> listEvenementsVM = _evenement.GetEvenementInventaire();
-
+            List<EvenementVM> listEvenementsVM = await _evenementService.GetEvenementInventaire();
             return View(listEvenementsVM);
         }
         [AllowAnonymous]
-        public IActionResult Detail(int id)
+        public IActionResult Detail(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 Response.StatusCode = 400;
-                return Content("Cette identifiant n'est pas associer à un événement de la base de données.");
+                return Content("Aucun identifiant n'a été trouvée.");
             }
-            var Evenement = _context.Evenements.Include(x=>x.Commanditaire).ToList().Find(x => x.EvenementId == id);
+            var Evenement = _evenementDAO.GetById(id.Value);
             if (Evenement == null)
             {
                 Response.StatusCode = 404;
                 return Content("Cette événement n'existe pas dans la base de données");
             };
             return View(Evenement);
-
         }
 
         [HttpGet]
@@ -68,31 +69,21 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult Creer(EvenementVM evenementVM)
+        public async Task<IActionResult> Creer(EvenementVM evenementVM)
         {
             if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
             {
                 ModelState.AddModelError(string.Empty, "La date de début doit être avant ou égale la date de fin");
             }
 
-
             if (ModelState.IsValid)
             {
-                Evenement newEvenement = new()
-                {
-                    EvenementId = evenementVM.EvenementId,
-                    Commanditaire = evenementVM.Commanditaire,
-                    CommanditaireId = evenementVM.CommanditaireId,
-                    Debut = evenementVM.Debut,
-                    Fin = evenementVM.Fin,
-                    Image = evenementVM.Image,
-                    Nom = evenementVM.Nom,
-                    Description = evenementVM.Description,
-                };
-                _context.Evenements.Add(newEvenement);
-                _context.SaveChanges();
-                return RedirectToAction("Evenements");
 
+                Evenement newEvenement = _evenementService.GetEvenement(evenementVM);
+                _evenementDAO.Insert(newEvenement);
+                _evenementDAO.Save();
+
+                return RedirectToAction("Evenements");
             }
             return View(evenementVM);
         }
@@ -101,26 +92,24 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un événement de la base de données.");
             }
-            Evenement evenement = _context.Evenements
-               .Include(x => x.Commanditaire)
-               .Where(x => x.EvenementId == id)
-               .Single();
+
+            Evenement evenement = _evenementDAO.GetById(id.Value);
 
             if (evenement != null)
             {
-                return View(_evenement.GetEvenementVM(evenement));
+                return View(_evenementService.GetEvenementVM(evenement));
             }
             return Content("L'événement recherche n'a pas été trouvé dans la base de données");
 
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> modifier(EvenementVM evenementVM)
+        public ActionResult modifier(EvenementVM evenementVM)
         {
             if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
             {
@@ -129,21 +118,22 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                Evenement modifyevenement = _context.Evenements.ToList().Find(x => x.EvenementId == evenementVM.EvenementId);
-                if (modifyevenement != null)
+                Evenement evenementModifier = _evenementDAO.GetById(evenementVM.EvenementId);
+
+                if (evenementModifier != null)
                 {
                     {
-                        modifyevenement.EvenementId = evenementVM.EvenementId;
-                        modifyevenement.Commanditaire = evenementVM.Commanditaire;
-                        modifyevenement.CommanditaireId = evenementVM.CommanditaireId;
-                        modifyevenement.Debut = evenementVM.Debut;
-                        modifyevenement.Fin = evenementVM.Fin;
-                        modifyevenement.Image = evenementVM.Image;
-                        modifyevenement.Nom = evenementVM.Nom;
-                        modifyevenement.Description = evenementVM.Description;
-                    };
-                    _context.Evenements.Update(modifyevenement);
-                    _context.SaveChanges();
+                        evenementModifier.EvenementId = evenementVM.EvenementId;
+                        evenementModifier.Debut = evenementVM.Debut;
+                        evenementModifier.Fin = evenementVM.Fin;
+                        evenementModifier.Commanditaire = evenementVM.Commanditaire;
+                        evenementModifier.CommanditaireId = evenementVM.CommanditaireId;
+                        evenementModifier.Nom = evenementVM.Nom;
+                        evenementModifier.Description = evenementVM.Description;
+                        evenementModifier.Image = evenementVM.Image;
+                    }
+                    _evenementDAO.Update(evenementModifier);
+                    _evenementDAO.Save();
                     return RedirectToAction("Evenements");
                 }
                 return Content("L'événement que vous tentez de modifier n'a pas été trouver dans la base de données");
@@ -154,25 +144,24 @@ namespace vlissides_bibliotheque.Controllers
         [Route("Evenement/effacer/{id?}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> effacer(int? id)
+        public ActionResult effacer(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un événement de la base de données.");
             }
-            var EvenementSupprimer = _context.Evenements.ToList().Find(x => x.EvenementId == id);
+            var EvenementSupprimer = _evenementDAO.GetById(id.Value);
             if (EvenementSupprimer == null)
             {
                 Response.StatusCode = 404;
                 return Content("Cette événement n'existe pas dans la base de données");
             };
 
-            _context.Evenements.Remove(EvenementSupprimer);
-            _context.SaveChanges();
+            _evenementDAO.Delete(EvenementSupprimer.EvenementId);
+            _evenementDAO.Save();
 
             return RedirectToAction("Evenements");
-
         }
     }
 }

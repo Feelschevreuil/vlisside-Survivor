@@ -25,6 +25,12 @@ using Microsoft.Extensions.Hosting.Internal;
 using vlissides_bibliotheque.Extentions;
 using Microsoft.Extensions.Hosting;
 using System.Text.RegularExpressions;
+using vlissides_bibliotheque.Services;
+using vlissides_bibliotheque.Extensions.Interface;
+using vlissides_bibliotheque.Services.Interface;
+using vlissides_bibliotheque.DAO.Interface;
+using AutoMapper;
+using vlissides_bibliotheque.DTO.Ajax;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -35,32 +41,48 @@ namespace vlissides_bibliotheque.Controllers
         private readonly UserManager<Utilisateur> _userManager;
         private readonly UserManager<Etudiant> _userManagerEtudiant;
         private readonly ApplicationDbContext _context;
-        private readonly LivresBibliothequeDAO _livresBibliothequeDAO;
+        private readonly IDAO<LivreBibliotheque> _livreDAO;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly ICheckedBox _CheckedBox;
+        private readonly IDropDownList _dropDownList;
+        private readonly IUtilisateur _utilisateur;
+        private readonly IPrix _prix;
+        private readonly IMapper _mapper;
 
         public TableauDeBordController(
             SignInManager<Etudiant> signInManager,
             UserManager<Utilisateur> userManager,
             UserManager<Etudiant> userManagerEtudiant,
             ApplicationDbContext context,
-            LivresBibliothequeDAO livresBibliothequeDAO,
-            IWebHostEnvironment hostingEnvironment
+            IDAO<LivreBibliotheque> livreDAO,
+            IWebHostEnvironment hostingEnvironment,
+            ICheckedBox CheckedBox,
+            IDropDownList dropDownList,
+            IUtilisateur utilisateur,
+            IPrix prix,
+            IMapper mapper
         )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _userManagerEtudiant = userManagerEtudiant;
             _context = context;
-            _livresBibliothequeDAO = livresBibliothequeDAO;
+            _livreDAO = livreDAO;
             _hostingEnvironment = hostingEnvironment;
+            _CheckedBox = CheckedBox;
+            _dropDownList = dropDownList;
+            _utilisateur = utilisateur;
+            _prix = prix;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            List<Etudiant> etudiants = _userManagerEtudiant.Users
+            List<EtudiantDto> etudiants = _userManagerEtudiant.Users
                .Include(etudiant => etudiant.ProgrammeEtude)
                .Include(etudiant => etudiant.Adresse.Province)
+               .Select(e => _mapper.Map<EtudiantDto>(e))
                .ToList();
             return View(etudiants);
         }
@@ -70,9 +92,10 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult Etudiants()
         {
-            List<Etudiant> etudiants = _userManagerEtudiant.Users
+            List<EtudiantDto> etudiants = _userManagerEtudiant.Users
                 .Include(etudiant => etudiant.ProgrammeEtude)
                 .Include(etudiant => etudiant.Adresse.Province)
+                .Select(e => _mapper.Map<EtudiantDto>(e))
                 .ToList();
 
             return PartialView("~/Views/TableauDeBord/Etudiants.cshtml", etudiants);
@@ -81,7 +104,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult CreerEtudiant()
         {
-            return PartialView("Views/Shared/_EtudiantPartial.cshtml", _context.NewGestionProfilVM());
+            return PartialView("Views/Shared/_EtudiantPartial.cshtml", _utilisateur.NewGestionProfilVM());
         }
 
         [HttpPost]
@@ -132,8 +155,8 @@ namespace vlissides_bibliotheque.Controllers
                 {
                     await _userManagerEtudiant.AddToRoleAsync(etudiant, "Etudiant");
                     vm.EtudiantId = etudiant.Id;
-                    vm.NomProgrammeEtude = _context.ProgrammesEtudes.Find(vm.ProgrammeEtudeId).Nom;
-                    vm.NomProvince = _context.Provinces.Find(vm.ProvinceId).Nom;
+                    vm.NomProgrammeEtude = _context.ProgrammesEtudes.Single(p => p.ProgrammeEtudeId == vm.ProgrammeEtudeId).Nom;
+                    vm.NomProvince = _context.Provinces.Single(p=> p.ProvinceId == vm.ProvinceId).Nom;
 
                     return Json(vm);
                 }
@@ -176,14 +199,14 @@ namespace vlissides_bibliotheque.Controllers
                 .Where(etudiant => etudiant.Id == Id)
                 .Include(etudiant => etudiant.ProgrammeEtude)
                 .Include(etudiant => etudiant.Adresse.Province)
-                .FirstOrDefault();
+                .SingleOrDefault();
 
             // retourner un erreur si l'étudiant n'existe pas
             if (etudiant == null)
             {
                 return NotFound();
             }
-            GestionProfilVM vm = etudiant.GetEtudiantProfilVM(_context);
+            GestionProfilVM vm = _utilisateur.GetEtudiantProfilVM(etudiant);
 
             vm.EtudiantId = Id;
 
@@ -211,14 +234,14 @@ namespace vlissides_bibliotheque.Controllers
                     .Where(etudiant => etudiant.Id == vm.EtudiantId)
                     .Include(etudiant => etudiant.ProgrammeEtude)
                     .Include(etudiant => etudiant.Adresse.Province)
-                    .FirstOrDefault();
+                    .SingleOrDefault();
 
                 // retourner un erreur si l'étudiant n'existe pas
                 if (etudiant == null) return NotFound();
 
-                Adresse adresse = etudiant.GetAdresse(_context);
+                Adresse adresse = _utilisateur.GetAdresse(etudiant);
 
-                etudiant.ModelBinding(adresse, vm);
+                _utilisateur.ModelBinding(etudiant,adresse, vm);
 
                 _context.SaveChanges();
 
@@ -269,15 +292,15 @@ namespace vlissides_bibliotheque.Controllers
         {
             AssocierLivreCours vm = new AssocierLivreCours
             {
-                MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
-                checkBoxCours = CheckedBox.GetCours(_context),
-                checkBoxAuteurs = CheckedBox.GetAuteurs(_context)
+                MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition(),
+                checkBoxCours = _CheckedBox.GetCours(),
+                checkBoxAuteurs = _CheckedBox.GetAuteurs()
             };
             return PartialView("Views/Shared/_AjouterLivrePartial.cshtml", vm);
         }
 
         [HttpPost]
-        public IActionResult CreerLivre([FromBody] AssocierLivreCours vm)
+        public async Task<IActionResult> CreerLivre([FromBody] AssocierLivreCours vm)
         {
             ModelState.Remove(nameof(vm.MaisonsDeditions));
             ModelState.Remove(nameof(vm.checkBoxCours));
@@ -301,67 +324,59 @@ namespace vlissides_bibliotheque.Controllers
                 _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
                 _context.SaveChanges();
 
-                List<Cours> coursBD = _context.Cours.ToList();
-                List<Auteur> auteursBD = _context.Auteurs.ToList();
-                foreach (int coursId in vm.Cours)
+                List<CoursLivre> nouveauCoursLivre = vm.Cours.Select(c => new CoursLivre()
                 {
-                    Cours idCoursRechercher = coursBD.Find(x => x.CoursId == coursId);
+                    CoursLivreId = 0,
+                    CoursId = c,
+                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                }).ToList();
 
-                    CoursLivre nouvelleAssociation = new()
-                    {
-                        CoursLivreId = 0,
-                        CoursId = idCoursRechercher.CoursId,
-                        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                    };
-
-                    _context.CoursLivres.Add(nouvelleAssociation);
+                if (nouveauCoursLivre.Any())
+                {
+                    _context.CoursLivres.AddRange(nouveauCoursLivre);
                     _context.SaveChanges();
                 }
 
-                foreach (int auteurId in vm.Auteurs)
+
+                List<AuteurLivre> nouveauAuteurLivre = vm.Auteurs.Select(a => new AuteurLivre()
                 {
-                    Auteur idAuteursRechercher = auteursBD.Find(x => x.AuteurId == auteurId);
+                    AuteurId = a,
+                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                }).ToList();
 
-                    AuteurLivre nouvelleAssociation = new()
-                    {
-                        AuteurId = idAuteursRechercher.AuteurId,
-                        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                    };
-
-                    _context.AuteursLivres.Add(nouvelleAssociation);
+                if (nouveauAuteurLivre.Any())
+                {
+                    _context.AuteursLivres.AddRange(nouveauAuteurLivre);
                     _context.SaveChanges();
                 }
 
-                _context.PrixEtatsLivres.AddRange(GestionPrix.AssocierPrixEtat(nouveauLivreBibliothèque, vm, _context));
+                await _context.PrixEtatsLivres.AddRangeAsync(_prix.AssocierPrixEtat(nouveauLivreBibliothèque, vm));
                 _context.SaveChanges();
                 vm.Id = nouveauLivreBibliothèque.LivreId;
                 vm.DateFormater = vm.DatePublication.ToString("dd MMMM yyyy");
                 return Json(vm);
             }
-            vm.checkBoxAuteurs = CheckedBox.GetAuteurs(_context);
-            vm.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
-            vm.checkBoxCours = CheckedBox.GetCours(_context);
+            vm.checkBoxAuteurs = _CheckedBox.GetAuteurs();
+            vm.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
+            vm.checkBoxCours = _CheckedBox.GetCours();
             return PartialView("Views/Shared/_AjouterLivrePartial.cshtml", vm);
         }
 
         [HttpGet]
-        public IActionResult ModifierLivre(int id)
+        public IActionResult ModifierLivre(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            LivreBibliotheque livreBibliothequeRechercher = _livresBibliothequeDAO.Get(id);
+            LivreBibliotheque livreBibliothequeRechercher = _livreDAO.GetById(id.Value);
 
             if (livreBibliothequeRechercher == null)
             {
                 return NotFound();
             }
 
-            AuteurLivre auteurLivre = _context.AuteursLivres
-                .ToList()
-                .Find(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
             List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres
                 .ToList()
                 .FindAll(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
@@ -371,7 +386,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
-                MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context),
+                MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition(),
                 DatePublication = livreBibliothequeRechercher.DatePublication,
                 ISBN = livreBibliothequeRechercher.Isbn,
                 Titre = livreBibliothequeRechercher.Titre,
@@ -380,8 +395,8 @@ namespace vlissides_bibliotheque.Controllers
                 PossedeNeuf = true,
                 PossedeNumerique = true,
                 PossedeUsagee = true,
-                checkBoxCours = CheckedBox.GetCoursLivre(_context, livreBibliothequeRechercher),
-                checkBoxAuteurs = CheckedBox.GetAuteursLivre(_context, livreBibliothequeRechercher)
+                checkBoxCours = _CheckedBox.GetCoursLivre(livreBibliothequeRechercher),
+                checkBoxAuteurs = _CheckedBox.GetAuteursLivre(livreBibliothequeRechercher)
 
             };
 
@@ -409,7 +424,7 @@ namespace vlissides_bibliotheque.Controllers
                 return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", Emptyform);
             };
 
-            LivreBibliotheque LivreBibliothèqueModifier = _livresBibliothequeDAO.Get(form.IdDuLivre);
+            LivreBibliotheque LivreBibliothèqueModifier = _livreDAO.GetById(form.IdDuLivre);
             if (ModelState.IsValid)
             {
 
@@ -424,26 +439,26 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
 
 
-                GestionPrix.UpdateLesPrix(LivreBibliothèqueModifier, form, _context);
+                await _prix.UpdateLesPrix(LivreBibliothèqueModifier, form);
                 form.DateFormater = form.DatePublication.ToString("dd MMMM yyyy");
                 return Json(form);
             }
 
-            form.MaisonsDeditions = ListDropDown.ListDropDownMaisonDedition(_context);
-            form.checkBoxCours = CheckedBox.GetCoursLivre(_context, LivreBibliothèqueModifier);
-            form.checkBoxAuteurs = CheckedBox.GetAuteursLivre(_context, LivreBibliothèqueModifier);
+            form.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
+            form.checkBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
+            form.checkBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", form);
         }
 
         [HttpPost]
-        public IActionResult SupprimerLivre([FromBody] int id)
+        public IActionResult SupprimerLivre([FromBody] int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return NotFound();
             }
 
-            var livreSupprimer = _livresBibliothequeDAO.Get(id);
+            var livreSupprimer = _livreDAO.GetById(id.Value);
             if (livreSupprimer == null)
             {
                 return NotFound();
@@ -475,7 +490,7 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult CreerCours()
         {
             GestionCoursVM cours = new();
-            cours.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            cours.ProgrammesEtude = _dropDownList.ListDropDownProgrammesEtude();
             return PartialView("Views/Shared/_CoursPartial.cshtml", cours);
         }
         [HttpPost]
@@ -502,17 +517,17 @@ namespace vlissides_bibliotheque.Controllers
                 return Json(vm);
             }
 
-            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            vm.ProgrammesEtude = _dropDownList.ListDropDownProgrammesEtude();
             return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
         }
         [HttpGet]
-        public IActionResult ModifierCours(int id)
+        public IActionResult ModifierCours(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            Cours coursRechercher = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
+            Cours coursRechercher = _context.Cours.Single(x => x.CoursId == id);
             if (coursRechercher == null)
             {
                 return NotFound();
@@ -527,7 +542,7 @@ namespace vlissides_bibliotheque.Controllers
                 Description = coursRechercher.Description,
                 ProgrammesEtudeId = coursRechercher.ProgrammeEtudeId,
             };
-            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            vm.ProgrammesEtude = _dropDownList.ListDropDownProgrammesEtude();
             return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
 
         }
@@ -540,7 +555,7 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                Cours coursRechercher = _context.Cours.Where(x => x.CoursId == vm.CoursId).FirstOrDefault();
+                Cours coursRechercher = _context.Cours.Single(x => x.CoursId == vm.CoursId);
 
                 coursRechercher.ProgrammeEtudeId = vm.ProgrammesEtudeId;
                 coursRechercher.Nom = vm.Nom;
@@ -554,18 +569,18 @@ namespace vlissides_bibliotheque.Controllers
                 return Json(vm);
             }
 
-            vm.ProgrammesEtude = ListDropDown.ListDropDownProgrammesEtude(_context);
+            vm.ProgrammesEtude = _dropDownList.ListDropDownProgrammesEtude();
             return PartialView("Views/Shared/_CoursPartial.cshtml", vm);
 
         }
         [HttpPost]
-        public IActionResult SupprimerCours([FromBody] int id)
+        public IActionResult SupprimerCours([FromBody] int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Cours supprimerCours = _context.Cours.Where(x => x.CoursId == id).FirstOrDefault();
+            Cours supprimerCours = _context.Cours.Single(x => x.CoursId == id);
             if (supprimerCours == null)
             {
                 return NotFound();
@@ -615,13 +630,13 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
-        public IActionResult ModifierProgrammeEtudes(int id)
+        public IActionResult ModifierProgrammeEtudes(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            ProgrammeEtude programme = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId == id).FirstOrDefault();
+            ProgrammeEtude programme = _context.ProgrammesEtudes.Single(x => x.ProgrammeEtudeId == id);
             if (programme == null)
             {
                 return NotFound();
@@ -643,7 +658,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(GestionProgrammeEtudesVM.Id));
             if (ModelState.IsValid)
             {
-                ProgrammeEtude modifierProgramme = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId == vm.ProgrammeEtudeId).FirstOrDefault();
+                ProgrammeEtude modifierProgramme = _context.ProgrammesEtudes.Single(x => x.ProgrammeEtudeId == vm.ProgrammeEtudeId);
                 if (modifierProgramme != null)
                 {
                     modifierProgramme.Nom = vm.Nom;
@@ -658,7 +673,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult SupprimerProgrammeEtudes([FromBody] int id)
+        public IActionResult SupprimerProgrammeEtudes([FromBody] int? id)
         {
             if (id == null)
             {
@@ -673,7 +688,7 @@ namespace vlissides_bibliotheque.Controllers
             List<Etudiant> bdListEtudiant = _context.Etudiants
                 .Where(x => x.ProgrammeEtudeId == programmeEtudeSupprimer.ProgrammeEtudeId)
                 .ToList();
-            var programmeEtudeRandom = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId != id).FirstOrDefault();
+            var programmeEtudeRandom = _context.ProgrammesEtudes.Where(x => x.ProgrammeEtudeId != id).First();
             foreach (Etudiant etudiant in bdListEtudiant)
             {
                 etudiant.ProgrammeEtudeId = programmeEtudeRandom.ProgrammeEtudeId;
@@ -751,16 +766,17 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpGet]
-        public IActionResult ModifierPromotions(int id)
+        public IActionResult ModifierPromotions(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
             Evenement evenement = _context.Evenements
                 .Include(x => x.Commanditaire)
-                .Where(x => x.EvenementId == id)
-                .FirstOrDefault();
+                .Single(x => x.EvenementId == id);
+
             if (evenement == null)
             {
                 return NotFound();
@@ -792,10 +808,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(GestionPromotionVM.dateFinFormatter));
             if (ModelState.IsValid)
             {
-                Evenement modifierEvenement = _context.Evenements
-                    .Include(x => x.Commanditaire)
-                    .Where(x => x.EvenementId == vm.EvenementId)
-                    .FirstOrDefault();
+                Evenement modifierEvenement = _context.Evenements.Include(x => x.Commanditaire).Single(x => x.EvenementId == vm.EvenementId);
                 if (modifierEvenement != null)
                 {
                     modifierEvenement.EvenementId = vm.EvenementId;
@@ -821,7 +834,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult supprimerPromotion([FromBody] int id)
+        public IActionResult supprimerPromotion([FromBody] int? id)
         {
             if (id == null)
             {
@@ -856,8 +869,8 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult CreerCommande()
         {
             GestionCommandeVM vm = new();
-            vm.listStatut = ListDropDown.ListDropDownStatutCommande();
-            vm.listEtudiant = ListDropDown.ListDropDownEtudiant(_context);
+            vm.listStatut = _dropDownList.ListDropDownStatutCommande();
+            vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
         }
 
@@ -871,7 +884,7 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.formaterDateFacturation));
             if (ModelState.IsValid)
             {
-                Etudiant etudiant = _context.Etudiants.Where(x => x.Id == vm.EtudiantId).FirstOrDefault();
+                Etudiant etudiant = _context.Etudiants.Single(x => x.Id == vm.EtudiantId);
                 FactureEtudiant facture = new()
                 {
                     FactureEtudiantId = 0,
@@ -892,22 +905,19 @@ namespace vlissides_bibliotheque.Controllers
                 return Json(vm);
 
             }
-            vm.listStatut = ListDropDown.ListDropDownStatutCommande();
-            vm.listEtudiant = ListDropDown.ListDropDownEtudiant(_context);
+            vm.listStatut = _dropDownList.ListDropDownStatutCommande();
+            vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
         }
 
         [HttpGet]
-        public IActionResult ModifierCommande(int id)
+        public IActionResult ModifierCommande(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            FactureEtudiant facture = _context.FacturesEtudiants
-                .Include(x => x.Etudiant)
-                .Where(x => x.FactureEtudiantId == id)
-                .FirstOrDefault();
+            FactureEtudiant facture = _context.FacturesEtudiants.Include(x => x.Etudiant).Single(x => x.FactureEtudiantId == id);
             if (facture == null)
             {
                 return NotFound();
@@ -921,8 +931,8 @@ namespace vlissides_bibliotheque.Controllers
                 ValeurEnumStatut = (int)facture.Statut
             };
 
-            vm.listStatut = ListDropDown.ListDropDownStatutCommande();
-            vm.listEtudiant = ListDropDown.ListDropDownEtudiant(_context);
+            vm.listStatut = _dropDownList.ListDropDownStatutCommande();
+            vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
         }
 
@@ -936,12 +946,8 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.formaterDateFacturation));
             if (ModelState.IsValid)
             {
-                FactureEtudiant facture = _context.FacturesEtudiants
-                    .Include(x => x.Etudiant)
-                    .Where(x => x.FactureEtudiantId == vm.FactureEtudiantId).FirstOrDefault();
-                Etudiant etudiant = _context.Etudiants
-                    .Where(x => x.Id == vm.EtudiantId)
-                    .FirstOrDefault();
+                FactureEtudiant facture = _context.FacturesEtudiants.Include(x => x.Etudiant).Single(x => x.FactureEtudiantId == vm.FactureEtudiantId);
+                Etudiant etudiant = _context.Etudiants.Single(x => x.Id == vm.EtudiantId);
 
                 facture.PaymentIntentId = vm.PaymentIntentId;
                 facture.EtudiantId = etudiant.Id;
@@ -957,12 +963,12 @@ namespace vlissides_bibliotheque.Controllers
                 return Json(vm);
 
             }
-            vm.listStatut = ListDropDown.ListDropDownStatutCommande();
-            vm.listEtudiant = ListDropDown.ListDropDownEtudiant(_context);
+            vm.listStatut = _dropDownList.ListDropDownStatutCommande();
+            vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
         }
 
-        public IActionResult AfficherListeCommandes(int id)
+        public IActionResult AfficherListeCommandes(int? id)
         {
             if (id == null)
             {
@@ -979,7 +985,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult supprimerCommande([FromBody] int id)
+        public IActionResult supprimerCommande([FromBody] int? id)
         {
             if (id == null)
             {
@@ -1038,14 +1044,14 @@ namespace vlissides_bibliotheque.Controllers
             string rue = "";
             string ville = "";
             string nomDeRue = "";
-            int provinceIdParDefaut = _context.Provinces.FirstOrDefault().ProvinceId;
+            int provinceIdParDefaut = _context.Provinces.First().ProvinceId;
             List<ProgrammeEtude> programmes = _context.ProgrammesEtudes.ToList();
             List<Etudiant> etudiants = new();
 
             foreach (CsvEtudiantVM vm in list)
             {
                 string app = "";
-                ProgrammeEtude programmeEtude = programmes.Find(x => x.Nom.ToLower() == vm.ProgrammeEtude.ToLower());
+                ProgrammeEtude programmeEtude = programmes.Where(x => x.Nom.ToLower() == vm.ProgrammeEtude.ToLower()).Single();
                 List<string> contenuAdresse = vm.Adresse.Trim().Split(" ").ToList();
                 numeroCivique = contenuAdresse[0];
                 contenuAdresse.RemoveAt(0);
@@ -1097,270 +1103,5 @@ namespace vlissides_bibliotheque.Controllers
             }
             return etudiants;
         }
-
-        public async Task<IActionResult> csvToListLivre()
-        {
-            string path = Path.Combine(_hostingEnvironment.WebRootPath, "csv", "livres-ajouter.csv");
-            string[] readText = System.IO.File.ReadAllLines(path);
-            List<CsvLivreVM> csvEnVm = readText
-               .Skip(1)
-               .Where(l => l.Length > 1)
-               .CsvEnLivreVm()
-               .ToList();
-            List<LivreBibliotheque> csvEnlivre = CreerLivreFromCSV(csvEnVm);
-
-            return View("SuccesLivreCsv", csvEnlivre);
-        }
-
-        public List<LivreBibliotheque> CreerLivreFromCSV(List<CsvLivreVM> list)
-        {
-            List<LivreBibliotheque> livreBibliotheques = new();
-            IEnumerable<LivreBibliotheque> livreBibliothequesBD = _context.LivresBibliotheque
-                .Include(x => x.MaisonEdition);
-                
-
-            foreach (CsvLivreVM vm in list)
-            {
-                if (livreBibliothequesBD.Where(x => x.Isbn.Trim() == vm.ISBN.Trim()).FirstOrDefault() == null)
-                {
-                    MaisonEdition maison = new()
-                    {
-                        MaisonEditionId = 0,
-                        Nom = vm.Edition.Trim()
-                    };
-                    _context.MaisonsEdition.Add(maison);
-                    _context.SaveChanges();
-
-
-                    LivreBibliotheque livre = new()
-                    {
-                        LivreId = 0,
-                        MaisonEditionId = maison.MaisonEditionId,
-                        Titre = vm.Titre.Trim(),
-                        Isbn = vm.ISBN.Trim(),
-                        DatePublication = DateTime.Now,
-                        Resume = "À venir",
-                        PhotoCouverture = "",
-                        MaisonEdition = maison
-                    };
-                    _context.LivresBibliotheque.Add(livre);
-                    _context.SaveChanges();
-
-                    if (vm.Auteur.Contains("&"))
-                    {
-                        List<string> deuxAuteurs = vm.Auteur.Trim().Split(" ").ToList();
-                        Auteur auteur1 = new()
-                        {
-                            AuteurId = 0,
-                            Prenom = "",
-                            Nom = deuxAuteurs[0].Trim()
-                        };
-                        Auteur auteur2 = new()
-                        {
-                            AuteurId = 0,
-                            Prenom = "",
-                            Nom = deuxAuteurs[2].Trim()
-                        };
-                        _context.Auteurs.Add(auteur1);
-                        _context.Auteurs.Add(auteur2);
-                        _context.SaveChanges();
-
-                        AuteurLivre auteurLivre = new()
-                        {
-                            AuteurId = auteur1.AuteurId,
-                            LivreBibliothequeId = livre.LivreId
-                        };
-                        AuteurLivre auteurLivre2 = new()
-                        {
-                            AuteurId = auteur2.AuteurId,
-                            LivreBibliothequeId = livre.LivreId
-                        };
-                        _context.AuteursLivres.Add(auteurLivre);
-                        _context.AuteursLivres.Add(auteurLivre2);
-                        _context.SaveChanges();
-
-                    }
-                    else if (vm.Auteur.Contains(" "))
-                    {
-                        List<string> NomAuteurs = vm.Auteur.Split(" ").ToList();
-
-                        Auteur auteur = new()
-                        {
-                            AuteurId = 0,
-                            Prenom = NomAuteurs[0],
-                            Nom = string.Join(" ", NomAuteurs).Trim()
-                        };
-                        _context.Auteurs.Add(auteur);
-                        _context.SaveChanges();
-
-                        AuteurLivre auteurLivre = new()
-                        {
-                            AuteurId = auteur.AuteurId,
-                            LivreBibliothequeId = livre.LivreId
-                        };
-                        _context.AuteursLivres.Add(auteurLivre);
-                        _context.SaveChanges();
-                    }
-
-                    PrixEtatLivre prixNeuf = new()
-                    {
-                        PrixEtatLivreId = 0,
-                        LivreBibliothequeId = livre.LivreId,
-                        Prix = AffichagePrix.GetPrixEnDouble(vm.Prix_Neuf),
-                        EtatLivre = EtatLivreEnum.NEUF,
-                    };
-                    PrixEtatLivre prixNumerique = new()
-                    {
-                        PrixEtatLivreId = 0,
-                        LivreBibliothequeId = livre.LivreId,
-                        Prix = AffichagePrix.GetPrixEnDouble(vm.Prix_Numerique),
-                        EtatLivre = EtatLivreEnum.NUMERIQUE,
-                    };
-                    PrixEtatLivre prixUsage = new()
-                    {
-                        PrixEtatLivreId = 0,
-                        LivreBibliothequeId = livre.LivreId,
-                        Prix = AffichagePrix.GetPrixEnDouble(vm.Prix_Usage),
-                        EtatLivre = EtatLivreEnum.USAGE,
-                    };
-                    _context.PrixEtatsLivres.Add(prixNeuf);
-                    _context.PrixEtatsLivres.Add(prixNumerique);
-                    _context.PrixEtatsLivres.Add(prixUsage);
-                    _context.SaveChanges();
-
-                    livreBibliotheques.Add(livre);
-                }
-            }
-            return livreBibliotheques;
-        }
-
-        public IActionResult AssocierLivreEtudiantCSV()
-        {
-            List<LivreEtudiant> livreEtudiants = new();
-            List<Etudiant> etudiantsBD = _context.Etudiants
-                .Include(x => x.Adresse)
-                .Include(x => x.ProgrammeEtude)
-                .ToList();
-            List<LivreBibliotheque> bibliothequesBD = _context.LivresBibliotheque
-                .Include(x => x.MaisonEdition)
-                .ToList();
-            List<AuteurLivre> auteurLivresBD = _context.AuteursLivres
-                .Include(x => x.LivreBibliotheque)
-                .Include(x => x.Auteur)
-                .ToList();
-            List<Auteur> auteursBD = _context.Auteurs
-                .ToList();
-            List<LivreEtudiant> livreEtudiantBD = _context.LivresEtudiants
-                .Include(x => x.Etudiant)
-                .ToList();
-
-            Etudiant Marcel = etudiantsBD.Find(x => x.NumeroEtudiant == 2110189);
-            Etudiant Stephane = etudiantsBD.Find(x => x.NumeroEtudiant == 2056987);
-            Etudiant Sylvie = etudiantsBD.Find(x => x.NumeroEtudiant == 2123659);
-            LivreBibliotheque calculIntegral1 = bibliothequesBD.Find(x => x.Isbn == "659842032-7");
-            LivreBibliotheque calculIntegral2 = bibliothequesBD.Find(x => x.Isbn == "659841232-7");
-            LivreBibliotheque cinematique = bibliothequesBD.Find(x => x.Isbn == "638945499-1");
-            LivreBibliotheque enfance = bibliothequesBD.Find(x => x.Isbn == "687435489-2");
-            LivreBibliotheque adaptation = bibliothequesBD.Find(x => x.Isbn == "65298569-2");
-
-            if (calculIntegral1 != null && livreEtudiantBD.Find(x=>x.Isbn == calculIntegral1.Isbn) == null)
-            {
-                LivreEtudiant livreEtudiant = new()
-                {
-                    LivreId = 0,
-                    Titre = calculIntegral1.Titre,
-                    Isbn = calculIntegral1.Isbn,
-                    Auteur = StringExtension.getAuteursLivre(auteurLivresBD, auteursBD, calculIntegral1),
-                    DatePublication = calculIntegral1.DatePublication,
-                    Etudiant = Marcel,
-                    MaisonEdition = calculIntegral1.MaisonEdition.Nom,
-                    PhotoCouverture = "",
-                    Resume = calculIntegral1.Resume,
-                    Prix = 15
-                };
-                _context.LivresEtudiants.Add(livreEtudiant);
-                _context.SaveChanges();
-                livreEtudiants.Add(livreEtudiant);
-            };
-            if (calculIntegral2 != null && livreEtudiantBD.Find(x => x.Isbn == calculIntegral2.Isbn) == null)
-            {
-                LivreEtudiant livreEtudiant1 = new()
-                {
-                    LivreId = 0,
-                    Titre = calculIntegral2.Titre,
-                    Isbn = calculIntegral2.Isbn,
-                    Auteur = StringExtension.getAuteursLivre(auteurLivresBD, auteursBD, calculIntegral2),
-                    DatePublication = calculIntegral2.DatePublication,
-                    Etudiant = Marcel,
-                    MaisonEdition = calculIntegral2.MaisonEdition.Nom,
-                    PhotoCouverture = "",
-                    Resume = calculIntegral2.Resume,
-                    Prix = 12
-                };
-                _context.LivresEtudiants.Add(livreEtudiant1);
-                _context.SaveChanges();
-                livreEtudiants.Add(livreEtudiant1);
-            };
-            if (cinematique != null && livreEtudiantBD.Find(x => x.Isbn == cinematique.Isbn) == null)
-            {
-                LivreEtudiant livreEtudiant2 = new()
-                {
-                    LivreId = 0,
-                    Titre = cinematique.Titre,
-                    Isbn = cinematique.Isbn,
-                    Auteur = StringExtension.getAuteursLivre(auteurLivresBD, auteursBD, cinematique),
-                    DatePublication = cinematique.DatePublication,
-                    Etudiant = Stephane,
-                    MaisonEdition = cinematique.MaisonEdition.Nom,
-                    PhotoCouverture = "",
-                    Resume = cinematique.Resume,
-                    Prix = 32
-                };
-                _context.LivresEtudiants.Add(livreEtudiant2);
-                _context.SaveChanges();
-                livreEtudiants.Add(livreEtudiant2);
-            };
-            if (enfance != null && livreEtudiantBD.Find(x => x.Isbn == enfance.Isbn) == null)
-            {
-                LivreEtudiant livreEtudiant3 = new()
-                {
-                    LivreId = 0,
-                    Titre = enfance.Titre,
-                    Isbn = enfance.Isbn,
-                    Auteur = StringExtension.getAuteursLivre(auteurLivresBD, auteursBD, enfance),
-                    DatePublication = enfance.DatePublication,
-                    Etudiant = Sylvie,
-                    MaisonEdition = enfance.MaisonEdition.Nom,
-                    PhotoCouverture = "",
-                    Resume = enfance.Resume,
-                    Prix = 15.75
-                };
-                _context.LivresEtudiants.Add(livreEtudiant3);
-                _context.SaveChanges();
-                livreEtudiants.Add(livreEtudiant3);
-            };
-            if (adaptation != null && livreEtudiantBD.Find(x => x.Isbn == adaptation.Isbn) == null)
-            {
-                LivreEtudiant livreEtudiant4 = new()
-                {
-                    LivreId = 0,
-                    Titre = adaptation.Titre,
-                    Isbn = adaptation.Isbn,
-                    Auteur = StringExtension.getAuteursLivre(auteurLivresBD, auteursBD, adaptation),
-                    DatePublication = adaptation.DatePublication,
-                    Etudiant = Sylvie,
-                    MaisonEdition = adaptation.MaisonEdition.Nom,
-                    PhotoCouverture = "",
-                    Resume = adaptation.Resume,
-                    Prix = 18
-                };
-                _context.LivresEtudiants.Add(livreEtudiant4);
-                _context.SaveChanges();
-                livreEtudiants.Add(livreEtudiant4);
-            };
-
-            return View("SuccesLivreEtudiantCsv", livreEtudiants);
-        }
-
     }
 }

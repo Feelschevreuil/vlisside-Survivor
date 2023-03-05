@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Services;
+using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
@@ -20,16 +22,19 @@ namespace vlissides_bibliotheque.Controllers
         private readonly SignInManager<Utilisateur> _signInManager;
         private readonly UserManager<Utilisateur> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly IUtilisateur _utilisateur;
 
         public ConnexionController(
             SignInManager<Utilisateur> signInManager,
             UserManager<Utilisateur> userManager,
-            ApplicationDbContext context
+            ApplicationDbContext context,
+            IUtilisateur utilisateur
             )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _context = context;
+            _utilisateur = utilisateur;
         }
 
         /// <summary>
@@ -89,7 +94,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             if (!_signInManager.IsSignedIn(User))
             {
-                return View(_context.NewInscriptionVM());
+                return View(_utilisateur.NewInscriptionVM());
             }
             return Content("Imposssible de s'inscrire quand connecté.");
         }

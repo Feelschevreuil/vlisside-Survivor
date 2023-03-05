@@ -3,24 +3,33 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
-using vlissides_bibliotheque.DTO;
+using vlissides_bibliotheque.DTO.Ajax;
+using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque
 {
-    public static class CheckedBox
+    public class CheckedBox : ICheckedBox
     {
-        public static List<checkBoxCours> GetCoursCheckedBox(ApplicationDbContext _context, string etudiantId)
+        private readonly ApplicationDbContext _context;
+
+
+        public CheckedBox(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        public List<checkBoxCours> GetCoursCheckedBox(string etudiantId)
         {
             List<checkBoxCours> listCheckedBox = new();
             List<Cours> coursBD = _context.Cours
                 .Include(x => x.ProgrammeEtude)
                 .ToList();
-            List<CoursEtudiant> listCoursEtudiant = _context.CoursEtudiants
+
+            List<CoursEtudiant> coursAssocierEtudiant = _context.CoursEtudiants
                 .Include(x => x.Cours)
                 .Include(x => x.Etudiant)
+                .Where(x => x.EtudiantId == etudiantId)
                 .ToList();
-            List<CoursEtudiant> coursAssocierEtudiant = listCoursEtudiant.FindAll(x => x.EtudiantId == etudiantId);
 
             foreach (Cours cours in coursBD)
             {
@@ -31,15 +40,12 @@ namespace vlissides_bibliotheque
 
             }
 
-            foreach (CoursEtudiant coursEtudiant in coursAssocierEtudiant)
-            {
-                listCheckedBox.Find(x => x.Cours.CoursId == coursEtudiant.CoursId).Cocher = true;
+            listCheckedBox.Where(c => coursAssocierEtudiant.Any(e => e.CoursId == c.Cours.CoursId)).ToList().ForEach(b => b.Cocher = true);
 
-            }
             return listCheckedBox;
         }
 
-        public static List<checkBoxCours> GetCoursLivre(ApplicationDbContext _context, LivreBibliotheque livreBibliotheque)
+        public List<checkBoxCours> GetCoursLivre(LivreBibliotheque livreBibliotheque)
         {
             List<checkBoxCours> listCheckedBox = new();
             List<Cours> coursBD = _context.Cours
@@ -47,9 +53,9 @@ namespace vlissides_bibliotheque
                 .ToList();
 
             List<CoursLivre> coursAssocierLivre = _context.CoursLivres
-                .Include(x=>x.LivreBibliotheque)
-                .ToList()
-                .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                .Include(x => x.LivreBibliotheque)
+                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
+                .ToList();
 
             foreach (Cours cours in coursBD)
             {
@@ -58,21 +64,15 @@ namespace vlissides_bibliotheque
                     Cours = cours,
                     Cocher = false
                 };
-
                 listCheckedBox.Add(boxCours);
             }
 
-            foreach (CoursLivre coursLivre in coursAssocierLivre)
-            {
-                listCheckedBox.Find(x => x.Cours.CoursId == coursLivre.CoursId).Cocher = true;
-
-            }
-
+            listCheckedBox.Where(c => coursAssocierLivre.Any(e => e.CoursId == c.Cours.CoursId)).ToList().ForEach(b => b.Cocher = true);
 
             return listCheckedBox;
         }
 
-        public static List<checkBoxAuteurs> GetAuteursLivre(ApplicationDbContext _context, LivreBibliotheque livreBibliotheque)
+        public List<checkBoxAuteurs> GetAuteursLivre(LivreBibliotheque livreBibliotheque)
         {
             List<checkBoxAuteurs> listCheckedBox = new();
             List<Auteur> auteursBD = _context.Auteurs
@@ -80,8 +80,8 @@ namespace vlissides_bibliotheque
 
             List<AuteurLivre> auteursAssocierLivre = _context.AuteursLivres
                 .Include(x => x.LivreBibliotheque)
-                .ToList()
-                .FindAll(x => x.LivreBibliothequeId == livreBibliotheque.LivreId);
+                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
+                .ToList();
 
             foreach (Auteur auteur in auteursBD)
             {
@@ -94,15 +94,11 @@ namespace vlissides_bibliotheque
                 listCheckedBox.Add(boxAuteur);
             }
 
-            foreach (AuteurLivre auteurLivre in auteursAssocierLivre)
-            {
-                listCheckedBox.Find(x => x.Auteur.AuteurId == auteurLivre.AuteurId).Cocher = true;
-
-            }
+            listCheckedBox.Where(c => auteursAssocierLivre.Any(e => e.AuteurId == c.Auteur.AuteurId)).ToList().ForEach(b => b.Cocher = true);
             return listCheckedBox;
         }
 
-        public static List<checkBoxCours> GetCours(ApplicationDbContext _context)
+        public List<checkBoxCours> GetCours()
         {
             List<checkBoxCours> listCheckedBox = new();
             List<Cours> coursBD = _context.Cours
@@ -123,7 +119,7 @@ namespace vlissides_bibliotheque
             return listCheckedBox;
         }
 
-        public static List<checkBoxAuteurs> GetAuteurs (ApplicationDbContext _context)
+        public List<checkBoxAuteurs> GetAuteurs()
         {
             List<checkBoxAuteurs> listCheckedBox = new();
             List<Auteur> auteursBD = _context.Auteurs
@@ -142,26 +138,5 @@ namespace vlissides_bibliotheque
             return listCheckedBox;
         }
 
-        public static List<checkBoxLivre> GetLivres(LivresBibliothequeDAO _livreDAO)
-        {
-            List<checkBoxLivre> listCheckedBox = new();
-            List<LivreBibliotheque> livreBD = _livreDAO.GetAll()
-                .OrderBy(x => x.Titre)
-                .ToList();
-                
-
-            foreach (LivreBibliotheque livre in livreBD)
-            {
-                checkBoxLivre checkBox = new()
-                {
-                    livre = livre,
-                    Cocher = false
-                };
-
-                listCheckedBox.Add(checkBox);
-            }
-
-            return listCheckedBox;
-        }
     }
 }

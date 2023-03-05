@@ -23,7 +23,7 @@ namespace vlissides_bibliotheque
         {
             double prixInitial = 0;
             string Prixdecimal = "";
-            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x=>x.EtatLivre == EtatLivreEnum.NEUF);
+            PrixEtatLivre? getEntrerPrix = Model.prixEtatLivre.FirstOrDefault(x=>x.EtatLivre == EtatLivreEnum.NEUF);
 
             if (getEntrerPrix != null)
             {
@@ -42,7 +42,7 @@ namespace vlissides_bibliotheque
         {
             double prixInitial = 0;
             string Prixdecimal = "";
-            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
+            PrixEtatLivre? getEntrerPrix = Model.prixEtatLivre.FirstOrDefault(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
 
             if (getEntrerPrix != null)
             {
@@ -61,7 +61,7 @@ namespace vlissides_bibliotheque
         {
             double prixInitial = 0;
             string Prixdecimal = "";
-            PrixEtatLivre getEntrerPrix = Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE);
+            PrixEtatLivre? getEntrerPrix = Model.prixEtatLivre.FirstOrDefault(x => x.EtatLivre == EtatLivreEnum.USAGE);
 
             if (getEntrerPrix != null)
             {
@@ -76,7 +76,7 @@ namespace vlissides_bibliotheque
             return "";
         }
 
-        public static PrixEtatLivre GetPremierPrix (TuileLivreBibliotequeVM Model)
+        public static PrixEtatLivre? GetPremierPrix (TuileLivreBibliotequeVM Model)
         {
             double prixInitial = 0;
             string prixAvecDecimal = "";
@@ -96,18 +96,18 @@ namespace vlissides_bibliotheque
 
                  if(prixEtatLivres.Find(x=>x.EtatLivre == EtatLivreEnum.NEUF) != null)
                 {
-                   prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NEUF).Prix;
+                   prixInitial = prixEtatLivres.Single(x => x.EtatLivre == EtatLivreEnum.NEUF).Prix;
                     prixEtat.EtatLivre = EtatLivreEnum.NEUF;
                 }
                 else if(prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
                 {
-                    prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE).Prix;
+                    prixInitial = prixEtatLivres.Single(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE).Prix;
                     prixEtat.EtatLivre = EtatLivreEnum.NUMERIQUE;
 
                 }
                 else if(prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
                 {
-                    prixInitial = prixEtatLivres.Find(x => x.EtatLivre == EtatLivreEnum.USAGE).Prix;
+                    prixInitial = prixEtatLivres.Single(x => x.EtatLivre == EtatLivreEnum.USAGE).Prix;
                     prixEtat.EtatLivre = EtatLivreEnum.USAGE;
 
                 }
@@ -121,7 +121,7 @@ namespace vlissides_bibliotheque
                     return prixEtat;
                 }
                 prixEtat.Prix = prixInitial;
-                prixEtat.EtatLivre = prixEtatLivres.FirstOrDefault().EtatLivre;
+                prixEtat.EtatLivre = prixEtatLivres.First().EtatLivre;
                 return prixEtat;
             }
             return null;

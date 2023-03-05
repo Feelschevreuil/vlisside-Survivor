@@ -1,7 +1,7 @@
 ﻿@model TuileLivreBibliotequeVM
 
 @{
-    int livreIdCourant = @Model.livreBibliotheque.LivreId;
+    int? livreIdCourant = @Model.livreBibliotheque?.LivreId;
 
     string checkedNeuf = "bg-top";
     string checkedNumerique = "bg-top";
@@ -11,7 +11,7 @@
     int etatLivreNumerique = (int)EtatLivreEnum.NUMERIQUE;
     int etatLivreUsage = (int)EtatLivreEnum.USAGE;
 
-    PrixEtatLivre prixParDéfaut = AffichagePrix.GetPremierPrix(Model);
+    PrixEtatLivre? prixParDéfaut = AffichagePrix.GetPremierPrix(Model);
 
     if (prixParDéfaut != null)
     {
@@ -51,7 +51,7 @@
                             string prixAvecDecimal = AffichagePrix.AjouteDecimal(prixParDéfaut.Prix);
                         }
                         <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.livreBibliotheque.LivreId">
-                            <img class="mx-auto image-livre" src="@Model.livreBibliotheque.PhotoCouverture" alt="PhotoLivre">
+                            <img class="mx-auto image-livre" src="@Model.livreBibliotheque?.PhotoCouverture" alt="PhotoLivre">
                         </a>
                         <div class="prix rounded-circle" id="cercleJauneN-@livreIdCourant">
                             <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixAvecDecimal$</p>
@@ -117,28 +117,28 @@
                                 {
                                     if (i == 0)
                                     {
-                                        <span>@Model.auteurs[i].GetNomComplet()</span>
+                                        <span>@Model.auteurs[i]</span>
                                     }
                                     else
                                     {
-                                        <span>et @Model.auteurs[i].GetNomComplet()</span>
+                                        <span>et @Model.auteurs[i]</span>
                                     }
                                 }
                                 else if (i == Model.auteurs.Count - 2)
                                 {
-                                    <span>@Model.auteurs[i].GetNomComplet()</span>
+                                    <span>@Model.auteurs[i]</span>
                                 }
                                 else
                                 {
-                                    <span>@Model.auteurs[i].GetNomComplet(),</span>
+                                    <span>@Model.auteurs[i],</span>
                                 }
 
                             }
 
                     </p>
-                    <p class="card-text mb-1">Maison @Model.livreBibliotheque.MaisonEdition.Nom</p>
+                    <p class="card-text mb-1">Maison @Model.livreBibliotheque.MaisonEditionNom</p>
                     <p class="card-text mb-1">ISBN: @Model.livreBibliotheque.Isbn</p>
-                    <p class="card-text mb-1">@Model.livreBibliotheque.DatePublication.Year</p>
+                    <p class="card-text mb-1">@Model.livreBibliotheque.AnneePublication</p>
                 </div>
 
             </div>
@@ -146,9 +146,9 @@
 
             <div class="d-flex flex-column mt-auto">
                 <div class="mt-5">
-                    @if (Model.coursLivre != null)
+                    @if (Model.programmeEtudeNom != null)
                     {
-                        <span class="badge alert-primary float-end"><small>@Model.coursLivre.Cours.ProgrammeEtude.Nom</small> </span>
+                        <span class="badge alert-primary float-end"><small>@Model.programmeEtudeNom</small> </span>
                     }
                 </div>
 

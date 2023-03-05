@@ -122,7 +122,7 @@ namespace vlissides_bibliotheque.Controllers
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                livreEtudiantVM.Etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
+                livreEtudiantVM.Etudiant = _context.Etudiants.Single(x => x.Id == userId);
 
                 LivreEtudiant livreEtudiant = new()
                 {
@@ -167,11 +167,10 @@ namespace vlissides_bibliotheque.Controllers
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
-            LivreEtudiant livreEtudiantRechercher = _context.LivresEtudiants
+            Etudiant etudiant = await _context.Etudiants.SingleAsync(x => x.Id == userId);
+            LivreEtudiant livreEtudiantRechercher = await _context.LivresEtudiants
                 .Include(x => x.Etudiant)
-                .ToList()
-                .Find(x => x.LivreId == id);
+                .SingleAsync(x => x.LivreId == id);
 
             if (livreEtudiantRechercher.Etudiant.Id == userId || User.IsInRole(RolesName.Admin))
             {
@@ -207,14 +206,13 @@ namespace vlissides_bibliotheque.Controllers
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                LivreEtudiant livreEtudiant = _context.LivresEtudiants
+                LivreEtudiant livreEtudiant = await _context.LivresEtudiants
                 .Include(x => x.Etudiant)
-                .ToList()
-                .Find(x => x.Etudiant.Id == userId);
+                .SingleAsync(x => x.Etudiant.Id == userId);
                 if (livreEtudiant != null || User.IsInRole(RolesName.Admin))
                 {
 
-                    LivreEtudiant LivreEtudiantModifier = _context.LivresEtudiants.ToList().Find(x => x.LivreId == form.LivreId);
+                    LivreEtudiant LivreEtudiantModifier = _context.LivresEtudiants.Single(x => x.LivreId == form.LivreId);
                     LivreEtudiantModifier.MaisonEdition = form.MaisonEdition;
                     LivreEtudiantModifier.Isbn = form.Isbn;
                     LivreEtudiantModifier.Titre = form.Titre;
@@ -255,7 +253,7 @@ namespace vlissides_bibliotheque.Controllers
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
-            var livreSupprimer = _context.LivresEtudiants.ToList().Find(x => x.LivreId == id);
+            var livreSupprimer = await _context.LivresEtudiants.SingleAsync(x => x.LivreId == id);
             
             if (livreSupprimer == null)
             {
@@ -264,10 +262,9 @@ namespace vlissides_bibliotheque.Controllers
             };
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant etudiant = _context.Etudiants.ToList().Find(x => x.Id == userId);
-            var livreAssocierEtudient = _context.LivresEtudiants
-                .ToList()
-                .Find(x => x.Etudiant.Id == etudiant.Id && x.LivreId == id);
+            Etudiant etudiant = await _context.Etudiants.SingleAsync(x => x.Id == userId);
+            var livreAssocierEtudient = await _context.LivresEtudiants.SingleAsync(x => x.Etudiant.Id == etudiant.Id && x.LivreId == id);
+            
             if (livreAssocierEtudient != null || User.IsInRole(RolesName.Admin))
             {
                 _context.LivresEtudiants.Remove(livreSupprimer);
