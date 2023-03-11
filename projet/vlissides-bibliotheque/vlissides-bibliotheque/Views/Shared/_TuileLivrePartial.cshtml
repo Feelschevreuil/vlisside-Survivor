@@ -2,106 +2,44 @@
 
 @{
     int? livreIdCourant = @Model.livreBibliotheque?.LivreId;
-
-    string checkedNeuf = "bg-top";
-    string checkedNumerique = "bg-top";
-    string checkedUsagee = "bg-top";
-
-    int etatLivreNeuf = (int)EtatLivreEnum.NEUF;
-    int etatLivreNumerique = (int)EtatLivreEnum.NUMERIQUE;
-    int etatLivreUsage = (int)EtatLivreEnum.USAGE;
-
-    PrixEtatLivre? prixParDéfaut = AffichagePrix.GetPremierPrix(Model);
-
-    if (prixParDéfaut != null)
-    {
-        if (prixParDéfaut.EtatLivre == EtatLivreEnum.NEUF) { checkedNeuf = "bg-back"; }
-        if (prixParDéfaut.EtatLivre == EtatLivreEnum.NUMERIQUE) { checkedNumerique = "bg-back"; }
-        if (prixParDéfaut.EtatLivre == EtatLivreEnum.USAGE) { checkedUsagee = "bg-back"; }
-    }
-
-    bool etatTrouve = false;
 }
 
-@if (Model.prixEtatLivre != null && Model.prixEtatLivre.Count() > 0)
+
+@if (Model.prixEtatLivre != null && Model.prixEtatLivre.Any())
 {
     <div class="col-12 col-md-3 col-sm-3 mb-3 mt-3">
         <div class="card shadow border-0 h-100 tuile-livre mt-2 p-2">
             <div class="position-relative text-center">
-                <div class="mt-3">
 
-                    @if (User.IsInRole(RolesName.Admin))
-                    {
-                        <div>
-                            <a class="float-start" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
-                                <img class="tableau" src="~/img/pencil.svg" alt="Modifier">
-                            </a>
-
-                            <form method="post" class="float-end" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
-                                <a>
-                                    <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="image" src="~/img/delete-rouge.svg" />
-                                </a>
-                            </form>
-                        </div>
-                    }
-
-
-                    <div class="mt-2">
-                        @{
-                            string prixAvecDecimal = AffichagePrix.AjouteDecimal(prixParDéfaut.Prix);
-                        }
-                        <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.livreBibliotheque.LivreId">
-                            <img class="mx-auto image-livre" src="@Model.livreBibliotheque?.PhotoCouverture" alt="PhotoLivre">
+                @if (User.IsInRole(RolesName.Admin))
+                {
+                    <div class="row justify-content-between mt-1">
+                        <a class="col-2" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
+                            <img class="tableau" src="~/img/pencil.svg" alt="Modifier">
                         </a>
-                        <div class="prix rounded-circle" id="cercleJauneN-@livreIdCourant">
-                            <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prixAvecDecimal$</p>
-                        </div>
-                    </div>
 
+                        <a method="post" class="col-2" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
+                            <p>
+                                <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="image" src="~/img/delete-rouge.svg" />
+                            </p>
+                        </a>
+                    </div>
+                }
+
+                <div class="row">
+                    <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.livreBibliotheque.LivreId">
+                        <img class="mx-auto image-livre" src="@Model.livreBibliotheque?.PhotoCouverture" alt="PhotoLivre">
+                    </a>
+                    <div class="cercle-prix rounded-circle" id="cercleJauneN-@livreIdCourant">
+                        <span id="PrixLivreId-@livreIdCourant" class="rounded-circle prix">@Model.prixEtatLivre.First().Prix.ToString(".00")$</span>
+                    </div>
                 </div>
 
-
-                <div class="o-switch btn-group w-100 mt-1" data-toggle="buttons" role="group">
-
-                    @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NEUF) != null)
+                <div class="o-switch btn-group w-100 mt-1 row-cols-auto row" data-toggle="buttons" role="group">
+                    @foreach (var etat in Model.prixEtatLivre.Select(p => p.EtatLivre))
                     {
-                        etatTrouve = true;
-                        <label class="btn btn-rounded @checkedNeuf text-white" id="Neuf-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Neuf')">
-                            <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NEUF" onclick="ChangerPrix(@etatLivreNeuf, @livreIdCourant);"> Neuf
-                        </label>
-
-                        @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
-                        {
-                            <label class="btn btn-rounded bg-top text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
-                                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NUMERIQUE" onclick="ChangerPrix(@etatLivreNumerique, @livreIdCourant)"> Numérique
-                            </label>
-                        }
-
-                        @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
-                        {
-                            <label class="btn btn-rounded bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
-                                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(@etatLivreUsage, @livreIdCourant)"> Usagé
-                            </label>
-                        }
-                    }
-                    else if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null)
-                    {
-                        etatTrouve = true;
-                        <label class="btn btn-rounded bg-back text-white" id="Numerique-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Numerique')">
-                            <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NUMERIQUE" onclick="ChangerPrix(@etatLivreNumerique, @livreIdCourant)"> Numérique
-                        </label>
-                        @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
-                        {
-                            <label class="btn btn-rounded bg-top text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
-                                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(@etatLivreUsage, @livreIdCourant)"> Usagé
-                            </label>
-                        }
-                    }
-                    else @if (Model.prixEtatLivre != null && Model.prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE) != null)
-                    {
-                        etatTrouve = true;
-                        <label class="btn btn-rounded bg-back text-white" id="Usager-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'Usager')">
-                            <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.USAGE" onclick="ChangerPrix(this.value, @livreIdCourant)"> Usagé
+                        <label class="btn btn-rounded bg-top text-white col" id="@etat-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,@etat)">
+                            <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NEUF" onclick="ChangerPrix(@((int)etat), @livreIdCourant);"> @etat
                         </label>
                     }
                 </div>
@@ -110,35 +48,15 @@
                     <h5 class="card-title mt-3"><strong>@Model.livreBibliotheque.Titre</strong></h5>
                     <p class="card-text mb-1">
                         <span>De </span>
-                        @if (Model.auteurs != null)
-                            @for (int i = 0; i < Model.auteurs.Count; i++)
-                            {
-                                if (i == Model.auteurs.Count - 1)
-                                {
-                                    if (i == 0)
-                                    {
-                                        <span>@Model.auteurs[i]</span>
-                                    }
-                                    else
-                                    {
-                                        <span>et @Model.auteurs[i]</span>
-                                    }
-                                }
-                                else if (i == Model.auteurs.Count - 2)
-                                {
-                                    <span>@Model.auteurs[i]</span>
-                                }
-                                else
-                                {
-                                    <span>@Model.auteurs[i],</span>
-                                }
-
-                            }
+                        @if (Model.auteurs != null && Model.auteurs.Any())
+                        {
+                            <span>@string.Join(", ", Model.auteurs)</span>
+                        }
 
                     </p>
                     <p class="card-text mb-1">Maison @Model.livreBibliotheque.MaisonEditionNom</p>
                     <p class="card-text mb-1">ISBN: @Model.livreBibliotheque.Isbn</p>
-                    <p class="card-text mb-1">@Model.livreBibliotheque.AnneePublication</p>
+                    <p class="card-text mb-1">@Model.livreBibliotheque.DatePublication.Year</p>
                 </div>
 
             </div>
@@ -146,30 +64,27 @@
 
             <div class="d-flex flex-column mt-auto">
                 <div class="mt-5">
-                    @if (Model.programmeEtudeNom != null)
-                    {
-                        <span class="badge alert-primary float-end"><small>@Model.programmeEtudeNom</small> </span>
-                    }
+                    <span class="badge alert-primary float-end"><small>@Model.programmeEtudeNom</small> </span>
                 </div>
 
 
-                @if (User != null)
-                {
-                    if (User.Identity.IsAuthenticated)
-                    {
-                        if (etatTrouve)
-                        {
-                            <div class="d-flex flex-column mt-auto">
-                                <div id="ajoutRapide-@livreIdCourant">
-                                    <p class="btn btn-primary shadow w-100 mt-2 mb-0" onclick="ajoutRapide(@livreIdCourant)">Ajouter au panier</p>
-                                </div>
-                                <div id="suppressionRapideBibli-@livreIdCourant" hidden>
-                                    <p class="btn btn-danger shadow w-100 mt-2 mb-0" onclick="supresionRapideBibli(@livreIdCourant)">Supprimer du panier</p>
-                                </div>
-                            </div>
-                        }
-                    }
-                }
+                @* @if (User != null)
+            {
+            if (User.Identity.IsAuthenticated)
+            {
+            if (etatTrouve)
+            {
+            <div class="d-flex flex-column mt-auto">
+            <div id="ajoutRapide-@livreIdCourant">
+            <p class="btn btn-primary shadow w-100 mt-2 mb-0" onclick="ajoutRapide(@livreIdCourant)">Ajouter au panier</p>
+            </div>
+            <div id="suppressionRapideBibli-@livreIdCourant" hidden>
+            <p class="btn btn-danger shadow w-100 mt-2 mb-0" onclick="supresionRapideBibli(@livreIdCourant)">Supprimer du panier</p>
+            </div>
+            </div>
+            }
+            }
+            }*@
             </div>
         </div>
     </div>

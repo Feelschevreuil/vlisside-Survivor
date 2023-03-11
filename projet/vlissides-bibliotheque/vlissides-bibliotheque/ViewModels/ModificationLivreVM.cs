@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.DTO.Ajax;
-using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
@@ -69,13 +66,13 @@ namespace vlissides_bibliotheque.ViewModels
 
         [DisplayName("Maison d'édition")]
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int? MaisonDeditionId { get; set; }
+        public int MaisonDeditionId { get; set; }
 
         public List<SelectListItem> MaisonsDeditions { get; set; }
         [DisplayName("Liste des cours")]
-        public List<checkBoxCours> checkBoxCours { get; set; }
+        public List<checkBoxCours> CheckBoxCours { get; set; }
         [DisplayName("Liste des auteurs")]
-        public List<checkBoxAuteurs> checkBoxAuteurs { get; set; }
+        public List<checkBoxAuteurs> CheckBoxAuteurs { get; set; }
     }
 
 }

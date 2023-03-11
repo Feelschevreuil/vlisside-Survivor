@@ -37,9 +37,19 @@ namespace vlissides_bibliotheque.Mapper
 
             #region Livre
             CreateMap<LivreBibliotheque, LivreBibliothequeDto>()
-                .ForMember(dest => dest.AnneePublication, opt => opt.MapFrom(src => src.DatePublication.Year))
                 .ForMember(dest => dest.MaisonEditionNom, opt => opt.MapFrom(src => src.MaisonEdition.Nom));
 
+            #endregion
+
+            #region Evenement
+            CreateMap<Evenement, EvenementDto>()
+              .ForMember(dest => dest.CommanditaireNom, opt => opt.MapFrom(src => src.Commanditaire.Nom))
+              .ForMember(dest => dest.CommanditaireMessage, opt => opt.MapFrom(src => src.Commanditaire.Message))
+              .ForMember(dest => dest.CommanditaireCourriel, opt => opt.MapFrom(src => src.Commanditaire.Courriel));
+            #endregion
+
+            #region PrixEtatLivre
+            CreateMap<PrixEtatLivre, PrixEtatLivreDto>();
             #endregion
         }
     }

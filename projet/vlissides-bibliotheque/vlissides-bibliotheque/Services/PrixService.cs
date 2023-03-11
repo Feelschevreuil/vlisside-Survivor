@@ -123,7 +123,7 @@ namespace vlissides_bibliotheque.Services
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
                     EtatLivre = EtatLivreEnum.NEUF,
-                    Prix = form.PrixNeuf,
+                    Prix = form.PrixNeuf + 0.00,
                 };
                 ListPrixEtat.Add(AssociationPrixNeuf);
             }
@@ -134,7 +134,7 @@ namespace vlissides_bibliotheque.Services
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
                     EtatLivre = EtatLivreEnum.NUMERIQUE,
-                    Prix = form.PrixNumerique,
+                    Prix = form.PrixNumerique + 0.00,
                 };
                 ListPrixEtat.Add(AssociationPrixNumérique);
             }
@@ -145,7 +145,7 @@ namespace vlissides_bibliotheque.Services
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
                     EtatLivre = EtatLivreEnum.USAGE,
-                    Prix = form.PrixUsage,
+                    Prix = form.PrixUsage + 0.00,
                 };
                 ListPrixEtat.Add(AssociationPrixUsager);
             }

@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.DTO.Ajax;
-using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
@@ -13,12 +10,12 @@ namespace vlissides_bibliotheque.ViewModels
 	{
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères")]
-		public string Titre { get; set; } //= "La mort";
+		public string Titre { get; set; } = "La mort";
 
 		[DisplayName("Description")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
         [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères")]
-        public string Resume { get; set; } //= "la mort";
+        public string Resume { get; set; } = "la mort";
 
 		[Required(ErrorMessage = "Le champ {0} est requis.")]
 		[ImageAttribute]
@@ -38,12 +35,12 @@ namespace vlissides_bibliotheque.ViewModels
 		[DisplayName("Numérique")]
 		[DataType(DataType.Currency)]
 
-        public double PrixNumerique { get; set; } = 0;
+        public double PrixNumerique { get; set; } = 120.12;
 
 		[DisplayName("Neuf")]
 		[DataType(DataType.Currency)]
 
-        public double PrixNeuf { get; set; } = 0;
+        public double PrixNeuf { get; set; } = 10;
 
 		[DisplayName("Quantité")]
 
@@ -58,7 +55,7 @@ namespace vlissides_bibliotheque.ViewModels
 		[Isbn]
 		[Range(1000000000, 9999999999999, ErrorMessage = "Veuillez entrer un nombre.")]
 		[MaxLength(13)]
-		public string ISBN { get; set; } //= "4545854745";
+		public string ISBN { get; set; } = "4545854745";
 
 		[DisplayName("Maison d'édition")]
 		[Required(ErrorMessage = "Le champ {0} est requis.")]

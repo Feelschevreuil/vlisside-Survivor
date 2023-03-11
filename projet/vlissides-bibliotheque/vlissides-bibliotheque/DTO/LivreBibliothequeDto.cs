@@ -21,6 +21,6 @@ namespace vlissides_bibliotheque.DTO
 
         public string PhotoCouverture;
 
-        public int AnneePublication;
+        public DateTime DatePublication;
     }
 }

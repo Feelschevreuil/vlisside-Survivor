@@ -9,9 +9,9 @@ namespace vlissides_bibliotheque.DTO.Ajax
 {
     public class AssocierLivreCours : CreationLivreVM
     {
-        public List<int> Cours { get => Cours; set => Cours = value; }
-        public List<int> Auteurs { get => Auteurs; set => Auteurs = value; }
+        public List<int> Cours { get; set; }
+        public List<int> Auteurs { get; set; }
         public int Id { get; set; }
-        public string DateFormater { get => DateFormater; set => DateFormater = value; }
+        public string DateFormater { get; set; } 
     }
 }

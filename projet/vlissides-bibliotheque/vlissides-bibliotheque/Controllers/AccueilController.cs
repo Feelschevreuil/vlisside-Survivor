@@ -40,7 +40,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             LivreBibliotheque livre = _livreDAO.GetById(prixAfficher.Id);
             List<PrixEtatLivre> etat = await _prixService.GetPrixLivre(prixAfficher.Id);
-            PrixEtatLivre etatLivreRechercher = etat.Single(x => (int)x.EtatLivre == prixAfficher.Etat);
+            PrixEtatLivre etatLivreRechercher = etat.SingleOrDefault(x => (int)x.EtatLivre == prixAfficher.Etat);
             string prix;
 
             if (etatLivreRechercher != null)

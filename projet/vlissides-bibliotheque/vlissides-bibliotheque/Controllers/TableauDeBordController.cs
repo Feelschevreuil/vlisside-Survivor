@@ -156,7 +156,7 @@ namespace vlissides_bibliotheque.Controllers
                     await _userManagerEtudiant.AddToRoleAsync(etudiant, "Etudiant");
                     vm.EtudiantId = etudiant.Id;
                     vm.NomProgrammeEtude = _context.ProgrammesEtudes.Single(p => p.ProgrammeEtudeId == vm.ProgrammeEtudeId).Nom;
-                    vm.NomProvince = _context.Provinces.Single(p=> p.ProvinceId == vm.ProvinceId).Nom;
+                    vm.NomProvince = _context.Provinces.Single(p => p.ProvinceId == vm.ProvinceId).Nom;
 
                     return Json(vm);
                 }
@@ -241,7 +241,7 @@ namespace vlissides_bibliotheque.Controllers
 
                 Adresse adresse = _utilisateur.GetAdresse(etudiant);
 
-                _utilisateur.ModelBinding(etudiant,adresse, vm);
+                _utilisateur.ModelBinding(etudiant, adresse, vm);
 
                 _context.SaveChanges();
 
@@ -280,9 +280,9 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult Livres()
         {
-            List<LivreBibliotheque> livres = _context.LivresBibliotheque
+            List<LivreBibliothequeDto> livres = _mapper.Map<List<LivreBibliothequeDto>>(_context.LivresBibliotheque
                 .Include(livre => livre.MaisonEdition)
-                .ToList();
+                .ToList());
 
             return PartialView("~/Views/TableauDeBord/Livres.cshtml", livres);
         }
@@ -395,8 +395,8 @@ namespace vlissides_bibliotheque.Controllers
                 PossedeNeuf = true,
                 PossedeNumerique = true,
                 PossedeUsagee = true,
-                checkBoxCours = _CheckedBox.GetCoursLivre(livreBibliothequeRechercher),
-                checkBoxAuteurs = _CheckedBox.GetAuteursLivre(livreBibliothequeRechercher)
+                CheckBoxCours = _CheckedBox.GetCoursLivre(livreBibliothequeRechercher),
+                CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(livreBibliothequeRechercher)
 
             };
 
@@ -416,7 +416,7 @@ namespace vlissides_bibliotheque.Controllers
         public async Task<ActionResult> ModifierLivre([FromBody] ModifierLivreCours form)
         {
             ModelState.Remove(nameof(form.MaisonsDeditions));
-            ModelState.Remove(nameof(form.checkBoxCours));
+            ModelState.Remove(nameof(form.CheckBoxCours));
             ModelState.Remove(nameof(form.DateFormater));
             if (form == null)
             {
@@ -445,8 +445,8 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             form.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
-            form.checkBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
-            form.checkBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
+            form.CheckBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
+            form.CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
             return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", form);
         }
 
@@ -966,22 +966,6 @@ namespace vlissides_bibliotheque.Controllers
             vm.listStatut = _dropDownList.ListDropDownStatutCommande();
             vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
             return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
-        }
-
-        public IActionResult AfficherListeCommandes(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            FactureCommandeVM vm = new()
-            {
-                CommandesEtudiant = _context.CommandesEtudiants
-                .Include(x => x.PrixEtatLivre.LivreBibliotheque)
-                .Where(x => x.FactureEtudiantId == id)
-                .ToList()
-            };
-            return PartialView("Views/Shared/_CommandeFactureEtudiantPartial.cshtml", vm);
         }
 
         [HttpPost]

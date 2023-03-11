@@ -1,4 +1,4 @@
-﻿@model List<LivreBibliotheque>
+﻿@model List<LivreBibliothequeDto>
 
 <h2 class="p-3">Gestion des livres de bibliothèque</h2>
 
@@ -14,11 +14,11 @@
                 <th id="@nameof(LivreEtudiantVM.Isbn)">@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
                 <th id="@nameof(LivreEtudiantVM.Titre)">@Html.DisplayNameFor(livre => livre.First().Titre)</th>
                 <th id="@nameof(LivreEtudiantVM.DatePublication)">@Html.DisplayNameFor(livre => livre.First().DatePublication)</th>
-                <th id="@nameof(LivreEtudiantVM.MaisonEdition)">@Html.DisplayNameFor(livre => livre.First().MaisonEdition)</th>
+                <th id="@nameof(LivreEtudiantVM.MaisonEdition)">@Html.DisplayNameFor(livre => livre.First().MaisonEditionNom)</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(LivreBibliotheque livre in Model) {
+            @foreach(LivreBibliothequeDto livre in Model) {
                 <tr id="tr-@livre.LivreId" class="modif-suppr">
                     <td class="text-center">
                         <img class="tableauDeBord-image" id="PhotoLivre-@livre.LivreId" src="@livre.PhotoCouverture">
@@ -26,7 +26,7 @@
                     <td>@livre.Isbn</td>
                     <td>@livre.Titre</td>
                     <td>@livre.DatePublication.ToString("dd MMMM yyyy")</td>
-                    <td>@livre.MaisonEdition.Nom</td>
+                    <td>@livre.MaisonEditionNom</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
                         <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierLivre('@livre.LivreId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerLivre('@livre.LivreId')">

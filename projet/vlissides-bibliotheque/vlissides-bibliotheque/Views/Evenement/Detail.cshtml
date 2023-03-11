@@ -1,8 +1,4 @@
-﻿@model Evenement
-
-@{
-}
-
+﻿@model EvenementDto
 
 <div class="row">
     <div class="col-4">
@@ -14,9 +10,9 @@
         <p class="card-text"><strong>Description:</strong> @Model.Description</p>
         <p class="card-text"><strong>Date de début:</strong> @Model.Debut.Day @Model.Debut.ToString("MMMM") @Model.Debut.Year</p>
         <p class="card-text"><strong>Date de fin:</strong> @Model.Fin.Day @Model.Debut.ToString("MMMM") @Model.Fin.Year</p>
-        <p class="card-text"><strong>Commanditaire:</strong> @Model.Commanditaire.Nom</p>
-        <p class="card-text"><strong>Courriel du commanditaire:</strong> @Model.Commanditaire.Courriel</p>
-        <p class="card-text"><strong>Message par le commanditaire:</strong> @Model.Commanditaire.Message</p>
+        <p class="card-text"><strong>Commanditaire:</strong> @Model.CommanditaireNom</p>
+        <p class="card-text"><strong>Courriel du commanditaire:</strong> @Model.CommanditaireCourriel</p>
+        <p class="card-text"><strong>Message par le commanditaire:</strong> @Model.CommanditaireMessage</p>
     </div>
 </div>
 

@@ -1,5 +1,4 @@
-﻿using vlissides_bibliotheque.Models;
-
+﻿
 namespace vlissides_bibliotheque.ViewModels
 {
     /// <summary>

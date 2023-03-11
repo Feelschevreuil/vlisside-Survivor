@@ -1,23 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System;
-using System.Diagnostics;
-using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
-using System.Collections;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
-using vlissides_bibliotheque.DTO.Ajax;
-using Newtonsoft.Json;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Extensions;
 using AutoMapper;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.DAO.Interface;
+using vlissides_bibliotheque.DTO;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -27,14 +17,16 @@ namespace vlissides_bibliotheque.Controllers
         private readonly ILogger<AccueilController> _logger;
         private readonly IEvenementVM _evenementService;
         private readonly IDAO<Evenement> _evenementDAO;
+        private readonly IMapper _mapper;
 
 
         public EvenementController(ILogger<AccueilController> logger, IEvenementVM evenementService,
-           IDAO<Evenement> evenementDAO)
+           IDAO<Evenement> evenementDAO, IMapper mapper)
         {
             _logger = logger;
             _evenementService = evenementService;
             _evenementDAO = evenementDAO;
+            _mapper = mapper;
         }
         [AllowAnonymous]
         [Route("Evenement/Index")]
@@ -57,7 +49,7 @@ namespace vlissides_bibliotheque.Controllers
                 Response.StatusCode = 404;
                 return Content("Cette événement n'existe pas dans la base de données");
             };
-            return View(Evenement);
+            return View(_mapper.Map<EvenementDto>(Evenement));
         }
 
         [HttpGet]

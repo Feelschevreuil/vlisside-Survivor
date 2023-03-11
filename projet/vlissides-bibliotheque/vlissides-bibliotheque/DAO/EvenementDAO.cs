@@ -24,15 +24,13 @@ namespace vlissides_bibliotheque.DAO
         public Evenement GetById(int id)
         {
 
-            Evenement evenement = _context.Evenements.Single(evenement => evenement.EvenementId == id);
+            Evenement evenement = _context.Evenements.Include(e=> e.Commanditaire).Single(evenement => evenement.EvenementId == id);
             return evenement;
         }
 
         public IEnumerable<Evenement> GetAll()
         {
-
-            IEnumerable<Evenement> evenements = _context.Evenements;
-            return evenements;
+            return _context.Evenements.Include(e => e.Commanditaire);
         }
 
         public bool Insert(Evenement evenement)

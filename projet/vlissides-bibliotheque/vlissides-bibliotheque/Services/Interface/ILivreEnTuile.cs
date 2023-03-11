@@ -7,11 +7,13 @@ namespace vlissides_bibliotheque.Services.Interface
 {
     public interface ILivreBibliotheque
     {
-        Task<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs(LivreBibliotheque livreBibliotheque);
+        Task<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs(int livreBibliothequeId);
 
         Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeAccueil();
 
         Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeInventaire();
+
+        Task<LivreDetailVM> GetLivreDetailVM(int livreBibliothequeId);
 
         string GetImageParDefaut();
     }

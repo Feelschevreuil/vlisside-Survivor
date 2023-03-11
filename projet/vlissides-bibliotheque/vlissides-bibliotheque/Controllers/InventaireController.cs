@@ -1,21 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Security.Claims;
-using System.Text.Json;
 using vlissides_bibliotheque.Constantes;
-using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.Enums;
-using vlissides_bibliotheque.Services;
 using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.DAO.Interface;
-using System.Linq;
 using vlissides_bibliotheque.DTO.Ajax;
 
 namespace vlissides_bibliotheque.Controllers
@@ -53,13 +45,11 @@ namespace vlissides_bibliotheque.Controllers
             return View(inventaireBibliotheque);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            LivreBibliotheque livreBibliotheque = _livreDAO.GetById(id);
-
-            if (livreBibliotheque != null)
+            if (_livreDAO.GetById(id) != null)
             {
-                return View(_livreService.GetTuileLivreBibliotequeVMs(livreBibliotheque).Result);
+                return View(await _livreService.GetLivreDetailVM(id));
             }
 
             return Content("Ce livre n'existe pas dans la base de données.");
@@ -69,7 +59,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public ActionResult creer()
         {
-            AssocierLivreCours nouveauLivre = new AssocierLivreCours
+            AssocierLivreCours nouveauLivre = new()
             {
                 checkBoxAuteurs = _CheckedBox.GetAuteurs(),
                 checkBoxCours = _CheckedBox.GetCours(),
@@ -89,7 +79,7 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
+                LivreBibliotheque nouveauLivreBibliothèque = new()
                 {
                     LivreId = 0,
                     MaisonEditionId = form.MaisonDeditionId.Value,
@@ -103,28 +93,27 @@ namespace vlissides_bibliotheque.Controllers
                 _livreDAO.Insert(nouveauLivreBibliothèque);
                 _livreDAO.Save();
 
-                List<CoursLivre> nouveauCoursLivre = form.Cours.Select(c => new CoursLivre()
+                if ((bool)form?.Cours.Any())
                 {
-                    CoursLivreId = 0,
-                    CoursId = c,
-                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                }).ToList();
-                
-                if (nouveauCoursLivre.Any())
-                {
+                    List<CoursLivre> nouveauCoursLivre = form.Cours.Select(c => new CoursLivre()
+                    {
+                        CoursLivreId = 0,
+                        CoursId = c,
+                        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                    }).ToList();
+
                     _context.CoursLivres.AddRange(nouveauCoursLivre);
                     _context.SaveChanges();
                 }
 
-
-                List<AuteurLivre> nouveauAuteurLivre = form.Auteurs.Select(a => new AuteurLivre()
+                if ((bool)form?.Auteurs.Any())
                 {
-                    AuteurId = a,
-                    LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-                }).ToList();
+                    List<AuteurLivre> nouveauAuteurLivre = form.Auteurs.Select(a => new AuteurLivre()
+                    {
+                        AuteurId = a,
+                        LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
+                    }).ToList();
 
-                if (nouveauAuteurLivre.Any())
-                {
                     _context.AuteursLivres.AddRange(nouveauAuteurLivre);
                     _context.SaveChanges();
                 }
@@ -167,8 +156,8 @@ namespace vlissides_bibliotheque.Controllers
                 Photo = livreBibliothequeRechercher.PhotoCouverture,
                 PossedeNeuf = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.NEUF) != null ? true : false,
                 PossedeNumerique = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null ? true : false,
-                checkBoxCours = _CheckedBox.GetCoursLivre(livreBibliothequeRechercher),
-                checkBoxAuteurs = _CheckedBox.GetAuteursLivre(livreBibliothequeRechercher),
+                CheckBoxCours = _CheckedBox.GetCoursLivre(livreBibliothequeRechercher),
+                CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(livreBibliothequeRechercher),
                 PrixNeuf = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.NEUF)?.Prix,
                 PrixNumerique = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE)?.Prix,
                 PrixUsage = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.USAGE)?.Prix,
@@ -185,14 +174,14 @@ namespace vlissides_bibliotheque.Controllers
         public async Task<ActionResult> modifier(ModificationLivreVM form)
         {
             ModelState.Remove(nameof(ModificationLivreVM.MaisonsDeditions));
-            ModelState.Remove(nameof(ModificationLivreVM.checkBoxCours));
-            ModelState.Remove(nameof(ModificationLivreVM.checkBoxAuteurs));
+            ModelState.Remove(nameof(ModificationLivreVM.CheckBoxCours));
+            ModelState.Remove(nameof(ModificationLivreVM.CheckBoxAuteurs));
 
             LivreBibliotheque LivreBibliothèqueModifier = _livreDAO.GetById(form.IdDuLivre);
 
             if (ModelState.IsValid)
             {
-                LivreBibliothèqueModifier.MaisonEditionId = form.MaisonDeditionId.Value;
+                LivreBibliothèqueModifier.MaisonEditionId = form.MaisonDeditionId;
                 LivreBibliothèqueModifier.Isbn = form.ISBN;
                 LivreBibliothèqueModifier.Titre = form.Titre;
                 LivreBibliothèqueModifier.Resume = form.Resume;
@@ -220,8 +209,8 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             form.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
-            form.checkBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
-            form.checkBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
+            form.CheckBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
+            form.CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
             return View(form);
         }
 
