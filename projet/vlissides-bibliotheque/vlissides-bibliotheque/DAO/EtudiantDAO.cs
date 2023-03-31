@@ -13,7 +13,7 @@ namespace vlissides_bibliotheque.DAO
         }
         public Etudiant GetById(string id)
         {
-            return _context.Etudiants.Single(e=> e.Id == id);
+            return _context.Etudiants.SingleOrDefault(e=> e.Id == id);
         }
 
         public IEnumerable<Etudiant> GetAll()

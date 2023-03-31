@@ -51,6 +51,7 @@ namespace vlissides_bibliotheque
             builder.Services.AddScoped<IDropDownList,ListDropDown>();
             builder.Services.AddScoped<IPrix,PrixService>();
             builder.Services.AddScoped<IUtilisateur,UtilisateurService>();
+            builder.Services.AddScoped<ILivreEtudiant,LivreEtudiantService>();
 
             #endregion
 
@@ -63,6 +64,7 @@ namespace vlissides_bibliotheque
             builder.Services.AddScoped<IDAO<Cours>, CoursDAO>();
             builder.Services.AddScoped<IDAOEtudiant<Etudiant>, EtudiantDAO>();
             builder.Services.AddScoped<IDAO<Auteur>, AuteurDAO>();
+            builder.Services.AddScoped<IDAO<LivreEtudiant>, LivreEtudiantDAO>();
             
             #endregion
 

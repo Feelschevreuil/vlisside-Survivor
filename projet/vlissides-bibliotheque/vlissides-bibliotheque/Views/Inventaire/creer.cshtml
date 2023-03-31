@@ -1,4 +1,4 @@
-﻿@model AssocierLivreCours
+﻿@model AjoutEditLivreVM
 
 <body onload="ToggleCheckPrixUsager(); ToggleCheckPrixNumerique(); ToggleCheckPrixNeuf()">
     <div class="row">
@@ -102,9 +102,9 @@
                         <fieldset class="rounded shadow p-3 m-2 mb-4">
                             <img src="~/img/plus-circle.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#creer-cours" onclick="getFormulaireCreerCours()" />
                             <div class="form-group" id="listDeCours">
-                                <label asp-for="checkBoxCours" class="form-label"></label>
+                                <label asp-for="CheckBoxCours" class="form-label"></label>
                                 <div class="cours">
-                                    @foreach (var Cours in Model.checkBoxCours)
+                                    @foreach (var Cours in Model.CheckBoxCours)
                                     {
                                         <div class="row ms-2 mt-2">
                                             <input class="col-2 mt-1 checkBoxCours" id="@Cours.Cours.CoursId" type="checkbox" name="Cours" value="@Cours.Cours.CoursId" checked="@Cours.Cocher" />
@@ -119,9 +119,9 @@
                         <fieldset class="rounded shadow p-3 m-2 mb-4">
                             <img src="~/img/plus-circle.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#creer-auteurs" onclick="getFormulaireCreerAuteurs()" />
                             <div class="form-group" id="listAuteurs">
-                                <label asp-for="checkBoxAuteurs" class="form-label"></label>
+                                <label asp-for="CheckBoxAuteurs" class="form-label"></label>
                                 <div class="cours">
-                                    @foreach (var auteurs in Model.checkBoxAuteurs)
+                                    @foreach (var auteurs in Model.CheckBoxAuteurs)
                                     {
                                         <div class="row ms-2 mt-2">
                                             <input class="col-2 mt-1 checkBoxCours" id="@auteurs.Auteur.AuteurId" type="checkbox" name="Auteurs" value="@auteurs.Auteur.AuteurId" checked="@auteurs.Cocher" />

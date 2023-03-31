@@ -5,12 +5,13 @@ using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
 {
-    public class LivreEtudiantVM
+    public class AjoutEditLivreEtudiantVM
     {
         [Required]
         public int LivreId { get; set; }
 
-        public Etudiant Etudiant { get; set; }
+        public string EtudiantEmail { get; set; }
+        public string EtudiantId { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
@@ -46,7 +47,5 @@ namespace vlissides_bibliotheque.ViewModels
         [Range(0, 1000)]
         [DataType(DataType.Currency)]
         public double? Prix { get; set; }
-
-
     }
 }

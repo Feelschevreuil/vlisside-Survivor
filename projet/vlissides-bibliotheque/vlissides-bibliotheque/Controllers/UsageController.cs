@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
@@ -16,64 +20,40 @@ namespace vlissides_bibliotheque.Controllers
         private readonly ILogger<UsageController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IMapper _mapper;
+        private readonly IDAO<LivreEtudiant> _livreEtudiantDAO;
+        private readonly ILivreEtudiant _livreEtudiantService;
 
-        public UsageController(ILogger<UsageController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public UsageController(ILogger<UsageController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IDAO<LivreEtudiant> livreEtudiantDAO, IMapper mapper, ILivreEtudiant livreEtudiantService)
         {
             _logger = logger;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _mapper = mapper;
+            _livreEtudiantDAO= livreEtudiantDAO;
+            _livreEtudiantService = livreEtudiantService;
         }
 
         [Route("Usage/Index")]
         [Route("Usage/Index/{id?}")]
         [Route("Usage/{id?}")]
         [HttpGet]
-        public IActionResult Usage(int? id)
+        public IActionResult Usage()
         {
             List<LivreEtudiant> livreEtudiants = _context.LivresEtudiants
                     .Include(x => x.Etudiant)
-                    .Take(12)
+                    .Take(8)
                     .ToList();
 
-            if (id == null)
-            {
-                return View(livreEtudiants);
-            }
-            var livreRecherche = livreEtudiants.Find(x => x.LivreId == id);
-            if (livreRecherche == null)
-            {
-                return Content("Cette identifiant n'appartient à aucun livre");
-            }
-            return View(livreRecherche);
 
+            return View(livreEtudiants);
         }
         [HttpGet]
         public IActionResult Detail(int id)
         {
-
-            LivreEtudiant livre = _context.LivresEtudiants
-                .Include(x=>x.Etudiant)
-                .ToList()
-                .Find(x => x.LivreId == id);
+            LivreEtudiant livre = _livreEtudiantDAO.GetById(id);
             if (livre != null)
-            {
-                LivreEtudiantVM livreEtudiant = new()
-                {
-                    LivreId = livre.LivreId,
-                    Etudiant = livre.Etudiant,
-                    Titre = livre.Titre,
-                    Isbn = livre.Isbn,
-                    Resume = livre.Resume,
-                    Photo = livre.PhotoCouverture,
-                    DatePublication = livre.DatePublication,
-                    MaisonEdition = livre.MaisonEdition,
-                    Auteur = livre.Auteur,
-                    Prix = livre.Prix
-
-                };
-                return View(livreEtudiant);
-            }
-
+                return View(_mapper.Map<LivreEtudiantDto>(livre));
 
             return Content("Ce livre n'existe pas dans la base de données.");
         }
@@ -82,29 +62,16 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult MaBoutique()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<LivreEtudiant> inventaireUnEtudiant = new();
-
-
-            List<LivreEtudiant> livreEtudiants = _context.LivresEtudiants
-                    .Include(x => x.Etudiant)
-                    .ToList();
-
-            List<LivreEtudiant> livres = livreEtudiants.FindAll(x => x.Etudiant.Id == userId);
-            if (livres.Count() == 0)
-            {
-                return View(inventaireUnEtudiant);
-            }
-            inventaireUnEtudiant.AddRange(livres);
+            List<LivreEtudiant> inventaireUnEtudiant =_livreEtudiantService.GetAllLivreEtudiant(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            
             return View(inventaireUnEtudiant);
-
         }
 
         [Route("Usage/ajouter")]
         [Authorize(Roles = RolesName.Etudiant)]
         public IActionResult ajouter()
         {
-            LivreEtudiantVM livre = new();
+            AjoutEditLivreEtudiantVM livre = new();
 
             return View(livre);
         }
@@ -112,22 +79,18 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         [Route("Usage/ajouter")]
         [Authorize(Roles = RolesName.Etudiant)]
-        public IActionResult ajouter(LivreEtudiantVM livreEtudiantVM)
+        public IActionResult ajouter(AjoutEditLivreEtudiantVM livreEtudiantVM)
         {
-            ModelState.Remove("Etudiant.Nom");
-            ModelState.Remove("Etudiant.Prenom");
-            ModelState.Remove("Etudiant.Adresse");
-            ModelState.Remove("Etudiant.ProgrammeEtude");
+            ModelState.Remove(nameof(AjoutEditLivreEtudiantVM.EtudiantId));
 
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                livreEtudiantVM.Etudiant = _context.Etudiants.Single(x => x.Id == userId);
 
                 LivreEtudiant livreEtudiant = new()
                 {
                     LivreId = livreEtudiantVM.LivreId,
-                    Etudiant = livreEtudiantVM.Etudiant,
+                    Etudiant = _context.Etudiants.Single(x => x.Id == userId),
                     Titre = livreEtudiantVM.Titre,
                     Isbn = livreEtudiantVM.Isbn,
                     Resume = livreEtudiantVM.Resume,
@@ -138,8 +101,8 @@ namespace vlissides_bibliotheque.Controllers
                     Prix = livreEtudiantVM.Prix
 
                 };
-                _context.LivresEtudiants.Add(livreEtudiant);
-                _context.SaveChanges();
+                _livreEtudiantDAO.Insert(livreEtudiant);
+                _livreEtudiantDAO.Save();
                 return RedirectToAction("MaBoutique");
             }
             var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
@@ -147,7 +110,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 if (error.ErrorMessage.StartsWith("The value"))
                 {
-                    ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
+                    ModelState.AddModelError(string.Empty, "TODO: Gérer les messages d'erreurs");
                 }
                 else
                 {
@@ -161,23 +124,22 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public async Task<ActionResult> modifier(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Etudiant etudiant = await _context.Etudiants.SingleAsync(x => x.Id == userId);
-            LivreEtudiant livreEtudiantRechercher = await _context.LivresEtudiants
-                .Include(x => x.Etudiant)
-                .SingleAsync(x => x.LivreId == id);
+            LivreEtudiant livreEtudiantRechercher = _livreEtudiantDAO.GetById(id.Value);
 
             if (livreEtudiantRechercher.Etudiant.Id == userId || User.IsInRole(RolesName.Admin))
             {
-                LivreEtudiantVM livreEtudiant = new()
+                AjoutEditLivreEtudiantVM livreEtudiant = new()
                 {
                     LivreId = livreEtudiantRechercher.LivreId,
-                    Etudiant = livreEtudiantRechercher.Etudiant,
+                    EtudiantEmail = livreEtudiantRechercher.Etudiant.Email,
+                    EtudiantId = livreEtudiantRechercher.Etudiant.Id,
                     Titre = livreEtudiantRechercher.Titre,
                     Isbn = livreEtudiantRechercher.Isbn,
                     Resume = livreEtudiantRechercher.Resume,
@@ -196,23 +158,20 @@ namespace vlissides_bibliotheque.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> modifier(LivreEtudiantVM form)
+        public async Task<ActionResult> modifier(AjoutEditLivreEtudiantVM form)
         {
-            ModelState.Remove("Etudiant.Nom");
-            ModelState.Remove("Etudiant.Prenom");
-            ModelState.Remove("Etudiant.Adresse");
-            ModelState.Remove("Etudiant.ProgrammeEtude");
+            ModelState.Remove(nameof(AjoutEditLivreEtudiantVM.EtudiantId));
+
 
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                LivreEtudiant livreEtudiant = await _context.LivresEtudiants
-                .Include(x => x.Etudiant)
-                .SingleAsync(x => x.Etudiant.Id == userId);
+                LivreEtudiant livreEtudiant = _livreEtudiantService.GetLivreByEtudiantId(userId);
+
                 if (livreEtudiant != null || User.IsInRole(RolesName.Admin))
                 {
+                    LivreEtudiant LivreEtudiantModifier = _livreEtudiantDAO.GetById(livreEtudiant.LivreId);
 
-                    LivreEtudiant LivreEtudiantModifier = _context.LivresEtudiants.Single(x => x.LivreId == form.LivreId);
                     LivreEtudiantModifier.MaisonEdition = form.MaisonEdition;
                     LivreEtudiantModifier.Isbn = form.Isbn;
                     LivreEtudiantModifier.Titre = form.Titre;
@@ -233,7 +192,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 if (error.ErrorMessage.StartsWith("The value"))
                 {
-                    ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
+                    ModelState.AddModelError(string.Empty, "TODO gerer erreur");
                 }
                 else
                 {
@@ -253,8 +212,8 @@ namespace vlissides_bibliotheque.Controllers
                 Response.StatusCode = 400;
                 return Content("Cette identifiant n'est pas associer à un livre de la base de données.");
             }
-            var livreSupprimer = await _context.LivresEtudiants.SingleAsync(x => x.LivreId == id);
-            
+            var livreSupprimer = _livreEtudiantDAO.GetById(id.Value);
+
             if (livreSupprimer == null)
             {
                 Response.StatusCode = 404;
@@ -262,22 +221,17 @@ namespace vlissides_bibliotheque.Controllers
             };
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Etudiant etudiant = await _context.Etudiants.SingleAsync(x => x.Id == userId);
-            var livreAssocierEtudient = await _context.LivresEtudiants.SingleAsync(x => x.Etudiant.Id == etudiant.Id && x.LivreId == id);
-            
-            if (livreAssocierEtudient != null || User.IsInRole(RolesName.Admin))
-            {
-                _context.LivresEtudiants.Remove(livreSupprimer);
-                _context.SaveChanges();
 
-                List<LivreEtudiant> inventaireLivreEtudiant = _context.LivresEtudiants
-                  .Include(x => x.Etudiant)
-                  .ToList();
+            if (_livreEtudiantService.GetLivreByEtudiantId(userId) != null || User.IsInRole(RolesName.Admin))
+            {
+                _livreEtudiantDAO.Delete(id.Value);
+                _livreEtudiantDAO.Save();
+
+                List<LivreEtudiant> inventaireLivreEtudiant = _livreEtudiantDAO.GetAll().ToList();
 
                 return RedirectToAction("MaBoutique");
             }
             return Content("Ce livre ne vous appartient pas. Vous ne pouvez pas l'effacer");
         }
-
     }
 }

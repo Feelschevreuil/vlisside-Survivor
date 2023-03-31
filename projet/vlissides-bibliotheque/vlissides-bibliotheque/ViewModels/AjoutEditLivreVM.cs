@@ -6,7 +6,7 @@ using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
 {
-    public class ModificationLivreVM
+    public class AjoutEditLivreVM
     {
         public int IdDuLivre { get; set; }
 
@@ -73,6 +73,10 @@ namespace vlissides_bibliotheque.ViewModels
         public List<checkBoxCours> CheckBoxCours { get; set; }
         [DisplayName("Liste des auteurs")]
         public List<checkBoxAuteurs> CheckBoxAuteurs { get; set; }
+        public List<int> Cours { get; set; }
+        public List<int> Auteurs { get; set; }
+        public int Id { get; set; }
+        public string DateFormater { get; set; }
     }
 
 }

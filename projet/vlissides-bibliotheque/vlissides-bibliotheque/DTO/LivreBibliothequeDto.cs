@@ -7,20 +7,21 @@ namespace vlissides_bibliotheque.DTO
 {
     public class LivreBibliothequeDto
     {
-        public int LivreId;
+        public int LivreId { get; set; }
 
-        public int MaisonEditionId;
+        public int MaisonEditionId { get; set; }
 
-        public string MaisonEditionNom;
+        [DisplayName("Maison d'édition")]
+        public string MaisonEditionNom { get; set; }
 
-        public string Isbn;
+        public string Isbn { get; set; }
 
-        public string Titre;
+        public string Titre { get; set; }
+        [DisplayName("Description")]
+        public string Resume { get; set; }
+        [DisplayName("Photo")]
+        public string PhotoCouverture { get; set; }
 
-        public string Resume;
-
-        public string PhotoCouverture;
-
-        public DateTime DatePublication;
+        public DateTime DatePublication { get; set; }
     }
 }

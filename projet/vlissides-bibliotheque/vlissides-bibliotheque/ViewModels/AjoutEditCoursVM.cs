@@ -4,7 +4,7 @@ using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.ViewModels
 {
-    public class GestionCoursVM : Cours
+    public class AjoutEditCoursVM : Cours
     {
         public List<SelectListItem> ProgrammesEtude { get; set; }
         [DisplayName("Programmes d'étude")]

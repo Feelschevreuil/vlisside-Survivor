@@ -22,19 +22,7 @@ namespace vlissides_bibliotheque.DAO
 
         public Adresse GetById(int id)
         {
-
-            Adresse adresse;
-
-            adresse = _context
-                .Adresses
-                    .Where
-                    (
-                        adresse =>
-                            adresse.AdresseId == id
-                    )
-                    .SingleOrDefault();
-
-            return adresse;
+            return _context.Adresses.SingleOrDefault(a =>a.AdresseId == id);
         }
 
         public IEnumerable<Adresse> GetAll()
@@ -63,23 +51,20 @@ namespace vlissides_bibliotheque.DAO
                 .MettreAJourProprietes(adresseOriginale, adresseAJour);
 
             _context.Adresses.Update(adresseOriginale);
-            _context.SaveChanges();
+            Save();
 
             return adresseOriginale;
         }
 
         public bool Delete(int id)
         {
-
-            Adresse adresseEffacer;
-
-            adresseEffacer = GetById(id);
+            Adresse adresseEffacer = GetById(id);
 
             if (adresseEffacer != null)
             {
 
                 _context.Adresses.Remove(adresseEffacer);
-                _context.SaveChanges();
+                Save();
 
                 return true;
             }

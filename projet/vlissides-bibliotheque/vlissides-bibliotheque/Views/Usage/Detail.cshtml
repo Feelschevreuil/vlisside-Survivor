@@ -1,7 +1,4 @@
-﻿@model LivreEtudiantVM
-
-@{
-}
+﻿@model LivreEtudiantDto
 
 
 <div class="row">
@@ -26,7 +23,7 @@
         <p class="card-text"><strong>Courriel</strong></p>
         <div class="input-group">
 
-            <input disabled type="text" class="form-control" value="@Model.Etudiant.Email" id="Courriel">
+            <input disabled type="text" class="form-control" value="@Model.EtudiantEmail" id="Courriel">
             <div class="input-group-append">
                 <button class="btn btn-outline-primary" onclick="CopierCourriel()" type="button">Copier</button>
             </div>

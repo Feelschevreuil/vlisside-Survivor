@@ -23,9 +23,7 @@ namespace vlissides_bibliotheque.DAO
 
         public Evenement GetById(int id)
         {
-
-            Evenement evenement = _context.Evenements.Include(e=> e.Commanditaire).Single(evenement => evenement.EvenementId == id);
-            return evenement;
+           return _context.Evenements.Include(e=> e.Commanditaire).SingleOrDefault(evenement => evenement.EvenementId == id);
         }
 
         public IEnumerable<Evenement> GetAll()

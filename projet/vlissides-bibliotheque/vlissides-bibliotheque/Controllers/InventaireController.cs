@@ -59,10 +59,10 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public ActionResult creer()
         {
-            AssocierLivreCours nouveauLivre = new()
+            AjoutEditLivreVM nouveauLivre = new()
             {
-                checkBoxAuteurs = _CheckedBox.GetAuteurs(),
-                checkBoxCours = _CheckedBox.GetCours(),
+                CheckBoxAuteurs = _CheckedBox.GetAuteurs(),
+                CheckBoxCours = _CheckedBox.GetCours(),
                 MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition(),
             };
             return View(nouveauLivre);
@@ -70,19 +70,19 @@ namespace vlissides_bibliotheque.Controllers
 
         [Authorize(Roles = RolesName.Admin)]
         [HttpPost]
-        public async Task<ActionResult> creer([FromBody] AssocierLivreCours form)
+        public async Task<ActionResult> creer([FromBody] AjoutEditLivreVM form)
         {
-            ModelState.Remove(nameof(AssocierLivreCours.MaisonsDeditions));
-            ModelState.Remove(nameof(AssocierLivreCours.checkBoxCours));
-            ModelState.Remove(nameof(AssocierLivreCours.checkBoxAuteurs));
-            ModelState.Remove(nameof(AssocierLivreCours.DateFormater));
+            ModelState.Remove(nameof(AjoutEditLivreVM.MaisonsDeditions));
+            ModelState.Remove(nameof(AjoutEditLivreVM.CheckBoxCours));
+            ModelState.Remove(nameof(AjoutEditLivreVM.CheckBoxAuteurs));
+            ModelState.Remove(nameof(AjoutEditLivreVM.DateFormater));
 
             if (ModelState.IsValid)
             {
                 LivreBibliotheque nouveauLivreBibliothèque = new()
                 {
                     LivreId = 0,
-                    MaisonEditionId = form.MaisonDeditionId.Value,
+                    MaisonEditionId = form.MaisonDeditionId,
                     Isbn = form.ISBN,
                     Titre = form.Titre,
                     Resume = form.Resume,
@@ -125,8 +125,8 @@ namespace vlissides_bibliotheque.Controllers
 
 
             form.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
-            form.checkBoxCours = _CheckedBox.GetCours();
-            form.checkBoxAuteurs = _CheckedBox.GetAuteurs();
+            form.CheckBoxCours = _CheckedBox.GetCours();
+            form.CheckBoxAuteurs = _CheckedBox.GetAuteurs();
             return View(form);
         }
 
@@ -142,9 +142,9 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             LivreBibliotheque livreBibliothequeRechercher = _livreDAO.GetById(id.Value);
-            List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres.Where(x => x.LivreBibliothequeId == id).ToList();
+            List<PrixEtatLivre> prixEtatLivre = _prix.GetPrixLivre(id.Value).Result.ToList();
 
-            ModificationLivreVM ModifierLivre = new()
+            AjoutEditLivreVM ModifierLivre = new()
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
@@ -171,11 +171,11 @@ namespace vlissides_bibliotheque.Controllers
         [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> modifier(ModificationLivreVM form)
+        public async Task<ActionResult> modifier(AjoutEditLivreVM form)
         {
-            ModelState.Remove(nameof(ModificationLivreVM.MaisonsDeditions));
-            ModelState.Remove(nameof(ModificationLivreVM.CheckBoxCours));
-            ModelState.Remove(nameof(ModificationLivreVM.CheckBoxAuteurs));
+            ModelState.Remove(nameof(AjoutEditLivreVM.MaisonsDeditions));
+            ModelState.Remove(nameof(AjoutEditLivreVM.CheckBoxCours));
+            ModelState.Remove(nameof(AjoutEditLivreVM.CheckBoxAuteurs));
 
             LivreBibliotheque LivreBibliothèqueModifier = _livreDAO.GetById(form.IdDuLivre);
 
@@ -200,7 +200,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 if (error.Exception == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Le format d'un prix est incorrect. Voici un exemple du bon format: 10,45");
+                    ModelState.AddModelError(string.Empty, "TODO: Gérer l'erreur");
                 }
                 else
                 {
@@ -244,7 +244,7 @@ namespace vlissides_bibliotheque.Controllers
         public IActionResult CreerAuteurs()
         {
             AuteursVM auteurs = new();
-            return PartialView("Views/Shared/_AuteursPartial.cshtml", auteurs);
+            return PartialView("Views/Shared/_AjouteEditAuteursPartial.cshtml", auteurs);
         }
 
         [HttpPost]
@@ -266,7 +266,7 @@ namespace vlissides_bibliotheque.Controllers
                 vm.Id = nouvelleAuteurs.AuteurId;
                 return Json(vm);
             }
-            return PartialView("Views/Shared/_AuteursPartial.cshtml", vm);
+            return PartialView("Views/Shared/_AjouteEditAuteursPartial.cshtml", vm);
         }
 
         [HttpPost]

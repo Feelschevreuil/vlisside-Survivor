@@ -17,7 +17,7 @@ namespace vlissides_bibliotheque.Services
         {
             _context = context;
         }
-        public async Task<bool> UpdateLesPrix(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form)
+        public async Task<bool> UpdateLesPrix(LivreBibliotheque LivreEtatPrix, AjoutEditLivreVM form)
         {
             List<PrixEtatLivre> listPrixEtat = await GetPrixLivre(LivreEtatPrix.LivreId);
 
@@ -112,7 +112,7 @@ namespace vlissides_bibliotheque.Services
             return true;
         }
 
-        public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, CreationLivreVM form)
+        public List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, AjoutEditLivreVM form)
         {
             List<PrixEtatLivre> ListPrixEtat = new();
 
@@ -123,7 +123,7 @@ namespace vlissides_bibliotheque.Services
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
                     EtatLivre = EtatLivreEnum.NEUF,
-                    Prix = form.PrixNeuf + 0.00,
+                    Prix = form.PrixNeuf.Value + 0.00,
                 };
                 ListPrixEtat.Add(AssociationPrixNeuf);
             }
@@ -134,7 +134,7 @@ namespace vlissides_bibliotheque.Services
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
                     EtatLivre = EtatLivreEnum.NUMERIQUE,
-                    Prix = form.PrixNumerique + 0.00,
+                    Prix = form.PrixNumerique.Value + 0.00,
                 };
                 ListPrixEtat.Add(AssociationPrixNumérique);
             }
@@ -145,7 +145,7 @@ namespace vlissides_bibliotheque.Services
                     PrixEtatLivreId = 0,
                     LivreBibliothequeId = LivreEtatPrix.LivreId,
                     EtatLivre = EtatLivreEnum.USAGE,
-                    Prix = form.PrixUsage + 0.00,
+                    Prix = form.PrixUsage.Value + 0.00,
                 };
                 ListPrixEtat.Add(AssociationPrixUsager);
             }

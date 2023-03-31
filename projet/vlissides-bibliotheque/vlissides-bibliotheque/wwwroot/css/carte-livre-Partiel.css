@@ -1,19 +1,5 @@
-.cercle-prix {
-    background-color: yellow;
-    width: 4rem;
-    height: 4rem;
-    position: absolute;
-    right: 25%;
-    top: 35%;
-}
-
 .prix {
-    position: absolute;
-    left: 0%;
-    right: 0%;
-    top: 27%;
-    width: 4rem;
-    height: auto;
+    background-color: yellow;
 }
 
 .image-livre {
@@ -28,11 +14,6 @@
 .livre-info {
     width: auto;
     padding-left: 10px;
-}
-
-.etoile {
-    width: 15px;
-    margin-top: -3px;
 }
 
 .image-detail {

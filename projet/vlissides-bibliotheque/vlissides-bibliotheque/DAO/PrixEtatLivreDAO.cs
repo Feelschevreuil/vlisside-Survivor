@@ -27,8 +27,7 @@ namespace vlissides_bibliotheque.DAO
 
         public PrixEtatLivre GetById(int id)
         {
-            PrixEtatLivre prixEtatLivre = _context.PrixEtatsLivres.Single(prixEtatLivre => prixEtatLivre.PrixEtatLivreId == id);
-            return prixEtatLivre;
+            return _context.PrixEtatsLivres.SingleOrDefault(prixEtatLivre => prixEtatLivre.PrixEtatLivreId == id);
         }
 
         public IEnumerable<PrixEtatLivre> GetAll()

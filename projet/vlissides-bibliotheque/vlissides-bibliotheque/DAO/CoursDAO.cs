@@ -1,4 +1,5 @@
-﻿using vlissides_bibliotheque.DAO.Interface;
+﻿using Microsoft.EntityFrameworkCore;
+using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 
@@ -20,12 +21,12 @@ namespace vlissides_bibliotheque.DAO
 
         public IEnumerable<Cours> GetAll()
         {
-            return _context.Cours;
+            return _context.Cours.Include(c=>c.ProgrammeEtude);
         }
 
         public Cours GetById(int id)
         {
-            return _context.Cours.Single(c => c.CoursId == id);
+            return _context.Cours.Include(c=>c.ProgrammeEtude).SingleOrDefault(c => c.CoursId == id);
         }
 
         public bool Insert(Cours cours)

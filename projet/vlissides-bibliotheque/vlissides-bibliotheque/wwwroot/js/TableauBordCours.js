@@ -1,29 +1,4 @@
-﻿function getFormData(formulaire) {
-    let formData = new FormData(formulaire);
-    let data = {};
-
-    formData.forEach(function (value, key) {
-        data[key] = value;
-    });
-
-    return data;
-}
-
-function resetMajusculeJsonKey(json) {
-    let data = {};
-
-    for (let key in json) {
-        data[setPremiereLettreEnMajuscule(key)] = json[key];
-    }
-
-    return data;
-}
-
-function setPremiereLettreEnMajuscule(string) {
-    return string[0].toUpperCase() + string.slice(1);
-}
-
-function afficherModificationCours(id, data) {
+﻿function afficherModificationCours(id, data) {
     // affiche les valeurs modifiées et non modifiées
     let table = document.querySelectorAll("table")[0];
     let thead = table.children[0];
@@ -83,30 +58,11 @@ function afficherCreationCours(id, data) {
     }
 }
 
-function setInputsFormat() {
-    // appel initial pour setter les inputs en cas où ils auraient déjà une valeur
-    for (let phoneNumberInput of document.querySelectorAll("#phoneNumber")) {
-        setPhoneNumber(phoneNumberInput.parentElement.children[1]);
-    }
-    for (let postalCodeInput of document.querySelectorAll("#postalCode")) {
-        setPostalCode(postalCodeInput.parentElement.children[1]);
-    }
-}
-
 function CoursGestionErreur(data) {
     if (data.programmeEtudesId == "") { data.programmeEtudesId = 0 }
     if (data.ProgrammesEtudeId == "") { data.ProgrammesEtudeId = 0 }
 
     return data
-}
-
-function possedeDesLettres(nombre) {
-    if (isNaN(parseFloat(nombre)) || nombre == "") {
-        return nombre = 0;
-    }
-    else {
-        return parseFloat(nombre.replace(",", "."));
-    }
 }
 
 function creerBtnModifSuppriCours(nouvelleLigne, id) {
@@ -133,7 +89,7 @@ function creerBtnModifSuppriCours(nouvelleLigne, id) {
 //--------------------------------------------
 //              Cours
 //--------------------------------------------
-function getPartialViewCours() {
+function getTBPartialViewCours() {
     fetch(host + "TableauDeBord/Cours/", {
         method: 'GET',
     }).then(function (res) {
@@ -146,7 +102,7 @@ function getPartialViewCours() {
     });
 }
 
-function getFormulaireModifierCours(id) {
+function getTBFormulaireModifierCours(id) {
 
     fetch(host + "TableauDeBord/ModifierCours/" + String(id), {
         method: 'GET',
@@ -162,7 +118,7 @@ function getFormulaireModifierCours(id) {
     });
 }
 
-function modifierCours() {
+function TBModifierCours() {
     let parent = document.querySelector("#modal-modifier").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
@@ -197,7 +153,7 @@ function modifierCours() {
     });
 }
 
-function getFormulaireCreerCours() {
+function getTBFormulaireCreerCours() {
 
     fetch(host + "TableauDeBord/CreerCours/", {
         method: 'GET',
@@ -210,7 +166,7 @@ function getFormulaireCreerCours() {
     });
 }
 
-function creerCours() {
+function TBCreerCours() {
     let parent = document.querySelector("#creer").querySelector(".modal-body");
     let formulaire = parent.querySelector("form");
     let data = getFormData(formulaire);
@@ -258,7 +214,7 @@ function creerCours() {
     });
 }
 
-function supprimerCours(id) {
+function TBsSupprimerCours(id) {
     var confirmation = confirm("Êtes-vous sur de vouloir supprimer ce cours?");
     if (confirmation) {
         fetch(host + "TableauDeBord/SupprimerCours/", {

@@ -1,8 +1,5 @@
-﻿@model LivreEtudiantVM
+﻿@model AjoutEditLivreEtudiantVM
 
-@{
-    var etudiant = Model.Etudiant;
-}
 
 <div class="row">
     <div class="col-md-8 d-block m-auto">
@@ -73,7 +70,7 @@
                     </fieldset>
                     <fieldset hidden class="rounded shadow p-3 m-2 mb-4">
                         <div class="form-group">
-                            <input asp-for="Etudiant.Id" value="@etudiant" class="form-control" aria-required="true" />
+                            <input asp-for="EtudiantId" value="@Model.EtudiantId" class="form-control" aria-required="true" />
                         </div>
                     </fieldset>
                 </div>

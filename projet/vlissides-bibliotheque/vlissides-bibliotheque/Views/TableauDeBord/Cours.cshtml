@@ -1,30 +1,30 @@
-﻿@model List<Cours>
+﻿@model List<CoursDto>
 
 <h2 class="p-3">Gestion des cours</h2>
 
 
-<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-5 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getFormulaireCreerCours()" />
+<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-5 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getTBFormulaireCreerCours()" />
 
 <div>
     <table class="table table-light ms-5">
         <thead>
             <tr>
-                <th id="@nameof(GestionCoursVM.Code)">@Html.DisplayNameFor(cours => cours.First().Code)</th>
-                <th id="@nameof(GestionCoursVM.Nom)">@Html.DisplayNameFor(cours => cours.First().Nom)</th>
-                <th id="@nameof(GestionCoursVM.AnneeParcours)">@Html.DisplayNameFor(cours => cours.First().AnneeParcours)</th>
-                <th id="@nameof(GestionCoursVM.ProgrammeEtude)">@Html.DisplayNameFor(cours => cours.First().ProgrammeEtude)</th>
+                <th id="@nameof(AjoutEditCoursVM.Code)">@Html.DisplayNameFor(cours => cours.First().Code)</th>
+                <th id="@nameof(AjoutEditCoursVM.Nom)">@Html.DisplayNameFor(cours => cours.First().Nom)</th>
+                <th id="@nameof(AjoutEditCoursVM.AnneeParcours)">@Html.DisplayNameFor(cours => cours.First().AnneeParcours)</th>
+                <th id="@nameof(AjoutEditCoursVM.ProgrammeEtude)">@Html.DisplayNameFor(cours => cours.First().ProgrammeEtudeNom)</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (Cours cours in Model) {
+            @foreach (CoursDto cours in Model) {
                 <tr id="tr-@cours.CoursId" class="modif-suppr">
                 
                     <td>@cours.Code</td>
                     <td>@cours.Nom</td>
                     <td>@cours.AnneeParcours</td>
-                    <td>@cours.ProgrammeEtude.Nom</td>
+                    <td>@cours.ProgrammeEtudeNom</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
-                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getFormulaireModifierCours('@cours.CoursId')">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getTBFormulaireModifierCours('@cours.CoursId')">
                         <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCours('@cours.CoursId')">
                     </td>
                 </tr>
@@ -40,7 +40,7 @@
                         </div>
                         <div class="modal-footer">
                             <button id="fermer-modal-modifier" data-bs-dismiss="modal" hidden></button>
-                            <button type="button" class="btn btn-primary" onclick="modifierCours()">Enregistrer</button>
+                            <button type="button" class="btn btn-primary" onclick="TBModifierCours()">Enregistrer</button>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="modal-footer">
                             <button id="fermer-modal-creer" data-bs-dismiss="modal" hidden></button>
-                            <button type="button" class="btn btn-primary" onclick="creerCours()">Enregistrer</button>
+                            <button type="button" class="btn btn-primary" onclick="TBCreerCours()">Enregistrer</button>
                         </div>
                     </div>
                 </div>

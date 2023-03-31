@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.DTO.Ajax;
+using vlissides_bibliotheque.DAO;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -14,16 +15,16 @@ namespace vlissides_bibliotheque.Controllers
     {
         private readonly ILivreBibliotheque _livreService;
         private readonly IEvenementVM _evenementService;
-        private readonly IPrix _prixService;
         private readonly IDAO<LivreBibliotheque> _livreDAO;
+        private readonly IDAO<PrixEtatLivre> _PrixEtatLivreDAO;
 
 
-        public AccueilController(ILivreBibliotheque livreService, IEvenementVM evenementService, IPrix prixService, IDAO<LivreBibliotheque> livreDAO)
+        public AccueilController(ILivreBibliotheque livreService, IEvenementVM evenementService,IDAO<LivreBibliotheque> livreDAO, IDAO<PrixEtatLivre> PrixEtatLivreDAO)
         {
             _livreService = livreService;
             _evenementService = evenementService;
-            _prixService = prixService;
             _livreDAO = livreDAO;
+            _PrixEtatLivreDAO = PrixEtatLivreDAO;
         }
         [Route("")]
         public async Task<IActionResult> Accueil()
@@ -39,18 +40,11 @@ namespace vlissides_bibliotheque.Controllers
         public async Task<string> ChangerPrix([FromBody] PrixAfficher prixAfficher)
         {
             LivreBibliotheque livre = _livreDAO.GetById(prixAfficher.Id);
-            List<PrixEtatLivre> etat = await _prixService.GetPrixLivre(prixAfficher.Id);
-            PrixEtatLivre etatLivreRechercher = etat.SingleOrDefault(x => (int)x.EtatLivre == prixAfficher.Etat);
-            string prix;
+            PrixEtatLivre? etatLivreRechercher = _PrixEtatLivreDAO.GetById(prixAfficher.Etat);
+            string prix = "-";
 
             if (etatLivreRechercher != null)
-            {
                 prix = etatLivreRechercher.Prix.ToString();
-            }
-            else
-            {
-                prix = "-";
-            };
 
             return JsonConvert.SerializeObject(new PrixJson() { Id = prixAfficher.Id, prix = prix });
         }

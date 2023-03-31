@@ -70,7 +70,6 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-
                 Evenement newEvenement = _evenementService.GetEvenement(evenementVM);
                 _evenementDAO.Insert(newEvenement);
                 _evenementDAO.Save();

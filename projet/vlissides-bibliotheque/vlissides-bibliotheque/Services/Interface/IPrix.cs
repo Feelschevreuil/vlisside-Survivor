@@ -5,8 +5,8 @@ namespace vlissides_bibliotheque.Services.Interface
 {
     public interface IPrix
     {
-        Task<bool> UpdateLesPrix(LivreBibliotheque LivreEtatPrix, ModificationLivreVM form);
-        List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, CreationLivreVM form);
+        Task<bool> UpdateLesPrix(LivreBibliotheque LivreEtatPrix, AjoutEditLivreVM form);
+        List<PrixEtatLivre> AssocierPrixEtat(LivreBibliotheque LivreEtatPrix, AjoutEditLivreVM form);
         Task<List<PrixEtatLivre>> GetPrixLivre(int id);
     }
 }

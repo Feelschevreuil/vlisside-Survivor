@@ -13,7 +13,7 @@ namespace vlissides_bibliotheque.Services
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public EvenementService(ApplicationDbContext context, IMapper mapper) 
+        public EvenementService(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -53,7 +53,7 @@ namespace vlissides_bibliotheque.Services
                 EvenementVM evenementVM = GetEvenementVM(evenement);
 
 
-                if (evenement.Image == "" || evenement.Image == null)
+                if (string.IsNullOrEmpty(evenement.Image))
                 {
                     evenementVM.Image = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/photo-evenement.jpg";
                 }
@@ -63,7 +63,7 @@ namespace vlissides_bibliotheque.Services
             return listEvenementsVM;
         }
 
-        public async  Task<List<EvenementVM>> GetEvenementInventaire()
+        public async Task<List<EvenementVM>> GetEvenementInventaire()
         {
             IEnumerable<Evenement> EvenementInventaire = await _context.Evenements.ToListAsync();
             List<EvenementVM> listEvenementsVM = new();
@@ -73,7 +73,7 @@ namespace vlissides_bibliotheque.Services
                 EvenementVM evenementVM = GetEvenementVM(evenement);
 
 
-                if (evenement.Image == "" || evenement.Image == null)
+                if (string.IsNullOrEmpty(evenement.Image))
                 {
                     evenementVM.Image = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/photo-evenement.jpg";
                 }

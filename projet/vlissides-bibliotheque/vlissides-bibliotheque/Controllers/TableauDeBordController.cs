@@ -42,6 +42,7 @@ namespace vlissides_bibliotheque.Controllers
         private readonly UserManager<Etudiant> _userManagerEtudiant;
         private readonly ApplicationDbContext _context;
         private readonly IDAO<LivreBibliotheque> _livreDAO;
+        private readonly IDAO<Cours> _CoursDAO;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ICheckedBox _CheckedBox;
         private readonly IDropDownList _dropDownList;
@@ -55,6 +56,7 @@ namespace vlissides_bibliotheque.Controllers
             UserManager<Etudiant> userManagerEtudiant,
             ApplicationDbContext context,
             IDAO<LivreBibliotheque> livreDAO,
+            IDAO<Cours> coursDAO,
             IWebHostEnvironment hostingEnvironment,
             ICheckedBox CheckedBox,
             IDropDownList dropDownList,
@@ -68,6 +70,7 @@ namespace vlissides_bibliotheque.Controllers
             _userManagerEtudiant = userManagerEtudiant;
             _context = context;
             _livreDAO = livreDAO;
+            _CoursDAO = coursDAO;
             _hostingEnvironment = hostingEnvironment;
             _CheckedBox = CheckedBox;
             _dropDownList = dropDownList;
@@ -290,21 +293,21 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult CreerLivre()
         {
-            AssocierLivreCours vm = new AssocierLivreCours
+            AjoutEditLivreVM vm = new AjoutEditLivreVM
             {
                 MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition(),
-                checkBoxCours = _CheckedBox.GetCours(),
-                checkBoxAuteurs = _CheckedBox.GetAuteurs()
+                CheckBoxCours = _CheckedBox.GetCours(),
+                CheckBoxAuteurs = _CheckedBox.GetAuteurs()
             };
-            return PartialView("Views/Shared/_AjouterLivrePartial.cshtml", vm);
+            return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", vm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreerLivre([FromBody] AssocierLivreCours vm)
+        public async Task<IActionResult> CreerLivre([FromBody] AjoutEditLivreVM vm)
         {
             ModelState.Remove(nameof(vm.MaisonsDeditions));
-            ModelState.Remove(nameof(vm.checkBoxCours));
-            ModelState.Remove(nameof(vm.checkBoxAuteurs));
+            ModelState.Remove(nameof(vm.CheckBoxCours));
+            ModelState.Remove(nameof(vm.CheckBoxAuteurs));
             ModelState.Remove(nameof(vm.Id));
             ModelState.Remove(nameof(vm.DateFormater));
 
@@ -356,10 +359,10 @@ namespace vlissides_bibliotheque.Controllers
                 vm.DateFormater = vm.DatePublication.ToString("dd MMMM yyyy");
                 return Json(vm);
             }
-            vm.checkBoxAuteurs = _CheckedBox.GetAuteurs();
+            vm.CheckBoxAuteurs = _CheckedBox.GetAuteurs();
             vm.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
-            vm.checkBoxCours = _CheckedBox.GetCours();
-            return PartialView("Views/Shared/_AjouterLivrePartial.cshtml", vm);
+            vm.CheckBoxCours = _CheckedBox.GetCours();
+            return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", vm);
         }
 
         [HttpGet]
@@ -382,7 +385,7 @@ namespace vlissides_bibliotheque.Controllers
                 .FindAll(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
 
 
-            ModificationLivreVM vm = new()
+            AjoutEditLivreVM vm = new()
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
                 MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
@@ -409,7 +412,7 @@ namespace vlissides_bibliotheque.Controllers
             if (prixUsage != null) { vm.PrixUsage = prixUsage.Prix; vm.QuantiteUsagee = prixUsage.QuantiteUsage; } else { vm.PrixUsage = 0; vm.QuantiteUsagee = 0; vm.PossedeUsagee = false; };
 
 
-            return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", vm);
+            return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", vm);
         }
 
         [HttpPost]
@@ -420,8 +423,8 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(form.DateFormater));
             if (form == null)
             {
-                ModificationLivreVM Emptyform = new();
-                return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", Emptyform);
+                AjoutEditLivreVM Emptyform = new();
+                return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", Emptyform);
             };
 
             LivreBibliotheque LivreBibliothèqueModifier = _livreDAO.GetById(form.IdDuLivre);
@@ -447,7 +450,7 @@ namespace vlissides_bibliotheque.Controllers
             form.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
             form.CheckBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
             form.CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
-            return PartialView("Views/Shared/_ModifierLivrePartial.cshtml", form);
+            return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", form);
         }
 
         [HttpPost]
@@ -479,22 +482,19 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult Cours()
         {
-            List<Cours> cours = _context.Cours
-                .Include(cours => cours.ProgrammeEtude)
-                .ToList();
-
+            List<CoursDto> cours = _mapper.Map<List<CoursDto>>(_CoursDAO.GetAll()).ToList();
             return PartialView("~/Views/TableauDeBord/Cours.cshtml", cours);
         }
 
         [HttpGet]
         public IActionResult CreerCours()
         {
-            GestionCoursVM cours = new();
+            AjoutEditCoursVM cours = new();
             cours.ProgrammesEtude = _dropDownList.ListDropDownProgrammesEtude();
             return PartialView("Views/Shared/_CoursPartial.cshtml", cours);
         }
         [HttpPost]
-        public IActionResult CreerCours([FromBody] GestionCoursVM vm)
+        public IActionResult CreerCours([FromBody] AjoutEditCoursVM vm)
         {
             ModelState.Remove(nameof(vm.ProgrammeEtude));
             ModelState.Remove(nameof(vm.ProgrammesEtude));
@@ -533,7 +533,7 @@ namespace vlissides_bibliotheque.Controllers
                 return NotFound();
             }
 
-            GestionCoursVM vm = new()
+            AjoutEditCoursVM vm = new()
             {
                 CoursId = coursRechercher.CoursId,
                 Nom = coursRechercher.Nom,
@@ -547,7 +547,7 @@ namespace vlissides_bibliotheque.Controllers
 
         }
         [HttpPost]
-        public IActionResult ModifierCours([FromBody] GestionCoursVM vm)
+        public IActionResult ModifierCours([FromBody] AjoutEditCoursVM vm)
         {
             ModelState.Remove(nameof(vm.ProgrammeEtude));
             ModelState.Remove(nameof(vm.ProgrammesEtude));
@@ -604,12 +604,12 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult CreerProgrammeEtudes()
         {
-            GestionProgrammeEtudesVM vm = new();
+            AjoutEditProgrammeEtudesVM vm = new();
 
             return PartialView("Views/Shared/_ProgrameEtudePartial.cshtml", vm);
         }
         [HttpPost]
-        public IActionResult CreerProgrammeEtudes([FromBody] GestionProgrammeEtudesVM vm)
+        public IActionResult CreerProgrammeEtudes([FromBody] AjoutEditProgrammeEtudesVM vm)
         {
             ModelState.Remove(nameof(vm.Id));
             if (ModelState.IsValid)
@@ -641,7 +641,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 return NotFound();
             }
-            GestionProgrammeEtudesVM vm = new()
+            AjoutEditProgrammeEtudesVM vm = new()
             {
                 ProgrammeEtudeId = programme.ProgrammeEtudeId,
                 Nom = programme.Nom,
@@ -652,10 +652,10 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult ModifierProgrammeEtudes([FromBody] GestionProgrammeEtudesVM vm)
+        public IActionResult ModifierProgrammeEtudes([FromBody] AjoutEditProgrammeEtudesVM vm)
         {
-            ModelState.Remove(nameof(GestionProgrammeEtudesVM.ProgrammeEtudeId));
-            ModelState.Remove(nameof(GestionProgrammeEtudesVM.Id));
+            ModelState.Remove(nameof(AjoutEditProgrammeEtudesVM.ProgrammeEtudeId));
+            ModelState.Remove(nameof(AjoutEditProgrammeEtudesVM.Id));
             if (ModelState.IsValid)
             {
                 ProgrammeEtude modifierProgramme = _context.ProgrammesEtudes.Single(x => x.ProgrammeEtudeId == vm.ProgrammeEtudeId);
@@ -716,12 +716,12 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult CreerPromotions()
         {
-            GestionPromotionVM vm = new();
+            AjoutEditPromotionVM vm = new();
             return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
         }
 
         [HttpPost]
-        public IActionResult CreerPromotions([FromBody] GestionPromotionVM vm)
+        public IActionResult CreerPromotions([FromBody] AjoutEditPromotionVM vm)
         {
             if (!DateEvenement.CompareDate(vm.Debut, vm.Fin))
             {
@@ -781,7 +781,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 return NotFound();
             }
-            GestionPromotionVM vm = new()
+            AjoutEditPromotionVM vm = new()
             {
                 EvenementId = evenement.EvenementId,
                 Nom = evenement.Nom,
@@ -801,11 +801,11 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public IActionResult ModifierPromotions([FromBody] GestionPromotionVM vm)
+        public IActionResult ModifierPromotions([FromBody] AjoutEditPromotionVM vm)
         {
-            ModelState.Remove(nameof(GestionPromotionVM.Id));
-            ModelState.Remove(nameof(GestionPromotionVM.dateDebutFormatter));
-            ModelState.Remove(nameof(GestionPromotionVM.dateFinFormatter));
+            ModelState.Remove(nameof(AjoutEditPromotionVM.Id));
+            ModelState.Remove(nameof(AjoutEditPromotionVM.dateDebutFormatter));
+            ModelState.Remove(nameof(AjoutEditPromotionVM.dateFinFormatter));
             if (ModelState.IsValid)
             {
                 Evenement modifierEvenement = _context.Evenements.Include(x => x.Commanditaire).Single(x => x.EvenementId == vm.EvenementId);
@@ -863,229 +863,6 @@ namespace vlissides_bibliotheque.Controllers
                 .ToList();
 
             return PartialView("~/Views/TableauDeBord/Commandes.cshtml", commandes);
-        }
-
-        [HttpGet]
-        public IActionResult CreerCommande()
-        {
-            GestionCommandeVM vm = new();
-            vm.listStatut = _dropDownList.ListDropDownStatutCommande();
-            vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
-            return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
-        }
-
-        [HttpPost]
-        public IActionResult CreerCommande([FromBody] GestionCommandeVM vm)
-        {
-            ModelState.Remove(nameof(vm.FactureEtudiantId));
-            ModelState.Remove(nameof(vm.listEtudiant));
-            ModelState.Remove(nameof(vm.listStatut));
-            ModelState.Remove(nameof(vm.NomStatut));
-            ModelState.Remove(nameof(vm.formaterDateFacturation));
-            if (ModelState.IsValid)
-            {
-                Etudiant etudiant = _context.Etudiants.Single(x => x.Id == vm.EtudiantId);
-                FactureEtudiant facture = new()
-                {
-                    FactureEtudiantId = 0,
-                    PaymentIntentId = vm.PaymentIntentId,
-                    ClientSecret = "Test-ClientSecret",
-                    EtudiantId = etudiant.Id,
-                    Etudiant = etudiant,
-                    DateFacturation = vm.DateFacturation,
-                    Statut = (StatutFactureEnum)vm.ValeurEnumStatut,
-                    Tps = (decimal)Taxes.TPS,
-                    Tvq = (decimal)Taxes.TVQ
-                };
-                _context.FacturesEtudiants.Add(facture);
-                _context.SaveChanges();
-                vm.FactureEtudiantId = facture.FactureEtudiantId;
-                vm.NomStatut = Enum.GetName(typeof(StatutFactureEnum), vm.Statut);
-                vm.formaterDateFacturation = vm.DateFacturation.ToString("dd MMMM yyyy");
-                return Json(vm);
-
-            }
-            vm.listStatut = _dropDownList.ListDropDownStatutCommande();
-            vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
-            return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
-        }
-
-        [HttpGet]
-        public IActionResult ModifierCommande(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            FactureEtudiant facture = _context.FacturesEtudiants.Include(x => x.Etudiant).Single(x => x.FactureEtudiantId == id);
-            if (facture == null)
-            {
-                return NotFound();
-            }
-            GestionCommandeVM vm = new()
-            {
-                FactureEtudiantId = facture.FactureEtudiantId,
-                PaymentIntentId = facture.PaymentIntentId,
-                EtudiantId = facture.EtudiantId,
-                DateFacturation = facture.DateFacturation,
-                ValeurEnumStatut = (int)facture.Statut
-            };
-
-            vm.listStatut = _dropDownList.ListDropDownStatutCommande();
-            vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
-            return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
-        }
-
-        [HttpPost]
-        public IActionResult ModifierCommande([FromBody] GestionCommandeVM vm)
-        {
-            ModelState.Remove(nameof(vm.FactureEtudiantId));
-            ModelState.Remove(nameof(vm.listEtudiant));
-            ModelState.Remove(nameof(vm.listStatut));
-            ModelState.Remove(nameof(vm.NomStatut));
-            ModelState.Remove(nameof(vm.formaterDateFacturation));
-            if (ModelState.IsValid)
-            {
-                FactureEtudiant facture = _context.FacturesEtudiants.Include(x => x.Etudiant).Single(x => x.FactureEtudiantId == vm.FactureEtudiantId);
-                Etudiant etudiant = _context.Etudiants.Single(x => x.Id == vm.EtudiantId);
-
-                facture.PaymentIntentId = vm.PaymentIntentId;
-                facture.EtudiantId = etudiant.Id;
-                facture.Etudiant = etudiant;
-                facture.DateFacturation = vm.DateFacturation;
-                facture.Statut = (StatutFactureEnum)vm.ValeurEnumStatut;
-
-                _context.FacturesEtudiants.Update(facture);
-                _context.SaveChanges();
-                vm.FactureEtudiantId = facture.FactureEtudiantId;
-                vm.NomStatut = Enum.GetName(typeof(StatutFactureEnum), vm.ValeurEnumStatut);
-                vm.formaterDateFacturation = vm.DateFacturation.ToString("dd MMMM yyyy");
-                return Json(vm);
-
-            }
-            vm.listStatut = _dropDownList.ListDropDownStatutCommande();
-            vm.listEtudiant = _dropDownList.ListDropDownEtudiant();
-            return PartialView("Views/Shared/_CommandePartial.cshtml", vm);
-        }
-
-        [HttpPost]
-        public IActionResult supprimerCommande([FromBody] int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var commandeSupprimer = _context.FacturesEtudiants.Where(x => x.FactureEtudiantId == id).FirstOrDefault();
-            if (commandeSupprimer == null)
-            {
-                return NotFound();
-            };
-
-            _context.FacturesEtudiants.Remove(commandeSupprimer);
-            _context.SaveChanges();
-            return Ok();
-        }
-
-        public async Task<IActionResult> csvToListEtudiant()
-        {
-            string path = Path.Combine(_hostingEnvironment.WebRootPath, "csv", "liste-etudiants.csv");
-            string[] readText = System.IO.File.ReadAllLines(path);
-            List<string> csvSansCharaSpecial = new();
-            foreach (string line in readText)
-            {
-                string newline = Regex.Replace(line, "[�]+", "é");
-                newline = newline.Replace(",", "");
-                csvSansCharaSpecial.Add(newline);
-            }
-            List<CsvEtudiantVM> csvEnVm = csvSansCharaSpecial
-               .Skip(1)
-               .Where(l => l.Length > 1)
-               .CsvEnEtudiantVm()
-               .ToList();
-            List<Etudiant> csvEnEtudiants = GetEtudiantsFromCSV(csvEnVm);
-            List<Etudiant> etudiantsBD = _context.Etudiants.ToList();
-            List<Etudiant> etudiantsAjoutes = new();
-
-            foreach (Etudiant etudiant in csvEnEtudiants)
-            {
-                if (etudiantsBD.Find(x => x.Id == etudiant.Id) == null)
-                {
-                    var result = await _userManagerEtudiant.CreateAsync(etudiant, etudiant.PasswordHash);
-                    if (result.Succeeded)
-                    {
-                        await _userManager.AddToRoleAsync(etudiant, RolesName.Etudiant);
-                        etudiantsAjoutes.Add(etudiant);
-                    }
-                }
-            }
-            return View("SuccesEtudiantCsv", etudiantsAjoutes);
-        }
-
-        public List<Etudiant> GetEtudiantsFromCSV(List<CsvEtudiantVM> list)
-        {
-            string numeroCivique = "";
-            string rue = "";
-            string ville = "";
-            string nomDeRue = "";
-            int provinceIdParDefaut = _context.Provinces.First().ProvinceId;
-            List<ProgrammeEtude> programmes = _context.ProgrammesEtudes.ToList();
-            List<Etudiant> etudiants = new();
-
-            foreach (CsvEtudiantVM vm in list)
-            {
-                string app = "";
-                ProgrammeEtude programmeEtude = programmes.Where(x => x.Nom.ToLower() == vm.ProgrammeEtude.ToLower()).Single();
-                List<string> contenuAdresse = vm.Adresse.Trim().Split(" ").ToList();
-                numeroCivique = contenuAdresse[0];
-                contenuAdresse.RemoveAt(0);
-                ville = contenuAdresse[contenuAdresse.Count() - 1];
-                contenuAdresse.RemoveAt(contenuAdresse.Count() - 1);
-
-
-                if (contenuAdresse[contenuAdresse.Count() - 1].Contains("#"))
-                {
-                    app = contenuAdresse[contenuAdresse.Count() - 1];
-                    contenuAdresse.RemoveAt(contenuAdresse.Count() - 1);
-                    nomDeRue = string.Join(" ", contenuAdresse);
-                    rue = nomDeRue;
-                }
-                else
-                {
-                    nomDeRue = string.Join(" ", contenuAdresse);
-                    rue = nomDeRue;
-                }
-
-                Adresse adresse = new()
-                {
-                    AdresseId = 0,
-                    App = app,
-                    CodePostal = "",
-                    NumeroCivique = Convert.ToInt32(numeroCivique),
-                    Rue = rue.Trim(),
-                    Ville = ville.Trim(),
-                    ProvinceId = provinceIdParDefaut,
-                };
-                _context.Adresses.Add(adresse);
-                _context.SaveChanges();
-
-                Etudiant etudiant = new()
-                {
-                    Email = vm.Courriel.Trim(),
-                    UserName = vm.Courriel.Trim(),
-                    Nom = vm.Nom.Trim(),
-                    Prenom = vm.Prenom.Trim(),
-                    ProgrammeEtudeId = programmeEtude.ProgrammeEtudeId,
-                    AdresseId = adresse.AdresseId,
-                    Adresse = adresse,
-                    EmailConfirmed = true,
-                    PasswordHash = vm.MotDePasse.Trim(),
-                    NumeroEtudiant = Convert.ToInt32(vm.Matricule)
-                };
-                etudiants.Add(etudiant);
-
-            }
-            return etudiants;
         }
     }
 }

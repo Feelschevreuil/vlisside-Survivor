@@ -4,7 +4,7 @@ using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
 {
-    public class GestionPromotionVM
+    public class AjoutEditPromotionVM
     {
         public int Id { get; set; }
 

@@ -9,6 +9,7 @@ using AutoMapper;
 using vlissides_bibliotheque.ViewModels;
 using System.Security.Cryptography.X509Certificates;
 using vlissides_bibliotheque.DTO;
+using Microsoft.Build.Framework;
 
 namespace vlissides_bibliotheque.Mapper
 {
@@ -17,8 +18,8 @@ namespace vlissides_bibliotheque.Mapper
 
         public Mapping()
         {
-            
-          CreateMap<Evenement, EvenementVM>().ReverseMap();
+
+            CreateMap<Evenement, EvenementVM>().ReverseMap();
 
             #region Etudiant
 
@@ -50,6 +51,21 @@ namespace vlissides_bibliotheque.Mapper
 
             #region PrixEtatLivre
             CreateMap<PrixEtatLivre, PrixEtatLivreDto>();
+            #endregion
+
+            #region Cours
+            CreateMap<Cours, CoursDto>()
+              .ForMember(dest => dest.ProgrammeEtudeNom, opt => opt.MapFrom(src => src.ProgrammeEtude.Nom));
+            #endregion
+
+            #region LivreEtudiant
+            CreateMap<LivreEtudiant, LivreEtudiantDto>()
+                .ForMember(dest => dest.EtudiantEmail, opt => opt.MapFrom(scr => scr.Etudiant.Email))
+                .ForMember(dest => dest.EtudiantId, opt => opt.MapFrom(scr => scr.Etudiant.Id));
+
+            CreateMap<LivreEtudiant, AjoutEditLivreEtudiantVM>()
+                .ForMember(dest => dest.EtudiantEmail, opt => opt.MapFrom(scr => scr.Etudiant.Email))
+                .ForMember(dest => dest.EtudiantId, opt => opt.MapFrom(scr => scr.Etudiant.Id));
             #endregion
         }
     }

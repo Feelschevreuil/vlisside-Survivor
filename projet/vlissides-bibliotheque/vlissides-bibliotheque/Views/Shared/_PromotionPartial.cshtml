@@ -1,77 +1,74 @@
-﻿@model GestionPromotionVM
+﻿@model AjoutEditPromotionVM
 
-<div class="row">
-    <div class="col-md-8 d-block m-auto">
-        <form method="post" class="text-center m-3" asp-action="Creer" asp-controller="Evenement" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-            <input asp-for="EvenementId" class="form-control" value="@Model.EvenementId" type="hidden" />
-            <input asp-for="CommanditaireId" class="form-control" value="@Model.CommanditaireId" type="hidden" />
-            <div class="row text-start">
-                <div class="col-md-6">
-                    <fieldset class="rounded shadow p-3 m-2 mb-4">
-                        <div class="form-group">
-                            <label asp-for="Nom" class="form-label"></label>
-                            <input asp-for="Nom" class="form-control" aria-required="true" />
-                            <span asp-validation-for="Nom" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Debut" class="form-label"></label>
-                            <input asp-for="Debut" class="form-control" aria-required="true" />
-                            <span asp-validation-for="Debut" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Fin" class="form-label"></label>
-                            <input asp-for="Fin" class="form-control" aria-required="true" />
-                            <span asp-validation-for="Fin" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Photo" class="form-label"></label>
-                            <input type="file" accept=".png,.jpg,.jpeg" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
-                            <input asp-for="Photo" class="form-control" aria-required="true" hidden id="sendImg" />
-                            @if (Model.Photo != null)
-                            {
-                                <img id="viewImg" src="@Model.Photo" class="col-md-6 m-1" />
-                            }
-                            else
-                            {
-                                <img id="viewImg" class="col-md-6 m-1" />
-                            }
-                            <span asp-validation-for="Photo" class="text-nowrap text-danger"></span>
-                        </div>
 
-                        <div class="form-group">
-                            <label asp-for="Description" class="form-label"></label>
-                            <input asp-for="Description" class="form-control" aria-required="true" />
-                            <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-
-                    </fieldset>
+<form method="post" class="text-center m-3" asp-action="Creer" asp-controller="Evenement" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <input asp-for="EvenementId" class="form-control" value="@Model.EvenementId" type="hidden" />
+    <input asp-for="CommanditaireId" class="form-control" value="@Model.CommanditaireId" type="hidden" />
+    <div class="row text-start">
+        <div class="col-md-6">
+            <fieldset class="rounded shadow p-3 m-2 mb-4">
+                <div class="form-group">
+                    <label asp-for="Nom" class="form-label"></label>
+                    <input asp-for="Nom" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Nom" class="text-danger"></span>
                 </div>
-                <div class="col-md-6">
-
-                    <fieldset class="rounded shadow p-3 m-2 mb-4">
-                        <div class="form-group">
-                            <label asp-for="CommanditaireNom" class="form-label"></label>
-                            <input asp-for="CommanditaireNom" class="form-control" aria-required="true" />
-                            <span asp-validation-for="CommanditaireNom" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="CommanditaireCourriel" class="form-label"></label>
-                            <input asp-for="CommanditaireCourriel" class="form-control" aria-required="true" />
-                            <span asp-validation-for="CommanditaireCourriel" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="CommanditaireMessage" class="form-label"></label>
-                            <input asp-for="CommanditaireMessage" class="form-control" aria-required="true" />
-                            <span asp-validation-for="CommanditaireMessage" class="text-danger"></span>
-                        </div>
-
-                    </fieldset>
+                <div class="form-group">
+                    <label asp-for="Debut" class="form-label"></label>
+                    <input asp-for="Debut" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Debut" class="text-danger"></span>
                 </div>
-                @Html.AntiForgeryToken()
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="Fin" class="form-label"></label>
+                    <input asp-for="Fin" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Fin" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Photo" class="form-label"></label>
+                    <input type="file" accept=".png,.jpg,.jpeg" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
+                    <input asp-for="Photo" class="form-control" aria-required="true" hidden id="sendImg" />
+                    @if (Model.Photo != null)
+                    {
+                        <img id="viewImg" src="@Model.Photo" class="col-md-6 m-1" />
+                    }
+                    else
+                    {
+                        <img id="viewImg" class="col-md-6 m-1" />
+                    }
+                    <span asp-validation-for="Photo" class="text-nowrap text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="form-label"></label>
+                    <input asp-for="Description" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+
+            <fieldset class="rounded shadow p-3 m-2 mb-4">
+                <div class="form-group">
+                    <label asp-for="CommanditaireNom" class="form-label"></label>
+                    <input asp-for="CommanditaireNom" class="form-control" aria-required="true" />
+                    <span asp-validation-for="CommanditaireNom" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CommanditaireCourriel" class="form-label"></label>
+                    <input asp-for="CommanditaireCourriel" class="form-control" aria-required="true" />
+                    <span asp-validation-for="CommanditaireCourriel" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CommanditaireMessage" class="form-label"></label>
+                    <input asp-for="CommanditaireMessage" class="form-control" aria-required="true" />
+                    <span asp-validation-for="CommanditaireMessage" class="text-danger"></span>
+                </div>
+
+            </fieldset>
+        </div>
+        @Html.AntiForgeryToken()
     </div>
-</div>
+</form>

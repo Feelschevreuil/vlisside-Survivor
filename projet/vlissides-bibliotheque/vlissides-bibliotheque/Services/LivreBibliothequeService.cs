@@ -30,17 +30,18 @@ namespace vlissides_bibliotheque.Services
             {
                 livreBibliotheque = _mapper.Map<LivreBibliothequeDto>(livreBibliotheque),
                 prixEtatLivre = _mapper.Map<List<PrixEtatLivreDto>>(await _context.PrixEtatsLivres
-                    .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).OrderBy(p=> (int)p.EtatLivre).ToListAsync()),
+                    .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
+                    .OrderBy(p => (int)p.EtatLivre)
+                    .ToListAsync()),
                 auteurs = await _context.AuteursLivres.Include(a => a.Auteur)
                 .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
                 .Select(x => x.Auteur.GetNomComplet())
             .ToListAsync(),
             };
 
-            if (tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "")
-            {
+            if (string.IsNullOrEmpty(tuileVM.livreBibliotheque.PhotoCouverture))
                 tuileVM.livreBibliotheque.PhotoCouverture = GetImageParDefaut();
-            }
+
 
             var programmeEtudeNom = _context.CoursLivres.Include(c => c.Cours).ThenInclude(c => c.ProgrammeEtude)
                 .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).FirstOrDefault();
@@ -55,7 +56,7 @@ namespace vlissides_bibliotheque.Services
         {
             List<TuileLivreBibliotequeVM> tuileInventaire = new();
 
-            foreach (int livre in _livreDAO.GetAll().Select(l=> l.LivreId))
+            foreach (int livre in _livreDAO.GetAll().Select(l => l.LivreId))
             {
                 tuileInventaire.Add(await GetTuileLivreBibliotequeVMs(livre));
             }
@@ -66,10 +67,10 @@ namespace vlissides_bibliotheque.Services
         public async Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeAccueil()
         {
             List<TuileLivreBibliotequeVM> tuileLivreBiblioteques = new();
-           
+
             List<int> list = _context.LivresBibliotheque
                .Take(4)
-               .Select(l=> l.LivreId)
+               .Select(l => l.LivreId)
                .ToList();
 
             foreach (int livre in list)
@@ -94,10 +95,8 @@ namespace vlissides_bibliotheque.Services
             .ToListAsync(),
             };
 
-            if (tuileVM.livreBibliotheque.PhotoCouverture == null || tuileVM.livreBibliotheque.PhotoCouverture == "")
-            {
+            if (string.IsNullOrEmpty(tuileVM.livreBibliotheque.PhotoCouverture))
                 tuileVM.livreBibliotheque.PhotoCouverture = GetImageParDefaut();
-            }
 
             var programmeEtudeNom = _context.CoursLivres.Include(c => c.Cours).ThenInclude(c => c.ProgrammeEtude)
                 .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).FirstOrDefault();

@@ -13,7 +13,7 @@ namespace vlissides_bibliotheque.DAO
         }
         public ProgrammeEtude GetById(int id)
         {
-            return _context.ProgrammesEtudes.Single(p=> p.ProgrammeEtudeId == id);
+            return _context.ProgrammesEtudes.SingleOrDefault(p=> p.ProgrammeEtudeId == id);
         }
 
         public IEnumerable<ProgrammeEtude> GetAll()

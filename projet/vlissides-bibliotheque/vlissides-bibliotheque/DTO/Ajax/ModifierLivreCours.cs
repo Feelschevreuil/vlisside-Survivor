@@ -7,7 +7,7 @@ using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.DTO.Ajax
 {
-    public class ModifierLivreCours : ModificationLivreVM
+    public class ModifierLivreCours : AjoutEditLivreVM
     {
         public List<int> Cours { get; set; }
 

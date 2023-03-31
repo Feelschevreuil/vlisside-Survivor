@@ -24,7 +24,7 @@ namespace vlissides_bibliotheque.DAO
 
         public Auteur GetById(int id)
         {
-            return _context.Auteurs.Single(a=>a.AuteurId == id);
+            return _context.Auteurs.SingleOrDefault(a=>a.AuteurId == id);
         }
 
         public bool Insert(Auteur auteur)

@@ -23,7 +23,7 @@ namespace vlissides_bibliotheque.DAO
 
         public LivreBibliotheque GetById(int id)
         {
-            return _context.LivresBibliotheque.Single(livre => livre.LivreId == id);
+            return _context.LivresBibliotheque.Include(l=> l.MaisonEdition).SingleOrDefault(livre => livre.LivreId == id);
         }
 
         public IEnumerable<LivreBibliotheque> GetAll()
