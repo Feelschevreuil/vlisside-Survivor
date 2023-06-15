@@ -13,7 +13,7 @@ namespace vlissides_bibliotheque.Services.Interface
 
         Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeInventaire();
 
-        Task<LivreDetailVM> GetLivreDetailVM(int livreBibliothequeId);
+        LivreDetailVM GetLivreDetailVM(int livreBibliothequeId);
 
         string GetImageParDefaut();
     }

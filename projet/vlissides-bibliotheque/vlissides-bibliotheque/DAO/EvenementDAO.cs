@@ -1,11 +1,6 @@
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.Models.Achat;
-using vlissides_bibliotheque.Services;
-using vlissides_bibliotheque.Extentions;
-using vlissides_bibliotheque.Enums;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using vlissides_bibliotheque.DAO.Interface;
 
 namespace vlissides_bibliotheque.DAO

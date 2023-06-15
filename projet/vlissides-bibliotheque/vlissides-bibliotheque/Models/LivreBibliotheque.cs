@@ -18,6 +18,8 @@ namespace vlissides_bibliotheque.Models
         [DisplayName("Maison d'éditions")]
         public MaisonEdition MaisonEdition { get; set; }
 
+        public string PrixJson { get; set; }
+
         [Required]
         [Isbn]
         public string Isbn { get; set; }
@@ -39,5 +41,8 @@ namespace vlissides_bibliotheque.Models
         [DataType(DataType.DateTime)]
         [DisplayName("Date de publication")]
         public DateTime DatePublication { get; set; }
+
+        public virtual List<AuteurLivre> Auteurs { get; set; }
+        public virtual List<CoursLivre> Cours { get; set; }
     }
 }

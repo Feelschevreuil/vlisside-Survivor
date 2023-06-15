@@ -49,7 +49,6 @@ namespace vlissides_bibliotheque
             builder.Services.AddScoped<IEvenementVM, EvenementService>();
             builder.Services.AddScoped<ICheckedBox,CheckedBox>();
             builder.Services.AddScoped<IDropDownList,ListDropDown>();
-            builder.Services.AddScoped<IPrix,PrixService>();
             builder.Services.AddScoped<IUtilisateur,UtilisateurService>();
             builder.Services.AddScoped<ILivreEtudiant,LivreEtudiantService>();
 
@@ -59,7 +58,6 @@ namespace vlissides_bibliotheque
             
             builder.Services.AddScoped<IDAO<LivreBibliotheque>, LivresBibliothequeDAO>();
             builder.Services.AddScoped<IDAO<Evenement>, EvenementDAO>();
-            builder.Services.AddScoped<IDAO<PrixEtatLivre>, PrixEtatLivreDAO>();
             builder.Services.AddScoped<IDAO<ProgrammeEtude>, ProgrammeEtudeDAO>();
             builder.Services.AddScoped<IDAO<Cours>, CoursDAO>();
             builder.Services.AddScoped<IDAOEtudiant<Etudiant>, EtudiantDAO>();

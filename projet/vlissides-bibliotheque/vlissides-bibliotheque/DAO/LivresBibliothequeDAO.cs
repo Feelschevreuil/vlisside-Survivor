@@ -23,12 +23,16 @@ namespace vlissides_bibliotheque.DAO
 
         public LivreBibliotheque GetById(int id)
         {
-            return _context.LivresBibliotheque.Include(l=> l.MaisonEdition).SingleOrDefault(livre => livre.LivreId == id);
+            return _context.LivresBibliotheque
+                .Include(l => l.Auteurs.Where(al=> al.LivreBibliothequeId == id))
+                .Include(l => l.Cours.Where(al=> al.LivreBibliothequeId == id))
+                .Include(l => l.MaisonEdition)
+                .SingleOrDefault(livre => livre.LivreId == id);
         }
 
         public IEnumerable<LivreBibliotheque> GetAll()
         {
-            return _context.LivresBibliotheque.Include(l=> l.MaisonEdition);
+            return _context.LivresBibliotheque.Include(l => l.MaisonEdition);
         }
 
         public bool Insert(LivreBibliotheque livre)

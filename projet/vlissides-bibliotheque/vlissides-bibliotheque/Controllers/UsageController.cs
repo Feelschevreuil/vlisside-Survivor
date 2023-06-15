@@ -62,9 +62,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult MaBoutique()
         {
-            List<LivreEtudiant> inventaireUnEtudiant =_livreEtudiantService.GetAllLivreEtudiant(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            
-            return View(inventaireUnEtudiant);
+            return View(_livreEtudiantService.GetAllLivreEtudiant(User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         [Route("Usage/ajouter")]
@@ -165,8 +163,7 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                LivreEtudiant livreEtudiant = _livreEtudiantService.GetLivreByEtudiantId(userId);
+                LivreEtudiant livreEtudiant = _livreEtudiantService.GetLivreByEtudiantId(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
                 if (livreEtudiant != null || User.IsInRole(RolesName.Admin))
                 {

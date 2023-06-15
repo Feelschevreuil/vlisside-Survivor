@@ -23,10 +23,9 @@ namespace vlissides_bibliotheque.Controllers
         private readonly ILivreBibliotheque _livreService;
         private readonly ICheckedBox _CheckedBox;
         private readonly IDropDownList _dropDownList;
-        private readonly IPrix _prix;
 
 
-        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IDAO<LivreBibliotheque> livreDAO, ICheckedBox checkedBox, IDropDownList dropDownList, IPrix prix, ILivreBibliotheque livreService, IDAO<Auteur> auteurDAO)
+        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IDAO<LivreBibliotheque> livreDAO, ICheckedBox checkedBox, IDropDownList dropDownList, ILivreBibliotheque livreService, IDAO<Auteur> auteurDAO)
         {
             _logger = logger;
             _context = context;
@@ -35,7 +34,6 @@ namespace vlissides_bibliotheque.Controllers
             _auteurDAO = auteurDAO;
             _CheckedBox = checkedBox;
             _dropDownList = dropDownList;
-            _prix = prix;
             _livreService = livreService;
         }
 
@@ -49,7 +47,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             if (_livreDAO.GetById(id) != null)
             {
-                return View(await _livreService.GetLivreDetailVM(id));
+                return View(_livreService.GetLivreDetailVM(id));
             }
 
             return Content("Ce livre n'existe pas dans la base de données.");
@@ -93,7 +91,7 @@ namespace vlissides_bibliotheque.Controllers
                 _livreDAO.Insert(nouveauLivreBibliothèque);
                 _livreDAO.Save();
 
-                if ((bool)form?.Cours.Any())
+                if (form.Cours.Any())
                 {
                     List<CoursLivre> nouveauCoursLivre = form.Cours.Select(c => new CoursLivre()
                     {
@@ -106,7 +104,7 @@ namespace vlissides_bibliotheque.Controllers
                     _context.SaveChanges();
                 }
 
-                if ((bool)form?.Auteurs.Any())
+                if (form.Auteurs.Any())
                 {
                     List<AuteurLivre> nouveauAuteurLivre = form.Auteurs.Select(a => new AuteurLivre()
                     {
@@ -118,7 +116,6 @@ namespace vlissides_bibliotheque.Controllers
                     _context.SaveChanges();
                 }
 
-                _context.PrixEtatsLivres.AddRange(_prix.AssocierPrixEtat(nouveauLivreBibliothèque, form));
                 _context.SaveChanges();
                 return View("succesAjoutLivre", nouveauLivreBibliothèque);
             }
@@ -142,7 +139,6 @@ namespace vlissides_bibliotheque.Controllers
             }
 
             LivreBibliotheque livreBibliothequeRechercher = _livreDAO.GetById(id.Value);
-            List<PrixEtatLivre> prixEtatLivre = _prix.GetPrixLivre(id.Value).Result.ToList();
 
             AjoutEditLivreVM ModifierLivre = new()
             {
@@ -154,14 +150,6 @@ namespace vlissides_bibliotheque.Controllers
                 Titre = livreBibliothequeRechercher.Titre,
                 Resume = livreBibliothequeRechercher.Resume,
                 Photo = livreBibliothequeRechercher.PhotoCouverture,
-                PossedeNeuf = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.NEUF) != null ? true : false,
-                PossedeNumerique = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE) != null ? true : false,
-                CheckBoxCours = _CheckedBox.GetCoursLivre(livreBibliothequeRechercher),
-                CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(livreBibliothequeRechercher),
-                PrixNeuf = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.NEUF)?.Prix,
-                PrixNumerique = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE)?.Prix,
-                PrixUsage = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.USAGE)?.Prix,
-                QuantiteUsagee = prixEtatLivre.SingleOrDefault(x => x.EtatLivre == EtatLivreEnum.USAGE)?.QuantiteUsage,
             };
 
             return View(ModifierLivre);
@@ -191,7 +179,6 @@ namespace vlissides_bibliotheque.Controllers
                 _livreDAO.Update(LivreBibliothèqueModifier);
                 _livreDAO.Save();
 
-                await _prix.UpdateLesPrix(LivreBibliothèqueModifier, form);
                 return View("succesModifierLivre", LivreBibliothèqueModifier);
             }
 

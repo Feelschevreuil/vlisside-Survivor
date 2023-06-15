@@ -28,7 +28,7 @@
     </div>
 
 
-    <div class="row col-12 justify-content-center" data-toggle="buttons" role="group">
+ @*   <div class="row col-12 justify-content-center" data-toggle="buttons" role="group">
         @foreach (var etat in Model.prixEtatLivre.Select(p => p.EtatLivre))
         {
             <label class="btn btn-rounded bg-top text-white col" id="@etat-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,@etat)">
@@ -44,7 +44,7 @@
                 <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prix.ToString(".00")$</p>
             </div>
         }
-    </div>
+    </div>*@
 
     <div class="d-flex flex-row-reverse">
     <div class="form-group col-2">

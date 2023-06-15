@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
-using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.ViewModels;
@@ -25,31 +23,21 @@ namespace vlissides_bibliotheque.Services
         public async Task<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs(int livreBibliothequeId)
         {
             LivreBibliotheque livreBibliotheque = _livreDAO.GetById(livreBibliothequeId);
+            LivreBibliothequeDto livre = _mapper.Map<LivreBibliothequeDto>(livreBibliotheque);
 
             TuileLivreBibliotequeVM tuileVM = new()
             {
-                livreBibliotheque = _mapper.Map<LivreBibliothequeDto>(livreBibliotheque),
-                prixEtatLivre = _mapper.Map<List<PrixEtatLivreDto>>(await _context.PrixEtatsLivres
-                    .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
-                    .OrderBy(p => (int)p.EtatLivre)
-                    .ToListAsync()),
-                auteurs = await _context.AuteursLivres.Include(a => a.Auteur)
-                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
-                .Select(x => x.Auteur.GetNomComplet())
-            .ToListAsync(),
+                livreBibliotheque = livre,
+                auteurs = livreBibliotheque.Auteurs.Select(a=> a.Auteur.NomComplet).ToList(),
+                programmeEtudeNom = livreBibliotheque.Cours.First().Cours.Nom,
+                Quantite = livre.prix.QuantiteUsage
             };
+
 
             if (string.IsNullOrEmpty(tuileVM.livreBibliotheque.PhotoCouverture))
                 tuileVM.livreBibliotheque.PhotoCouverture = GetImageParDefaut();
 
-
-            var programmeEtudeNom = _context.CoursLivres.Include(c => c.Cours).ThenInclude(c => c.ProgrammeEtude)
-                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).FirstOrDefault();
-
-            if (programmeEtudeNom != null) { tuileVM.programmeEtudeNom = programmeEtudeNom.Cours.ProgrammeEtude.Nom; }
-            else { tuileVM.programmeEtudeNom = ""; }
-
-            return tuileVM;
+            return  tuileVM;
         }
 
         public async Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeInventaire()
@@ -80,29 +68,19 @@ namespace vlissides_bibliotheque.Services
             return tuileLivreBiblioteques;
         }
 
-        public async Task<LivreDetailVM> GetLivreDetailVM(int livreBibliothequeId)
+        public LivreDetailVM GetLivreDetailVM(int livreBibliothequeId)
         {
             LivreBibliotheque livreBibliotheque = _livreDAO.GetById(livreBibliothequeId);
 
             LivreDetailVM tuileVM = new()
             {
                 livreBibliotheque = _mapper.Map<LivreBibliothequeDto>(livreBibliotheque),
-                prixEtatLivre = _mapper.Map<List<PrixEtatLivreDto>>(await _context.PrixEtatsLivres
-                    .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).OrderBy(p => (int)p.EtatLivre).ToListAsync()),
-                auteurs = await _context.AuteursLivres.Include(a => a.Auteur)
-                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
-                .Select(x => x.Auteur.GetNomComplet())
-            .ToListAsync(),
+                auteurs = livreBibliotheque.Auteurs.Select(a=> a.Auteur.NomComplet).ToList(),
+                programmeEtudeNom = livreBibliotheque.Cours.FirstOrDefault()?.Cours.ProgrammeEtude.Nom
             };
 
             if (string.IsNullOrEmpty(tuileVM.livreBibliotheque.PhotoCouverture))
                 tuileVM.livreBibliotheque.PhotoCouverture = GetImageParDefaut();
-
-            var programmeEtudeNom = _context.CoursLivres.Include(c => c.Cours).ThenInclude(c => c.ProgrammeEtude)
-                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId).FirstOrDefault();
-
-            if (programmeEtudeNom != null) { tuileVM.programmeEtudeNom = programmeEtudeNom.Cours.ProgrammeEtude.Nom; }
-            else { tuileVM.programmeEtudeNom = ""; }
 
             return tuileVM;
         }

@@ -12,8 +12,8 @@ using vlissides_bibliotheque.Data;
 namespace vlissides_bibliotheque.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221121195939_paiementFix")]
-    partial class paiementFix
+    [Migration("20230615003229_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -264,8 +264,8 @@ namespace vlissides_bibliotheque.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdresseId"), 1L, 1);
 
-                    b.Property<int>("App")
-                        .HasColumnType("int");
+                    b.Property<string>("App")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CodePostal")
                         .IsRequired()
@@ -333,34 +333,6 @@ namespace vlissides_bibliotheque.Migrations
                     b.ToTable("AuteursLivres");
                 });
 
-            modelBuilder.Entity("vlissides_bibliotheque.Models.CommandeEtudiant", b =>
-                {
-                    b.Property<int>("FactureEtudiantId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrixEtatLivreId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EtatLivre")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Isbn")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("PrixUnitaireGele")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Quantite")
-                        .HasColumnType("int");
-
-                    b.HasKey("FactureEtudiantId", "PrixEtatLivreId");
-
-                    b.HasIndex("PrixEtatLivreId");
-
-                    b.ToTable("CommandesEtudiants");
-                });
-
             modelBuilder.Entity("vlissides_bibliotheque.Models.Commanditaire", b =>
                 {
                     b.Property<int>("CommanditaireId")
@@ -409,11 +381,13 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<int>("ProgrammeEtudeId")
                         .HasColumnType("int");
@@ -442,24 +416,19 @@ namespace vlissides_bibliotheque.Migrations
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.CoursLivre", b =>
                 {
-                    b.Property<int>("CoursLivreId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoursLivreId"), 1L, 1);
-
-                    b.Property<bool>("Complementaire")
-                        .HasColumnType("bit");
-
                     b.Property<int>("CoursId")
                         .HasColumnType("int");
 
                     b.Property<int>("LivreBibliothequeId")
                         .HasColumnType("int");
 
-                    b.HasKey("CoursLivreId");
+                    b.Property<bool>("Complementaire")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("CoursId");
+                    b.Property<int>("CoursLivreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CoursId", "LivreBibliothequeId");
 
                     b.HasIndex("LivreBibliothequeId");
 
@@ -479,55 +448,6 @@ namespace vlissides_bibliotheque.Migrations
                     b.HasIndex("ProfesseurId");
 
                     b.ToTable("CoursProfesseurs");
-                });
-
-            modelBuilder.Entity("vlissides_bibliotheque.Models.Evaluation", b =>
-                {
-                    b.Property<int>("EvaluationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EvaluationId"), 1L, 1);
-
-                    b.Property<string>("Commentaire")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Etoiles")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EtudiantId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Titre")
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("EvaluationId");
-
-                    b.HasIndex("EtudiantId");
-
-                    b.ToTable("Evaluations");
-                });
-
-            modelBuilder.Entity("vlissides_bibliotheque.Models.EvaluationLivre", b =>
-                {
-                    b.Property<int>("EvaluationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LivreBibliothequeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EvaluationId", "LivreBibliothequeId");
-
-                    b.HasIndex("LivreBibliothequeId");
-
-                    b.ToTable("EvaluationsLivres");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Evenement", b =>
@@ -568,48 +488,6 @@ namespace vlissides_bibliotheque.Migrations
                     b.ToTable("Evenements");
                 });
 
-            modelBuilder.Entity("vlissides_bibliotheque.Models.FactureEtudiant", b =>
-                {
-                    b.Property<int>("FactureEtudiantId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FactureEtudiantId"), 1L, 1);
-
-                    b.Property<string>("AdresseLivraison")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClientSecret")
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.Property<DateTime>("DateFacturation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EtudiantId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PaymentIntentId")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
-
-                    b.Property<int>("Statut")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Tps")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Tvq")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("FactureEtudiantId");
-
-                    b.HasIndex("EtudiantId");
-
-                    b.ToTable("FacturesEtudiants");
-                });
-
             modelBuilder.Entity("vlissides_bibliotheque.Models.LivreBibliotheque", b =>
                 {
                     b.Property<int>("LivreId")
@@ -629,6 +507,10 @@ namespace vlissides_bibliotheque.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PhotoCouverture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrixJson")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -717,33 +599,6 @@ namespace vlissides_bibliotheque.Migrations
                     b.ToTable("MaisonsEdition");
                 });
 
-            modelBuilder.Entity("vlissides_bibliotheque.Models.PrixEtatLivre", b =>
-                {
-                    b.Property<int>("PrixEtatLivreId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrixEtatLivreId"), 1L, 1);
-
-                    b.Property<int>("EtatLivre")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LivreBibliothequeId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Prix")
-                        .HasColumnType("float");
-
-                    b.Property<int>("QuantiteUsage")
-                        .HasColumnType("int");
-
-                    b.HasKey("PrixEtatLivreId");
-
-                    b.HasIndex("LivreBibliothequeId");
-
-                    b.ToTable("PrixEtatsLivres");
-                });
-
             modelBuilder.Entity("vlissides_bibliotheque.Models.Professeur", b =>
                 {
                     b.Property<int>("ProfesseurId")
@@ -755,6 +610,9 @@ namespace vlissides_bibliotheque.Migrations
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumeroProfesseur")
+                        .HasColumnType("int");
 
                     b.Property<string>("Prenom")
                         .IsRequired()
@@ -780,7 +638,8 @@ namespace vlissides_bibliotheque.Migrations
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("ProgrammeEtudeId");
 
@@ -826,16 +685,16 @@ namespace vlissides_bibliotheque.Migrations
                             Id = "83c10a40-c3f6-49bd-b230-f6975cc7befd",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d67bb86f-d158-4f17-8142-49f7c65c082c",
-                            Email = "admin@cegep-connaissance-aleatoire.qc.ca",
+                            Email = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            NormalizedUserName = "ADMIN@CEGEP-CONNAISSANCE-ALEATOIRE.QC.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMULLh300qyfsTBd6dET3I4gKcskIv3VID3gAJ+S5CvIqwxcwoTyUxYwnFmI6dzIGA==",
+                            NormalizedEmail = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.QC.CA",
+                            NormalizedUserName = "ADMINALEATOIRE@COLLEGECONNAISSANCEALEATOIRE.QC.CA",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFUdkXS8wC+1GH2m3oAYaQ8LzEmAEEvxq14ApUFVeuDz+1DX0r4wEBn69CwsPHxD5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d0c6315c-aa62-460f-8f59-09ecfcb4f70d",
+                            SecurityStamp = "a6736028-37a0-41bf-acfd-2ee72393de08",
                             TwoFactorEnabled = false,
-                            UserName = "admin@cegep-connaissance-aleatoire.qc.ca",
+                            UserName = "AdminAleatoire@CollegeConnaissanceAleatoire.qc.ca",
                             Nom = "John",
                             Prenom = "Gordon"
                         });
@@ -849,6 +708,9 @@ namespace vlissides_bibliotheque.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("AnneeParcours")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumeroEtudiant")
                         .HasColumnType("int");
 
                     b.Property<int>("ProgrammeEtudeId")
@@ -926,13 +788,13 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("vlissides_bibliotheque.Models.AuteurLivre", b =>
                 {
                     b.HasOne("vlissides_bibliotheque.Models.Auteur", "Auteur")
-                        .WithMany()
+                        .WithMany("Livres")
                         .HasForeignKey("AuteurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("vlissides_bibliotheque.Models.LivreBibliotheque", "LivreBibliotheque")
-                        .WithMany()
+                        .WithMany("Auteurs")
                         .HasForeignKey("LivreBibliothequeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -940,25 +802,6 @@ namespace vlissides_bibliotheque.Migrations
                     b.Navigation("Auteur");
 
                     b.Navigation("LivreBibliotheque");
-                });
-
-            modelBuilder.Entity("vlissides_bibliotheque.Models.CommandeEtudiant", b =>
-                {
-                    b.HasOne("vlissides_bibliotheque.Models.FactureEtudiant", "FactureEtudiant")
-                        .WithMany()
-                        .HasForeignKey("FactureEtudiantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("vlissides_bibliotheque.Models.PrixEtatLivre", "PrixEtatLivre")
-                        .WithMany()
-                        .HasForeignKey("PrixEtatLivreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FactureEtudiant");
-
-                    b.Navigation("PrixEtatLivre");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Cours", b =>
@@ -994,15 +837,15 @@ namespace vlissides_bibliotheque.Migrations
             modelBuilder.Entity("vlissides_bibliotheque.Models.CoursLivre", b =>
                 {
                     b.HasOne("vlissides_bibliotheque.Models.Cours", "Cours")
-                        .WithMany()
+                        .WithMany("Livres")
                         .HasForeignKey("CoursId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("vlissides_bibliotheque.Models.LivreBibliotheque", "LivreBibliotheque")
-                        .WithMany()
+                        .WithMany("Cours")
                         .HasForeignKey("LivreBibliothequeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cours");
@@ -1029,36 +872,6 @@ namespace vlissides_bibliotheque.Migrations
                     b.Navigation("Professeur");
                 });
 
-            modelBuilder.Entity("vlissides_bibliotheque.Models.Evaluation", b =>
-                {
-                    b.HasOne("vlissides_bibliotheque.Models.Etudiant", "Etudiant")
-                        .WithMany()
-                        .HasForeignKey("EtudiantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Etudiant");
-                });
-
-            modelBuilder.Entity("vlissides_bibliotheque.Models.EvaluationLivre", b =>
-                {
-                    b.HasOne("vlissides_bibliotheque.Models.Evaluation", "Evaluation")
-                        .WithMany()
-                        .HasForeignKey("EvaluationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("vlissides_bibliotheque.Models.LivreBibliotheque", "LivreBibliotheque")
-                        .WithMany()
-                        .HasForeignKey("LivreBibliothequeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Evaluation");
-
-                    b.Navigation("LivreBibliotheque");
-                });
-
             modelBuilder.Entity("vlissides_bibliotheque.Models.Evenement", b =>
                 {
                     b.HasOne("vlissides_bibliotheque.Models.Commanditaire", "Commanditaire")
@@ -1068,17 +881,6 @@ namespace vlissides_bibliotheque.Migrations
                         .IsRequired();
 
                     b.Navigation("Commanditaire");
-                });
-
-            modelBuilder.Entity("vlissides_bibliotheque.Models.FactureEtudiant", b =>
-                {
-                    b.HasOne("vlissides_bibliotheque.Models.Etudiant", "Etudiant")
-                        .WithMany()
-                        .HasForeignKey("EtudiantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Etudiant");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.LivreBibliotheque", b =>
@@ -1101,17 +903,6 @@ namespace vlissides_bibliotheque.Migrations
                         .IsRequired();
 
                     b.Navigation("Etudiant");
-                });
-
-            modelBuilder.Entity("vlissides_bibliotheque.Models.PrixEtatLivre", b =>
-                {
-                    b.HasOne("vlissides_bibliotheque.Models.LivreBibliotheque", "LivreBibliotheque")
-                        .WithMany()
-                        .HasForeignKey("LivreBibliothequeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LivreBibliotheque");
                 });
 
             modelBuilder.Entity("vlissides_bibliotheque.Models.Utilisateur", b =>
@@ -1146,6 +937,23 @@ namespace vlissides_bibliotheque.Migrations
                     b.Navigation("Adresse");
 
                     b.Navigation("ProgrammeEtude");
+                });
+
+            modelBuilder.Entity("vlissides_bibliotheque.Models.Auteur", b =>
+                {
+                    b.Navigation("Livres");
+                });
+
+            modelBuilder.Entity("vlissides_bibliotheque.Models.Cours", b =>
+                {
+                    b.Navigation("Livres");
+                });
+
+            modelBuilder.Entity("vlissides_bibliotheque.Models.LivreBibliotheque", b =>
+                {
+                    b.Navigation("Auteurs");
+
+                    b.Navigation("Cours");
                 });
 #pragma warning restore 612, 618
         }

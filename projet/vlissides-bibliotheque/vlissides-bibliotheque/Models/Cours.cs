@@ -32,5 +32,7 @@ namespace vlissides_bibliotheque.Models
         [Range(1,3, ErrorMessage ="L'année du parcours doit se situer entre 1 et 3")]
         [DisplayName("Année")]
         public int AnneeParcours { get; set; }
+
+        public virtual List<CoursLivre> Livres { get; set; }
     }
 }

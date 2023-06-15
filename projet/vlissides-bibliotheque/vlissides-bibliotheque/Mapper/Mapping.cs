@@ -49,10 +49,6 @@ namespace vlissides_bibliotheque.Mapper
               .ForMember(dest => dest.CommanditaireCourriel, opt => opt.MapFrom(src => src.Commanditaire.Courriel));
             #endregion
 
-            #region PrixEtatLivre
-            CreateMap<PrixEtatLivre, PrixEtatLivreDto>();
-            #endregion
-
             #region Cours
             CreateMap<Cours, CoursDto>()
               .ForMember(dest => dest.ProgrammeEtudeNom, opt => opt.MapFrom(src => src.ProgrammeEtude.Nom));

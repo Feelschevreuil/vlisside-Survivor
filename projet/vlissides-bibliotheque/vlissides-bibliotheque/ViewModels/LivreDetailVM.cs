@@ -9,8 +9,6 @@ namespace vlissides_bibliotheque.ViewModels
 
         public string? programmeEtudeNom;
 
-        public List<PrixEtatLivreDto>? prixEtatLivre;
-
         [DisplayName("Quantité")]
         public int Quantite { get; set; }
 

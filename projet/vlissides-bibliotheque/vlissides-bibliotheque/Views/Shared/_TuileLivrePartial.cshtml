@@ -5,74 +5,73 @@
 }
 
 
-@if (Model.prixEtatLivre != null && Model.prixEtatLivre.Any())
-{
-    <div class="col-12 col-md-3 col-sm-3 mb-3 mt-3">
-        <div class="card shadow border-0 h-100 tuile-livre mt-2 p-2">
-            <div class="position-relative text-center">
 
-                @if (User.IsInRole(RolesName.Admin))
-                {
-                    <div class="row justify-content-between mt-1">
-                        <a class="col-2" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
-                            <img class="tableau" src="~/img/pencil.svg" alt="Modifier">
-                        </a>
+<div class="col-12 col-md-3 col-sm-3 mb-3 mt-3">
+    <div class="card shadow border-0 h-100 tuile-livre mt-2 p-2">
+        <div class="position-relative text-center">
 
-                        <a method="post" class="col-2" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
-                            <p>
-                                <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="image" src="~/img/delete-rouge.svg" />
-                            </p>
-                        </a>
-                    </div>
-                }
+            @if (User.IsInRole(RolesName.Admin))
+            {
+                <div class="row justify-content-between mt-1">
+                    <a class="col-2" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
+                        <img class="tableau" src="~/img/pencil.svg" alt="Modifier">
+                    </a>
 
-                <div class="row">
-                    <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.livreBibliotheque.LivreId">
-                        <img class="mx-auto image-livre" src="@Model.livreBibliotheque?.PhotoCouverture" alt="PhotoLivre">
+                    <a method="post" class="col-2" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
+                        <p>
+                            <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="image" src="~/img/delete-rouge.svg" />
+                        </p>
                     </a>
                 </div>
-            
-                <div class="row mx-auto col-6" id="cercleJauneN-@livreIdCourant">
-                    <div hidden id="Spinner-@livreIdCourant" class="spinner-grow spinner-grow-sm mb-1 mt-1 mx-auto" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <span id="PrixLivreId-@livreIdCourant" class="rounded-circle prix">@Model.prixEtatLivre.First().Prix.ToString(".00")$</span>
-                </div>
+            }
 
-                <div class="o-switch btn-group w-100 mt-1 row-cols-auto row" data-toggle="buttons" role="group">
-                    @foreach (var etat in Model.prixEtatLivre.Select(p => p.EtatLivre))
+            <div class="row">
+                <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.livreBibliotheque.LivreId">
+                    <img class="mx-auto image-livre" src="@Model.livreBibliotheque?.PhotoCouverture" alt="PhotoLivre">
+                </a>
+            </div>
+
+            @*                <div class="row mx-auto col-6" id="cercleJauneN-@livreIdCourant">
+            <div hidden id="Spinner-@livreIdCourant" class="spinner-grow spinner-grow-sm mb-1 mt-1 mx-auto" role="status">
+            <span class="visually-hidden">Loading...</span>
+            </div>
+            <span id="PrixLivreId-@livreIdCourant" class="rounded-circle prix">@Model.prixEtatLivre.First().Prix.ToString(".00")$</span>
+            </div>*@
+
+            @*                <div class="o-switch btn-group w-100 mt-1 row-cols-auto row" data-toggle="buttons" role="group">
+            @foreach (var etat in Model.prixEtatLivre.Select(p => p.EtatLivre))
+            {
+            <label class="btn btn-rounded bg-top text-white col" id="@etat.ToString()-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'@etat')">
+            <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NEUF" onclick="ChangerPrix(@((int)etat), @livreIdCourant);"> @etat
+            </label>
+            }
+            </div>*@
+
+            <div class="card border-0 mt-1">
+                <h5 class="card-title mt-3"><strong>@Model.livreBibliotheque.Titre</strong></h5>
+                <p class="card-text mb-1">
+                    <span>De </span>
+                    @if (Model.auteurs != null && Model.auteurs.Any())
                     {
-                        <label class="btn btn-rounded bg-top text-white col" id="@etat.ToString()-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'@etat')">
-                            <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NEUF" onclick="ChangerPrix(@((int)etat), @livreIdCourant);"> @etat
-                        </label>
+                        <span>@string.Join(", ", Model.auteurs)</span>
                     }
-                </div>
 
-                <div class="card border-0 mt-1">
-                    <h5 class="card-title mt-3"><strong>@Model.livreBibliotheque.Titre</strong></h5>
-                    <p class="card-text mb-1">
-                        <span>De </span>
-                        @if (Model.auteurs != null && Model.auteurs.Any())
-                        {
-                            <span>@string.Join(", ", Model.auteurs)</span>
-                        }
+                </p>
+                <p class="card-text mb-1">Maison @Model.livreBibliotheque.MaisonEditionNom</p>
+                <p class="card-text mb-1">ISBN: @Model.livreBibliotheque.Isbn</p>
+                <p class="card-text mb-1">@Model.livreBibliotheque.DatePublication.Year</p>
+            </div>
 
-                    </p>
-                    <p class="card-text mb-1">Maison @Model.livreBibliotheque.MaisonEditionNom</p>
-                    <p class="card-text mb-1">ISBN: @Model.livreBibliotheque.Isbn</p>
-                    <p class="card-text mb-1">@Model.livreBibliotheque.DatePublication.Year</p>
-                </div>
+        </div>
 
+
+        <div class="d-flex flex-column mt-auto">
+            <div class="mt-5">
+                <span class="badge alert-primary float-end"><small>@Model.programmeEtudeNom</small> </span>
             </div>
 
 
-            <div class="d-flex flex-column mt-auto">
-                <div class="mt-5">
-                    <span class="badge alert-primary float-end"><small>@Model.programmeEtudeNom</small> </span>
-                </div>
-
-
-                @* @if (User != null)
+            @* @if (User != null)
             {
             if (User.Identity.IsAuthenticated)
             {
@@ -89,7 +88,6 @@
             }
             }
             }*@
-            </div>
         </div>
     </div>
-}
+</div>

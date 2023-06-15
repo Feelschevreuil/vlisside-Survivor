@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.Validation;
+﻿using System.ComponentModel;
 
 namespace vlissides_bibliotheque.DTO
 {
@@ -15,6 +12,8 @@ namespace vlissides_bibliotheque.DTO
         public string MaisonEditionNom { get; set; }
 
         public string Isbn { get; set; }
+
+        public PrixEtatLivreDto prix { get; set; }
 
         public string Titre { get; set; }
         [DisplayName("Description")]

@@ -32,7 +32,7 @@ namespace vlissides_bibliotheque.Extentions
             foreach (AuteurLivre auteur in auteursDuLivre)
             {
                 Auteur auteur1 = auteurs.Find(x => x.AuteurId == auteur.AuteurId);
-                nomAuteurs.Add(auteur1.GetNomComplet());
+                nomAuteurs.Add(auteur1.NomComplet);
             };
 
             return string.Join(" ", nomAuteurs);

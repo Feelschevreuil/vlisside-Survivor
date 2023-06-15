@@ -47,7 +47,6 @@ namespace vlissides_bibliotheque.Controllers
         private readonly ICheckedBox _CheckedBox;
         private readonly IDropDownList _dropDownList;
         private readonly IUtilisateur _utilisateur;
-        private readonly IPrix _prix;
         private readonly IMapper _mapper;
 
         public TableauDeBordController(
@@ -61,7 +60,6 @@ namespace vlissides_bibliotheque.Controllers
             ICheckedBox CheckedBox,
             IDropDownList dropDownList,
             IUtilisateur utilisateur,
-            IPrix prix,
             IMapper mapper
         )
         {
@@ -75,7 +73,6 @@ namespace vlissides_bibliotheque.Controllers
             _CheckedBox = CheckedBox;
             _dropDownList = dropDownList;
             _utilisateur = utilisateur;
-            _prix = prix;
             _mapper = mapper;
         }
 
@@ -353,7 +350,6 @@ namespace vlissides_bibliotheque.Controllers
                     _context.SaveChanges();
                 }
 
-                await _context.PrixEtatsLivres.AddRangeAsync(_prix.AssocierPrixEtat(nouveauLivreBibliothèque, vm));
                 _context.SaveChanges();
                 vm.Id = nouveauLivreBibliothèque.LivreId;
                 vm.DateFormater = vm.DatePublication.ToString("dd MMMM yyyy");
@@ -380,11 +376,6 @@ namespace vlissides_bibliotheque.Controllers
                 return NotFound();
             }
 
-            List<PrixEtatLivre> prixEtatLivre = _context.PrixEtatsLivres
-                .ToList()
-                .FindAll(x => x.LivreBibliothequeId == livreBibliothequeRechercher.LivreId);
-
-
             AjoutEditLivreVM vm = new()
             {
                 IdDuLivre = livreBibliothequeRechercher.LivreId,
@@ -402,15 +393,6 @@ namespace vlissides_bibliotheque.Controllers
                 CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(livreBibliothequeRechercher)
 
             };
-
-            var prixNeuf = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NEUF);
-            var prixNumerique = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.NUMERIQUE);
-            var prixUsage = prixEtatLivre.Find(x => x.EtatLivre == EtatLivreEnum.USAGE);
-
-            if (prixNeuf != null) { vm.PrixNeuf = prixNeuf.Prix; } else { vm.PrixNeuf = 0; vm.PossedeNeuf = false; };
-            if (prixNumerique != null) { vm.PrixNumerique = prixNumerique.Prix; } else { vm.PrixNumerique = 0; vm.PossedeNumerique = false; };
-            if (prixUsage != null) { vm.PrixUsage = prixUsage.Prix; vm.QuantiteUsagee = prixUsage.QuantiteUsage; } else { vm.PrixUsage = 0; vm.QuantiteUsagee = 0; vm.PossedeUsagee = false; };
-
 
             return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", vm);
         }
@@ -442,7 +424,6 @@ namespace vlissides_bibliotheque.Controllers
                 _context.SaveChanges();
 
 
-                await _prix.UpdateLesPrix(LivreBibliothèqueModifier, form);
                 form.DateFormater = form.DatePublication.ToString("dd MMMM yyyy");
                 return Json(form);
             }
@@ -850,19 +831,6 @@ namespace vlissides_bibliotheque.Controllers
             _context.Evenements.Remove(promotionSupprimer);
             _context.SaveChanges();
             return Ok();
-        }
-
-
-        //------------------Commandes------------------
-
-        [HttpGet]
-        public IActionResult Commandes()
-        {
-            List<FactureEtudiant> commandes = _context.FacturesEtudiants
-                .Include(commande => commande.Etudiant)
-                .ToList();
-
-            return PartialView("~/Views/TableauDeBord/Commandes.cshtml", commandes);
         }
     }
 }
