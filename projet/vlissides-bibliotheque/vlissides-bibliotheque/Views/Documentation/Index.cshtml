@@ -12,14 +12,15 @@
         <nav id="documentation" class="h-100 flex-column align-items-stretch pe-4 border-end">
             <nav class="nav nav-pills flex-column">
                 @foreach (DocumentationVM doc in Model) {
-                    @if (!doc.IsAdminReserved || User.IsInRole(RolesName.Admin))
+                    @if (!doc.IsAdminReserved || User.IsInRole(Constante.Admin))
                     {
                         <a class="nav-link fw-bold" href="#section-@indexFonctionnalite">@doc.Titre</a>
 
                         <nav class="nav nav-pills flex-column">
                             @foreach (SectionDocumentationVM sectionDoc in doc.Sections)
                             {
-                                @if (!sectionDoc.IsAdminReserved || User.IsInRole(RolesName.Admin)) {
+                                @if (!sectionDoc.IsAdminReserved || User.IsInRole(Constante.Admin))
+                                {
                                     <a class="nav-link ms-3 my-1" href="#section-@indexFonctionnalite-@indexSection">@sectionDoc.Titre</a>
                                     indexSection++;
                                 }
@@ -39,7 +40,8 @@
                 indexSection = 0;
             }
             @foreach (DocumentationVM doc in Model) {
-                @if (!doc.IsAdminReserved || User.IsInRole(RolesName.Admin)) {
+                @if (!doc.IsAdminReserved || User.IsInRole(Constante.Admin))
+                {
                     <div class="shadow rounded m-3 mb-5 p-4" id="section-@indexFonctionnalite">
                         <h2 class="text-primary">@doc.Titre</h2>
                         <p>@doc.Description</p>
@@ -47,7 +49,8 @@
                         <hr>
 
                         @foreach (SectionDocumentationVM sectionDoc in doc.Sections) {
-                            @if (!sectionDoc.IsAdminReserved || User.IsInRole(RolesName.Admin)) {
+                            @if (!sectionDoc.IsAdminReserved || User.IsInRole(Constante.Admin))
+                            {
                                 <div class="mt-4 p-2" id="section-@indexFonctionnalite-@indexSection">
                                     <h5 class="text-primary">@sectionDoc.Titre</h5>
                                     @if (!string.IsNullOrEmpty(sectionDoc.NB))

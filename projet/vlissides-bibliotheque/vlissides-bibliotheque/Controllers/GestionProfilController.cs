@@ -2,23 +2,18 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.Commun;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO.Ajax;
 using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.Services;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.ViewModels;
-using static Humanizer.In;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -66,12 +61,12 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
-            if (User.IsInRole(RolesName.Etudiant))
+            if (User.IsInRole(Constante.Etudiant))
             {
                 return View(_utilisateur.GetEtudiantProfilVM(await GetEtudiantCourantAsync()));
             }
 
-            if (User.IsInRole(RolesName.Admin))
+            if (User.IsInRole(Constante.Admin))
             {
                 return View(_utilisateur.GetAdminProfilVM(await GetAdminCourantAsync()));
             }
@@ -83,7 +78,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<IActionResult> IndexAsync(GestionProfilVM vm)
         {
-            if (User.IsInRole(RolesName.Etudiant))
+            if (User.IsInRole(Constante.Etudiant))
             {
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
                 ModelState.Remove(nameof(vm.Provinces));
@@ -103,7 +98,7 @@ namespace vlissides_bibliotheque.Controllers
                 return View(vm);
             }
 
-            if (User.IsInRole(RolesName.Admin))
+            if (User.IsInRole(Constante.Admin))
             {
                 ModelState.Remove(nameof(vm.ProgrammeEtudeId));
                 ModelState.Remove(nameof(vm.ProgrammeEtudes));
@@ -142,13 +137,13 @@ namespace vlissides_bibliotheque.Controllers
             return vm;
         }
 
-        [Authorize(Roles = RolesName.Etudiant)]
+        [Authorize(Roles = Constante.Etudiant)]
         private async Task<Etudiant> GetEtudiantCourantAsync()
         {
             return await _userManagerEtudiant.GetUserAsync(HttpContext.User);
         }
 
-        [Authorize(Roles = RolesName.Admin)]
+        [Authorize(Roles = Constante.Admin)]
         private async Task<Utilisateur> GetAdminCourantAsync()
         {
             return await _userManagerAdmin.GetUserAsync(HttpContext.User);

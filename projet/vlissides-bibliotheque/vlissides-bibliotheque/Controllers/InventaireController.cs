@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
-using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.DAO.Interface;
@@ -12,8 +10,8 @@ using vlissides_bibliotheque.DTO.Ajax;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using vlissides_bibliotheque.Commun;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -58,7 +56,7 @@ namespace vlissides_bibliotheque.Controllers
             return Content("Ce livre n'existe pas dans la base de données.");
         }
 
-        [Authorize(Roles = RolesName.Admin)]
+        [Authorize(Roles = Constante.Admin)]
         [HttpGet]
         public ActionResult Creer()
         {
@@ -71,7 +69,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(nouveauLivre);
         }
 
-        [Authorize(Roles = RolesName.Admin)]
+        [Authorize(Roles = Constante.Admin)]
         [HttpPost]
         public ActionResult Creer([FromBody] AjoutEditLivreVM form)
         {
@@ -133,7 +131,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
 
-        [Authorize(Roles = RolesName.Admin)]
+        [Authorize(Roles = Constante.Admin)]
         [HttpGet]
         public ActionResult Modifier(int? id)
         {
@@ -161,7 +159,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
 
-        [Authorize(Roles = RolesName.Admin)]
+        [Authorize(Roles = Constante.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Modifier(AjoutEditLivreVM form)
@@ -206,7 +204,7 @@ namespace vlissides_bibliotheque.Controllers
             return View(form);
         }
 
-        [Authorize(Roles = RolesName.Admin)]
+        [Authorize(Roles = Constante.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Effacer(int? id)

@@ -112,9 +112,8 @@ namespace vlissides_bibliotheque.Controllers
                 ModelState.Remove(nameof(vm.Provinces));
 
                 if (vm.CodePostal != null)
-                {
                     vm.CodePostal = vm.CodePostal.ToUpper();
-                }
+
 
                 if (ModelState.IsValid)
                 {
@@ -151,7 +150,6 @@ namespace vlissides_bibliotheque.Controllers
 
                     if (result.Succeeded)
                     {
-
                         // ajouter rôle
                         await _userManager.AddToRoleAsync(etudiant, "Etudiant");
 

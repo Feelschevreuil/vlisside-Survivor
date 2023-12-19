@@ -2,6 +2,7 @@
 using AutoMapper;
 using vlissides_bibliotheque.ViewModels;
 using vlissides_bibliotheque.DTO;
+using System.Linq;
 
 namespace vlissides_bibliotheque.Mapper
 {
@@ -10,6 +11,8 @@ namespace vlissides_bibliotheque.Mapper
 
         public Mapping()
         {
+
+            CreateMap<Auteur, AuteurDto>().ReverseMap();
 
             CreateMap<Evenement, EvenementVM>().ReverseMap();
 
@@ -30,6 +33,8 @@ namespace vlissides_bibliotheque.Mapper
 
             #region Livre
             CreateMap<LivreBibliotheque, LivreBibliothequeDto>()
+                .ForMember(dest => dest.Auteurs, opt => opt.MapFrom(src => src.Auteurs.Select(a => a.Auteur)))
+                .ForMember(dest => dest.Cours, opt => opt.MapFrom(src => src.Cours.Select(a => a.Cours)))
                 .ForMember(dest => dest.MaisonEditionNom, opt => opt.MapFrom(src => src.MaisonEdition.Nom));
 
             #endregion

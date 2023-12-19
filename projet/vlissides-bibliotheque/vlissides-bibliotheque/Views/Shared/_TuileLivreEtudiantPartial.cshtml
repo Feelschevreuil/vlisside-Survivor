@@ -9,7 +9,7 @@
 
 <div class="card border-2 tuile-livre mt-3">
 
-    @if (User.IsInRole(RolesName.Admin) || UserEmail == EmailEnLiensAuLivre)
+    @if (User.IsInRole(Constante.Admin) || UserEmail == EmailEnLiensAuLivre)
     {
         <div>
             <a class="float-start" asp-area="" asp-controller="usage" asp-action="modifier" asp-route-id="@Model.LivreId">

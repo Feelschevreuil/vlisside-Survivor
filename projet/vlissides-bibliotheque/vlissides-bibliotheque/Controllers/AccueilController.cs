@@ -39,6 +39,8 @@ namespace vlissides_bibliotheque.Controllers
         {
             string prix = "-";
 
+
+
             return JsonSerializer.Serialize(new PrixJson() { Id = prixAfficher.Id, prix = prix });
         }
     }

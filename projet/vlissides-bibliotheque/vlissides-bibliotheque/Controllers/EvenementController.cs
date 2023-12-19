@@ -2,7 +2,6 @@
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Extensions;
 using AutoMapper;
 using vlissides_bibliotheque.Services.Interface;
@@ -11,10 +10,11 @@ using vlissides_bibliotheque.DTO;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using vlissides_bibliotheque.Commun;
 
 namespace vlissides_bibliotheque.Controllers
 {
-    [Authorize(Roles = RolesName.Admin)]
+    [Authorize(Roles = Constante.Admin)]
     public class EvenementController : Controller
     {
         private readonly ILogger<AccueilController> _logger;

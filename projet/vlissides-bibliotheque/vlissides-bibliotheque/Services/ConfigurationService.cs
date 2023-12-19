@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
-using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.Commun;
 
 namespace vlissides_bibliotheque.Services
 {
@@ -51,8 +51,8 @@ namespace vlissides_bibliotheque.Services
 
             clePrive = GetProprieteDeSection
             (
-                ConstantesConfiguration.PROPRIETE_STRIPE, 
-                ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PRIVEE
+                Constante.PROPRIETE_STRIPE,
+                Constante.PROPRIETE_STRIPE_CLE_API_PRIVEE
             );
 
             return clePrive;
@@ -69,8 +69,8 @@ namespace vlissides_bibliotheque.Services
 
             clePublique = GetProprieteDeSection
             (
-                ConstantesConfiguration.PROPRIETE_STRIPE, 
-                ConstantesConfiguration.PROPRIETE_STRIPE_CLE_API_PUBLIQUE
+                Constante.PROPRIETE_STRIPE,
+                Constante.PROPRIETE_STRIPE_CLE_API_PUBLIQUE
             );
 
             return clePublique;

@@ -7,7 +7,7 @@
     </a>
     <h1 class="p-2 flex-grow-1" id="titreBibli">Inventaire de la bibliothèque</h1>
 
-    @if (User.IsInRole(RolesName.Admin))
+    @if (User.IsInRole(Constante.Admin))
     {
         <a class="d-flex justify-content-end" asp-controller="inventaire" asp-action="creer">
             <img src="~/img/plus-circle.svg" class="me-3 btn-img-hover devant" />

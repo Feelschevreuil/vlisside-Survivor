@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.Constantes;
-using Stripe;
-using System.Reflection.Emit;
 using System.Collections.Generic;
+using vlissides_bibliotheque.Commun;
 
 namespace vlissides_bibliotheque.Data
 {
@@ -85,21 +83,21 @@ namespace vlissides_bibliotheque.Data
                 new IdentityRole()
                 {
                     Id = ROLE_ADMIN_ID,
-                    Name = RolesName.Admin,
-                    NormalizedName = RolesName.Admin.ToUpper(),
+                    Name = Constante.Admin,
+                    NormalizedName = Constante.Admin.ToUpper(),
                     ConcurrencyStamp = ROLE_ADMIN_CONCURRENCYSTAMP
                 },
                 new IdentityRole(){
                     Id = ROLE_UTILISATEUR_ID,
-                    Name = RolesName.Utilisateur,
-                    NormalizedName = RolesName.Utilisateur.ToUpper(),
+                    Name = Constante.Utilisateur,
+                    NormalizedName = Constante.Utilisateur.ToUpper(),
                     ConcurrencyStamp = ROLE_UTILISATEUR_CONCURRENCYSTAMP
                 },
                 new IdentityRole()
                 {
                     Id = ROLE_ETUDIANT_ID,
-                    Name = RolesName.Etudiant,
-                    NormalizedName = RolesName.Etudiant.ToUpper(),
+                    Name = Constante.Etudiant,
+                    NormalizedName = Constante.Etudiant.ToUpper(),
                     ConcurrencyStamp = ROLE_ETUDIANT_CONCURRENCYSTAMP
                 }
             });
@@ -117,11 +115,11 @@ namespace vlissides_bibliotheque.Data
             builder.Entity<Utilisateur>().HasData(new Utilisateur()
             {
                 Id = USER_ADMIN_ID,
-                Email = Emails.EMAIL_ADMIN,
+                Email = Constante.EMAIL_ADMIN,
                 EmailConfirmed = true,
-                NormalizedEmail = Emails.EMAIL_ADMIN.ToUpper(),
-                UserName = Emails.EMAIL_ADMIN,
-                NormalizedUserName = Emails.EMAIL_ADMIN.ToUpper(),
+                NormalizedEmail = Constante.EMAIL_ADMIN.ToUpper(),
+                UserName = Constante.EMAIL_ADMIN,
+                NormalizedUserName = Constante.EMAIL_ADMIN.ToUpper(),
                 Nom = "John",
                 Prenom = "Gordon",
                 ConcurrencyStamp = USER_ADMIN_CONCURRENCYSTAMP,

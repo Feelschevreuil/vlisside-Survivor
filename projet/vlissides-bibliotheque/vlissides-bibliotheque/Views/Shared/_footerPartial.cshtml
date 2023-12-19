@@ -12,7 +12,8 @@
                 <img src="~/img/handshake-light.svg" width="25px" class="d-block m-auto" />
                 Boutique
             </a>
-            @if (User.IsInRole(RolesName.Admin)) {
+            @if (User.IsInRole(Constante.Admin))
+            {
                 <a class="btn btn-outline-primary text-light border-0" asp-controller="TableauDeBord" asp-action="Index">
                     <img src="~/img/cog-light.svg" width="25px" class="d-block m-auto" />
                     Gestion

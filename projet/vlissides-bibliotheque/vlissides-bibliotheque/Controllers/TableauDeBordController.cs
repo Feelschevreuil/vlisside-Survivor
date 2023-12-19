@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Extensions;
@@ -19,10 +18,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using vlissides_bibliotheque.Commun;
 
 namespace vlissides_bibliotheque.Controllers
 {
-    [Authorize(Roles = RolesName.Admin)]
+    [Authorize(Roles = Constante.Admin)]
     public class TableauDeBordController : Controller
     {
         private readonly SignInManager<Etudiant> _signInManager;

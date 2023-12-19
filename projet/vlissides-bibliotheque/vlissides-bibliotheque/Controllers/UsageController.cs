@@ -2,14 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using vlissides_bibliotheque.Constantes;
+using vlissides_bibliotheque.Commun;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
@@ -71,7 +70,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [Route("Usage/ajouter")]
-        [Authorize(Roles = RolesName.Etudiant)]
+        [Authorize(Roles = Constante.Etudiant)]
         public IActionResult ajouter()
         {
             AjoutEditLivreEtudiantVM livre = new();
@@ -81,7 +80,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [HttpPost]
         [Route("Usage/ajouter")]
-        [Authorize(Roles = RolesName.Etudiant)]
+        [Authorize(Roles = Constante.Etudiant)]
         public IActionResult ajouter(AjoutEditLivreEtudiantVM livreEtudiantVM)
         {
             ModelState.Remove(nameof(AjoutEditLivreEtudiantVM.EtudiantId));
@@ -136,7 +135,7 @@ namespace vlissides_bibliotheque.Controllers
             Etudiant etudiant = await _context.Etudiants.SingleAsync(x => x.Id == userId);
             LivreEtudiant livreEtudiantRechercher = _livreEtudiantDAO.GetById(id.Value);
 
-            if (livreEtudiantRechercher.Etudiant.Id == userId || User.IsInRole(RolesName.Admin))
+            if (livreEtudiantRechercher.Etudiant.Id == userId || User.IsInRole(Constante.Admin))
             {
                 AjoutEditLivreEtudiantVM livreEtudiant = new()
                 {
@@ -170,7 +169,7 @@ namespace vlissides_bibliotheque.Controllers
             {
                 LivreEtudiant livreEtudiant = _livreEtudiantService.GetLivreByEtudiantId(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-                if (livreEtudiant != null || User.IsInRole(RolesName.Admin))
+                if (livreEtudiant != null || User.IsInRole(Constante.Admin))
                 {
                     LivreEtudiant LivreEtudiantModifier = _livreEtudiantDAO.GetById(livreEtudiant.LivreId);
 
@@ -224,7 +223,7 @@ namespace vlissides_bibliotheque.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (_livreEtudiantService.GetLivreByEtudiantId(userId) != null || User.IsInRole(RolesName.Admin))
+            if (_livreEtudiantService.GetLivreByEtudiantId(userId) != null || User.IsInRole(Constante.Admin))
             {
                 _livreEtudiantDAO.Delete(id.Value);
                 _livreEtudiantDAO.Save();

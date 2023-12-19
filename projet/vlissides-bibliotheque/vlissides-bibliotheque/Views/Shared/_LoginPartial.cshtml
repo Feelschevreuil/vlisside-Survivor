@@ -17,7 +17,7 @@
                     <li class="dropdown-item">
                         <a class="dropdown-item" asp-controller="usage" asp-action="MaBoutique">Ma boutique</a>
                     </li>
-                    @if (User.IsInRole(RolesName.Etudiant))
+                @if (User.IsInRole(Constante.Etudiant))
                     {
                         <li class="dropdown-item">
                             <a class="dropdown-item" asp-area="" asp-controller="Achat" asp-action="Historique">Historique d'achats</a>

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
@@ -25,14 +24,13 @@ namespace vlissides_bibliotheque.Services
         }
         public TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(int livreBibliothequeId)
         {
-            LivreBibliotheque livreBibliotheque = _livreDAO.GetById(livreBibliothequeId);
-            LivreBibliothequeDto livre = _mapper.Map<LivreBibliothequeDto>(livreBibliotheque);
+            LivreBibliothequeDto livre = _mapper.Map<LivreBibliothequeDto>(_livreDAO.GetById(livreBibliothequeId));
 
             TuileLivreBibliotequeVM tuileVM = new()
             {
                 LivreBibliotheque = livre,
-                Auteurs = livreBibliotheque.Auteurs.Select(a=> a.Auteur.NomComplet).ToList(),
-                ProgrammeEtudeNom = livreBibliotheque.Cours.First().Cours.Nom,
+                Auteurs = livre.Auteurs.Select(a => a.NomComplet).ToList(),
+                ProgrammeEtudeNom = livre.Cours.First().Nom,
                 Quantite = livre.Prix.QuantiteUsage
             };
 
@@ -40,7 +38,7 @@ namespace vlissides_bibliotheque.Services
             if (string.IsNullOrEmpty(tuileVM.LivreBibliotheque.PhotoCouverture))
                 tuileVM.LivreBibliotheque.PhotoCouverture = GetImageParDefaut();
 
-            return  tuileVM;
+            return tuileVM;
         }
 
         public List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeInventaire()
@@ -78,7 +76,7 @@ namespace vlissides_bibliotheque.Services
             LivreDetailVM tuileVM = new()
             {
                 LivreBibliotheque = _mapper.Map<LivreBibliothequeDto>(livreBibliotheque),
-                Auteurs = livreBibliotheque.Auteurs.Select(a=> a.Auteur.NomComplet).ToList(),
+                Auteurs = livreBibliotheque.Auteurs.Select(a => a.Auteur.NomComplet).ToList(),
                 ProgrammeEtudeNom = livreBibliotheque.Cours.FirstOrDefault()?.Cours.ProgrammeEtude.Nom
             };
 

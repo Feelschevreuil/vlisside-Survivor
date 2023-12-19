@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
+using vlissides_bibliotheque.Commun;
 using vlissides_bibliotheque.Data;
-using vlissides_bibliotheque.Enums;
 using vlissides_bibliotheque.Extensions.Interface;
-using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque
 {
@@ -61,9 +56,9 @@ namespace vlissides_bibliotheque
         public List<SelectListItem> ListDropDownEtatsLivre()
         {
             List<SelectListItem> Liste = new List<SelectListItem>();
-            List<EtatLivreEnum> listEnum = Enum.GetValues(typeof(EtatLivreEnum)).Cast<EtatLivreEnum>().ToList();
+            List<Enumeration.EtatLivreEnum> listEnum = Enum.GetValues(typeof(Enumeration.EtatLivreEnum)).Cast<Enumeration.EtatLivreEnum>().ToList();
 
-            for (int e = 0; e < Enum.GetNames(typeof(EtatLivreEnum)).Length; e++)
+            for (int e = 0; e < Enum.GetNames(typeof(Enumeration.EtatLivreEnum)).Length; e++)
             {
                 string valeurAffichage = listEnum[e].ToString().ToLower();
                 valeurAffichage = char.ToUpper(valeurAffichage[0]) + valeurAffichage.Substring(1);
@@ -75,9 +70,9 @@ namespace vlissides_bibliotheque
         public List<SelectListItem> ListDropDownStatutCommande()
         {
             List<SelectListItem> Liste = new List<SelectListItem>();
-            List<StatutFactureEnum> listEnum = Enum.GetValues(typeof(StatutFactureEnum)).Cast<StatutFactureEnum>().ToList();
+            List<Enumeration.StatutFactureEnum> listEnum = Enum.GetValues(typeof(Enumeration.StatutFactureEnum)).Cast<Enumeration.StatutFactureEnum>().ToList();
 
-            for (int e = 0; e < Enum.GetNames(typeof(StatutFactureEnum)).Length; e++)
+            for (int e = 0; e < Enum.GetNames(typeof(Enumeration.StatutFactureEnum)).Length; e++)
             {
                 string valeurAffichage = listEnum[e].ToString().ToLower();
                 valeurAffichage = char.ToUpper(valeurAffichage[0]) + valeurAffichage.Substring(1);
