@@ -1,7 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.Services;
 
 namespace vlissides_bibliotheque.DAO
 {
@@ -47,8 +48,8 @@ namespace vlissides_bibliotheque.DAO
 
             Adresse adresseOriginale = GetById(adresseAJour.AdresseId);
 
-            adresseOriginale = AdresseService
-                .MettreAJourProprietes(adresseOriginale, adresseAJour);
+            //adresseOriginale = AdresseService
+            //    .MettreAJourProprietes(adresseOriginale, adresseAJour);
 
             _context.Adresses.Update(adresseOriginale);
             Save();
@@ -76,6 +77,11 @@ namespace vlissides_bibliotheque.DAO
         {
             _context.SaveChanges();
             return true;
+        }
+
+        IEnumerable<Adresse> IDAO<Adresse>.GetAll()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

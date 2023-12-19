@@ -1,4 +1,6 @@
-﻿namespace vlissides_bibliotheque.DTO
+﻿using System;
+
+namespace vlissides_bibliotheque.DTO
 {
     public class LivreEtudiantDto
     {
@@ -12,6 +14,6 @@
         public DateTime DatePublication { get; set; }
         public string MaisonEdition { get; set; }
         public string Auteur { get; set; }
-        public double? Prix { get; set; }
+        public decimal? Prix { get; set; }
     }
 }

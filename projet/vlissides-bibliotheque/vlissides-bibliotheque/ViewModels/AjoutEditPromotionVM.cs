@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using vlissides_bibliotheque.Validation;
 
@@ -48,7 +49,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string CommanditaireCourriel { get; set; }
 
         [Url]
-        public string? Url { get; set; }
+        public string Url { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [MaxLength(512, ErrorMessage = "Le champ {0} ne peux pas dépasser 512 caractères ")]

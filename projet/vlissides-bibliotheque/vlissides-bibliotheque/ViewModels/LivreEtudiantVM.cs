@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
@@ -46,6 +46,6 @@ namespace vlissides_bibliotheque.ViewModels
         [Number]
         [Range(0, 1000)]
         [DataType(DataType.Currency)]
-        public double? Prix { get; set; }
+        public decimal? Prix { get; set; }
     }
 }

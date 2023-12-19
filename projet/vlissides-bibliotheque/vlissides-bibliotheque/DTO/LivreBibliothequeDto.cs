@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace vlissides_bibliotheque.DTO
 {
@@ -13,7 +14,7 @@ namespace vlissides_bibliotheque.DTO
 
         public string Isbn { get; set; }
 
-        public PrixEtatLivreDto prix { get; set; }
+        public PrixEtatLivreDto Prix { get; set; }
 
         public string Titre { get; set; }
         [DisplayName("Description")]

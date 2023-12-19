@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿
+
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
@@ -22,7 +24,7 @@ namespace vlissides_bibliotheque.Models
         public string Courriel { get; set; }
 
         [Url]
-        public string? Url { get; set; }
+        public string Url { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [StringLength(512)]

@@ -9,6 +9,11 @@ using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.DTO.Ajax;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -39,11 +44,11 @@ namespace vlissides_bibliotheque.Controllers
 
         public IActionResult Bibliotheque()
         {
-            List<TuileLivreBibliotequeVM> inventaireBibliotheque = _livreService.GetTuileLivreBibliotequeInventaire().Result;
+            List<TuileLivreBibliotequeVM> inventaireBibliotheque = _livreService.GetTuileLivreBibliotequeInventaire();
             return View(inventaireBibliotheque);
         }
 
-        public async Task<IActionResult> Detail(int id)
+        public ActionResult Detail(int id)
         {
             if (_livreDAO.GetById(id) != null)
             {
@@ -55,7 +60,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [Authorize(Roles = RolesName.Admin)]
         [HttpGet]
-        public ActionResult creer()
+        public ActionResult Creer()
         {
             AjoutEditLivreVM nouveauLivre = new()
             {
@@ -68,7 +73,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [Authorize(Roles = RolesName.Admin)]
         [HttpPost]
-        public async Task<ActionResult> creer([FromBody] AjoutEditLivreVM form)
+        public ActionResult Creer([FromBody] AjoutEditLivreVM form)
         {
             ModelState.Remove(nameof(AjoutEditLivreVM.MaisonsDeditions));
             ModelState.Remove(nameof(AjoutEditLivreVM.CheckBoxCours));
@@ -130,7 +135,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [Authorize(Roles = RolesName.Admin)]
         [HttpGet]
-        public ActionResult modifier(int? id)
+        public ActionResult Modifier(int? id)
         {
             if (!id.HasValue)
             {
@@ -159,7 +164,7 @@ namespace vlissides_bibliotheque.Controllers
         [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> modifier(AjoutEditLivreVM form)
+        public ActionResult Modifier(AjoutEditLivreVM form)
         {
             ModelState.Remove(nameof(AjoutEditLivreVM.MaisonsDeditions));
             ModelState.Remove(nameof(AjoutEditLivreVM.CheckBoxCours));
@@ -204,7 +209,7 @@ namespace vlissides_bibliotheque.Controllers
         [Authorize(Roles = RolesName.Admin)]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult supprimer(int? id)
+        public ActionResult Effacer(int? id)
         {
             if (!id.HasValue)
             {
@@ -257,7 +262,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public string? AssignerCoursLivre([FromBody] CoursAssocier coursAssocier)
+        public string AssignerCoursLivre([FromBody] CoursAssocier coursAssocier)
         {
             List<CoursLivre> coursUpdate = new();
             List<CoursLivre> coursReset = _context.CoursLivres
@@ -282,7 +287,7 @@ namespace vlissides_bibliotheque.Controllers
             return null;
         }
         [HttpPost]
-        public string? AssignerAuteursLivre([FromBody] AuteursAssocier auteursAssocier)
+        public string AssignerAuteursLivre([FromBody] AuteursAssocier auteursAssocier)
         {
             List<AuteurLivre> auteurUpdate = new();
             List<AuteurLivre> auteurReset = _context.AuteursLivres

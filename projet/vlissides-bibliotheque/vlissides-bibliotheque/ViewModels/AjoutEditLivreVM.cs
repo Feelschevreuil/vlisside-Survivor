@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using vlissides_bibliotheque.DTO.Ajax;
@@ -33,19 +35,19 @@ namespace vlissides_bibliotheque.ViewModels
         [DataType(DataType.Currency)]
         [Number]
 
-        public double? PrixUsage { get; set; } = 0;
+        public decimal? PrixUsage { get; set; } = 0;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DisplayName("Numérique")]
         [DataType(DataType.Currency)]
         [Number]
-        public double? PrixNumerique { get; set; } = 0;
+        public decimal? PrixNumerique { get; set; } = 0;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Number]
         [DataType(DataType.Currency)]
         [DisplayName("Neuf")]
-        public double? PrixNeuf { get; set; } = 0;
+        public decimal? PrixNeuf { get; set; } = 0;
 
         [DisplayName("Quantité")]
         public int? QuantiteUsagee { get; set; }

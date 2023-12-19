@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using vlissides_bibliotheque.Constantes;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
@@ -156,7 +161,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> modifier(AjoutEditLivreEtudiantVM form)
+        public ActionResult Modifier(AjoutEditLivreEtudiantVM form)
         {
             ModelState.Remove(nameof(AjoutEditLivreEtudiantVM.EtudiantId));
 
@@ -202,7 +207,7 @@ namespace vlissides_bibliotheque.Controllers
         [Route("Usage/effacer/{id?}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> effacer(int? id)
+        public ActionResult Effacer(int? id)
         {
             if (id == null)
             {

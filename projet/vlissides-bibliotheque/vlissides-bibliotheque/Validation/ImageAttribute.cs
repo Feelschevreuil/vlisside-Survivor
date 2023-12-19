@@ -4,7 +4,7 @@ namespace vlissides_bibliotheque.Validation
 {
     public class ImageAttribute : ValidationAttribute
     {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value == null || !value.ToString().StartsWith("data"))
             {

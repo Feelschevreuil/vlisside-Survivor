@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Configuration;
 using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.Models
@@ -42,7 +40,7 @@ namespace vlissides_bibliotheque.Models
         [Number]
         [Range(0, 1000)]
         [DataType(DataType.Currency)]
-        public double? Prix { get; set; }
+        public decimal? Prix { get; set; }
 
     }
 }

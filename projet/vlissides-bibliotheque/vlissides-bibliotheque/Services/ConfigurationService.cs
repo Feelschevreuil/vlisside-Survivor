@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
 using vlissides_bibliotheque.Constantes;
 
 namespace vlissides_bibliotheque.Services

@@ -6,6 +6,7 @@ using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.DTO.Ajax;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -28,13 +29,13 @@ namespace vlissides_bibliotheque.Controllers
         {
             AccueilVM recommendationPromotions = new()
             {
-                tuileLivreBibliotequeVMs = await _livreService.GetTuileLivreBibliotequeAccueil(),
+                tuileLivreBibliotequeVMs = _livreService.GetTuileLivreBibliotequeAccueil(),
                 evenements = await _evenementService.GetEvenementAccueil(),
             };
             return View(recommendationPromotions);
         }
 
-        public async Task<string> ChangerPrix([FromBody] PrixAfficher prixAfficher)
+        public string ChangerPrix([FromBody] PrixAfficher prixAfficher)
         {
             string prix = "-";
 

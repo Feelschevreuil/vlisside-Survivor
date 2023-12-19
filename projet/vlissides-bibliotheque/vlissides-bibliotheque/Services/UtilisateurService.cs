@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Models;

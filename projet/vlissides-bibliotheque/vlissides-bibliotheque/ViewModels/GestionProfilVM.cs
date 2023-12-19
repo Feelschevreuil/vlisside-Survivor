@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
@@ -31,7 +32,7 @@ namespace vlissides_bibliotheque.ViewModels
         [DisplayName("Programme d'étude")]
         public int ProgrammeEtudeId { get; set; }
         public SelectList ProgrammeEtudes { get; set; }
-        public string? NomProgrammeEtude { get; set; }
+        public string NomProgrammeEtude { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DisplayName("Numéro de téléphone")]
@@ -54,7 +55,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string Ville { get; set; }
 
         [Display(Name = "Numéro d'appartement")]
-        public string? App { get; set; }
+        public string App { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [DisplayName("Code postal")]
@@ -70,7 +71,7 @@ namespace vlissides_bibliotheque.ViewModels
         // liste des provinces
         public SelectList Provinces { get; set; }
         [DisplayName("Province")]
-        public string? NomProvince { get; set; }
+        public string NomProvince { get; set; }
 
         public int CoursId { get; set; }
         [Display(Name = "Liste des cours")]

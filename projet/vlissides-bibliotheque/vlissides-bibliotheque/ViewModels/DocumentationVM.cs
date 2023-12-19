@@ -1,4 +1,6 @@
-﻿namespace vlissides_bibliotheque.ViewModels
+﻿using System.Collections.Generic;
+
+namespace vlissides_bibliotheque.ViewModels
 {
     /// <summary>
     /// Classe <c>DocumentationVM</c> offre de la documentation sur 

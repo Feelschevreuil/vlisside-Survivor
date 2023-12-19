@@ -2,9 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-vlissides_bibliotheque-464327E8-B584-42C2-AE5D-56061030AEA4</UserSecretsId>
     <RootNamespace>vlissides_bibliotheque</RootNamespace>
   </PropertyGroup>
 

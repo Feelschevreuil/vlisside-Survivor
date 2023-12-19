@@ -1,7 +1,9 @@
-﻿namespace vlissides_bibliotheque.ViewModels
+﻿using System.Collections.Generic;
+
+namespace vlissides_bibliotheque.ViewModels
 {
     public class PanierLivresVM
     {
-        public List<TuileLivreBibliotequeVM>? listeLivres { get; set; }
+        public List<TuileLivreBibliotequeVM> ListeLivres { get; set; }
     }
 }

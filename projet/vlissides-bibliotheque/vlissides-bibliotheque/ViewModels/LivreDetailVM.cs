@@ -1,19 +1,18 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using vlissides_bibliotheque.DTO;
 
 namespace vlissides_bibliotheque.ViewModels
 {
     public class LivreDetailVM
     {
-        public LivreBibliothequeDto? livreBibliotheque;
+        public LivreBibliothequeDto LivreBibliotheque;
 
-        public string? programmeEtudeNom;
+        public string ProgrammeEtudeNom;
 
         [DisplayName("Quantité")]
         public int Quantite { get; set; }
 
-        public List<string>? auteurs { get; set; }
-
-        public int quantite { get; set; }
+        public List<string> Auteurs { get; set; }
     }
 }

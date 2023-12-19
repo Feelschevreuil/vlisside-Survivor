@@ -4,7 +4,7 @@ namespace vlissides_bibliotheque.Validation
 {
     public class NumberAttribute : ValidationAttribute
     {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value == null)
             {

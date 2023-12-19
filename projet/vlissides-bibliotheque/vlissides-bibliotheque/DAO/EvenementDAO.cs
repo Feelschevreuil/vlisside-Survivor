@@ -2,6 +2,8 @@ using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.DAO.Interface;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace vlissides_bibliotheque.DAO
 {

@@ -1,7 +1,7 @@
 ﻿@model TuileLivreBibliotequeVM
 
 @{
-    int? livreIdCourant = @Model.livreBibliotheque?.LivreId;
+    int? livreIdCourant = @Model.LivreBibliotheque?.LivreId;
 }
 
 
@@ -13,21 +13,21 @@
             @if (User.IsInRole(RolesName.Admin))
             {
                 <div class="row justify-content-between mt-1">
-                    <a class="col-2" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.livreBibliotheque.LivreId">
+                    <a class="col-2" asp-area="" asp-controller="inventaire" asp-action="modifier" asp-route-id="@Model.LivreBibliotheque.LivreId">
                         <img class="tableau" src="~/img/pencil.svg" alt="Modifier">
                     </a>
 
-                    <a method="post" class="col-2" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.livreBibliotheque.LivreId">
+                    <a method="post" class="col-2" asp-action="supprimer" asp-controller="Inventaire" asp-route-id="@Model.LivreBibliotheque.LivreId">
                         <p>
-                            <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.livreBibliotheque.Titre')" type="image" src="~/img/delete-rouge.svg" />
+                            <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.LivreBibliotheque.Titre')" type="image" src="~/img/delete-rouge.svg" />
                         </p>
                     </a>
                 </div>
             }
 
             <div class="row">
-                <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.livreBibliotheque.LivreId">
-                    <img class="mx-auto image-livre" src="@Model.livreBibliotheque?.PhotoCouverture" alt="PhotoLivre">
+                <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.LivreBibliotheque.LivreId">
+                    <img class="mx-auto image-livre" src="@Model.LivreBibliotheque?.PhotoCouverture" alt="PhotoLivre">
                 </a>
             </div>
 
@@ -48,18 +48,18 @@
             </div>*@
 
             <div class="card border-0 mt-1">
-                <h5 class="card-title mt-3"><strong>@Model.livreBibliotheque.Titre</strong></h5>
+                <h5 class="card-title mt-3"><strong>@Model.LivreBibliotheque.Titre</strong></h5>
                 <p class="card-text mb-1">
                     <span>De </span>
-                    @if (Model.auteurs != null && Model.auteurs.Any())
+                    @if (Model.Auteurs != null && Model.Auteurs.Any())
                     {
-                        <span>@string.Join(", ", Model.auteurs)</span>
+                        <span>@string.Join(", ", Model.Auteurs)</span>
                     }
 
                 </p>
-                <p class="card-text mb-1">Maison @Model.livreBibliotheque.MaisonEditionNom</p>
-                <p class="card-text mb-1">ISBN: @Model.livreBibliotheque.Isbn</p>
-                <p class="card-text mb-1">@Model.livreBibliotheque.DatePublication.Year</p>
+                <p class="card-text mb-1">Maison @Model.LivreBibliotheque.MaisonEditionNom</p>
+                <p class="card-text mb-1">ISBN: @Model.LivreBibliotheque.Isbn</p>
+                <p class="card-text mb-1">@Model.LivreBibliotheque.DatePublication.Year</p>
             </div>
 
         </div>
@@ -67,7 +67,7 @@
 
         <div class="d-flex flex-column mt-auto">
             <div class="mt-5">
-                <span class="badge alert-primary float-end"><small>@Model.programmeEtudeNom</small> </span>
+                <span class="badge alert-primary float-end"><small>@Model.ProgrammeEtudeNom</small> </span>
             </div>
 
 

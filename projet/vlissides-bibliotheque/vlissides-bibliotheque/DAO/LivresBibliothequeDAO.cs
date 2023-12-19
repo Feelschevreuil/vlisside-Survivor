@@ -1,12 +1,9 @@
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.Constantes;
-using vlissides_bibliotheque.Extentions;
-using vlissides_bibliotheque.Enums;
 using System.Linq;
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.DAO.Interface;
+using System.Collections.Generic;
 
 namespace vlissides_bibliotheque.DAO
 {

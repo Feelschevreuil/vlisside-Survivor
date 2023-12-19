@@ -1,17 +1,15 @@
-﻿using vlissides_bibliotheque.Data;
-using vlissides_bibliotheque.DTO;
-using vlissides_bibliotheque.Models;
+﻿using System.Collections.Generic;
 using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Services.Interface
 {
     public interface ILivreBibliotheque
     {
-        Task<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeVMs(int livreBibliothequeId);
+        TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(int livreBibliothequeId);
 
-        Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeAccueil();
+        List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeAccueil();
 
-        Task<List<TuileLivreBibliotequeVM>> GetTuileLivreBibliotequeInventaire();
+        List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeInventaire();
 
         LivreDetailVM GetLivreDetailVM(int livreBibliothequeId);
 

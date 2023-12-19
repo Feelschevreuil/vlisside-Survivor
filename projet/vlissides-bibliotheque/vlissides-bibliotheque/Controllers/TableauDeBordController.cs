@@ -4,33 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using vlissides_bibliotheque.Constantes;
-using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.Extensions;
 using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.ViewModels;
-using vlissides_bibliotheque.Enums;
-using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
-using static Humanizer.In;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Humanizer;
-using System.Diagnostics;
-using Stripe;
-using System.Formats.Asn1;
-using CsvHelper;
 using Microsoft.AspNetCore.Hosting;
-using System.Globalization;
-using Microsoft.Extensions.Hosting.Internal;
-using vlissides_bibliotheque.Extentions;
-using Microsoft.Extensions.Hosting;
-using System.Text.RegularExpressions;
-using vlissides_bibliotheque.Services;
 using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.DAO.Interface;
 using AutoMapper;
 using vlissides_bibliotheque.DTO.Ajax;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -195,7 +183,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult ModifierEtudiant(string Id)
         {
-            Etudiant? etudiant = _context.Etudiants
+            Etudiant etudiant = _context.Etudiants
                 .Where(etudiant => etudiant.Id == Id)
                 .Include(etudiant => etudiant.ProgrammeEtude)
                 .Include(etudiant => etudiant.Adresse.Province)
@@ -230,7 +218,7 @@ namespace vlissides_bibliotheque.Controllers
 
             if (ModelState.IsValid)
             {
-                Etudiant? etudiant = _userManagerEtudiant.Users
+                Etudiant etudiant = _userManagerEtudiant.Users
                     .Where(etudiant => etudiant.Id == vm.EtudiantId)
                     .Include(etudiant => etudiant.ProgrammeEtude)
                     .Include(etudiant => etudiant.Adresse.Province)
@@ -260,7 +248,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public async Task<IActionResult> SupprimerEtudiantAsync([FromBody] string Id)
         {
-            Etudiant? etudiant = _userManagerEtudiant.Users
+            Etudiant etudiant = _userManagerEtudiant.Users
                     .Where(etudiant => etudiant.Id == Id)
                     .Include(etudiant => etudiant.ProgrammeEtude)
                     .Include(etudiant => etudiant.Adresse.Province)
@@ -300,7 +288,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreerLivre([FromBody] AjoutEditLivreVM vm)
+        public ActionResult CreerLivre([FromBody] AjoutEditLivreVM vm)
         {
             ModelState.Remove(nameof(vm.MaisonsDeditions));
             ModelState.Remove(nameof(vm.CheckBoxCours));
@@ -398,7 +386,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ModifierLivre([FromBody] ModifierLivreCours form)
+        public ActionResult ModifierLivre([FromBody] ModifierLivreCours form)
         {
             ModelState.Remove(nameof(form.MaisonsDeditions));
             ModelState.Remove(nameof(form.CheckBoxCours));

@@ -1,15 +1,7 @@
-﻿using vlissides_bibliotheque.DTO.Ajax;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using vlissides_bibliotheque.Controllers;
-using vlissides_bibliotheque.Data;
-using vlissides_bibliotheque.Models;
+﻿using vlissides_bibliotheque.Models;
 using AutoMapper;
 using vlissides_bibliotheque.ViewModels;
-using System.Security.Cryptography.X509Certificates;
 using vlissides_bibliotheque.DTO;
-using Microsoft.Build.Framework;
 
 namespace vlissides_bibliotheque.Mapper
 {

@@ -1,4 +1,5 @@
-﻿using vlissides_bibliotheque.DTO.Ajax;
+﻿using System.Collections.Generic;
+using vlissides_bibliotheque.DTO.Ajax;
 using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.Extensions.Interface

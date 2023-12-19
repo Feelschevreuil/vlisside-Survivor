@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.Data;
 using vlissides_bibliotheque.Models;

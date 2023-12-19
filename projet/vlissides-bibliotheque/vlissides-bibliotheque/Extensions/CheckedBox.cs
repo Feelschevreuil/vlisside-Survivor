@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.NetworkInformation;
 using vlissides_bibliotheque.DAO;
 using vlissides_bibliotheque.Data;

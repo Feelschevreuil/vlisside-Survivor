@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Validation
 {
@@ -14,7 +15,7 @@ namespace vlissides_bibliotheque.Validation
         /// <param name="value"></param>
         /// <param name="validationContext"></param>
         /// <returns>Un <c>ValidationResult</c></returns>
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 		{
 			string Telephone = (string)value;
 

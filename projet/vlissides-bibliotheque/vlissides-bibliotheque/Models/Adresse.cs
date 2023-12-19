@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -22,7 +24,7 @@ namespace vlissides_bibliotheque.Models
         public int NumeroCivique { get; set; }
 
 
-        public string? App { get; set; }
+        public string App { get; set; }
 
         [Required]
         [StringLength(64)]

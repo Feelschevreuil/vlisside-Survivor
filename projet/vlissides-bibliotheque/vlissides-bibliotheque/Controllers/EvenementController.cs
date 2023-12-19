@@ -8,6 +8,9 @@ using AutoMapper;
 using vlissides_bibliotheque.Services.Interface;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.DTO;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -61,7 +64,7 @@ namespace vlissides_bibliotheque.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Creer(EvenementVM evenementVM)
+        public ActionResult Creer(EvenementVM evenementVM)
         {
             if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
             {
@@ -81,7 +84,7 @@ namespace vlissides_bibliotheque.Controllers
 
         [Route("Evenement/modifier/{id?}")]
         [HttpGet]
-        public async Task<ActionResult> modifier(int? id)
+        public ActionResult Modifier(int? id)
         {
             if (!id.HasValue)
             {
@@ -100,7 +103,7 @@ namespace vlissides_bibliotheque.Controllers
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult modifier(EvenementVM evenementVM)
+        public ActionResult Modifier(EvenementVM evenementVM)
         {
             if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
             {
@@ -135,7 +138,7 @@ namespace vlissides_bibliotheque.Controllers
         [Route("Evenement/effacer/{id?}")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult effacer(int? id)
+        public ActionResult Effacer(int? id)
         {
             if (!id.HasValue)
             {
