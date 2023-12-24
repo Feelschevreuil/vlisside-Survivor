@@ -1,6 +1,4 @@
-﻿
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models

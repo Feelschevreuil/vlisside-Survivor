@@ -9,13 +9,13 @@ namespace vlissides_bibliotheque.DAO
     public class ProgrammeEtudeDAO : IDAO<ProgrammeEtude>
     {
         private readonly ApplicationDbContext _context;
-        public ProgrammeEtudeDAO( ApplicationDbContext context)
+        public ProgrammeEtudeDAO(ApplicationDbContext context)
         {
-            _context= context;
+            _context = context;
         }
         public ProgrammeEtude GetById(int id)
         {
-            return _context.ProgrammesEtudes.SingleOrDefault(p=> p.ProgrammeEtudeId == id);
+            return _context.ProgrammesEtudes.SingleOrDefault(p => p.ProgrammeEtudeId == id);
         }
 
         public IEnumerable<ProgrammeEtude> GetAll()

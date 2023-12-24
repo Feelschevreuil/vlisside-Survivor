@@ -2,40 +2,46 @@
 @{
     ViewData["Title"] = "Tableau de bord";
 }
+
+<div class="d-flex justify-content-end">
+    <button onclick="fillDatabase()">Remplir BD</button>
+</div>
+
 <div class="row">
     <div class="d-flex accordion-header">
         <a asp-area="" asp-controller="Accueil" asp-action="Accueil">
             <img class="fleche-retour" src="~/img/fleche-de-retour.svg" />
         </a>
         <h2 class="p-3">Tableau de bord</h2>
-
     </div>
-
 </div>
 
-<div class="dropdown float-end d-flex col">
-    <div class="bg-middle text-white nav-link" data-bs-toggle="dropdown" aria-expanded="false">
-        Tableau de bord
-    </div>
-
-    <ul class="dropdown-tableau dropdown-menu dropdown-tableauDeBord bg-middle" aria-labelledby="dropdownMenuLink">
-        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewEtudiant()">Étudiants</a></li>
-        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewLivre()">Livres</a></li>
-        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getTBPartialViewCours()">Cours</a></li>
-        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewProgrammesEtude()">Programmes d'études</a></li>
-        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewPromotions()">Promotions</a></li>
-        <li> <a class="nav-link btn text-start text-white dropdown-item" onclick="getPartialViewCommandes()">Commandes</a></li>
+<div class="container">
+    <ul class="nav nav-pills nav-fill justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link fw-bold active" data-bs-toggle="tab" onclick="getPartialViewEtudiant()">Étudiants</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold" data-bs-toggle="tab" onclick="getPartialViewLivre()">Livres</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold" data-bs-toggle="tab" onclick="getTBPartialViewCours()">Cours</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold" data-bs-toggle="tab" onclick="getPartialViewProgrammesEtude()">Programmes d'études</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold" data-bs-toggle="tab" onclick="getPartialViewPromotions()">Promotions</a>
+        </li>
+@*         <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" onclick="getPartialViewCommandes()">Commandes</a>
+        </li> *@
     </ul>
 </div>
 
-<div class="container-fluid">
 
-    <div class="row">
-        <div id="partials">
-            <partial name="Etudiants.cshtml" model="Model" />
-        </div>
-    </div>
-</div>
+<div id="partials"></div>
+
 
 <script src="~/js/TableauBord.js" asp-append-version="true"></script>
 <script src="~/js/TableauBordEtudiant.js" asp-append-version="true"></script>
@@ -44,6 +50,16 @@
 <script src="~/js/TableauBordProgrammeEtude.js" asp-append-version="true"></script>
 <script src="~/js/TableauBordPromotion.js" asp-append-version="true"></script>
 <script src="~/js/TableauBordCommande.js" asp-append-version="true"></script>
+<script src="~/js/RemplirBaseDonne.js" asp-append-version="true"></script>
+
+<script>
+
+    // Call getPartialViewEtudiant() when the DOM content is loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        getPartialViewEtudiant();
+    });
+
+</script>
 
 <script>
     function sortTable(n) {

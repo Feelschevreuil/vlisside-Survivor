@@ -49,6 +49,11 @@ namespace vlissides_bibliotheque
             builder.Services.AddScoped<IDAOEtudiant<Etudiant>, EtudiantDAO>();
             builder.Services.AddScoped<IDAO<Auteur>, AuteurDAO>();
             builder.Services.AddScoped<IDAO<LivreEtudiant>, LivreEtudiantDAO>();
+            builder.Services.AddScoped<IDAO<Commanditaire>, CommanditaireDAO>();
+            builder.Services.AddScoped<IDAO<MaisonEdition>, MaisonEditionDAO>();
+            builder.Services.AddScoped<IDAO<Professeur>, ProfesseurDAO>();
+            builder.Services.AddScoped<IDAO<Province>, ProvinceDAO>();
+            builder.Services.AddScoped<IDAO<Adresse>, AdresseDAO>();
 
             #endregion
 

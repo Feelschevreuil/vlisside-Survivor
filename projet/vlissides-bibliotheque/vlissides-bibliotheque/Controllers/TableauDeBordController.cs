@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using vlissides_bibliotheque.Commun;
+using System.Text.Json;
+using static Humanizer.In;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -32,6 +34,12 @@ namespace vlissides_bibliotheque.Controllers
         private readonly IDAO<Cours> _CoursDAO;
         private readonly IDAO<ProgrammeEtude> _programmeEtudeDAO;
         private readonly IDAO<Evenement> _evenementDAO;
+        private readonly IDAO<Province> _provinceDAO;
+        private readonly IDAO<Professeur> _professeurDAO;
+        private readonly IDAO<MaisonEdition> _maisonEditionDAO;
+        private readonly IDAO<Commanditaire> _commanditaireDAO;
+        private readonly IDAO<Adresse> _adresseDAO;
+        private readonly IDAO<Auteur> _auteurDAO;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ICheckedBox _CheckedBox;
         private readonly IDropDownList _dropDownList;
@@ -45,8 +53,14 @@ namespace vlissides_bibliotheque.Controllers
             ApplicationDbContext context,
             IDAO<LivreBibliotheque> livreDAO,
             IDAO<Cours> coursDAO,
-            IDAO<ProgrammeEtude> programmeEtude,
+            IDAO<ProgrammeEtude> programmeEtudeDAO,
             IDAO<Evenement> evenementDAO,
+            IDAO<Province> provinceDAO,
+            IDAO<Professeur> professeurDAO,
+            IDAO<MaisonEdition> maisonEditionDAO,
+            IDAO<Commanditaire> commanditaireDAO,
+            IDAO<Adresse> adresseDAO,
+            IDAO<Auteur> auteurDAO,
             IWebHostEnvironment hostingEnvironment,
             ICheckedBox CheckedBox,
             IDropDownList dropDownList,
@@ -60,8 +74,14 @@ namespace vlissides_bibliotheque.Controllers
             _context = context;
             _livreDAO = livreDAO;
             _CoursDAO = coursDAO;
-            _programmeEtudeDAO = programmeEtude;
+            _programmeEtudeDAO = programmeEtudeDAO;
             _evenementDAO = evenementDAO;
+            _provinceDAO = provinceDAO;
+            _professeurDAO = professeurDAO;
+            _maisonEditionDAO = maisonEditionDAO;
+            _commanditaireDAO = commanditaireDAO;
+            _adresseDAO = adresseDAO;
+            _auteurDAO = auteurDAO;
             _hostingEnvironment = hostingEnvironment;
             _CheckedBox = CheckedBox;
             _dropDownList = dropDownList;
@@ -726,7 +746,7 @@ namespace vlissides_bibliotheque.Controllers
                 return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
 
             Evenement modifierEvenement = _evenementDAO.GetById(vm.EvenementId);
-            
+
             if (modifierEvenement == null)
                 return PartialView("Views/Shared/_PromotionPartial.cshtml", vm);
 
@@ -741,10 +761,10 @@ namespace vlissides_bibliotheque.Controllers
             modifierEvenement.Commanditaire.Courriel = vm.CommanditaireCourriel;
             modifierEvenement.Commanditaire.Url = vm.Url;
             modifierEvenement.Commanditaire.Message = vm.CommanditaireMessage;
-           
+
             _context.Evenements.Update(modifierEvenement);
             _context.SaveChanges();
-            
+
             vm.Id = modifierEvenement.EvenementId;
             vm.dateDebutFormatter = vm.Debut.ToString("dd MMMM yyyy");
             vm.dateFinFormatter = vm.Fin.ToString("dd MMMM yyyy");
@@ -764,6 +784,185 @@ namespace vlissides_bibliotheque.Controllers
 
             _context.Evenements.Remove(promotionSupprimer);
             _context.SaveChanges();
+            return Ok();
+        }
+
+
+        //--------------------Remplir BD -----------------------------------
+        [HttpGet]
+        public IActionResult RemplirBd()
+        {
+            if (!_provinceDAO.GetAll().Any())
+            {
+                var province = new Province()
+                {
+                    ProvinceId = 0,
+                    Nom = "Québec"
+                };
+                _provinceDAO.Insert(province);
+                _provinceDAO.Save();
+            }
+
+            if (!_programmeEtudeDAO.GetAll().Any())
+            {
+                var programmeEtude = new ProgrammeEtude()
+                {
+                    ProgrammeEtudeId = 0,
+                    Code = "01",
+                    Nom = "Math"
+                };
+                _programmeEtudeDAO.Insert(programmeEtude);
+                _programmeEtudeDAO.Save();
+            }
+
+            if (!_professeurDAO.GetAll().Any())
+            {
+                var professeur = new Professeur()
+                {
+                    ProfesseurId = 0,
+                    Nom = "Noris",
+                    Prenom = "Chuck",
+                    NumeroProfesseur = 100
+                };
+            }
+
+            if (!_maisonEditionDAO.GetAll().Any())
+            {
+                var maisonEdition = new MaisonEdition()
+                {
+                    MaisonEditionId = 0,
+                    Nom = "Labonté"
+                };
+                _maisonEditionDAO.Insert(maisonEdition);
+                _maisonEditionDAO.Save();
+            }
+
+            if (!_commanditaireDAO.GetAll().Any())
+            {
+                var commanditaire = new Commanditaire()
+                {
+                    CommanditaireId = 0,
+                    Courriel = "pirate@hotmail.com",
+                    Message = "Ceci est un message",
+                    Nom = "Pirate Software",
+                    Url = "https://www.twitch.tv/piratesoftware"
+                };
+                _commanditaireDAO.Insert(commanditaire);
+                _commanditaireDAO.Save();
+            }
+
+            if (!_evenementDAO.GetAll().Any())
+            {
+                var evenement = new Evenement()
+                {
+                    EvenementId = 0,
+                    CommanditaireId = _commanditaireDAO.GetAll().First().CommanditaireId,
+                    Debut = DateTime.Now.AddYears(2),
+                    Fin = DateTime.Now.AddYears(3),
+                    Description = "Come play to the game fest",
+                    Image = "",
+                    Nom = "Games Fest"
+                };
+                _evenementDAO.Insert(evenement);
+                _evenementDAO.Save();
+            }
+
+            if (!_adresseDAO.GetAll().Any())
+            {
+                var adresse = new Adresse()
+                {
+                    AdresseId = 0,
+                    App = "",
+                    CodePostal = "J2K2T5",
+                    NumeroCivique = 1,
+                    ProvinceId = _provinceDAO.GetAll().First().ProvinceId,
+                    Rue = "Laroque",
+                    Ville = "Longueil"
+                };
+                _adresseDAO.Insert(adresse);
+                _adresseDAO.Save();
+            }
+
+            if (!_auteurDAO.GetAll().Any())
+            {
+                var auteur = new Auteur()
+                {
+                    AuteurId = 0,
+                    Nom = "Write",
+                    Prenom = "Mec"
+                };
+                _auteurDAO.Insert(auteur);
+                _auteurDAO.Save();
+            }
+
+            if (!_CoursDAO.GetAll().Any())
+            {
+                var cours = new Cours()
+                {
+                    CoursId = 0,
+                    Nom = "Science",
+                    AnneeParcours = 1,
+                    Code = "01",
+                    Description = "On apprend des sciences ici",
+                    ProgrammeEtudeId = _programmeEtudeDAO.GetAll().First().ProgrammeEtudeId,
+                };
+                _CoursDAO.Insert(cours);
+                _CoursDAO.Save();
+            }
+
+            if (!_livreDAO.GetAll().Any())
+            {
+                var livre = new LivreBibliotheque()
+                {
+                    LivreId = 0,
+                    MaisonEditionId = _maisonEditionDAO.GetAll().First().MaisonEditionId,
+                    DatePublication = DateTime.Now,
+                    Isbn = "0-9767736-6-X",
+                    PhotoCouverture = "",
+                    Resume = "A very good book resume",
+                    Titre = "WallerFlower",
+                    PrixJson = JsonSerializer.Serialize(new PrixEtatLivreDto() { PrixNeuf = 10.69m, PrixNumerique = 5 })
+                };
+                _livreDAO.Insert(livre);
+                _livreDAO.Save();
+
+
+                _livreDAO.Update(livre);
+                _livreDAO.Save();
+            }
+
+            if (!_context.AuteursLivres.Any())
+            {
+                var livre = _livreDAO.GetAll().First();
+
+                livre.Auteurs = new List<AuteurLivre>
+                {
+                    new AuteurLivre
+                    {
+                        AuteurId = _auteurDAO.GetAll().First().AuteurId,
+                        LivreBibliothequeId = livre.LivreId
+                    }
+                };
+                _livreDAO.Update(livre);
+                _livreDAO.Save();
+            }
+
+            if (!_context.CoursLivres.Any())
+            {
+                var livre = _livreDAO.GetAll().First();
+
+                livre.Cours = new List<CoursLivre>
+                {
+                    new CoursLivre
+                    {
+                        CoursId = _CoursDAO.GetAll().First().CoursId,
+                        LivreBibliothequeId = livre.LivreId
+                    }
+                };
+                _livreDAO.Update(livre);
+                _livreDAO.Save();
+            }
+
             return Ok();
         }
     }

@@ -1,12 +1,16 @@
 ﻿@model List<CoursDto>
 
-<h2 class="p-3">Gestion des cours</h2>
 
+<div class="row">
+    <h2 class="p-3 ps-0 col-10">Gestion des cours</h2>
+    <div class="col-2 d-flex justify-content-end">
+        <img src="~/img/plus-circle.svg" class="btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getTBFormulaireCreerCours()" />
+    </div>
+</div>
 
-<img src="~/img/plus-circle.svg" class="position-fixed bottom-0 end-0 me-5 mb-5 btn-img-hover devant" data-bs-toggle="modal" data-bs-target="#creer" onclick="getTBFormulaireCreerCours()" />
 
 <div>
-    <table class="table table-light ms-5">
+    <table class="table table-light">
         <thead>
             <tr>
                 <th id="@nameof(AjoutEditCoursVM.Code)">@Html.DisplayNameFor(cours => cours.First().Code)</th>
@@ -16,9 +20,10 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (CoursDto cours in Model) {
+            @foreach (CoursDto cours in Model)
+            {
                 <tr id="tr-@cours.CoursId" class="modif-suppr">
-                
+
                     <td>@cours.Code</td>
                     <td>@cours.Nom</td>
                     <td>@cours.AnneeParcours</td>

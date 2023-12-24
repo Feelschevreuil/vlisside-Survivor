@@ -21,8 +21,8 @@ namespace vlissides_bibliotheque.DAO
         public LivreBibliotheque GetById(int id)
         {
             return _context.LivresBibliotheque
-                .Include(l => l.Auteurs.Where(al=> al.LivreBibliothequeId == id))
-                .Include(l => l.Cours.Where(al=> al.LivreBibliothequeId == id))
+                .Include(l => l.Auteurs.Where(al=> al.LivreBibliothequeId == id)).ThenInclude(al=> al.Auteur)
+                .Include(l => l.Cours.Where(al=> al.LivreBibliothequeId == id)).ThenInclude(cl=> cl.Cours.ProgrammeEtude)
                 .Include(l => l.MaisonEdition)
                 .SingleOrDefault(livre => livre.LivreId == id);
         }

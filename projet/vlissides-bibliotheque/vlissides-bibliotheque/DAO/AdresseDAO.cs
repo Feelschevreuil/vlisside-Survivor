@@ -78,10 +78,5 @@ namespace vlissides_bibliotheque.DAO
             _context.SaveChanges();
             return true;
         }
-
-        IEnumerable<Adresse> IDAO<Adresse>.GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
