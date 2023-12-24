@@ -23,13 +23,7 @@ namespace vlissides_bibliotheque.Services
 
         public Adresse GetAdresse(Etudiant etudiant)
         {
-            int adresseId = etudiant.AdresseId;
-
-            Adresse adresseFacturation = _context.Adresses
-                .Include(a => a.Province)
-                .FirstOrDefault(a => a.AdresseId == adresseId);
-
-            return adresseFacturation;
+            return _context.Adresses.Include(a => a.Province).FirstOrDefault(a => a.AdresseId == etudiant.AdresseId);
         }
 
         public Etudiant ModelBinding(Etudiant etudiant, Adresse adresse, GestionProfilVM vm)

@@ -62,14 +62,10 @@ namespace vlissides_bibliotheque.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             if (User.IsInRole(Constante.Etudiant))
-            {
                 return View(_utilisateur.GetEtudiantProfilVM(await GetEtudiantCourantAsync()));
-            }
 
             if (User.IsInRole(Constante.Admin))
-            {
                 return View(_utilisateur.GetAdminProfilVM(await GetAdminCourantAsync()));
-            }
 
             return Content("Accès interdit");
         }
@@ -95,6 +91,7 @@ namespace vlissides_bibliotheque.Controllers
                     _utilisateur.ModelBinding(etudiant, adresse, vm);
                     _context.SaveChanges();
                 }
+
                 return View(vm);
             }
 
@@ -114,21 +111,19 @@ namespace vlissides_bibliotheque.Controllers
 
                 if (ModelState.IsValid)
                 {
-
                     _utilisateur.ModelBinding(await GetAdminCourantAsync(), vm);
                     _context.SaveChanges();
                 }
                 return View(vm);
             }
+            
             return Content("Action interdite");
         }
 
         private GestionProfilVM SetEtudiantProfilVM(GestionProfilVM vm)
         {
             if (vm.CodePostal != null)
-            {
                 vm.CodePostal = vm.CodePostal.ToUpper();
-            }
 
             vm.ProgrammeEtudes = new SelectList(_programmeEtudeDAO.GetAll(), nameof(ProgrammeEtude.ProgrammeEtudeId), nameof(ProgrammeEtude.Nom));
             vm.checkBoxCours = _checkedBox.GetCoursCheckedBox(vm.EtudiantId);
@@ -148,6 +143,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             return await _userManagerAdmin.GetUserAsync(HttpContext.User);
         }
+      
         [HttpPost]
         public string AssignerCoursEtudiant([FromBody] CoursEtudiantDTO coursAssocier)
         {

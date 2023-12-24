@@ -17,40 +17,40 @@ namespace vlissides_bibliotheque
         }
         public List<SelectListItem> ListDropDownAuteurs()
         {
-            List<SelectListItem> Liste = new List<SelectListItem>
+            List<SelectListItem> list = new List<SelectListItem>
             {
                 new SelectListItem { Value = "", Text = "Choisissez un auteur" }
             };
 
             foreach (var e in _context.Auteurs)
-                Liste.Add(new SelectListItem { Value = e.AuteurId.ToString(), Text = e.Nom + ", " + e.Prenom });
+                list.Add(new SelectListItem { Value = e.AuteurId.ToString(), Text = e.Nom + ", " + e.Prenom });
 
-            return Liste;
+            return list;
         }
 
         public List<SelectListItem> ListDropDownMaisonDedition()
         {
-            List<SelectListItem> Liste = new List<SelectListItem>
+            List<SelectListItem> list = new List<SelectListItem>
             {
                 new SelectListItem { Value = "", Text = "Choisissez une maison d'édition" }
             };
 
             foreach (var e in _context.MaisonsEdition)
-                Liste.Add(new SelectListItem { Value = e.MaisonEditionId.ToString(), Text = e.Nom });
+                list.Add(new SelectListItem { Value = e.MaisonEditionId.ToString(), Text = e.Nom });
 
-            return Liste;
+            return list;
         }
         public List<SelectListItem> ListDropDownProgrammesEtude()
         {
-            List<SelectListItem> Liste = new List<SelectListItem>
+            List<SelectListItem> list = new List<SelectListItem>
             {
                 new SelectListItem { Value = "", Text = "Choisissez un programme d'étude" }
             };
 
             foreach (var e in _context.ProgrammesEtudes.ToList())
-                Liste.Add(new SelectListItem { Value = e.ProgrammeEtudeId.ToString(), Text = e.Nom });
+                list.Add(new SelectListItem { Value = e.ProgrammeEtudeId.ToString(), Text = e.Nom });
 
-            return Liste;
+            return list;
         }
 
         public List<SelectListItem> ListDropDownEtatsLivre()

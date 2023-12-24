@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.DTO;
 
 namespace vlissides_bibliotheque.ViewModels
 {
@@ -12,7 +12,7 @@ namespace vlissides_bibliotheque.ViewModels
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         public int CommanditaireId { get; set; }
         [Display(Name = "Commanditaire")]
-        public Commanditaire Commanditaire { get; set; }
+        public CommanditaireDto Commanditaire { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [MaxLength(64, ErrorMessage = "Votre {0} est ne peux pas dépasser 64 caractères")]

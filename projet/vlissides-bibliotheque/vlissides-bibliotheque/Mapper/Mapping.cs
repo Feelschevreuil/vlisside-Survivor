@@ -13,6 +13,10 @@ namespace vlissides_bibliotheque.Mapper
         {
 
             CreateMap<Auteur, AuteurDto>().ReverseMap();
+            CreateMap<Auteur, AuteursVM>().ReverseMap();
+
+            CreateMap<Commanditaire, CommanditaireDto>().ReverseMap();
+
 
             CreateMap<Evenement, EvenementVM>().ReverseMap();
 

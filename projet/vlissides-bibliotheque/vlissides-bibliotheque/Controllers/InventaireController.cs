@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using System.Linq;
 using vlissides_bibliotheque.Commun;
+using AutoMapper;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -26,9 +27,12 @@ namespace vlissides_bibliotheque.Controllers
         private readonly ILivreBibliotheque _livreService;
         private readonly ICheckedBox _CheckedBox;
         private readonly IDropDownList _dropDownList;
+        private readonly IMapper _mapper;
 
 
-        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IDAO<LivreBibliotheque> livreDAO, ICheckedBox checkedBox, IDropDownList dropDownList, ILivreBibliotheque livreService, IDAO<Auteur> auteurDAO)
+        public InventaireController(ILogger<InventaireController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, 
+            IDAO<LivreBibliotheque> livreDAO, ICheckedBox checkedBox, IDropDownList dropDownList, ILivreBibliotheque livreService, 
+            IDAO<Auteur> auteurDAO, IMapper mapper)
         {
             _logger = logger;
             _context = context;
@@ -38,6 +42,7 @@ namespace vlissides_bibliotheque.Controllers
             _CheckedBox = checkedBox;
             _dropDownList = dropDownList;
             _livreService = livreService;
+            _mapper = mapper;
         }
 
         public IActionResult Bibliotheque()
@@ -48,12 +53,10 @@ namespace vlissides_bibliotheque.Controllers
 
         public ActionResult Detail(int id)
         {
-            if (_livreDAO.GetById(id) != null)
-            {
-                return View(_livreService.GetLivreDetailVM(id));
-            }
+            if (_livreDAO.GetById(id) == null)
+                return Content("Ce livre n'existe pas dans la base de données.");
 
-            return Content("Ce livre n'existe pas dans la base de données.");
+            return View(_livreService.GetLivreDetailVM(id));
         }
 
         [Authorize(Roles = Constante.Admin)]
@@ -170,38 +173,35 @@ namespace vlissides_bibliotheque.Controllers
 
             LivreBibliotheque LivreBibliothèqueModifier = _livreDAO.GetById(form.IdDuLivre);
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                LivreBibliothèqueModifier.MaisonEditionId = form.MaisonDeditionId;
-                LivreBibliothèqueModifier.Isbn = form.ISBN;
-                LivreBibliothèqueModifier.Titre = form.Titre;
-                LivreBibliothèqueModifier.Resume = form.Resume;
-                LivreBibliothèqueModifier.PhotoCouverture = form.Photo;
-                LivreBibliothèqueModifier.DatePublication = form.DatePublication;
+                var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
+                foreach (var error in ModelErrors)
+                {
+                    if (error.Exception == null)
+                        ModelState.AddModelError(string.Empty, "TODO: Gérer l'erreur");
+                    else
+                        ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
 
-                _livreDAO.Update(LivreBibliothèqueModifier);
-                _livreDAO.Save();
+                form.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
+                form.CheckBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
+                form.CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
 
-                return View("succesModifierLivre", LivreBibliothèqueModifier);
+                return View(form);
             }
 
-            var ModelErrors = ModelState.Values.SelectMany(v => v.Errors).ToList();
-            foreach (var error in ModelErrors)
-            {
-                if (error.Exception == null)
-                {
-                    ModelState.AddModelError(string.Empty, "TODO: Gérer l'erreur");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, error.ErrorMessage);
-                }
-            }
+            LivreBibliothèqueModifier.MaisonEditionId = form.MaisonDeditionId;
+            LivreBibliothèqueModifier.Isbn = form.ISBN;
+            LivreBibliothèqueModifier.Titre = form.Titre;
+            LivreBibliothèqueModifier.Resume = form.Resume;
+            LivreBibliothèqueModifier.PhotoCouverture = form.Photo;
+            LivreBibliothèqueModifier.DatePublication = form.DatePublication;
 
-            form.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
-            form.CheckBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
-            form.CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
-            return View(form);
+            _livreDAO.Update(LivreBibliothèqueModifier);
+            _livreDAO.Save();
+
+            return View("succesModifierLivre", LivreBibliothèqueModifier);
         }
 
         [Authorize(Roles = Constante.Admin)]
@@ -243,20 +243,19 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.AuteurId));
             ModelState.Remove(nameof(vm.Id));
 
-            if (ModelState.IsValid)
-            {
-                Auteur nouvelleAuteurs = new()
-                {
-                    AuteurId = 0,
-                    Prenom = vm.Prenom,
-                    Nom = vm.Nom,
-                };
-                _auteurDAO.Insert(nouvelleAuteurs);
-                _auteurDAO.Save();
-                vm.Id = nouvelleAuteurs.AuteurId;
-                return Json(vm);
-            }
-            return PartialView("Views/Shared/_AjouteEditAuteursPartial.cshtml", vm);
+            if (!ModelState.IsValid)
+                return PartialView("Views/Shared/_AjouteEditAuteursPartial.cshtml", vm);
+
+
+            var nouvelleAuteurs = new Auteur();
+            
+            _mapper.Map(vm, nouvelleAuteurs);
+           
+            _auteurDAO.Insert(nouvelleAuteurs);
+            _auteurDAO.Save();
+            vm.Id = nouvelleAuteurs.AuteurId;
+
+            return Json(vm);
         }
 
         [HttpPost]

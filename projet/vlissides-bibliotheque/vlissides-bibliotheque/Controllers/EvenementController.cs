@@ -66,14 +66,16 @@ namespace vlissides_bibliotheque.Controllers
         [HttpPost]
         public ActionResult Creer(EvenementVM evenementVM)
         {
-            if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
-            {
+            if (evenementVM.Fin < evenementVM.Debut)
                 ModelState.AddModelError(string.Empty, "La date de début doit être avant ou égale la date de fin");
-            }
+
 
             if (ModelState.IsValid)
             {
-                Evenement newEvenement = _evenementService.GetEvenement(evenementVM);
+                var newEvenement = new Evenement();
+
+                _mapper.Map(evenementVM, newEvenement);
+
                 _evenementDAO.Insert(newEvenement);
                 _evenementDAO.Save();
 
@@ -94,44 +96,35 @@ namespace vlissides_bibliotheque.Controllers
 
             Evenement evenement = _evenementDAO.GetById(id.Value);
 
-            if (evenement != null)
-            {
-                return View(_evenementService.GetEvenementVM(evenement));
-            }
-            return Content("L'événement recherche n'a pas été trouvé dans la base de données");
+            if (evenement == null)
+                return Content("L'événement recherche n'a pas été trouvé dans la base de données");
 
+
+            return View(_mapper.Map<EvenementVM>(evenement));
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Modifier(EvenementVM evenementVM)
         {
-            if (!DateEvenement.CompareDate(evenementVM.Debut, evenementVM.Fin))
-            {
+            if (evenementVM.Fin < evenementVM.Debut)
                 ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
-            }
+
 
             if (ModelState.IsValid)
             {
                 Evenement evenementModifier = _evenementDAO.GetById(evenementVM.EvenementId);
 
-                if (evenementModifier != null)
-                {
-                    {
-                        evenementModifier.EvenementId = evenementVM.EvenementId;
-                        evenementModifier.Debut = evenementVM.Debut;
-                        evenementModifier.Fin = evenementVM.Fin;
-                        evenementModifier.Commanditaire = evenementVM.Commanditaire;
-                        evenementModifier.CommanditaireId = evenementVM.CommanditaireId;
-                        evenementModifier.Nom = evenementVM.Nom;
-                        evenementModifier.Description = evenementVM.Description;
-                        evenementModifier.Image = evenementVM.Image;
-                    }
-                    _evenementDAO.Update(evenementModifier);
-                    _evenementDAO.Save();
-                    return RedirectToAction("Evenements");
-                }
-                return Content("L'événement que vous tentez de modifier n'a pas été trouver dans la base de données");
+                if (evenementModifier == null)
+                    Content("L'événement que vous tentez de modifier n'a pas été trouver dans la base de données");
+
+
+                _mapper.Map(evenementVM, evenementModifier);
+
+                _evenementDAO.Update(evenementModifier);
+                _evenementDAO.Save();
+                return RedirectToAction("Evenements");
             }
+
             return View(evenementVM);
 
         }

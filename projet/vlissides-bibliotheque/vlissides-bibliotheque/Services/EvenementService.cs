@@ -21,30 +21,7 @@ namespace vlissides_bibliotheque.Services
             _context = context;
             _mapper = mapper;
         }
-
-        public Evenement GetEvenement(EvenementVM evenementRecus)
-        {
-            Evenement Evenement = _mapper.Map<Evenement>(evenementRecus);
-
-            return Evenement;
-        }
-
-        public EvenementVM GetEvenementVM(Evenement evenementRecus)
-        {
-            EvenementVM evenementVM = new()
-            {
-                EvenementId = evenementRecus.EvenementId,
-                Commanditaire = evenementRecus.Commanditaire,
-                CommanditaireId = evenementRecus.CommanditaireId,
-                Debut = evenementRecus.Debut,
-                Fin = evenementRecus.Fin,
-                Image = evenementRecus.Image,
-                Nom = evenementRecus.Nom,
-                Description = evenementRecus.Description,
-            };
-
-            return evenementVM;
-        }
+       
 
         public async Task<List<EvenementVM>> GetEvenementAccueil()
         {
@@ -53,7 +30,7 @@ namespace vlissides_bibliotheque.Services
 
             foreach (Evenement evenement in listQuatreEvenement)
             {
-                EvenementVM evenementVM = GetEvenementVM(evenement);
+                EvenementVM evenementVM = _mapper.Map<EvenementVM>(evenement);
 
 
                 if (string.IsNullOrEmpty(evenement.Image))
@@ -73,13 +50,11 @@ namespace vlissides_bibliotheque.Services
 
             foreach (Evenement evenement in EvenementInventaire)
             {
-                EvenementVM evenementVM = GetEvenementVM(evenement);
-
+                EvenementVM evenementVM = _mapper.Map<EvenementVM>(evenement);
 
                 if (string.IsNullOrEmpty(evenement.Image))
-                {
                     evenementVM.Image = "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/photo-evenement.jpg";
-                }
+
                 listEvenementsVM.Add(evenementVM);
             };
 
