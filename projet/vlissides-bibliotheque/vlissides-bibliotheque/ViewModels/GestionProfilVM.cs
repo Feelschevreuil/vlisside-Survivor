@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.DTO.Ajax;
-using vlissides_bibliotheque.Models;
 using vlissides_bibliotheque.Validation;
 
 namespace vlissides_bibliotheque.ViewModels
@@ -74,7 +71,7 @@ namespace vlissides_bibliotheque.ViewModels
         public string NomProvince { get; set; }
 
         public int CoursId { get; set; }
-        [Display(Name = "Liste des cours")]
+        [Display(Name = "Cours")]
         public List<checkBoxCours> checkBoxCours { get; set; }
     }
 }

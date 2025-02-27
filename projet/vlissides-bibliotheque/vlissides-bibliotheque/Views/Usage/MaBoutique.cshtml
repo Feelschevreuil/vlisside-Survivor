@@ -1,11 +1,14 @@
 ﻿@model List<LivreEtudiant>
 
 
-<h1>Ma boutique</h1>
-
-<a class="d-flex justify-content-end" asp-controller="usage" asp-action="ajouter">
-    <input class="btn btn-primary shadow" type="button" value="Ajouter un livre" />
-</a>
+<div class="row">
+    <h1 class="col-9">Ma boutique</h1>
+    <div class="col-3">
+        <a class="d-flex justify-content-end" asp-controller="usage" asp-action="ajouter">
+            <img src="/img/plus-circle.svg" class="me-3 btn-img-hover devant">
+        </a>
+    </div>
+</div>
 
 <div class="container-fluid">
 

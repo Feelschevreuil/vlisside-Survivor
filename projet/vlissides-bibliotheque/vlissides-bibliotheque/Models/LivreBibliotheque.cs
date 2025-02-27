@@ -44,7 +44,7 @@ namespace vlissides_bibliotheque.Models
         [DisplayName("Date de publication")]
         public DateTime DatePublication { get; set; }
 
-        public virtual List<AuteurLivre> Auteurs { get; set; }
-        public virtual List<CoursLivre> Cours { get; set; }
+        public virtual List<Auteur> Auteurs { get; set; }
+        public virtual List<Cours> Cours { get; set; }
     }
 }

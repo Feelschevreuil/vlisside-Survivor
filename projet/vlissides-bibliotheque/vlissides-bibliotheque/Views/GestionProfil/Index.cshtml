@@ -5,15 +5,13 @@
 }
 
 <div class="row">
-    <div class="col-md-8 d-block m-auto">
-        <form class="text-center m-3" method="post" asp-action="Index" asp-controller="GestionProfil">
+    <div class="col-md-6 d-block m-auto text-center">
+        <img width="200px" src="~/img/account-cog.svg" />
 
-            <img width="200px" src="~/img/account-cog.svg" />
-
+        <form class="m-3" method="post" asp-action="Index" asp-controller="GestionProfil">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="row text-start">
-
                 <div class="col-md-@size">
                     <fieldset class="rounded shadow p-3 m-2 mb-4">
                         <legend>

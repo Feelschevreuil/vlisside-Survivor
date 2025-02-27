@@ -4,64 +4,53 @@
     int livreIdCourant = @Model.LivreBibliotheque.LivreId;
 }
 
-    <p id="pErreur"></p>
-    <p hidden id="idLivre">@livreIdCourant</p>
+<p id="pErreur"></p>
+<p hidden id="idLivre">@livreIdCourant</p>
+
+<div class="shadow rounded">
+
     <div class="row mb-3">
-        <div class="col-4">
+        <h1 class="card-title d-flex justify-content-center">@Model.LivreBibliotheque.Titre</h1>
+        <div class="col-6 d-flex justify-content-center">
             <img class="img-fluid image-detail" src="@Model.LivreBibliotheque.PhotoCouverture" />
         </div>
 
         <div class="card-body col-6 mt-auto mb-auto">
-            <h5 class="card-title"><strong>Titre:</strong> @Model.LivreBibliotheque.Titre</h5>
-            <p class="card-text"><strong>ISBN:</strong> @Model.LivreBibliotheque.Isbn</p>
-            @if (Model.ProgrammeEtudeNom != null)
-            {
-                <p class="card-text"><strong>Programme d'étude:</strong> @Model.ProgrammeEtudeNom</p>
-            }
-            else
-            {
-                <p class="card-text"><strong>Programme d'étude:</strong> N/A</p>
-            }
-            <p class="card-text"><strong>Date de publication:</strong> @Model.LivreBibliotheque.DatePublication</p>
-            <p class="card-text"><strong>Description:</strong> @Model.LivreBibliotheque.Resume</p>
-        </div>
-    </div>
-
-
- @*   <div class="row col-12 justify-content-center" data-toggle="buttons" role="group">
-        @foreach (var etat in Model.prixEtatLivre.Select(p => p.EtatLivre))
-        {
-            <label class="btn btn-rounded bg-top text-white col" id="@etat-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,@etat)">
-                <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NEUF" onclick="ChangerPrix(@((int)etat), @livreIdCourant);"> @etat
-            </label>
-        }
-    </div>
-
-    <div class="row col-12 justify-content-center">
-        @foreach (var prix in Model.prixEtatLivre.Select(p => p.Prix))
-        {
-            <div class="text-center col mt-1 me-5 rounded-4">
-                <p id="PrixLivreId-@livreIdCourant" class="pt-3">@prix.ToString(".00")$</p>
+            <div class="row me-0">
+                <fieldset class="shadow rounded p-3">
+                    <p class="card-text"><strong>ISBN:</strong> @Model.LivreBibliotheque.Isbn</p>
+                    <p class="card-text"><strong>Programme d'étude:</strong>  @(Model.ProgrammeEtudeNom != null ? Model.ProgrammeEtudeNom : "N/A")</p>
+                    <p class="card-text"><strong>Date de publication:</strong> @Model.LivreBibliotheque.DatePublication.ToString("d MMMM yyyy")</p>
+                    <p class="card-text"><strong>Description:</strong> @Model.LivreBibliotheque.Resume</p>
+                </fieldset>
             </div>
-        }
-    </div>*@
+            <div class="row me-0">
+                <fieldset class="shadow rounded p-3">
+                    <p class="card-text"><strong>Neuf</strong> @Model.LivreBibliotheque.Prix.PrixNeuf$</p>
+                    <p class="card-text"><strong>Numérique</strong> @Model.LivreBibliotheque.Prix.PrixNumerique$</p>
+                    <p class="card-text"><strong>Usagé</strong> @Model.LivreBibliotheque.Prix.PrixUsager$</p>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <div class="d-flex flex-row-reverse">
+<div class="d-flex flex-row-reverse">
     <div class="form-group col-2">
-    <label asp-for="Quantite" class="form-label"></label>
-    <input asp-for="Quantite" class="form-control" aria-required="true" />
-    <span asp-validation-for="Quantite" class="text-danger"></span>
+        <label asp-for="Quantite" class="form-label"></label>
+        <input asp-for="Quantite" class="form-control" aria-required="true" />
+        <span asp-validation-for="Quantite" class="text-danger"></span>
     </div>
-    </div>
+</div>
 
-    <div class="d-flex flex-row-reverse">
-        <div class="form-group col-2" id="ajouter">
-            <input class="btn btn-primary mt-4 shadow" type="button" value="Ajouter au panier" onclick="ajouterLivreLocalStorage(@Model.LivreBibliotheque.LivreId)" />
-        </div>
-        <div class="form-group col-2" id="supprimer" hidden>
-            <input class="btn btn-danger mt-4 shadow" type="button" value="Supprimer du panier" onclick="supprimerLivreLocalStorage(@Model.LivreBibliotheque.LivreId)" />
-        </div>
+@* <div class="d-flex flex-row-reverse">
+    <div class="form-group col-2" id="ajouter">
+        <input class="btn btn-primary mt-4 shadow" type="button" value="Ajouter au panier" onclick="ajouterLivreLocalStorage(@Model.LivreBibliotheque.LivreId)" />
     </div>
+    <div class="form-group col-2" id="supprimer" hidden>
+        <input class="btn btn-danger mt-4 shadow" type="button" value="Supprimer du panier" onclick="supprimerLivreLocalStorage(@Model.LivreBibliotheque.LivreId)" />
+    </div>
+</div> *@
 
 <link rel="stylesheet" href="~/css/carte-livre-Partiel.css" asp-append-version="true" />
 <script src="~/js/LivreDetail.js"></script>

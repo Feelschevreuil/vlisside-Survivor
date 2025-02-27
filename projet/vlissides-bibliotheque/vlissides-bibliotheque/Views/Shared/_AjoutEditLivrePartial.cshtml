@@ -1,17 +1,16 @@
 ﻿@model AjoutEditLivreVM
 
 @{
-    var photoSrc = !string.IsNullOrEmpty(Model.Photo) ? Model.Photo : "";
+    var photoSrc = !string.IsNullOrEmpty(Model.Photo) ? Model.Photo : string.Empty;
 }
 
+<form method="post" class="text-center" asp-action="modifier" asp-controller="Inventaire" enctype="multipart/form-data">
 
-<form method="post" class="text-center m-3" asp-action="modifier" asp-controller="Inventaire" enctype="multipart/form-data">
-
-    <img class="d-block m-auto mb-3 icon-modifier" src="~/img/book-edit.svg" />
     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-    <input asp-for="IdDuLivre" class="form-control" value="@Model.IdDuLivre" type="hidden" />
+    <input asp-for="Id" class="form-control" value="@Model.Id" type="hidden" />
     <div class="row text-start">
-        <div class="col-md-6">
+        
+        <div class="col-7">
             <fieldset class="rounded shadow p-3 m-2 mb-4">
                 <div class="form-group">
                     <label asp-for="Titre" class="form-label"></label>
@@ -32,9 +31,9 @@
                     <label asp-for="Photo" class="form-label"></label>
                     <input type="file" accept=".png,.jpg,.jpeg" class="form-control" aria-required="true" onchange="getAndShowBase64(this.files[0], 'sendImg', 'viewImg')" />
                     <input asp-for="Photo" class="form-control" aria-required="true" hidden id="sendImg" />
-                  
-                        <img id="viewImg" src="@photoSrc" class="col-md-6 m-1" />
-                  
+
+                    <img id="viewImg" src="@photoSrc" class="col-md-6 m-1" />
+
                     <span asp-validation-for="Photo" class="row text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -57,20 +56,8 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">$</div>
                             </div>
-                            @if (Model.PossedeNumerique)
-                            {
-                                <input asp-for="PrixNumerique" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNumerique-@Model.IdDuLivre" />
-                                <label class="ps-1">
-                                    <input asp-for="PossedeNumerique" aria-required="true" type="checkbox" onclick="ToggleNumerique('inputPrixNumerique-@Model.IdDuLivre')" checked />
-                                </label>
-                            }
-                            else
-                            {
-                                <input asp-for="PrixNumerique" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNumerique-@Model.IdDuLivre" disabled />
-                                <label class="ps-1">
-                                    <input asp-for="PossedeNumerique" aria-required="true" type="checkbox" onclick="ToggleNumerique('inputPrixNumerique-@Model.IdDuLivre')" />
-                                </label>
-                            }
+
+                            <input asp-for="Prix.PrixNumerique" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNumerique-@Model.Id" />
 
                         </div>
                         <div class="input-group mb-2">
@@ -80,21 +67,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">$</div>
                             </div>
-                            @if (Model.PossedeNeuf)
-                            {
-                                <input asp-for="PrixNeuf" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNeuf-@Model.IdDuLivre" />
-                                <label class="ps-1">
-                                    <input asp-for="PossedeNeuf" aria-required="true" type="checkbox" onclick="ToggleNeuf('inputPrixNeuf-@Model.IdDuLivre')" checked />
-                                </label>
-                            }
-                            else
-                            {
-                                <input asp-for="PrixNeuf" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNeuf-@Model.IdDuLivre" disabled />
-                                <label class="ps-1">
-                                    <input asp-for="PossedeNeuf" aria-required="true" type="checkbox" onclick="ToggleNeuf('inputPrixNeuf-@Model.IdDuLivre')" />
-                                </label>
-                            }
-
+                            <input asp-for="Prix.PrixNeuf" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixNeuf-@Model.Id" />
                         </div>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
@@ -104,22 +77,8 @@
                                 <div class="input-group-text">$</div>
                             </div>
 
-                            @if (Model.PossedeUsagee)
-                            {
-                                <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage-@Model.IdDuLivre" />
-                                <input asp-for="QuantiteUsagee" class="form-control" type="text" placeholder="Quantité" id="quantitePrixUsager-@Model.IdDuLivre" />
-                                <label class="ps-1">
-                                    <input asp-for="PossedeUsagee" id="PossedeUsagee" class="" type="checkbox" onclick="ToggleUsager('inputPrixUsage-@Model.IdDuLivre','quantitePrixUsager-@Model.IdDuLivre')" checked />
-                                </label>
-                            }
-                            else
-                            {
-                                <input asp-for="PrixUsage" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage-@Model.IdDuLivre" disabled />
-                                <input asp-for="QuantiteUsagee" class="form-control" type="text" placeholder="Quantité" id="quantitePrixUsager-@Model.IdDuLivre" disabled />
-                                <label class="ps-1">
-                                    <input asp-for="PossedeUsagee" id="PossedeUsagee" class="" type="checkbox" onclick="ToggleUsager('inputPrixUsage-@Model.IdDuLivre','quantitePrixUsager-@Model.IdDuLivre')" />
-                                </label>
-                            }
+                            <input asp-for="Prix.PrixUsager" class="form-control" aria-required="true" type="text" placeholder="prix" id="inputPrixUsage-@Model.Id" />
+                            <input asp-for="Prix.QuantiteUsage" class="form-control" type="text" placeholder="Quantité" id="quantitePrixUsager-@Model.Id" />
 
                         </div>
                     </div>
@@ -127,29 +86,28 @@
             </fieldset>
         </div>
 
-        <div class="col-md-6">
-            <fieldset class="rounded shadow p-3 m-2 mb-4">
+        <div class="col-5">
+            <fieldset class="rounded shadow p-3 mb-4">
                 <div class="form-group" id="listDeCours">
 
                     <label asp-for="CheckBoxCours" class="form-label"></label>
-
 
                     <div class="cours">
                         @foreach (var Cours in Model.CheckBoxCours)
                         {
                             <div class="row ms-2 mt-2">
                                 <input class="col-2 mt-1 checkBoxCours" id="@Cours.Cours.CoursId" type="checkbox" name="Cours" value="@Cours.Cours.CoursId" checked="@Cours.Cocher" />
-                                <label class="col-8 text-break" for="@Cours.Cours.Nom">@Cours.Cours.Nom</label>
+                                <span class="col-8 text-break" for="@Cours.Cours.Nom">@Cours.Cours.Nom</span>
                             </div>
                         }
                     </div>
-                    <div class="row">
-                        <input class="mt-2 btn btn-primary w-100" type="button" onclick="modifierCoursLivre(@Model.IdDuLivre)" value="confirmer choix" />
+                    <div class="row d-flex justify-content-end">
+                        <input class="mt-2 btn btn-primary w-50" type="button" onclick="modifierCoursLivre(@Model.Id)" value="confirmer choix" />
                     </div>
 
                 </div>
             </fieldset>
-            <fieldset class="rounded shadow p-3 m-2 mb-4">
+            <fieldset class="rounded shadow p-3 mb-4">
                 <div class="form-group" id="listAuteurs">
 
                     <label asp-for="CheckBoxAuteurs" class="form-label"></label>
@@ -157,25 +115,26 @@
                         @foreach (var auteurs in Model.CheckBoxAuteurs)
                         {
                             <div class="row ms-2 mt-2">
-                                <input class="col-2 mt-1 checkBoxCours" id="@auteurs.Auteur.AuteurId" type="checkbox" name="Auteurs" value="@auteurs.Auteur.AuteurId" checked="@auteurs.Cocher" />
-                                <label class="col-8 text-break" for="@auteurs.Auteur.Nom">@auteurs.Auteur.Nom</label>
+                                <input class="col-2 mt-1 checkBoxCours" id="@auteurs.Auteur.Id" type="checkbox" name="Auteurs" value="@auteurs.Auteur.Id" checked="@auteurs.Cocher" />
+                                <span class="col-8 text-break" for="@auteurs.Auteur.Nom">@auteurs.Auteur.Nom</span>
                             </div>
                         }
                     </div>
 
                 </div>
-                <div class="row">
-                    <input class="mt-2 btn btn-primary w-100" type="button" onclick="modifierAuteursLivre(@Model.IdDuLivre)" value="confirmer choix" />
+                <div class="row d-flex justify-content-end">
+                    <input class="mt-2 btn btn-primary w-50" type="button" onclick="modifierAuteursLivre(@Model.Id)" value="confirmer choix" />
                 </div>
             </fieldset>
             <fieldset class="rounded shadow p-3 m-2 mb-4">
                 <div class="form-group">
-                    <label asp-for="MaisonDeditionId" class="form-label"></label>
-                    <select asp-for="MaisonDeditionId" asp-items="Model.MaisonsDeditions" class="form-control" aria-required="true"></select>
-                    <span asp-validation-for="MaisonDeditionId" class="text-danger"></span>
+                    <label asp-for="MaisonEditionId" class="form-label"></label>
+                    <select asp-for="MaisonEditionId" asp-items="Model.MaisonsDeditions" class="form-control" aria-required="true"></select>
+                    <span asp-validation-for="MaisonEditionId" class="text-danger"></span>
                 </div>
             </fieldset>
         </div>
+        
         @Html.AntiForgeryToken()
     </div>
 </form>

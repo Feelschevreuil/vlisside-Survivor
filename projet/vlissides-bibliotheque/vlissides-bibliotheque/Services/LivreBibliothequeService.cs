@@ -22,34 +22,15 @@ namespace vlissides_bibliotheque.Services
             _livreDAO = livreDAO;
             _mapper = mapper;
         }
-        public TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(int livreBibliothequeId)
-        {
-            LivreBibliothequeDto livre = _mapper.Map<LivreBibliothequeDto>(_livreDAO.GetById(livreBibliothequeId));
-
-            TuileLivreBibliotequeVM tuileVM = new()
-            {
-                LivreBibliotheque = livre,
-                Auteurs = livre.Auteurs.Select(a => a.NomComplet).ToList(),
-                ProgrammeEtudeNom = livre.Cours.First().Nom,
-                Quantite = livre.Prix.QuantiteUsage
-            };
-
-
-            if (string.IsNullOrEmpty(tuileVM.LivreBibliotheque.PhotoCouverture))
-                tuileVM.LivreBibliotheque.PhotoCouverture = GetImageParDefaut();
-
-            return tuileVM;
-        }
+        
 
         public List<TuileLivreBibliotequeVM> GetTuileLivreBibliotequeInventaire()
         {
             List<TuileLivreBibliotequeVM> tuileInventaire = new();
 
-            foreach (int livre in _livreDAO.GetAll().Select(l => l.LivreId))
-            {
-                tuileInventaire.Add(GetTuileLivreBibliotequeVMs(livre));
-            }
-
+            foreach (var tuile in _mapper.Map<List<TuileLivreBibliotequeVM>>(_livreDAO.GetAll().ToList()))
+                tuileInventaire.Add(tuile);
+            
             return tuileInventaire;
         }
 
@@ -57,38 +38,26 @@ namespace vlissides_bibliotheque.Services
         {
             List<TuileLivreBibliotequeVM> tuileLivreBiblioteques = new();
 
-            List<int> list = _context.LivresBibliotheque
-               .Take(4)
-               .Select(l => l.LivreId)
-               .ToList();
+            foreach (var tuile in _mapper.Map<List<TuileLivreBibliotequeVM>>(_livreDAO.GetAll().Take(4).ToList()))
+                tuileLivreBiblioteques.Add(tuile);
+            
 
-            foreach (int livre in list)
-            {
-                tuileLivreBiblioteques.Add(GetTuileLivreBibliotequeVMs(livre));
-            }
             return tuileLivreBiblioteques;
+        }
+
+        public LivreBibliothequeDto GetLivre(int id)
+        {
+            return _mapper.Map<LivreBibliothequeDto>(_livreDAO.GetById(id));
+        }
+
+        public TuileLivreBibliotequeVM GetTuileLivreBibliotequeVMs(int livreBibliothequeId)
+        {
+            return _mapper.Map<TuileLivreBibliotequeVM>(_livreDAO.GetById(livreBibliothequeId));
         }
 
         public LivreDetailVM GetLivreDetailVM(int livreBibliothequeId)
         {
-            LivreBibliotheque livreBibliotheque = _livreDAO.GetById(livreBibliothequeId);
-
-            LivreDetailVM tuileVM = new()
-            {
-                LivreBibliotheque = _mapper.Map<LivreBibliothequeDto>(livreBibliotheque),
-                Auteurs = livreBibliotheque.Auteurs.Select(a => a.Auteur.NomComplet).ToList(),
-                ProgrammeEtudeNom = livreBibliotheque.Cours.FirstOrDefault()?.Cours.ProgrammeEtude.Nom
-            };
-
-            if (string.IsNullOrEmpty(tuileVM.LivreBibliotheque.PhotoCouverture))
-                tuileVM.LivreBibliotheque.PhotoCouverture = GetImageParDefaut();
-
-            return tuileVM;
-        }
-
-        public string GetImageParDefaut()
-        {
-            return "https://sqlinfocg.cegepgranby.qc.ca/1855390/img/photo-livre.jpg";
+            return _mapper.Map<LivreDetailVM>(_livreDAO.GetById(livreBibliothequeId));
         }
     }
 }

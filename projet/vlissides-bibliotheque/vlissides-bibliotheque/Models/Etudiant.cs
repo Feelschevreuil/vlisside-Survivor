@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
 {
@@ -19,5 +20,7 @@ namespace vlissides_bibliotheque.Models
         public int AnneeParcours { get; set; }
 
         public int NumeroEtudiant { get; set; }
+
+        public virtual List<Cours> Cours { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿@model TuileLivreBibliotequeVM
 
 @{
-    int? livreIdCourant = @Model.LivreBibliotheque?.LivreId;
+    int? livreIdCourant = Model.LivreBibliotheque?.LivreId;
+    string photo = !string.IsNullOrEmpty(Model.LivreBibliotheque.PhotoCouverture) ? Model.LivreBibliotheque.PhotoCouverture : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4CXAIfDCT34gDKzDD7pp7A9b5P7p-ACvJ_w&s";
+
 }
-
-
 
 <div class="col-12 col-md-3 col-sm-3 mb-3 mt-3">
     <div class="card shadow border-0 h-100 tuile-livre mt-2 p-2">
@@ -26,26 +26,26 @@
             }
 
             <div class="row">
-                <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="@Model.LivreBibliotheque.LivreId">
-                    <img class="mx-auto image-livre" src="@Model.LivreBibliotheque?.PhotoCouverture" alt="PhotoLivre">
+                <a class="text-black text-decoration-none" asp-area="" asp-controller="inventaire" asp-action="detail" asp-route-id="Model.LivreBibliotheque.LivreId">
+                    <img class="mx-auto image-livre" src="@photo" alt="PhotoLivre">
                 </a>
             </div>
 
-            @*                <div class="row mx-auto col-6" id="cercleJauneN-@livreIdCourant">
-            <div hidden id="Spinner-@livreIdCourant" class="spinner-grow spinner-grow-sm mb-1 mt-1 mx-auto" role="status">
-            <span class="visually-hidden">Loading...</span>
+            <div class="row mx-auto col-6" id="cercleJauneN-@livreIdCourant">
+                <div hidden id="Spinner-@livreIdCourant" class="spinner-grow spinner-grow-sm mb-1 mt-1 mx-auto" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span id="PrixLivreId-@livreIdCourant" class="rounded-circle prix">@Model.LivreBibliotheque.Prix.PrixNeuf$</span>
             </div>
-            <span id="PrixLivreId-@livreIdCourant" class="rounded-circle prix">@Model.prixEtatLivre.First().Prix.ToString(".00")$</span>
-            </div>*@
 
-            @*                <div class="o-switch btn-group w-100 mt-1 row-cols-auto row" data-toggle="buttons" role="group">
-            @foreach (var etat in Model.prixEtatLivre.Select(p => p.EtatLivre))
-            {
-            <label class="btn btn-rounded bg-top text-white col" id="@etat.ToString()-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'@etat')">
-            <input hidden type="radio" name="options+@livreIdCourant" value="@EtatLivreEnum.NEUF" onclick="ChangerPrix(@((int)etat), @livreIdCourant);"> @etat
-            </label>
-            }
-            </div>*@
+            <div class="o-switch btn-group w-100 mt-1 row-cols-auto row" data-toggle="buttons" role="group">
+                @foreach (var etat in Enum.GetValues(typeof(Enumeration.EtatLivreEnum)).Cast<Enumeration.EtatLivreEnum>())
+                {
+                    <label class="btn btn-rounded bg-top text-white col" id="@etat.ToString()-@livreIdCourant" onclick="checkTheBox(@livreIdCourant,'@etat')">
+                        <input hidden type="radio" name="options+@livreIdCourant" value="@Enumeration.EtatLivreEnum.NEUF" onclick="ChangerPrix(@((int)etat), @livreIdCourant);"> @etat
+                    </label>
+                }
+            </div>
 
             <div class="card border-0 mt-1">
                 <h5 class="card-title mt-3"><strong>@Model.LivreBibliotheque.Titre</strong></h5>
@@ -70,24 +70,6 @@
                 <span class="badge alert-primary float-end"><small>@Model.ProgrammeEtudeNom</small> </span>
             </div>
 
-
-            @* @if (User != null)
-            {
-            if (User.Identity.IsAuthenticated)
-            {
-            if (etatTrouve)
-            {
-            <div class="d-flex flex-column mt-auto">
-            <div id="ajoutRapide-@livreIdCourant">
-            <p class="btn btn-primary shadow w-100 mt-2 mb-0" onclick="ajoutRapide(@livreIdCourant)">Ajouter au panier</p>
-            </div>
-            <div id="suppressionRapideBibli-@livreIdCourant" hidden>
-            <p class="btn btn-danger shadow w-100 mt-2 mb-0" onclick="supresionRapideBibli(@livreIdCourant)">Supprimer du panier</p>
-            </div>
-            </div>
-            }
-            }
-            }*@
         </div>
     </div>
 </div>

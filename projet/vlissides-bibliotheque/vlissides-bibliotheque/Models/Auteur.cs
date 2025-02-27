@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace vlissides_bibliotheque.Models
@@ -20,7 +19,7 @@ namespace vlissides_bibliotheque.Models
         [StringLength(40)]
         public string Prenom { get; set; }
 
-        public virtual List<AuteurLivre> Livres { get; set; }
+        public virtual List<LivreBibliotheque> Livres { get; set; }
 
         public virtual string NomComplet { get { return Prenom + " " + Nom; } }
     }

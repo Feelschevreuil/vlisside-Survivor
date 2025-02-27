@@ -148,14 +148,6 @@ namespace vlissides_bibliotheque.Controllers
         public string AssignerCoursEtudiant([FromBody] CoursEtudiantDTO coursAssocier)
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            List<CoursEtudiant> resetCoursAssocier = _context.CoursEtudiants.Where(x => x.EtudiantId == id).ToList();
-            _context.CoursEtudiants.RemoveRange(resetCoursAssocier);
-            _context.SaveChanges();
-
-            List<CoursEtudiant> updateCoursAssocier = new(); 
-            coursAssocier.CoursId.ForEach(c=> updateCoursAssocier.Add( new CoursEtudiant { CoursId = c, EtudiantId = id}));
-            _context.CoursEtudiants.AddRange(updateCoursAssocier);
             _context.SaveChanges();
 
             return null;

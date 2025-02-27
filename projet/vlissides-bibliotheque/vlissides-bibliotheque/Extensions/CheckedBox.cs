@@ -1,122 +1,91 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using vlissides_bibliotheque.DAO;
-using vlissides_bibliotheque.Data;
+using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.DTO.Ajax;
 using vlissides_bibliotheque.Extensions.Interface;
 using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque
 {
     public class CheckedBox : ICheckedBox
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDAO<LivreBibliotheque> _livreDAO;
+        private readonly IDAO<Auteur> _auteurDAO;
+        private readonly IDAO<Cours> _coursDAO;
+        private readonly IDAOEtudiant<Etudiant> _etudiantDAO;
+        private readonly IMapper _mapper;
 
 
-        public CheckedBox(ApplicationDbContext context)
+        public CheckedBox(IDAO<LivreBibliotheque> livreDAO, IDAO<Auteur> auteurDAO, IDAO<Cours> coursDAO, IDAOEtudiant<Etudiant> etudiantDAO, IMapper mapper)
         {
-            _context = context;
+            _livreDAO = livreDAO;
+            _auteurDAO = auteurDAO;
+            _coursDAO = coursDAO;
+            _etudiantDAO = etudiantDAO;
+            _mapper = mapper;
         }
         public List<checkBoxCours> GetCoursCheckedBox(string etudiantId)
         {
             List<checkBoxCours> listCheckedBox = new();
-            List<Cours> coursBD = _context.Cours
-                .Include(x => x.ProgrammeEtude)
-                .ToList();
+            var etudiant = _etudiantDAO.GetById(etudiantId);
 
-            List<CoursEtudiant> coursAssocierEtudiant = _context.CoursEtudiants
-                .Include(x => x.Cours)
-                .Include(x => x.Etudiant)
-                .Where(x => x.EtudiantId == etudiantId)
-                .ToList();
-
-            foreach (Cours cours in coursBD)
-            {
-                checkBoxCours checkBox = new();
-                checkBox.Cours = cours;
-                checkBox.Cocher = false;
-                listCheckedBox.Add(checkBox);
-
-            }
-
-            listCheckedBox.Where(c => coursAssocierEtudiant.Any(e => e.CoursId == c.Cours.CoursId)).ToList().ForEach(b => b.Cocher = true);
-
-            return listCheckedBox;
-        }
-
-        public List<checkBoxCours> GetCoursLivre(LivreBibliotheque livreBibliotheque)
-        {
-            List<checkBoxCours> listCheckedBox = new();
-            List<Cours> coursBD = _context.Cours
-                .Include(x => x.ProgrammeEtude)
-                .ToList();
-
-            List<CoursLivre> coursAssocierLivre = _context.CoursLivres
-                .Include(x => x.LivreBibliotheque)
-                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
-                .ToList();
-
-            foreach (Cours cours in coursBD)
-            {
-                checkBoxCours boxCours = new()
+            foreach (Cours cours in _coursDAO.GetAll())
+                listCheckedBox.Add(new()
                 {
                     Cours = cours,
-                    Cocher = false
-                };
-                listCheckedBox.Add(boxCours);
-            }
+                    Cocher = etudiant.Cours.Any(c=> c.CoursId == cours.CoursId) ? true : false,
+                });
 
-            listCheckedBox.Where(c => coursAssocierLivre.Any(e => e.CoursId == c.Cours.CoursId)).ToList().ForEach(b => b.Cocher = true);
+            
+            return listCheckedBox;
+        }
+
+        public List<checkBoxCours> GetCoursLivre(int livreId)
+        {
+            List<checkBoxCours> listCheckedBox = new();
+            LivreBibliotheque livre = _livreDAO.GetById(livreId);
+
+            foreach (Cours cours in _coursDAO.GetAll())
+                listCheckedBox.Add(new()
+                {
+                    Cours = cours,
+                    Cocher = livre.Cours.Any(c => c.CoursId == cours.CoursId) ? true : false
+                });
+
 
             return listCheckedBox;
         }
 
-        public List<checkBoxAuteurs> GetAuteursLivre(LivreBibliotheque livreBibliotheque)
+        public List<checkBoxAuteurs> GetAuteursLivre(int livreId)
         {
             List<checkBoxAuteurs> listCheckedBox = new();
-            List<Auteur> auteursBD = _context.Auteurs
-                .ToList();
+            LivreBibliotheque livre = _livreDAO.GetById(livreId);
 
-            List<AuteurLivre> auteursAssocierLivre = _context.AuteursLivres
-                .Include(x => x.LivreBibliotheque)
-                .Where(x => x.LivreBibliothequeId == livreBibliotheque.LivreId)
-                .ToList();
+            foreach (var auteur in _auteurDAO.GetAll())
+                listCheckedBox.Add(
+                    new()
+                    {
+                        Auteur = _mapper.Map<AuteurVM>(auteur),
+                        Cocher = livre.Auteurs.Any(a => a.AuteurId == auteur.AuteurId) ? true : false
+                    }
+                    );
 
-            foreach (Auteur auteur in auteursBD)
-            {
-                checkBoxAuteurs boxAuteur = new()
-                {
-                    Auteur = auteur,
-                    Cocher = false
-                };
-
-                listCheckedBox.Add(boxAuteur);
-            }
-
-            listCheckedBox.Where(c => auteursAssocierLivre.Any(e => e.AuteurId == c.Auteur.AuteurId)).ToList().ForEach(b => b.Cocher = true);
             return listCheckedBox;
         }
 
         public List<checkBoxCours> GetCours()
         {
             List<checkBoxCours> listCheckedBox = new();
-            List<Cours> coursBD = _context.Cours
-                .Include(x => x.ProgrammeEtude)
-                .ToList();
 
-            foreach (Cours cours in coursBD)
-            {
-                checkBoxCours boxCours = new()
+            foreach (Cours cours in _coursDAO.GetAll())
+                listCheckedBox.Add(new()
                 {
                     Cours = cours,
                     Cocher = false
-                };
-
-                listCheckedBox.Add(boxCours);
-            }
+                });
+            
 
             return listCheckedBox;
         }
@@ -124,19 +93,14 @@ namespace vlissides_bibliotheque
         public List<checkBoxAuteurs> GetAuteurs()
         {
             List<checkBoxAuteurs> listCheckedBox = new();
-            List<Auteur> auteursBD = _context.Auteurs
-                .ToList();
 
-            foreach (Auteur auteur in auteursBD)
-            {
-                checkBoxAuteurs boxAuteurs = new()
+            foreach (Auteur auteur in _auteurDAO.GetAll())
+                listCheckedBox.Add(new()
                 {
-                    Auteur = auteur,
+                    Auteur = _mapper.Map<AuteurVM>(auteur),
                     Cocher = false
-                };
-
-                listCheckedBox.Add(boxAuteurs);
-            }
+                });
+            
             return listCheckedBox;
         }
 

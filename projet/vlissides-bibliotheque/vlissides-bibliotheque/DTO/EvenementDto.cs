@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using vlissides_bibliotheque.Models;
-using System;
+﻿using System;
 
 namespace vlissides_bibliotheque.DTO
 {

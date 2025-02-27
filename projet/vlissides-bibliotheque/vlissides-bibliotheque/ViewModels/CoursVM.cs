@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using vlissides_bibliotheque.Models;
+﻿using System.ComponentModel;
 
-namespace vlissides_bibliotheque.DTO
+namespace vlissides_bibliotheque.ViewModels
 {
-    public class CoursDto
+    public class CoursVM
     {
-        public int CoursId { get; set; }
+        public int Id { get; set; }
 
         [DisplayName("Programme d'étude")]
         public string ProgrammeEtudeNom { get; set; }

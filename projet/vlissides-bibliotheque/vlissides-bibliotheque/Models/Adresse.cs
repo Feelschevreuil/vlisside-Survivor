@@ -39,6 +39,8 @@ namespace vlissides_bibliotheque.Models
         [Required]
         [DisplayName("Province")]
         public int ProvinceId { get; set; }
-        public Province Province { get; set; }
+        public virtual Province Province { get; set; }
+        public virtual Etudiant Etudiant { get; set; }
+
     }
 }

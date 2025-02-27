@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Services.Interface
@@ -13,6 +14,6 @@ namespace vlissides_bibliotheque.Services.Interface
 
         LivreDetailVM GetLivreDetailVM(int livreBibliothequeId);
 
-        string GetImageParDefaut();
+        LivreBibliothequeDto GetLivre(int id);
     }
 }

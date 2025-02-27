@@ -34,6 +34,10 @@ namespace vlissides_bibliotheque.Models
         [DisplayName("Année")]
         public int AnneeParcours { get; set; }
 
-        public virtual List<CoursLivre> Livres { get; set; }
+        public int? ProfesseurId { get; set; }
+        public virtual Professeur Professeur { get; set; }
+        public virtual List<LivreBibliotheque> LivresBibliotheque { get; set; }
+        public virtual List<Etudiant> Etudiants { get; set; }
+
     }
 }

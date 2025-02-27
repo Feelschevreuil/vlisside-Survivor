@@ -14,7 +14,7 @@ namespace vlissides_bibliotheque.Data
     {
         public DbSet<Adresse> Adresses { get; set; }
         public DbSet<Auteur> Auteurs { get; set; }
-        public DbSet<AuteurLivre> AuteursLivres { get; set; }
+        public DbSet<Cours> Cours { get; set; }
         public DbSet<Commanditaire> Commanditaires { get; set; }
         public DbSet<Etudiant> Etudiants { get; set; }
         public DbSet<Evenement> Evenements { get; set; }
@@ -23,12 +23,9 @@ namespace vlissides_bibliotheque.Data
         public DbSet<ProgrammeEtude> ProgrammesEtudes { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<MaisonEdition> MaisonsEdition { get; set; }
-        public DbSet<CoursLivre> CoursLivres { get; set; }
-        public DbSet<Cours> Cours { get; set; }
-        public DbSet<CoursProfesseur> CoursProfesseurs { get; set; }
         public DbSet<Professeur> Professeurs { get; set; }
         public DbSet<Province> Provinces { get; set; }
-        public DbSet<CoursEtudiant> CoursEtudiants { get; set; }
+
 
         private const string ROLE_ADMIN_ID = "834684ee-d07f-470a-91ea-01feb16d2f90";
         private const string ROLE_ADMIN_CONCURRENCYSTAMP = "6494238c-5ee0-4d6a-925d-20f0e932e406";
@@ -49,8 +46,6 @@ namespace vlissides_bibliotheque.Data
             CreerRoles(builder);
 
             CreerAdmin(builder);
-
-            CreerTablesLiaison(builder);
 
             CreerDoubleFK(builder);
         }
@@ -136,20 +131,6 @@ namespace vlissides_bibliotheque.Data
             });
         }
 
-        /// <summary>
-        /// Crée les tables de liaison.
-        /// </summary>
-        /// <param name="builder"></param>
-        private void CreerTablesLiaison(ModelBuilder builder)
-        {
-            builder.Entity<AuteurLivre>().HasKey(auteurLivre => new { auteurLivre.AuteurId, auteurLivre.LivreBibliothequeId });
-
-            builder.Entity<CoursLivre>().HasKey(courLivre => new { courLivre.CoursId, courLivre.LivreBibliothequeId });
-
-            builder.Entity<CoursProfesseur>().HasKey(coursProfesseur => new { coursProfesseur.CoursId, coursProfesseur.ProfesseurId });
-
-            builder.Entity<CoursEtudiant>().HasKey(coursEtudiant => new { coursEtudiant.CoursId, coursEtudiant.EtudiantId });
-        }
 
         /// <summary>
         /// Gère les doubles liaisons.
@@ -158,34 +139,69 @@ namespace vlissides_bibliotheque.Data
         private void CreerDoubleFK(ModelBuilder builder)
         {
             builder.Entity<Etudiant>()
-               .HasOne(m => m.ProgrammeEtude)
-               .WithMany()
-               .OnDelete(DeleteBehavior.NoAction);
+                .HasOne(e => e.Adresse)
+                .WithOne(a => a.Etudiant)
+                .HasForeignKey<Etudiant>(e => e.AdresseId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Etudiant>()
-                .HasOne(m => m.Adresse)
-                .WithMany()
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasMany(e => e.Cours)
+                .WithMany(c => c.Etudiants) 
+                .UsingEntity<Dictionary<string, object>>(
+                    "EtudiantCours",
+                    j => j
+                        .HasOne<Cours>()
+                        .WithMany()
+                        .HasForeignKey("CoursId")
+                        .OnDelete(DeleteBehavior.Restrict),
+                    j => j
+                        .HasOne<Etudiant>()
+                        .WithMany()
+                        .HasForeignKey("EtudiantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                );
 
-            builder.Entity<CoursLivre>()
-                .HasOne<LivreBibliotheque>(m => m.LivreBibliotheque)
-                .WithMany(cl => cl.Cours)
-                .HasForeignKey(cl => cl.LivreBibliothequeId);
+            builder.Entity<Professeur>()
+                .HasMany(p => p.Cours)
+                .WithOne(c => c.Professeur)
+                .HasForeignKey(c => c.ProfesseurId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<CoursLivre>()
-                .HasOne<Cours>(m => m.Cours)
-                .WithMany(cl => cl.Livres)
-                .HasForeignKey(cl => cl.CoursId);
+            builder.Entity<LivreBibliotheque>()
+                .HasMany(l => l.Auteurs)
+                .WithMany(a => a.Livres)
+                .UsingEntity<Dictionary<string, object>>(
+                    "LivreBibliothequeAuteur",
+                    j => j
+                        .HasOne<Auteur>()
+                        .WithMany()
+                        .HasForeignKey("AuteurId")
+                        .OnDelete(DeleteBehavior.Restrict),
+                    j => j
+                        .HasOne<LivreBibliotheque>()
+                        .WithMany()
+                        .HasForeignKey("LivreBibliothequeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                );
 
-            builder.Entity<AuteurLivre>()
-                .HasOne<LivreBibliotheque>(m => m.LivreBibliotheque)
-                .WithMany(cl => cl.Auteurs)
-                .HasForeignKey(cl => cl.LivreBibliothequeId);
 
-            builder.Entity<AuteurLivre>()
-                .HasOne<Auteur>(m => m.Auteur)
-                .WithMany(cl => cl.Livres)
-                .HasForeignKey(cl => cl.AuteurId);
+            builder.Entity<LivreBibliotheque>()
+                .HasMany(l => l.Cours)
+                .WithMany(c => c.LivresBibliotheque)
+                .UsingEntity<Dictionary<string, object>>(
+                    "LivreBibliothequeCours",
+                    j => j
+                        .HasOne<Cours>()
+                        .WithMany()
+                        .HasForeignKey("CoursId")
+                        .OnDelete(DeleteBehavior.Restrict),
+                    j => j
+                        .HasOne<LivreBibliotheque>()
+                        .WithMany()
+                        .HasForeignKey("LivreBibliothequeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                );
         }
+
     }
 }

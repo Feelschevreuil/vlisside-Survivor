@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using vlissides_bibliotheque.DTO;
 using vlissides_bibliotheque.DTO.Ajax;
 using vlissides_bibliotheque.Validation;
 
@@ -10,7 +11,7 @@ namespace vlissides_bibliotheque.ViewModels
 {
     public class AjoutEditLivreVM
     {
-        public int IdDuLivre { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [MaxLength(64, ErrorMessage = "Le champ {0} ne peux pas dépasser 64 caractères ")]
@@ -30,35 +31,8 @@ namespace vlissides_bibliotheque.ViewModels
         [DataType(DataType.Date)]
         public DateTime DatePublication { get; set; } = DateTime.Now;
 
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [DisplayName("Usagé")]
-        [DataType(DataType.Currency)]
-        [Number]
+        public PrixEtatLivreDto Prix {  get; set; }
 
-        public decimal? PrixUsage { get; set; } = 0;
-
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [DisplayName("Numérique")]
-        [DataType(DataType.Currency)]
-        [Number]
-        public decimal? PrixNumerique { get; set; } = 0;
-
-        [Required(ErrorMessage = "Le champ {0} est requis.")]
-        [Number]
-        [DataType(DataType.Currency)]
-        [DisplayName("Neuf")]
-        public decimal? PrixNeuf { get; set; } = 0;
-
-        [DisplayName("Quantité")]
-        public int? QuantiteUsagee { get; set; }
-
-        [DisplayName("Vendable")]
-        public bool PossedeNumerique { get; set; } = false;
-
-        [DisplayName("Vendable")]
-        public bool PossedeNeuf { get; set; } = false;
-
-        public bool PossedeUsagee { get; set; } = false;
 
         [Required(ErrorMessage = "Le champ {0} est requis.")]
         [Isbn]
@@ -68,17 +42,16 @@ namespace vlissides_bibliotheque.ViewModels
 
         [DisplayName("Maison d'édition")]
         [Required(ErrorMessage = "Le champ {0} est requis.")]
-        public int MaisonDeditionId { get; set; }
+        public int MaisonEditionId { get; set; }
 
         public List<SelectListItem> MaisonsDeditions { get; set; }
-        [DisplayName("Liste des cours")]
+        [DisplayName("Cours")]
         public List<checkBoxCours> CheckBoxCours { get; set; }
-        [DisplayName("Liste des auteurs")]
+        [DisplayName("Auteurs")]
         public List<checkBoxAuteurs> CheckBoxAuteurs { get; set; }
-        public List<int> Cours { get; set; }
-        public List<int> Auteurs { get; set; }
-        public int Id { get; set; }
-        public string DateFormater { get; set; }
+        public List<CoursVM> Cours { get; set; }
+        public List<AuteurVM> Auteurs { get; set; }
+        public string DateFormater { get { return DatePublication.ToString("dd MMMM yyyy"); } }
     }
 
 }

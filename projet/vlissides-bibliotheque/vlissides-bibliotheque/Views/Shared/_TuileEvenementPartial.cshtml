@@ -1,30 +1,33 @@
 ﻿@model EvenementVM
 
+@{
+    string photo = !string.IsNullOrEmpty(Model.Image) ? Model.Image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDYjkEzAf8K-tqsa-Sy8JCnDk1VPvrVLzzaA&s";
+}
 
 <div class="col-auto col-md-3 col-sm-3 mt-3 mb-3">
     <div class="card shadow border-0 h-100 tuile-evenement p-2">
         @if (User.IsInRole(Constante.Admin))
-    {
-        <div>
-            <a class="float-start" asp-area="" asp-controller="Evenement" asp-action="modifier" asp-route-id="@Model.EvenementId">
-                <img class="mx-auto tableau" src="~/img/pencil.svg" alt="Modifier" value="Modifier">
-            </a>
-
-            <form method="post" class="float-end" asp-controller="Evenement" asp-action="effacer" asp-route-id="@Model.EvenementId">
-                <a>
-                    <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Nom')" type="image" src="~/img/delete-rouge.svg" />
+        {
+            <div>
+                <a class="float-start" asp-area="" asp-controller="Evenement" asp-action="modifier" asp-route-id="@Model.EvenementId">
+                    <img class="mx-auto tableau" src="~/img/pencil.svg" alt="Modifier" value="Modifier">
                 </a>
-            </form>
-        </div>
-    }
-    <div>
-        <a class="text-black text-decoration-none" asp-area="" asp-controller="Evenement" asp-action="detail" asp-route-id="@Model.EvenementId">
-            <div class="position-relative text-center">
-                <img class="img-fluid w-100 image-evenement" src=@Model.Image alt="PhotoLivre">
-            </div>
 
-            <div class="card-body">
-                <h5 class="fw-bold card-title">@Model.Nom</h5>
+                <form method="post" class="float-end" asp-controller="Evenement" asp-action="effacer" asp-route-id="@Model.EvenementId">
+                    <a>
+                        <input class="tableau" onclick="return confirm('Êtes-vous sûr de vouloir supprimer @Model.Nom')" type="image" src="~/img/delete-rouge.svg" />
+                    </a>
+                </form>
+            </div>
+        }
+        <div>
+            <a class="text-black text-decoration-none" asp-area="" asp-controller="Evenement" asp-action="detail" asp-route-id="@Model.EvenementId">
+                <div class="position-relative text-center">
+                    <img class="img-fluid w-100 image-evenement" src=@photo alt="PhotoLivre">
+                </div>
+
+                <div class="card-body">
+                    <h5 class="fw-bold card-title">@Model.Nom</h5>
                     <p class="card-text d-inline-block text-truncate col-8 mb-0">@Model.Description</p>
                     <div>
                         <p class="d-inline-block mb-0">
@@ -38,11 +41,11 @@
                         </p>
                     </div>
 
-            </div>
-            
-        </a>
+                </div>
+
+            </a>
+        </div>
+
     </div>
-  
-</div>
 </div>
 <link rel="stylesheet" href="~/css/carte-evenement-Partial.css" asp-append-version="true" />

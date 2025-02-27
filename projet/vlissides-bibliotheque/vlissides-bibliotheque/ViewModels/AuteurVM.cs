@@ -2,12 +2,10 @@
 
 namespace vlissides_bibliotheque.ViewModels
 {
-    public class AuteursVM
+    public class AuteurVM
     {
-        public int Id { get; set; }
-
         [Required]
-        public int AuteurId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(40)]
@@ -16,6 +14,8 @@ namespace vlissides_bibliotheque.ViewModels
         [Required]
         [StringLength(40)]
         public string Prenom { get; set; }
+
+        public string NomComplet { get { return Prenom + " " + Nom; } }
 
     }
 }

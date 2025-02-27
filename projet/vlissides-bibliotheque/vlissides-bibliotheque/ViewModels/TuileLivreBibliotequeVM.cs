@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using vlissides_bibliotheque.DTO;
-using vlissides_bibliotheque.Models;
 
 namespace vlissides_bibliotheque.ViewModels
 {

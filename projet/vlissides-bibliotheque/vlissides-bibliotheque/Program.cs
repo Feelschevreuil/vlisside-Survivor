@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using vlissides_bibliotheque.Mapper;
+using AutoMapper.EquivalencyExpression;
 
 namespace vlissides_bibliotheque
 {
@@ -54,10 +56,11 @@ namespace vlissides_bibliotheque
             builder.Services.AddScoped<IDAO<Professeur>, ProfesseurDAO>();
             builder.Services.AddScoped<IDAO<Province>, ProvinceDAO>();
             builder.Services.AddScoped<IDAO<Adresse>, AdresseDAO>();
+            builder.Services.AddScoped<ILivreTest, LivresBibliothequeDAO>();
 
             #endregion
 
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddAutoMapper(cfg => { cfg.AddCollectionMappers(); }, typeof(Mapping).Assembly);
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

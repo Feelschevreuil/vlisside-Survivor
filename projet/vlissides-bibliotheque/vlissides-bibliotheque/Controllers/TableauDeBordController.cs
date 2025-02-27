@@ -19,7 +19,6 @@ using System.Linq;
 using System;
 using vlissides_bibliotheque.Commun;
 using System.Text.Json;
-using static Humanizer.In;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -286,58 +285,31 @@ namespace vlissides_bibliotheque.Controllers
             ModelState.Remove(nameof(vm.Id));
             ModelState.Remove(nameof(vm.DateFormater));
 
-            if (!ModelState.IsValid)
-            {
-                vm.CheckBoxAuteurs = _CheckedBox.GetAuteurs();
-                vm.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
-                vm.CheckBoxCours = _CheckedBox.GetCours();
-                return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", vm);
-            }
+            return null;
+            //if (!ModelState.IsValid)
+            //{
+            //    vm.CheckBoxAuteurs = _CheckedBox.GetAuteurs();
+            //    vm.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
+            //    vm.CheckBoxCours = _CheckedBox.GetCours();
+            //    return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", vm);
+            //}
 
-            LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
-            {
-                LivreId = 0,
-                MaisonEditionId = (int)vm.MaisonDeditionId,
-                Isbn = vm.ISBN,
-                Titre = vm.Titre,
-                Resume = vm.Resume,
-                PhotoCouverture = vm.Photo,
-                DatePublication = vm.DatePublication,
-            };
+            //LivreBibliotheque nouveauLivreBibliothèque = new LivreBibliotheque()
+            //{
+            //    LivreId = 0,
+            //    MaisonEditionId = (int)vm.MaisonEditionId,
+            //    Isbn = vm.ISBN,
+            //    Titre = vm.Titre,
+            //    Resume = vm.Resume,
+            //    PhotoCouverture = vm.Photo,
+            //    DatePublication = vm.DatePublication,
+            //};
 
-            _context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
-            _context.SaveChanges();
+            //_context.LivresBibliotheque.Add(nouveauLivreBibliothèque);
+            //_context.SaveChanges();
 
-            List<CoursLivre> nouveauCoursLivre = vm.Cours.Select(c => new CoursLivre()
-            {
-                CoursLivreId = 0,
-                CoursId = c,
-                LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-            }).ToList();
-
-            if (nouveauCoursLivre.Any())
-            {
-                _context.CoursLivres.AddRange(nouveauCoursLivre);
-                _context.SaveChanges();
-            }
-
-
-            List<AuteurLivre> nouveauAuteurLivre = vm.Auteurs.Select(a => new AuteurLivre()
-            {
-                AuteurId = a,
-                LivreBibliothequeId = nouveauLivreBibliothèque.LivreId,
-            }).ToList();
-
-            if (nouveauAuteurLivre.Any())
-            {
-                _context.AuteursLivres.AddRange(nouveauAuteurLivre);
-                _context.SaveChanges();
-            }
-
-            _context.SaveChanges();
-            vm.Id = nouveauLivreBibliothèque.LivreId;
-            vm.DateFormater = vm.DatePublication.ToString("dd MMMM yyyy");
-            return Json(vm);
+            //vm.Id = nouveauLivreBibliothèque.LivreId;
+            //return Json(vm);
         }
 
         [HttpGet]
@@ -351,22 +323,10 @@ namespace vlissides_bibliotheque.Controllers
             if (livreBibliothequeRechercher == null)
                 return NotFound();
 
-            AjoutEditLivreVM vm = new()
-            {
-                IdDuLivre = livreBibliothequeRechercher.LivreId,
-                MaisonDeditionId = livreBibliothequeRechercher.MaisonEditionId,
-                MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition(),
-                DatePublication = livreBibliothequeRechercher.DatePublication,
-                ISBN = livreBibliothequeRechercher.Isbn,
-                Titre = livreBibliothequeRechercher.Titre,
-                Resume = livreBibliothequeRechercher.Resume,
-                Photo = livreBibliothequeRechercher.PhotoCouverture,
-                PossedeNeuf = true,
-                PossedeNumerique = true,
-                PossedeUsagee = true,
-                CheckBoxCours = _CheckedBox.GetCoursLivre(livreBibliothequeRechercher),
-                CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(livreBibliothequeRechercher)
-            };
+            AjoutEditLivreVM vm = _mapper.Map<AjoutEditLivreVM>(_livreDAO.GetById(id.Value));
+            vm.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
+            vm.CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(id.Value);
+            vm.CheckBoxCours = _CheckedBox.GetCoursLivre(id.Value);
 
             return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", vm);
         }
@@ -383,22 +343,17 @@ namespace vlissides_bibliotheque.Controllers
                 return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", Emptyform);
             };
 
-            LivreBibliotheque LivreBibliothèqueModifier = _livreDAO.GetById(form.IdDuLivre);
+            LivreBibliotheque LivreBibliothèqueModifier = _livreDAO.GetById(form.Id);
 
             if (!ModelState.IsValid)
             {
                 form.MaisonsDeditions = _dropDownList.ListDropDownMaisonDedition();
-                form.CheckBoxCours = _CheckedBox.GetCoursLivre(LivreBibliothèqueModifier);
-                form.CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(LivreBibliothèqueModifier);
+                form.CheckBoxCours = _CheckedBox.GetCoursLivre(form.Id);
+                form.CheckBoxAuteurs = _CheckedBox.GetAuteursLivre(form.Id);
                 return PartialView("Views/Shared/_AjoutEditLivrePartial.cshtml", form);
             }
 
-            LivreBibliothèqueModifier.MaisonEditionId = (int)form.MaisonDeditionId;
-            LivreBibliothèqueModifier.Isbn = form.ISBN;
-            LivreBibliothèqueModifier.Titre = form.Titre;
-            LivreBibliothèqueModifier.Resume = form.Resume;
-            LivreBibliothèqueModifier.PhotoCouverture = form.Photo;
-            LivreBibliothèqueModifier.DatePublication = form.DatePublication;
+            _mapper.Map(form, LivreBibliothèqueModifier);
 
             _context.LivresBibliotheque.Update(LivreBibliothèqueModifier);
             _context.SaveChanges();
@@ -419,10 +374,7 @@ namespace vlissides_bibliotheque.Controllers
             if (livreSupprimer == null)
                 return NotFound();
 
-            List<CoursLivre> ListCoursRelier = _context.CoursLivres.Where(cl => cl.LivreBibliothequeId == livreSupprimer.LivreId).ToList();
-            List<AuteurLivre> ListAuteursRelier = _context.AuteursLivres.Where(al => al.LivreBibliothequeId == livreSupprimer.LivreId).ToList();
-            _context.CoursLivres.RemoveRange(ListCoursRelier);
-            _context.AuteursLivres.RemoveRange(ListAuteursRelier);
+
             _context.LivresBibliotheque.Remove(livreSupprimer);
             _context.SaveChanges();
 
@@ -434,7 +386,7 @@ namespace vlissides_bibliotheque.Controllers
         [HttpGet]
         public IActionResult Cours()
         {
-            List<CoursDto> cours = _mapper.Map<List<CoursDto>>(_CoursDAO.GetAll()).ToList();
+            List<CoursVM> cours = _mapper.Map<List<CoursVM>>(_CoursDAO.GetAll()).ToList();
             return PartialView("~/Views/TableauDeBord/Cours.cshtml", cours);
         }
 
@@ -927,38 +879,6 @@ namespace vlissides_bibliotheque.Controllers
                 _livreDAO.Save();
 
 
-                _livreDAO.Update(livre);
-                _livreDAO.Save();
-            }
-
-            if (!_context.AuteursLivres.Any())
-            {
-                var livre = _livreDAO.GetAll().First();
-
-                livre.Auteurs = new List<AuteurLivre>
-                {
-                    new AuteurLivre
-                    {
-                        AuteurId = _auteurDAO.GetAll().First().AuteurId,
-                        LivreBibliothequeId = livre.LivreId
-                    }
-                };
-                _livreDAO.Update(livre);
-                _livreDAO.Save();
-            }
-
-            if (!_context.CoursLivres.Any())
-            {
-                var livre = _livreDAO.GetAll().First();
-
-                livre.Cours = new List<CoursLivre>
-                {
-                    new CoursLivre
-                    {
-                        CoursId = _CoursDAO.GetAll().First().CoursId,
-                        LivreBibliothequeId = livre.LivreId
-                    }
-                };
                 _livreDAO.Update(livre);
                 _livreDAO.Save();
             }

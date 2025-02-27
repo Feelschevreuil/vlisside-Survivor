@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.DTO
 {
@@ -15,10 +16,9 @@ namespace vlissides_bibliotheque.DTO
 
         public string Isbn { get; set; }
 
-        public PrixEtatLivreDto Prix { get; set; }
+        public PrixEtatLivreDto Prix { get; set; } = new PrixEtatLivreDto();
 
-        public List<AuteurDto> Auteurs { get; set; }
-        public List<CoursDto> Cours { get; set; }
+        public List<CoursVM> Cours { get; set; }
 
         public string Titre { get; set; }
         [DisplayName("Description")]

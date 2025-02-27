@@ -3,59 +3,60 @@
     let data = {};
 
     formData.forEach(function (value, key) {
-        data[key] = value;
+        let keys = key.split('.');
+        let lastKey = keys.pop();
+        let currentLevel = data;
+
+        // Traverse the keys to create nested objects as needed
+        keys.forEach(function (key) {
+            if (!currentLevel[key]) {
+                currentLevel[key] = {};
+            }
+            currentLevel = currentLevel[key];
+        });
+
+        // Parse JSON strings back into objects if possible
+        try {
+            value = JSON.parse(value);
+        } catch (e) {
+            // If it's not JSON, keep it as a string
+        }
+
+        // Handle array values for checkboxes
+        if (currentLevel[lastKey]) {
+            if (!Array.isArray(currentLevel[lastKey])) {
+                currentLevel[lastKey] = [currentLevel[lastKey]];
+            }
+            currentLevel[lastKey].push(value);
+        } else {
+            // Check if the input is a checkbox
+            if (formulaire.querySelector(`input[name="${key}"]`)?.type === 'checkbox') {
+                currentLevel[lastKey] = [value];
+            } else {
+                currentLevel[lastKey] = value;
+            }
+        }
     });
 
     return data;
 }
 
-function getListCoursCocher() {
-    var divListCours = document.querySelector("#listDeCours");
-    var coursCocher = divListCours.querySelectorAll("input");
-    var listCoursCocher = new Array();
 
-    coursCocher.forEach((cours) => {
-        if (cours.checked) {
-            listCoursCocher.push(cours.id);
-        }
-    });
-    return listCoursCocher;
-}
+function validationLivre(DonnerRecus) {
 
-function getListAuteursCocher() {
-    var divListAuteurs = document.querySelector("#listAuteurs");
-    var auteursCocher = divListAuteurs.querySelectorAll("input");
-    var listAuteursCocher = new Array();
-
-    auteursCocher.forEach((auteurs) => {
-        if (auteurs.checked) {
-            listAuteursCocher.push(auteurs.id);
-        }
-    });
-    return listAuteursCocher;
-}
-
-function gestionErreurLivre(DonnerRecus) {
-
-    if (DonnerRecus.MaisonDeditionId == "") {
+    if (isNaN(DonnerRecus.MaisonDeditionId)) {
         DonnerRecus.MaisonDeditionId = 0
     }
-    if (DonnerRecus.PrixNeuf == null || DonnerRecus.PrixNeuf == undefined) {
-        DonnerRecus.PrixNeuf = document.querySelector("#inputPrixNeuf").value;
-    }
-    if (DonnerRecus.PrixNumerique == null || DonnerRecus.PrixNumerique == undefined) {
-        DonnerRecus.PrixNumerique = document.querySelector("#inputPrixNumerique").value;
-    }
-    if (DonnerRecus.PrixUsage == null || DonnerRecus.PrixUsage == undefined) {
-        DonnerRecus.PrixUsage = document.querySelector("#inputPrixUsage").value
-    }
-    DonnerRecus.PrixNeuf = possedeDesLettres(DonnerRecus.PrixNeuf);
-    DonnerRecus.PrixNumerique = possedeDesLettres(DonnerRecus.PrixNumerique);
-    DonnerRecus.PrixUsage = possedeDesLettres(DonnerRecus.PrixUsage);
-    DonnerRecus.QuantiteUsagee = possedeDesLettres(DonnerRecus.QuantiteUsagee);
-    DonnerRecus.PossedeNeuf = PossedeNeuf.checked;
-    DonnerRecus.PossedeNumerique = PossedeNumerique.checked;
-    DonnerRecus.PossedeUsagee = PossedeUsagee.checked;
+
+    DonnerRecus.PrixNeuf ??= document.querySelector("#inputPrixNeuf").value;
+    DonnerRecus.PrixNumerique ??= document.querySelector("#inputPrixNumerique").value;
+    DonnerRecus.PrixUsage ??= document.querySelector("#inputPrixUsage").value;
+
+
+    DonnerRecus.Prix.PrixNeuf = possedeDesLettres(DonnerRecus.PrixNeuf);
+    DonnerRecus.Prix.PrixNumerique = possedeDesLettres(DonnerRecus.PrixNumerique);
+    DonnerRecus.Prix.PrixUsage = possedeDesLettres(DonnerRecus.PrixUsage);
+    DonnerRecus.Prix.QuantiteUsagee = possedeDesLettres(DonnerRecus.QuantiteUsagee);
 
     return DonnerRecus;
 }
@@ -104,94 +105,29 @@ function assignerCoursEtudiant() {
     });
 }
 
-function modifierCoursLivre(id) {
-
-    var divListCours = document.querySelector("#listDeCours");
-    var coursCocher = divListCours.querySelectorAll("input");
-    var listCoursCocher = new Array();
-
-    coursCocher.forEach((cours) => {
-        if (cours.checked) {
-            listCoursCocher.push(cours.id);
-        }
-    });
-
-    var DonnerRecus =
-    {
-        CoursId: listCoursCocher,
-        livreId: id
-    };
-
-    var data = JSON.stringify(DonnerRecus);
-
-    fetch(host + "Inventaire/AssignerCoursLivre", {
-        method: 'Post',
-        body: data,
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Content-Type": "application/json",
-        },
-
-    }).then(function (response) {
-        if (response.ok) {
-            alert("Vos cours ont été modifiés avec succès");
-        }
-        return response;
-
-    });
-}
-
-function modifierAuteursLivre(id) {
-
-    var DonnerRecus =
-    {
-        AuteursId: getListAuteursCocher(),
-        livreId: id
-    };
-
-    var data = JSON.stringify(DonnerRecus);
-
-    fetch(host + "Inventaire/AssignerAuteursLivre", {
-        method: 'Post',
-        body: data,
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Content-Type": "application/json",
-        },
-
-    }).then(function (response) {
-        if (response.ok) {
-            alert("Vos auteurs ont été modifiés avec succès");
-        }
-        return response;
-
-    });
-}
-
-function assignerCoursLivre() {
+function ajoutEditLivre() {
     var form = document.querySelector('#formLivre');
     var DonnerRecus = getFormData(form);
 
-    DonnerRecus = gestionErreurLivre(DonnerRecus);
-    DonnerRecus.Cours = getListCoursCocher();
-    DonnerRecus.Auteurs = getListAuteursCocher();
+    DonnerRecus = validationLivre(DonnerRecus);
+
+    debugger;
+
+    DonnerRecus.ISBN = DonnerRecus.ISBN.toString();
 
     var data = JSON.stringify(DonnerRecus);
 
-    fetch(host + "Inventaire/Creer", {
+    fetch(host + "Inventaire/AjoutEditLivre", {
         method: 'Post',
         body: data,
-        contentType: "application/json; charset=utf-8",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
         },
 
     }).then(function (response) {
-
         return response.text();
 
     }).then((data) => {
-
         var pageCourante = document.querySelector("#PageCourante");
         pageCourante.innerHTML = data;
     });
@@ -309,3 +245,4 @@ function creerAuteursLivre() {
         }
     });
 }
+

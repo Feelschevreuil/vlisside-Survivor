@@ -13,7 +13,8 @@
     <table id="maTable" class="table table-light">
         <thead>
             <tr>
-                <th class="d-flex d-inline" id="@nameof(AjoutEditLivreEtudiantVM.Photo)">@Html.DisplayNameFor(livre => livre.First().PhotoCouverture)
+                <th class="d-flex d-inline" id="@nameof(AjoutEditLivreEtudiantVM.Photo)">
+                    @Html.DisplayNameFor(livre => livre.First().PhotoCouverture)
                 </th>
                 <th id="@nameof(AjoutEditLivreEtudiantVM.Isbn)">@Html.DisplayNameFor(livre => livre.First().Isbn)</th>
                 <th id="@nameof(AjoutEditLivreEtudiantVM.Titre)">@Html.DisplayNameFor(livre => livre.First().Titre)</th>
@@ -22,7 +23,8 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(LivreBibliothequeDto livre in Model) {
+            @foreach (LivreBibliothequeDto livre in Model)
+            {
                 <tr id="tr-@livre.LivreId" class="modif-suppr">
                     <td class="text-center">
                         <img class="tableauDeBord-image" id="PhotoLivre-@livre.LivreId" src="@livre.PhotoCouverture">
@@ -38,10 +40,13 @@
                 </tr>
             }
             <div class="modal" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le livre</h1>
+                            <h1 class="modal-title fs-5 row" id="staticBackdropLabel">
+                                <img class="pe-0 icon-modifier" src="~/img/book-edit.svg" />
+                                Modifier le livre
+                            </h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -56,12 +61,14 @@
             </div>
 
 
-
             <div class="modal fade" id="creer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Nouveau livre</h1>
+                            <h1 class="modal-title fs-5 row" id="staticBackdropLabel">
+                                <img class="pe-0 icon-modifier" src="~/img/book-plus.svg" />
+                                Nouveau livre
+                            </h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -73,6 +80,8 @@
                     </div>
                 </div>
             </div>
+
+
         </tbody>
     </table>
 </div>

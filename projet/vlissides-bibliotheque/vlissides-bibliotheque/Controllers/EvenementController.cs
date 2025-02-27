@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using vlissides_bibliotheque.Models;
-using vlissides_bibliotheque.ViewModels;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using vlissides_bibliotheque.Extensions;
-using AutoMapper;
-using vlissides_bibliotheque.Services.Interface;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using vlissides_bibliotheque.Commun;
 using vlissides_bibliotheque.DAO.Interface;
 using vlissides_bibliotheque.DTO;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using vlissides_bibliotheque.Commun;
+using vlissides_bibliotheque.Models;
+using vlissides_bibliotheque.Services.Interface;
+using vlissides_bibliotheque.ViewModels;
 
 namespace vlissides_bibliotheque.Controllers
 {
@@ -20,24 +17,26 @@ namespace vlissides_bibliotheque.Controllers
         private readonly ILogger<AccueilController> _logger;
         private readonly IEvenementVM _evenementService;
         private readonly IDAO<Evenement> _evenementDAO;
+        private readonly IDAO<Commanditaire> _commanditaireDAO;
         private readonly IMapper _mapper;
 
 
         public EvenementController(ILogger<AccueilController> logger, IEvenementVM evenementService,
-           IDAO<Evenement> evenementDAO, IMapper mapper)
+           IDAO<Evenement> evenementDAO, IMapper mapper, IDAO<Commanditaire> commanditaireDAO)
         {
             _logger = logger;
             _evenementService = evenementService;
             _evenementDAO = evenementDAO;
             _mapper = mapper;
+            _commanditaireDAO = commanditaireDAO;
         }
         [AllowAnonymous]
         [Route("Evenement/Index")]
-        public async Task<IActionResult> Evenements()
+        public IActionResult Evenements()
         {
-            List<EvenementVM> listEvenementsVM = await _evenementService.GetEvenementInventaire();
-            return View(listEvenementsVM);
+            return View(_evenementService.GetEvenementInventaire());
         }
+        
         [AllowAnonymous]
         public IActionResult Detail(int? id)
         {
@@ -60,7 +59,7 @@ namespace vlissides_bibliotheque.Controllers
         {
             EvenementVM evenementVM = new();
 
-            return View(evenementVM);
+            return View("Views/Evenement/AjoutEditEvenement.cshtml", evenementVM);
         }
 
         [HttpPost]
@@ -69,19 +68,24 @@ namespace vlissides_bibliotheque.Controllers
             if (evenementVM.Fin < evenementVM.Debut)
                 ModelState.AddModelError(string.Empty, "La date de début doit être avant ou égale la date de fin");
 
+            if (!ModelState.IsValid)
+                return View("Views/Evenement/AjoutEditEvenement.cshtml", evenementVM);
 
-            if (ModelState.IsValid)
-            {
-                var newEvenement = new Evenement();
+            var newCommanditaire = new Commanditaire();
+            var newEvenement = new Evenement();
 
-                _mapper.Map(evenementVM, newEvenement);
+            _mapper.Map(evenementVM.Commanditaire, newCommanditaire);
+            _commanditaireDAO.Insert(newCommanditaire);
+            _commanditaireDAO.Save();
 
-                _evenementDAO.Insert(newEvenement);
-                _evenementDAO.Save();
+            evenementVM.CommanditaireId = newCommanditaire.CommanditaireId;
 
-                return RedirectToAction("Evenements");
-            }
-            return View(evenementVM);
+            _mapper.Map(evenementVM, newEvenement);
+            _evenementDAO.Insert(newEvenement);
+            _evenementDAO.Save();
+
+            return RedirectToAction("Evenements");
+
         }
 
         [Route("Evenement/modifier/{id?}")]
@@ -100,7 +104,7 @@ namespace vlissides_bibliotheque.Controllers
                 return Content("L'événement recherche n'a pas été trouvé dans la base de données");
 
 
-            return View(_mapper.Map<EvenementVM>(evenement));
+            return View("Views/Evenement/AjoutEditEvenement.cshtml", _mapper.Map<EvenementVM>(evenement));
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
@@ -109,25 +113,22 @@ namespace vlissides_bibliotheque.Controllers
             if (evenementVM.Fin < evenementVM.Debut)
                 ModelState.AddModelError(string.Empty, "La date de début doit être avant la date de fin");
 
+            if (!ModelState.IsValid)
+                return View("Views/Evenement/AjoutEditEvenement.cshtml", evenementVM);
 
-            if (ModelState.IsValid)
-            {
-                Evenement evenementModifier = _evenementDAO.GetById(evenementVM.EvenementId);
+            Evenement evenementModifier = _evenementDAO.GetById(evenementVM.EvenementId);
 
-                if (evenementModifier == null)
-                    Content("L'événement que vous tentez de modifier n'a pas été trouver dans la base de données");
+            if (evenementModifier == null)
+                return Content("L'événement que vous tentez de modifier n'a pas été trouver dans la base de données");
 
 
-                _mapper.Map(evenementVM, evenementModifier);
+            _mapper.Map(evenementVM, evenementModifier);
 
-                _evenementDAO.Update(evenementModifier);
-                _evenementDAO.Save();
-                return RedirectToAction("Evenements");
-            }
-
-            return View(evenementVM);
-
+            _evenementDAO.Update(evenementModifier);
+            _evenementDAO.Save();
+            return RedirectToAction("Evenements");
         }
+
         [Route("Evenement/effacer/{id?}")]
         [ValidateAntiForgeryToken]
         [HttpPost]

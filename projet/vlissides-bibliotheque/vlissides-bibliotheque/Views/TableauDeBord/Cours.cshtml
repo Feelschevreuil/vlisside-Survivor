@@ -1,4 +1,4 @@
-﻿@model List<CoursDto>
+﻿@model List<CoursVM>
 
 
 <div class="row">
@@ -20,22 +20,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (CoursDto cours in Model)
+            @foreach (CoursVM cours in Model)
             {
-                <tr id="tr-@cours.CoursId" class="modif-suppr">
+                <tr id="tr-@cours.Id" class="modif-suppr">
 
                     <td>@cours.Code</td>
                     <td>@cours.Nom</td>
                     <td>@cours.AnneeParcours</td>
                     <td>@cours.ProgrammeEtudeNom</td>
                     <td class="options-ligne position-absolute text-center vw-100 start-0 bg-transparent border-0">
-                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getTBFormulaireModifierCours('@cours.CoursId')">
-                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCours('@cours.CoursId')">
+                        <img src="~/img/pencil.svg" class="btn-img-hover" data-bs-toggle="modal" data-bs-target="#modal-modifier" onclick="getTBFormulaireModifierCours('@cours.Id')">
+                        <img src="~/img/delete.svg" class="btn-img-hover" onclick="supprimerCours('@cours.Id')">
                     </td>
                 </tr>
             }
             <div class="modal fade" id="modal-modifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier le cours</h1>
